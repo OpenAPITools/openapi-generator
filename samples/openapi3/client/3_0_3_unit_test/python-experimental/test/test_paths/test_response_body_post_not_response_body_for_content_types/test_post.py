@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostNotResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostNotResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostNotResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostNotResponseBodyForContentTypes(ApiTestMixin, unittest.
     def tearDown(self):
         pass
 
-    def test_post_not_response_body_for_content_types(self):
-        """Test case for post_not_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_allowed_passes(self):
+        # allowed
         accept_content_type = 'application/json'
 
-
-        # test_allowed_passes
-        # allowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostNotResponseBodyForContentTypes(ApiTestMixin, unittest.
             )
             assert api_response.body == deserialized_response_body
 
-        # test_disallowed_fails
+    def test_disallowed_fails(self):
         # disallowed
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

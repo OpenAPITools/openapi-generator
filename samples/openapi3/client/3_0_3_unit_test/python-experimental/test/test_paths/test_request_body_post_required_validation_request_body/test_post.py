@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostRequiredValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostRequiredValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
     def tearDown(self):
         pass
 
-    def test_post_required_validation_request_body(self):
-        """Test case for post_required_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_ignores_arrays_passes(self):
         content_type = 'application/json'
-
-        # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -49,8 +47,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -67,7 +65,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_present_required_property_is_valid_passes
+    def test_present_required_property_is_valid_passes(self):
+        content_type = 'application/json'
         # present required property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -81,8 +80,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -99,7 +98,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_other_non_objects_passes
+    def test_ignores_other_non_objects_passes(self):
+        content_type = 'application/json'
         # ignores other non-objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -110,8 +110,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -128,7 +128,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_strings_passes
+    def test_ignores_strings_passes(self):
+        content_type = 'application/json'
         # ignores strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -139,8 +140,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -157,7 +158,8 @@ class TestRequestBodyPostRequiredValidationRequestBody(ApiTestMixin, unittest.Te
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_non_present_required_property_is_invalid_fails
+    def test_non_present_required_property_is_invalid_fails(self):
+        content_type = 'application/json'
         # non-present required property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

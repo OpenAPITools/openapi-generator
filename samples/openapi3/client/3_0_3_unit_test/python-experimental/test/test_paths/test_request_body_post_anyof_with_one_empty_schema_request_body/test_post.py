@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAnyofWithOneEmptySchemaRequestBody unit test stubs"""
+    """
+    RequestBodyPostAnyofWithOneEmptySchemaRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unitte
     def tearDown(self):
         pass
 
-    def test_post_anyof_with_one_empty_schema_request_body(self):
-        """Test case for post_anyof_with_one_empty_schema_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_string_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_string_is_valid_passes
         # string is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unitte
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_number_is_valid_passes
+    def test_number_is_valid_passes(self):
+        content_type = 'application/json'
         # number is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -77,8 +76,8 @@ class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

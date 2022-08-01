@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostOneofWithBaseSchemaRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostOneofWithBaseSchemaRequestBody unit test stubs"""
+    """
+    RequestBodyPostOneofWithBaseSchemaRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostOneofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
     def tearDown(self):
         pass
 
-    def test_post_oneof_with_base_schema_request_body(self):
-        """Test case for post_oneof_with_base_schema_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_both_oneof_valid_fails(self):
         content_type = 'application/json'
-
-        # test_both_oneof_valid_fails
         # both oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostOneofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_mismatch_base_schema_fails
+    def test_mismatch_base_schema_fails(self):
+        content_type = 'application/json'
         # mismatch base schema
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -63,7 +62,8 @@ class TestRequestBodyPostOneofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_one_oneof_valid_passes
+    def test_one_oneof_valid_passes(self):
+        content_type = 'application/json'
         # one oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -74,8 +74,8 @@ class TestRequestBodyPostOneofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

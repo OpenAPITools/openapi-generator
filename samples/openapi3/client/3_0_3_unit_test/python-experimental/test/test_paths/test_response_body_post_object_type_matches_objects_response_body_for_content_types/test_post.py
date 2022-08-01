@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
     def tearDown(self):
         pass
 
-    def test_post_object_type_matches_objects_response_body_for_content_types(self):
-        """Test case for post_object_type_matches_objects_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_a_float_is_not_an_object_fails(self):
+        # a float is not an object
         accept_content_type = 'application/json'
 
-
-        # test_a_float_is_not_an_object_fails
-        # a float is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_null_is_not_an_object_fails
+    def test_null_is_not_an_object_fails(self):
         # null is not an object
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -81,8 +81,10 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_array_is_not_an_object_fails
+    def test_an_array_is_not_an_object_fails(self):
         # an array is not an object
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -90,7 +92,7 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -104,8 +106,10 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_object_is_an_object_passes
+    def test_an_object_is_an_object_passes(self):
         # an object is an object
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -113,7 +117,7 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -133,15 +137,17 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
             )
             assert api_response.body == deserialized_response_body
 
-        # test_a_string_is_not_an_object_fails
+    def test_a_string_is_not_an_object_fails(self):
         # a string is not an object
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -155,15 +161,17 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_integer_is_not_an_object_fails
+    def test_an_integer_is_not_an_object_fails(self):
         # an integer is not an object
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -177,15 +185,17 @@ class TestResponseBodyPostObjectTypeMatchesObjectsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_boolean_is_not_an_object_fails
+    def test_a_boolean_is_not_an_object_fails(self):
         # a boolean is not an object
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 True
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

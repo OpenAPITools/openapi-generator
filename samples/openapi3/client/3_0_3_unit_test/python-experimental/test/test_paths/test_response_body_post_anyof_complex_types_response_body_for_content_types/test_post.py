@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
     def tearDown(self):
         pass
 
-    def test_post_anyof_complex_types_response_body_for_content_types(self):
-        """Test case for post_anyof_complex_types_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_second_anyof_valid_complex_passes(self):
+        # second anyOf valid (complex)
         accept_content_type = 'application/json'
 
-
-        # test_second_anyof_valid_complex_passes
-        # second anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -48,7 +46,7 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -68,8 +66,10 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
             )
             assert api_response.body == deserialized_response_body
 
-        # test_neither_anyof_valid_complex_fails
+    def test_neither_anyof_valid_complex_fails(self):
         # neither anyOf valid (complex)
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -81,7 +81,7 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -95,8 +95,10 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
                 accept_content_type=accept_content_type,
             )
 
-        # test_both_anyof_valid_complex_passes
+    def test_both_anyof_valid_complex_passes(self):
         # both anyOf valid (complex)
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -108,7 +110,7 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -128,8 +130,10 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
             )
             assert api_response.body == deserialized_response_body
 
-        # test_first_anyof_valid_complex_passes
+    def test_first_anyof_valid_complex_passes(self):
         # first anyOf valid (complex)
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -139,7 +143,7 @@ class TestResponseBodyPostAnyofComplexTypesResponseBodyForContentTypes(ApiTestMi
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

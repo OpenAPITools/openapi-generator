@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostRequiredWithEmptyArrayResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostRequiredWithEmptyArrayResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostRequiredWithEmptyArrayResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostRequiredWithEmptyArrayResponseBodyForContentTypes(ApiT
     def tearDown(self):
         pass
 
-    def test_post_required_with_empty_array_response_body_for_content_types(self):
-        """Test case for post_required_with_empty_array_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_property_not_required_passes(self):
+        # property not required
         accept_content_type = 'application/json'
 
-
-        # test_property_not_required_passes
-        # property not required
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -46,7 +44,7 @@ class TestResponseBodyPostRequiredWithEmptyArrayResponseBodyForContentTypes(ApiT
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

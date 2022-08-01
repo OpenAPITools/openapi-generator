@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(
     def tearDown(self):
         pass
 
-    def test_post_enum_with0_does_not_match_false_response_body_for_content_types(self):
-        """Test case for post_enum_with0_does_not_match_false_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_integer_zero_is_valid_passes(self):
+        # integer zero is valid
         accept_content_type = 'application/json'
 
-
-        # test_integer_zero_is_valid_passes
-        # integer zero is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(
             )
             assert api_response.body == deserialized_response_body
 
-        # test_float_zero_is_valid_passes
+    def test_float_zero_is_valid_passes(self):
         # float zero is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0.0
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -93,15 +93,17 @@ class TestResponseBodyPostEnumWith0DoesNotMatchFalseResponseBodyForContentTypes(
             )
             assert api_response.body == deserialized_response_body
 
-        # test_false_is_invalid_fails
+    def test_false_is_invalid_fails(self):
         # false is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 False
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

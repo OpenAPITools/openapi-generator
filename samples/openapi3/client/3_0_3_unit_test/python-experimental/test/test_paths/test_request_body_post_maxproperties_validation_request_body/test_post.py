@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostMaxpropertiesValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostMaxpropertiesValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
     def tearDown(self):
         pass
 
-    def test_post_maxproperties_validation_request_body(self):
-        """Test case for post_maxproperties_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_too_long_is_invalid_fails(self):
         content_type = 'application/json'
-
-        # test_too_long_is_invalid_fails
         # too long is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -57,7 +55,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
                 )
                 self.api.post(body=body)
 
-        # test_ignores_arrays_passes
+    def test_ignores_arrays_passes(self):
+        content_type = 'application/json'
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -72,8 +71,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -90,7 +89,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_other_non_objects_passes
+    def test_ignores_other_non_objects_passes(self):
+        content_type = 'application/json'
         # ignores other non-objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -101,8 +101,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -119,7 +119,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_strings_passes
+    def test_ignores_strings_passes(self):
+        content_type = 'application/json'
         # ignores strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -130,8 +131,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -148,7 +149,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_shorter_is_valid_passes
+    def test_shorter_is_valid_passes(self):
+        content_type = 'application/json'
         # shorter is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -162,8 +164,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -180,7 +182,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_exact_length_is_valid_passes
+    def test_exact_length_is_valid_passes(self):
+        content_type = 'application/json'
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -196,8 +199,8 @@ class TestRequestBodyPostMaxpropertiesValidationRequestBody(ApiTestMixin, unitte
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

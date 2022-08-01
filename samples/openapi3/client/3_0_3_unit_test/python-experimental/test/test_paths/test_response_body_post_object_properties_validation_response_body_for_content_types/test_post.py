@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
     def tearDown(self):
         pass
 
-    def test_post_object_properties_validation_response_body_for_content_types(self):
-        """Test case for post_object_properties_validation_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_ignores_arrays_passes(self):
+        # ignores arrays
         accept_content_type = 'application/json'
 
-
-        # test_ignores_arrays_passes
-        # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -46,7 +44,7 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -66,15 +64,17 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             assert api_response.body == deserialized_response_body
 
-        # test_ignores_other_non_objects_passes
+    def test_ignores_other_non_objects_passes(self):
         # ignores other non-objects
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 12
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -94,8 +94,10 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             assert api_response.body == deserialized_response_body
 
-        # test_one_property_invalid_is_invalid_fails
+    def test_one_property_invalid_is_invalid_fails(self):
         # one property invalid is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -108,7 +110,7 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -122,8 +124,10 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
                 accept_content_type=accept_content_type,
             )
 
-        # test_both_properties_present_and_valid_is_valid_passes
+    def test_both_properties_present_and_valid_is_valid_passes(self):
         # both properties present and valid is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -135,7 +139,7 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -155,8 +159,10 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             assert api_response.body == deserialized_response_body
 
-        # test_doesn_t_invalidate_other_properties_passes
+    def test_doesn_t_invalidate_other_properties_passes(self):
         # doesn&#x27;t invalidate other properties
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -167,7 +173,7 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -187,8 +193,10 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             assert api_response.body == deserialized_response_body
 
-        # test_both_properties_invalid_is_invalid_fails
+    def test_both_properties_invalid_is_invalid_fails(self):
         # both properties invalid is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -202,7 +210,7 @@ class TestResponseBodyPostObjectPropertiesValidationResponseBodyForContentTypes(
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostBySmallNumberResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostBySmallNumberResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostBySmallNumberResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostBySmallNumberResponseBodyForContentTypes(ApiTestMixin,
     def tearDown(self):
         pass
 
-    def test_post_by_small_number_response_body_for_content_types(self):
-        """Test case for post_by_small_number_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_000751_is_not_multiple_of00001_fails(self):
+        # 0.00751 is not multiple of 0.0001
         accept_content_type = 'application/json'
 
-
-        # test_000751_is_not_multiple_of00001_fails
-        # 0.00751 is not multiple of 0.0001
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0.00751
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostBySmallNumberResponseBodyForContentTypes(ApiTestMixin,
                 accept_content_type=accept_content_type,
             )
 
-        # test_00075_is_multiple_of00001_passes
+    def test_00075_is_multiple_of00001_passes(self):
         # 0.0075 is multiple of 0.0001
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0.0075
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

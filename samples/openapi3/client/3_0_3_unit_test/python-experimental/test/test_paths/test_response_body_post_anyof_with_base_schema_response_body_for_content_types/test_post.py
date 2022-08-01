@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes(ApiTest
     def tearDown(self):
         pass
 
-    def test_post_anyof_with_base_schema_response_body_for_content_types(self):
-        """Test case for post_anyof_with_base_schema_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_one_anyof_valid_passes(self):
+        # one anyOf valid
         accept_content_type = 'application/json'
 
-
-        # test_one_anyof_valid_passes
-        # one anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foobar"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes(ApiTest
             )
             assert api_response.body == deserialized_response_body
 
-        # test_both_anyof_invalid_fails
+    def test_both_anyof_invalid_fails(self):
         # both anyOf invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -87,15 +87,17 @@ class TestResponseBodyPostAnyofWithBaseSchemaResponseBodyForContentTypes(ApiTest
                 accept_content_type=accept_content_type,
             )
 
-        # test_mismatch_base_schema_fails
+    def test_mismatch_base_schema_fails(self):
         # mismatch base schema
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 3
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

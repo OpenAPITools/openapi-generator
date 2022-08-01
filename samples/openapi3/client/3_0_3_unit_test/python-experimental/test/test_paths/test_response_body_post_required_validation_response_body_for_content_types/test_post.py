@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostRequiredValidationResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostRequiredValidationResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
     def tearDown(self):
         pass
 
-    def test_post_required_validation_response_body_for_content_types(self):
-        """Test case for post_required_validation_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_ignores_arrays_passes(self):
+        # ignores arrays
         accept_content_type = 'application/json'
 
-
-        # test_ignores_arrays_passes
-        # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -46,7 +44,7 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -66,8 +64,10 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             assert api_response.body == deserialized_response_body
 
-        # test_present_required_property_is_valid_passes
+    def test_present_required_property_is_valid_passes(self):
         # present required property is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -77,7 +77,7 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -97,15 +97,17 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             assert api_response.body == deserialized_response_body
 
-        # test_ignores_other_non_objects_passes
+    def test_ignores_other_non_objects_passes(self):
         # ignores other non-objects
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 12
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -125,15 +127,17 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             assert api_response.body == deserialized_response_body
 
-        # test_ignores_strings_passes
+    def test_ignores_strings_passes(self):
         # ignores strings
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 ""
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -153,8 +157,10 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             assert api_response.body == deserialized_response_body
 
-        # test_non_present_required_property_is_invalid_fails
+    def test_non_present_required_property_is_invalid_fails(self):
         # non-present required property is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -164,7 +170,7 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

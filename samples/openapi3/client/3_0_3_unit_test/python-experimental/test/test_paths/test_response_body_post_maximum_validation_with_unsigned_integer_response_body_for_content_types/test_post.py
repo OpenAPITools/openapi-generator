@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForCon
     def tearDown(self):
         pass
 
-    def test_post_maximum_validation_with_unsigned_integer_response_body_for_content_types(self):
-        """Test case for post_maximum_validation_with_unsigned_integer_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_below_the_maximum_is_invalid_passes(self):
+        # below the maximum is invalid
         accept_content_type = 'application/json'
 
-
-        # test_below_the_maximum_is_invalid_passes
-        # below the maximum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 299.97
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForCon
             )
             assert api_response.body == deserialized_response_body
 
-        # test_above_the_maximum_is_invalid_fails
+    def test_above_the_maximum_is_invalid_fails(self):
         # above the maximum is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 300.5
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -87,15 +87,17 @@ class TestResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForCon
                 accept_content_type=accept_content_type,
             )
 
-        # test_boundary_point_integer_is_valid_passes
+    def test_boundary_point_integer_is_valid_passes(self):
         # boundary point integer is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 300
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -115,15 +117,17 @@ class TestResponseBodyPostMaximumValidationWithUnsignedIntegerResponseBodyForCon
             )
             assert api_response.body == deserialized_response_body
 
-        # test_boundary_point_float_is_valid_passes
+    def test_boundary_point_float_is_valid_passes(self):
         # boundary point float is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 300.0
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

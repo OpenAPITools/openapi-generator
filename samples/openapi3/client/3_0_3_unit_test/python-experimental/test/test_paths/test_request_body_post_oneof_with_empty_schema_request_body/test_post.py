@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostOneofWithEmptySchemaRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostOneofWithEmptySchemaRequestBody unit test stubs"""
+    """
+    RequestBodyPostOneofWithEmptySchemaRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostOneofWithEmptySchemaRequestBody(ApiTestMixin, unittest.
     def tearDown(self):
         pass
 
-    def test_post_oneof_with_empty_schema_request_body(self):
-        """Test case for post_oneof_with_empty_schema_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_both_valid_invalid_fails(self):
         content_type = 'application/json'
-
-        # test_both_valid_invalid_fails
         # both valid - invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostOneofWithEmptySchemaRequestBody(ApiTestMixin, unittest.
                 )
                 self.api.post(body=body)
 
-        # test_one_valid_valid_passes
+    def test_one_valid_valid_passes(self):
+        content_type = 'application/json'
         # one valid - valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -61,8 +60,8 @@ class TestRequestBodyPostOneofWithEmptySchemaRequestBody(ApiTestMixin, unittest.
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

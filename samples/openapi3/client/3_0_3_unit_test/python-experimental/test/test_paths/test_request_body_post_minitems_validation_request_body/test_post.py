@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostMinitemsValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostMinitemsValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
     def tearDown(self):
         pass
 
-    def test_post_minitems_validation_request_body(self):
-        """Test case for post_minitems_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_too_short_is_invalid_fails(self):
         content_type = 'application/json'
-
-        # test_too_short_is_invalid_fails
         # too short is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,7 +49,8 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
                 )
                 self.api.post(body=body)
 
-        # test_ignores_non_arrays_passes
+    def test_ignores_non_arrays_passes(self):
+        content_type = 'application/json'
         # ignores non-arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -62,8 +61,8 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -80,7 +79,8 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_longer_is_valid_passes
+    def test_longer_is_valid_passes(self):
+        content_type = 'application/json'
         # longer is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -94,8 +94,8 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -112,7 +112,8 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_exact_length_is_valid_passes
+    def test_exact_length_is_valid_passes(self):
+        content_type = 'application/json'
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -125,8 +126,8 @@ class TestRequestBodyPostMinitemsValidationRequestBody(ApiTestMixin, unittest.Te
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

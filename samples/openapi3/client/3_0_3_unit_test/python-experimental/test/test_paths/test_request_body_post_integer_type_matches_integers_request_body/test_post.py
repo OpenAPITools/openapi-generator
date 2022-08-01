@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostIntegerTypeMatchesIntegersRequestBody unit test stubs"""
+    """
+    RequestBodyPostIntegerTypeMatchesIntegersRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
     def tearDown(self):
         pass
 
-    def test_post_integer_type_matches_integers_request_body(self):
-        """Test case for post_integer_type_matches_integers_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_an_object_is_not_an_integer_fails(self):
         content_type = 'application/json'
-
-        # test_an_object_is_not_an_integer_fails
         # an object is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,7 +49,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_a_string_is_not_an_integer_fails
+    def test_a_string_is_not_an_integer_fails(self):
+        content_type = 'application/json'
         # a string is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -64,7 +63,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_null_is_not_an_integer_fails
+    def test_null_is_not_an_integer_fails(self):
+        content_type = 'application/json'
         # null is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -77,7 +77,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_a_float_with_zero_fractional_part_is_an_integer_passes
+    def test_a_float_with_zero_fractional_part_is_an_integer_passes(self):
+        content_type = 'application/json'
         # a float with zero fractional part is an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -88,8 +89,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -106,7 +107,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_a_float_is_not_an_integer_fails
+    def test_a_float_is_not_an_integer_fails(self):
+        content_type = 'application/json'
         # a float is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -119,7 +121,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_a_boolean_is_not_an_integer_fails
+    def test_a_boolean_is_not_an_integer_fails(self):
+        content_type = 'application/json'
         # a boolean is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -132,7 +135,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_an_integer_is_an_integer_passes
+    def test_an_integer_is_an_integer_passes(self):
+        content_type = 'application/json'
         # an integer is an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -143,8 +147,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -161,7 +165,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails
+    def test_a_string_is_still_not_an_integer_even_if_it_looks_like_one_fails(self):
+        content_type = 'application/json'
         # a string is still not an integer, even if it looks like one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -174,7 +179,8 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_an_array_is_not_an_integer_fails
+    def test_an_array_is_not_an_integer_fails(self):
+        content_type = 'application/json'
         # an array is not an integer
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

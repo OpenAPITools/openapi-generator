@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentType
     def tearDown(self):
         pass
 
-    def test_post_invalid_string_value_for_default_response_body_for_content_types(self):
-        """Test case for post_invalid_string_value_for_default_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_valid_when_property_is_specified_passes(self):
+        # valid when property is specified
         accept_content_type = 'application/json'
 
-
-        # test_valid_when_property_is_specified_passes
-        # valid when property is specified
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -48,7 +46,7 @@ class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentType
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -68,8 +66,10 @@ class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentType
             )
             assert api_response.body == deserialized_response_body
 
-        # test_still_valid_when_the_invalid_default_is_used_passes
+    def test_still_valid_when_the_invalid_default_is_used_passes(self):
         # still valid when the invalid default is used
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -77,7 +77,7 @@ class TestResponseBodyPostInvalidStringValueForDefaultResponseBodyForContentType
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

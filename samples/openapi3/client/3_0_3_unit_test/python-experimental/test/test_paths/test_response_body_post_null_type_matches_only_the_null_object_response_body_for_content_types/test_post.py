@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
     def tearDown(self):
         pass
 
-    def test_post_null_type_matches_only_the_null_object_response_body_for_content_types(self):
-        """Test case for post_null_type_matches_only_the_null_object_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_a_float_is_not_null_fails(self):
+        # a float is not null
         accept_content_type = 'application/json'
 
-
-        # test_a_float_is_not_null_fails
-        # a float is not null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,8 +57,10 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_object_is_not_null_fails
+    def test_an_object_is_not_null_fails(self):
         # an object is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -68,7 +68,7 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -82,15 +82,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_false_is_not_null_fails
+    def test_false_is_not_null_fails(self):
         # false is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 False
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -104,15 +106,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_integer_is_not_null_fails
+    def test_an_integer_is_not_null_fails(self):
         # an integer is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -126,15 +130,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_true_is_not_null_fails
+    def test_true_is_not_null_fails(self):
         # true is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 True
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -148,15 +154,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_zero_is_not_null_fails
+    def test_zero_is_not_null_fails(self):
         # zero is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -170,15 +178,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_empty_string_is_not_null_fails
+    def test_an_empty_string_is_not_null_fails(self):
         # an empty string is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 ""
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -192,15 +202,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_null_is_null_passes
+    def test_null_is_null_passes(self):
         # null is null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -220,8 +232,10 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
             )
             assert api_response.body == deserialized_response_body
 
-        # test_an_array_is_not_null_fails
+    def test_an_array_is_not_null_fails(self):
         # an array is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -229,7 +243,7 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -243,15 +257,17 @@ class TestResponseBodyPostNullTypeMatchesOnlyTheNullObjectResponseBodyForContent
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_string_is_not_null_fails
+    def test_a_string_is_not_null_fails(self):
         # a string is not null
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

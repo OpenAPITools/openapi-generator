@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostEnumWithFalseDoesNotMatch0RequestBody unit test stubs"""
+    """
+    RequestBodyPostEnumWithFalseDoesNotMatch0RequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
     def tearDown(self):
         pass
 
-    def test_post_enum_with_false_does_not_match0_request_body(self):
-        """Test case for post_enum_with_false_does_not_match0_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_false_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_false_is_valid_passes
         # false is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_float_zero_is_invalid_fails
+    def test_float_zero_is_invalid_fails(self):
+        content_type = 'application/json'
         # float zero is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -79,7 +78,8 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
                 )
                 self.api.post(body=body)
 
-        # test_integer_zero_is_invalid_fails
+    def test_integer_zero_is_invalid_fails(self):
+        content_type = 'application/json'
         # integer zero is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

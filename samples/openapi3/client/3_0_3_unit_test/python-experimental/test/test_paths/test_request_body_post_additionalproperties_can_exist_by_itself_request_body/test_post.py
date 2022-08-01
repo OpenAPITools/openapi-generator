@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody unit test stubs"""
+    """
+    RequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTest
     def tearDown(self):
         pass
 
-    def test_post_additionalproperties_can_exist_by_itself_request_body(self):
-        """Test case for post_additionalproperties_can_exist_by_itself_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_an_additional_invalid_property_is_invalid_fails(self):
         content_type = 'application/json'
-
-        # test_an_additional_invalid_property_is_invalid_fails
         # an additional invalid property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -53,7 +51,8 @@ class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTest
                 )
                 self.api.post(body=body)
 
-        # test_an_additional_valid_property_is_valid_passes
+    def test_an_additional_valid_property_is_valid_passes(self):
+        content_type = 'application/json'
         # an additional valid property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -67,8 +66,8 @@ class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTest
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

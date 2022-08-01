@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForCont
     def tearDown(self):
         pass
 
-    def test_post_maxproperties0_means_the_object_is_empty_response_body_for_content_types(self):
-        """Test case for post_maxproperties0_means_the_object_is_empty_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_no_properties_is_valid_passes(self):
+        # no properties is valid
         accept_content_type = 'application/json'
 
-
-        # test_no_properties_is_valid_passes
-        # no properties is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -46,7 +44,7 @@ class TestResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForCont
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -66,8 +64,10 @@ class TestResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForCont
             )
             assert api_response.body == deserialized_response_body
 
-        # test_one_property_is_invalid_fails
+    def test_one_property_is_invalid_fails(self):
         # one property is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -77,7 +77,7 @@ class TestResponseBodyPostMaxproperties0MeansTheObjectIsEmptyResponseBodyForCont
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

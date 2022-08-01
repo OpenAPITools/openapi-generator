@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostByNumberResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostByNumberResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostByNumberResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostByNumberResponseBodyForContentTypes(ApiTestMixin, unit
     def tearDown(self):
         pass
 
-    def test_post_by_number_response_body_for_content_types(self):
-        """Test case for post_by_number_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_45_is_multiple_of15_passes(self):
+        # 4.5 is multiple of 1.5
         accept_content_type = 'application/json'
 
-
-        # test_45_is_multiple_of15_passes
-        # 4.5 is multiple of 1.5
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 4.5
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostByNumberResponseBodyForContentTypes(ApiTestMixin, unit
             )
             assert api_response.body == deserialized_response_body
 
-        # test_35_is_not_multiple_of15_fails
+    def test_35_is_not_multiple_of15_fails(self):
         # 35 is not multiple of 1.5
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 35
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -87,15 +87,17 @@ class TestResponseBodyPostByNumberResponseBodyForContentTypes(ApiTestMixin, unit
                 accept_content_type=accept_content_type,
             )
 
-        # test_zero_is_multiple_of_anything_passes
+    def test_zero_is_multiple_of_anything_passes(self):
         # zero is multiple of anything
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

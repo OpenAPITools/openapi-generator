@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostRequiredDefaultValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostRequiredDefaultValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostRequiredDefaultValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostRequiredDefaultValidationRequestBody(ApiTestMixin, unit
     def tearDown(self):
         pass
 
-    def test_post_required_default_validation_request_body(self):
-        """Test case for post_required_default_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_not_required_by_default_passes(self):
         content_type = 'application/json'
-
-        # test_not_required_by_default_passes
         # not required by default
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -49,8 +47,8 @@ class TestRequestBodyPostRequiredDefaultValidationRequestBody(ApiTestMixin, unit
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

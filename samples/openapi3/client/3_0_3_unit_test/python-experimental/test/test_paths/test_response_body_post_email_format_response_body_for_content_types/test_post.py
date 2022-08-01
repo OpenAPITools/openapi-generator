@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostEmailFormatResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostEmailFormatResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
     def tearDown(self):
         pass
 
-    def test_post_email_format_response_body_for_content_types(self):
-        """Test case for post_email_format_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_all_string_formats_ignore_objects_passes(self):
+        # all string formats ignore objects
         accept_content_type = 'application/json'
 
-
-        # test_all_string_formats_ignore_objects_passes
-        # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -46,7 +44,7 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -66,15 +64,17 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             assert api_response.body == deserialized_response_body
 
-        # test_all_string_formats_ignore_booleans_passes
+    def test_all_string_formats_ignore_booleans_passes(self):
         # all string formats ignore booleans
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 False
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -94,15 +94,17 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             assert api_response.body == deserialized_response_body
 
-        # test_all_string_formats_ignore_integers_passes
+    def test_all_string_formats_ignore_integers_passes(self):
         # all string formats ignore integers
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 12
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -122,15 +124,17 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             assert api_response.body == deserialized_response_body
 
-        # test_all_string_formats_ignore_floats_passes
+    def test_all_string_formats_ignore_floats_passes(self):
         # all string formats ignore floats
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 13.7
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -150,8 +154,10 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             assert api_response.body == deserialized_response_body
 
-        # test_all_string_formats_ignore_arrays_passes
+    def test_all_string_formats_ignore_arrays_passes(self):
         # all string formats ignore arrays
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -159,7 +165,7 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -179,15 +185,17 @@ class TestResponseBodyPostEmailFormatResponseBodyForContentTypes(ApiTestMixin, u
             )
             assert api_response.body == deserialized_response_body
 
-        # test_all_string_formats_ignore_nulls_passes
+    def test_all_string_formats_ignore_nulls_passes(self):
         # all string formats ignore nulls
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

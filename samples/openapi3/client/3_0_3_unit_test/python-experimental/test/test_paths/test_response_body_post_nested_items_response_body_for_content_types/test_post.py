@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostNestedItemsResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostNestedItemsResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
     def tearDown(self):
         pass
 
-    def test_post_nested_items_response_body_for_content_types(self):
-        """Test case for post_nested_items_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_valid_nested_array_passes(self):
+        # valid nested array
         accept_content_type = 'application/json'
 
-
-        # test_valid_nested_array_passes
-        # valid nested array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -74,7 +72,7 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -94,8 +92,10 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
             )
             assert api_response.body == deserialized_response_body
 
-        # test_nested_array_with_invalid_type_fails
+    def test_nested_array_with_invalid_type_fails(self):
         # nested array with invalid type
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -131,7 +131,7 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -145,8 +145,10 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
                 accept_content_type=accept_content_type,
             )
 
-        # test_not_deep_enough_fails
+    def test_not_deep_enough_fails(self):
         # not deep enough
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -176,7 +178,7 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostPropertiesWithEscapedCharactersRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostPropertiesWithEscapedCharactersRequestBody unit test stubs"""
+    """
+    RequestBodyPostPropertiesWithEscapedCharactersRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostPropertiesWithEscapedCharactersRequestBody(ApiTestMixin
     def tearDown(self):
         pass
 
-    def test_post_properties_with_escaped_characters_request_body(self):
-        """Test case for post_properties_with_escaped_characters_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_object_with_all_numbers_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_object_with_all_numbers_is_valid_passes
         # object with all numbers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -61,8 +59,8 @@ class TestRequestBodyPostPropertiesWithEscapedCharactersRequestBody(ApiTestMixin
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -79,7 +77,8 @@ class TestRequestBodyPostPropertiesWithEscapedCharactersRequestBody(ApiTestMixin
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_object_with_strings_is_invalid_fails
+    def test_object_with_strings_is_invalid_fails(self):
+        content_type = 'application/json'
         # object with strings is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

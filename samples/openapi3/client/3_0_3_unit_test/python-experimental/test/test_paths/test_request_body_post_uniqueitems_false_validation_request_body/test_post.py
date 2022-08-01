@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostUniqueitemsFalseValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostUniqueitemsFalseValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
     def tearDown(self):
         pass
 
-    def test_post_uniqueitems_false_validation_request_body(self):
-        """Test case for post_uniqueitems_false_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_non_unique_array_of_integers_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_non_unique_array_of_integers_is_valid_passes
         # non-unique array of integers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,8 +49,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -69,7 +67,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_unique_array_of_objects_is_valid_passes
+    def test_unique_array_of_objects_is_valid_passes(self):
+        content_type = 'application/json'
         # unique array of objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -89,8 +88,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -107,7 +106,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_non_unique_array_of_nested_objects_is_valid_passes
+    def test_non_unique_array_of_nested_objects_is_valid_passes(self):
+        content_type = 'application/json'
         # non-unique array of nested objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -139,8 +139,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -157,7 +157,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_non_unique_array_of_objects_is_valid_passes
+    def test_non_unique_array_of_objects_is_valid_passes(self):
+        content_type = 'application/json'
         # non-unique array of objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -177,8 +178,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -195,7 +196,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_1_and_true_are_unique_passes
+    def test_1_and_true_are_unique_passes(self):
+        content_type = 'application/json'
         # 1 and true are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -209,8 +211,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -227,7 +229,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_unique_array_of_integers_is_valid_passes
+    def test_unique_array_of_integers_is_valid_passes(self):
+        content_type = 'application/json'
         # unique array of integers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -241,8 +244,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -259,7 +262,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_non_unique_array_of_arrays_is_valid_passes
+    def test_non_unique_array_of_arrays_is_valid_passes(self):
+        content_type = 'application/json'
         # non-unique array of arrays is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -277,8 +281,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -295,7 +299,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_numbers_are_unique_if_mathematically_unequal_passes
+    def test_numbers_are_unique_if_mathematically_unequal_passes(self):
+        content_type = 'application/json'
         # numbers are unique if mathematically unequal
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -310,8 +315,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -328,7 +333,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_false_is_not_equal_to_zero_passes
+    def test_false_is_not_equal_to_zero_passes(self):
+        content_type = 'application/json'
         # false is not equal to zero
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -342,8 +348,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -360,7 +366,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_unique_array_of_nested_objects_is_valid_passes
+    def test_unique_array_of_nested_objects_is_valid_passes(self):
+        content_type = 'application/json'
         # unique array of nested objects is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -392,8 +399,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -410,7 +417,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_0_and_false_are_unique_passes
+    def test_0_and_false_are_unique_passes(self):
+        content_type = 'application/json'
         # 0 and false are unique
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -424,8 +432,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -442,7 +450,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_unique_array_of_arrays_is_valid_passes
+    def test_unique_array_of_arrays_is_valid_passes(self):
+        content_type = 'application/json'
         # unique array of arrays is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -460,8 +469,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -478,7 +487,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_true_is_not_equal_to_one_passes
+    def test_true_is_not_equal_to_one_passes(self):
+        content_type = 'application/json'
         # true is not equal to one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -492,8 +502,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -510,7 +520,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_non_unique_heterogeneous_types_are_valid_passes
+    def test_non_unique_heterogeneous_types_are_valid_passes(self):
+        content_type = 'application/json'
         # non-unique heterogeneous types are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -532,8 +543,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -550,7 +561,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_unique_heterogeneous_types_are_valid_passes
+    def test_unique_heterogeneous_types_are_valid_passes(self):
+        content_type = 'application/json'
         # unique heterogeneous types are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -570,8 +582,8 @@ class TestRequestBodyPostUniqueitemsFalseValidationRequestBody(ApiTestMixin, uni
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

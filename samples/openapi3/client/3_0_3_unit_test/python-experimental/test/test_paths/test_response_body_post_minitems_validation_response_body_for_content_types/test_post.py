@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostMinitemsValidationResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostMinitemsValidationResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
     def tearDown(self):
         pass
 
-    def test_post_minitems_validation_response_body_for_content_types(self):
-        """Test case for post_minitems_validation_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_too_short_is_invalid_fails(self):
+        # too short is invalid
         accept_content_type = 'application/json'
 
-
-        # test_too_short_is_invalid_fails
-        # too short is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -46,7 +44,7 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -60,15 +58,17 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
                 accept_content_type=accept_content_type,
             )
 
-        # test_ignores_non_arrays_passes
+    def test_ignores_non_arrays_passes(self):
         # ignores non-arrays
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 ""
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -88,8 +88,10 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
             )
             assert api_response.body == deserialized_response_body
 
-        # test_longer_is_valid_passes
+    def test_longer_is_valid_passes(self):
         # longer is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -99,7 +101,7 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -119,8 +121,10 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
             )
             assert api_response.body == deserialized_response_body
 
-        # test_exact_length_is_valid_passes
+    def test_exact_length_is_valid_passes(self):
         # exact length is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -129,7 +133,7 @@ class TestResponseBodyPostMinitemsValidationResponseBodyForContentTypes(ApiTestM
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

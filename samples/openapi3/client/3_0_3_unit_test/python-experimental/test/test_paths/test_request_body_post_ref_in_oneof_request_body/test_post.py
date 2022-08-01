@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostRefInOneofRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostRefInOneofRequestBody unit test stubs"""
+    """
+    RequestBodyPostRefInOneofRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostRefInOneofRequestBody(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_post_ref_in_oneof_request_body(self):
-        """Test case for post_ref_in_oneof_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_property_named_ref_valid_passes(self):
         content_type = 'application/json'
-
-        # test_property_named_ref_valid_passes
         # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,8 +49,8 @@ class TestRequestBodyPostRefInOneofRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -69,7 +67,8 @@ class TestRequestBodyPostRefInOneofRequestBody(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_property_named_ref_invalid_fails
+    def test_property_named_ref_invalid_fails(self):
+        content_type = 'application/json'
         # property named $ref invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

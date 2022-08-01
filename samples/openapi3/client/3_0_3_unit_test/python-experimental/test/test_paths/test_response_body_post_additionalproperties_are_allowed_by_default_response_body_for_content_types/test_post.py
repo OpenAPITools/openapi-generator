@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostAdditionalpropertiesAreAllowedByDefaultResponseBodyFor
     def tearDown(self):
         pass
 
-    def test_post_additionalproperties_are_allowed_by_default_response_body_for_content_types(self):
-        """Test case for post_additionalproperties_are_allowed_by_default_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_additional_properties_are_allowed_passes(self):
+        # additional properties are allowed
         accept_content_type = 'application/json'
 
-
-        # test_additional_properties_are_allowed_passes
-        # additional properties are allowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -52,7 +50,7 @@ class TestResponseBodyPostAdditionalpropertiesAreAllowedByDefaultResponseBodyFor
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

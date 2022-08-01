@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostByIntRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostByIntRequestBody unit test stubs"""
+    """
+    RequestBodyPostByIntRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostByIntRequestBody(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_post_by_int_request_body(self):
-        """Test case for post_by_int_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_int_by_int_fail_fails(self):
         content_type = 'application/json'
-
-        # test_int_by_int_fail_fails
         # int by int fail
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostByIntRequestBody(ApiTestMixin, unittest.TestCase):
                 )
                 self.api.post(body=body)
 
-        # test_int_by_int_passes
+    def test_int_by_int_passes(self):
+        content_type = 'application/json'
         # int by int
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -61,8 +60,8 @@ class TestRequestBodyPostByIntRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -79,7 +78,8 @@ class TestRequestBodyPostByIntRequestBody(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_non_numbers_passes
+    def test_ignores_non_numbers_passes(self):
+        content_type = 'application/json'
         # ignores non-numbers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -90,8 +90,8 @@ class TestRequestBodyPostByIntRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostNotRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostNotRequestBody unit test stubs"""
+    """
+    RequestBodyPostNotRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostNotRequestBody(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_post_not_request_body(self):
-        """Test case for post_not_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_allowed_passes(self):
         content_type = 'application/json'
-
-        # test_allowed_passes
         # allowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostNotRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostNotRequestBody(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_disallowed_fails
+    def test_disallowed_fails(self):
+        content_type = 'application/json'
         # disallowed
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

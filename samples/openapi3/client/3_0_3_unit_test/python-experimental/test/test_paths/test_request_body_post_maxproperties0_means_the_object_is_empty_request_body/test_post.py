@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostMaxproperties0MeansTheObjectIsEmptyRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostMaxproperties0MeansTheObjectIsEmptyRequestBody unit test stubs"""
+    """
+    RequestBodyPostMaxproperties0MeansTheObjectIsEmptyRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostMaxproperties0MeansTheObjectIsEmptyRequestBody(ApiTestM
     def tearDown(self):
         pass
 
-    def test_post_maxproperties0_means_the_object_is_empty_request_body(self):
-        """Test case for post_maxproperties0_means_the_object_is_empty_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_no_properties_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_no_properties_is_valid_passes
         # no properties is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -49,8 +47,8 @@ class TestRequestBodyPostMaxproperties0MeansTheObjectIsEmptyRequestBody(ApiTestM
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -67,7 +65,8 @@ class TestRequestBodyPostMaxproperties0MeansTheObjectIsEmptyRequestBody(ApiTestM
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_one_property_is_invalid_fails
+    def test_one_property_is_invalid_fails(self):
+        content_type = 'application/json'
         # one property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

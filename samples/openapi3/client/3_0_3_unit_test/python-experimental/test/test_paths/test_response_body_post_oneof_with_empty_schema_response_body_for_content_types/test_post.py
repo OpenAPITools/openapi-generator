@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostOneofWithEmptySchemaResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostOneofWithEmptySchemaResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostOneofWithEmptySchemaResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostOneofWithEmptySchemaResponseBodyForContentTypes(ApiTes
     def tearDown(self):
         pass
 
-    def test_post_oneof_with_empty_schema_response_body_for_content_types(self):
-        """Test case for post_oneof_with_empty_schema_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_both_valid_invalid_fails(self):
+        # both valid - invalid
         accept_content_type = 'application/json'
 
-
-        # test_both_valid_invalid_fails
-        # both valid - invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 123
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostOneofWithEmptySchemaResponseBodyForContentTypes(ApiTes
                 accept_content_type=accept_content_type,
             )
 
-        # test_one_valid_valid_passes
+    def test_one_valid_valid_passes(self):
         # one valid - valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

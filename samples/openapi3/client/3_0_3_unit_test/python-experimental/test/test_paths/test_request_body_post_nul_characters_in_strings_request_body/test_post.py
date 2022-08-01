@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostNulCharactersInStringsRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostNulCharactersInStringsRequestBody unit test stubs"""
+    """
+    RequestBodyPostNulCharactersInStringsRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostNulCharactersInStringsRequestBody(ApiTestMixin, unittes
     def tearDown(self):
         pass
 
-    def test_post_nul_characters_in_strings_request_body(self):
-        """Test case for post_nul_characters_in_strings_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_match_string_with_nul_passes(self):
         content_type = 'application/json'
-
-        # test_match_string_with_nul_passes
         # match string with nul
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostNulCharactersInStringsRequestBody(ApiTestMixin, unittes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostNulCharactersInStringsRequestBody(ApiTestMixin, unittes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_do_not_match_string_lacking_nul_fails
+    def test_do_not_match_string_lacking_nul_fails(self):
+        content_type = 'application/json'
         # do not match string lacking nul
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

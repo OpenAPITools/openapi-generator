@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAnyofComplexTypesRequestBody unit test stubs"""
+    """
+    RequestBodyPostAnyofComplexTypesRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
     def tearDown(self):
         pass
 
-    def test_post_anyof_complex_types_request_body(self):
-        """Test case for post_anyof_complex_types_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_second_anyof_valid_complex_passes(self):
         content_type = 'application/json'
-
-        # test_second_anyof_valid_complex_passes
         # second anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,8 +49,8 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -69,7 +67,8 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_neither_anyof_valid_complex_fails
+    def test_neither_anyof_valid_complex_fails(self):
+        content_type = 'application/json'
         # neither anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -87,7 +86,8 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
                 )
                 self.api.post(body=body)
 
-        # test_both_anyof_valid_complex_passes
+    def test_both_anyof_valid_complex_passes(self):
+        content_type = 'application/json'
         # both anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -103,8 +103,8 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -121,7 +121,8 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_first_anyof_valid_complex_passes
+    def test_first_anyof_valid_complex_passes(self):
+        content_type = 'application/json'
         # first anyOf valid (complex)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -135,8 +136,8 @@ class TestRequestBodyPostAnyofComplexTypesRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAllofRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAllofRequestBody unit test stubs"""
+    """
+    RequestBodyPostAllofRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAllofRequestBody(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_post_allof_request_body(self):
-        """Test case for post_allof_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_allof_passes(self):
         content_type = 'application/json'
-
-        # test_allof_passes
         # allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -53,8 +51,8 @@ class TestRequestBodyPostAllofRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -71,7 +69,8 @@ class TestRequestBodyPostAllofRequestBody(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_mismatch_first_fails
+    def test_mismatch_first_fails(self):
+        content_type = 'application/json'
         # mismatch first
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -87,7 +86,8 @@ class TestRequestBodyPostAllofRequestBody(ApiTestMixin, unittest.TestCase):
                 )
                 self.api.post(body=body)
 
-        # test_mismatch_second_fails
+    def test_mismatch_second_fails(self):
+        content_type = 'application/json'
         # mismatch second
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -103,7 +103,8 @@ class TestRequestBodyPostAllofRequestBody(ApiTestMixin, unittest.TestCase):
                 )
                 self.api.post(body=body)
 
-        # test_wrong_type_fails
+    def test_wrong_type_fails(self):
+        content_type = 'application/json'
         # wrong type
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

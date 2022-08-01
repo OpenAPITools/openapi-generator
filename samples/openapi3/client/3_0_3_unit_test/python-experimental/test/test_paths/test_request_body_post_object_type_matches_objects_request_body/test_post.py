@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostObjectTypeMatchesObjectsRequestBody unit test stubs"""
+    """
+    RequestBodyPostObjectTypeMatchesObjectsRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
     def tearDown(self):
         pass
 
-    def test_post_object_type_matches_objects_request_body(self):
-        """Test case for post_object_type_matches_objects_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_a_float_is_not_an_object_fails(self):
         content_type = 'application/json'
-
-        # test_a_float_is_not_an_object_fails
         # a float is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
                 )
                 self.api.post(body=body)
 
-        # test_null_is_not_an_object_fails
+    def test_null_is_not_an_object_fails(self):
+        content_type = 'application/json'
         # null is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -63,7 +62,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
                 )
                 self.api.post(body=body)
 
-        # test_an_array_is_not_an_object_fails
+    def test_an_array_is_not_an_object_fails(self):
+        content_type = 'application/json'
         # an array is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -77,7 +77,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
                 )
                 self.api.post(body=body)
 
-        # test_an_object_is_an_object_passes
+    def test_an_object_is_an_object_passes(self):
+        content_type = 'application/json'
         # an object is an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -89,8 +90,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -107,7 +108,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_a_string_is_not_an_object_fails
+    def test_a_string_is_not_an_object_fails(self):
+        content_type = 'application/json'
         # a string is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -120,7 +122,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
                 )
                 self.api.post(body=body)
 
-        # test_an_integer_is_not_an_object_fails
+    def test_an_integer_is_not_an_object_fails(self):
+        content_type = 'application/json'
         # an integer is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -133,7 +136,8 @@ class TestRequestBodyPostObjectTypeMatchesObjectsRequestBody(ApiTestMixin, unitt
                 )
                 self.api.post(body=body)
 
-        # test_a_boolean_is_not_an_object_fails
+    def test_a_boolean_is_not_an_object_fails(self):
+        content_type = 'application/json'
         # a boolean is not an object
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

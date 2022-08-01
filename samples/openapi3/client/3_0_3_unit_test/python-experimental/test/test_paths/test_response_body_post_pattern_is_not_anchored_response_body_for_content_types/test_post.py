@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostPatternIsNotAnchoredResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostPatternIsNotAnchoredResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostPatternIsNotAnchoredResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostPatternIsNotAnchoredResponseBodyForContentTypes(ApiTes
     def tearDown(self):
         pass
 
-    def test_post_pattern_is_not_anchored_response_body_for_content_types(self):
-        """Test case for post_pattern_is_not_anchored_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_matches_a_substring_passes(self):
+        # matches a substring
         accept_content_type = 'application/json'
 
-
-        # test_matches_a_substring_passes
-        # matches a substring
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "xxaayy"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

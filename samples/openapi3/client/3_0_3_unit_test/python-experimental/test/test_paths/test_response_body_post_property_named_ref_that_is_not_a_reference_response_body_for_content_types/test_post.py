@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForCont
     def tearDown(self):
         pass
 
-    def test_post_property_named_ref_that_is_not_a_reference_response_body_for_content_types(self):
-        """Test case for post_property_named_ref_that_is_not_a_reference_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_property_named_ref_valid_passes(self):
+        # property named $ref valid
         accept_content_type = 'application/json'
 
-
-        # test_property_named_ref_valid_passes
-        # property named $ref valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -48,7 +46,7 @@ class TestResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForCont
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -68,8 +66,10 @@ class TestResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForCont
             )
             assert api_response.body == deserialized_response_body
 
-        # test_property_named_ref_invalid_fails
+    def test_property_named_ref_invalid_fails(self):
         # property named $ref invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -79,7 +79,7 @@ class TestResponseBodyPostPropertyNamedRefThatIsNotAReferenceResponseBodyForCont
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

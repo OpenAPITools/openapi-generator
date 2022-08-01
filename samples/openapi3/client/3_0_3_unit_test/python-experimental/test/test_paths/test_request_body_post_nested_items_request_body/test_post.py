@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostNestedItemsRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostNestedItemsRequestBody unit test stubs"""
+    """
+    RequestBodyPostNestedItemsRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostNestedItemsRequestBody(ApiTestMixin, unittest.TestCase)
     def tearDown(self):
         pass
 
-    def test_post_nested_items_request_body(self):
-        """Test case for post_nested_items_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_valid_nested_array_passes(self):
         content_type = 'application/json'
-
-        # test_valid_nested_array_passes
         # valid nested array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -77,8 +75,8 @@ class TestRequestBodyPostNestedItemsRequestBody(ApiTestMixin, unittest.TestCase)
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -95,7 +93,8 @@ class TestRequestBodyPostNestedItemsRequestBody(ApiTestMixin, unittest.TestCase)
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_nested_array_with_invalid_type_fails
+    def test_nested_array_with_invalid_type_fails(self):
+        content_type = 'application/json'
         # nested array with invalid type
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -137,7 +136,8 @@ class TestRequestBodyPostNestedItemsRequestBody(ApiTestMixin, unittest.TestCase)
                 )
                 self.api.post(body=body)
 
-        # test_not_deep_enough_fails
+    def test_not_deep_enough_fails(self):
+        content_type = 'application/json'
         # not deep enough
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

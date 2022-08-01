@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAdditionalpropertiesShouldNotLookInApplicatorsRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAdditionalpropertiesShouldNotLookInApplicatorsRequestBody unit test stubs"""
+    """
+    RequestBodyPostAdditionalpropertiesShouldNotLookInApplicatorsRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAdditionalpropertiesShouldNotLookInApplicatorsRequestBo
     def tearDown(self):
         pass
 
-    def test_post_additionalproperties_should_not_look_in_applicators_request_body(self):
-        """Test case for post_additionalproperties_should_not_look_in_applicators_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_properties_defined_in_allof_are_not_examined_fails(self):
         content_type = 'application/json'
-
-        # test_properties_defined_in_allof_are_not_examined_fails
         # properties defined in allOf are not examined
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -55,7 +53,8 @@ class TestRequestBodyPostAdditionalpropertiesShouldNotLookInApplicatorsRequestBo
                 )
                 self.api.post(body=body)
 
-        # test_valid_test_case_passes
+    def test_valid_test_case_passes(self):
+        content_type = 'application/json'
         # valid test case
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -71,8 +70,8 @@ class TestRequestBodyPostAdditionalpropertiesShouldNotLookInApplicatorsRequestBo
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

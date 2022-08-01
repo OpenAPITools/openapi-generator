@@ -16,7 +16,12 @@ from .. import ApiTestMixin
 
 {{#with operation}}
 class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
-    """{{operationIdSnakeCase}} unit test stubs"""
+    """
+    {{operationIdSnakeCase}} unit test stubs
+{{#if summary}}
+        {{{summary}}}  # noqa: E501
+{{/if}}
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -26,26 +31,19 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_{{operationId}}(self):
-        """Test case for {{{operationId}}}
-
-{{#if summary}}
-        {{{summary}}}  # noqa: E501
-{{/if}}
-        """
 {{#each responses}}
     {{#if @first}}
-        response_status = {{code}}
+    response_status = {{code}}
 {{#if content}}
 {{#each content}}
-        accept_content_type = '{{{@key}}}'
 
 {{#if this.testCases}}
-
 {{#each testCases}}
 {{#with this }}
-        # test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}
+    def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
         # {{description}}
+        accept_content_type = '{{{../@key}}}'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
 {{#with data}}
@@ -54,7 +52,7 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
 {{#if valid}}
             {{> api_test_partial }}
@@ -86,7 +84,7 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
 {{/if}}
 {{/each}}
 {{else}}
-        response_body = ''
+    response_body = ''
 {{/if}}
 {{/if}}
 {{/each}}
@@ -94,12 +92,12 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
 {{#with bodyParam}}
 {{#if required}}
 {{#each content}}
-        content_type = '{{{@key}}}'
 {{#if this.testCases}}
 
 {{#each testCases}}
 {{#with this }}
-        # test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}
+    def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
+        content_type = '{{{../@key}}}'
         # {{description}}
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -113,8 +111,8 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             {{> api_test_partial }}
 

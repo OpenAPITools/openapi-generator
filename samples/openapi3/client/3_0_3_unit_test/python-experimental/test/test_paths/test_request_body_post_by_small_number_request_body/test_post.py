@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostBySmallNumberRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostBySmallNumberRequestBody unit test stubs"""
+    """
+    RequestBodyPostBySmallNumberRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostBySmallNumberRequestBody(ApiTestMixin, unittest.TestCas
     def tearDown(self):
         pass
 
-    def test_post_by_small_number_request_body(self):
-        """Test case for post_by_small_number_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_000751_is_not_multiple_of00001_fails(self):
         content_type = 'application/json'
-
-        # test_000751_is_not_multiple_of00001_fails
         # 0.00751 is not multiple of 0.0001
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostBySmallNumberRequestBody(ApiTestMixin, unittest.TestCas
                 )
                 self.api.post(body=body)
 
-        # test_00075_is_multiple_of00001_passes
+    def test_00075_is_multiple_of00001_passes(self):
+        content_type = 'application/json'
         # 0.0075 is multiple of 0.0001
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -61,8 +60,8 @@ class TestRequestBodyPostBySmallNumberRequestBody(ApiTestMixin, unittest.TestCas
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

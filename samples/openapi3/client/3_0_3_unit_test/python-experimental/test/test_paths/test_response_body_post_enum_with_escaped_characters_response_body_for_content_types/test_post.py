@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes(A
     def tearDown(self):
         pass
 
-    def test_post_enum_with_escaped_characters_response_body_for_content_types(self):
-        """Test case for post_enum_with_escaped_characters_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_member2_is_valid_passes(self):
+        # member 2 is valid
         accept_content_type = 'application/json'
 
-
-        # test_member2_is_valid_passes
-        # member 2 is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo\rbar"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes(A
             )
             assert api_response.body == deserialized_response_body
 
-        # test_member1_is_valid_passes
+    def test_member1_is_valid_passes(self):
         # member 1 is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo\nbar"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -93,15 +93,17 @@ class TestResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes(A
             )
             assert api_response.body == deserialized_response_body
 
-        # test_another_string_is_invalid_fails
+    def test_another_string_is_invalid_fails(self):
         # another string is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "abc"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

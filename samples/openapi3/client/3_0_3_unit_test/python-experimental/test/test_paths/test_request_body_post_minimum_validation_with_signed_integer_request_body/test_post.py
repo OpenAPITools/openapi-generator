@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostMinimumValidationWithSignedIntegerRequestBody unit test stubs"""
+    """
+    RequestBodyPostMinimumValidationWithSignedIntegerRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
     def tearDown(self):
         pass
 
-    def test_post_minimum_validation_with_signed_integer_request_body(self):
-        """Test case for post_minimum_validation_with_signed_integer_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_boundary_point_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_boundary_point_is_valid_passes
         # boundary point is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_positive_above_the_minimum_is_valid_passes
+    def test_positive_above_the_minimum_is_valid_passes(self):
+        content_type = 'application/json'
         # positive above the minimum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -77,8 +76,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -95,7 +94,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_int_below_the_minimum_is_invalid_fails
+    def test_int_below_the_minimum_is_invalid_fails(self):
+        content_type = 'application/json'
         # int below the minimum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -108,7 +108,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 )
                 self.api.post(body=body)
 
-        # test_float_below_the_minimum_is_invalid_fails
+    def test_float_below_the_minimum_is_invalid_fails(self):
+        content_type = 'application/json'
         # float below the minimum is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -121,7 +122,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 )
                 self.api.post(body=body)
 
-        # test_boundary_point_with_float_is_valid_passes
+    def test_boundary_point_with_float_is_valid_passes(self):
+        content_type = 'application/json'
         # boundary point with float is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -132,8 +134,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -150,7 +152,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_negative_above_the_minimum_is_valid_passes
+    def test_negative_above_the_minimum_is_valid_passes(self):
+        content_type = 'application/json'
         # negative above the minimum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -161,8 +164,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -179,7 +182,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_non_numbers_passes
+    def test_ignores_non_numbers_passes(self):
+        content_type = 'application/json'
         # ignores non-numbers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -190,8 +194,8 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

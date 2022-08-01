@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
     def tearDown(self):
         pass
 
-    def test_post_array_type_matches_arrays_response_body_for_content_types(self):
-        """Test case for post_array_type_matches_arrays_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_a_float_is_not_an_array_fails(self):
+        # a float is not an array
         accept_content_type = 'application/json'
 
-
-        # test_a_float_is_not_an_array_fails
-        # a float is not an array
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_boolean_is_not_an_array_fails
+    def test_a_boolean_is_not_an_array_fails(self):
         # a boolean is not an array
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 True
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -81,15 +81,17 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
                 accept_content_type=accept_content_type,
             )
 
-        # test_null_is_not_an_array_fails
+    def test_null_is_not_an_array_fails(self):
         # null is not an array
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -103,8 +105,10 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_object_is_not_an_array_fails
+    def test_an_object_is_not_an_array_fails(self):
         # an object is not an array
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -112,7 +116,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -126,15 +130,17 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_string_is_not_an_array_fails
+    def test_a_string_is_not_an_array_fails(self):
         # a string is not an array
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -148,8 +154,10 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_array_is_an_array_passes
+    def test_an_array_is_an_array_passes(self):
         # an array is an array
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -157,7 +165,7 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -177,15 +185,17 @@ class TestResponseBodyPostArrayTypeMatchesArraysResponseBodyForContentTypes(ApiT
             )
             assert api_response.body == deserialized_response_body
 
-        # test_an_integer_is_not_an_array_fails
+    def test_an_integer_is_not_an_array_fails(self):
         # an integer is not an array
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

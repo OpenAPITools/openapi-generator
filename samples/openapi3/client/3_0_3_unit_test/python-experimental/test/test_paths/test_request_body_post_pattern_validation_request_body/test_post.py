@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostPatternValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostPatternValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
     def tearDown(self):
         pass
 
-    def test_post_pattern_validation_request_body(self):
-        """Test case for post_pattern_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_ignores_arrays_passes(self):
         content_type = 'application/json'
-
-        # test_ignores_arrays_passes
         # ignores arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -49,8 +47,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -67,7 +65,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_objects_passes
+    def test_ignores_objects_passes(self):
+        content_type = 'application/json'
         # ignores objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -79,8 +78,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -97,7 +96,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_null_passes
+    def test_ignores_null_passes(self):
+        content_type = 'application/json'
         # ignores null
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -108,8 +108,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -126,7 +126,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_floats_passes
+    def test_ignores_floats_passes(self):
+        content_type = 'application/json'
         # ignores floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -137,8 +138,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -155,7 +156,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_a_non_matching_pattern_is_invalid_fails
+    def test_a_non_matching_pattern_is_invalid_fails(self):
+        content_type = 'application/json'
         # a non-matching pattern is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -168,7 +170,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 )
                 self.api.post(body=body)
 
-        # test_ignores_booleans_passes
+    def test_ignores_booleans_passes(self):
+        content_type = 'application/json'
         # ignores booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -179,8 +182,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -197,7 +200,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_a_matching_pattern_is_valid_passes
+    def test_a_matching_pattern_is_valid_passes(self):
+        content_type = 'application/json'
         # a matching pattern is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -208,8 +212,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -226,7 +230,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_integers_passes
+    def test_ignores_integers_passes(self):
+        content_type = 'application/json'
         # ignores integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -237,8 +242,8 @@ class TestRequestBodyPostPatternValidationRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
     def tearDown(self):
         pass
 
-    def test_post_number_type_matches_numbers_response_body_for_content_types(self):
-        """Test case for post_number_type_matches_numbers_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_an_array_is_not_a_number_fails(self):
+        # an array is not a number
         accept_content_type = 'application/json'
 
-
-        # test_an_array_is_not_a_number_fails
-        # an array is not a number
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -46,7 +44,7 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -60,15 +58,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_null_is_not_a_number_fails
+    def test_null_is_not_a_number_fails(self):
         # null is not a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -82,8 +82,10 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_object_is_not_a_number_fails
+    def test_an_object_is_not_a_number_fails(self):
         # an object is not a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -91,7 +93,7 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -105,15 +107,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_boolean_is_not_a_number_fails
+    def test_a_boolean_is_not_a_number_fails(self):
         # a boolean is not a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 True
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -127,15 +131,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_float_is_a_number_passes
+    def test_a_float_is_a_number_passes(self):
         # a float is a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -155,15 +161,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
             )
             assert api_response.body == deserialized_response_body
 
-        # test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails
+    def test_a_string_is_still_not_a_number_even_if_it_looks_like_one_fails(self):
         # a string is still not a number, even if it looks like one
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "1"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -177,15 +185,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_string_is_not_a_number_fails
+    def test_a_string_is_not_a_number_fails(self):
         # a string is not a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -199,15 +209,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_integer_is_a_number_passes
+    def test_an_integer_is_a_number_passes(self):
         # an integer is a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -227,15 +239,17 @@ class TestResponseBodyPostNumberTypeMatchesNumbersResponseBodyForContentTypes(Ap
             )
             assert api_response.body == deserialized_response_body
 
-        # test_a_float_with_zero_fractional_part_is_a_number_and_an_integer_passes
+    def test_a_float_with_zero_fractional_part_is_a_number_and_an_integer_passes(self):
         # a float with zero fractional part is a number (and an integer)
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.0
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

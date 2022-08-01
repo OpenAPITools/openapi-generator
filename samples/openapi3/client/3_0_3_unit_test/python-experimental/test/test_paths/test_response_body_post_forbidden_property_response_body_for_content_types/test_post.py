@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostForbiddenPropertyResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostForbiddenPropertyResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostForbiddenPropertyResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostForbiddenPropertyResponseBodyForContentTypes(ApiTestMi
     def tearDown(self):
         pass
 
-    def test_post_forbidden_property_response_body_for_content_types(self):
-        """Test case for post_forbidden_property_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_property_present_fails(self):
+        # property present
         accept_content_type = 'application/json'
 
-
-        # test_property_present_fails
-        # property present
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -50,7 +48,7 @@ class TestResponseBodyPostForbiddenPropertyResponseBodyForContentTypes(ApiTestMi
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -64,8 +62,10 @@ class TestResponseBodyPostForbiddenPropertyResponseBodyForContentTypes(ApiTestMi
                 accept_content_type=accept_content_type,
             )
 
-        # test_property_absent_passes
+    def test_property_absent_passes(self):
         # property absent
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -77,7 +77,7 @@ class TestResponseBodyPostForbiddenPropertyResponseBodyForContentTypes(ApiTestMi
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

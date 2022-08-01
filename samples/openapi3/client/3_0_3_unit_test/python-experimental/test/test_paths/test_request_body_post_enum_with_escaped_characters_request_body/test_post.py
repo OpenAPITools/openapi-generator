@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostEnumWithEscapedCharactersRequestBody unit test stubs"""
+    """
+    RequestBodyPostEnumWithEscapedCharactersRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unit
     def tearDown(self):
         pass
 
-    def test_post_enum_with_escaped_characters_request_body(self):
-        """Test case for post_enum_with_escaped_characters_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_member2_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_member2_is_valid_passes
         # member 2 is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unit
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unit
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_member1_is_valid_passes
+    def test_member1_is_valid_passes(self):
+        content_type = 'application/json'
         # member 1 is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -77,8 +76,8 @@ class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unit
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -95,7 +94,8 @@ class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unit
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_another_string_is_invalid_fails
+    def test_another_string_is_invalid_fails(self):
+        content_type = 'application/json'
         # another string is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

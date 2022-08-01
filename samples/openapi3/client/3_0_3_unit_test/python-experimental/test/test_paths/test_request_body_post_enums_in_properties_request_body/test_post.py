@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostEnumsInPropertiesRequestBody unit test stubs"""
+    """
+    RequestBodyPostEnumsInPropertiesRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
     def tearDown(self):
         pass
 
-    def test_post_enums_in_properties_request_body(self):
-        """Test case for post_enums_in_properties_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_missing_optional_property_is_valid_passes(self):
         content_type = 'application/json'
-
-        # test_missing_optional_property_is_valid_passes
         # missing optional property is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,8 +49,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -69,7 +67,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_wrong_foo_value_fails
+    def test_wrong_foo_value_fails(self):
+        content_type = 'application/json'
         # wrong foo value
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -87,7 +86,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
                 )
                 self.api.post(body=body)
 
-        # test_both_properties_are_valid_passes
+    def test_both_properties_are_valid_passes(self):
+        content_type = 'application/json'
         # both properties are valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -103,8 +103,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -121,7 +121,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_wrong_bar_value_fails
+    def test_wrong_bar_value_fails(self):
+        content_type = 'application/json'
         # wrong bar value
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -139,7 +140,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
                 )
                 self.api.post(body=body)
 
-        # test_missing_all_properties_is_invalid_fails
+    def test_missing_all_properties_is_invalid_fails(self):
+        content_type = 'application/json'
         # missing all properties is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -153,7 +155,8 @@ class TestRequestBodyPostEnumsInPropertiesRequestBody(ApiTestMixin, unittest.Tes
                 )
                 self.api.post(body=body)
 
-        # test_missing_required_property_is_invalid_fails
+    def test_missing_required_property_is_invalid_fails(self):
+        content_type = 'application/json'
         # missing required property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

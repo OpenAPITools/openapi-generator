@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAllofWithOneEmptySchemaResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostAllofWithOneEmptySchemaResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostAllofWithOneEmptySchemaResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostAllofWithOneEmptySchemaResponseBodyForContentTypes(Api
     def tearDown(self):
         pass
 
-    def test_post_allof_with_one_empty_schema_response_body_for_content_types(self):
-        """Test case for post_allof_with_one_empty_schema_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_any_data_is_valid_passes(self):
+        # any data is valid
         accept_content_type = 'application/json'
 
-
-        # test_any_data_is_valid_passes
-        # any data is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

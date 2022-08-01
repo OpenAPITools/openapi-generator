@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAllofCombinedWithAnyofOneofRequestBody unit test stubs"""
+    """
+    RequestBodyPostAllofCombinedWithAnyofOneofRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
     def tearDown(self):
         pass
 
-    def test_post_allof_combined_with_anyof_oneof_request_body(self):
-        """Test case for post_allof_combined_with_anyof_oneof_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_allof_true_anyof_false_oneof_false_fails(self):
         content_type = 'application/json'
-
-        # test_allof_true_anyof_false_oneof_false_fails
         # allOf: true, anyOf: false, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 )
                 self.api.post(body=body)
 
-        # test_allof_false_anyof_false_oneof_true_fails
+    def test_allof_false_anyof_false_oneof_true_fails(self):
+        content_type = 'application/json'
         # allOf: false, anyOf: false, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -63,7 +62,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 )
                 self.api.post(body=body)
 
-        # test_allof_false_anyof_true_oneof_true_fails
+    def test_allof_false_anyof_true_oneof_true_fails(self):
+        content_type = 'application/json'
         # allOf: false, anyOf: true, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -76,7 +76,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 )
                 self.api.post(body=body)
 
-        # test_allof_true_anyof_true_oneof_false_fails
+    def test_allof_true_anyof_true_oneof_false_fails(self):
+        content_type = 'application/json'
         # allOf: true, anyOf: true, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -89,7 +90,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 )
                 self.api.post(body=body)
 
-        # test_allof_true_anyof_true_oneof_true_passes
+    def test_allof_true_anyof_true_oneof_true_passes(self):
+        content_type = 'application/json'
         # allOf: true, anyOf: true, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -100,8 +102,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -118,7 +120,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_allof_true_anyof_false_oneof_true_fails
+    def test_allof_true_anyof_false_oneof_true_fails(self):
+        content_type = 'application/json'
         # allOf: true, anyOf: false, oneOf: true
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -131,7 +134,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 )
                 self.api.post(body=body)
 
-        # test_allof_false_anyof_true_oneof_false_fails
+    def test_allof_false_anyof_true_oneof_false_fails(self):
+        content_type = 'application/json'
         # allOf: false, anyOf: true, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -144,7 +148,8 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 )
                 self.api.post(body=body)
 
-        # test_allof_false_anyof_false_oneof_false_fails
+    def test_allof_false_anyof_false_oneof_false_fails(self):
+        content_type = 'application/json'
         # allOf: false, anyOf: false, oneOf: false
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

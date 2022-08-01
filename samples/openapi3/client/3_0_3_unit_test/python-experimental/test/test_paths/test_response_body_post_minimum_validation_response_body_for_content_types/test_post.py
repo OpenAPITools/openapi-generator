@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostMinimumValidationResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostMinimumValidationResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostMinimumValidationResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostMinimumValidationResponseBodyForContentTypes(ApiTestMi
     def tearDown(self):
         pass
 
-    def test_post_minimum_validation_response_body_for_content_types(self):
-        """Test case for post_minimum_validation_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_boundary_point_is_valid_passes(self):
+        # boundary point is valid
         accept_content_type = 'application/json'
 
-
-        # test_boundary_point_is_valid_passes
-        # boundary point is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostMinimumValidationResponseBodyForContentTypes(ApiTestMi
             )
             assert api_response.body == deserialized_response_body
 
-        # test_below_the_minimum_is_invalid_fails
+    def test_below_the_minimum_is_invalid_fails(self):
         # below the minimum is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 0.6
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -87,15 +87,17 @@ class TestResponseBodyPostMinimumValidationResponseBodyForContentTypes(ApiTestMi
                 accept_content_type=accept_content_type,
             )
 
-        # test_above_the_minimum_is_valid_passes
+    def test_above_the_minimum_is_valid_passes(self):
         # above the minimum is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 2.6
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -115,15 +117,17 @@ class TestResponseBodyPostMinimumValidationResponseBodyForContentTypes(ApiTestMi
             )
             assert api_response.body == deserialized_response_body
 
-        # test_ignores_non_numbers_passes
+    def test_ignores_non_numbers_passes(self):
         # ignores non-numbers
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "x"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

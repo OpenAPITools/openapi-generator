@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAllofSimpleTypesRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAllofSimpleTypesRequestBody unit test stubs"""
+    """
+    RequestBodyPostAllofSimpleTypesRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAllofSimpleTypesRequestBody(ApiTestMixin, unittest.Test
     def tearDown(self):
         pass
 
-    def test_post_allof_simple_types_request_body(self):
-        """Test case for post_allof_simple_types_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_valid_passes(self):
         content_type = 'application/json'
-
-        # test_valid_passes
         # valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostAllofSimpleTypesRequestBody(ApiTestMixin, unittest.Test
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostAllofSimpleTypesRequestBody(ApiTestMixin, unittest.Test
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_mismatch_one_fails
+    def test_mismatch_one_fails(self):
+        content_type = 'application/json'
         # mismatch one
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

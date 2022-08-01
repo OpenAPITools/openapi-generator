@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody unit test stubs"""
+    """
+    RequestBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfR
     def tearDown(self):
         pass
 
-    def test_post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(self):
-        """Test case for post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_always_invalid_but_naive_implementations_may_raise_an_overflow_error_fails(self):
         content_type = 'application/json'
-
-        # test_always_invalid_but_naive_implementations_may_raise_an_overflow_error_fails
         # always invalid, but naive implementations may raise an overflow error
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfR
                 )
                 self.api.post(body=body)
 
-        # test_valid_integer_with_multipleof_float_passes
+    def test_valid_integer_with_multipleof_float_passes(self):
+        content_type = 'application/json'
         # valid integer with multipleOf float
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -61,8 +60,8 @@ class TestRequestBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfR
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

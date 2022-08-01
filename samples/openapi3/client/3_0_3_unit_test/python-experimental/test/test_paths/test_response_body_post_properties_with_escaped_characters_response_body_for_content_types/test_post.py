@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentT
     def tearDown(self):
         pass
 
-    def test_post_properties_with_escaped_characters_response_body_for_content_types(self):
-        """Test case for post_properties_with_escaped_characters_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_object_with_all_numbers_is_valid_passes(self):
+        # object with all numbers is valid
         accept_content_type = 'application/json'
 
-
-        # test_object_with_all_numbers_is_valid_passes
-        # object with all numbers is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -58,7 +56,7 @@ class TestResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentT
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -78,8 +76,10 @@ class TestResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentT
             )
             assert api_response.body == deserialized_response_body
 
-        # test_object_with_strings_is_invalid_fails
+    def test_object_with_strings_is_invalid_fails(self):
         # object with strings is invalid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -99,7 +99,7 @@ class TestResponseBodyPostPropertiesWithEscapedCharactersResponseBodyForContentT
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

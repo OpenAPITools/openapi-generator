@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostForbiddenPropertyRequestBody unit test stubs"""
+    """
+    RequestBodyPostForbiddenPropertyRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.Tes
     def tearDown(self):
         pass
 
-    def test_post_forbidden_property_request_body(self):
-        """Test case for post_forbidden_property_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_property_present_fails(self):
         content_type = 'application/json'
-
-        # test_property_present_fails
         # property present
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -55,7 +53,8 @@ class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.Tes
                 )
                 self.api.post(body=body)
 
-        # test_property_absent_passes
+    def test_property_absent_passes(self):
+        content_type = 'application/json'
         # property absent
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -71,8 +70,8 @@ class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.Tes
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

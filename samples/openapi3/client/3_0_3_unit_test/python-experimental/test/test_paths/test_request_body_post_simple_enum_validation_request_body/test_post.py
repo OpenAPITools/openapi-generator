@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostSimpleEnumValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostSimpleEnumValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostSimpleEnumValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostSimpleEnumValidationRequestBody(ApiTestMixin, unittest.
     def tearDown(self):
         pass
 
-    def test_post_simple_enum_validation_request_body(self):
-        """Test case for post_simple_enum_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_something_else_is_invalid_fails(self):
         content_type = 'application/json'
-
-        # test_something_else_is_invalid_fails
         # something else is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostSimpleEnumValidationRequestBody(ApiTestMixin, unittest.
                 )
                 self.api.post(body=body)
 
-        # test_one_of_the_enum_is_valid_passes
+    def test_one_of_the_enum_is_valid_passes(self):
+        content_type = 'application/json'
         # one of the enum is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -61,8 +60,8 @@ class TestRequestBodyPostSimpleEnumValidationRequestBody(ApiTestMixin, unittest.
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

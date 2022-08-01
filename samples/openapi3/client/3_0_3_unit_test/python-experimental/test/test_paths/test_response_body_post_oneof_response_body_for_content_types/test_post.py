@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostOneofResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostOneofResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostOneofResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostOneofResponseBodyForContentTypes(ApiTestMixin, unittes
     def tearDown(self):
         pass
 
-    def test_post_oneof_response_body_for_content_types(self):
-        """Test case for post_oneof_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_second_oneof_valid_passes(self):
+        # second oneOf valid
         accept_content_type = 'application/json'
 
-
-        # test_second_oneof_valid_passes
-        # second oneOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 2.5
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -65,15 +63,17 @@ class TestResponseBodyPostOneofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             assert api_response.body == deserialized_response_body
 
-        # test_both_oneof_valid_fails
+    def test_both_oneof_valid_fails(self):
         # both oneOf valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 3
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -87,15 +87,17 @@ class TestResponseBodyPostOneofResponseBodyForContentTypes(ApiTestMixin, unittes
                 accept_content_type=accept_content_type,
             )
 
-        # test_first_oneof_valid_passes
+    def test_first_oneof_valid_passes(self):
         # first oneOf valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -115,15 +117,17 @@ class TestResponseBodyPostOneofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             assert api_response.body == deserialized_response_body
 
-        # test_neither_oneof_valid_fails
+    def test_neither_oneof_valid_fails(self):
         # neither oneOf valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.5
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

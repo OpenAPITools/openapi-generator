@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAnyofRequestBody unit test stubs"""
+    """
+    RequestBodyPostAnyofRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_post_anyof_request_body(self):
-        """Test case for post_anyof_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_second_anyof_valid_passes(self):
         content_type = 'application/json'
-
-        # test_second_anyof_valid_passes
         # second anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -66,7 +64,8 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_neither_anyof_valid_fails
+    def test_neither_anyof_valid_fails(self):
+        content_type = 'application/json'
         # neither anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -79,7 +78,8 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
                 )
                 self.api.post(body=body)
 
-        # test_both_anyof_valid_passes
+    def test_both_anyof_valid_passes(self):
+        content_type = 'application/json'
         # both anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -90,8 +90,8 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -108,7 +108,8 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_first_anyof_valid_passes
+    def test_first_anyof_valid_passes(self):
+        content_type = 'application/json'
         # first anyOf valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -119,8 +120,8 @@ class TestRequestBodyPostAnyofRequestBody(ApiTestMixin, unittest.TestCase):
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

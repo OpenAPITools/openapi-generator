@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostPatternIsNotAnchoredRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostPatternIsNotAnchoredRequestBody unit test stubs"""
+    """
+    RequestBodyPostPatternIsNotAnchoredRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostPatternIsNotAnchoredRequestBody(ApiTestMixin, unittest.
     def tearDown(self):
         pass
 
-    def test_post_pattern_is_not_anchored_request_body(self):
-        """Test case for post_pattern_is_not_anchored_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_matches_a_substring_passes(self):
         content_type = 'application/json'
-
-        # test_matches_a_substring_passes
         # matches a substring
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -48,8 +46,8 @@ class TestRequestBodyPostPatternIsNotAnchoredRequestBody(ApiTestMixin, unittest.
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

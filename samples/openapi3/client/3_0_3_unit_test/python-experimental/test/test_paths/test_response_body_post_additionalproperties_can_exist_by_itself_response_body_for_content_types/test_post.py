@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForCon
     def tearDown(self):
         pass
 
-    def test_post_additionalproperties_can_exist_by_itself_response_body_for_content_types(self):
-        """Test case for post_additionalproperties_can_exist_by_itself_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_an_additional_invalid_property_is_invalid_fails(self):
+        # an additional invalid property is invalid
         accept_content_type = 'application/json'
 
-
-        # test_an_additional_invalid_property_is_invalid_fails
-        # an additional invalid property is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -48,7 +46,7 @@ class TestResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForCon
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -62,8 +60,10 @@ class TestResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForCon
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_additional_valid_property_is_valid_passes
+    def test_an_additional_valid_property_is_valid_passes(self):
         # an additional valid property is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -73,7 +73,7 @@ class TestResponseBodyPostAdditionalpropertiesCanExistByItselfResponseBodyForCon
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

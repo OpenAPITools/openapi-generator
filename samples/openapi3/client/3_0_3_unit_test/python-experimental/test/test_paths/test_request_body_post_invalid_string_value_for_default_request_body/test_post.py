@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostInvalidStringValueForDefaultRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostInvalidStringValueForDefaultRequestBody unit test stubs"""
+    """
+    RequestBodyPostInvalidStringValueForDefaultRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostInvalidStringValueForDefaultRequestBody(ApiTestMixin, u
     def tearDown(self):
         pass
 
-    def test_post_invalid_string_value_for_default_request_body(self):
-        """Test case for post_invalid_string_value_for_default_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_valid_when_property_is_specified_passes(self):
         content_type = 'application/json'
-
-        # test_valid_when_property_is_specified_passes
         # valid when property is specified
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,8 +49,8 @@ class TestRequestBodyPostInvalidStringValueForDefaultRequestBody(ApiTestMixin, u
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -69,7 +67,8 @@ class TestRequestBodyPostInvalidStringValueForDefaultRequestBody(ApiTestMixin, u
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_still_valid_when_the_invalid_default_is_used_passes
+    def test_still_valid_when_the_invalid_default_is_used_passes(self):
+        content_type = 'application/json'
         # still valid when the invalid default is used
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -81,8 +80,8 @@ class TestRequestBodyPostInvalidStringValueForDefaultRequestBody(ApiTestMixin, u
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

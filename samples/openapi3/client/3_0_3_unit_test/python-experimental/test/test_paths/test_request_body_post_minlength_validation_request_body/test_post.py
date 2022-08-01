@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostMinlengthValidationRequestBody unit test stubs"""
+    """
+    RequestBodyPostMinlengthValidationRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
     def tearDown(self):
         pass
 
-    def test_post_minlength_validation_request_body(self):
-        """Test case for post_minlength_validation_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_too_short_is_invalid_fails(self):
         content_type = 'application/json'
-
-        # test_too_short_is_invalid_fails
         # too short is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -50,7 +48,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_one_supplementary_unicode_code_point_is_not_long_enough_fails
+    def test_one_supplementary_unicode_code_point_is_not_long_enough_fails(self):
+        content_type = 'application/json'
         # one supplementary Unicode code point is not long enough
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -63,7 +62,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_longer_is_valid_passes
+    def test_longer_is_valid_passes(self):
+        content_type = 'application/json'
         # longer is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -74,8 +74,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -92,7 +92,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_ignores_non_strings_passes
+    def test_ignores_non_strings_passes(self):
+        content_type = 'application/json'
         # ignores non-strings
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -103,8 +104,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -121,7 +122,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_exact_length_is_valid_passes
+    def test_exact_length_is_valid_passes(self):
+        content_type = 'application/json'
         # exact length is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -132,8 +134,8 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

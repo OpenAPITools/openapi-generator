@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostNestedOneofToCheckValidationSemanticsResponseBodyForCo
     def tearDown(self):
         pass
 
-    def test_post_nested_oneof_to_check_validation_semantics_response_body_for_content_types(self):
-        """Test case for post_nested_oneof_to_check_validation_semantics_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_anything_non_null_is_invalid_fails(self):
+        # anything non-null is invalid
         accept_content_type = 'application/json'
 
-
-        # test_anything_non_null_is_invalid_fails
-        # anything non-null is invalid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 123
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostNestedOneofToCheckValidationSemanticsResponseBodyForCo
                 accept_content_type=accept_content_type,
             )
 
-        # test_null_is_valid_passes
+    def test_null_is_valid_passes(self):
         # null is valid
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

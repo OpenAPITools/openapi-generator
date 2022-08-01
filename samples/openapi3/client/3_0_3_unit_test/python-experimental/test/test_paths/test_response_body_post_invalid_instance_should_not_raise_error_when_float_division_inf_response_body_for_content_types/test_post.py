@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
     def tearDown(self):
         pass
 
-    def test_post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types(self):
-        """Test case for post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_always_invalid_but_naive_implementations_may_raise_an_overflow_error_fails(self):
+        # always invalid, but naive implementations may raise an overflow error
         accept_content_type = 'application/json'
 
-
-        # test_always_invalid_but_naive_implementations_may_raise_an_overflow_error_fails
-        # always invalid, but naive implementations may raise an overflow error
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.0E308
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
                 accept_content_type=accept_content_type,
             )
 
-        # test_valid_integer_with_multipleof_float_passes
+    def test_valid_integer_with_multipleof_float_passes(self):
         # valid integer with multipleOf float
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 123456789
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

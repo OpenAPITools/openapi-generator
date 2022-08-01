@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostAllofWithBaseSchemaRequestBody unit test stubs"""
+    """
+    RequestBodyPostAllofWithBaseSchemaRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
     def tearDown(self):
         pass
 
-    def test_post_allof_with_base_schema_request_body(self):
-        """Test case for post_allof_with_base_schema_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_valid_passes(self):
         content_type = 'application/json'
-
-        # test_valid_passes
         # valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -55,8 +53,8 @@ class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -73,7 +71,8 @@ class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_mismatch_first_allof_fails
+    def test_mismatch_first_allof_fails(self):
+        content_type = 'application/json'
         # mismatch first allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -91,7 +90,8 @@ class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_mismatch_base_schema_fails
+    def test_mismatch_base_schema_fails(self):
+        content_type = 'application/json'
         # mismatch base schema
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -109,7 +109,8 @@ class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_mismatch_both_fails
+    def test_mismatch_both_fails(self):
+        content_type = 'application/json'
         # mismatch both
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -125,7 +126,8 @@ class TestRequestBodyPostAllofWithBaseSchemaRequestBody(ApiTestMixin, unittest.T
                 )
                 self.api.post(body=body)
 
-        # test_mismatch_second_allof_fails
+    def test_mismatch_second_allof_fails(self):
+        content_type = 'application/json'
         # mismatch second allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

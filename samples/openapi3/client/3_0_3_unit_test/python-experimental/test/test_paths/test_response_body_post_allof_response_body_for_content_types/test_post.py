@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostAllofResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostAllofResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
     def tearDown(self):
         pass
 
-    def test_post_allof_response_body_for_content_types(self):
-        """Test case for post_allof_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_allof_passes(self):
+        # allOf
         accept_content_type = 'application/json'
 
-
-        # test_allof_passes
-        # allOf
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -50,7 +48,7 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -70,8 +68,10 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             assert api_response.body == deserialized_response_body
 
-        # test_mismatch_first_fails
+    def test_mismatch_first_fails(self):
         # mismatch first
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -81,7 +81,7 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -95,8 +95,10 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
                 accept_content_type=accept_content_type,
             )
 
-        # test_mismatch_second_fails
+    def test_mismatch_second_fails(self):
         # mismatch second
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -106,7 +108,7 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -120,8 +122,10 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
                 accept_content_type=accept_content_type,
             )
 
-        # test_wrong_type_fails
+    def test_wrong_type_fails(self):
         # wrong type
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -133,7 +137,7 @@ class TestResponseBodyPostAllofResponseBodyForContentTypes(ApiTestMixin, unittes
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(

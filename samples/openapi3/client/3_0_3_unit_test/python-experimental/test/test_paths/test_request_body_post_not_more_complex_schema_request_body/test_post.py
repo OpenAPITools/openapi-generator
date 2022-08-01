@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostNotMoreComplexSchemaRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostNotMoreComplexSchemaRequestBody unit test stubs"""
+    """
+    RequestBodyPostNotMoreComplexSchemaRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostNotMoreComplexSchemaRequestBody(ApiTestMixin, unittest.
     def tearDown(self):
         pass
 
-    def test_post_not_more_complex_schema_request_body(self):
-        """Test case for post_not_more_complex_schema_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_other_match_passes(self):
         content_type = 'application/json'
-
-        # test_other_match_passes
         # other match
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -51,8 +49,8 @@ class TestRequestBodyPostNotMoreComplexSchemaRequestBody(ApiTestMixin, unittest.
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -69,7 +67,8 @@ class TestRequestBodyPostNotMoreComplexSchemaRequestBody(ApiTestMixin, unittest.
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_mismatch_fails
+    def test_mismatch_fails(self):
+        content_type = 'application/json'
         # mismatch
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -85,7 +84,8 @@ class TestRequestBodyPostNotMoreComplexSchemaRequestBody(ApiTestMixin, unittest.
                 )
                 self.api.post(body=body)
 
-        # test_match_passes
+    def test_match_passes(self):
+        content_type = 'application/json'
         # match
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -96,8 +96,8 @@ class TestRequestBodyPostNotMoreComplexSchemaRequestBody(ApiTestMixin, unittest.
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

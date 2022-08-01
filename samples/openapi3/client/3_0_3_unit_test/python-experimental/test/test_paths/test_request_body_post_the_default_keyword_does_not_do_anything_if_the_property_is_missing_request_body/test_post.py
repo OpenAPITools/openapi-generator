@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody unit test stubs"""
+    """
+    RequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissin
     def tearDown(self):
         pass
 
-    def test_post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body(self):
-        """Test case for post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_missing_properties_are_not_filled_in_with_the_default_passes(self):
         content_type = 'application/json'
-
-        # test_missing_properties_are_not_filled_in_with_the_default_passes
         # missing properties are not filled in with the default
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -49,8 +47,8 @@ class TestRequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissin
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -67,7 +65,8 @@ class TestRequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissin
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_an_explicit_property_value_is_checked_against_maximum_passing_passes
+    def test_an_explicit_property_value_is_checked_against_maximum_passing_passes(self):
+        content_type = 'application/json'
         # an explicit property value is checked against maximum (passing)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -81,8 +80,8 @@ class TestRequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissin
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -99,7 +98,8 @@ class TestRequestBodyPostTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissin
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_an_explicit_property_value_is_checked_against_maximum_failing_fails
+    def test_an_explicit_property_value_is_checked_against_maximum_failing_fails(self):
+        content_type = 'application/json'
         # an explicit property value is checked against maximum (failing)
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (

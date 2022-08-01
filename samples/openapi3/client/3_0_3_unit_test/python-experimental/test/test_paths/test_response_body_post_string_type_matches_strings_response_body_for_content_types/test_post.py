@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,23 +31,19 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
     def tearDown(self):
         pass
 
-    def test_post_string_type_matches_strings_response_body_for_content_types(self):
-        """Test case for post_string_type_matches_strings_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_1_is_not_a_string_fails(self):
+        # 1 is not a string
         accept_content_type = 'application/json'
 
-
-        # test_1_is_not_a_string_fails
-        # 1 is not a string
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -59,15 +57,17 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_string_is_still_a_string_even_if_it_looks_like_a_number_passes
+    def test_a_string_is_still_a_string_even_if_it_looks_like_a_number_passes(self):
         # a string is still a string, even if it looks like a number
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "1"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -87,15 +87,17 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
             )
             assert api_response.body == deserialized_response_body
 
-        # test_an_empty_string_is_still_a_string_passes
+    def test_an_empty_string_is_still_a_string_passes(self):
         # an empty string is still a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 ""
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
@@ -115,15 +117,17 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
             )
             assert api_response.body == deserialized_response_body
 
-        # test_a_float_is_not_a_string_fails
+    def test_a_float_is_not_a_string_fails(self):
         # a float is not a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 1.1
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -137,8 +141,10 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_object_is_not_a_string_fails
+    def test_an_object_is_not_a_string_fails(self):
         # an object is not a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -146,7 +152,7 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -160,8 +166,10 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_an_array_is_not_a_string_fails
+    def test_an_array_is_not_a_string_fails(self):
         # an array is not a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 [
@@ -169,7 +177,7 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -183,15 +191,17 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_boolean_is_not_a_string_fails
+    def test_a_boolean_is_not_a_string_fails(self):
         # a boolean is not a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 True
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -205,15 +215,17 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_null_is_not_a_string_fails
+    def test_null_is_not_a_string_fails(self):
         # null is not a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 None
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
                 self.api.post(
@@ -227,15 +239,17 @@ class TestResponseBodyPostStringTypeMatchesStringsResponseBodyForContentTypes(Ap
                 accept_content_type=accept_content_type,
             )
 
-        # test_a_string_is_a_string_passes
+    def test_a_string_is_a_string_passes(self):
         # a string is a string
+        accept_content_type = 'application/json'
+
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 "foo"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)

@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCase):
-    """RequestBodyPostHostnameFormatRequestBody unit test stubs"""
+    """
+    RequestBodyPostHostnameFormatRequestBody unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,15 +31,11 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
     def tearDown(self):
         pass
 
-    def test_post_hostname_format_request_body(self):
-        """Test case for post_hostname_format_request_body
+    response_status = 200
+    response_body = ''
 
-        """
-        response_status = 200
-        response_body = ''
+    def test_all_string_formats_ignore_objects_passes(self):
         content_type = 'application/json'
-
-        # test_all_string_formats_ignore_objects_passes
         # all string formats ignore objects
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -49,8 +47,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -67,7 +65,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_all_string_formats_ignore_booleans_passes
+    def test_all_string_formats_ignore_booleans_passes(self):
+        content_type = 'application/json'
         # all string formats ignore booleans
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -78,8 +77,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -96,7 +95,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_all_string_formats_ignore_integers_passes
+    def test_all_string_formats_ignore_integers_passes(self):
+        content_type = 'application/json'
         # all string formats ignore integers
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -107,8 +107,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -125,7 +125,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_all_string_formats_ignore_floats_passes
+    def test_all_string_formats_ignore_floats_passes(self):
+        content_type = 'application/json'
         # all string formats ignore floats
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -136,8 +137,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -154,7 +155,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_all_string_formats_ignore_arrays_passes
+    def test_all_string_formats_ignore_arrays_passes(self):
+        content_type = 'application/json'
         # all string formats ignore arrays
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -166,8 +168,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,
@@ -184,7 +186,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
 
-        # test_all_string_formats_ignore_nulls_passes
+    def test_all_string_formats_ignore_nulls_passes(self):
+        content_type = 'application/json'
         # all string formats ignore nulls
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
@@ -195,8 +198,8 @@ class TestRequestBodyPostHostnameFormatRequestBody(ApiTestMixin, unittest.TestCa
                 _configuration=self._configuration
             )
             mock_request.return_value = self.response(
-                self.json_bytes(response_body),
-                status=response_status
+                self.json_bytes(self.response_body),
+                status=self.response_status
             )
             api_response = self.api.post(
                 body=body,

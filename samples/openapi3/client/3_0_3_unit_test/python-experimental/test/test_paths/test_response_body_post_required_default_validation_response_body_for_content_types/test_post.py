@@ -19,7 +19,9 @@ from .. import ApiTestMixin
 
 
 class TestResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes(ApiTestMixin, unittest.TestCase):
-    """ResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes unit test stubs"""
+    """
+    ResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes unit test stubs
+    """
     _configuration = configuration.Configuration()
 
     def setUp(self):
@@ -29,16 +31,12 @@ class TestResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes(A
     def tearDown(self):
         pass
 
-    def test_post_required_default_validation_response_body_for_content_types(self):
-        """Test case for post_required_default_validation_response_body_for_content_types
+    response_status = 200
 
-        """
-        response_status = 200
+    def test_not_required_by_default_passes(self):
+        # not required by default
         accept_content_type = 'application/json'
 
-
-        # test_not_required_by_default_passes
-        # not required by default
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
@@ -46,7 +44,7 @@ class TestResponseBodyPostRequiredDefaultValidationResponseBodyForContentTypes(A
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),
-                status=response_status
+                status=self.response_status
             )
             api_response = self.api.post(
                 accept_content_types=(accept_content_type,)
