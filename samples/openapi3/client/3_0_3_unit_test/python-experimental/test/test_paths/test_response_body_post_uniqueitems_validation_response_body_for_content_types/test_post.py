@@ -941,7 +941,6 @@ class TestResponseBodyPostUniqueitemsValidationResponseBodyForContentTypes(ApiTe
             )
 
 
-        pass
 
 
 if __name__ == '__main__':

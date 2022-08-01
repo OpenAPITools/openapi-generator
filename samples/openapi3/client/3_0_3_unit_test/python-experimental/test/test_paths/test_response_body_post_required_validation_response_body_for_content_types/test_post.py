@@ -185,7 +185,6 @@ class TestResponseBodyPostRequiredValidationResponseBodyForContentTypes(ApiTestM
             )
 
 
-        pass
 
 
 if __name__ == '__main__':

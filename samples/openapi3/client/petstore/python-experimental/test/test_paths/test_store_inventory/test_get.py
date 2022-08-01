@@ -35,7 +35,6 @@ class TestStoreInventory(ApiTestMixin, unittest.TestCase):
     response_status = 200
 
 
-        pass
 
 
 if __name__ == '__main__':

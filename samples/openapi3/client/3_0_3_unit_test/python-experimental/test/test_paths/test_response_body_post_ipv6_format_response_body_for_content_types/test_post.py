@@ -216,7 +216,6 @@ class TestResponseBodyPostIpv6FormatResponseBodyForContentTypes(ApiTestMixin, un
             assert api_response.body == deserialized_response_body
 
 
-        pass
 
 
 if __name__ == '__main__':

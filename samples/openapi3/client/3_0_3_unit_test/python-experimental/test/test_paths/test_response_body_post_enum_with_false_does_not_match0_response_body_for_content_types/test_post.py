@@ -112,7 +112,6 @@ class TestResponseBodyPostEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes(
             )
 
 
-        pass
 
 
 if __name__ == '__main__':

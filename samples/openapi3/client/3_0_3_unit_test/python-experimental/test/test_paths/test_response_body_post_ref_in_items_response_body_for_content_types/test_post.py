@@ -98,7 +98,6 @@ class TestResponseBodyPostRefInItemsResponseBodyForContentTypes(ApiTestMixin, un
             )
 
 
-        pass
 
 
 if __name__ == '__main__':

@@ -34,7 +34,6 @@ class TestFakeDeleteCoffeeId(ApiTestMixin, unittest.TestCase):
 
     response_status = 200
     response_body = ''
-        pass
 
 
 if __name__ == '__main__':

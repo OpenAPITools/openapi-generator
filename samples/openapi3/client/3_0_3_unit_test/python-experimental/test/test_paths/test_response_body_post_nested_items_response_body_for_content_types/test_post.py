@@ -193,7 +193,6 @@ class TestResponseBodyPostNestedItemsResponseBodyForContentTypes(ApiTestMixin, u
             )
 
 
-        pass
 
 
 if __name__ == '__main__':

@@ -34,7 +34,6 @@ class TestUserUsername(ApiTestMixin, unittest.TestCase):
 
     response_status = 400
     response_body = ''
-        pass
 
 
 if __name__ == '__main__':

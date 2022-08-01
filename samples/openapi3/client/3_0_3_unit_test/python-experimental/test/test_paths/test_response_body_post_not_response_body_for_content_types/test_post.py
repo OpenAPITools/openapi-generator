@@ -88,7 +88,6 @@ class TestResponseBodyPostNotResponseBodyForContentTypes(ApiTestMixin, unittest.
             )
 
 
-        pass
 
 
 if __name__ == '__main__':

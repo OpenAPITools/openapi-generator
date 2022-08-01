@@ -37,7 +37,6 @@ class TestPetFindByStatus(ApiTestMixin, unittest.TestCase):
 
 
 
-        pass
 
 
 if __name__ == '__main__':
