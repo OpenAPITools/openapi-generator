@@ -98,6 +98,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     protected CodegenIgnoreProcessor ignoreProcessor;
     protected TemplateProcessor templateProcessor = null;
 
+    // for apis.tags imports
+    private Map<String, String> tagModuleNameToApiClassname = new LinkedHashMap<>();
+    // for apis.tags enum tag definition
+    private Map<String, String> enumToTag = new LinkedHashMap<>();
+    // for apis.tags tag api definition
+    private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
+
+
     public PythonExperimentalClientCodegen() {
         super();
         loadDeepObjectIntoItems = false;
@@ -473,6 +481,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        return toModelName(name) + apiNameSuffix;
+    }
+
     /*
     I made this method because endpoint parameters not contain a lot of needed metadata
     It is very verbose to write all of this info into the api template
@@ -491,11 +507,38 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         List<List<Object>> testFiles = new ArrayList<>();
         String outputFilename;
 
+        // endpoint tags may not exist in the root of the spec file
+        // this is allowed per openapi
+        // because spec tags may be empty ro incomplete, tags are also accumulated from endpoints
+        List<Tag> tags = openAPI.getTags();
+        if (tags != null) {
+            for (Tag tag: tags) {
+                String tagName = tag.getName();
+                String tagModuleName = toApiFilename(tagName);
+                String apiClassname = toApiName(tagName);
+                tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+                String tagEnum = toEnumVarName(tagName, "str");
+                enumToTag.put(tagEnum, tagName);
+                tagEnumToApiClassname.put(tagEnum, apiClassname);
+            }
+        }
+
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
         HashMap<String, String> pathModuleToPath = new HashMap<>();
         // paths.some_path.post.py (single endpoint definition)
         for (CodegenOperation co: codegenOperations) {
+            if (co.tags != null) {
+                for (Tag tag: co.tags) {
+                    String tagName = tag.getName();
+                    String tagModuleName = toApiFilename(tagName);
+                    String apiClassname = toApiName(tagName);
+                    tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+                    String tagEnum = toEnumVarName(tagName, "str");
+                    enumToTag.put(tagEnum, tagName);
+                    tagEnumToApiClassname.put(tagEnum, apiClassname);
+                }
+            }
             String path = co.path;
             String pathModuleName = co.nickname;
             if (!pathModuleToPath.containsKey(pathModuleName)) {
@@ -529,22 +572,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             String apiClassName = toModelName(path);
             pathEnumToApiClassname.put(pathEnumVar, apiClassName);
             pathModuleToApiClassname.put(toVarName(path), apiClassName);
-        }
-        List<Tag> tags = openAPI.getTags();
-        // for imports
-        Map<String, String> tagModuleNameToApiClassname = new LinkedHashMap<>();
-        // for enum tag definition
-        Map<String, String> enumToTag = new LinkedHashMap<>();
-        // for tag api definition
-        Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
-        for (Tag tag: tags) {
-            String tagName = tag.getName();
-            String tagModuleName = toApiFilename(tagName);
-            String apiClassname = toApiName(tagName);
-            tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
-            String tagEnum = toEnumVarName(tagName, "str");
-            enumToTag.put(tagEnum, tagName);
-            tagEnumToApiClassname.put(tagEnum, apiClassname);
         }
         // Note: __init__apis.handlebars is generated as a supporting file
         // apis.tag_to_api.py
@@ -2615,6 +2642,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (specMajorVersion < 3) {
             throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. python-experimental only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
         }
+    }
+
+    /**
+     * Note: a custom version of this function is used so the original tag value can be used
+     *
+     * @param tag Tag
+     * @return the tag to use
+     */
+    @Override
+    public String sanitizeTag(String tag) {
+        return tag;
     }
 
     @Override
