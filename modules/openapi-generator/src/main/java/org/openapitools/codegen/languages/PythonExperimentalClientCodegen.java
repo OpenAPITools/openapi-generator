@@ -1312,42 +1312,47 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
+    private String processStringValue(String value) {
+        // handles escape characters and the like
+        String stringValue = value;
+        String backslash = "\\";
+        if (stringValue.contains(backslash)) {
+            stringValue = stringValue.replace(backslash, "\\\\");
+        }
+        String nullChar = "\0";
+        if (stringValue.contains(nullChar)) {
+            stringValue = stringValue.replace(nullChar, "\\x00");
+        }
+        String doubleQuoteChar = "\"";
+        if (stringValue.contains(doubleQuoteChar)) {
+            stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
+        }
+        String lineSep = System.lineSeparator();
+        if (stringValue.contains(lineSep)) {
+            stringValue = stringValue.replace(lineSep, "\\n");
+        }
+        String carriageReturn = "\r";
+        if (stringValue.contains(carriageReturn)) {
+            stringValue = stringValue.replace(carriageReturn, "\\r");
+        }
+        String tab = "\t";
+        if (stringValue.contains(tab)) {
+            stringValue = stringValue.replace(tab, "\\t");
+        }
+        String formFeed = "\f";
+        if (stringValue.contains(formFeed)) {
+            stringValue = stringValue.replace(formFeed, "\\f");
+        }
+        return stringValue;
+    }
+
     protected Object processTestExampleData(Object value) {
         if (value instanceof Integer){
             return value;
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
-            String stringValue = (String) value;
-            String backslash = "\\";
-            if (stringValue.contains(backslash)) {
-                stringValue = stringValue.replace(backslash, "\\\\");
-            }
-            String nullChar = "\0";
-            if (stringValue.contains(nullChar)) {
-                stringValue = stringValue.replace(nullChar, "\\x00");
-            }
-            String doubleQuoteChar = "\"";
-            if (stringValue.contains(doubleQuoteChar)) {
-                stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
-            }
-            String lineSep = System.lineSeparator();
-            if (stringValue.contains(lineSep)) {
-                stringValue = stringValue.replace(lineSep, "\\n");
-            }
-            String carriageReturn = "\r";
-            if (stringValue.contains(carriageReturn)) {
-                stringValue = stringValue.replace(carriageReturn, "\\r");
-            }
-            String tab = "\t";
-            if (stringValue.contains(tab)) {
-                stringValue = stringValue.replace(tab, "\\t");
-            }
-            String formFeed = "\f";
-            if (stringValue.contains(formFeed)) {
-                stringValue = stringValue.replace(formFeed, "\\f");
-            }
-            return stringValue;
+            return processStringValue((String) value);
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
             for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
@@ -1782,7 +1787,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (example != null) {
-                return fullPrefix + ensureQuotes(example) + closeChars;
+                return fullPrefix + ensureQuotes(processStringValue(example)) + closeChars;
             }
             if (ModelUtils.isDateSchema(schema)) {
                 if (objExample == null) {
