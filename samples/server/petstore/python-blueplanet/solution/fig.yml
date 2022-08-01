@@ -24,7 +24,7 @@ docker_registry: registry.blueplanet.com
 solution_name: openapi_server
 
 # version is not read from this file, but coded in the Makefile
-# the vendor and tag are provided by the Makefile as argumernts to solmaker
+# the vendor and tag are provided by the Makefile as arguments to solmaker
 solution_version: 1.0.0
 
 # ============ NOTE ===============================================================================

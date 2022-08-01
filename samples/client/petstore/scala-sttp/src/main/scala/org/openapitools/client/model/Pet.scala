@@ -36,4 +36,3 @@ object PetEnums {
   }
 
 }
-

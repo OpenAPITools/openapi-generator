@@ -25,19 +25,18 @@ export interface ApiResponse {
      * @type {number}
      * @memberof ApiResponse
      */
-    code?: number;
+    'code'?: number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponse
      */
-    type?: string;
+    'type'?: string;
     /**
      * 
      * @type {string}
      * @memberof ApiResponse
      */
-    message?: string;
+    'message'?: string;
 }
-
 

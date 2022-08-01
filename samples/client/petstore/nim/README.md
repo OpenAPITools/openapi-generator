@@ -51,4 +51,3 @@ To generate documentation with Nim DocGen, use:
 ```
 nim doc --project --index:on petstore.nim
 ```
-

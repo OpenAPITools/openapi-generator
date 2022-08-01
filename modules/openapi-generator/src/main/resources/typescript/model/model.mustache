@@ -2,21 +2,21 @@
 {{#models}}
 {{#model}}
 {{#tsImports}}
-import { {{classname}} } from './{{filename}}{{extensionForDeno}}';
+import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
 {{/tsImports}}
 import { HttpFile } from '../http/http{{extensionForDeno}}';
 
 {{#description}}
 /**
-* {{{description}}}
+* {{{.}}}
 */
 {{/description}}
 {{^isEnum}}
-export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
-    * {{{description}}}
+    * {{{.}}}
     */
 {{/description}}
     '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
@@ -51,7 +51,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         {{/parent}}
     }
     {{/isArray}}
-    
+
     public constructor() {
         {{#parent}}
         super();

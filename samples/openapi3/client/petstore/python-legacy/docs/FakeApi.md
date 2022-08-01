@@ -20,7 +20,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 
 
 # **fake_health_get**
@@ -853,7 +853,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_enum_parameters**
-> test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+> test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_query_model_array=enum_query_model_array, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
 
 To test enum parameters
 
@@ -884,12 +884,13 @@ enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Quer
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
+enum_query_model_array = [petstore_api.EnumClass()] # list[EnumClass] |  (optional)
 enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
     try:
         # To test enum parameters
-        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_query_model_array=enum_query_model_array, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
     except ApiException as e:
         print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
@@ -904,6 +905,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
+ **enum_query_model_array** | [**list[EnumClass]**](EnumClass.md)|  | [optional] 
  **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
@@ -1014,6 +1016,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```python
@@ -1073,6 +1077,8 @@ No authorization required
 
 test json serialization of form data
 
+
+
 ### Example
 
 ```python
@@ -1130,7 +1136,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_query_parameter_collection_format**
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
 
 
 
@@ -1160,9 +1166,11 @@ ioutil = ['ioutil_example'] # list[str] |
 http = ['http_example'] # list[str] | 
 url = ['url_example'] # list[str] | 
 context = ['context_example'] # list[str] | 
+allow_empty = 'allow_empty_example' # str | 
+language = {'key': 'language_example'} # dict(str, str) |  (optional)
 
     try:
-        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
     except ApiException as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
@@ -1176,6 +1184,8 @@ Name | Type | Description  | Notes
  **http** | [**list[str]**](str.md)|  | 
  **url** | [**list[str]**](str.md)|  | 
  **context** | [**list[str]**](str.md)|  | 
+ **allow_empty** | **str**|  | 
+ **language** | [**dict(str, str)**](str.md)|  | [optional] 
 
 ### Return type
 

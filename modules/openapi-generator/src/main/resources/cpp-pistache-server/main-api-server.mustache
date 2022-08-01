@@ -54,7 +54,7 @@ int main() {
     std::vector<int> sigs{SIGQUIT, SIGINT, SIGTERM, SIGHUP};
     setUpUnixSignals(sigs);
 #endif
-    Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port({{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}8080{{/serverPort}}));
+    Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port({{serverPort}}{{^serverPort}}8080{{/serverPort}}));
 
     httpEndpoint = new Pistache::Http::Endpoint((addr));
     auto router = std::make_shared<Pistache::Rest::Router>();
@@ -76,4 +76,3 @@ int main() {
     httpEndpoint->shutdown();
 
 }
-

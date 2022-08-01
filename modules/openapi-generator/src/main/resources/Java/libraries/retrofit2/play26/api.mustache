@@ -2,9 +2,12 @@ package {{package}};
 
 import {{invokerPackage}}.CollectionFormats.*;
 
-{{#useRxJava}}import rx.Observable;{{/useRxJava}}
-{{#useRxJava2}}import io.reactivex.Observable;{{/useRxJava2}}
-{{#doNotUseRx}}import retrofit2.Call;{{/doNotUseRx}}
+{{#useRxJava2}}
+import io.reactivex.Observable;
+{{/useRxJava2}}
+{{#doNotUseRx}}
+import retrofit2.Call;
+{{/doNotUseRx}}
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
@@ -33,8 +36,14 @@ public interface {{classname}} {
 {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
 {{/allParams}}
-   * @return Call&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+   * @return Call&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
    */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   {{#formParams}}
   {{#-first}}
   {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}
@@ -50,7 +59,7 @@ public interface {{classname}} {
   {{/prioritizedContentTypes}}
   {{/formParams}}
   @{{httpMethod}}("{{{path}}}")
-  CompletionStage<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> {{operationId}}({{^allParams}});{{/allParams}}
+  CompletionStage<Response<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
 

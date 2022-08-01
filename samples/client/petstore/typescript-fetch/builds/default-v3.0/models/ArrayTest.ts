@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ReadOnlyFirst } from './ReadOnlyFirst';
 import {
-    ReadOnlyFirst,
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,
-} from './';
+} from './ReadOnlyFirst';
 
 /**
  * 
@@ -44,6 +44,15 @@ export interface ArrayTest {
      * @memberof ArrayTest
      */
     arrayArrayOfModel?: Array<Array<ReadOnlyFirst>>;
+}
+
+/**
+ * Check if a given object implements the ArrayTest interface.
+ */
+export function instanceOfArrayTest(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function ArrayTestFromJSON(json: any): ArrayTest {
@@ -76,5 +85,4 @@ export function ArrayTestToJSON(value?: ArrayTest | null): any {
         'array_array_of_model': value.arrayArrayOfModel,
     };
 }
-
 

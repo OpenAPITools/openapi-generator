@@ -71,7 +71,7 @@ namespace {{packageName}}
                 })
                 {{#compatibilityVersion}}
                 // Don't need this for 3.x - see https://docs.microsoft.com/en-us/aspnet/core/mvc/compatibility-version?view=aspnetcore-3.1
-                //.SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
+                //.SetCompatibilityVersion(CompatibilityVersion.{{.}})
                 {{/compatibilityVersion}}
                 .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
                 {
@@ -86,29 +86,31 @@ namespace {{packageName}}
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}", new OpenApiInfo
+                    c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
+                    
+                    c.SwaggerDoc("{{{version}}}{{^version}}v1{{/version}}", new OpenApiInfo
                     {
-                        Title = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}",
-                        Description = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core {{aspnetCoreVersion}})",
-                        TermsOfService = new Uri("{{#termsOfService}}{{{termsOfService}}}{{/termsOfService}}{{^termsOfService}}https://github.com/openapitools/openapi-generator{{/termsOfService}}"),
+                        Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}",
+                        Description = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core {{aspnetCoreVersion}})",
+                        TermsOfService = new Uri("{{{termsOfService}}}{{^termsOfService}}https://github.com/openapitools/openapi-generator{{/termsOfService}}"),
                         Contact = new OpenApiContact
                         {
-                            Name = "{{#infoName}}{{{infoName}}}{{/infoName}}{{^infoName}}OpenAPI-Generator Contributors{{/infoName}}",
-                            Url = new Uri("{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}"),
-                            Email = "{{#infoEmail}}{{{infoEmail}}}{{/infoEmail}}"
+                            Name = "{{{infoName}}}{{^infoName}}OpenAPI-Generator Contributors{{/infoName}}",
+                            Url = new Uri("{{{infoUrl}}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}"),
+                            Email = "{{{infoEmail}}}"
                         },
                         License = new OpenApiLicense
                         {
                             Name = "{{licenseName}}",
                             Url = new Uri("{{licenseUrl}}")
                         },
-                        Version = "{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}",
+                        Version = "{{{version}}}{{^version}}v1{{/version}}",
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
                     {{#basePathWithoutHost}}
                     // Sets the basePath property in the OpenAPI document generated
-                    c.DocumentFilter<BasePathFilter>("{{{basePathWithoutHost}}}");
+                    c.DocumentFilter<BasePathFilter>("{{{.}}}");
                     {{/basePathWithoutHost}}
 
                     // Include DataAnnotation attributes on Controller Action parameters as OpenAPI validation rules (e.g required, pattern, ..)
@@ -151,10 +153,10 @@ namespace {{packageName}}
                     // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
                     c.RoutePrefix = "openapi";
                     //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
-                    c.SwaggerEndpoint("/openapi/{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}/openapi.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}");
+                    c.SwaggerEndpoint("/openapi/{{{version}}}{{^version}}v1{{/version}}/openapi.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}");
 
                     //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
-                    // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
+                    // c.SwaggerEndpoint("/openapi-original.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}} Original");
                 }){{/useSwashbuckle}};
             app.UseRouting();
             app.UseEndpoints(endpoints =>

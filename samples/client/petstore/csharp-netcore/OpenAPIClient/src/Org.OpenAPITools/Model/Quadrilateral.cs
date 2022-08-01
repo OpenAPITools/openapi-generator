@@ -37,10 +37,10 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class
-        /// with the <see cref="ComplexQuadrilateral" /> class
+        /// with the <see cref="SimpleQuadrilateral" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of ComplexQuadrilateral.</param>
-        public Quadrilateral(ComplexQuadrilateral actualInstance)
+        /// <param name="actualInstance">An instance of SimpleQuadrilateral.</param>
+        public Quadrilateral(SimpleQuadrilateral actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -49,10 +49,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class
-        /// with the <see cref="SimpleQuadrilateral" /> class
+        /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of SimpleQuadrilateral.</param>
-        public Quadrilateral(SimpleQuadrilateral actualInstance)
+        /// <param name="actualInstance">An instance of ComplexQuadrilateral.</param>
+        public Quadrilateral(ComplexQuadrilateral actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -89,23 +89,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `ComplexQuadrilateral`. If the actual instanct is not `ComplexQuadrilateral`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of ComplexQuadrilateral</returns>
-        public ComplexQuadrilateral GetComplexQuadrilateral()
-        {
-            return (ComplexQuadrilateral)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `SimpleQuadrilateral`. If the actual instanct is not `SimpleQuadrilateral`,
+        /// Get the actual instance of `SimpleQuadrilateral`. If the actual instance is not `SimpleQuadrilateral`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of SimpleQuadrilateral</returns>
         public SimpleQuadrilateral GetSimpleQuadrilateral()
         {
             return (SimpleQuadrilateral)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of ComplexQuadrilateral</returns>
+        public ComplexQuadrilateral GetComplexQuadrilateral()
+        {
+            return (ComplexQuadrilateral)this.ActualInstance;
         }
 
         /// <summary>
@@ -139,23 +139,31 @@ namespace Org.OpenAPITools.Model
         {
             Quadrilateral newQuadrilateral = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newQuadrilateral;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["quadrilateralType"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "ComplexQuadrilateral":
-                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    return newQuadrilateral;
-                case "SimpleQuadrilateral":
-                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    return newQuadrilateral;
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["quadrilateralType"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "ComplexQuadrilateral":
+                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                        return newQuadrilateral;
+                    case "SimpleQuadrilateral":
+                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                        return newQuadrilateral;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;

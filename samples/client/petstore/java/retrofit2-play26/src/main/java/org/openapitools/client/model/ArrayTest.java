@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -37,7 +38,6 @@ import javax.validation.Valid;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@JsonTypeName("ArrayTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
@@ -49,6 +49,8 @@ public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() {
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     

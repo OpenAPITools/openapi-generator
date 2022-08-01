@@ -22,7 +22,7 @@ object StoreApi {
 }
 
 class StoreApi(baseUrl: String) {
-  
+
   /**
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
    * 
@@ -73,6 +73,8 @@ class StoreApi(baseUrl: String) {
       
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)

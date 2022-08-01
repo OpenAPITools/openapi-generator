@@ -33,6 +33,8 @@ public class CatAllOf {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
+  public CatAllOf() {
+  }
 
   public CatAllOf declawed(Boolean declawed) {
     

@@ -1,0 +1,14 @@
+test:
+  get:
+    responses:
+      '200':
+        description: test
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prop1:
+                  type: array
+                prop2:
+                  type: date

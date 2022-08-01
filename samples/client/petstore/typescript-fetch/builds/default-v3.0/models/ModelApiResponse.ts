@@ -39,6 +39,15 @@ export interface ModelApiResponse {
     message?: string;
 }
 
+/**
+ * Check if a given object implements the ModelApiResponse interface.
+ */
+export function instanceOfModelApiResponse(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ModelApiResponseFromJSON(json: any): ModelApiResponse {
     return ModelApiResponseFromJSONTyped(json, false);
 }
@@ -69,5 +78,4 @@ export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
         'message': value.message,
     };
 }
-
 

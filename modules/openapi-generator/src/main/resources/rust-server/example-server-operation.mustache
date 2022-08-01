@@ -1,5 +1,5 @@
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -15,5 +15,5 @@
     {
         let context = context.clone();
         info!("{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{x-format-string}}}{{/vendorExtensions}}{{^-last}}, {{/-last}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err(ApiError("Generic failure".into()))
     }

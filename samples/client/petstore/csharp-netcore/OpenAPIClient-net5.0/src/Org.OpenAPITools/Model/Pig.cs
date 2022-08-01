@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `BasquePig`. If the actual instanct is not `BasquePig`,
+        /// Get the actual instance of `BasquePig`. If the actual instance is not `BasquePig`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of BasquePig</returns>
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `DanishPig`. If the actual instanct is not `DanishPig`,
+        /// Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of DanishPig</returns>
@@ -139,23 +139,31 @@ namespace Org.OpenAPITools.Model
         {
             Pig newPig = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newPig;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "BasquePig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                    return newPig;
-                case "DanishPig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                    return newPig;
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["className"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "BasquePig":
+                        newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                        return newPig;
+                    case "DanishPig":
+                        newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                        return newPig;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;

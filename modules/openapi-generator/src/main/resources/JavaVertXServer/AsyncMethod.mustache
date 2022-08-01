@@ -1,1 +1,1 @@
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{#-last}}, {{/-last}}{{/allParams}}Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> handler);
+    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{#-last}}, {{/-last}}{{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);

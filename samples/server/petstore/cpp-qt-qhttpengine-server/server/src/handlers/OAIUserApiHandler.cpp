@@ -31,75 +31,75 @@ OAIUserApiHandler::~OAIUserApiHandler(){
 void OAIUserApiHandler::createUser(OAIUser body) {
     Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->createUserResponse();
-    }    
+    }
 }
 void OAIUserApiHandler::createUsersWithArrayInput(QList<OAIUser> body) {
     Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->createUsersWithArrayInputResponse();
-    }    
+    }
 }
 void OAIUserApiHandler::createUsersWithListInput(QList<OAIUser> body) {
     Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->createUsersWithListInputResponse();
-    }    
+    }
 }
 void OAIUserApiHandler::deleteUser(QString username) {
     Q_UNUSED(username);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->deleteUserResponse();
-    }    
+    }
 }
 void OAIUserApiHandler::getUserByName(QString username) {
     Q_UNUSED(username);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         OAIUser res;
         reqObj->getUserByNameResponse(res);
-    }    
+    }
 }
 void OAIUserApiHandler::loginUser(QString username, QString password) {
     Q_UNUSED(username);
     Q_UNUSED(password);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         QString res;
         reqObj->loginUserResponse(res);
-    }    
+    }
 }
 void OAIUserApiHandler::logoutUser() {
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->logoutUserResponse();
-    }    
+    }
 }
 void OAIUserApiHandler::updateUser(QString username, OAIUser body) {
     Q_UNUSED(username);
     Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->updateUserResponse();
-    }    
+    }
 }
 
 

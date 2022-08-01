@@ -89,6 +89,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -105,7 +106,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -124,7 +127,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -136,7 +139,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "HealthCheckResult",
         }
@@ -223,6 +226,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -242,7 +246,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -255,8 +261,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pet' is set
-        if self.api_client.client_side_validation and ('pet' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pet'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pet') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet` when calling `fake_http_signature_test`")  # noqa: E501
 
         collection_formats = {}
@@ -264,10 +269,10 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'query_1' in local_var_params and local_var_params['query_1'] is not None:  # noqa: E501
+        if local_var_params.get('query_1') is not None:  # noqa: E501
             query_params.append(('query_1', local_var_params['query_1']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'header_1' in local_var_params:
             header_params['header_1'] = local_var_params['header_1']  # noqa: E501
 
@@ -278,12 +283,16 @@ class FakeApi(object):
         if 'pet' in local_var_params:
             body_params = local_var_params['pet']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'application/xml'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml'],
+                'GET', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['http_signature_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -362,6 +371,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -379,7 +389,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -398,7 +410,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -411,12 +423,16 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "bool",
         }
@@ -497,6 +513,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -514,7 +531,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -533,7 +552,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -546,12 +565,16 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterComposite",
         }
@@ -632,6 +655,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -649,7 +673,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -668,7 +694,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -681,12 +707,16 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "float",
         }
@@ -767,6 +797,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -784,7 +815,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -803,7 +836,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -816,12 +849,16 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "str",
         }
@@ -902,6 +939,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -919,7 +957,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -932,8 +972,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'outer_object_with_enum_property' is set
-        if self.api_client.client_side_validation and ('outer_object_with_enum_property' not in local_var_params or  # noqa: E501
-                                                        local_var_params['outer_object_with_enum_property'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('outer_object_with_enum_property') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `outer_object_with_enum_property` when calling `fake_property_enum_integer_serialize`")  # noqa: E501
 
         collection_formats = {}
@@ -942,7 +981,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -955,12 +994,16 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterObjectWithEnumProperty",
         }
@@ -1041,6 +1084,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1058,7 +1102,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1077,7 +1123,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1086,12 +1132,16 @@ class FakeApi(object):
         if 'body' in local_var_params:
             body_params = local_var_params['body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['image/png'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['image/png'],
+                'PUT', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1170,6 +1220,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1187,7 +1238,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1200,8 +1253,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'file_schema_test_class' is set
-        if self.api_client.client_side_validation and ('file_schema_test_class' not in local_var_params or  # noqa: E501
-                                                        local_var_params['file_schema_test_class'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('file_schema_test_class') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
 
         collection_formats = {}
@@ -1210,7 +1262,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1219,12 +1271,16 @@ class FakeApi(object):
         if 'file_schema_test_class' in local_var_params:
             body_params = local_var_params['file_schema_test_class']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PUT', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1305,6 +1361,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1323,7 +1380,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1336,12 +1395,10 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'query' is set
-        if self.api_client.client_side_validation and ('query' not in local_var_params or  # noqa: E501
-                                                        local_var_params['query'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('query') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
         # verify the required parameter 'user' is set
-        if self.api_client.client_side_validation and ('user' not in local_var_params or  # noqa: E501
-                                                        local_var_params['user'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('user') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
 
         collection_formats = {}
@@ -1349,10 +1406,10 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'query' in local_var_params and local_var_params['query'] is not None:  # noqa: E501
+        if local_var_params.get('query') is not None:  # noqa: E501
             query_params.append(('query', local_var_params['query']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1361,12 +1418,16 @@ class FakeApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PUT', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1445,6 +1506,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1462,7 +1524,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1475,8 +1539,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'client' is set
-        if self.api_client.client_side_validation and ('client' not in local_var_params or  # noqa: E501
-                                                        local_var_params['client'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('client') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
 
         collection_formats = {}
@@ -1485,7 +1548,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1498,12 +1561,16 @@ class FakeApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PATCH', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "Client",
         }
@@ -1636,6 +1703,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1666,7 +1734,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1679,20 +1749,16 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'number' is set
-        if self.api_client.client_side_validation and ('number' not in local_var_params or  # noqa: E501
-                                                        local_var_params['number'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('number') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'double' is set
-        if self.api_client.client_side_validation and ('double' not in local_var_params or  # noqa: E501
-                                                        local_var_params['double'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('double') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'pattern_without_delimiter' is set
-        if self.api_client.client_side_validation and ('pattern_without_delimiter' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pattern_without_delimiter'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pattern_without_delimiter') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'byte' is set
-        if self.api_client.client_side_validation and ('byte' not in local_var_params or  # noqa: E501
-                                                        local_var_params['byte'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('byte') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
 
         if self.api_client.client_side_validation and 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
@@ -1729,7 +1795,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1764,12 +1830,16 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['http_basic_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1811,6 +1881,8 @@ class FakeApi(object):
         :type enum_query_integer: int
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
+        :param enum_query_model_array:
+        :type enum_query_model_array: list[EnumClass]
         :param enum_form_string_array: Form parameter enum test (string array)
         :type enum_form_string_array: list[str]
         :param enum_form_string: Form parameter enum test (string)
@@ -1855,6 +1927,8 @@ class FakeApi(object):
         :type enum_query_integer: int
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
+        :param enum_query_model_array:
+        :type enum_query_model_array: list[EnumClass]
         :param enum_form_string_array: Form parameter enum test (string array)
         :type enum_form_string_array: list[str]
         :param enum_form_string: Form parameter enum test (string)
@@ -1876,6 +1950,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1891,6 +1966,7 @@ class FakeApi(object):
             'enum_query_string',
             'enum_query_integer',
             'enum_query_double',
+            'enum_query_model_array',
             'enum_form_string_array',
             'enum_form_string'
         ]
@@ -1900,7 +1976,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1918,17 +1996,20 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'enum_query_string_array' in local_var_params and local_var_params['enum_query_string_array'] is not None:  # noqa: E501
+        if local_var_params.get('enum_query_string_array') is not None:  # noqa: E501
             query_params.append(('enum_query_string_array', local_var_params['enum_query_string_array']))  # noqa: E501
             collection_formats['enum_query_string_array'] = 'multi'  # noqa: E501
-        if 'enum_query_string' in local_var_params and local_var_params['enum_query_string'] is not None:  # noqa: E501
+        if local_var_params.get('enum_query_string') is not None:  # noqa: E501
             query_params.append(('enum_query_string', local_var_params['enum_query_string']))  # noqa: E501
-        if 'enum_query_integer' in local_var_params and local_var_params['enum_query_integer'] is not None:  # noqa: E501
+        if local_var_params.get('enum_query_integer') is not None:  # noqa: E501
             query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
-        if 'enum_query_double' in local_var_params and local_var_params['enum_query_double'] is not None:  # noqa: E501
+        if local_var_params.get('enum_query_double') is not None:  # noqa: E501
             query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
+        if local_var_params.get('enum_query_model_array') is not None:  # noqa: E501
+            query_params.append(('enum_query_model_array', local_var_params['enum_query_model_array']))  # noqa: E501
+            collection_formats['enum_query_model_array'] = 'multi'  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'enum_header_string_array' in local_var_params:
             header_params['enum_header_string_array'] = local_var_params['enum_header_string_array']  # noqa: E501
             collection_formats['enum_header_string_array'] = 'csv'  # noqa: E501
@@ -1945,12 +2026,16 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'GET', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2049,6 +2134,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2071,7 +2157,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -2084,16 +2172,13 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'required_string_group' is set
-        if self.api_client.client_side_validation and ('required_string_group' not in local_var_params or  # noqa: E501
-                                                        local_var_params['required_string_group'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('required_string_group') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_boolean_group' is set
-        if self.api_client.client_side_validation and ('required_boolean_group' not in local_var_params or  # noqa: E501
-                                                        local_var_params['required_boolean_group'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('required_boolean_group') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_int64_group' is set
-        if self.api_client.client_side_validation and ('required_int64_group' not in local_var_params or  # noqa: E501
-                                                        local_var_params['required_int64_group'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('required_int64_group') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
 
         collection_formats = {}
@@ -2101,16 +2186,16 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'required_string_group' in local_var_params and local_var_params['required_string_group'] is not None:  # noqa: E501
+        if local_var_params.get('required_string_group') is not None:  # noqa: E501
             query_params.append(('required_string_group', local_var_params['required_string_group']))  # noqa: E501
-        if 'required_int64_group' in local_var_params and local_var_params['required_int64_group'] is not None:  # noqa: E501
+        if local_var_params.get('required_int64_group') is not None:  # noqa: E501
             query_params.append(('required_int64_group', local_var_params['required_int64_group']))  # noqa: E501
-        if 'string_group' in local_var_params and local_var_params['string_group'] is not None:  # noqa: E501
+        if local_var_params.get('string_group') is not None:  # noqa: E501
             query_params.append(('string_group', local_var_params['string_group']))  # noqa: E501
-        if 'int64_group' in local_var_params and local_var_params['int64_group'] is not None:  # noqa: E501
+        if local_var_params.get('int64_group') is not None:  # noqa: E501
             query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'required_boolean_group' in local_var_params:
             header_params['required_boolean_group'] = local_var_params['required_boolean_group']  # noqa: E501
         if 'boolean_group' in local_var_params:
@@ -2122,7 +2207,7 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = ['bearer_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2145,6 +2230,7 @@ class FakeApi(object):
     def test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2174,6 +2260,7 @@ class FakeApi(object):
     def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2199,6 +2286,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2216,7 +2304,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -2229,8 +2319,7 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'request_body' is set
-        if self.api_client.client_side_validation and ('request_body' not in local_var_params or  # noqa: E501
-                                                        local_var_params['request_body'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('request_body') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
 
         collection_formats = {}
@@ -2239,7 +2328,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -2248,12 +2337,16 @@ class FakeApi(object):
         if 'request_body' in local_var_params:
             body_params = local_var_params['request_body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2276,6 +2369,7 @@ class FakeApi(object):
     def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2307,6 +2401,7 @@ class FakeApi(object):
     def test_json_form_data_with_http_info(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2334,6 +2429,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2352,7 +2448,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -2365,12 +2463,10 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'param' is set
-        if self.api_client.client_side_validation and ('param' not in local_var_params or  # noqa: E501
-                                                        local_var_params['param'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('param') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
         # verify the required parameter 'param2' is set
-        if self.api_client.client_side_validation and ('param2' not in local_var_params or  # noqa: E501
-                                                        local_var_params['param2'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('param2') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
 
         collection_formats = {}
@@ -2379,7 +2475,7 @@ class FakeApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -2390,12 +2486,16 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'GET', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2415,14 +2515,14 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2435,6 +2535,10 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2451,16 +2555,16 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, **kwargs)  # noqa: E501
+        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, **kwargs)  # noqa: E501
 
-    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2473,6 +2577,10 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2490,6 +2598,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2503,7 +2612,9 @@ class FakeApi(object):
             'ioutil',
             'http',
             'url',
-            'context'
+            'context',
+            'allow_empty',
+            'language'
         ]
         all_params.extend(
             [
@@ -2511,7 +2622,9 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -2524,48 +2637,50 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'pipe' is set
-        if self.api_client.client_side_validation and ('pipe' not in local_var_params or  # noqa: E501
-                                                        local_var_params['pipe'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('pipe') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pipe` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'ioutil' is set
-        if self.api_client.client_side_validation and ('ioutil' not in local_var_params or  # noqa: E501
-                                                        local_var_params['ioutil'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('ioutil') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `ioutil` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'http' is set
-        if self.api_client.client_side_validation and ('http' not in local_var_params or  # noqa: E501
-                                                        local_var_params['http'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('http') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `http` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'url' is set
-        if self.api_client.client_side_validation and ('url' not in local_var_params or  # noqa: E501
-                                                        local_var_params['url'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('url') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `url` when calling `test_query_parameter_collection_format`")  # noqa: E501
         # verify the required parameter 'context' is set
-        if self.api_client.client_side_validation and ('context' not in local_var_params or  # noqa: E501
-                                                        local_var_params['context'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('context') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `context` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'allow_empty' is set
+        if self.api_client.client_side_validation and local_var_params.get('allow_empty') is None:  # noqa: E501
+            raise ApiValueError("Missing the required parameter `allow_empty` when calling `test_query_parameter_collection_format`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
 
         query_params = []
-        if 'pipe' in local_var_params and local_var_params['pipe'] is not None:  # noqa: E501
+        if local_var_params.get('pipe') is not None:  # noqa: E501
             query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
             collection_formats['pipe'] = 'pipes'  # noqa: E501
-        if 'ioutil' in local_var_params and local_var_params['ioutil'] is not None:  # noqa: E501
+        if local_var_params.get('ioutil') is not None:  # noqa: E501
             query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
             collection_formats['ioutil'] = 'csv'  # noqa: E501
-        if 'http' in local_var_params and local_var_params['http'] is not None:  # noqa: E501
+        if local_var_params.get('http') is not None:  # noqa: E501
             query_params.append(('http', local_var_params['http']))  # noqa: E501
             collection_formats['http'] = 'ssv'  # noqa: E501
-        if 'url' in local_var_params and local_var_params['url'] is not None:  # noqa: E501
+        if local_var_params.get('url') is not None:  # noqa: E501
             query_params.append(('url', local_var_params['url']))  # noqa: E501
             collection_formats['url'] = 'csv'  # noqa: E501
-        if 'context' in local_var_params and local_var_params['context'] is not None:  # noqa: E501
+        if local_var_params.get('context') is not None:  # noqa: E501
             query_params.append(('context', local_var_params['context']))  # noqa: E501
             collection_formats['context'] = 'multi'  # noqa: E501
+        if local_var_params.get('language') is not None:  # noqa: E501
+            query_params.append(('language', local_var_params['language']))  # noqa: E501
+        if local_var_params.get('allow_empty') is not None:  # noqa: E501
+            query_params.append(('allowEmpty', local_var_params['allow_empty']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -2573,11 +2688,11 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
-            '/fake/test-query-paramters', 'PUT',
+            '/fake/test-query-parameters', 'PUT',
             path_params,
             query_params,
             header_params,

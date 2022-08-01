@@ -191,7 +191,7 @@ void OAIStoreApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::Net
     socket->write(res);
     if(socket->isOpen()){
         socket->close();
-    }    
+    }
 }
 
 void OAIStoreApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){

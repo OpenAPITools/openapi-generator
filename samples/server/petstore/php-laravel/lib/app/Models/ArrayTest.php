@@ -10,12 +10,12 @@ namespace app\Models;
 class ArrayTest {
 
     /** @var string[] $arrayOfString */
-    private $arrayOfString;
+    public $arrayOfString = [];
 
     /** @var int[][] $arrayArrayOfInteger */
-    private $arrayArrayOfInteger;
+    public $arrayArrayOfInteger = [];
 
     /** @var \app\Models\ReadOnlyFirst[][] $arrayArrayOfModel */
-    private $arrayArrayOfModel;
+    public $arrayArrayOfModel = [];
 
 }

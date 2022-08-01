@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## create_user
 
-> create_user(body)
+> create_user(user)
 Create user
 
 This can only be done by the logged in user.
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**User**](User.md) | Created user object | [required] |
+**user** | [**User**](User.md) | Created user object | [required] |
 
 ### Return type
 
@@ -35,11 +35,11 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -47,15 +47,17 @@ No authorization required
 
 ## create_users_with_array_input
 
-> create_users_with_array_input(body)
+> create_users_with_array_input(user)
 Creates list of users with given input array
+
+
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
+**user** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -63,11 +65,11 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -75,15 +77,17 @@ No authorization required
 
 ## create_users_with_list_input
 
-> create_users_with_list_input(body)
+> create_users_with_list_input(user)
 Creates list of users with given input array
+
+
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
+**user** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -91,11 +95,11 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -121,7 +125,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -135,6 +139,8 @@ No authorization required
 
 > crate::models::User get_user_by_name(username)
 Get user by user name
+
+
 
 ### Parameters
 
@@ -163,6 +169,8 @@ No authorization required
 
 > String login_user(username, password)
 Logs user into the system
+
+
 
 ### Parameters
 
@@ -193,6 +201,8 @@ No authorization required
 > logout_user()
 Logs out current logged in user session
 
+
+
 ### Parameters
 
 This endpoint does not need any parameter.
@@ -203,7 +213,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -215,7 +225,7 @@ No authorization required
 
 ## update_user
 
-> update_user(username, body)
+> update_user(username, user)
 Updated user
 
 This can only be done by the logged in user.
@@ -226,7 +236,7 @@ This can only be done by the logged in user.
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **username** | **String** | name that need to be deleted | [required] |
-**body** | [**User**](User.md) | Updated user object | [required] |
+**user** | [**User**](User.md) | Updated user object | [required] |
 
 ### Return type
 
@@ -234,11 +244,11 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

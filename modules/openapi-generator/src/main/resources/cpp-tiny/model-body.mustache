@@ -28,13 +28,13 @@ using namespace Tiny;
 
 void
 {{classname}}::fromJson(std::string jsonObj)
-{   
+{
     bourne::json object = bourne::json::parse(jsonObj);
 
     {{#vars}}
     const char *{{name}}Key = "{{baseName}}";
-    
-    if(object.has_key({{name}}Key)) 
+
+    if(object.has_key({{name}}Key))
     {
         bourne::json value = object[{{name}}Key];
 
@@ -50,11 +50,11 @@ void
             {{#isPrimitiveType}}
             jsonToValue(&element, var, "{{dataType}}");
             {{/isPrimitiveType}}
-            
+
             {{^isPrimitiveType}}
             element.fromJson(var.dump());
             {{/isPrimitiveType}}
-            
+
             {{/items}}
             {{name}}_list.push_back(element);
         }
@@ -64,7 +64,7 @@ void
         {{/isContainer}}
 
         {{^isContainer}}
-        
+
         {{#isPrimitiveType}}
         jsonToValue(&{{name}}, value, "{{baseType}}");
         {{/isPrimitiveType}}
@@ -87,13 +87,13 @@ bourne::json
     bourne::json object = bourne::json::object();
 
     {{#vars}}
-    
+
     {{#isContainer}}
     {{#isArray}}
-    
+
     {{#items}}
     {{#isPrimitiveType}}
-    
+
     std::list<{{dataType}}> {{name}}_list = {{getter}}();
     bourne::json {{name}}_arr = bourne::json::array();
 
@@ -103,7 +103,7 @@ bourne::json
     }
     object["{{name}}"] = {{name}}_arr;
 
-    
+
     {{/isPrimitiveType}}
 
     {{^isPrimitiveType}}
@@ -117,7 +117,7 @@ bourne::json
     }
     object["{{name}}"] = {{name}}_arr;
 
-    {{/isPrimitiveType}} 
+    {{/isPrimitiveType}}
     {{/items}}
     {{/isArray}}
     {{/isContainer}}

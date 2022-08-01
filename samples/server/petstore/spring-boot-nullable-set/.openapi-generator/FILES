@@ -1,0 +1,5 @@
+README.md
+pom.xml
+src/main/java/org/openapitools/api/ApiUtil.java
+src/main/java/org/openapitools/api/NullableApi.java
+src/main/java/org/openapitools/model/ObjectWithUniqueItems.java

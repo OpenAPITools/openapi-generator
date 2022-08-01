@@ -1,23 +1,19 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
   * Model for testing model name starting with number
  **/
 @ApiModel(description="Model for testing model name starting with number")
+
 public class Model200Response  {
   
   @ApiModelProperty(value = "")
@@ -61,6 +57,23 @@ public class Model200Response  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Model200Response _200response = (Model200Response) o;
+    return Objects.equals(name, _200response.name) &&
+        Objects.equals(propertyClass, _200response.propertyClass);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, propertyClass);
+  }
 
   @Override
   public String toString() {

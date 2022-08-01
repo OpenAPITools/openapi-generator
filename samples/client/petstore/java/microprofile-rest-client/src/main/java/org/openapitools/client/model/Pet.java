@@ -34,21 +34,26 @@ import javax.json.bind.annotation.JsonbProperty;
 
 public class Pet  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("category")
   private Category category;
 
+  @JsonbProperty("name")
   private String name;
 
-  private List<String> photoUrls = new ArrayList<String>();
+  @JsonbProperty("photoUrls")
+  private List<String> photoUrls = new ArrayList<>();
 
+  @JsonbProperty("tags")
   private List<Tag> tags = null;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
 
-    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));    
+    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
 
     String value;
@@ -89,13 +94,13 @@ public class Pet  {
  /**
    * pet status in the store
   **/
+  @JsonbProperty("status")
   private StatusEnum status;
-  
+
  /**
    * Get id
    * @return id
   **/
-  @JsonbProperty("id")
   public Long getId() {
     return id;
   }
@@ -116,7 +121,6 @@ public class Pet  {
    * Get category
    * @return category
   **/
-  @JsonbProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -137,7 +141,6 @@ public class Pet  {
    * Get name
    * @return name
   **/
-  @JsonbProperty("name")
   public String getName() {
     return name;
   }
@@ -158,7 +161,6 @@ public class Pet  {
    * Get photoUrls
    * @return photoUrls
   **/
-  @JsonbProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -184,7 +186,6 @@ public class Pet  {
    * Get tags
    * @return tags
   **/
-  @JsonbProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
@@ -210,7 +211,6 @@ public class Pet  {
    * pet status in the store
    * @return status
   **/
-  @JsonbProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

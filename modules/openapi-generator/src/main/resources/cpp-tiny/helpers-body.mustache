@@ -23,39 +23,39 @@ jsonToValue(void* target, bourne::json value, std::string type)
 {
 	if (target == NULL || value.is_null()) {
 		return;
-	} 
-    
-    else if (type.compare("bool") == 0) 
+	}
+
+    else if (type.compare("bool") == 0)
     {
 		bool* val = static_cast<bool*> (target);
 		*val = value.to_bool();
-	} 
-    
-    else if (type.compare("int") == 0) 
+	}
+
+    else if (type.compare("int") == 0)
     {
 		int* val = static_cast<int*> (target);
 		*val = value.to_int();
-	} 
-    
-    else if (type.compare("float") == 0) 
+	}
+
+    else if (type.compare("float") == 0)
     {
 		float* val = static_cast<float*> (target);
 		*val = (float)(value.to_float());
-	} 
+	}
 
     else if (type.compare("long") == 0)
     {
         long* val = static_cast<long*> (target);
 		*val = (long)(value.to_int());
-    } 
-    
-    else if (type.compare("double") == 0) 
+    }
+
+    else if (type.compare("double") == 0)
     {
 		double* val = static_cast<double*> (target);
 		*val = value.to_float();
-	} 
-    
-    else if (type.compare("std::string") == 0) 
+	}
+
+    else if (type.compare("std::string") == 0)
     {
 		std::string* val = static_cast<std::string*> (target);
 		*val = value.to_string();

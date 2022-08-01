@@ -76,8 +76,8 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>List&lt;Pet&gt;</returns>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
+        /// <returns>List<Pet></returns>
         List<Pet> FindPetsByStatus (List<string> status);
 
         /// <summary>
@@ -87,8 +87,8 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
+        /// <returns>ApiResponse of List<Pet></returns>
         ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status);
         /// <summary>
         /// Finds Pets by tags
@@ -98,7 +98,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
-        /// <returns>List&lt;Pet&gt;</returns>
+        /// <returns>List<Pet></returns>
+        [Obsolete]
         List<Pet> FindPetsByTags (List<string> tags);
 
         /// <summary>
@@ -109,7 +110,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        /// <returns>ApiResponse of List<Pet></returns>
+        [Obsolete]
         ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags);
         /// <summary>
         /// Find pet by ID
@@ -285,9 +287,9 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of List&lt;Pet&gt;</returns>
+        /// <returns>Task of List<Pet></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -297,7 +299,7 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync (List<string> status, CancellationToken cancellationToken = default(CancellationToken));
@@ -310,7 +312,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of List&lt;Pet&gt;</returns>
+        /// <returns>Task of List<Pet></returns>
+        [Obsolete]
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -323,6 +326,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        [Obsolete]
         System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync (List<string> tags, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Find pet by ID
@@ -876,8 +880,8 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>List&lt;Pet&gt;</returns>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
+        /// <returns>List<Pet></returns>
         public List<Pet> FindPetsByStatus (List<string> status)
         {
              ApiResponse<List<Pet>> localVarResponse = FindPetsByStatusWithHttpInfo(status);
@@ -888,8 +892,8 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
+        /// <returns>ApiResponse of List<Pet></returns>
         public ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status)
         {
             // verify the required parameter 'status' is set
@@ -949,9 +953,9 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of List&lt;Pet&gt;</returns>
+        /// <returns>Task of List<Pet></returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status, CancellationToken cancellationToken = default(CancellationToken))
         {
              ApiResponse<List<Pet>> localVarResponse = await FindPetsByStatusWithHttpInfoAsync(status, cancellationToken);
@@ -963,7 +967,7 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync (List<string> status, CancellationToken cancellationToken = default(CancellationToken))
@@ -1026,7 +1030,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
-        /// <returns>List&lt;Pet&gt;</returns>
+        /// <returns>List<Pet></returns>
+        [Obsolete]
         public List<Pet> FindPetsByTags (List<string> tags)
         {
              ApiResponse<List<Pet>> localVarResponse = FindPetsByTagsWithHttpInfo(tags);
@@ -1038,7 +1043,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        /// <returns>ApiResponse of List<Pet></returns>
+        [Obsolete]
         public ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags)
         {
             // verify the required parameter 'tags' is set
@@ -1100,7 +1106,8 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of List&lt;Pet&gt;</returns>
+        /// <returns>Task of List<Pet></returns>
+        [Obsolete]
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags, CancellationToken cancellationToken = default(CancellationToken))
         {
              ApiResponse<List<Pet>> localVarResponse = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken);
@@ -1115,6 +1122,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        [Obsolete]
         public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync (List<string> tags, CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'tags' is set

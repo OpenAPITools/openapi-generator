@@ -18,7 +18,8 @@ import javax.validation.Valid;
 
 @Path("/pet")
 @Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class PetApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })
@@ -42,11 +43,14 @@ import javax.validation.Valid;
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
+    @io.swagger.annotations.ApiImplicitParams({
+        @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
+    })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class)
     })
-    public Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")    String apiKey) {
+    public Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -62,7 +66,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class)
     })
-    public Response findPetsByStatus(@QueryParam("status") @NotNull   @ApiParam("Status values that need to be considered for filter")  List<String> status) {
+    public Response findPetsByStatus(@QueryParam("status") @NotNull  @ApiParam("Status values that need to be considered for filter")  List<String> status) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -78,7 +82,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class)
     })
-    public Response findPetsByTags(@QueryParam("tags") @NotNull   @ApiParam("Tags to filter by")  Set<String> tags) {
+    public Response findPetsByTags(@QueryParam("tags") @NotNull  @ApiParam("Tags to filter by")  Set<String> tags) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -142,7 +146,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    public Response uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream fileInputStream) {
+    public Response uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
         return Response.ok().entity("magic!").build();
     }
 }

@@ -1,12 +1,12 @@
 {{#models}}
 {{#model}}
-export * from './{{{ classFilename }}}{{extensionForDeno}}';
+export * from '{{{ importPath }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 
 {{#models}}
 {{#model}}
-import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}{{extensionForDeno}}';
+import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from '{{{ importPath }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 
@@ -24,10 +24,11 @@ let primitives = [
 
 const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/json": Infinity,
-  "application/octet-stream": 0
+  "application/octet-stream": 0,
+  "application/x-www-form-urlencoded": 0
 }
 
-                 
+
 let enumsMap: Set<string> = new Set<string>([
     {{#models}}
         {{#model}}
@@ -123,7 +124,7 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 
@@ -168,7 +169,10 @@ export class ObjectSerializer {
             let attributeTypes = typeMap[type].getAttributeTypeMap();
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
-                instance[attributeType.name] = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
+                let value = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
+                if (value !== undefined) {
+                    instance[attributeType.name] = value;
+                }
             }
             return instance;
         }
@@ -221,6 +225,10 @@ export class ObjectSerializer {
      * Convert data to a string according the given media type
      */
     public static stringify(data: any, mediaType: string): string {
+        if (mediaType === "text/plain") {
+            return String(data);
+        }
+
         if (mediaType === "application/json") {
             return JSON.stringify(data);
         }
@@ -236,8 +244,16 @@ export class ObjectSerializer {
             throw new Error("Cannot parse content. No Content-Type defined.");
         }
 
+        if (mediaType === "text/plain") {
+            return rawData;
+        }
+
         if (mediaType === "application/json") {
             return JSON.parse(rawData);
+        }
+
+        if (mediaType === "text/html") {
+            return rawData;
         }
 
         throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");

@@ -24,7 +24,7 @@ void PetAPI_addPet(apiClient_t *apiClient, pet_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **body** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
 
 ### Return type
@@ -52,7 +52,7 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char * api_key);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **petId** | **long** | Pet id to delete | 
 **api_key** | **char \*** |  | [optional] 
 
@@ -83,7 +83,7 @@ list_t* PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **status** | **[list_t](char.md) \*** | Status values that need to be considered for filter | 
 
 ### Return type
@@ -114,7 +114,7 @@ list_t* PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **tags** | **[list_t](char.md) \*** | Tags to filter by | 
 
 ### Return type
@@ -145,7 +145,7 @@ pet_t* PetAPI_getPetById(apiClient_t *apiClient, long petId);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **petId** | **long** | ID of pet to return | 
 
 ### Return type
@@ -174,7 +174,7 @@ void PetAPI_updatePet(apiClient_t *apiClient, pet_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **body** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
 
 ### Return type
@@ -202,7 +202,7 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char * name, c
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **petId** | **long** | ID of pet that needs to be updated | 
 **name** | **char \*** | Updated name of the pet | [optional] 
 **status** | **char \*** | Updated status of the pet | [optional] 
@@ -232,7 +232,7 @@ api_response_t* PetAPI_uploadFile(apiClient_t *apiClient, long petId, char * add
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **petId** | **long** | ID of pet to update | 
 **additionalMetadata** | **char \*** | Additional data to pass to server | [optional] 
 **file** | **binary_t*** | file to upload | [optional] 

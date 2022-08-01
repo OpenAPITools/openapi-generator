@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * CodegenModel represents a schema object in a OpenAPI document.
  */
@@ -45,9 +47,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public List<CodegenModel> children;
 
     // anyOf, oneOf, allOf
-    public Set<String> anyOf = new TreeSet<String>();
-    public Set<String> oneOf = new TreeSet<String>();
-    public Set<String> allOf = new TreeSet<String>();
+    public Set<String> anyOf = new TreeSet<>();
+    public Set<String> oneOf = new TreeSet<>();
+    public Set<String> allOf = new TreeSet<>();
 
     // The schema name as written in the OpenAPI document.
     public String name;
@@ -64,22 +66,23 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isShort, isUnboundedInteger, isBoolean;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isDecimal, isShort, isUnboundedInteger, isPrimitiveType, isBoolean;
     private boolean additionalPropertiesIsAnyType;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
-    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
-    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
-    public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
-    public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
-    public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
+    public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<>(); // a list of required properties
+    public List<CodegenProperty> optionalVars = new ArrayList<>(); // a list of optional properties
+    public List<CodegenProperty> readOnlyVars = new ArrayList<>(); // a list of read-only properties
+    public List<CodegenProperty> readWriteVars = new ArrayList<>(); // a list of properties for read, write
+    public List<CodegenProperty> parentVars = new ArrayList<>();
+    public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
-    public Set<String> mandatory = new TreeSet<String>(); // without parent's required properties
-    public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
+    public Set<String> mandatory = new TreeSet<>(); // without parent's required properties
+    public Set<String> allMandatory = new TreeSet<>(); // with parent's required properties
 
-    public Set<String> imports = new TreeSet<String>();
+    public Set<String> imports = new TreeSet<>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
     /**
      * Indicates the OAS schema specifies "nullable: true".
@@ -104,7 +107,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
+    private CodegenComposedSchemas composedSchemas;
+    private boolean hasMultipleTypes = false;
+    public HashMap<String, SchemaTestCase> testCases = new HashMap<>();
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -155,6 +161,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenProperty additionalProperties;
     private boolean isModel;
     private boolean hasRequiredVars;
+    private boolean hasDiscriminatorWithNonEmptyMapping;
+    private boolean isAnyType;
+    private boolean isUuid;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -186,6 +195,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setAllVars(List<CodegenProperty> allVars) {
         this.allVars = allVars;
+    }
+
+    public List<CodegenProperty> getNonNullableVars() {
+        return nonNullableVars;
+    }
+
+    public void setNonNullableVars(List<CodegenProperty> nonNullableVars) {
+        this.nonNullableVars = nonNullableVars;
     }
 
     public Map<String, Object> getAllowableValues() {
@@ -236,7 +253,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * @return true if the classname property is sanitized
      */
     public boolean getIsClassnameSanitized() {
-        return !classname.equals(name);
+        return !StringUtils.equals(classname, name);
     }
 
     public String getClassname() {
@@ -316,6 +333,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
+        if (discriminator != null && !discriminator.getMappedModels().isEmpty()) {
+            this.hasDiscriminatorWithNonEmptyMapping = true;
+        }
     }
 
     /**
@@ -567,82 +587,114 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getIsModel() { return isModel; }
+    public boolean getIsModel() {
+        return isModel;
+    }
 
     @Override
-    public void setIsModel(boolean isModel)  {
+    public void setIsModel(boolean isModel) {
         this.isModel = isModel;
     }
 
     @Override
-    public boolean getIsDate() { return isDate; }
+    public boolean getIsDate() {
+        return isDate;
+    }
 
     @Override
-    public void setIsDate(boolean isDate)   {
+    public void setIsDate(boolean isDate) {
         this.isDate = isDate;
     }
 
     @Override
-    public boolean getIsDateTime() { return isDateTime; }
+    public boolean getIsDateTime() {
+        return isDateTime;
+    }
 
     @Override
-    public void setIsDateTime(boolean isDateTime)   {
+    public void setIsDateTime(boolean isDateTime) {
         this.isDateTime = isDateTime;
     }
 
     @Override
-    public boolean getIsMap() { return isMap; }
+    public boolean getIsMap() {
+        return isMap;
+    }
 
     @Override
-    public void setIsMap(boolean isMap)  {
+    public void setIsMap(boolean isMap) {
         this.isMap = isMap;
     }
 
     @Override
-    public boolean getIsArray() { return isArray; }
+    public boolean getIsArray() {
+        return isArray;
+    }
 
     @Override
-    public void setIsArray(boolean isArray)  {
+    public void setIsArray(boolean isArray) {
         this.isArray = isArray;
     }
 
     @Override
-    public boolean getIsShort() { return isShort; }
+    public boolean getIsShort() {
+        return isShort;
+    }
 
     @Override
-    public void setIsShort(boolean isShort)   {
+    public void setIsShort(boolean isShort) {
         this.isShort = isShort;
     }
 
     @Override
-    public boolean getIsBoolean() { return isBoolean; }
-
-    @Override
-    public void setIsBoolean(boolean isBoolean)   {
-        this.isBoolean= isBoolean;
+    public boolean getIsBoolean() {
+        return isBoolean;
     }
 
     @Override
-    public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
+    public void setIsBoolean(boolean isBoolean) {
+        this.isBoolean = isBoolean;
+    }
 
     @Override
-    public void setIsUnboundedInteger(boolean isUnboundedInteger)   {
+    public boolean getIsUnboundedInteger() {
+        return isUnboundedInteger;
+    }
+
+    @Override
+    public void setIsUnboundedInteger(boolean isUnboundedInteger) {
         this.isUnboundedInteger = isUnboundedInteger;
     }
 
     @Override
-    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+    public boolean getIsPrimitiveType() {
+        return isPrimitiveType;
+    }
 
     @Override
-    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+    public void setIsPrimitiveType(boolean isPrimitiveType) {
+        this.isPrimitiveType = isPrimitiveType;
+    }
+
+    @Override
+    public CodegenProperty getAdditionalProperties() {
+        return additionalProperties;
+    }
+
+    @Override
+    public void setAdditionalProperties(CodegenProperty additionalProperties) {
         this.additionalProperties = additionalProperties;
     }
 
     @Override
-    public boolean getHasValidation() { return hasValidation; }
+    public boolean getHasValidation() {
+        return hasValidation;
+    }
 
     @Override
-    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
+    public void setHasValidation(boolean hasValidation) {
+        this.hasValidation = hasValidation;
+    }
 
     public List<CodegenProperty> getReadOnlyVars() {
         return readOnlyVars;
@@ -769,6 +821,72 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getHasDiscriminatorWithNonEmptyMapping() {
+        return hasDiscriminatorWithNonEmptyMapping;
+    }
+
+    ;
+
+    @Override
+    public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
+        this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
+    }
+
+    @Override
+    public boolean getIsString() {
+        return isString;
+    }
+
+    @Override
+    public void setIsString(boolean isString) {
+        this.isString = isString;
+    }
+
+    @Override
+    public boolean getIsNumber() {
+        return isNumber;
+    }
+
+    @Override
+    public void setIsNumber(boolean isNumber) {
+        this.isNumber = isNumber;
+    }
+
+    @Override
+    public boolean getIsAnyType() {
+        return isAnyType;
+    }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType) {
+        this.isAnyType = isAnyType;
+    }
+
+    public boolean getIsUuid() { return isUuid; }
+
+    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+
+    @Override
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    @Override
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
+    @Override
+    public boolean getHasMultipleTypes() {
+        return hasMultipleTypes;
+    }
+
+    @Override
+    public void setHasMultipleTypes(boolean hasMultipleTypes) {
+        this.hasMultipleTypes = hasMultipleTypes;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CodegenModel)) return false;
@@ -801,10 +919,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
+                isDecimal == that.isDecimal &&
+                hasMultipleTypes == that.getHasMultipleTypes() &&
+                hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                isUuid == that.getIsUuid() &&
+                getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(parent, that.parent) &&
                 Objects.equals(parentSchema, that.parentSchema) &&
                 Objects.equals(interfaces, that.interfaces) &&
@@ -832,6 +956,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(arrayModelType, that.arrayModelType) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(allVars, that.allVars) &&
+                Objects.equals(nonNullableVars, that.nonNullableVars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(optionalVars, that.optionalVars) &&
                 Objects.equals(readOnlyVars, that.readOnlyVars) &&
@@ -867,30 +992,31 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
                 isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
-                getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
+                getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
                 hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
-                getAdditionalPropertiesIsAnyType());
+                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenModel{");
-        sb.append("parent='").append(parent).append('\'');
+        sb.append("name='").append(name).append('\'');
+        sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
+        sb.append(", interfaceModels=").append(interfaceModels !=null ? interfaceModels.size() : "[]");
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
-        sb.append(", interfaceModels=").append(interfaceModels);
-        sb.append(", children=").append(children);
+        sb.append(", children=").append(children != null ? children.size() : "[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
-        sb.append(", name='").append(name).append('\'');
         sb.append(", classname='").append(classname).append('\'');
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
@@ -920,6 +1046,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isDateTime=").append(isDateTime);
         sb.append(", vars=").append(vars);
         sb.append(", allVars=").append(allVars);
+        sb.append(", nonNullableVars=").append(nonNullableVars);
         sb.append(", requiredVars=").append(requiredVars);
         sb.append(", optionalVars=").append(optionalVars);
         sb.append(", readOnlyVars=").append(readOnlyVars);
@@ -964,11 +1091,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isNull='").append(isNull);
         sb.append(", hasValidation='").append(hasValidation);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getIsAnyType=").append(getIsAnyType());
+        sb.append(", composedSchemas=").append(composedSchemas);
+        sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", isDecimal=").append(isDecimal);
+        sb.append(", isUUID=").append(isUuid);
         sb.append('}');
         return sb.toString();
     }
 
-    public void addDiscriminatorMappedModelsImports(){
+    public void addDiscriminatorMappedModelsImports() {
         if (discriminator == null || discriminator.getMappedModels() == null) {
             return;
         }
@@ -987,6 +1120,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.emptyVars = emptyVars;
     }
 
+    public boolean getHasItems() {
+        return this.items != null;
+    }
+
     /**
      * Remove duplicated properties in all variable list
      */
@@ -997,19 +1134,20 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         requiredVars = removeDuplicatedProperty(requiredVars);
         parentVars = removeDuplicatedProperty(parentVars);
         allVars = removeDuplicatedProperty(allVars);
+        nonNullableVars = removeDuplicatedProperty(nonNullableVars);
         readOnlyVars = removeDuplicatedProperty(readOnlyVars);
         readWriteVars = removeDuplicatedProperty(readWriteVars);
     }
 
     private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
         // clone the list first
-        List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
+        List<CodegenProperty> newList = new ArrayList<>();
         for (CodegenProperty cp : vars) {
             newList.add(cp.clone());
         }
 
-        Set<String> propertyNames = new TreeSet<String>();
-        Set<String> duplicatedNames = new TreeSet<String>();
+        Set<String> propertyNames = new TreeSet<>();
+        Set<String> duplicatedNames = new TreeSet<>();
 
         ListIterator<CodegenProperty> iterator = newList.listIterator();
         while (iterator.hasNext()) {

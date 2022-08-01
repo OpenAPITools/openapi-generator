@@ -18,7 +18,7 @@
 #ifdef __linux__
 void catchUnixSignals(QList<int> quitSignals) {
     auto handler = [](int sig) -> void {
-        // blocking and not aysnc-signal-safe func are valid
+        // blocking and not async-signal-safe func are valid
         qDebug() << "\nquit the application by signal " << sig;
         QCoreApplication::quit();
     };
@@ -58,7 +58,7 @@ int main(int argc, char * argv[])
         QStringList() << "p" << "port",
         "port to listen on",
         "port",
-        "{{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}8080{{/serverPort}}"
+        "{{serverPort}}{{^serverPort}}8080{{/serverPort}}"
     );
     parser.addOption(portOption);
     parser.addHelpOption();

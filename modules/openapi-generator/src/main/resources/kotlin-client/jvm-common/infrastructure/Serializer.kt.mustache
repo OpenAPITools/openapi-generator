@@ -2,6 +2,9 @@ package {{packageName}}.infrastructure
 
 {{#moshi}}
 import com.squareup.moshi.Moshi
+{{#enumUnknownDefaultCase}}
+import com.squareup.moshi.adapters.EnumJsonAdapter
+{{/enumUnknownDefaultCase}}
 {{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{/moshiCodeGen}}
@@ -27,7 +30,6 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 {{/jackson}}
-import java.util.Date
 {{#kotlinx_serialization}}
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -69,6 +71,9 @@ import java.util.concurrent.atomic.AtomicLong
 
     @JvmStatic
     val moshi: Moshi by lazy {
+{{#enumUnknownDefaultCase}}
+        SerializerHelper.addEnumUnknownDefaultCase(moshiBuilder)
+{{/enumUnknownDefaultCase}}
         moshiBuilder.build()
     }
 {{/moshi}}
@@ -79,7 +84,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-    
+
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()
@@ -93,11 +98,15 @@ import java.util.concurrent.atomic.AtomicLong
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 {{/jackson}}
 {{#kotlinx_serialization}}
+    @Deprecated("Use Serializer.kotlinxSerializationAdapters instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"))
     @JvmStatic
-    val kotlinSerializationAdapters = SerializersModule {
+    val kotlinSerializationAdapters: SerializersModule
+        get() { return kotlinxSerializationAdapters }
+
+    @JvmStatic
+    val kotlinxSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
         contextual(BigInteger::class, BigIntegerAdapter)
-        contextual(Date::class, DateAdapter)
         contextual(LocalDate::class, LocalDateAdapter)
         contextual(LocalDateTime::class, LocalDateTimeAdapter)
         contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
@@ -110,7 +119,18 @@ import java.util.concurrent.atomic.AtomicLong
         contextual(StringBuilder::class, StringBuilderAdapter)
     }
 
+    @Deprecated("Use Serializer.kotlinxSerializationJson instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationJson"))
     @JvmStatic
-    val jvmJson: Json by lazy { Json { serializersModule = kotlinSerializationAdapters } }
+    val jvmJson: Json
+        get() { return kotlinxSerializationJson }
+
+    @JvmStatic
+    val kotlinxSerializationJson: Json by lazy {
+        Json {
+            serializersModule = kotlinxSerializationAdapters
+            ignoreUnknownKeys = true
+            isLenient = true
+        }
+    }
 {{/kotlinx_serialization}}
 }

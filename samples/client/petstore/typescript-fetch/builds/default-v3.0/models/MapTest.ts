@@ -45,13 +45,24 @@ export interface MapTest {
     indirectMap?: { [key: string]: boolean; };
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum MapTestMapOfEnumStringEnum {
-    Upper = 'UPPER',
-    Lower = 'lower'
+ * @export
+ */
+export const MapTestMapOfEnumStringEnum = {
+    Upper: 'UPPER',
+    Lower: 'lower'
+} as const;
+export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
+
+
+/**
+ * Check if a given object implements the MapTest interface.
+ */
+export function instanceOfMapTest(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function MapTestFromJSON(json: any): MapTest {
@@ -86,5 +97,4 @@ export function MapTestToJSON(value?: MapTest | null): any {
         'indirect_map': value.indirectMap,
     };
 }
-
 

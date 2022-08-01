@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -44,6 +45,8 @@ public class Model200Response {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
   private String propertyClass;
 
+  public Model200Response() {
+  }
 
   public Model200Response name(Integer name) {
     

@@ -1,27 +1,21 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class BigCatAllOf  {
   
-@XmlType(name="KindEnum")
-@XmlEnum(String.class)
 public enum KindEnum {
 
-@XmlEnumValue("lions") LIONS(String.valueOf("lions")), @XmlEnumValue("tigers") TIGERS(String.valueOf("tigers")), @XmlEnumValue("leopards") LEOPARDS(String.valueOf("leopards")), @XmlEnumValue("jaguars") JAGUARS(String.valueOf("jaguars"));
+LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
 
 
     private String value;
@@ -74,6 +68,22 @@ public enum KindEnum {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    BigCatAllOf bigCatAllOf = (BigCatAllOf) o;
+    return Objects.equals(kind, bigCatAllOf.kind);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(kind);
+  }
 
   @Override
   public String toString() {

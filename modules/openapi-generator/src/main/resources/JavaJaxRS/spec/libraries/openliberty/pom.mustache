@@ -3,11 +3,20 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+{{^parentOverridden}}
     <parent>
         <groupId>net.wasdev.wlp.maven.parent</groupId>
         <artifactId>liberty-maven-app-parent</artifactId>
         <version>2.6</version>
     </parent>
+{{/parentOverridden}}
 
     <groupId>{{groupId}}</groupId>
     <artifactId>{{artifactId}}</artifactId>
@@ -29,9 +38,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -41,6 +50,7 @@
     </dependencies>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -52,6 +62,7 @@
         <packaging.type>usr</packaging.type>
         <app.name>${project.artifactId}</app.name>
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
     </properties>
 
     <build>

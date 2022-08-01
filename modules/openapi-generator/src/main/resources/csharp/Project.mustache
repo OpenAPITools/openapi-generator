@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 {{#appName}}
-{{{appName}}}
+{{{.}}}
 
 {{/appName}}
 {{#appDescription}}
-{{{appDescription}}}
+{{{.}}}
 
 {{/appDescription}}
-{{#version}}The version of the OpenAPI document: {{version}}{{/version}}
-{{#infoEmail}}Contact: {{{infoEmail}}}{{/infoEmail}}
+{{#version}}The version of the OpenAPI document: {{.}}{{/version}}
+{{#infoEmail}}Contact: {{{.}}}{{/infoEmail}}
 -->
 <Project ToolsVersion="{{^netStandard}}12.0{{/netStandard}}{{#netStandard}}14.0{{/netStandard}}" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
@@ -118,4 +118,3 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   {{/netStandard}}
 </Project>
-

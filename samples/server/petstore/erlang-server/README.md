@@ -55,4 +55,3 @@ Use erlang-server with erlang.mk
 			$erl -pa ./deps/cowboy/ebin -pa ./deps/cowlib/ebin -pa ./deps/ranch/ebin -pa ./deps/jsx/ebin -pa ./deps/jesse/ebin -pa ./deps/rfc3339/ebin -pa ./ebin
 		4, Start project
 			application:ensure_all_started(http_server).
-

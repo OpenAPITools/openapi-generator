@@ -37,40 +37,40 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             val meta = extensions.create(
-                    "openApiMeta",
-                    OpenApiGeneratorMetaExtension::class.java,
-                    project
+                "openApiMeta",
+                OpenApiGeneratorMetaExtension::class.java,
+                project
             )
 
             val validate = extensions.create(
-                    "openApiValidate",
-                    OpenApiGeneratorValidateExtension::class.java,
-                    project
+                "openApiValidate",
+                OpenApiGeneratorValidateExtension::class.java,
+                project
             )
 
             val generate = extensions.create(
-                    "openApiGenerate",
-                    OpenApiGeneratorGenerateExtension::class.java,
-                    project
+                "openApiGenerate",
+                OpenApiGeneratorGenerateExtension::class.java,
+                project
             )
 
             val generators = extensions.create(
-                    "openApiGenerators",
-                    OpenApiGeneratorGeneratorsExtension::class.java,
-                    project
+                "openApiGenerators",
+                OpenApiGeneratorGeneratorsExtension::class.java,
+                project
             )
 
             generate.outputDir.set("$buildDir/generate-resources/main")
 
             tasks.apply {
-                create("openApiGenerators", GeneratorsTask::class.java) {
+                register("openApiGenerators", GeneratorsTask::class.java).configure {
                     group = pluginGroup
                     description = "Lists generators available via Open API Generators."
 
                     include.set(generators.include)
                 }
 
-                create("openApiMeta", MetaTask::class.java) {
+                register("openApiMeta", MetaTask::class.java).configure {
                     group = pluginGroup
                     description = "Generates a new generator to be consumed via Open API Generator."
 
@@ -79,7 +79,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     outputFolder.set(meta.outputFolder)
                 }
 
-                create("openApiValidate", ValidateTask::class.java) {
+                register("openApiValidate", ValidateTask::class.java).configure {
                     group = pluginGroup
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
@@ -87,9 +87,10 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     recommend.set(validate.recommend)
                 }
 
-                create("openApiGenerate", GenerateTask::class.java) {
+                register("openApiGenerate", GenerateTask::class.java).configure {
                     group = pluginGroup
-                    description = "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
+                    description =
+                        "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
                     validateSpec.set(generate.validateSpec)
@@ -106,12 +107,16 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     modelPackage.set(generate.modelPackage)
                     modelNamePrefix.set(generate.modelNamePrefix)
                     modelNameSuffix.set(generate.modelNameSuffix)
+                    apiNameSuffix.set(generate.apiNameSuffix)
                     instantiationTypes.set(generate.instantiationTypes)
                     typeMappings.set(generate.typeMappings)
                     additionalProperties.set(generate.additionalProperties)
                     serverVariables.set(generate.serverVariables)
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
                     importMappings.set(generate.importMappings)
+                    schemaMappings.set(generate.schemaMappings)
+                    inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
+                    inlineSchemaNameDefaults.set(generate.inlineSchemaNameDefaults)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
                     id.set(generate.id)

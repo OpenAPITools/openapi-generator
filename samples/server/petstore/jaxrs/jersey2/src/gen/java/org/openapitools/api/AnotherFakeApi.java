@@ -45,7 +45,7 @@ public class AnotherFakeApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -55,7 +55,7 @@ public class AnotherFakeApi  {
       this.delegate = delegate;
    }
 
-    @PATCH
+    @javax.ws.rs.PATCH
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })

@@ -13,8 +13,8 @@ interface UserApi {
      * This can only be done by the logged in user.
      * Responses:
      *  - 0: successful operation
-     * 
-     * @param body Created user object 
+     *
+     * @param body Created user object
      * @return [Call]<[Unit]>
      */
     @POST("user")
@@ -25,8 +25,8 @@ interface UserApi {
      * 
      * Responses:
      *  - 0: successful operation
-     * 
-     * @param body List of user object 
+     *
+     * @param body List of user object
      * @return [Call]<[Unit]>
      */
     @POST("user/createWithArray")
@@ -37,8 +37,8 @@ interface UserApi {
      * 
      * Responses:
      *  - 0: successful operation
-     * 
-     * @param body List of user object 
+     *
+     * @param body List of user object
      * @return [Call]<[Unit]>
      */
     @POST("user/createWithList")
@@ -50,8 +50,8 @@ interface UserApi {
      * Responses:
      *  - 400: Invalid username supplied
      *  - 404: User not found
-     * 
-     * @param username The name that needs to be deleted 
+     *
+     * @param username The name that needs to be deleted
      * @return [Call]<[Unit]>
      */
     @DELETE("user/{username}")
@@ -64,8 +64,8 @@ interface UserApi {
      *  - 200: successful operation
      *  - 400: Invalid username supplied
      *  - 404: User not found
-     * 
-     * @param username The name that needs to be fetched. Use user1 for testing. 
+     *
+     * @param username The name that needs to be fetched. Use user1 for testing.
      * @return [Call]<[User]>
      */
     @GET("user/{username}")
@@ -77,9 +77,9 @@ interface UserApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid username/password supplied
-     * 
-     * @param username The user name for login 
-     * @param password The password for login in clear text 
+     *
+     * @param username The user name for login
+     * @param password The password for login in clear text
      * @return [Call]<[kotlin.String]>
      */
     @GET("user/login")
@@ -90,7 +90,7 @@ interface UserApi {
      * 
      * Responses:
      *  - 0: successful operation
-     * 
+     *
      * @return [Call]<[Unit]>
      */
     @GET("user/logout")
@@ -102,9 +102,9 @@ interface UserApi {
      * Responses:
      *  - 400: Invalid user supplied
      *  - 404: User not found
-     * 
-     * @param username name that need to be deleted 
-     * @param body Updated user object 
+     *
+     * @param username name that need to be deleted
+     * @param body Updated user object
      * @return [Call]<[Unit]>
      */
     @PUT("user/{username}")

@@ -80,8 +80,8 @@ class Configuration(object):
     :param server_operation_variables: Mapping from operation ID to a mapping with
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum values before.
-    :param ssl_ca_cert: str - the path to a file of concatenated CA certificates 
-      in PEM format 
+    :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
+      in PEM format
 
     :Example:
 
@@ -136,7 +136,7 @@ conf = petstore_api.Configuration(
     'Authorization' header, which is used to carry the signature.
 
     One may be tempted to sign all headers by default, but in practice it rarely works.
-    This is beccause explicit proxies, transparent proxies, TLS termination endpoints or
+    This is because explicit proxies, transparent proxies, TLS termination endpoints or
     load balancers may add/modify/remove headers. Include the HTTP headers that you know
     are not going to be modified in transit.
 
@@ -308,7 +308,7 @@ conf = petstore_api.Configuration(
                         "Invalid keyword: '{0}''".format(v))
             self._disabled_client_side_validations = s
         if name == "signing_info" and value is not None:
-            # Ensure the host paramater from signing info is the same as
+            # Ensure the host parameter from signing info is the same as
             # Configuration.host.
             value.host = self.host
 

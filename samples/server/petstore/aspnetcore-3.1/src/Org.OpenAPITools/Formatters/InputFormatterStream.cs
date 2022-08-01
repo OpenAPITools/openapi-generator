@@ -13,7 +13,7 @@ namespace Org.OpenAPITools.Formatters
             SupportedMediaTypes.Add("application/octet-stream");
             SupportedMediaTypes.Add("image/jpeg");
         }
-        
+
         protected override bool CanReadType(Type type)
         {
             if (type == typeof(Stream))

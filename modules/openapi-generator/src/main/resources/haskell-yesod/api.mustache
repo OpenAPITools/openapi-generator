@@ -1,0 +1,34 @@
+{-# LANGUAGE NoImplicitPrelude #-}
+{-# OPTIONS_GHC -fno-warn-unused-matches #-}
+module Handler.{{classname}} where
+
+import           Import
+
+{{#operations}}
+{{#operation}}
+
+-- | {{summary}}
+--
+{{#notes}}
+-- {{notes}}
+{{/notes}}
+{{#nickname}}
+-- operationId: {{nickname}}
+{{/nickname}}
+{{#hasPathParams}}
+{{#pathParams}}
+{{#-first}}
+{{vendorExtensions.x-handler}} :: {{dataType}} -- ^ {{description}}
+{{/-first}}
+{{^-first}}
+{{vendorExtensions.x-param-indent}} -> {{dataType}} -- ^ {{description}}
+{{/-first}}
+{{/pathParams}}
+{{vendorExtensions.x-param-indent}} -> Handler Value
+{{/hasPathParams}}
+{{^hasPathParams}}
+{{vendorExtensions.x-handler}} :: Handler Value
+{{/hasPathParams}}
+{{vendorExtensions.x-handler}}{{#pathParams}} {{paramName}}{{/pathParams}} = notImplemented
+{{/operation}}
+{{/operations}}

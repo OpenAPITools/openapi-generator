@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         {{#androidGradleVersion}}
-        classpath 'com.android.tools.build:gradle:{{{androidGradleVersion}}}'
+        classpath 'com.android.tools.build:gradle:{{{.}}}'
         {{/androidGradleVersion}}
         {{^androidGradleVersion}}
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -35,13 +35,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     {{#androidSdkVersion}}
-    compileSdkVersion {{{androidSdkVersion}}}
+    compileSdkVersion {{{.}}}
     {{/androidSdkVersion}}
     {{^androidSdkVersion}}
     compileSdkVersion 25
     {{/androidSdkVersion}}
     {{#androidBuildToolsVersion}}
-    buildToolsVersion '{{{androidBuildToolsVersion}}}'
+    buildToolsVersion '{{{.}}}'
     {{/androidBuildToolsVersion}}
     {{^androidBuildToolsVersion}}
     buildToolsVersion '25.0.2'
@@ -50,27 +50,15 @@ android {
     defaultConfig {
         minSdkVersion 14
         {{#androidSdkVersion}}
-        targetSdkVersion {{{androidSdkVersion}}}
+        targetSdkVersion {{{.}}}
         {{/androidSdkVersion}}
         {{^androidSdkVersion}}
         targetSdkVersion 25
         {{/androidSdkVersion}}
     }
     compileOptions {
-        {{#supportJava6}}
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
-        {{/supportJava6}}
-        {{^supportJava6}}
-        {{#java8}}
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        {{/java8}}
-        {{^java8}}
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-        {{/java8}}
-        {{/supportJava6}}
     }
 
     // Rename the aar correctly
@@ -87,8 +75,8 @@ android {
 
 
 ext {
-    swagger_annotations_version = "1.5.0"
-    gson_version = "2.3.1"
+    swagger_annotations_version = "1.6.6"
+    gson_version = "2.8.9"
     httpclient_version = "4.5.13"
     httpcore_version = "4.4.4"
     junit_version = "4.13"

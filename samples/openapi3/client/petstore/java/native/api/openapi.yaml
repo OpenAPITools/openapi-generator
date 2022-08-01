@@ -1124,7 +1124,7 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -2261,6 +2261,27 @@ components:
       example: 2010-01-01T10:10:10.000111+01:00
       format: date-time
       type: string
+    DeprecatedObject:
+      deprecated: true
+      properties:
+        name:
+          type: string
+      type: object
+    ObjectWithDeprecatedFields:
+      properties:
+        uuid:
+          type: string
+        id:
+          deprecated: true
+          type: number
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'
+          type: array
+      type: object
     inline_response_default:
       example:
         string:

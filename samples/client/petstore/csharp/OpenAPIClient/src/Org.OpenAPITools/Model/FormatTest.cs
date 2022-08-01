@@ -402,7 +402,7 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
 
- 
+
             // Integer (int) maximum
             if(this.Integer > (int)100)
             {
@@ -416,7 +416,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
- 
+
             // Int32 (int) maximum
             if(this.Int32 > (int)200)
             {
@@ -430,7 +430,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
- 
+
             // Number (decimal) maximum
             if(this.Number > (decimal)543.2)
             {
@@ -444,7 +444,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
- 
+
             // Float (float) maximum
             if(this.Float > (float)987.6)
             {
@@ -458,7 +458,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
- 
+
             // Double (double) maximum
             if(this.Double > (double)123.4)
             {
@@ -472,7 +472,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
- 
+
             // String (string) pattern
             Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
@@ -491,9 +491,9 @@ namespace Org.OpenAPITools.Model
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
- 
 
- 
+
+
             // PatternWithDigits (string) pattern
             Regex regexPatternWithDigits = new Regex(@"^\\d{10}$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
@@ -502,7 +502,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
- 
+
             // PatternWithDigitsAndDelimiter (string) pattern
             Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)

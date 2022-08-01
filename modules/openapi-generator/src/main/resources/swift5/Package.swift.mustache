@@ -9,9 +9,16 @@ let package = Package(
         .macOS(.v10_15),
         {{/useVapor}}
         {{^useVapor}}
+        {{#useAlamofire}}
+        .iOS(.v10),
+        .macOS(.v10_12),
+        .tvOS(.v10),
+        {{/useAlamofire}}
+        {{^useAlamofire}}
         .iOS(.v9),
         .macOS(.v10_11),
         .tvOS(.v9),
+        {{/useAlamofire}}
         .watchOS(.v3),
         {{/useVapor}}
     ],
@@ -26,17 +33,17 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire", from: "4.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3"),
         {{/useAlamofire}}
-        {{#useVapor}}
-        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
-        {{/useVapor}}
         {{#usePromiseKit}}
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.15.3"),
         {{/usePromiseKit}}
         {{#useRxSwift}}
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.2.0"),
         {{/useRxSwift}}
+        {{#useVapor}}
+        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
+        {{/useVapor}}
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -44,7 +51,7 @@ let package = Package(
         .target(
             name: "{{projectName}}",
             dependencies: ["AnyCodable", {{#useVapor}}"Vapor", {{/useVapor}}{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
-            path: "{{#swiftPackagePath}}{{swiftPackagePath}}{{/swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
+            path: "{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
         ),
     ]
 )

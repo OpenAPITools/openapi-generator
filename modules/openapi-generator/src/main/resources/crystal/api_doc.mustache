@@ -1,6 +1,6 @@
 # {{moduleName}}::{{classname}}{{#description}}
 
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
@@ -8,7 +8,7 @@ All URIs are relative to *{{basePath}}*
 | ------ | ------------ | ----------- |
 {{#operations}}
 {{#operation}}
-| [**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}} |
+| [**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}} |
 {{/operation}}
 {{/operations}}
 
@@ -21,7 +21,7 @@ All URIs are relative to *{{basePath}}*
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
 ### Examples
 
@@ -98,7 +98,7 @@ This endpoint does not need any parameter.
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 {{/-first}}
-| **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{^required}}[optional]{{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}} |
+| **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{^required}}[optional]{{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}} |
 {{/allParams}}
 
 ### Return type

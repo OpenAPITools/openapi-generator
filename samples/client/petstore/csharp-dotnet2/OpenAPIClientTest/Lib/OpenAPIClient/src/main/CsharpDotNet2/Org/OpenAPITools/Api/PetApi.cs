@@ -35,6 +35,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
+        [Obsolete]
         List<Pet> FindPetsByTags (List<string> tags);
         /// <summary>
         /// Find pet by ID Returns a single pet
@@ -237,6 +238,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="tags">Tags to filter by</param> 
         /// <returns>List&lt;Pet&gt;</returns>            
+        [Obsolete]
         public List<Pet> FindPetsByTags (List<string> tags)
         {
             

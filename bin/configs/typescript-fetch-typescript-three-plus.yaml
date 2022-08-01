@@ -1,9 +1,0 @@
-generatorName: typescript-fetch
-outputDir: samples/client/petstore/typescript-fetch/builds/typescript-three-plus
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-additionalProperties:
-  npmVersion: 1.0.0
-  npmName: '@openapitools/typescript-fetch-petstore'
-  npmRepository: https://skimdb.npmjs.com/registry
-  typescriptThreePlus: true
-  snapshot: false

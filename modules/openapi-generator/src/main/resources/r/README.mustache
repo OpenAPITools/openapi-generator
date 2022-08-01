@@ -1,7 +1,7 @@
 # R API client for {{packageName}}
 
 {{#appDescriptionWithNewLines}}
-{{{appDescriptionWithNewLines}}}
+{{{.}}}
 {{/appDescriptionWithNewLines}}
 
 ## Overview
@@ -36,7 +36,7 @@ git clone https://{{gitHost}}/{{{gitUserId}}}/{{{gitRepoId}}}
 cd {{{gitRepoId}}}
 R CMD build .
 R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz --no-manual
-R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD INSTALL --preclean {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
 
 ### Install the package
@@ -52,6 +52,11 @@ library(devtools)
 install_github("{{{gitUserId}}}/{{{gitRepoId}}}")
 ```
 
+To install the package from a local file:
+```R
+install.packages("{{{packageName}}}_{{{packageVersion}}}.tar.gz", repos = NULL, type = "source")
+```
+
 ### Usage
 
 ```R
@@ -64,7 +69,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models

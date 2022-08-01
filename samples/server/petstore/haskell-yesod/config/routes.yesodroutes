@@ -1,0 +1,20 @@
+-- By default this file is used by `parseRoutesFile` in Foundation.hs
+-- Syntax for this file here: https://www.yesodweb.com/book/routing-and-handlers
+
+-- /static StaticR Static appStatic
+
+/pet PetR PUT POST
+/pet/findByStatus PetFindByStatusR GET
+/pet/findByTags PetFindByTagsR GET
+!/pet/#Int64 PetByInt64R GET POST DELETE
+/pet/#Int64/uploadImage PetByInt64UploadImageR POST
+/store/inventory StoreInventoryR GET
+/store/order StoreOrderR POST
+/store/order/#Int64 StoreOrderByInt64R GET
+!/store/order/#Text StoreOrderByTextR DELETE
+/user UserR POST
+/user/createWithArray UserCreateWithArrayR POST
+/user/createWithList UserCreateWithListR POST
+/user/login UserLoginR GET
+/user/logout UserLogoutR GET
+!/user/#Text UserByTextR GET PUT DELETE

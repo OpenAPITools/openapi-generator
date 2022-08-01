@@ -11,13 +11,13 @@
 
 [.fields-{{classname}}]
 [cols="2,1,2,4,1"]
-|===         
+|===
 | Field Name| Required| Type| Description| Format
 
 {{#vars}}
-| {{baseName}} 
-| {{#required}}X{{/required}} 
-| {{dataType}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}} 
+| {{baseName}}
+| {{#required}}X{{/required}}
+| {{dataType}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}}
 | {{description}}
 | {{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}}
 

@@ -8,14 +8,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class AdditionalPropertiesClass  {
   
@@ -294,6 +289,32 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
+    return Objects.equals(mapString, additionalPropertiesClass.mapString) &&
+        Objects.equals(mapNumber, additionalPropertiesClass.mapNumber) &&
+        Objects.equals(mapInteger, additionalPropertiesClass.mapInteger) &&
+        Objects.equals(mapBoolean, additionalPropertiesClass.mapBoolean) &&
+        Objects.equals(mapArrayInteger, additionalPropertiesClass.mapArrayInteger) &&
+        Objects.equals(mapArrayAnytype, additionalPropertiesClass.mapArrayAnytype) &&
+        Objects.equals(mapMapString, additionalPropertiesClass.mapMapString) &&
+        Objects.equals(mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
+        Objects.equals(anytype1, additionalPropertiesClass.anytype1) &&
+        Objects.equals(anytype2, additionalPropertiesClass.anytype2) &&
+        Objects.equals(anytype3, additionalPropertiesClass.anytype3);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
+  }
 
   @Override
   public String toString() {

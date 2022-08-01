@@ -44,6 +44,8 @@ public class AdditionalPropertiesNumber {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesNumber() { 
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     this.name = name;

@@ -19,7 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.CodegenOperation;
@@ -30,6 +30,10 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ApiInfoMap;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,12 +54,18 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     protected String artifactId = "openapi-server";
     protected String authDirName = "Auth";
     protected String authPackage = "";
+    protected String appDirName = "App";
+    protected String appPackage = "";
     protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";
     protected String interfacesPackage = "";
 
     public PhpSlim4ServerCodegen() {
         super();
+
+        // PDS skeleton recommends tests folder
+        // https://github.com/php-pds/skeleton
+        this.testBasePath = "tests";
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -88,6 +98,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         modelPackage = invokerPackage + "\\" + modelDirName;
         authPackage = invokerPackage + "\\" + authDirName;
         interfacesPackage = invokerPackage + "\\" + interfacesDirName;
+        appPackage = invokerPackage + "\\" + appDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
 
         modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -154,11 +165,17 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        Boolean generateModels = additionalProperties.containsKey(CodegenConstants.GENERATE_MODELS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS));
+        Boolean generateApiTests = additionalProperties.containsKey(CodegenConstants.GENERATE_API_TESTS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_API_TESTS));
+        Boolean generateModelTests = additionalProperties.containsKey(CodegenConstants.GENERATE_MODEL_TESTS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODEL_TESTS));
+
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             // Update the invokerPackage for the default authPackage
             authPackage = invokerPackage + "\\" + authDirName;
             // Update interfacesPackage
             interfacesPackage = invokerPackage + "\\" + interfacesDirName;
+            // update appPackage
+            appPackage = invokerPackage + "\\" + appDirName;
         }
 
         // make auth src path available in mustache template
@@ -169,6 +186,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         additionalProperties.put("interfacesPackage", interfacesPackage);
         additionalProperties.put("interfacesSrcPath", "./" + toSrcPath(interfacesPackage, srcBasePath));
         additionalProperties.put("interfacesTestPath", "./" + toSrcPath(interfacesPackage, testBasePath));
+
+        // same for app classes
+        additionalProperties.put("appPackage", appPackage);
+        additionalProperties.put("appSrcPath", "./" + toSrcPath(appPackage, srcBasePath));
 
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
@@ -203,26 +224,44 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
-        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
-        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("index.mustache", "public", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "public", ".htaccess"));
+        supportingFiles.add(new SupportingFile("register_dependencies.mustache", toSrcPath(appPackage, srcBasePath), "RegisterDependencies.php"));
+        supportingFiles.add(new SupportingFile("register_middlewares.mustache", toSrcPath(appPackage, srcBasePath), "RegisterMiddlewares.php"));
+        supportingFiles.add(new SupportingFile("register_routes.mustache", toSrcPath(appPackage, srcBasePath), "RegisterRoutes.php"));
+        supportingFiles.add(new SupportingFile("response_emitter.mustache", toSrcPath(appPackage, srcBasePath), "ResponseEmitter.php"));
+
+        // don't generate phpunit config when tests generation disabled
+        if (Boolean.TRUE.equals(generateApiTests) || Boolean.TRUE.equals(generateModelTests)) {
+            supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+            additionalProperties.put("generateTests", Boolean.TRUE);
+        }
+
         supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
 
-        // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
-        // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
         supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
-        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "dev", "example.inc.php"));
-        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "prod", "example.inc.php"));
-        supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
-        supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
-        supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
+        supportingFiles.add(new SupportingFile("config_dev_default.mustache", "config" + File.separator + "dev", "default.inc.php"));
+        supportingFiles.add(new SupportingFile("config_prod_default.mustache", "config" + File.separator + "prod", "default.inc.php"));
+        // add restricted htaccess to create log folder
+        supportingFiles.add(new SupportingFile("htaccess_deny_all", "logs", ".htaccess"));
+
+        if (Boolean.TRUE.equals(generateModels)) {
+            supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
+        }
+
+        if (Boolean.TRUE.equals(generateModelTests)) {
+            supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
+        }
+
+        // based on example from link
+        // @see https://github.com/shivammathur/setup-php/blob/master/examples/slim-framework.yml
+        supportingFiles.add(new SupportingFile("github_action.yml.mustache", ".github" + File.separator + "workflows" + File.separator, "main.yml"));
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         addUserClassnameToOperations(operations);
         escapeMediaType(operationList);
         return objs;
@@ -230,33 +269,24 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
-        for (HashMap<String, Object> api : apiList) {
-            HashMap<String, Object> operations = (HashMap<String, Object>) api.get("operations");
-            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
+        for (OperationsMap api : apiInfo.getApis()) {
+            List<CodegenOperation> operationList = api.getOperations().getOperation();
 
             // Sort operations to avoid static routes shadowing
             // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
-            Collections.sort(operationList, new Comparator<CodegenOperation>() {
-                @Override
-                public int compare(CodegenOperation one, CodegenOperation another) {
+            operationList.sort((one, another) -> {
                     if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
                     if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
                     return 0;
-                }
             });
         }
-        return objs;
-    }
 
-    @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
-        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
-        if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
+        // generate authenticator only when hasAuthMethods === true
+        if (objs.containsKey("hasAuthMethods") && Boolean.TRUE.equals(objs.get("hasAuthMethods"))) {
             supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
         }
-        return codegenSecurities;
+        return objs;
     }
 
     @Override
@@ -280,8 +310,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
      *
      * @param operations codegen object with operations
      */
-    private void addUserClassnameToOperations(Map<String, Object> operations) {
-        String classname = (String) operations.get("classname");
+    private void addUserClassnameToOperations(OperationMap operations) {
+        String classname = operations.getClassname();
         classname = classname.replaceAll("^" + abstractNamePrefix, "");
         classname = classname.replaceAll(abstractNameSuffix + "$", "");
         operations.put(USER_CLASSNAME_KEY, classname);
@@ -297,7 +327,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(

@@ -11,23 +11,28 @@
     ])
 
     @convert_js_args_to_python_args
+    {{#initRequiredVars}}
+    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}, *args, **kwargs):  # noqa: E501
+    {{/initRequiredVars}}
+    {{^initRequiredVars}}
     def __init__(self, *args, **kwargs):  # noqa: E501
+    {{/initRequiredVars}}
         """{{classname}} - a model defined in OpenAPI
 
         Keyword Args:
 {{#requiredVars}}
 {{^isReadOnly}}
 {{#defaultValue}}
-            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}} defaults to {{{defaultValue}}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}} defaults to {{{defaultValue}}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
 {{/defaultValue}}
 {{^defaultValue}}
-            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}{{/description}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}{{/description}}
 {{/defaultValue}}
 {{/isReadOnly}}
 {{/requiredVars}}
 {{> model_templates/docstring_init_required_kwargs }}
 {{#optionalVars}}
-            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}  # noqa: E501
 {{/optionalVars}}
         """
 
@@ -60,6 +65,14 @@
             '_configuration': _configuration,
             '_visited_composed_classes': self._visited_composed_classes,
         }
+        {{#initRequiredVars}}
+        required_args = {
+{{#requiredVars}}
+            '{{name}}': {{name}},
+{{/requiredVars}}
+        }
+        kwargs.update(required_args)
+        {{/initRequiredVars}}
         composed_info = validate_get_composed_info(
             constant_args, kwargs, self)
         self._composed_instances = composed_info[0]

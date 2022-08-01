@@ -18,7 +18,7 @@ scripts/**/* @jimschubert
 website/**/* @jimschubert
 bin/ci/**/* @jimschubert
 
-## Bulid related
+## Build related
 CI/**/* @OpenAPITools/build
 .mvn/**/* @OpenAPITools/build
 bin/utils/**/* @OpenAPITools/build
@@ -28,3 +28,8 @@ modules/openapi-generator-cli/**/* @jimschubert
 modules/openapi-generator-gradle-plugin/**/* @jimschubert
 modules/openapi-generator-maven-plugin/**/* @jimschubert
 
+# Martin Delille
+/Users/martin/dev/clone/openapi-generator/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CppQtClientCodegen.java @martindelille
+/Users/martin/dev/clone/openapi-generator/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CppQtAbstractCodegen.java @martindelille
+/Users/martin/dev/clone/openapi-generator/modules/openapi-generator/src/main/resources/cpp-qt-client @martindelille
+/Users/martin/dev/clone/openapi-generator/samples/client/petstore/cpp-qt @martindelille

@@ -8,10 +8,10 @@ import Foundation{{#useVapor}}
 import Vapor{{/useVapor}}
 
 {{#swiftUseApiNamespace}}
-@available(*, deprecated, renamed: "{{projectName}}.Configuration")
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias Configuration = {{projectName}}.Configuration
+@available(*, deprecated, renamed: "{{projectName}}API.Configuration")
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias Configuration = {{projectName}}API.Configuration
 
-extension {{projectName}} {
+extension {{projectName}}API {
 {{/swiftUseApiNamespace}}
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class Configuration {
     {{#useVapor}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var apiClient: Vapor.Client? = nil

@@ -1,17 +1,17 @@
 
 {{#models}}{{#model}}{{#emitJSDoc}}/**
  * The {{classname}} model module.
- * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+ * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
  * @version {{projectVersion}}
  */{{/emitJSDoc}}
 class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}extends Array {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{
     {{#emitJSDoc}}/**
      * Constructs a new <code>{{classname}}</code>.{{#description}}
-     * {{description}}{{/description}}
-     * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
-     * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
-     * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
-     * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
+     * {{.}}{{/description}}
+     * @alias module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
+     * @extends {{#parentModel}}module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
+     * @implements module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+     * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{{description}}}{{/vendorExtensions.x-all-required}}
      */{{/emitJSDoc}}
     constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) { {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}
         super();
@@ -55,9 +55,9 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
     }
 
 {{#emitModelMethods}}{{#vars}}{{#emitJSDoc}}/**{{#description}}
-     * Returns {{{description}}}{{/description}}{{#minimum}}
-     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-     * maximum: {{maximum}}{{/maximum}}
+     * Returns {{{.}}}{{/description}}{{#minimum}}
+     * minimum: {{.}}{{/minimum}}{{#maximum}}
+     * maximum: {{.}}{{/maximum}}
      * @return {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>
      */{{/emitJSDoc}}
     {{getter}}() {
@@ -65,8 +65,8 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
     }
 
     {{#emitJSDoc}}/**{{#description}}
-     * Sets {{{description}}}{{/description}}
-     * @param {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{name}}{{#description}} {{{description}}}{{/description}}
+     * Sets {{{.}}}{{/description}}
+     * @param {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{name}}{{#description}} {{{.}}}{{/description}}
      */{{/emitJSDoc}}
     {{setter}}({{name}}) {
         this['{{baseName}}'] = {{name}};
@@ -75,21 +75,21 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
 }
 
 {{#vars}}{{#emitJSDoc}}/**{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
- * @default {{{defaultValue}}}{{/defaultValue}}
+ * @default {{{.}}}{{/defaultValue}}
  */{{/emitJSDoc}}
-{{classname}}.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+{{classname}}.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
 
 {{/vars}}
 
 {{#useInheritance}}{{#interfaceModels}}// Implement {{classname}} interface:
 {{#allVars}}{{#emitJSDoc}}/**{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
- * @default {{{defaultValue}}}{{/defaultValue}}
+ * @default {{{.}}}{{/defaultValue}}
  */{{/emitJSDoc}}
-{{classname}}.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+{{classname}}.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
 {{/allVars}}{{/interfaceModels}}{{/useInheritance}}
 
 {{#vars}}{{#isEnum}}{{^isContainer}}

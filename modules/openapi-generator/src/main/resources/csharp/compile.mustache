@@ -24,4 +24,3 @@ copy packages\PropertyChanged.Fody.{{propertychanged-fody.version}}\PropertyChan
 copy packages\PropertyChanged.Fody.{{propertychanged-fody.version}}\Lib\dotnet\PropertyChanged.dll bin\PropertyChanged.dll
 {{/generatePropertyChanged}}
 %CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\JsonSubTypes.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll {{#generatePropertyChanged}}/r:bin\Fody.dll;bin\PropertyChanged.Fody.dll;bin\PropertyChanged.dll{{/generatePropertyChanged}} /target:library /out:bin\{{packageName}}.dll /recurse:src\{{packageName}}\*.cs /doc:bin\{{packageName}}.xml
-

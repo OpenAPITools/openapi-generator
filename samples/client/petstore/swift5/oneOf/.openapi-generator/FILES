@@ -1,4 +1,5 @@
 .gitignore
+.swiftformat
 Cartfile
 Package.swift
 PetstoreClient.podspec

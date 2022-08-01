@@ -33,6 +33,15 @@ export interface Category {
     name?: string;
 }
 
+/**
+ * Check if a given object implements the Category interface.
+ */
+export function instanceOfCategory(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function CategoryFromJSON(json: any): Category {
     return CategoryFromJSONTyped(json, false);
 }
@@ -61,5 +70,4 @@ export function CategoryToJSON(value?: Category | null): any {
         'name': value.name,
     };
 }
-
 

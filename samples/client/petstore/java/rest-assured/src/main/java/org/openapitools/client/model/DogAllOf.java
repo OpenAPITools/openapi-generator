@@ -36,6 +36,8 @@ public class DogAllOf {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
+  public DogAllOf() {
+  }
 
   public DogAllOf breed(String breed) {
     

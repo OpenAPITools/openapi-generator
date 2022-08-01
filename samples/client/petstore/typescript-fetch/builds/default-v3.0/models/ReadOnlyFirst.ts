@@ -33,6 +33,15 @@ export interface ReadOnlyFirst {
     baz?: string;
 }
 
+/**
+ * Check if a given object implements the ReadOnlyFirst interface.
+ */
+export function instanceOfReadOnlyFirst(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ReadOnlyFirstFromJSON(json: any): ReadOnlyFirst {
     return ReadOnlyFirstFromJSONTyped(json, false);
 }
@@ -60,5 +69,4 @@ export function ReadOnlyFirstToJSON(value?: ReadOnlyFirst | null): any {
         'baz': value.baz,
     };
 }
-
 

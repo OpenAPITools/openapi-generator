@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * OuterComposite
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@JsonTypeName("OuterComposite")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterComposite {
@@ -46,6 +46,8 @@ public class OuterComposite {
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     

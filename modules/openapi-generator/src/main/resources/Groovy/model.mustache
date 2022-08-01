@@ -10,8 +10,8 @@ import {{import}};
 @Canonical
 class {{classname}} {
     {{#vars}}
-    {{#description}}/* {{{description}}} */{{/description}}
-    {{{dataType}}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{#description}}/* {{{.}}} */{{/description}}
+    {{{dataType}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
     {{/vars}}
 }
 {{/model}}

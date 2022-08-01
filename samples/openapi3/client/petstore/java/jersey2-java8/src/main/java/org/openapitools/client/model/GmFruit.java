@@ -89,7 +89,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
-            // deserialzie Apple
+            // deserialize Apple
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
                 GmFruit ret = new GmFruit();
@@ -100,7 +100,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
-            // deserialzie Banana
+            // deserialize Banana
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
                 GmFruit ret = new GmFruit();
@@ -188,7 +188,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+     * Get the actual instance of `Apple`. If the actual instance is not `Apple`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Apple`
@@ -199,7 +199,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+     * Get the actual instance of `Banana`. If the actual instance is not `Banana`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Banana`

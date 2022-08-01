@@ -1,0 +1,146 @@
+
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths: {}
+components:
+  schemas:
+    Object:
+      type: object
+      additionalProperties: false
+      properties:
+        Number:
+          type: number
+          example: 3.14159
+        Integer:
+          type: integer
+          example: 123
+        Boolean:
+          type: boolean
+          example: true
+        String:
+          type: string
+          example: "A string"
+        # String formats
+        CharFormat:
+          type: string
+          format: char
+        DateFormat:
+          type: string
+          format: date
+          example: "2021-06-10"
+        DateTimeFormat:
+          type: string
+          format: date-time
+          example: "2021-06-10T12:47:27"
+        ByteFormat:
+          type: string
+          format: byte
+          example: QG1pY2hhZWxncmFoYW1ldmFucw==
+        BinaryFormat:
+          type: string
+          format: binary
+        EmailFormat:
+          type: string
+          format: email
+          example: "user@example.com"
+        UuidFormat:
+          type: string
+          format: uuid
+          example: "7db1c07f-8f63-41ff-8f94-056b4a9ce96d"
+        PasswordFormat:
+          type: string
+          format: password
+          example: hunter2
+        IntegerFormat:
+          type: string
+          format: integer
+          example: "123"
+        IntFormat:
+          type: string
+          format: int
+          example: "123"
+        Int32Format:
+          type: string
+          format: int32
+          example: "123"
+        Int64Format:
+          type: string
+          format: int64
+          example: "123"
+        ShortFormat:
+          type: string
+          format: short
+          example: "123"
+        LongFormat:
+          type: string
+          format: long
+          example: "123"
+        DecimalFormat:
+          type: string
+          format: decimal
+          example: "3.14159"
+        FloatFormat:
+          type: string
+          format: float
+          example: "3.14159"
+        DoubleFormat:
+          type: string
+          format: double
+          example: "3.14159"
+        HostnameFormat:
+          type: string
+          format: hostname
+          example: "example.com"
+        Ipv4Format:
+          type: string
+          format: ipv4
+          example: "127.0.0.1"
+        Ipv6Format:
+          type: string
+          format: ipv4
+          example: "::1"
+        UriFormat:
+          type: string
+          format: uri
+          example: "https://example.com"
+        # Compound types
+        Map:
+          type: object
+          additionalProperties: true
+        InlinedObject:
+          type: object
+          additionalProperties: false
+          properties:
+            String:
+              type: string
+              example: "A string"
+        ReferencedObject:
+          $ref:  "#/components/schemas/ReferencedObject"
+        ArrayOfStrings:
+          type: array
+          items:
+            type: string
+            example: string
+        StringObject:
+          $ref: "#/components/schemas/String"
+    ReferencedObject:
+      type: object
+      additionalProperties: false
+      properties:
+        String:
+          type: string
+          example: "A string"
+    String:
+      type: object
+      additionalProperties: false
+      properties:
+        String:
+          type: string
+          example: "A string"

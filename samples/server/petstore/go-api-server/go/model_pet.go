@@ -23,5 +23,41 @@ type Pet struct {
 	Tags []Tag `json:"tags,omitempty"`
 
 	// pet status in the store
+	// Deprecated
 	Status string `json:"status,omitempty"`
+}
+
+// AssertPetRequired checks if the required fields are not zero-ed
+func AssertPetRequired(obj Pet) error {
+	elements := map[string]interface{}{
+		"name": obj.Name,
+		"photoUrls": obj.PhotoUrls,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	if err := AssertCategoryRequired(obj.Category); err != nil {
+		return err
+	}
+	for _, el := range obj.Tags {
+		if err := AssertTagRequired(el); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// AssertRecursePetRequired recursively checks if required fields are not zero-ed in a nested slice.
+// Accepts only nested slice of Pet (e.g. [][]Pet), otherwise ErrTypeAssertionError is thrown.
+func AssertRecursePetRequired(objSlice interface{}) error {
+	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+		aPet, ok := obj.(Pet)
+		if !ok {
+			return ErrTypeAssertionError
+		}
+		return AssertPetRequired(aPet)
+	})
 }

@@ -16,12 +16,18 @@ import java.io.Serializable;
 {{/serializableModel}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 {{/withXml}}
+{{#vendorExtensions.x-has-readonly-properties}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
 {{/jackson}}
 {{#withXml}}
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 {{/withXml}}
 {{#jsonb}}
 import java.lang.reflect.Type;
@@ -34,6 +40,9 @@ import javax.json.bind.serializer.SerializationContext;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
+{{#vendorExtensions.x-has-readonly-properties}}
+import javax.json.bind.annotation.JsonbCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
 {{/jsonb}}
 {{#parcelableModel}}
 import android.os.Parcelable;

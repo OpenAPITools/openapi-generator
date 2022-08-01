@@ -46,9 +46,9 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
 {{#allParams}}   * @param {{paramName}} {{description}}
-{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{/allParams}}   * @return {{{returnType}}}{{^returnType}}void{{/returnType}}
    */
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}
     {{#required}}
@@ -70,7 +70,7 @@ public class {{classname}} {
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     {{#queryParams}}
-    localVarQueryParams.addAll(ApiInvoker.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+    localVarQueryParams.addAll(ApiInvoker.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
     {{#headerParams}}

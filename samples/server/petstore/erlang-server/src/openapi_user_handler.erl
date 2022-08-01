@@ -29,9 +29,11 @@
 -spec init(Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
     {cowboy_rest, Req :: cowboy_req:req(), State :: state()}.
 
-init(Req, {Operations, LogicHandler, ValidatorState}) ->
+init(Req, {Operations, LogicHandler, ValidatorMod}) ->
     Method = cowboy_req:method(Req),
     OperationID = maps:get(Method, Operations, undefined),
+
+    ValidatorState = ValidatorMod:get_validator_state(),
 
     error_logger:info_msg("Attempt to process operation: ~p", [OperationID]),
 
@@ -234,7 +236,9 @@ is_authorized(
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req, State) ->
-    {true, Req, State}.
+    {{false, <<"">>}, Req, State}.
+is_authorized(Req, State) ->
+    {{false, <<"">>}, Req, State}.
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {

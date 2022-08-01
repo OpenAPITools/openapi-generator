@@ -51,7 +51,7 @@ std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(co
     } catch (org::openapitools::server::helpers::ValidationException &e) {
         return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
     } catch (std::exception &e) {
-        return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what())
+        return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 }
 

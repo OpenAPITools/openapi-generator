@@ -2,7 +2,7 @@
 
 {{moduleName}}::Role - a Moose role for the {{appName}}
 
-{{#appDescriptionWithNewLines}}{{{appDescriptionWithNewLines}}}{{/appDescriptionWithNewLines}}
+{{{appDescriptionWithNewLines}}}
 
 # VERSION
 
@@ -304,7 +304,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 # DOCUMENTATION FOR MODELS

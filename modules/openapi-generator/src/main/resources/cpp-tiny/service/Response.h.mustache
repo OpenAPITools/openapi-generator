@@ -21,5 +21,5 @@ template <typename T = std::string>
     T obj;
     };
     } // namespace Tinyclient
-    
+
 #endif /* TINY_CPP_CLIENT_RESPONSE_H_ */

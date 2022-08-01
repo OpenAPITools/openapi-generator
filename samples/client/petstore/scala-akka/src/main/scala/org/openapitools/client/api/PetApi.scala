@@ -24,8 +24,10 @@ object PetApi {
 }
 
 class PetApi(baseUrl: String) {
-  
+
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Pet (successful operation)
    *   code 405 :  (Invalid input)
@@ -40,6 +42,8 @@ class PetApi(baseUrl: String) {
       
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
@@ -108,6 +112,8 @@ class PetApi(baseUrl: String) {
       
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Pet (successful operation)
    *   code 400 :  (Invalid ID supplied)
@@ -126,6 +132,8 @@ class PetApi(baseUrl: String) {
       
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 :  (successful operation)
    *   code 405 :  (Invalid input)
@@ -144,6 +152,8 @@ class PetApi(baseUrl: String) {
       
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
    * 

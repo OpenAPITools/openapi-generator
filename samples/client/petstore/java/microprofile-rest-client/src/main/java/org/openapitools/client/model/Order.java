@@ -31,19 +31,23 @@ import javax.json.bind.annotation.JsonbProperty;
 
 public class Order  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("petId")
   private Long petId;
 
+  @JsonbProperty("quantity")
   private Integer quantity;
 
+  @JsonbProperty("shipDate")
   private Date shipDate;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
 
-    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));    
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     String value;
@@ -84,15 +88,16 @@ public class Order  {
  /**
    * Order Status
   **/
+  @JsonbProperty("status")
   private StatusEnum status;
 
+  @JsonbProperty("complete")
   private Boolean complete = false;
-  
+
  /**
    * Get id
    * @return id
   **/
-  @JsonbProperty("id")
   public Long getId() {
     return id;
   }
@@ -113,7 +118,6 @@ public class Order  {
    * Get petId
    * @return petId
   **/
-  @JsonbProperty("petId")
   public Long getPetId() {
     return petId;
   }
@@ -134,7 +138,6 @@ public class Order  {
    * Get quantity
    * @return quantity
   **/
-  @JsonbProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -155,7 +158,6 @@ public class Order  {
    * Get shipDate
    * @return shipDate
   **/
-  @JsonbProperty("shipDate")
   public Date getShipDate() {
     return shipDate;
   }
@@ -176,7 +178,6 @@ public class Order  {
    * Order Status
    * @return status
   **/
-  @JsonbProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -197,7 +198,6 @@ public class Order  {
    * Get complete
    * @return complete
   **/
-  @JsonbProperty("complete")
   public Boolean getComplete() {
     return complete;
   }

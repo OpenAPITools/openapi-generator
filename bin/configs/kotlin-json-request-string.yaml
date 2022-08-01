@@ -7,3 +7,5 @@ additionalProperties:
   artifactId: kotlin-petstore-json-request-string
   parcelizeModels: true
   supportAndroidApiLevel25AndBelow: true
+  serializationLibrary: kotlinx_serialization
+  enumUnknownDefaultCase: "true"

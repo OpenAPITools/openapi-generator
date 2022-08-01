@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
  * {{{appName}}}
  *
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  {{/appDescription}}
  *
  */
@@ -68,7 +68,7 @@ public class {{classname}}ServiceImpl implements {{classname}} {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      */

@@ -1,4 +1,4 @@
-class {{classname}} 
+class {{classname}}
 
 {{#parent}}
 inherit
@@ -7,15 +7,15 @@ inherit
 
 {{#parent}}
   {{{parent}}}
-     {{^isPrimitiveType}} 
+     {{^isPrimitiveType}}
       {{^isMap}}
       {{^isArray}}
       rename
-          output as out_{{{parentSchema}}}     
+          output as out_{{{parentSchema}}}
       end
      {{/isArray}}
      {{/isMap}}
-     {{/isPrimitiveType}}    
+     {{/isPrimitiveType}}
 {{/parent}}
 
 feature --Access
@@ -24,31 +24,31 @@ feature --Access
     {{^isInherited}}
     {{#isPrimitiveType}}
     {{^isContainer}}
- 	{{name}}: {{{dataType}}} 
-    	 {{#description}}-- {{{description}}}{{/description}}
-     {{/isContainer}}  
+ 	{{name}}: {{{dataType}}}
+    	 {{#description}}-- {{{.}}}{{/description}}
+     {{/isContainer}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isContainer}}
- 	{{name}}: detachable {{{datatypeWithEnum}}} 
-    	 {{#description}}-- {{{description}}}{{/description}}
-    {{/isContainer}}  
+ 	{{name}}: detachable {{{datatypeWithEnum}}}
+    	 {{#description}}-- {{{.}}}{{/description}}
+    {{/isContainer}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
     {{#isContainer}}
-    {{name}}: detachable {{{datatypeWithEnum}}} 
-      {{#description}}-- {{{description}}}{{/description}}
+    {{name}}: detachable {{{datatypeWithEnum}}}
+      {{#description}}-- {{{.}}}{{/description}}
     {{/isContainer}}
     {{^isContainer}}
-    {{name}}: detachable {{{dataType}}} 
-      {{#description}}-- {{{description}}}{{/description}}
+    {{name}}: detachable {{{dataType}}}
+      {{#description}}-- {{{.}}}{{/description}}
     {{/isContainer}}
     {{/isPrimitiveType}}
     {{/isInherited}}
   {{/vars}}
 
-feature -- Change Element  
- 
+feature -- Change Element
+
   {{#vars}}
     {{^isInherited}}
     set_{{name}} (a_name: like {{name}})
@@ -56,7 +56,7 @@ feature -- Change Element
       do
         {{name}} := a_name
       ensure
-        {{name}}_set: {{name}} = a_name		
+        {{name}}_set: {{name}} = a_name
       end
 
     {{/isInherited}}
@@ -72,7 +72,7 @@ feature -- Change Element
         Result.append(out_{{{parentSchema}}})
         {{/parent}}
         Result.append("%Nclass {{classname}}%N")
-        {{#vars}} 
+        {{#vars}}
         {{^isInherited}}
         {{#isArray}}
         if attached {{name}} as l_{{name}} then
@@ -81,7 +81,7 @@ feature -- Change Element
             Result.append (ic.item.out)
             Result.append ("%N")
           end
-        end 
+        end
         {{/isArray}}
         {{#isMap}}
         if attached {{name}} as l_{{name}} then
@@ -95,14 +95,14 @@ feature -- Change Element
             Result.append (ic.item.out)
             Result.append ("%N")
           end
-        end        
+        end
         {{/isMap}}
         {{^isContainer}}
         if attached {{name}} as l_{{name}} then
           Result.append ("%N{{name}}:")
           Result.append (l_{{name}}.out)
-          Result.append ("%N")    
-        end  
+          Result.append ("%N")
+        end
         {{/isContainer}}
         {{/isInherited}}
         {{/vars}}

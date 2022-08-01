@@ -14,14 +14,14 @@ namespace {{this}} {
 class {{classname}}Handler : public QObject
 {
     Q_OBJECT
-    
+
 public:
     {{classname}}Handler();
     virtual ~{{classname}}Handler();
 
 
 public slots:
-    {{#operations}}{{#operation}}virtual void {{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#operations}}{{#operation}}virtual void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/operation}}{{/operations}}
 
 };

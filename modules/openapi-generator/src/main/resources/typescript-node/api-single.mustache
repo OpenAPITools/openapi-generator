@@ -154,7 +154,7 @@ export class {{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
@@ -261,15 +261,15 @@ export class {{classname}} {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
-                        {{#returnType}}
-                        body = ObjectSerializer.deserialize(body, "{{{returnType}}}");
-                        {{/returnType}}
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            {{#returnType}}
+                            body = ObjectSerializer.deserialize(body, "{{{.}}}");
+                            {{/returnType}}
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));

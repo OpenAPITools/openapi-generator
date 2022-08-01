@@ -5,6 +5,7 @@ import org.openapitools.model.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import org.joda.time.DateTime;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -26,7 +27,7 @@ import javax.validation.Valid;
 @io.swagger.annotations.Api(description = "the user API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public interface UserApi  {
-   
+
     @POST
     
     
@@ -82,7 +83,7 @@ public interface UserApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    public Response loginUser( @NotNull  @QueryParam("username") String username, @NotNull  @QueryParam("password") String password,@Context SecurityContext securityContext);
+    public Response loginUser( @NotNull @QueryParam("username") String username, @NotNull @QueryParam("password") String password,@Context SecurityContext securityContext);
     @GET
     @Path("/logout")
     

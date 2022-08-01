@@ -464,7 +464,7 @@ paths:
             X-Expires-After:
               type: string
               format: date-time
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -481,6 +481,15 @@ paths:
       responses:
         default:
           description: successful operation
+    options:
+      tags:
+        - user
+      summary: logoutUserOptions
+      description: ''
+      operationId: logoutUserOptions
+      responses:
+        default:
+          description: endpoint configuration response
   '/user/{username}':
     get:
       tags:

@@ -17,14 +17,14 @@ module AuthSchemes =
 
   let accessDenied : HttpHandler = setStatusCode 401 >=> text "Access Denied"
 
-  let buildGoogle (builder:AuthenticationBuilder) name authorizationUrl scopes (settings:IConfiguration) = 
+  let buildGoogle (builder:AuthenticationBuilder) name authorizationUrl scopes (settings:IConfiguration) =
     builder.AddGoogle(fun googleOptions -> CustomHandlers.setOAuthOptions "Google" googleOptions scopes settings)
 
-  let buildGitHub (builder:AuthenticationBuilder) name authorizationUrl scopes (settings:IConfiguration) = 
+  let buildGitHub (builder:AuthenticationBuilder) name authorizationUrl scopes (settings:IConfiguration) =
     builder.AddGitHub(fun githubOptions -> CustomHandlers.setOAuthOptions "GitHub" githubOptions scopes settings)
 
-  let buildOAuth (builder:AuthenticationBuilder) (name:string) authorizationUrl scopes (settings:IConfiguration) = 
-    builder.AddOAuth(name, (fun (options:OAuthOptions) -> 
+  let buildOAuth (builder:AuthenticationBuilder) (name:string) authorizationUrl scopes (settings:IConfiguration) =
+    builder.AddOAuth(name, (fun (options:OAuthOptions) ->
       options.AuthorizationEndpoint <- authorizationUrl
       options.TokenEndpoint <- settings.[name + "TokenUrl"]
       options.CallbackPath <- PathString(settings.[name + "CallbackPath"])
@@ -39,7 +39,7 @@ module AuthSchemes =
     else if (isNull settings.[name + "ClientSecret"]) then
       raise (Exception((name + "ClientSecret is not set.")))
 
-  let getOAuthBuilder settings name =  
+  let getOAuthBuilder settings name =
     // check that "xxxClientId" and "xxxClientSecret" configuration variables have been set for all OAuth providers
     checkEnvironment settings name
     if OAuthBuilders.ContainsKey(name) then
@@ -55,7 +55,7 @@ module AuthSchemes =
     {{/authMethods}}
 
   let buildApiKeyAuth name (services:AuthenticationBuilder) =
-    services.AddApiKey(fun options -> 
+    services.AddApiKey(fun options ->
       options.Header <- name
       options.HeaderKey <- String.Empty
       let events = ApiKeyEvents()
@@ -78,16 +78,16 @@ module AuthSchemes =
   let configureCookie (builder:AuthenticationBuilder) =
       builder.AddCookie(CustomHandlers.cookieAuth)
 
-  let configureServices (services:IServiceCollection) = 
+  let configureServices (services:IServiceCollection) =
     let serviceProvider = services.BuildServiceProvider()
     let settings = serviceProvider.GetService<IConfiguration>()
     services.AddAuthentication(fun o -> o.DefaultScheme <- CookieAuthenticationDefaults.AuthenticationScheme)
-    |> configureOAuth settings 
+    |> configureOAuth settings
     |> configureApiKeyAuth settings
     |> configureCookie
-    
-  let (|||) v1 v2 = 
-      match v1 with 
+
+  let (|||) v1 v2 =
+      match v1 with
       | Some v -> v1
       | None -> v2
 
@@ -96,5 +96,3 @@ module AuthSchemes =
         match ctx.Request.Cookies.TryGetValue key with
         | true , cookie -> Some cookie
         | false, _ -> None
-
-  

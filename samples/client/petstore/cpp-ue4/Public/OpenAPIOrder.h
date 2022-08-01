@@ -14,7 +14,7 @@
 
 #include "OpenAPIBaseModel.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 /*
@@ -39,6 +39,9 @@ public:
 		Approved,
 		Delivered,
   	};
+
+	static FString EnumToString(const StatusEnum& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, StatusEnum& EnumValue);
 	/* Order Status */
 	TOptional<StatusEnum> Status;
 	TOptional<bool> Complete;

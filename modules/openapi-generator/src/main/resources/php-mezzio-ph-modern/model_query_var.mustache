@@ -1,7 +1,7 @@
 {{#isArray
 }}{{#isPrimitiveType
 }}    #[DTA\Strategy("QueryStringScalarArray", ["type" => {{>list_item_type}}, "format" => "{{internal.ze-ph.collectionFormat}}"])]
-    #[DTA\Validator("QueryStringScalarArray", ["type" => {{>list_item_type}}, "format" => "{{internal.ze-ph.collectionFormat}}"{{#minItems}}, "min_items" => {{minItems}}{{/minItems}}{{#maxItems}}, "max_items" => {{maxItems}}{{/maxItems}}])]
+    #[DTA\Validator("QueryStringScalarArray", ["type" => {{>list_item_type}}, "format" => "{{internal.ze-ph.collectionFormat}}"{{#minItems}}, "min_items" => {{.}}{{/minItems}}{{#maxItems}}, "max_items" => {{.}}{{/maxItems}}])]
 {{/isPrimitiveType
 }}{{^isPrimitiveType
 }}    // TODO add validator(s) and strategy for list of {{>list_item_type}} and collection format {{internal.ze-ph.collectionFormat}} inside query string

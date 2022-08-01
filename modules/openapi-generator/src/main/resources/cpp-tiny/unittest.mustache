@@ -4,7 +4,7 @@
 #include <unity.h>
 #include "bourne/json.hpp"
 
-void setUp(){    
+void setUp(){
 }
 
 
@@ -12,7 +12,7 @@ void tearDown(){
 }
 
 void test_id_is_assigned(){
-    bourne::json petJSON = 
+    bourne::json petJSON =
     {
         "id", 1
     };
@@ -24,19 +24,19 @@ void test_id_is_assigned(){
 }
 
 void test_name_is_assigned(){
-    bourne::json petJSON = 
+    bourne::json petJSON =
     {
         "name", "Shiba"
     };
 
     Tiny::Pet pet(petJSON.dump());
-    
+
     TEST_ASSERT_EQUAL_STRING("Shiba", pet.getName().c_str());
 
 }
 
 void test_status_is_assigned(){
-    bourne::json petJSON = 
+    bourne::json petJSON =
     {
         "status", "Sold"
     };
@@ -48,13 +48,13 @@ void test_status_is_assigned(){
 
 void test_category_object_is_assigned(){
 
-    bourne::json catJSON = 
+    bourne::json catJSON =
     {
         "id", 3,
         "name", "Small dog"
     };
 
-    bourne::json petJSON = 
+    bourne::json petJSON =
     {
         "category", catJSON,
     };
@@ -73,7 +73,7 @@ void test_photo_string_list_is_assigned(){
 
     bourne::json photoARR = bourne::json::array("url1", "url2", "url3", "url4");
 
-    bourne::json petJSON = 
+    bourne::json petJSON =
     {
         "photoUrls", photoARR,
     };
@@ -84,14 +84,14 @@ void test_photo_string_list_is_assigned(){
 }
 
 void test_tags_object_list_is_assigned(){
-    bourne::json aTag = 
+    bourne::json aTag =
     {
         "id", 2,
         "name", "Hello"
     };
 
     bourne::json tagsARR = bourne::json::array(aTag);
-    bourne::json petJSON = 
+    bourne::json petJSON =
     {
         "tags", tagsARR,
     };
@@ -126,7 +126,5 @@ void setup() {
 }
 
 void loop() {
-    
+
 }
-
-

@@ -1602,23 +1602,23 @@ class JsonCacheImpl implements JsonCache.Root {
                                 destObject.set(fieldName, srcChild);
                                 // Mark the cache as dirty as we've added items from another file.
                                 isDirty = true;
-                                LOGGER.info("Existing root property '" + fieldName
-                                        + "' has been overwritten by incoming data");
+                                LOGGER.info("Existing root property '{}' has been overwritten by incoming data",
+                                        fieldName);
                                 break;
                             case MERGE_RECURSIVE:
                                 if (destChild.isContainerNode() && srcChild.isContainerNode())
                                     merge((ContainerNode<?>) destChild, (ContainerNode<?>) srcChild);
                                 break;
                             case KEEP_EXISTING:
-                                LOGGER.info("Existing root property '" + fieldName
-                                        + "' will not be overwritten by incoming data");
+                                LOGGER.info("Existing root property '{}' will not be overwritten by incoming data",
+                                        fieldName);
                             default:
                                 // Nothing to do.
                                 break;
                         }
                     } else {
                         destObject.set(fieldName, srcChild);
-                        LOGGER.info("New property '" + fieldName + "' has been added from incoming data");
+                        LOGGER.info("New property '{}' has been added from incoming data", fieldName);
                         // Mark the cache as dirty as we've added items from another file.
                         isDirty = true;
                     }

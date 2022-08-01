@@ -38,10 +38,10 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class
-        /// with the <see cref="Quadrilateral" /> class
+        /// with the <see cref="Triangle" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of Quadrilateral.</param>
-        public Shape(Quadrilateral actualInstance)
+        /// <param name="actualInstance">An instance of Triangle.</param>
+        public Shape(Triangle actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -50,10 +50,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class
-        /// with the <see cref="Triangle" /> class
+        /// with the <see cref="Quadrilateral" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of Triangle.</param>
-        public Shape(Triangle actualInstance)
+        /// <param name="actualInstance">An instance of Quadrilateral.</param>
+        public Shape(Quadrilateral actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -90,23 +90,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Quadrilateral</returns>
-        public Quadrilateral GetQuadrilateral()
-        {
-            return (Quadrilateral)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+        /// Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Triangle</returns>
         public Triangle GetTriangle()
         {
             return (Triangle)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Quadrilateral</returns>
+        public Quadrilateral GetQuadrilateral()
+        {
+            return (Quadrilateral)this.ActualInstance;
         }
 
         /// <summary>
@@ -140,23 +140,31 @@ namespace Org.OpenAPITools.Model
         {
             Shape newShape = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newShape;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "Quadrilateral":
-                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
-                    return newShape;
-                case "Triangle":
-                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
-                    return newShape;
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Shape. Possible values: Quadrilateral Triangle", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["shapeType"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "Quadrilateral":
+                        newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                        return newShape;
+                    case "Triangle":
+                        newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                        return newShape;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Shape. Possible values: Quadrilateral Triangle", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;

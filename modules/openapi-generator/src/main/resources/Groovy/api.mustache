@@ -73,7 +73,7 @@ class {{classname}} {
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "{{httpMethod}}", "{{returnContainer}}",
-                    {{#returnBaseType}}{{{returnBaseType}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
+                    {{#returnBaseType}}{{{.}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
 
     }
 

@@ -8,7 +8,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import org.openapitools.client.model.InlineResponseDefault;
+import org.openapitools.client.model.FooGetDefaultResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class DefaultApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +37,7 @@ public class DefaultApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -48,7 +48,7 @@ public class DefaultApi {
   /**
    * 
    * 
-   * @return InlineResponseDefault
+   * @return FooGetDefaultResponse
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -56,14 +56,14 @@ public class DefaultApi {
        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public InlineResponseDefault fooGet() throws ApiException {
+  public FooGetDefaultResponse fooGet() throws ApiException {
     return fooGetWithHttpInfo().getData();
   }
 
   /**
    * 
    * 
-   * @return ApiResponse&lt;InlineResponseDefault&gt;
+   * @return ApiResponse&lt;FooGetDefaultResponse&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -71,7 +71,7 @@ public class DefaultApi {
        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
+  public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -99,7 +99,7 @@ public class DefaultApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    GenericType<InlineResponseDefault> localVarReturnType = new GenericType<InlineResponseDefault>() {};
+    GenericType<FooGetDefaultResponse> localVarReturnType = new GenericType<FooGetDefaultResponse>() {};
 
     return apiClient.invokeAPI("DefaultApi.fooGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,

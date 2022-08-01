@@ -11,13 +11,22 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Tag  implements Serializable {
+@JsonTypeName("Tag")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Tag  implements Serializable {
   
   private @Valid Long id;
   private @Valid String name;
+
+  protected Tag(TagBuilder<?, ?> b) {
+  this.id = b.id;this.name = b.name;
+  }
+
+  public Tag() { }
 
   /**
    **/
@@ -27,14 +36,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -47,14 +55,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -101,5 +108,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static TagBuilder<?, ?> builder() {
+    return new TagBuilderImpl();
+  }
+
+  private static final class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
+
+    @Override
+    protected TagBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Tag build() {
+      return new Tag(this);
+    }
+  }
+
+  public static abstract class TagBuilder<C extends Tag, B extends TagBuilder<C, B>>  {
+    private Long id;
+    private String name;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B name(String name) {
+      this.name = name;
+      return self();
+    }
+  }
 }
 

@@ -1,18 +1,32 @@
 ---
-title: Config Options for kotlin-spring
-sidebar_label: kotlin-spring
+title: Documentation for the kotlin-spring Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-spring | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Kotlin Spring application. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiPackage|api package for generated code| |org.openapitools.api|
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
+|beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
+|documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springfox**</dt><dd>Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x. Deprecated (for removal); use springdoc instead.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
@@ -32,9 +46,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-|swaggerAnnotations|generate swagger annotations to go alongside controllers and models| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
+|useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
 
 ## IMPORT MAPPING
@@ -78,6 +92,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 
@@ -87,24 +104,64 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>ApiClient</li>
 <li>ApiException</li>
 <li>ApiResponse</li>
+<li>abstract</li>
+<li>actual</li>
+<li>annotation</li>
 <li>as</li>
 <li>break</li>
 <li>class</li>
+<li>companion</li>
+<li>const</li>
+<li>constructor</li>
 <li>continue</li>
+<li>crossinline</li>
+<li>data</li>
+<li>delegate</li>
 <li>do</li>
+<li>dynamic</li>
 <li>else</li>
+<li>enum</li>
+<li>expect</li>
+<li>external</li>
 <li>false</li>
+<li>field</li>
+<li>final</li>
+<li>finally</li>
 <li>for</li>
 <li>fun</li>
 <li>if</li>
+<li>import</li>
 <li>in</li>
+<li>infix</li>
+<li>init</li>
+<li>inline</li>
+<li>inner</li>
 <li>interface</li>
+<li>internal</li>
 <li>is</li>
+<li>it</li>
+<li>lateinit</li>
+<li>noinline</li>
 <li>null</li>
 <li>object</li>
+<li>open</li>
+<li>operator</li>
+<li>out</li>
+<li>override</li>
 <li>package</li>
+<li>param</li>
+<li>private</li>
+<li>property</li>
+<li>protected</li>
+<li>public</li>
+<li>receiver</li>
+<li>reified</li>
 <li>return</li>
+<li>sealed</li>
+<li>setparam</li>
 <li>super</li>
+<li>suspend</li>
+<li>tailrec</li>
 <li>this</li>
 <li>throw</li>
 <li>true</li>
@@ -112,8 +169,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>typealias</li>
 <li>typeof</li>
 <li>val</li>
+<li>value</li>
 <li>var</li>
+<li>vararg</li>
 <li>when</li>
+<li>where</li>
 <li>while</li>
 </ul>
 
@@ -145,7 +205,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -205,6 +269,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

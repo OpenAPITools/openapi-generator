@@ -1,0 +1,123 @@
+<?php
+declare(strict_types=1);
+
+namespace {{invokerPackage}};
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+use Articus\DataTransfer as DT;
+use OpenAPIGenerator\APIClient as OAGAC;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
+
+/**
+{{#appName}}
+ * {{&appName}}
+{{/appName}}
+{{#appDescription}}
+ * {{&appDescription}}
+{{/appDescription}}
+{{#version}}
+ * The version of the OpenAPI document: {{version}}
+{{/version}}
+ */
+class ApiClient extends OAGAC\AbstractApiClient
+{
+{{#operation}}
+    //region {{operationId}}
+    /**
+{{>api_arg_doc
+}}     * @return ResponseInterface
+     * @throws ClientExceptionInterface
+     * @throws DT\Exception\InvalidData
+     */
+    public function {{operationId}}Raw(
+{{>api_arg_declaration
+}}    ): ResponseInterface
+    {
+        $request = $this->createRequest('{{httpMethod}}', '{{path}}', {{#pathParams.0}}$this->getPathParameters($parameters){{/pathParams.0}}{{^pathParams.0}}[]{{/pathParams.0}}, {{#queryParams.0}}$this->getQueryParameters($parameters){{/queryParams.0}}{{^queryParams.0}}[]{{/queryParams.0}});
+{{#headerParams.0}}
+        $request = $this->addCustomHeaders($request, $parameters);
+{{/headerParams.0}}
+{{#cookieParams.0}}
+        $request = $this->addCookies($request, $parameters);
+{{/cookieParams.0}}
+{{#bodyParam}}
+        $request = $this->addBody($request, $requestMediaType, $requestContent);
+{{/bodyParam}}
+{{#hasProduces}}
+        $request = $this->addAcceptHeader($request, $responseMediaType);
+{{/hasProduces}}
+{{#hasAuthMethods}}
+        $request = $this->addSecurity($request, $security);
+{{/hasAuthMethods}}
+        return $this->httpClient->sendRequest($request);
+    }
+
+    /**
+{{>api_arg_doc
+}}     * @return array
+     * @throws ClientExceptionInterface
+     * @throws DT\Exception\InvalidData
+     * @throws OAGAC\Exception\InvalidResponseBodySchema
+     */
+    public function {{operationId}}(
+{{>api_arg_declaration
+}}    ): array
+    {
+        $response = $this->{{operationId}}Raw({{>api_arg_call}});
+        $responseContent = null;
+        switch ($response->getStatusCode())
+        {
+{{#responses}}
+            {{#isDefault}}default{{/isDefault}}{{^isDefault}}case {{code}}{{/isDefault}}:
+{{#message}}
+                /* {{&message}} */
+{{/message}}
+{{#isModel}}
+                $responseContent = new {{dataType}}();
+{{/isModel}}
+{{^isModel}}
+{{#isArray}}
+                $responseContent = new {{dataType}}();
+{{/isArray}}
+{{/isModel}}
+{{^isModel}}
+{{^isArray}}
+{{#isMap}}
+                $responseContent = new {{dataType}}();
+{{/isMap}}
+{{/isArray}}
+{{/isModel}}
+                break;
+{{/responses}}
+        }
+        $this->parseBody($response, $responseContent);
+        return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
+    }
+
+    /**
+{{>api_arg_doc
+}}     * @return {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}mixed{{/returnType}}
+     * @throws ClientExceptionInterface
+     * @throws DT\Exception\InvalidData
+     * @throws OAGAC\Exception\InvalidResponseBodySchema
+     * @throws OAGAC\Exception\UnsuccessfulResponse
+     */
+    public function {{operationId}}Result(
+{{>api_arg_declaration
+}}    ){{#returnType}}: {{returnType}}{{/returnType}}
+    {
+        return $this->getSuccessfulContent(...$this->{{operationId}}({{>api_arg_call}}));
+    }
+    //endregion
+{{^-last}}
+
+{{/-last}}
+{{/operation}}
+}
+
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

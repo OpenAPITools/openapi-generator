@@ -27,6 +27,15 @@ export interface ModelFile {
     sourceURI?: string;
 }
 
+/**
+ * Check if a given object implements the ModelFile interface.
+ */
+export function instanceOfModelFile(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ModelFileFromJSON(json: any): ModelFile {
     return ModelFileFromJSONTyped(json, false);
 }
@@ -53,5 +62,4 @@ export function ModelFileToJSON(value?: ModelFile | null): any {
         'sourceURI': value.sourceURI,
     };
 }
-
 

@@ -13,10 +13,10 @@
 type t = {
 {{#vars}}
     {{#description}}
-    (* {{{description}}} *)
+    (* {{{.}}} *)
     {{/description}}
     {{#isEnum}}
-    {{{name}}}: {{^isMap}}Enums.{{/isMap}}{{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#defaultValue}}[@default {{{defaultValue}}}]{{/defaultValue}}{{/required}}{{/isContainer}}{{^isContainer}}{{#required}}{{#isNullable}} option [@default {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/required}}{{/isContainer}};
+    {{{name}}}: {{^isMap}}Enums.{{/isMap}}{{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#defaultValue}}[@default {{{.}}}]{{/defaultValue}}{{/required}}{{/isContainer}}{{^isContainer}}{{#required}}{{#isNullable}} option [@default {{#defaultValue}}Some({{{.}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default {{#defaultValue}}Some({{{.}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}]{{/required}}{{/isContainer}};
     {{/isEnum}}
     {{^isEnum}}
     {{{name}}}: {{{datatypeWithEnum}}}{{^isContainer}}{{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}{{/isContainer}}{{^isContainer}}{{^required}} option [@default None]{{/required}}{{/isContainer}};
@@ -25,7 +25,7 @@ type t = {
 } [@@deriving yojson { strict = false }, show ];;
 
 {{#description}}
-(** {{{description}}} *)
+(** {{{.}}} *)
 {{/description}}
 let create {{#requiredVars}}({{{name}}} : {{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} option{{/isNullable}}){{^-last}} {{/-last}}{{/requiredVars}}{{^hasRequired}}(){{/hasRequired}} : t = {
     {{#vars}}

@@ -24,22 +24,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for BigCat
  */
-public class BigCatTest {
+class BigCatTest {
     private final BigCat model = new BigCat();
 
     /**
      * Model tests for BigCat
      */
     @Test
-    public void testBigCat() {
+    void testBigCat() {
         // TODO: test BigCat
     }
 
@@ -47,7 +45,7 @@ public class BigCatTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 
@@ -55,7 +53,7 @@ public class BigCatTest {
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
     }
 
@@ -63,7 +61,7 @@ public class BigCatTest {
      * Test the property 'declawed'
      */
     @Test
-    public void declawedTest() {
+    void declawedTest() {
         // TODO: test declawed
     }
 
@@ -71,7 +69,7 @@ public class BigCatTest {
      * Test the property 'kind'
      */
     @Test
-    public void kindTest() {
+    void kindTest() {
         // TODO: test kind
     }
 

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct OuterComposite: Codable {
+public struct OuterComposite: Codable, JSONEncodable {
 
     public var myNumber: Double?
     public var myString: String?

@@ -32,8 +32,8 @@ Method | HTTP request | Description
 [**testInlineAdditionalPropertiesWithHttpInfo**](FakeApi.md#testInlineAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 [**testJsonFormDataWithHttpInfo**](FakeApi.md#testJsonFormDataWithHttpInfo) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
-[**testQueryParameterCollectionFormatWithHttpInfo**](FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+[**testQueryParameterCollectionFormatWithHttpInfo**](FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-parameters | 
 
 
 

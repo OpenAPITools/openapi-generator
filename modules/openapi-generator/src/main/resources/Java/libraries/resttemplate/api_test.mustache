@@ -7,6 +7,8 @@ package {{package}};
 import org.junit.Test;
 import org.junit.Ignore;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 {{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +38,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}} = null;
         {{/allParams}}
-        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         // TODO: test validations
     }

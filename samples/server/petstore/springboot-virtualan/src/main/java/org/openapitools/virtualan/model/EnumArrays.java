@@ -1,22 +1,29 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumArrays   {
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class EnumArrays {
+
   /**
    * Gets or Sets justSymbol
    */
@@ -103,9 +110,8 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "just_symbol", required = false)
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -131,9 +137,8 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "array_enum", required = false)
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
@@ -141,7 +146,6 @@ public class EnumArrays   {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -165,7 +169,6 @@ public class EnumArrays   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
-    
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");

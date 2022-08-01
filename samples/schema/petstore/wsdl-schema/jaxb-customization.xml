@@ -8,7 +8,7 @@
 
     <enableWrapperStyle>true</enableWrapperStyle>
     <enableAsyncMapping>false</enableAsyncMapping>
-    
+
     <jaxws:bindings node="xsd:simpleType[@name='Status']">
     	<jaxb:typesafeEnumClass>
 	        <jaxb:typesafeEnumMember value="placed" name="PLACED" />
@@ -23,6 +23,6 @@
 	        <jaxb:typesafeEnumMember value="sold" name="SOLD" />
 	    </jaxb:typesafeEnumClass>
     </jaxws:bindings>
-    
-    
+
+
 </jaxws:bindings>

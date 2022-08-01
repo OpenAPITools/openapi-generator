@@ -1,7 +1,7 @@
   /**
-   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+   * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
    */
-  {{>additionalEnumTypeAnnotations}}public enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+  {{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
     {{#allowableValues}}
     {{#enumVars}}
     {{{name}}}({{{value}}}){{^-last}},
@@ -12,7 +12,7 @@
     {{/allowableValues}}
     private {{dataType}} value;
 
-    {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{dataType}} value) {
+    {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{dataType}} value) {
       this.value = value;
     }
 

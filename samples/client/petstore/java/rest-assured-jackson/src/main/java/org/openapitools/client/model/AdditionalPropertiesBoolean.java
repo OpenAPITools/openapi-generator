@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -35,12 +36,14 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   AdditionalPropertiesBoolean.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesBoolean")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesBoolean() {
+
+  }
 
   public AdditionalPropertiesBoolean name(String name) {
     

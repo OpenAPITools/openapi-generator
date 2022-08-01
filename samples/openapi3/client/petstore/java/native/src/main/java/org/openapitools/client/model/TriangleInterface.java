@@ -48,6 +48,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

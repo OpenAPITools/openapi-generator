@@ -28,7 +28,7 @@ public class FakeClassnameTags123Api {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +37,7 @@ public class FakeClassnameTags123Api {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */

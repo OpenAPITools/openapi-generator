@@ -25,23 +25,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
-import org.threeten.bp.OffsetDateTime;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for MixedPropertiesAndAdditionalPropertiesClass
  */
-public class MixedPropertiesAndAdditionalPropertiesClassTest {
+class MixedPropertiesAndAdditionalPropertiesClassTest {
     private final MixedPropertiesAndAdditionalPropertiesClass model = new MixedPropertiesAndAdditionalPropertiesClass();
 
     /**
      * Model tests for MixedPropertiesAndAdditionalPropertiesClass
      */
     @Test
-    public void testMixedPropertiesAndAdditionalPropertiesClass() {
+    void testMixedPropertiesAndAdditionalPropertiesClass() {
         // TODO: test MixedPropertiesAndAdditionalPropertiesClass
     }
 
@@ -49,7 +46,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'uuid'
      */
     @Test
-    public void uuidTest() {
+    void uuidTest() {
         // TODO: test uuid
     }
 
@@ -57,7 +54,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'dateTime'
      */
     @Test
-    public void dateTimeTest() {
+    void dateTimeTest() {
         // TODO: test dateTime
     }
 
@@ -65,7 +62,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'map'
      */
     @Test
-    public void mapTest() {
+    void mapTest() {
         // TODO: test map
     }
 

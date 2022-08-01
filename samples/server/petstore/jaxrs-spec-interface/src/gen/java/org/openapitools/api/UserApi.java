@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -16,7 +17,8 @@ import javax.validation.Valid;
 
 @Path("/user")
 @Api(description = "the user API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface UserApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public interface UserApi {
 
     @POST
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
@@ -63,7 +65,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    String loginUser(@QueryParam("username") @NotNull   @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull   @ApiParam("The password for login in clear text")  String password);
+    String loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password);
 
     @GET
     @Path("/logout")

@@ -21,7 +21,7 @@ open Microsoft.AspNetCore.Authentication.OAuth
 open System.Threading.Tasks
 open AspNet.Security.ApiKey.Providers.Events
 
-module CustomHandlers = 
+module CustomHandlers =
 
   let cookieAuth (o : CookieAuthenticationOptions) =
     do
@@ -30,22 +30,22 @@ module CustomHandlers =
         o.SlidingExpiration   <- true
         o.ExpireTimeSpan      <- TimeSpan.FromDays 7.0
 
-  
-  let onCreatingTicket name (ctx:OAuthCreatingTicketContext) = 
+
+  let onCreatingTicket name (ctx:OAuthCreatingTicketContext) =
     task {
         // implement post-authentication logic for oAuth handlers here
        ()
     } :> Task
 
-  let validateApiKey key = 
+  let validateApiKey key =
     raise (NotImplementedException("API key validation must be implemented"))
 
-  let setApiKeyEvents name (events:ApiKeyEvents) = 
-    events.OnApiKeyValidated <- (fun ctx -> 
+  let setApiKeyEvents name (events:ApiKeyEvents) =
+    events.OnApiKeyValidated <- (fun ctx ->
         task {
           // implement your validation/authentication logic for api key handlers here
-          if validateApiKey ctx.ApiKey then  
-          // to interact properly with Giraffe's handlers, you will need to manually set the identity 
+          if validateApiKey ctx.ApiKey then
+          // to interact properly with Giraffe's handlers, you will need to manually set the identity
           // let claims = ...
           // let identity = ClaimsIdentity(claims, ApiKeyDefaults.AuthenticationScheme)
           // ctx.HttpContext.User <- ClaimsPrincipal([|identity|])
@@ -54,7 +54,7 @@ module CustomHandlers =
     )
     events
 
-  let setOAuthOptions name (options:OAuthOptions) scopes (settings:IConfiguration) = 
+  let setOAuthOptions name (options:OAuthOptions) scopes (settings:IConfiguration) =
     options.ClientId <- settings.[name + "ClientId"]
     options.ClientSecret <- settings.[name + "ClientSecret"]
     for scope in scopes do
@@ -63,12 +63,12 @@ module CustomHandlers =
     options.Events.OnCreatingTicket <- Func<OAuthCreatingTicketContext,Tasks.Task>(onCreatingTicket name)
     match name with
     | "Google" ->
-      ()  
+      ()
     | "GitHub" ->
       ()
-    | _ -> 
+    | _ ->
       ()
-  
+
   let logout = signOut CookieAuthenticationDefaults.AuthenticationScheme >=> redirectTo false "/"
 
   let loginView =
@@ -83,13 +83,13 @@ module CustomHandlers =
             {{/authMethods}}
         ]
     ]
-  
-  let redirectToLogin : HttpHandler = 
-    htmlView loginView    
-  
+
+  let redirectToLogin : HttpHandler =
+    htmlView loginView
+
   let handlers : HttpHandler list = [
     // insert your handlers here
-    GET >=> 
+    GET >=>
       choose [
         route "/login" >=> redirectToLogin
         {{#authMethods}}
@@ -108,5 +108,5 @@ module CustomHandlers =
   let configureApp (app : IApplicationBuilder) =
     app
 
-  let configureServices (services:IServiceCollection) (authBuilder:AuthenticationBuilder) = 
+  let configureServices (services:IServiceCollection) (authBuilder:AuthenticationBuilder) =
     ()

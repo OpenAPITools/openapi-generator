@@ -1,14 +1,14 @@
 {{>licenseInfo}}
 {{#operations}}
 
-#include "{{classname}}.h"
-#include "IHttpBody.h"
-#include "JsonBody.h"
-#include "MultipartFormData.h"
-
-#include <unordered_set>
+#include "{{packageName}}/api/{{classname}}.h"
+#include "{{packageName}}/IHttpBody.h"
+#include "{{packageName}}/JsonBody.h"
+#include "{{packageName}}/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
+
+#include <unordered_set>
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
@@ -26,7 +26,7 @@ using namespace {{modelNamespace}};
 }
 
 {{#operation}}
-pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) const
+pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) const
 {
 {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set

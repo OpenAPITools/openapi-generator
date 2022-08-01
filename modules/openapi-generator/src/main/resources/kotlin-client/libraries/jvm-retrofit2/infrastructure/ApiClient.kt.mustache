@@ -3,7 +3,6 @@ package {{packageName}}.infrastructure
 {{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
-import {{packageName}}.auth.ApiKeyAuth
 import {{packageName}}.auth.OAuth
 import {{packageName}}.auth.OAuth.AccessTokenListener
 import {{packageName}}.auth.OAuthFlow
@@ -18,6 +17,9 @@ import {{packageName}}.auth.HttpBasicAuth
 import {{packageName}}.auth.HttpBearerAuth
 {{/isBasicBearer}}
 {{/isBasic}}
+{{#isApiKey}}
+import {{packageName}}.auth.ApiKeyAuth
+{{/isApiKey}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 
@@ -49,7 +51,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 {{#kotlinx_serialization}}
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import {{packageName}}.infrastructure.Serializer.jvmJson
+import {{packageName}}.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 {{/kotlinx_serialization}}
 
@@ -82,7 +84,7 @@ import okhttp3.MediaType.Companion.toMediaType
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}
             {{#kotlinx_serialization}}
-            .addConverterFactory(jvmJson.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()))
             {{/kotlinx_serialization}}
             .apply {
                 if (converterFactory != null) {
@@ -98,13 +100,9 @@ import okhttp3.MediaType.Companion.toMediaType
     private val defaultClientBuilder: OkHttpClient.Builder by lazy {
         OkHttpClient()
             .newBuilder()
-            .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-                override fun log(message: String) {
-                    logger?.invoke(message)
-                }
-            }).apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(HttpLoggingInterceptor { message -> logger?.invoke(message) }
+                .apply { level = HttpLoggingInterceptor.Level.BODY }
+            )
     }
 
     init {
@@ -123,7 +121,7 @@ import okhttp3.MediaType.Companion.toMediaType
                 {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
-            addAuthorization(authName, auth);
+            addAuthorization(authName, auth)
         }
     }
 
@@ -180,7 +178,7 @@ import okhttp3.MediaType.Companion.toMediaType
     {{#isBasicBasic}}
     fun setCredentials(username: String, password: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
-            setCredentials(username, password);
+            setCredentials(username, password)
         }
         {{#hasOAuthMethods}}
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
@@ -267,7 +265,7 @@ import okhttp3.MediaType.Companion.toMediaType
                 ?.setClientId(clientId)
                 ?.setRedirectURI(redirectURI)
         }
-        return this;
+        return this
     }
 
     /**
@@ -279,7 +277,7 @@ import okhttp3.MediaType.Companion.toMediaType
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             registerAccessTokenListener(accessTokenListener)
         }
-        return this;
+        return this
     }
 
     {{/hasOAuthMethods}}
@@ -325,8 +323,11 @@ import okhttp3.MediaType.Companion.toMediaType
 
     companion object {
         @JvmStatic
+        protected val baseUrlKey = "{{packageName}}.baseUrl"
+
+        @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
+            System.getProperties().getProperty(baseUrlKey, "{{{basePath}}}")
         }
     }
 }

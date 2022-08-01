@@ -14,8 +14,8 @@ interface StoreApi {
      * Responses:
      *  - 400: Invalid ID supplied
      *  - 404: Order not found
-     * 
-     * @param orderId ID of the order that needs to be deleted 
+     *
+     * @param orderId ID of the order that needs to be deleted
      * @return [Call]<[Unit]>
      */
     @DELETE("store/order/{orderId}")
@@ -26,7 +26,7 @@ interface StoreApi {
      * Returns a map of status codes to quantities
      * Responses:
      *  - 200: successful operation
-     * 
+     *
      * @return [Call]<[kotlin.collections.Map<kotlin.String, kotlin.Int>]>
      */
     @GET("store/inventory")
@@ -39,8 +39,8 @@ interface StoreApi {
      *  - 200: successful operation
      *  - 400: Invalid ID supplied
      *  - 404: Order not found
-     * 
-     * @param orderId ID of pet that needs to be fetched 
+     *
+     * @param orderId ID of pet that needs to be fetched
      * @return [Call]<[Order]>
      */
     @GET("store/order/{orderId}")
@@ -52,8 +52,8 @@ interface StoreApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid Order
-     * 
-     * @param body order placed for purchasing the pet 
+     *
+     * @param body order placed for purchasing the pet
      * @return [Call]<[Order]>
      */
     @POST("store/order")

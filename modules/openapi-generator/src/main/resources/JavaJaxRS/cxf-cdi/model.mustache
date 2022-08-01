@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 {{#models}}
 {{#model}}{{#description}}
 /**
- * {{description}}
+ * {{.}}
  **/{{/description}}
 {{#isEnum}}{{>enumOuterClass}}{{/isEnum}}
 {{^isEnum}}{{>pojo}}{{/isEnum}}

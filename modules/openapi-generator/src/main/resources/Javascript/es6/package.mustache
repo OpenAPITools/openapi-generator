@@ -3,7 +3,7 @@
   "version": "{{{projectVersion}}}",
   "description": "{{{projectDescription}}}",
   "license": "{{licenseName}}",
-  "main": "dist{{#invokerPackage}}/{{invokerPackage}}{{/invokerPackage}}/index.js",
+  "main": "dist{{#invokerPackage}}/{{.}}{{/invokerPackage}}/index.js",
   "scripts": {
     "build": "babel src -d dist",
     "prepare": "npm run build",

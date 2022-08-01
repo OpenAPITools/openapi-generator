@@ -99,6 +99,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
+        [Obsolete]
         List<Pet> FindPetsByTags (List<string> tags);
 
         /// <summary>
@@ -110,6 +111,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        [Obsolete]
         ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags);
         /// <summary>
         /// Find pet by ID
@@ -570,6 +572,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
+        [Obsolete]
         public List<Pet> FindPetsByTags (List<string> tags)
         {
              ApiResponse<List<Pet>> localVarResponse = FindPetsByTagsWithHttpInfo(tags);
@@ -582,6 +585,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        [Obsolete]
         public ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags)
         {
             // verify the required parameter 'tags' is set

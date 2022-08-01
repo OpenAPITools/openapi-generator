@@ -1,13 +1,13 @@
 import { exists, mapValues } from '../runtime';
 {{#hasImports}}
+{{#imports}}
+import type { {{{.}}} } from './{{.}}';
 import {
-    {{#imports}}
-    {{{.}}},
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
-    {{/imports}}
-} from './';
+} from './{{.}}';
+{{/imports}}
 
 {{/hasImports}}
 {{#discriminator}}
@@ -19,6 +19,20 @@ import {
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}
+
+/**
+ * Check if a given object implements the {{classname}} interface.
+ */
+export function instanceOf{{classname}}(value: object): boolean {
+    let isInstance = true;
+    {{#vars}}
+    {{#required}}
+    isInstance = isInstance && "{{name}}" in value;
+    {{/required}}
+    {{/vars}}
+
+    return isInstance;
+}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
@@ -39,23 +53,23 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
     return {
-        {{#parent}}...{{{parent}}}FromJSONTyped(json, ignoreDiscriminator),{{/parent}}
+        {{#parent}}...{{{.}}}FromJSONTyped(json, ignoreDiscriminator),{{/parent}}
         {{#additionalPropertiesType}}
             ...json,
         {{/additionalPropertiesType}}
         {{#vars}}
         {{#isPrimitiveType}}
-        {{#isDate}}
+        {{#isDateType}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}new Date(json['{{baseName}}'])),
-        {{/isDate}}
-        {{#isDateTime}}
+        {{/isDateType}}
+        {{#isDateTimeType}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}new Date(json['{{baseName}}'])),
-        {{/isDateTime}}
-        {{^isDate}}
-        {{^isDateTime}}
+        {{/isDateTimeType}}
+        {{^isDateType}}
+        {{^isDateTimeType}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
-        {{/isDateTime}}
-        {{/isDate}}
+        {{/isDateTimeType}}
+        {{/isDateType}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
@@ -97,14 +111,14 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         return null;
     }
     return {
-        {{#parent}}...{{{parent}}}ToJSON(value),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
-        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        '{{baseName}}': {{#isDateType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDateType}}{{#isDateTimeType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTimeType}}{{^isDateType}}{{^isDateTimeType}}value.{{name}}{{/isDateTimeType}}{{/isDateType}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
@@ -137,4 +151,3 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return value;
     {{/hasVars}}
 }
-

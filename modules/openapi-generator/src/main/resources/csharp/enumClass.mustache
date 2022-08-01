@@ -1,11 +1,13 @@
         /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>
         {{#description}}
-        /// <value>{{description}}</value>
+        /// <value>{{.}}</value>
         {{/description}}
+        {{^useGenericHost}}
         [JsonConverter(typeof(StringEnumConverter))]
-        {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        {{/useGenericHost}}
+        {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
         {
             {{#allowableValues}}
             {{#enumVars}}

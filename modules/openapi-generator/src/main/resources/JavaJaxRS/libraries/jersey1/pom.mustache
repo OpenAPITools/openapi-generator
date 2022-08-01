@@ -5,6 +5,15 @@
   <packaging>jar</packaging>
   <name>{{artifactId}}</name>
   <version>{{artifactVersion}}</version>
+
+{{#parentOverridden}}
+  <parent>
+    <groupId>{{parentGroupId}}</groupId>
+    <artifactId>{{parentArtifactId}}</artifactId>
+    <version>{{parentVersion}}</version>
+  </parent>
+{{/parentOverridden}}
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -45,8 +54,8 @@
 {{#useBeanValidation}}
         <dependencies>
           <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
+              <groupId>jakarta.validation</groupId>
+              <artifactId>jakarta.validation-api</artifactId>
               <version>${beanvalidation-version}</version>
           </dependency>
         </dependencies>
@@ -130,11 +139,15 @@
       <version>${jersey-version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <version>${servlet-api-version}</version>
     </dependency>
-
+    <dependency>
+       <groupId>jakarta.annotation</groupId>
+       <artifactId>jakarta.annotation-api</artifactId>
+       <version>${annotation-api-version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -155,6 +168,11 @@
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
@@ -180,8 +198,8 @@
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
@@ -197,19 +215,20 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+    <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.22</swagger-core-version>
 {{#useBeanValidation}}
-    <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+    <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey-version>1.19.1</jersey-version>
     <jackson-version>2.9.9</jackson-version>
     <slf4j-version>1.7.21</slf4j-version>
-    <junit-version>4.13</junit-version>
-    <servlet-api-version>2.5</servlet-api-version>
+    <junit-version>4.13.2</junit-version>
+    <servlet-api-version>4.0.4</servlet-api-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <annotation-api-version>1.3.5</annotation-api-version>
   </properties>
 </project>

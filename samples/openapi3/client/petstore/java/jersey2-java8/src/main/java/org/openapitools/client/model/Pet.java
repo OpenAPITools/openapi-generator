@@ -100,6 +100,8 @@ public class Pet {
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     this.id = id;
@@ -162,6 +164,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -192,6 +195,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

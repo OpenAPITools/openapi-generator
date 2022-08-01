@@ -21,6 +21,7 @@ Use any API key
 
 * Api Key Authentication (api_key):
 * Api Key Authentication (api_key_query):
+
 ```python
 import time
 import x_auth_id_alias
@@ -82,6 +83,7 @@ This endpoint does not need any parameter.
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -99,6 +101,7 @@ Use both API keys
 
 * Api Key Authentication (api_key):
 * Api Key Authentication (api_key_query):
+
 ```python
 import time
 import x_auth_id_alias
@@ -160,6 +163,7 @@ This endpoint does not need any parameter.
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -176,6 +180,7 @@ Use API key in header
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 import time
 import x_auth_id_alias
@@ -231,6 +236,7 @@ This endpoint does not need any parameter.
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -247,6 +253,7 @@ Use API key in query
 ### Example
 
 * Api Key Authentication (api_key_query):
+
 ```python
 import time
 import x_auth_id_alias
@@ -302,6 +309,7 @@ This endpoint does not need any parameter.
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

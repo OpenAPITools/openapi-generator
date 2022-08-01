@@ -31,7 +31,7 @@ class {{classname}}(Model):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
-    def __init__(self{{#vars}}, {{name}}: {{dataType}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):
+    def __init__(self{{#vars}}, {{name}}: {{dataType}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):
         """{{classname}} - a model defined in OpenAPI
 
         {{#vars}}
@@ -69,7 +69,7 @@ class {{classname}}(Model):
         """Gets the {{name}} of this {{classname}}.
 
         {{#description}}
-        {{{description}}}
+        {{{.}}}
         {{/description}}
 
         :return: The {{name}} of this {{classname}}.
@@ -82,7 +82,7 @@ class {{classname}}(Model):
         """Sets the {{name}} of this {{classname}}.
 
         {{#description}}
-        {{{description}}}
+        {{{.}}}
         {{/description}}
 
         :param {{name}}: The {{name}} of this {{classname}}.

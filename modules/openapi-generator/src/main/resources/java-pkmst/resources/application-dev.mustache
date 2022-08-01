@@ -38,10 +38,6 @@ info:
     description: Microservice developed by PKMST
     version: {{artifactVersion}}
 
-health:
-  hystrix:
-    enabled: true
-
 security:
   basic:
     enabled: false
@@ -55,7 +51,7 @@ spring:
     port:
   {{#zipkinUri}}
   zipkin:
-    base-url: {{zipkinUri}}
+    base-url: {{.}}
   {{/zipkinUri}}
 
   {{#springBootAdminUri}}

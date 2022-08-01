@@ -1,24 +1,13 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-
-{{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
-{{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
-{{/java8}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import com.sun.jersey.api.client.Client;
@@ -125,22 +114,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     {{#joda}}
     objectMapper.registerModule(new JodaModule());
     {{/joda}}
-    {{#java8}}
     objectMapper.registerModule(new JavaTimeModule());
-    {{/java8}}
-    {{#threetenbp}}
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
-    {{/threetenbp}}
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
 
     // Set default User-Agent.
-    setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
+    setUserAgent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
@@ -280,6 +260,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token
+   * @return API client
    */
   public void setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {

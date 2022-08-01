@@ -4,11 +4,12 @@
 * [Slim 4 Documentation](https://www.slimframework.com/docs/v4/)
 
 This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim-Psr7) implementation.
+[PHP-DI](https://php-di.org/doc/frameworks/slim.html) package used as dependency container.
 
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.2 or newer
+* PHP 7.4 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -23,13 +24,16 @@ $ composer install
 
 ## Add configs
 
-Application requires at least one config file(`config/dev/config.inc.php` or `config/prod/config.inc.php`). You can use [config/dev/example.inc.php](config/dev/example.inc.php) as starting point.
+[PHP-DI package](https://php-di.org/doc/getting-started.html) helps to decouple configuration from implementation. App loads configuration files in straight order(`$env` can be `prod` or `dev`):
+1. `config/$env/default.inc.php` (contains safe values, can be committed to vcs)
+2. `config/$env/config.inc.php` (user config, excluded from vcs, can contain sensitive values, passwords etc.)
+3. `lib/App/RegisterDependencies.php`
 
 ## Start devserver
 
-Run the following command in terminal to start localhost web server, assuming `./php-slim-server/` is public-accessible directory with `index.php` file:
+Run the following command in terminal to start localhost web server, assuming `./php-slim-server/public/` is public-accessible directory with `index.php` file:
 ```bash
-$ php -S localhost:8888 -t php-slim-server
+$ php -S localhost:8888 -t php-slim-server/public
 ```
 > **Warning** This web server was designed to aid application development.
 > It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
@@ -40,7 +44,7 @@ $ php -S localhost:8888 -t php-slim-server
 ### PHPUnit
 
 This package uses PHPUnit 8 or 9(depends from your PHP version) for unit testing.
-[Test folder](test) contains templates which you can fill with real test assertions.
+[Test folder](tests) contains templates which you can fill with real test assertions.
 How to write tests read at [2. Writing Tests for PHPUnit - PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/writing-tests-for-phpunit.html).
 
 #### Run
@@ -86,24 +90,34 @@ $ composer phplint
 
 ## Show errors
 
-Switch on option in your application config file like:
-```diff
- return [
-     'slimSettings' => [
--        'displayErrorDetails' => false,
-+        'displayErrorDetails' => true,
-         'logErrors' => true,
-         'logErrorDetails' => true,
-     ],
+Switch your app environment to development in `public/.htaccess` file:
+```ini
+## .htaccess
+<IfModule mod_env.c>
+    SetEnv APP_ENV 'development'
+</IfModule>
 ```
 
 ## Mock Server
-For a quick start uncomment [mocker middleware options](config/dev/example.inc.php#L67-L94) in your application config file.
+Since this feature should be used for development only, change environment to `development` and send additional HTTP header `X-OpenAPIServer-Mock: ping` with any request to get mocked response.
+CURL example:
+```console
+curl --request GET \
+    --url 'http://localhost:8888/v2/pet/findByStatus?status=available' \
+    --header 'accept: application/json' \
+    --header 'X-OpenAPIServer-Mock: ping'
+[{"id":-8738629417578509312,"category":{"id":-4162503862215270400,"name":"Lorem ipsum dol"},"name":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem i","photoUrls":["Lor"],"tags":[{"id":-3506202845849391104,"name":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectet"}],"status":"pending"}]
+```
 
 Used packages:
 * [Openapi Data Mocker](https://github.com/ybelenko/openapi-data-mocker) - first implementation of OAS3 fake data generator.
 * [Openapi Data Mocker Server Middleware](https://github.com/ybelenko/openapi-data-mocker-server-middleware) - PSR-15 HTTP server middleware.
 * [Openapi Data Mocker Interfaces](https://github.com/ybelenko/openapi-data-mocker-interfaces) - package with mocking interfaces.
+
+## Logging
+
+Build contains pre-configured [`monolog/monolog`](https://github.com/Seldaek/monolog) package. Make sure that `logs` folder is writable.
+Add required log handlers/processors/formatters in `lib/App/RegisterDependencies.php`.
 
 ## API Endpoints
 
@@ -117,16 +131,21 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 namespace OpenAPIServer\Api;
 
 use OpenAPIServer\Api\AbstractPetApi;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class PetApi extends AbstractPetApi
 {
-
-    public function addPet($request, $response, $args)
-    {
+    public function addPet(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
         // your implementation of addPet method here
     }
 }
 ```
+
+When you need to inject dependencies into API controller check [PHP-DI - Controllers as services](https://github.com/PHP-DI/Slim-Bridge#controllers-as-services) guide.
 
 Place all your implementation classes in `./src` folder accordingly.
 For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you need to create implementation class at `./src/Api/PetApi.php`.

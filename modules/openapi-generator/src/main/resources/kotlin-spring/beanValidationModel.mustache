@@ -1,5 +1,10 @@
-{{#pattern}}
-    @get:Pattern(regexp="{{{pattern}}}"){{/pattern}}{{!
+{{!
+format: email
+}}{{#isEmail}}
+    @get:Email{{/isEmail}}{{!
+pattern set
+}}{{#pattern}}
+    @get:Pattern(regexp="{{{.}}}"){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}}
     @get:Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
@@ -8,7 +13,7 @@ minLength set, maxLength not
     @get:Size(min={{minLength}}){{/maxLength}}{{/minLength}}{{!
 minLength not set, maxLength set
 }}{{^minLength}}{{#maxLength}}
-    @get:Size(max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
+    @get:Size(max={{.}}){{/maxLength}}{{/minLength}}{{!
 @Size: minItems && maxItems set
 }}{{#minItems}}{{#maxItems}}
     @get:Size(min={{minItems}},max={{maxItems}}) {{/maxItems}}{{/minItems}}{{!
@@ -17,17 +22,17 @@ minLength not set, maxLength set
     @get:Size(min={{minItems}}){{/maxItems}}{{/minItems}}{{!
 @Size: minItems not set && maxItems set
 }}{{^minItems}}{{#maxItems}}
-    @get:Size(max={{maxItems}}){{/maxItems}}{{/minItems}}{{!
+    @get:Size(max={{.}}){{/maxItems}}{{/minItems}}{{!
 check for integer or long / all others=decimal type with @Decimal*
 isInteger set
 }}{{#isInteger}}{{#minimum}}
-    @get:Min({{minimum}}){{/minimum}}{{#maximum}}
-    @get:Max({{maximum}}){{/maximum}}{{/isInteger}}{{!
+    @get:Min({{.}}){{/minimum}}{{#maximum}}
+    @get:Max({{.}}){{/maximum}}{{/isInteger}}{{!
 isLong set
 }}{{#isLong}}{{#minimum}}
-    @get:Min({{minimum}}L){{/minimum}}{{#maximum}}
-    @get:Max({{maximum}}L){{/maximum}}{{/isLong}}{{!
+    @get:Min({{.}}L){{/minimum}}{{#maximum}}
+    @get:Max({{.}}L){{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
 }}{{^isInteger}}{{^isLong}}{{#minimum}}
-    @get:DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}}
-    @get:DecimalMax("{{maximum}}"){{/maximum}}{{/isLong}}{{/isInteger}}
+    @get:DecimalMin("{{.}}"){{/minimum}}{{#maximum}}
+    @get:DecimalMax("{{.}}"){{/maximum}}{{/isLong}}{{/isInteger}}

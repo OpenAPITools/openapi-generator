@@ -349,7 +349,7 @@ void OAIUserApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::Netw
     socket->write(res);
     if(socket->isOpen()){
         socket->close();
-    }    
+    }
 }
 
 void OAIUserApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){

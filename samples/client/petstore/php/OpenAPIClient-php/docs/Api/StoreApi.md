@@ -188,6 +188,8 @@ placeOrder($order): \OpenAPI\Client\Model\Order
 
 Place an order for a pet
 
+
+
 ### Example
 
 ```php

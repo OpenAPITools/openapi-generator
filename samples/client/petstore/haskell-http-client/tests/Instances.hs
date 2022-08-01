@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports -fno-warn-unused-matches #-}
 
 module Instances where
@@ -12,6 +13,7 @@ import qualified Data.Set as Set
 import qualified Data.Text as T
 import qualified Data.Time as TI
 import qualified Data.Vector as V
+import Data.String (fromString)
 
 import Control.Monad
 import Data.Char (isSpace)
@@ -51,9 +53,16 @@ instance Arbitrary Date where
     arbitrary = Date <$> arbitrary
     shrink (Date xs) = Date <$> shrink xs
 
+#if MIN_VERSION_aeson(2,0,0)
+#else
 -- | A naive Arbitrary instance for A.Value:
 instance Arbitrary A.Value where
-  arbitrary = frequency [(3, simpleTypes), (1, arrayTypes), (1, objectTypes)]
+  arbitrary = arbitraryValue
+#endif
+
+arbitraryValue :: Gen A.Value
+arbitraryValue =
+  frequency [(3, simpleTypes), (1, arrayTypes), (1, objectTypes)]
     where
       simpleTypes :: Gen A.Value
       simpleTypes =
@@ -63,7 +72,7 @@ instance Arbitrary A.Value where
           , (2, liftM (A.Number . fromIntegral) (arbitrary :: Gen Int))
           , (2, liftM (A.String . T.pack) (arbitrary :: Gen String))
           ]
-      mapF (k, v) = (T.pack k, v)
+      mapF (k, v) = (fromString k, v)
       simpleAndArrays = frequency [(1, sized sizedArray), (4, simpleTypes)]
       arrayTypes = sized sizedArray
       objectTypes = sized sizedObject
@@ -71,7 +80,7 @@ instance Arbitrary A.Value where
       sizedObject n =
         liftM (A.object . map mapF) $
         replicateM n $ (,) <$> (arbitrary :: Gen String) <*> simpleAndArrays
-    
+
 -- | Checks if a given list has no duplicates in _O(n log n)_.
 hasNoDups
   :: (Ord a)
@@ -86,7 +95,7 @@ hasNoDups = go Set.empty
 
 instance ApproxEq TI.Day where
   (=~) = (==)
-    
+
 arbitraryReduced :: Arbitrary a => Int -> Gen a
 arbitraryReduced n = resize (n `div` 2) arbitrary
 
@@ -103,7 +112,7 @@ arbitraryReducedMaybeValue n = do
     else return generated
 
 -- * Models
- 
+
 instance Arbitrary AdditionalPropertiesAnyType where
   arbitrary = sized genAdditionalPropertiesAnyType
 

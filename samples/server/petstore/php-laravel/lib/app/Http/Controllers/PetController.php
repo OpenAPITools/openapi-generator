@@ -130,6 +130,7 @@ class PetController extends Controller
      *
      *
      * @return Http response
+     * @deprecated
      */
     public function findPetsByTags()
     {

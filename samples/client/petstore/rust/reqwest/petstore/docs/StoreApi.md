@@ -100,15 +100,17 @@ No authorization required
 
 ## place_order
 
-> crate::models::Order place_order(body)
+> crate::models::Order place_order(order)
 Place an order for a pet
+
+
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Order**](Order.md) | order placed for purchasing the pet | [required] |
+**order** | [**Order**](Order.md) | order placed for purchasing the pet | [required] |
 
 ### Return type
 
@@ -120,7 +122,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

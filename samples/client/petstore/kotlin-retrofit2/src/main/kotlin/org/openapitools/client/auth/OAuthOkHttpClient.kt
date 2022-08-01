@@ -22,9 +22,9 @@ class OAuthOkHttpClient(
 
     @Throws(OAuthSystemException::class, OAuthProblemException::class)
     override fun <T : OAuthClientResponse?> execute(
-            request: OAuthClientRequest, 
+            request: OAuthClientRequest,
             headers: Map<String, String>?,
-            requestMethod: String, 
+            requestMethod: String,
             responseClass: Class<T>?): T {
 
         var mediaType = "application/json".toMediaTypeOrNull()
@@ -44,7 +44,7 @@ class OAuthOkHttpClient(
         try {
             val response = client.newCall(requestBuilder.build()).execute()
             return OAuthClientResponseFactory.createCustomResponse(
-                    response.body?.string(), 
+                    response.body?.string(),
                     response.body?.contentType()?.toString(),
                     response.code,
                     response.headers.toMultimap(),

@@ -14,4 +14,3 @@ copy packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll bin\Newtonsof
 copy packages\JsonSubTypes.1.6.0\lib\net45\JsonSubTypes.dll bin\JsonSubTypes.dll
 copy packages\RestSharp.105.1.0\lib\net45\RestSharp.dll bin\RestSharp.dll
 %CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\JsonSubTypes.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll  /target:library /out:bin\Org.OpenAPITools.dll /recurse:src\Org.OpenAPITools\*.cs /doc:bin\Org.OpenAPITools.xml
-

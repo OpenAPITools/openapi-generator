@@ -6,8 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -24,7 +23,7 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
     apply plugin: 'com.github.dcendents.android-maven'
-    
+
     android {
         compileSdkVersion 23
         buildToolsVersion '23.0.2'
@@ -36,7 +35,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
-    
+
         // Rename the aar correctly
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
@@ -49,10 +48,10 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
-    
+
     afterEvaluate {
         android.libraryVariants.all { variant ->
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
@@ -64,12 +63,12 @@ if(hasProperty('target') && target == 'android') {
             artifacts.add('archives', task);
         }
     }
-    
+
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
         classifier = 'sources'
     }
-    
+
     artifacts {
         archives sourcesJar
     }
@@ -77,17 +76,20 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'petstore-rest-assured'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'petstore-rest-assured'
+               from components.java
+            }
         }
     }
-    
+
     task execute(type:JavaExec) {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
@@ -95,12 +97,11 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.21"
-    rest_assured_version = "4.3.0"
-    junit_version = "4.13.1"
-    gson_version = "2.8.6"
-    gson_fire_version = "1.8.4"
-    threetenbp_version = "1.4.3"
+    swagger_annotations_version = "1.6.6"
+    rest_assured_version = "4.5.1"
+    junit_version = "4.13.2"
+    gson_version = "2.8.9"
+    gson_fire_version = "1.8.5"
     okio_version = "1.17.5"
 }
 
@@ -110,10 +111,9 @@ dependencies {
     implementation "io.rest-assured:rest-assured:$rest_assured_version"
     implementation "io.gsonfire:gson-fire:$gson_fire_version"
     implementation 'com.google.code.gson:gson:$gson_version'
-    implementation "org.threeten:threetenbp:$threetenbp_version"
     implementation "com.squareup.okio:okio:$okio_version"
-    implementation "javax.validation:validation-api:2.0.1.Final"
+    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     implementation "org.hibernate:hibernate-validator:6.0.19.Final"
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

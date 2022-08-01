@@ -27,6 +27,15 @@ export interface HealthCheckResult {
     nullableMessage?: string | null;
 }
 
+/**
+ * Check if a given object implements the HealthCheckResult interface.
+ */
+export function instanceOfHealthCheckResult(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function HealthCheckResultFromJSON(json: any): HealthCheckResult {
     return HealthCheckResultFromJSONTyped(json, false);
 }
@@ -53,5 +62,4 @@ export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
         'NullableMessage': value.nullableMessage,
     };
 }
-
 

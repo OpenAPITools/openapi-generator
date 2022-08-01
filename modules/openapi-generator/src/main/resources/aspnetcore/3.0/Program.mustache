@@ -27,7 +27,7 @@ namespace {{packageName}}
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                    webBuilder.UseStartup<Startup>()
-                             .UseUrls("http://0.0.0.0:{{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}8080{{/serverPort}}/");
+                             .UseUrls("http://0.0.0.0:{{serverPort}}{{^serverPort}}8080{{/serverPort}}/");
                 });
     }
 }

@@ -12,7 +12,7 @@ class ApiKeyAuth(
         private val paramName: String = "",
         private var apiKey: String = ""
 ) : Interceptor {
-    
+
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()

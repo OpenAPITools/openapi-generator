@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{{name}}}** | {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{complexType}}}.md){{/isPrimitiveType}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}} | {{{description}}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{{defaultValue}}}]{{/defaultValue}}
+{{#vars}}**{{{name}}}** | {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{complexType}}}.md){{/isPrimitiveType}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}} | {{{description}}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Banana {\n");
             sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
             sb.Append("}\n");
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.LengthCm.GetHashCode();
+                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
                 return hashCode;
             }
         }
@@ -108,7 +108,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

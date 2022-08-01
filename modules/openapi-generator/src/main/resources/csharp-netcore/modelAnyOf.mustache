@@ -1,9 +1,15 @@
     /// <summary>
-    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
+    {{#vendorExtensions.x-cls-compliant}}
+    [CLSCompliant({{{.}}})]
+    {{/vendorExtensions.x-cls-compliant}}
+    {{#vendorExtensions.x-com-visible}}
+    [ComVisible({{{.}}})]
+    {{/vendorExtensions.x-com-visible}}
     [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
-    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
         {{#isNullable}}
         /// <summary>
@@ -19,7 +25,7 @@
         {{#anyOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
-        /// with the <see cref="{{{.}}}" /> class
+        /// with the <see cref="{{#lambdaCref}}{{{.}}}{{/lambdaCref}}" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of {{{.}}}.</param>
         public {{classname}}({{{.}}} actualInstance)
@@ -59,7 +65,7 @@
         {{#anyOf}}
 
         /// <summary>
-        /// Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+        /// Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of {{{.}}}</returns>
@@ -100,7 +106,7 @@
         {
             {{classname}} new{{classname}} = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return new{{classname}};
             }
@@ -171,6 +177,7 @@
             }
         }
 
+        {{#validatable}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -180,6 +187,7 @@
         {
             yield break;
         }
+        {{/validatable}}
     }
 
     /// <summary>

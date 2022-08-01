@@ -199,7 +199,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -240,10 +240,10 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User user);
         /// <summary>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -251,10 +251,10 @@ namespace Org.OpenAPITools.Api
         ModelClient TestClientModel (ModelClient modelClient);
 
         /// <summary>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -320,10 +320,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns></returns>
-        void TestEnumParameters (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
+        void TestEnumParameters (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
 
         /// <summary>
         /// To test enum parameters
@@ -338,10 +339,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
+        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -429,8 +431,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns></returns>
-        void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>));
 
         /// <summary>
         /// 
@@ -444,8 +448,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>));
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -638,7 +644,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -650,7 +656,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -683,10 +689,10 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync (string query, User user, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -698,7 +704,7 @@ namespace Org.OpenAPITools.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -767,11 +773,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// To test enum parameters
@@ -786,11 +793,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -884,9 +892,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 
@@ -900,9 +910,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -2179,7 +2191,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2190,7 +2202,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2251,7 +2263,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2264,7 +2276,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2485,7 +2497,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2497,7 +2509,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2559,7 +2571,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2573,7 +2585,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2886,12 +2898,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns></returns>
-        public void TestEnumParameters (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
+        public void TestEnumParameters (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
         {
-             TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+             TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
         }
 
         /// <summary>
@@ -2904,10 +2917,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
+        public ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
         {
 
             var localVarPath = "/fake";
@@ -2935,6 +2949,7 @@ namespace Org.OpenAPITools.Api
             if (enumQueryString != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_string", enumQueryString)); // query parameter
             if (enumQueryInteger != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_integer", enumQueryInteger)); // query parameter
             if (enumQueryDouble != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_double", enumQueryDouble)); // query parameter
+            if (enumQueryModelArray != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "enum_query_model_array", enumQueryModelArray)); // query parameter
             if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", this.Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", this.Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
             if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", this.Configuration.ApiClient.Serialize(enumFormStringArray)); // form parameter
@@ -2969,13 +2984,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken))
         {
-             await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken);
+             await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, cancellationToken);
 
         }
 
@@ -2989,11 +3005,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryModelArray"> (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<EnumClass> enumQueryModelArray = default(List<EnumClass>), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), CancellationToken cancellationToken = default(CancellationToken))
         {
 
             var localVarPath = "/fake";
@@ -3021,6 +3038,7 @@ namespace Org.OpenAPITools.Api
             if (enumQueryString != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_string", enumQueryString)); // query parameter
             if (enumQueryInteger != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_integer", enumQueryInteger)); // query parameter
             if (enumQueryDouble != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_double", enumQueryDouble)); // query parameter
+            if (enumQueryModelArray != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "enum_query_model_array", enumQueryModelArray)); // query parameter
             if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", this.Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", this.Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
             if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", this.Configuration.ApiClient.Serialize(enumFormStringArray)); // form parameter
@@ -3112,7 +3130,7 @@ namespace Org.OpenAPITools.Api
             if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
 
             // authentication (bearer_test) required
-            // http beerer authentication required
+            // http bearer authentication required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
@@ -3531,10 +3549,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns></returns>
-        public void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        public void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>))
         {
-             TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+             TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language);
         }
 
         /// <summary>
@@ -3546,8 +3566,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        public ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
@@ -3564,8 +3586,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'context' is set
             if (context == null)
                 throw new ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
+            // verify the required parameter 'allowEmpty' is set
+            if (allowEmpty == null)
+                throw new ApiException(400, "Missing required parameter 'allowEmpty' when calling FakeApi->TestQueryParameterCollectionFormat");
 
-            var localVarPath = "/fake/test-query-paramters";
+            var localVarPath = "/fake/test-query-parameters";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3590,6 +3615,8 @@ namespace Org.OpenAPITools.Api
             if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("ssv", "http", http)); // query parameter
             if (url != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "url", url)); // query parameter
             if (context != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "context", context)); // query parameter
+            if (language != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "language", language)); // query parameter
+            if (allowEmpty != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "allowEmpty", allowEmpty)); // query parameter
 
 
             // make the HTTP request
@@ -3619,11 +3646,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken))
         {
-             await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken);
+             await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, allowEmpty, language, cancellationToken);
 
         }
 
@@ -3636,9 +3665,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="allowEmpty"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
@@ -3655,8 +3686,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'context' is set
             if (context == null)
                 throw new ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
+            // verify the required parameter 'allowEmpty' is set
+            if (allowEmpty == null)
+                throw new ApiException(400, "Missing required parameter 'allowEmpty' when calling FakeApi->TestQueryParameterCollectionFormat");
 
-            var localVarPath = "/fake/test-query-paramters";
+            var localVarPath = "/fake/test-query-parameters";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3681,6 +3715,8 @@ namespace Org.OpenAPITools.Api
             if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("ssv", "http", http)); // query parameter
             if (url != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "url", url)); // query parameter
             if (context != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "context", context)); // query parameter
+            if (language != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "language", language)); // query parameter
+            if (allowEmpty != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "allowEmpty", allowEmpty)); // query parameter
 
 
             // make the HTTP request

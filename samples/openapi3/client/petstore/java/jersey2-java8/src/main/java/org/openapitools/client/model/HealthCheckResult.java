@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -43,6 +44,8 @@ public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
+  public HealthCheckResult() { 
+  }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
@@ -90,12 +93,23 @@ public class HealthCheckResult {
       return false;
     }
     HealthCheckResult healthCheckResult = (HealthCheckResult) o;
-    return Objects.equals(this.nullableMessage, healthCheckResult.nullableMessage);
+    return equalsNullable(this.nullableMessage, healthCheckResult.nullableMessage);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(nullableMessage);
+    return Objects.hash(hashCodeNullable(nullableMessage));
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

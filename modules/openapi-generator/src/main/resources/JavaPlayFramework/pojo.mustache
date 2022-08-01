@@ -3,11 +3,14 @@ import java.util.Objects;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ * {{description}}{{^description}}{{classname}}{{/description}}
  */
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -15,7 +18,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
-{{>enumClass}} 
+{{>enumClass}}
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -25,6 +28,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
   {{#isContainer}}
   {{#useBeanValidation}}
   {{>beanValidation}}
@@ -71,16 +77,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
    /**
   {{#description}}
-   * {{{description}}}
+   * {{{.}}}
   {{/description}}
   {{^description}}
    * Get {{name}}
   {{/description}}
   {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
   **/
@@ -91,7 +97,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     return {{name}};
   }
 
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

@@ -131,7 +131,9 @@ class ApiClient(object):
         _preload_content: bool = True,
         _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
-        _check_type: typing.Optional[bool] = None
+        _check_type: typing.Optional[bool] = None,
+        _content_type: typing.Optional[str] = None,
+        _request_auths: typing.Optional[typing.List[typing.Dict[str, typing.Any]]] = None
     ):
 
         config = self.configuration
@@ -173,7 +175,7 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
             if header_params['Content-Type'].startswith("multipart"):
                 post_params = self.parameters_to_multipart(post_params,
-                                                          (dict) )
+                                                           (dict))
 
         # body
         if body:
@@ -181,7 +183,8 @@ class ApiClient(object):
 
         # auth setting
         self.update_params_for_auth(header_params, query_params,
-                                    auth_settings, resource_path, method, body)
+                                    auth_settings, resource_path, method, body,
+                                    request_auths=_request_auths)
 
         # request url
         if _host is None:
@@ -245,13 +248,14 @@ class ApiClient(object):
         if collection_types is None:
             collection_types = (dict)
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
-            if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
-                 v = json.dumps(v, ensure_ascii=False).encode("utf-8")
-                 field = RequestField(k, v)
-                 field.make_multipart(content_type="application/json; charset=utf-8")
-                 new_params.append(field)
+            if isinstance(
+                     v, collection_types): # v is instance of collection_type, formatting as application/json
+                v = json.dumps(v, ensure_ascii=False).encode("utf-8")
+                field = RequestField(k, v)
+                field.make_multipart(content_type="application/json; charset=utf-8")
+                new_params.append(field)
             else:
-                 new_params.append((k, v))
+                new_params.append((k, v))
         return new_params
 
     @classmethod
@@ -270,8 +274,10 @@ class ApiClient(object):
         """
         if isinstance(obj, (ModelNormal, ModelComposed)):
             return {
-                key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
-            }
+                key: cls.sanitize_for_serialization(val) for key,
+                val in model_to_dict(
+                    obj,
+                    serialize=True).items()}
         elif isinstance(obj, io.IOBase):
             return cls.get_file_data_and_close_file(obj)
         elif isinstance(obj, (str, int, float, none_type, bool)):
@@ -284,7 +290,9 @@ class ApiClient(object):
             return [cls.sanitize_for_serialization(item) for item in obj]
         if isinstance(obj, dict):
             return {key: cls.sanitize_for_serialization(val) for key, val in obj.items()}
-        raise ApiValueError('Unable to prepare type {} for serialization'.format(obj.__class__.__name__))
+        raise ApiValueError(
+            'Unable to prepare type {} for serialization'.format(
+                obj.__class__.__name__))
 
     def deserialize(self, response, response_type, _check_type):
         """Deserializes response into an object.
@@ -349,7 +357,8 @@ class ApiClient(object):
         _preload_content: bool = True,
         _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
-        _check_type: typing.Optional[bool] = None
+        _check_type: typing.Optional[bool] = None,
+        _request_auths: typing.Optional[typing.List[typing.Dict[str, typing.Any]]] = None
     ):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
@@ -397,6 +406,10 @@ class ApiClient(object):
         :param _check_type: boolean describing if the data back from the server
             should have its type checked.
         :type _check_type: bool, optional
+        :param _request_auths: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auths: list, optional
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -411,7 +424,7 @@ class ApiClient(object):
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host,
-                                   _check_type)
+                                   _check_type, _request_auths=_request_auths)
 
         return self.pool.apply_async(self.__call_api, (resource_path,
                                                        method, path_params,
@@ -424,7 +437,7 @@ class ApiClient(object):
                                                        collection_formats,
                                                        _preload_content,
                                                        _request_timeout,
-                                                       _host, _check_type))
+                                                       _host, _check_type, None, _request_auths))
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
@@ -523,7 +536,9 @@ class ApiClient(object):
         file_instance.close()
         return file_data
 
-    def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
+    def files_parameters(self,
+                         files: typing.Optional[typing.Dict[str,
+                                                            typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
         :param files: None or a dict with key=param_name and
@@ -572,51 +587,70 @@ class ApiClient(object):
         else:
             return ', '.join(accepts)
 
-    def select_header_content_type(self, content_types):
+    def select_header_content_type(self, content_types, method=None, body=None):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
+        :param method: http method (e.g. POST, PATCH).
+        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
-            return 'application/json'
+            return None
 
         content_types = [x.lower() for x in content_types]
+
+        if (method == 'PATCH' and
+                'application/json-patch+json' in content_types and
+                isinstance(body, list)):
+            return 'application/json-patch+json'
 
         if 'application/json' in content_types or '*/*' in content_types:
             return 'application/json'
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings,
-                               resource_path, method, body):
+    def update_params_for_auth(self, headers, queries, auth_settings,
+                               resource_path, method, body, request_auths=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         :param resource_path: A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method.
         :param body: A object representing the body of the HTTP request.
             The object type is the return value of _encoder.default().
+        :param request_auths: if set, the provided settings will
+            override the token in the configuration.
         """
         if not auth_settings:
+            return
+
+        if request_auths:
+            for auth_setting in request_auths:
+                self._apply_auth_params(
+                    headers, queries, resource_path, method, body, auth_setting)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if auth_setting['in'] == 'cookie':
-                    headers['Cookie'] = auth_setting['value']
-                elif auth_setting['in'] == 'header':
-                    if auth_setting['type'] != 'http-signature':
-                        headers[auth_setting['key']] = auth_setting['value']
-                elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
-                else:
-                    raise ApiValueError(
-                        'Authentication token must be in `query` or `header`'
-                    )
+                self._apply_auth_params(
+                    headers, queries, resource_path, method, body, auth_setting)
+
+    def _apply_auth_params(self, headers, queries, resource_path, method, body, auth_setting):
+        if auth_setting['in'] == 'cookie':
+            headers['Cookie'] = auth_setting['key'] + "=" + auth_setting['value']
+        elif auth_setting['in'] == 'header':
+            if auth_setting['type'] != 'http-signature':
+                headers[auth_setting['key']] = auth_setting['value']
+        elif auth_setting['in'] == 'query':
+            queries.append((auth_setting['key'], auth_setting['value']))
+        else:
+            raise ApiValueError(
+                'Authentication token must be in `query` or `header`'
+            )
 
 
 class Endpoint(object):
@@ -664,7 +698,10 @@ class Endpoint(object):
             '_request_timeout',
             '_return_http_data_only',
             '_check_input_type',
-            '_check_return_type'
+            '_check_return_type',
+            '_content_type',
+            '_spec_property_naming',
+            '_request_auths'
         ])
         self.params_map['nullable'].extend(['_request_timeout'])
         self.validations = root_map['validations']
@@ -677,7 +714,10 @@ class Endpoint(object):
             '_request_timeout': (none_type, float, (float,), [float], int, (int,), [int]),
             '_return_http_data_only': (bool,),
             '_check_input_type': (bool,),
-            '_check_return_type': (bool,)
+            '_check_return_type': (bool,),
+            '_spec_property_naming': (bool,),
+            '_content_type': (none_type, str),
+            '_request_auths': (none_type, list)
         }
         self.openapi_types.update(extra_types)
         self.attribute_map = root_map['attribute_map']
@@ -713,7 +753,7 @@ class Endpoint(object):
                 value,
                 self.openapi_types[key],
                 [key],
-                False,
+                kwargs['_spec_property_naming'],
                 kwargs['_check_input_type'],
                 configuration=self.api_client.configuration
             )
@@ -741,11 +781,11 @@ class Endpoint(object):
                 base_name = self.attribute_map[param_name]
                 if (param_location == 'form' and
                         self.openapi_types[param_name] == (file_type,)):
-                    params['file'][param_name] = [param_value]
+                    params['file'][base_name] = [param_value]
                 elif (param_location == 'form' and
                         self.openapi_types[param_name] == ([file_type],)):
                     # param_value is already a list
-                    params['file'][param_name] = param_value
+                    params['file'][base_name] = param_value
                 elif param_location in {'form', 'query'}:
                     param_value_full = (base_name, param_value)
                     params[param_location].append(param_value_full)
@@ -824,11 +864,17 @@ class Endpoint(object):
             params['header']['Accept'] = self.api_client.select_header_accept(
                 accept_headers_list)
 
-        content_type_headers_list = self.headers_map['content_type']
-        if content_type_headers_list:
-            header_list = self.api_client.select_header_content_type(
-                content_type_headers_list)
-            params['header']['Content-Type'] = header_list
+        if kwargs.get('_content_type'):
+            params['header']['Content-Type'] = kwargs['_content_type']
+        else:
+            content_type_headers_list = self.headers_map['content_type']
+            if content_type_headers_list:
+                if params['body'] != "":
+                    content_types_list = self.api_client.select_header_content_type(
+                        content_type_headers_list, self.settings['http_method'],
+                        params['body'])
+                    if content_types_list:
+                        params['header']['Content-Type'] = content_types_list
 
         return self.api_client.call_api(
             self.settings['endpoint_path'], self.settings['http_method'],
@@ -846,4 +892,5 @@ class Endpoint(object):
             _preload_content=kwargs['_preload_content'],
             _request_timeout=kwargs['_request_timeout'],
             _host=_host,
+            _request_auths=kwargs['_request_auths'],
             collection_formats=params['collection_format'])

@@ -14,8 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Order,
+import type {
+  Order,
 } from '../models';
 
 export interface DeleteOrderRequest {
@@ -39,7 +39,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrderRaw(requestParameters: DeleteOrderRequest): Promise<runtime.ApiResponse<void>> {
+    async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
@@ -53,7 +53,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -62,15 +62,15 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrder(requestParameters: DeleteOrderRequest): Promise<void> {
-        await this.deleteOrderRaw(requestParameters);
+    async deleteOrder(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteOrderRaw(requestParameters, initOverrides);
     }
 
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+    async getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -84,7 +84,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -93,8 +93,8 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventory(): Promise<{ [key: string]: number; }> {
-        const response = await this.getInventoryRaw();
+    async getInventory(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: number; }> {
+        const response = await this.getInventoryRaw(initOverrides);
         return await response.value();
     }
 
@@ -102,7 +102,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    async getOrderByIdRaw(requestParameters: GetOrderByIdRequest): Promise<runtime.ApiResponse<Order>> {
+    async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
@@ -116,7 +116,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response);
     }
@@ -125,15 +125,15 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    async getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order> {
-        const response = await this.getOrderByIdRaw(requestParameters);
+    async getOrderById(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order> {
+        const response = await this.getOrderByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Place an order for a pet
      */
-    async placeOrderRaw(requestParameters: PlaceOrderRequest): Promise<runtime.ApiResponse<Order>> {
+    async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
         }
@@ -150,7 +150,7 @@ export class StoreApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response);
     }
@@ -158,8 +158,8 @@ export class StoreApi extends runtime.BaseAPI {
     /**
      * Place an order for a pet
      */
-    async placeOrder(requestParameters: PlaceOrderRequest): Promise<Order> {
-        const response = await this.placeOrderRaw(requestParameters);
+    async placeOrder(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order> {
+        const response = await this.placeOrderRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -39,6 +39,8 @@ public class BasquePig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public BasquePig() { 
+  }
 
   public BasquePig className(String className) {
     this.className = className;
@@ -49,6 +51,7 @@ public class BasquePig {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

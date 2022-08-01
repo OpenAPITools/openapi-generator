@@ -1,7 +1,7 @@
 
 {{#models}}{{#model}}{{#emitJSDoc}}/**
  * The {{classname}} model module.
- * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+ * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
  * @version {{projectVersion}}
  */{{/emitJSDoc}}
 class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}extends Array {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{
@@ -9,9 +9,9 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
     {{#emitJSDoc}}/**
      * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}
      * @type {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>{{#defaultValue}}
-     * @default {{{defaultValue}}}{{/defaultValue}}
+     * @default {{{.}}}{{/defaultValue}}
      */{{/emitJSDoc}}
-    {{baseName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+    {{baseName}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
 
     {{#useInheritance}}{{#interfaceModels}}{{#allVars}}{{#emitJSDoc}}/**
@@ -23,11 +23,11 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
 
     {{#emitJSDoc}}/**
      * Constructs a new <code>{{classname}}</code>.{{#description}}
-     * {{description}}{{/description}}
-     * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
-     * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
-     * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
-     * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
+     * {{.}}{{/description}}
+     * @alias module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
+     * @extends {{#parentModel}}module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
+     * @implements module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+     * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{{description}}}{{/vendorExtensions.x-all-required}}
      */{{/emitJSDoc}}
     constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) { {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}
         super();

@@ -9,14 +9,14 @@ CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET 
 -- --------------------------------------------------------------------------
 -- Table structure{{#vendorExtensions}}{{#x-ktorm-schema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
 {{#description}}
--- {{description}}
+-- {{.}}
 {{/description}}
 --
 
 {{#vendorExtensions}}
 {{#x-ktorm-schema}}
 {{#tableDefinition}}
-CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
+CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
 {{/tableDefinition}}
 {{/x-ktorm-schema}}
 {{/vendorExtensions}}
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 {{#x-ktorm-schema}}
 {{#columnDefinition}}
 {{^isArray}}
-  `{{colName}}` {{colType}}{{#colTypeArgs}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argVal}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colTypeArgs}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colPrimaryKey}} PRIMARY KEY{{#isNumeric}} AUTOINCREMENT{{/isNumeric}}{{/colPrimaryKey}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} /*{{colComment}}*/{{/colComment}}{{^-last}},{{/-last}}
+  `{{colName}}` {{colType}}{{#colTypeArgs}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argVal}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colTypeArgs}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colPrimaryKey}} PRIMARY KEY{{#isNumeric}} AUTOINCREMENT{{/isNumeric}}{{/colPrimaryKey}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} /*{{.}}*/{{/colComment}}{{^-last}},{{/-last}}
 {{/isArray}}
 {{/columnDefinition}}
 {{/x-ktorm-schema}}
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 {{#vendorExtensions}}
 {{#x-ktorm-schema}}
 {{#tableDefinition}}
-); {{#tblComment}} /*{{tblComment}}*/{{/tblComment}}
+); {{#tblComment}} /*{{.}}*/{{/tblComment}}
 
 {{/tableDefinition}}
 {{/x-ktorm-schema}}
@@ -47,10 +47,10 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 -- --------------------------------------------------------------------------
 -- Table structure for table `{{relTblName}}` generated from model '{{relName}}'
 {{#colComment}}
--- {{colComment}}
+-- {{.}}
 {{/colComment}}
 
-CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{relTblName}}` (
+CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{relTblName}}` (
   `{{{pkColName}}}` {{{pkColType}}} NOT NULL
   `{{{fkColName}}}` {{{fkColType}}} NOT NULL
 );
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `oauth_jwt` (
 CREATE TABLE IF NOT EXISTS `oauth_jti` (
   `issuer`              VARCHAR(80)    NOT NULL,
   `subject`             VARCHAR(80)    DEFAULT NULL,
-  `audiance`            VARCHAR(80)    DEFAULT NULL,
+  `audience`            VARCHAR(80)    DEFAULT NULL,
   `expires`             TIMESTAMP      NOT NULL,
   `jti`                 VARCHAR(2000)  NOT NULL
 );

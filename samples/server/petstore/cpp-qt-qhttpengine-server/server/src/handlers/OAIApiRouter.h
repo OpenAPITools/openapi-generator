@@ -46,7 +46,7 @@ protected:
         if (socket->bytesAvailable() >= socket->contentLength()) {
             emit requestReceived(socket);
         } else {
-            connect(socket, &Socket::readChannelFinished, [this, socket, m]() {
+            connect(socket, &QHttpEngine::Socket::readChannelFinished, [this, socket]() {
                 emit requestReceived(socket);
             });
         }
@@ -103,9 +103,9 @@ private :
         }
         return QStringLiteral("");
     }
-    
+
     inline QRegularExpressionMatch getRequestMatch(QString serverTemplatePath, QString requestPath){
-        QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+        QRegularExpression parExpr( R"(\{([^\/\s]+)\})" );
         serverTemplatePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
         serverTemplatePath.append("[\\/]?$");
         QRegularExpression pathExpr( serverTemplatePath );

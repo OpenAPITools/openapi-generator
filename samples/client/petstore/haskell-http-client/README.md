@@ -15,7 +15,7 @@ stack haddock
 ```
 which will generate docs for this lib in the `docs` folder.
 
-To generate the docs in the normal location (to enable hyperlinks to external libs), remove 
+To generate the docs in the normal location (to enable hyperlinks to external libs), remove
 ```
 build:
   haddock-arguments:
@@ -55,7 +55,7 @@ These options allow some customization of the code generation process.
 **haskell-http-client additional properties:**
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------------------|
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | true              |
 | allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | false    |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | false                |
@@ -76,13 +76,14 @@ These options allow some customization of the code generation process.
 | requestType                     | Set the name of the type used to generate requests                                                                            |          | OpenAPIPetstoreRequest                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
 | useKatip                        | Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger       | true     | true                      |
+| queryExtraUnreserved            | Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'                                   |          |           |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 
 An example setting _dateTimeFormat_ and _strictFields_:
 
 ```
-java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client --additional-properties=dateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z" --additional-properties=strictFields=false 
+java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client --additional-properties=dateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z" --additional-properties=strictFields=false
 ```
 
 View the full list of Codegen "config option" parameters with the command:
@@ -112,7 +113,7 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | OpenAPIPetstore.Client    | use the "dispatch" functions to send requests       |
-| OpenAPIPetstore.Core      | core funcions, config and request types             |
+| OpenAPIPetstore.Core      | core functions, config and request types            |
 | OpenAPIPetstore.API       | construct api requests                              |
 | OpenAPIPetstore.Model     | describes api models                                |
 | OpenAPIPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |
@@ -136,10 +137,10 @@ in GHCi or via the Haddocks.
 * optional non-body parameters are included by using  `applyOptionalParam`
 * optional body parameters are set by using  `setBodyParam`
 
-Example code generated for pretend _addFoo_ operation: 
+Example code generated for pretend _addFoo_ operation:
 
 ```haskell
-data AddFoo 	
+data AddFoo
 instance Consumes AddFoo MimeJSON
 instance Produces AddFoo MimeJSON
 instance Produces AddFoo MimeXML
@@ -182,14 +183,14 @@ the config, it will be applied to the request.
 
 ```haskell
 mgr <- newManager defaultManagerSettings
-config0 <- withStdoutLogging =<< newConfig 
+config0 <- withStdoutLogging =<< newConfig
 let config = config0
     `addAuthMethod` AuthOAuthFoo "secret-key"
 
-let addFooRequest = 
-  addFoo 
-    (ContentType MimeJSON) 
-    (Accept MimeXML) 
+let addFooRequest =
+  addFoo
+    (ContentType MimeJSON)
+    (Accept MimeXML)
     (ParamBar paramBar)
     (ParamQux paramQux)
     modelBaz

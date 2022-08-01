@@ -26,8 +26,11 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * AdditionalPropertiesNumber
@@ -35,7 +38,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   AdditionalPropertiesNumber.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesNumber")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesNumber")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,6 +47,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesNumber() {
+
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     

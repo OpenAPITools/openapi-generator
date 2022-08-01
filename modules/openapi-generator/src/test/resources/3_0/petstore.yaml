@@ -85,6 +85,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -465,7 +466,7 @@ paths:
                 type: integer
                 format: int32
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 type: string
                 format: date-time
@@ -716,6 +717,7 @@ components:
         status:
           type: string
           description: pet status in the store
+          deprecated: true
           enum:
             - available
             - pending

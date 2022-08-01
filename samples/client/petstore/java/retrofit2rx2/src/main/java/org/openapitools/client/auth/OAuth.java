@@ -54,19 +54,19 @@ public class OAuth implements Interceptor {
 
     public void setFlow(OAuthFlow flow) {
         switch(flow) {
-        case accessCode:
-        case implicit:
+        case ACCESS_CODE:
+        case IMPLICIT:
             tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
             break;
-        case password:
+        case PASSWORD:
             tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
             break;
-        case application:
+        case APPLICATION:
             tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
             break;
         default:
             break;
-        }            
+        }
     }
 
     @Override
@@ -133,7 +133,7 @@ public class OAuth implements Interceptor {
      * Returns true if the access token has been updated
      */
     public synchronized boolean updateAccessToken(String requestAccessToken) throws IOException {
-        if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {    
+        if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {
             try {
                 OAuthJSONAccessTokenResponse accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage());
                 if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {

@@ -36,7 +36,7 @@ export interface {{operationIdCamelCase}}Request {
  * {{&summary}}
  {{/summary}}
  */
-function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig: runtime.TypedQueryConfig<T, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> = {}): QueryConfig<T> {
+function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}> = {}): QueryConfig<T> {
     {{#allParams}}
     {{#required}}
     if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
@@ -223,12 +223,12 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 {{/summary}}
 */
 {{^useSingleRequestParameter}}
-export function {{nickname}}<T>({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^-last}}, {{/-last}}, {{/allParams}}requestConfig?: runtime.TypedQueryConfig<T, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
+export function {{nickname}}<T>({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^-last}}, {{/-last}}, {{/allParams}}requestConfig?: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
     return {{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}} requestConfig);
 }
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
-export function {{nickname}}<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig?: runtime.TypedQueryConfig<T, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
+export function {{nickname}}<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig?: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
     return {{nickname}}Raw({{#allParams.0}}requestParameters,{{/allParams.0}} requestConfig);
 }
 {{/useSingleRequestParameter}}

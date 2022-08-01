@@ -28,7 +28,6 @@ public class GenApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
     public void clientLanguages() throws Exception {
         getLanguages("clients", "java");

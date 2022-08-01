@@ -1,6 +1,6 @@
 # Documentation for OpenAPI Petstore
 This is a client generator for microcontrollers on the Espressif32 platform and the Arduino framework
-After the client have been generated, you have to change these following variablies:
+After the client have been generated, you have to change these following variables:
 - root.cert | Provide your service root certificate.
 - src/main.cpp | Change wifi name
 - src/main.cpp | Change wifi password
@@ -69,5 +69,4 @@ All URIs are relative to http://petstore.swagger.iohttp://petstore.swagger.io/v2
 |*Pet* | A pet for sale in the pet store|
 |*Tag* | A tag for a pet|
 |*User* | A User who is purchasing from the pet store|
-
 

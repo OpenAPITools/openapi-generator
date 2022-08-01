@@ -13,7 +13,7 @@
     	_values = values;
     	_format = format;
 	}
-    
+
     return self;
 }
 

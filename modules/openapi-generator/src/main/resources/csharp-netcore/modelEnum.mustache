@@ -1,24 +1,32 @@
     /// <summary>
-    /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+    /// {{description}}{{^description}}Defines {{{name}}}{{/description}}
     /// </summary>
     {{#description}}
-    /// <value>{{description}}</value>
+    /// <value>{{.}}</value>
     {{/description}}
+    {{#vendorExtensions.x-cls-compliant}}
+    [CLSCompliant({{{.}}})]
+    {{/vendorExtensions.x-cls-compliant}}
+    {{#vendorExtensions.x-com-visible}}
+    [ComVisible({{{.}}})]
+    {{/vendorExtensions.x-com-visible}}
     {{#allowableValues}}
     {{#enumVars}}
     {{#-first}}
     {{#isString}}
+    {{^useGenericHost}}
     [JsonConverter(typeof(StringEnumConverter))]
+    {{/useGenericHost}}
     {{/isString}}
     {{/-first}}
     {{/enumVars}}
     {{/allowableValues}}
-    {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
+    {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
     {
         {{#allowableValues}}
         {{#enumVars}}
         /// <summary>
-        /// Enum {{name}} for value: {{{value}}}
+        /// Enum {{name}} for value: {{value}}
         /// </summary>
         {{#isString}}
         [EnumMember(Value = "{{{value}}}")]

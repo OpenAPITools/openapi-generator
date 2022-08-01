@@ -24,11 +24,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -38,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
@@ -50,6 +49,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = null;
 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+  }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     

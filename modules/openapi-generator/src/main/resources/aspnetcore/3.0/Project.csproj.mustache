@@ -1,6 +1,6 @@
 <Project Sdk="{{projectSdk}}">
   <PropertyGroup>
-    <Description>{{^packageDescription}}{{packageName}}{{/packageDescription}}{{packageDescription}}</Description>
+    <Description>{{packageDescription}}{{^packageDescription}}{{packageName}}{{/packageDescription}}</Description>
     <Copyright>{{packageCopyright}}</Copyright>
     <Authors>{{packageAuthors}}</Authors>
     <TargetFramework>{{targetFramework}}</TargetFramework>
@@ -20,6 +20,9 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
+{{#useSeperateModelProject}}
+    <ProjectReference Include="../{{modelPackage}}/{{modelPackage}}.csproj"/>
+{{/useSeperateModelProject}}
 {{#useFrameworkReference}}
 {{#isLibrary}}
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -28,7 +31,9 @@
 {{^useFrameworkReference}}
     <PackageReference Include="Microsoft.AspNetCore.App" />
 {{/useFrameworkReference}}
+{{^useSeperateModelProject}}
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="{{aspnetCoreVersion}}.0"/>
+{{/useSeperateModelProject}}
 {{#useSwashbuckle}}
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
 {{#useNewtonsoft}}

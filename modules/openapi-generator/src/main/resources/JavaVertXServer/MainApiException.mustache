@@ -17,6 +17,6 @@ public class MainApiException extends Exception {
     public String getStatusMessage() {
         return statusMessage;
     }
-    
-    public static final MainApiException INTERNAL_SERVER_ERROR = new MainApiException(500, "Internal Server Error"); 
+
+    public static final MainApiException INTERNAL_SERVER_ERROR = new MainApiException(500, "Internal Server Error");
 }

@@ -273,9 +273,9 @@
             <version>${oltu-version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -311,7 +311,7 @@
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jackson-databind-version>2.10.3</jackson-databind-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>4.13</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <oltu-version>1.0.1</oltu-version>

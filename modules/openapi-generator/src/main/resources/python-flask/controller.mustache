@@ -1,5 +1,8 @@
 import connexion
 import six
+from typing import Dict
+from typing import Tuple
+from typing import Union
 
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
@@ -9,9 +12,9 @@ from {{packageName}} import util
 
 
 def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
-    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+    """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
-    {{#notes}}{{.}}{{/notes}} # noqa: E501
+    {{notes}} # noqa: E501
 
     {{#allParams}}
     :param {{paramName}}: {{description}}
@@ -55,7 +58,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{/isMap}}
     {{/allParams}}
 
-    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
+    :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]
     """
     {{#allParams}}
         {{^isContainer}}
@@ -69,7 +72,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{^isFile}}
                     {{^isUuid}}
     if connexion.request.is_json:
-        {{paramName}} = {{#baseType}}{{baseType}}{{/baseType}}{{^baseType}}{{#dataType}} {{dataType}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}

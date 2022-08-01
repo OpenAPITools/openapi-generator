@@ -12,7 +12,7 @@
 
 #include "OpenAPIBaseModel.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 bool HttpRetryManager::Tick(float DeltaTime)
@@ -21,10 +21,10 @@ bool HttpRetryManager::Tick(float DeltaTime)
 	return true;
 }
 
-HttpRetryParams::HttpRetryParams(const FRetryLimitCountSetting& InRetryLimitCountOverride /*= FRetryLimitCountSetting()*/, 
-    const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride /*= FRetryTimeoutRelativeSecondsSetting()*/, 
-    const FRetryResponseCodes& InRetryResponseCodes /*= FRetryResponseCodes()*/, 
-    const FRetryVerbs& InRetryVerbs /*= FRetryVerbs()*/, 
+HttpRetryParams::HttpRetryParams(const FRetryLimitCountSetting& InRetryLimitCountOverride /*= FRetryLimitCountSetting()*/,
+    const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride /*= FRetryTimeoutRelativeSecondsSetting()*/,
+    const FRetryResponseCodes& InRetryResponseCodes /*= FRetryResponseCodes()*/,
+    const FRetryVerbs& InRetryVerbs /*= FRetryVerbs()*/,
     const FRetryDomainsPtr& InRetryDomains /*= FRetryDomainsPtr() */)
     : RetryLimitCountOverride(InRetryLimitCountOverride)
     , RetryTimeoutRelativeSecondsOverride(InRetryTimeoutRelativeSecondsOverride)

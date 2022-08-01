@@ -5,10 +5,10 @@ const Service = require('./Service');
 {{#operation}}
 /**
 {{#summary}}
-* {{{summary}}}
+* {{{.}}}
 {{/summary}}
 {{#notes}}
-* {{{notes}}}
+* {{{.}}}
 {{/notes}}
 *
 {{#allParams}}
@@ -18,7 +18,7 @@ const Service = require('./Service');
 * no response value expected for this operation
 {{/returnType}}
 {{#returnType}}
-* returns {{{returnType}}}
+* returns {{{.}}}
 {{/returnType}}
 * */
 const {{{operationId}}} = ({{#allParams}}{{#-first}}{ {{/-first}}{{paramName}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/allParams}}) => new Promise(

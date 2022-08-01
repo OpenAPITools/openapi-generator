@@ -95,6 +95,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -112,7 +113,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -125,8 +128,7 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'body' is set
-        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
-                                                        local_var_params['body'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('body') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `create_user`")  # noqa: E501
 
         collection_formats = {}
@@ -135,7 +137,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -145,7 +147,7 @@ class UserApi(object):
             body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -222,6 +224,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -239,7 +242,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -252,8 +257,7 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'body' is set
-        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
-                                                        local_var_params['body'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('body') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `create_users_with_array_input`")  # noqa: E501
 
         collection_formats = {}
@@ -262,7 +266,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -272,7 +276,7 @@ class UserApi(object):
             body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -349,6 +353,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -366,7 +371,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -379,8 +386,7 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'body' is set
-        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
-                                                        local_var_params['body'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('body') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `create_users_with_list_input`")  # noqa: E501
 
         collection_formats = {}
@@ -389,7 +395,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -399,7 +405,7 @@ class UserApi(object):
             body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -478,6 +484,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -495,7 +502,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -508,8 +517,7 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and ('username' not in local_var_params or  # noqa: E501
-                                                        local_var_params['username'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
 
         collection_formats = {}
@@ -520,7 +528,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -528,7 +536,7 @@ class UserApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -605,6 +613,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -622,7 +631,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -635,8 +646,7 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and ('username' not in local_var_params or  # noqa: E501
-                                                        local_var_params['username'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
 
         collection_formats = {}
@@ -647,7 +657,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -659,7 +669,7 @@ class UserApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "User",
             400: None,
@@ -744,6 +754,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -762,7 +773,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -775,12 +788,10 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and ('username' not in local_var_params or  # noqa: E501
-                                                        local_var_params['username'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `username` when calling `login_user`")  # noqa: E501
         # verify the required parameter 'password' is set
-        if self.api_client.client_side_validation and ('password' not in local_var_params or  # noqa: E501
-                                                        local_var_params['password'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('password') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
 
         collection_formats = {}
@@ -788,12 +799,12 @@ class UserApi(object):
         path_params = {}
 
         query_params = []
-        if 'username' in local_var_params and local_var_params['username'] is not None:  # noqa: E501
+        if local_var_params.get('username') is not None:  # noqa: E501
             query_params.append(('username', local_var_params['username']))  # noqa: E501
-        if 'password' in local_var_params and local_var_params['password'] is not None:  # noqa: E501
+        if local_var_params.get('password') is not None:  # noqa: E501
             query_params.append(('password', local_var_params['password']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -805,7 +816,7 @@ class UserApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "str",
             400: None,
@@ -881,6 +892,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -897,7 +909,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -916,7 +930,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -924,7 +938,7 @@ class UserApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1007,6 +1021,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1025,7 +1040,9 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1038,12 +1055,10 @@ class UserApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'username' is set
-        if self.api_client.client_side_validation and ('username' not in local_var_params or  # noqa: E501
-                                                        local_var_params['username'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('username') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `username` when calling `update_user`")  # noqa: E501
         # verify the required parameter 'body' is set
-        if self.api_client.client_side_validation and ('body' not in local_var_params or  # noqa: E501
-                                                        local_var_params['body'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('body') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `body` when calling `update_user`")  # noqa: E501
 
         collection_formats = {}
@@ -1054,7 +1069,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1064,7 +1079,7 @@ class UserApi(object):
             body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(

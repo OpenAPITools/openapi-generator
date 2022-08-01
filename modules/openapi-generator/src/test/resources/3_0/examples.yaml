@@ -42,7 +42,7 @@ paths:
           in: query
           schema:
             type: string
-            example: 'example2 value'
+          example: 'example2 value'
       responses:
         '200':
           description: successful operation
@@ -61,7 +61,7 @@ paths:
           description: successful operation
   /example3/plural:
     get:
-      operationId: example3GetSingular
+      operationId: example3GetPlural
       parameters:
         - name: parameter
           in: query
@@ -92,7 +92,7 @@ paths:
           description: successful operation
   /example4/plural:
     post:
-      operationId: example4PostSingular
+      operationId: example4PostPlural
       requestBody:
         content:
           application/x-www-form-urlencoded:

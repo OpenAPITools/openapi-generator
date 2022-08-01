@@ -13,24 +13,30 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { OuterEnum } from './OuterEnum';
 import {
-    OuterEnum,
     OuterEnumFromJSON,
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
-    OuterEnumDefaultValue,
+} from './OuterEnum';
+import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
+import {
     OuterEnumDefaultValueFromJSON,
     OuterEnumDefaultValueFromJSONTyped,
     OuterEnumDefaultValueToJSON,
-    OuterEnumInteger,
+} from './OuterEnumDefaultValue';
+import type { OuterEnumInteger } from './OuterEnumInteger';
+import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
-    OuterEnumIntegerDefaultValue,
+} from './OuterEnumInteger';
+import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
+import {
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
-} from './';
+} from './OuterEnumIntegerDefaultValue';
 
 /**
  * 
@@ -88,36 +94,54 @@ export interface EnumTest {
     outerEnumIntegerDefaultValue?: OuterEnumIntegerDefaultValue;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumStringEnum {
-    Upper = 'UPPER',
-    Lower = 'lower',
-    Empty = ''
-}/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumStringRequiredEnum {
-    Upper = 'UPPER',
-    Lower = 'lower',
-    Empty = ''
-}/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumIntegerEnum {
-    NUMBER_1 = 1,
-    NUMBER_MINUS_1 = -1
-}/**
-* @export
-* @enum {string}
-*/
-export enum EnumTestEnumNumberEnum {
-    NUMBER_1_DOT_1 = 1.1,
-    NUMBER_MINUS_1_DOT_2 = -1.2
+ * @export
+ */
+export const EnumTestEnumStringEnum = {
+    Upper: 'UPPER',
+    Lower: 'lower',
+    Empty: ''
+} as const;
+export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
+
+/**
+ * @export
+ */
+export const EnumTestEnumStringRequiredEnum = {
+    Upper: 'UPPER',
+    Lower: 'lower',
+    Empty: ''
+} as const;
+export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
+
+/**
+ * @export
+ */
+export const EnumTestEnumIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_1: -1
+} as const;
+export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
+
+/**
+ * @export
+ */
+export const EnumTestEnumNumberEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
+export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
+
+
+/**
+ * Check if a given object implements the EnumTest interface.
+ */
+export function instanceOfEnumTest(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "enumStringRequired" in value;
+
+    return isInstance;
 }
 
 export function EnumTestFromJSON(json: any): EnumTest {
@@ -160,5 +184,4 @@ export function EnumTestToJSON(value?: EnumTest | null): any {
         'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value.outerEnumIntegerDefaultValue),
     };
 }
-
 

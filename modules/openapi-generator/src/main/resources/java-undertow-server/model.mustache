@@ -9,7 +9,7 @@ import java.util.Objects;
 {{#models}}
 {{#model}}{{#description}}
 /**
- * {{{description}}}
+ * {{{.}}}
  */{{/description}}
 {{#isEnum}}{{>enumOuterClass}}{{/isEnum}}
 {{^isEnum}}{{>pojo}}{{/isEnum}}

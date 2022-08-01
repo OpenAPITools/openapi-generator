@@ -1,7 +1,8 @@
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
-// typings of url-parse are incorrect...
-// @ts-ignore 
+import { URLSearchParams } from 'url';
+import * as http from 'http';
+import * as https from 'https';
 import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
@@ -40,7 +41,7 @@ export class HttpException extends Error {
 /**
  * Represents the body of an outgoing HTTP request.
  */
-export type RequestBody = undefined | string | FormData;
+export type RequestBody = undefined | string | FormData | URLSearchParams;
 
 /**
  * Represents an HTTP request context
@@ -49,6 +50,7 @@ export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
     private url: URLParse;
+    private agent: http.Agent | https.Agent | undefined = undefined;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -118,8 +120,16 @@ export class RequestContext {
         this.headers["Cookie"] += name + "=" + value + "; ";
     }
 
-    public setHeaderParam(key: string, value: string): void  { 
+    public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
+    }
+    
+    public setAgent(agent: http.Agent | https.Agent) {
+        this.agent = agent;
+    }
+
+    public getAgent(): http.Agent | https.Agent | undefined {
+        return this.agent;
     }
 }
 
@@ -185,6 +195,22 @@ export class ResponseContext {
         const data = await this.body.binary();
         const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
         return { data, name: fileName };
+    }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | Buffer | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
     }
 }
 

@@ -30,7 +30,7 @@ class OAuth(
 
     private var oauthClient: OAuthClient = OAuthClient(OAuthOkHttpClient(client))
 
-    @Volatile 
+    @Volatile
     private var accessToken: String? = null
     var authenticationRequestBuilder: AuthenticationRequestBuilder? = null
     private var accessTokenListener: AccessTokenListener? = null
@@ -38,20 +38,20 @@ class OAuth(
     constructor(
             requestBuilder: TokenRequestBuilder
     ) : this(
-            OkHttpClient(), 
+            OkHttpClient(),
             requestBuilder
     )
 
     constructor(
-            flow: OAuthFlow, 
-            authorizationUrl: String, 
-            tokenUrl: String, 
+            flow: OAuthFlow,
+            authorizationUrl: String,
+            tokenUrl: String,
             scopes: String
     ) : this(
             OAuthClientRequest.tokenLocation(tokenUrl).setScope(scopes)
     ) {
-        setFlow(flow);
-        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl);
+        setFlow(flow)
+        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl)
     }
 
     fun setFlow(flow: OAuthFlow) {
@@ -62,7 +62,7 @@ class OAuth(
                 tokenRequestBuilder.setGrantType(GrantType.PASSWORD)
             OAuthFlow.application ->
                 tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS)
-        }            
+        }
     }
 
     @Throws(IOException::class)
@@ -128,9 +128,9 @@ class OAuth(
      * Returns true if the access token has been updated
      */
     @Throws(IOException::class)
-    @Synchronized 
+    @Synchronized
     fun updateAccessToken(requestAccessToken: String?): Boolean {
-        if (accessToken == null || accessToken.equals(requestAccessToken)) {    
+        if (accessToken == null || accessToken.equals(requestAccessToken)) {
             return try {
                 val accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage())
                 if (accessTokenResponse != null && accessTokenResponse.accessToken != null) {
@@ -146,6 +146,6 @@ class OAuth(
                 throw IOException(e)
             }
         }
-        return true;
+        return true
     }
 }

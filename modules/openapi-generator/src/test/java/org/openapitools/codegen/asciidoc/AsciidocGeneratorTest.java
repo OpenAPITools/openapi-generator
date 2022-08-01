@@ -85,7 +85,7 @@ public class AsciidocGeneratorTest {
     public void testAdditionalDirectoriesGeneratedIntoHeaderAttributes() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
-        LOGGER.info("test: generating sample markup " + output.getAbsolutePath());
+        LOGGER.info("test: generating sample markup {}", output.getAbsolutePath());
 
         Map<String, Object> props = new TreeMap<String, Object>();
         props.put("specDir", "spec");
@@ -117,7 +117,7 @@ public class AsciidocGeneratorTest {
     public void testHeaderAttributesFlagRemovesAttributesFromMarkupHeaderSection() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
-        LOGGER.info("test: generating sample markup " + output.getAbsolutePath());
+        LOGGER.info("test: generating sample markup {}", output.getAbsolutePath());
 
         Map<String, Object> props = new TreeMap<String, Object>();
         props.put("specDir", "spec");

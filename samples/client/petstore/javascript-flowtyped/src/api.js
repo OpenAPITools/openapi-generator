@@ -93,7 +93,6 @@ export type ApiResponse = {
     message?: string;
 }
 
-
 /**
  * A category for a pet
  * @export
@@ -112,7 +111,6 @@ export type Category = {
      */
     name?: string;
 }
-
 
 
             export type OrderStatusEnum = 'placed' | 'approved' | 'delivered';
@@ -160,7 +158,6 @@ export type Order = {
 }
 
 
-
             export type PetStatusEnum = 'available' | 'pending' | 'sold';
 /**
  * A pet for sale in the pet store
@@ -205,7 +202,6 @@ export type Pet = {
     status?: PetStatusEnum;
 }
 
-
 /**
  * A tag for a pet
  * @export
@@ -224,7 +220,6 @@ export type Tag = {
      */
     name?: string;
 }
-
 
 /**
  * A User who is purchasing from the pet store
@@ -280,7 +275,6 @@ export type User = {
      */
     userStatus?: number;
 }
-
 
 
 

@@ -49,6 +49,7 @@ public class PhpSlim4ServerOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setArtifactVersion(PhpSlim4ServerOptionsProvider.ARTIFACT_VERSION_VALUE);
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlim4ServerOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setPsr7Implementation(PhpSlim4ServerOptionsProvider.PSR7_IMPLEMENTATION_VALUE);
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpSlim4ServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }
 

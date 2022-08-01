@@ -7,19 +7,19 @@ import {{import}}
 {{#models}}
 {{#model}}
 /**
-{{#title}} * = {{{title}}} =
+{{#title}} * = {{{.}}} =
  *
 {{/title}}
-{{#description}} * {{{description}}}
+{{#description}} * {{{.}}}
  *
 {{/description}}
 {{#vars}}
- * @param {{{name}}} {{#description}}{{{description}}}{{/description}}{{#example}} for example: ''{{{example}}}''{{/example}}
+ * @param {{{name}}} {{{description}}}{{#example}} for example: ''{{{.}}}''{{/example}}
 {{/vars}}
 */
 final case class {{classname}} (
   {{#vars}}
-  {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
   {{/vars}}
 )
 

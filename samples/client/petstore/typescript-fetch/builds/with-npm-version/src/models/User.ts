@@ -69,6 +69,15 @@ export interface User {
     userStatus?: number;
 }
 
+/**
+ * Check if a given object implements the User interface.
+ */
+export function instanceOfUser(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function UserFromJSON(json: any): User {
     return UserFromJSONTyped(json, false);
 }
@@ -109,5 +118,4 @@ export function UserToJSON(value?: User | null): any {
         'userStatus': value.userStatus,
     };
 }
-
 

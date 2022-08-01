@@ -22,7 +22,7 @@ import { Configuration } from '../configuration';
 export class UserService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
@@ -268,7 +268,7 @@ export class UserService {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
 
-        let queryParameters = {};   
+        let queryParameters = {};
         if (username !== undefined && username !== null) {
             queryParameters['username'] = <any>username;
         }

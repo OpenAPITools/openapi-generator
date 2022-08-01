@@ -1,55 +1,46 @@
 {{^controllerOnly}}
+{{#authMethods.0}}
+{{#isOAuth}}
+        if (!securityAPIUtils.isRequestTokenValid(request, "{{name}}")) {
+            return {{#supportAsync}}CompletableFuture.supplyAsync(play.mvc.Results::unauthorized){{/supportAsync}}{{^supportAsync}}unauthorized(){{/supportAsync}};
+        }
+
+{{/isOAuth}}
+{{/authMethods.0}}
 {{^returnType}}
 {{#supportAsync}}
-CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
 {{/supportAsync}}
 {{/returnType}}
-{{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}{{^useInterfaces}}imp.{{/useInterfaces}}{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
+        {{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}{{^useInterfaces}}imp.{{/useInterfaces}}{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
 {{#returnType}}
 {{^isResponseFile}}
 {{^returnTypeIsPrimitive}}
 {{#useBeanValidation}}
-{{^supportAsync}}
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        {{#isArray}}
-        for ({{{returnType}}} curItem : obj) {
-            OpenAPIUtils.validate(curItem);
-        }
-        {{/isArray}}
-        {{#isMap}}
-        for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-            OpenAPIUtils.validate(entry.getValue());
-        }
-        {{/isMap}}
-        {{^returnContainer}}
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            {{#isArray}}
+            for ({{{returnType}}} curItem : obj) {
+                OpenAPIUtils.validate(curItem);
+            }
+            {{/isArray}}
+            {{#isMap}}
+            for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
+                OpenAPIUtils.validate(entry.getValue());
+            }
+            {{/isMap}}
+            {{^returnContainer}}
             OpenAPIUtils.validate(obj);
-        {{/returnContainer}}
-    }
-{{/supportAsync}}
-{{#supportAsync}}
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        {{#isArray}}
-        for ({{{returnType}}} curItem : obj) {
-            OpenAPIUtils.validate(curItem);
+            {{/returnContainer}}
         }
-        {{/isArray}}
-        {{#isMap}}
-        for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-            OpenAPIUtils.validate(entry.getValue());
-        }
-        {{/isMap}}
-        {{^returnContainer}}
-        OpenAPIUtils.validate(obj);
-        {{/returnContainer}}
-    }
-{{/supportAsync}}
+
 {{/useBeanValidation}}
 {{/returnTypeIsPrimitive}}
 {{/isResponseFile}}
 {{#supportAsync}}
-    return obj;
-});
+        return obj;
+    });
 {{/supportAsync}}
 {{/returnType}}
 {{#returnType}}
@@ -57,11 +48,13 @@ CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
 return stage.thenApply(obj -> {
 {{/supportAsync}}
 {{^isResponseFile}}
-{{#supportAsync}}    {{/supportAsync}}JsonNode result = mapper.valueToTree(obj);
-{{#supportAsync}}    {{/supportAsync}}return ok(result);
+{{#supportAsync}}    {{/supportAsync}}        JsonNode result = mapper.valueToTree(obj);
+
+{{#supportAsync}}    {{/supportAsync}}        return ok(result);
 {{/isResponseFile}}
 {{#isResponseFile}}
-{{#supportAsync}}    {{/supportAsync}}return ok(obj);
+
+{{#supportAsync}}    {{/supportAsync}}        return ok(obj);
 {{/isResponseFile}}
 {{/returnType}}
 {{^returnType}}
@@ -74,15 +67,15 @@ return stage.thenApply(obj -> {
     return result;
 {{/supportAsync}}
 {{^supportAsync}}
-return ok();
+        return ok();
 {{/supportAsync}}
 {{/returnType}}
 {{#returnType}}
 {{#supportAsync}}
-});
+    });
 {{/supportAsync}}
 {{/returnType}}
 {{/controllerOnly}}
 {{#controllerOnly}}
-return ok();
+        return ok();
 {{/controllerOnly}}

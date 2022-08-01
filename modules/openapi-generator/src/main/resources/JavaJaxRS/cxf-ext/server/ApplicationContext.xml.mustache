@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cxf="http://cxf.apache.org/core"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xmlns:jee="http://www.springframework.org/schema/jee"
@@ -32,9 +32,9 @@
 {{/apiInfo}}
 
 {{/useSpringAnnotationConfig}}
-{{#useSwaggerFeature}}  
+{{#useSwaggerFeature}}
     <!-- CXF Swagger2Feature -->
-    {{! http://cxf.apache.org/docs/swagger2feature.html }}  
+    {{! http://cxf.apache.org/docs/swagger2feature.html }}
     <bean id="swagger2Feature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature">
         <!--property name="basePath" value="/services"/-->
 {{#useSwaggerUI}}
@@ -54,7 +54,7 @@
 {{#useGzipFeature}}
             <ref bean="GZIPInInterceptor"/>
 {{/useGzipFeature}}
-{{#useBeanValidationFeature}}                
+{{#useBeanValidationFeature}}
             <!-- BeanValidation 1.1 for CXF -->
             <ref bean="validationInInterceptor" />
 {{/useBeanValidationFeature}}
@@ -81,14 +81,14 @@
         </cxf:properties>
     </cxf:bus>
 
-{{#useWadlFeature}}     
+{{#useWadlFeature}}
     <bean id="wadlGenerator"
           class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
         <property name="linkJsonToXmlSchema" value="true" />
     </bean>
 
 {{/useWadlFeature}}
-{{#useGzipFeature}} 
+{{#useGzipFeature}}
     <bean id="GZIPInInterceptor" class="org.apache.cxf.transport.common.gzip.GZIPInInterceptor"/>
     <bean id="GZIPOutInterceptor" class="org.apache.cxf.transport.common.gzip.GZIPOutInterceptor" >
         <!--property name="force" value="true" /-->
@@ -136,10 +136,10 @@
 {{/useWadlFeature}}
         </jaxrs:providers>
         <jaxrs:features>
-{{#useSwaggerFeature}}          
+{{#useSwaggerFeature}}
             <ref bean="swagger2Feature" />
 {{/useSwaggerFeature}}
-{{#useBeanValidationFeature}}            
+{{#useBeanValidationFeature}}
             <ref bean="commonValidationFeature" />
 {{/useBeanValidationFeature}}
         </jaxrs:features>

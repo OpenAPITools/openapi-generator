@@ -13,16 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { BehaviorType } from './BehaviorType';
 import {
-    BehaviorType,
     BehaviorTypeFromJSON,
     BehaviorTypeFromJSONTyped,
     BehaviorTypeToJSON,
-    ResponseMeta,
+} from './BehaviorType';
+import type { ResponseMeta } from './ResponseMeta';
+import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
-} from './';
+} from './ResponseMeta';
 
 /**
  * 
@@ -42,6 +44,16 @@ export interface GetBehaviorTypeResponse {
      * @memberof GetBehaviorTypeResponse
      */
     data?: BehaviorType;
+}
+
+/**
+ * Check if a given object implements the GetBehaviorTypeResponse interface.
+ */
+export function instanceOfGetBehaviorTypeResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
 }
 
 export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeResponse {
@@ -72,5 +84,4 @@ export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | 
         'data': BehaviorTypeToJSON(value.data),
     };
 }
-
 

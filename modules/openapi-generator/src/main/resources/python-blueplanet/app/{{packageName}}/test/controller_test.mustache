@@ -32,7 +32,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
         {{/formParams}}
         response = self.client.open(
-            '{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+            '{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
             method='{{httpMethod}}'{{#bodyParam}},
             data=json.dumps({{paramName}}){{^consumes}},
             content_type='application/json'{{/consumes}}{{/bodyParam}}{{#headerParams}}{{#-first}},

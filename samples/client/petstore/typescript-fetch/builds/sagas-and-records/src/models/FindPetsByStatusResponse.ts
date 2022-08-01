@@ -13,16 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Pet } from './Pet';
 import {
-    Pet,
     PetFromJSON,
     PetFromJSONTyped,
     PetToJSON,
-    ResponseMeta,
+} from './Pet';
+import type { ResponseMeta } from './ResponseMeta';
+import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
-} from './';
+} from './ResponseMeta';
 
 /**
  * 
@@ -42,6 +44,16 @@ export interface FindPetsByStatusResponse {
      * @memberof FindPetsByStatusResponse
      */
     data?: Array<Pet>;
+}
+
+/**
+ * Check if a given object implements the FindPetsByStatusResponse interface.
+ */
+export function instanceOfFindPetsByStatusResponse(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "meta" in value;
+
+    return isInstance;
 }
 
 export function FindPetsByStatusResponseFromJSON(json: any): FindPetsByStatusResponse {
@@ -72,5 +84,4 @@ export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse 
         'data': value.data === undefined ? undefined : ((value.data as Array<any>).map(PetToJSON)),
     };
 }
-
 

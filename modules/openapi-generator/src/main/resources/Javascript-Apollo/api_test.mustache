@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 // CommonJS-like environments that support module.exports, like Node.
-factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}index'));
+factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'));
 
 'use strict';
 

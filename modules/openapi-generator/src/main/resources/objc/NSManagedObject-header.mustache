@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSOrderedSet<{{{arrayModelType}}}ManagedObject*>* entries;
 
 {{/isArray}}{{^isArray}}
-@interface {{classname}}ManagedObject : {{#parent}}{{{parent}}}ManagedObject{{/parent}}{{^parent}}NSManagedObject{{/parent}}
+@interface {{classname}}ManagedObject : {{#parent}}{{{.}}}ManagedObject{{/parent}}{{^parent}}NSManagedObject{{/parent}}
 
 {{#vars}}
 {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}

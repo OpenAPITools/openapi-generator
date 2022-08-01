@@ -1,14 +1,62 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}
 
-#include "{{classFilename}}.h"
+#include "{{packageName}}/model/{{classFilename}}.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
-
 {{#isEnum}}
+
+namespace
+{
+using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}utility::string_t{{/isNumeric}};
+
+{{classname}}::e{{classname}} toEnum(const EnumUnderlyingType& val)
+{
+{{#allowableValues}}
+{{#isNumeric}}
+    switch (val)
+    {
+    {{#enumVars}}
+    case {{value}}:
+        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+    {{#-last}}
+    default:
+        break;
+    {{/-last}}
+    {{/enumVars}}
+    }
+{{/isNumeric}}
+{{^isNumeric}}
+    {{#enumVars}}
+    if (val == utility::conversions::to_string_t(U("{{{value}}}")))
+        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+    {{/enumVars}}
+{{/isNumeric}}
+{{/allowableValues}}
+    return {};
+}
+
+EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e)
+{
+{{#allowableValues}}
+    switch (e)
+    {
+{{#enumVars}}
+    case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
+        return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}U("{{value}}"){{/isNumeric}};
+{{#-last}}
+    default:
+        break;
+{{/-last}}
+{{/enumVars}}
+    }
+{{/allowableValues}}
+    return {};
+}
+}
 
 {{classname}}::{{classname}}()
 {
@@ -25,56 +73,44 @@ void {{classname}}::validate()
 
 web::json::value {{classname}}::toJson() const
 {
-    web::json::value val = web::json::value::object();
-
-    {{#allowableValues}}{{#enumVars}}
-    if (m_value == e{{classname}}::{{classname}}_{{name}}) val = web::json::value::string(U({{{value}}}));{{/enumVars}}{{/allowableValues}}
-
-    return val;
+    auto val = fromEnum(m_value);
+    return web::json::value(val);
 }
 
 bool {{classname}}::fromJson(const web::json::value& val)
 {
-    auto s = val.as_string();
-
-    {{#allowableValues}}{{#enumVars}}
-    if (s == utility::conversions::to_string_t({{{value}}})) m_value = e{{classname}}::{{classname}}_{{name}};{{/enumVars}}{{/allowableValues}}
+    m_value = toEnum({{#isNumeric}}val.as_number().to_int64(){{/isNumeric}}{{^isNumeric}}val.as_string(){{/isNumeric}});
     return true;
 }
 
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if (!namePrefix.empty() && namePrefix.back() != U('.'))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix.push_back(U('.'));
     }
 
-    utility::string_t s;
-
-    {{#allowableValues}}{{#enumVars}}
-    if (m_value == e{{classname}}::{{classname}}_{{name}}) s = utility::conversions::to_string_t({{{value}}});{{/enumVars}}{{/allowableValues}}
-
-    multipart->add(ModelBase::toHttpContent(namePrefix, s));
+    auto e = fromEnum(m_value);
+    multipart->add(ModelBase::toHttpContent(namePrefix, e));
 }
 
 bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if (!namePrefix.empty() && namePrefix.back() != U('.'))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix.push_back(U('.'));
     }
     {
-        utility::string_t s;
-        ok = ModelBase::fromHttpContent(multipart->getContent(namePrefix), s);
-        e{{classname}} v;
-
-        {{#allowableValues}}{{#enumVars}}
-        if (s == utility::conversions::to_string_t({{{value}}})) v = e{{classname}}::{{classname}}_{{name}};{{/enumVars}}{{/allowableValues}}
-
-        setValue(v);
+        EnumUnderlyingType e;
+        ok = ModelBase::fromHttpContent(multipart->getContent(namePrefix), e);
+        if (ok)
+        {
+            auto v = toEnum(e);
+            setValue(v);
+        }
     }
     return ok;
 }
@@ -127,14 +163,14 @@ void {{classname}}::validate()
 web::json::value {{classname}}::toJson() const
 {
     {{#parent}}
-    web::json::value val = this->{{{parent}}}::toJson();{{/parent}}
+    web::json::value val = this->{{{.}}}::toJson();{{/parent}}
     {{^parent}}
     web::json::value val = web::json::value::object();
     {{/parent}}
     {{#vars}}{{^isInherited}}
     if(m_{{name}}IsSet)
     {
-        val[utility::conversions::to_string_t("{{baseName}}")] = ModelBase::toJson(m_{{name}});
+        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
     }{{/isInherited}}{{/vars}}
 
     return val;
@@ -144,17 +180,17 @@ bool {{classname}}::fromJson(const web::json::value& val)
 {
     bool ok = true;
     {{#parent}}
-    ok &= this->{{{parent}}}::fromJson(val);
+    ok &= this->{{{.}}}::fromJson(val);
     {{/parent}}
     {{#vars}}{{^isInherited}}
-    if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
+    if(val.has_field(utility::conversions::to_string_t(U("{{baseName}}"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("{{baseName}}"));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("{{baseName}}")));
         if(!fieldValue.is_null())
         {
-            {{{dataType}}} refVal_{{baseName}};
-            ok &= ModelBase::fromJson(fieldValue, refVal_{{baseName}});
-            {{setter}}(refVal_{{baseName}});
+            {{{dataType}}} refVal_{{setter}};
+            ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
+            {{setter}}(refVal_{{setter}});
         }
     }{{/isInherited}}{{/vars}}
     return ok;
@@ -163,14 +199,14 @@ bool {{classname}}::fromJson(const web::json::value& val)
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += utility::conversions::to_string_t(U("."));
     }
     {{#vars}}
     if(m_{{name}}IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
     }
     {{/vars}}
 }
@@ -179,17 +215,17 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += utility::conversions::to_string_t(U("."));
     }
 
     {{#vars}}
-    if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("{{baseName}}"))))
     {
-        {{{dataType}}} refVal_{{baseName}};
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}")), refVal_{{baseName}} );
-        {{setter}}(refVal_{{baseName}});
+        {{{dataType}}} refVal_{{setter}};
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{setter}} );
+        {{setter}}(refVal_{{setter}});
     }
     {{/vars}}
     return ok;

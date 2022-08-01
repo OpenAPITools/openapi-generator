@@ -19,11 +19,12 @@ open class AnotherFakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Client, Error>) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+    @discardableResult
+    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Client, ErrorResponse>) -> Void)) -> RequestTask {
+        return call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body!))
+                completion(.success(response.body))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -38,20 +39,20 @@ open class AnotherFakeAPI {
      - returns: RequestBuilder<Client> 
      */
     open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
-        let path = "/another-fake/dummy"
-        let URLString = PetstoreClient.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariablePath = "/another-fake/dummy"
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let urlComponents = URLComponents(string: URLString)
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let nillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: Any?] = [
             :
         ]
 
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 }

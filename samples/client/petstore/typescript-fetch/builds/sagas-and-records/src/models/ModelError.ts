@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ItemId } from './ItemId';
 import {
-    ItemId,
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
-} from './';
+} from './ItemId';
 
 /**
  * This represent an error normally linked to a specific item from a previous request
@@ -50,6 +50,16 @@ export interface ModelError {
      * @memberof ModelError
      */
     exception?: string;
+}
+
+/**
+ * Check if a given object implements the ModelError interface.
+ */
+export function instanceOfModelError(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "type" in value;
+
+    return isInstance;
 }
 
 export function ModelErrorFromJSON(json: any): ModelError {
@@ -84,5 +94,4 @@ export function ModelErrorToJSON(value?: ModelError | null): any {
         'exception': value.exception,
     };
 }
-
 

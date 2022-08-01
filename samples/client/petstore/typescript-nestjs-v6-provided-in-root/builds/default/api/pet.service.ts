@@ -23,7 +23,7 @@ import { Configuration } from '../configuration';
 export class PetService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
@@ -152,9 +152,9 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = {};   
-        if (status !== undefined && status !== null) {
-            queryParameters['status'] = <any>status;
+        let queryParameters = {};
+        if (status) {
+            queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;
@@ -202,9 +202,9 @@ export class PetService {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = {};   
-        if (tags !== undefined && tags !== null) {
-            queryParameters['tags'] = <any>tags;
+        let queryParameters = {};
+        if (tags) {
+            queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;

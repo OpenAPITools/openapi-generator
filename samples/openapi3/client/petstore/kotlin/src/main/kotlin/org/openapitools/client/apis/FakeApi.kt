@@ -696,7 +696,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
-            "/fake/test-query-paramters",
+            "/fake/test-query-parameters",
             query = localVariableQuery,
             headers = localVariableHeaders
         )

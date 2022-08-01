@@ -83,6 +83,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -995,7 +996,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -2121,3 +2122,24 @@ components:
       default: '2010-01-01T10:10:10.000111+01:00'
       example: '2010-01-01T10:10:10.000111+01:00'
       format: date-time
+    DeprecatedObject:
+      type: object
+      deprecated: true
+      properties:
+        name:
+          type: string
+    ObjectWithDeprecatedFields:
+      type: object
+      properties:
+        uuid:
+          type: string
+        id:
+          type: number
+          deprecated: true
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          type: array
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'

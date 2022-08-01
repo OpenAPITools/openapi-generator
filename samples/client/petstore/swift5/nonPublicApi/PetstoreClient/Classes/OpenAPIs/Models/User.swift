@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct User: Codable, Hashable {
+internal struct User: Codable, JSONEncodable, Hashable {
 
     internal var id: Int64?
     internal var username: String?

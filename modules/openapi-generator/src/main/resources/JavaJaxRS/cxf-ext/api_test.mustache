@@ -61,11 +61,11 @@ import org.openapitools.codegen.utils.JsonCache;
 
 /**
  {{#appName}}
- * {{{appName}}}
+ * {{{.}}}
  *
  {{/appName}}
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  *
  {{/appDescription}}
  * API tests for {{classname}}.
@@ -96,7 +96,7 @@ public class {{classname}}Test {
 {{#generateSpringBootApplication}}
     @LocalServerPort
     private int serverPort;
-{{/generateSpringBootApplication}}    
+{{/generateSpringBootApplication}}
 
     private {{classname}} api;
 
@@ -104,23 +104,23 @@ public class {{classname}}Test {
     public void setup() {
         List<?> providers = Arrays.asList(new JacksonJsonProvider(), new JacksonXMLProvider(), new MultipartProvider());
 
-{{#generateSpringBootApplication}}        
+{{#generateSpringBootApplication}}
         api = JAXRSClientFactory.create("http://localhost:" + serverPort + "/services", {{classname}}.class, providers);
-{{/generateSpringBootApplication}}        
+{{/generateSpringBootApplication}}
 {{^generateSpringBootApplication}}
         api = JAXRSClientFactory.create("{{{basePath}}}", {{classname}}.class, providers);
 {{/generateSpringBootApplication}}
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
 
-        ClientConfiguration config = WebClient.getConfig(client); 
-{{#useGzipFeatureForTests}}        
+        ClientConfiguration config = WebClient.getConfig(client);
+{{#useGzipFeatureForTests}}
         // Example for using Gzipping
         GZIPOutInterceptor gzipOutInterceptor = new GZIPOutInterceptor();
         // use Gzipping for first request sent to server
         //gzipOutInterceptor.setForce(true);
         config.getOutInterceptors().add(gzipOutInterceptor);
 
-        config.getInInterceptors().add(new GZIPInInterceptor()); 
+        config.getInInterceptors().add(new GZIPInInterceptor());
 {{/useGzipFeatureForTests}}
 {{#useLoggingFeatureForTests}}
         LoggingOutInterceptor loggingOutInterceptor = new LoggingOutInterceptor();
@@ -147,7 +147,7 @@ public class {{classname}}Test {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      {{/summary}}

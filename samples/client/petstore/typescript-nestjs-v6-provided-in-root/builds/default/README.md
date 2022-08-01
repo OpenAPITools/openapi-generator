@@ -82,7 +82,7 @@ export class AppModule {
 
 
 ### Set service base path
-If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```
 import { BASE_PATH } from '@openapitools/typescript-nestjs-petstore';
@@ -127,9 +127,9 @@ import { environment } from '../environments/environment';
   ],
   imports: [ ],
   providers: [
-    { 
-      provide: 'BASE_PATH', 
-      useValue: environment.API_BASE_PATH 
+    {
+      provide: 'BASE_PATH',
+      useValue: environment.API_BASE_PATH
     }
   ]
 })

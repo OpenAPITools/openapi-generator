@@ -92,4 +92,3 @@ int main() {
     httpEndpoint->shutdown();
 
 }
-

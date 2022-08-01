@@ -108,6 +108,10 @@ paths:
           in: header
           schema:
             type: string
+        - name: value
+          in: header
+          schema:
+            type: string
         - name: var
           in: header
           schema:
@@ -117,6 +121,18 @@ paths:
           schema:
             type: string
         - name: while
+          in: header
+          schema:
+            type: string
+        - name: open
+          in: header
+          schema:
+            type: string
+        - name: external
+          in: header
+          schema:
+            type: string
+        - name: internal
           in: header
           schema:
             type: string
@@ -180,11 +196,19 @@ components:
           type: string
         val:
           type: string
+        value:
+          type: string
         var:
           type: string
         when:
           type: string
         while:
+          type: string
+        open:
+          type: string
+        external:
+          type: string
+        internal:
           type: string
         linked:
           $ref: '#/components/schemas/Linked'
@@ -243,13 +267,20 @@ components:
           $ref: '#/components/schemas/typeof'
         val:
           $ref: '#/components/schemas/val'
+        value:
+          $ref: '#/components/schemas/value'
         var:
           $ref: '#/components/schemas/var'
         when:
           $ref: '#/components/schemas/when'
         while:
           $ref: '#/components/schemas/while'
-
+        open:
+          $ref: '#/components/schemas/open'
+        external:
+          $ref: '#/components/schemas/external'
+        internal:
+          $ref: '#/components/schemas/internal'
     as:
       title: Testing reserved word 'as'
       type: object
@@ -450,6 +481,14 @@ components:
           type: integer
           format: int64
 
+    value:
+      title: Testing reserved word 'value'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
     var:
       title: Testing reserved word 'var'
       type: object
@@ -468,6 +507,30 @@ components:
 
     while:
       title: Testing reserved word 'while'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    open:
+      title: Testing reserved word 'open'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    external:
+      title: Testing reserved word 'external'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    internal:
+      title: Testing reserved word 'internal'
       type: object
       properties:
         id:

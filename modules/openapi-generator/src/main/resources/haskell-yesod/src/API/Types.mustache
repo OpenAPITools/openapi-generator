@@ -1,0 +1,81 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE NoImplicitPrelude          #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{apiModuleName}}.Types (
+{{#models}}
+{{#model}}
+  {{classname}} (..),
+{{/model}}
+{{/models}}
+  ) where
+
+import ClassyPrelude.Yesod
+import Data.Foldable (foldl)
+import Data.Maybe (fromMaybe)
+import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
+import Data.Aeson.Types (Options(..), defaultOptions)
+import qualified Data.Char as Char
+import qualified Data.Text as T
+import qualified Data.Map as Map
+import GHC.Generics (Generic)
+import Data.Function ((&))
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+
+-- | {{description}}
+{{^vendorExtensions.x-custom-newtype}}
+{{^parent}}
+{{vendorExtensions.x-data}} {{classname}} = {{classname}}
+  { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{^-last}}
+  , {{/-last}}{{/vars}}
+  } deriving (Show, Eq, Generic)
+
+instance FromJSON {{classname}} where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "{{vendorExtensions.x-prefix}}")
+instance ToJSON {{classname}} where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}")
+
+{{/parent}}
+{{#parent}}
+newtype {{classname}} = {{classname}} { un{{classname}} :: {{parent}} }
+  deriving (Show, Eq, FromJSON, ToJSON, Generic)
+{{/parent}}
+{{/vendorExtensions.x-custom-newtype}}
+{{#vendorExtensions.x-custom-newtype}}
+newtype {{classname}} = {{classname}} {{vendorExtensions.x-custom-newtype}} deriving (Show, Eq, FromJSON, ToJSON, Generic)
+{{/vendorExtensions.x-custom-newtype}}
+{{/model}}
+{{/models}}
+
+uncapitalize :: String -> String
+uncapitalize (c : cs) = Char.toLower c : cs
+uncapitalize [] = []
+
+-- | Remove a field label prefix during JSON parsing.
+--   Also perform any replacements for special characters.
+--   The @forParsing@ parameter is to distinguish between the cases in which we're using this
+--   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
+--   to replace special characters with their quoted equivalents (because we cannot have special
+--   chars in identifier names), while we want to do vice versa when sending data instead.
+removeFieldLabelPrefix :: Bool -> String -> Options
+removeFieldLabelPrefix forParsing prefix =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
+    }
+  where
+    replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
+    specialChars =
+      [ {{#specialCharReplacements}}("{{&char}}", "{{&replacement}}"){{^-last}}
+      , {{/-last}}{{/specialCharReplacements}}
+      ]
+    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
+    replacer =
+      if forParsing
+        then flip T.replace
+        else T.replace

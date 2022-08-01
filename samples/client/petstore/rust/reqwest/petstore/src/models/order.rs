@@ -12,7 +12,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct Order {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
@@ -52,5 +52,11 @@ pub enum Status {
     Approved,
     #[serde(rename = "delivered")]
     Delivered,
+}
+
+impl Default for Status {
+    fn default() -> Status {
+        Self::Placed
+    }
 }
 

@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * PHP version 7.2
+ * PHP version 7.4
  *
  * @package OpenAPIServer
  * @author  OpenAPI Generator team
@@ -82,6 +82,7 @@ class Pet extends BaseModel
     "status" : {
       "type" : "string",
       "description" : "pet status in the store",
+      "deprecated" : true,
       "enum" : [ "available", "pending", "sold" ]
     }
   },

@@ -58,12 +58,17 @@ public class FakeClassnameTags123Api {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
-  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+  protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
-    if (body != null) {
-      msgPrefix += ": " + body;
+    String message = formatExceptionMessage(operationId, response.statusCode(), body);
+    return new ApiException(response.statusCode(), message, response.headers(), body);
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
     }
-    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**
@@ -95,7 +100,7 @@ public class FakeClassnameTags123Api {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "testClassname call received non-success response");
+        throw getApiException("testClassname", localVarResponse);
       }
       return new ApiResponse<Client>(
           localVarResponse.statusCode(),

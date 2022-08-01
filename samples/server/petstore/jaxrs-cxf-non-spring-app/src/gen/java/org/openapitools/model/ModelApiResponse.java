@@ -1,23 +1,19 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
   * Describes the result of uploading an image resource
  **/
 @ApiModel(description="Describes the result of uploading an image resource")
+
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")
@@ -82,6 +78,24 @@ public class ModelApiResponse  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(code, _apiResponse.code) &&
+        Objects.equals(type, _apiResponse.type) &&
+        Objects.equals(message, _apiResponse.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(code, type, message);
+  }
 
   @Override
   public String toString() {

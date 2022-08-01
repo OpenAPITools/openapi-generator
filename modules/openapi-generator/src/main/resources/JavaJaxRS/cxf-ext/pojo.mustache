@@ -1,4 +1,5 @@
 import io.swagger.annotations.ApiModelProperty;
+{{#withXml}}
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+{{/withXml}}
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,19 +25,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @ApiModel(description="{{{description}}}")
 {{/description}}{{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
 {{#description}}
  /**
-  * {{{description}}}
+  * {{{.}}}
   */
 {{/description}}
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#isDate}}
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -43,6 +48,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 {{#isDateTime}}
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSSX")
 {{/isDateTime}}
+{{#vendorExtensions.x-field-extra-annotation}}
+{{{vendorExtensions.x-field-extra-annotation}}}
+{{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
@@ -53,16 +61,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
   {{#vars}}
  /**
   {{#description}}
-  * {{description}}
+  * {{.}}
   {{/description}}
   {{^description}}
   * Get {{name}}
   {{/description}}
   {{#minimum}}
-  * minimum: {{minimum}}
+  * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-  * maximum: {{maximum}}
+  * maximum: {{.}}
   {{/maximum}}
   * @return {{name}}
   */
@@ -86,7 +94,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
 {{/isReadOnly}}
    */
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+ {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+ {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

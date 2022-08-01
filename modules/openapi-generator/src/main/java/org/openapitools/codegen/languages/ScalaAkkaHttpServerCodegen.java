@@ -25,6 +25,9 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +53,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
     public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -245,7 +248,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 }
 
             } catch (NumberFormatException e) {
-                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion + ", fallback to " + DEFAULT_AKKA_HTTP_VERSION);
+                LOGGER.warn("Unable to parse {}: {}, fallback to {}", AKKA_HTTP_VERSION, akkaHttpVersion, DEFAULT_AKKA_HTTP_VERSION);
                 akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
                 is10_1_10AndAbove = true;
             }
@@ -264,24 +267,25 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     @Override
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter param = super.fromParameter(parameter, imports);
-        // Removing unhandled types
-        if (!primitiveParamTypes.contains(param.dataType)) {
-            param.dataType = "String";
-        }
-        if (!param.required) {
-            param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
-            // Escaping default string values
-            if (param.defaultValue != null && "String".equals(param.dataType)) {
-                param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+        if (primitiveParamTypes.contains(param.dataType)) {
+            if (!param.required) {
+                param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
+                // Escaping default string values
+                if (param.defaultValue != null && "String".equals(param.dataType)) {
+                    param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+                }
             }
+        } else {
+            // Removing unhandled types
+            param.dataType = "String";
         }
         return param;
     }
 
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> baseObjs = super.postProcessOperationsWithModels(objs, allModels);
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap baseObjs = super.postProcessOperationsWithModels(objs, allModels);
         pathMatcherPatternsPostProcessor(baseObjs);
         marshallingPostProcessor(baseObjs);
         return baseObjs;
@@ -305,7 +309,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         .put("String", "Segment")
     .build();
 
-    protected static void addPathMatcher(CodegenOperation codegenOperation) {
+    protected void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));
         allPaths.removeIf(""::equals);
 
@@ -318,10 +322,9 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                     if (pathParam.baseName.equals(parameterName)) {
                         String matcher = pathTypeToMatcher.get(pathParam.dataType);
                         if (matcher == null) {
-                            LOGGER.warn("The path parameter " + pathParam.baseName +
-                                    " with the datatype " + pathParam.dataType +
-                                    " could not be translated to a corresponding path matcher of akka http" +
-                                    " and therefore has been translated to string.");
+                            LOGGER.warn(
+                                    "The path parameter {} with the datatype {} could not be translated to a corresponding path matcher of akka http and therefore has been translated to string.",
+                                    pathParam.baseName, pathParam.dataType);
                             matcher = pathTypeToMatcher.get("String");
                         }
                         if (pathParam.pattern != null && !pathParam.pattern.isEmpty()) {
@@ -343,13 +346,12 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
     public static String PATH_MATCHER_PATTERNS_KEY = "pathMatcherPatterns";
 
-    @SuppressWarnings("unchecked")
-    private static void pathMatcherPatternsPostProcessor(Map<String, Object> objs) {
+    private static void pathMatcherPatternsPostProcessor(OperationsMap objs) {
         if (objs != null) {
             HashMap<String, PathMatcherPattern> patternMap = new HashMap<>();
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            OperationMap operations = objs.getOperations();
             if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
                     for (CodegenParameter parameter : operation.pathParams) {
                         if (parameter.pattern != null && !parameter.pattern.isEmpty()) {
@@ -370,8 +372,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     }
 
     // Responsible for setting up Marshallers/Unmarshallers
-    @SuppressWarnings("unchecked")
-    public static void marshallingPostProcessor(Map<String, Object> objs) {
+    public static void marshallingPostProcessor(OperationsMap objs) {
 
         if (objs == null) {
             return;
@@ -383,9 +384,9 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         boolean hasCookieParams = false;
         boolean hasMultipart = false;
 
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> operationList = operations.getOperation();
 
             for (CodegenOperation op : operationList) {
                 boolean isMultipart = op.isMultipart;

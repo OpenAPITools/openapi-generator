@@ -6,9 +6,9 @@
 
 All URIs are relative to *{{{basePath}}}*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**](Apis/{{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}{{^summary}}{{{notes}}}{{/summary}}
+| Class | Method | HTTP request | Description |
+|------------ | ------------- | ------------- | -------------|
+{{#apiInfo}}{{#apis}}{{#operations}}| {{#operation}}*{{classname}}* | [**{{operationId}}**](Apis/{{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{{summary}}}{{^summary}}{{{notes}}}{{/summary}} |
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 {{/generateApiDocs}}
 
@@ -17,7 +17,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
 {{#modelPackage}}
-{{#models}}{{#model}} - [{{{classname}}}](./{{{modelPackage}}}/{{modelDocPath}}{{{classname}}}.md)
+{{#models}}{{#model}} - [{{{classname}}}](./{{{modelPackage}}}/{{modelDocPath}}{{{classFilename}}}.md)
 {{/model}}{{/models}}
 {{/modelPackage}}
 {{^modelPackage}}

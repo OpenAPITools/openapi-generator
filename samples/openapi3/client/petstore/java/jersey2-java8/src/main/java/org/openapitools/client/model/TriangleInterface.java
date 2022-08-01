@@ -39,6 +39,8 @@ public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
 
+  public TriangleInterface() { 
+  }
 
   public TriangleInterface triangleType(String triangleType) {
     this.triangleType = triangleType;
@@ -49,6 +51,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

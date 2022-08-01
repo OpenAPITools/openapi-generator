@@ -107,7 +107,7 @@ namespace {{packageName}}.Client
         /// </summary>
         public Configuration()
         {
-            UserAgent = "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}";
+            UserAgent = "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}";
             BasePath = "{{{basePath}}}";
             DefaultHeader = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKey = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
@@ -180,7 +180,7 @@ namespace {{packageName}}.Client
             string tempFolderPath = null,
             string dateTimeFormat = null,
             int timeout = 100000,
-            string userAgent = "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}"
+            string userAgent = "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}"
             // ReSharper restore UnusedParameter.Local
             )
         {

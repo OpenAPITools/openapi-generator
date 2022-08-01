@@ -1,0 +1,84 @@
+# {{moduleName}}.{{classname}}{{#description}}
+
+{{description}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+# **{{{operationId}}}**
+> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}{{^-last}}, {{/-last}}{{/defaultValue}}{{/requiredParams}})
+
+{{#notes}}
+{{{notes}}}
+{{/notes}}
+
+### Example
+
+
+```typescript
+import { {{{moduleName}}} } from '{{{projectName}}}';
+import * as fs from 'fs';
+
+const configuration = {{{moduleName}}}.createConfiguration();
+const apiInstance = new {{{moduleName}}}.{{classname}}(configuration);
+
+{{#hasParams}}
+let body:{{{moduleName}}}.{{classname}}{{operationIdCamelCase}}Request = {
+{{#allParams}}
+  // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}{{^required}} (optional){{/required}}
+  {{paramName}}: {{{example}}},
+{{/allParams}}
+};
+{{/hasParams}}
+{{^hasParams}}
+let body:any = {};
+{{/hasParams}}
+
+apiInstance.{{{operationId}}}(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+{{^hasParams}}This endpoint does not need any parameter.{{/hasParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}}{{^defaultValue}} **{{paramName}}** | {{^isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}| {{description}} |
+{{/defaultValue}}{{/allParams}}{{#allParams}}{{#defaultValue}} **{{paramName}}** | {{^isPrimitiveType}}{{^isEnum}}**{{dataType}}**{{/isEnum}}{{/isPrimitiveType}}{{#isPrimitiveType}}[**{{dataType}}**]{{/isPrimitiveType}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}{{#-first}}**Array<{{/-first}}{{value}}{{^-last}} &#124; {{/-last}}{{#-last}}>**{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isEnum}} | {{description}} |{{^required}} (optional){{/required}} defaults to {{{.}}}
+{{/defaultValue}}{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+**{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+{{/operation}}
+{{/operations}}
+

@@ -2479,7 +2479,7 @@ instance AuthMethod AuthOAuthPetstoreAuth where
   applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
     P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
 

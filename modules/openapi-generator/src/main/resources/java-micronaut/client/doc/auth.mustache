@@ -1,0 +1,25 @@
+# Authorization methods
+{{#authMethods}}
+<a name="name"></a>
+# {{name}}
+{{!
+    basic auth
+}}{{#isBasic}}Authorization method is of **basic auth**.
+
+{{#configureAuth}}The configuration for it can be found in [application.yml](src/main/resources/application.yml) at `security.basic-auth.{{name}}`. `username` and `password` need to be filled for it to work correctly.{{/configureAuth}}{{^configureAuth}}It can be configured in the [application.yml](src/main/resources/application.yml) using Micronaut security features.{{/configureAuth}}
+{{/isBasic}}{{!
+    api key
+}}{{#isApiKey}}Authorization method is of **api key type**. The parameter `{{{keyParamName}}}` is located in `{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}{{#isKeyInCookie}}cookie{{/isKeyInCookie}}`.
+
+{{#configureAuth}}The configuration for it can be found in [application.yml](src/main/resources/application.yml) at `security.api-key-auth.{{name}}`. The `api-key` parameter needs to be filled in order for it to work correctly.{{/configureAuth}}{{^configureAuth}}It can be configured in the [application.yml](src/main/resources/application.yml) using Micronaut security features.{{/configureAuth}}
+{{/isApiKey}}{{!
+    oauth
+}}{{#isOAuth}}Authorization method is **OAuth2** with `{{flow}}` flow.
+{{!scopes}}{{#scopes}}{{#-last}}The scopes are: {{#scopes}}
+    * `{{{scope}}}`{{/scopes}}{{/-last}}{{/scopes}}
+
+{{#configureAuth}}The configuration for it can be found in [application.yml](src/main/resources/application.yml) at `micronaut.security.oauth2.clients.{{name}}`. Some parameters may require to be filled in for it to work correctly.{{/configureAuth}}{{^configureAuth}}It can be configured in the [application.yml](src/main/resources/application.yml) using Micronaut security features.{{/configureAuth}}
+
+More information on configuring can be found in [Micronaut Security Guide](https://micronaut-projects.github.io/micronaut-security/latest/guide/#oauth).
+{{/isOAuth}}
+{{/authMethods}}

@@ -10,7 +10,7 @@
 
 {{^parent}}
 {{{defaultInclude}}}
-#include "../ModelBase.h"
+#include "{{packageName}}/ModelBase.h"
 {{/parent}}
 
 {{#imports}}{{{this}}}
@@ -26,7 +26,7 @@ namespace {{this}} {
 {{/vendorExtensions.x-has-forward-declarations}}
 {{#isEnum}}
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();
@@ -49,7 +49,7 @@ public:
         {{#enumVars}}
         {{#enumDescription}}
         /// <summary>
-        /// {{enumDescription}}
+        /// {{.}}
         /// </summary>
         {{/enumDescription}}
         {{classname}}_{{{name}}}{{^last}},{{/last}}
@@ -70,7 +70,7 @@ public:
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();

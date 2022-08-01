@@ -30,6 +30,7 @@ func (c *Container) FindPetsByStatus(ctx echo.Context) error {
 
 
 // FindPetsByTags - Finds Pets by tags
+// Deprecated
 func (c *Container) FindPetsByTags(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",

@@ -8,6 +8,13 @@
             {{/-last}}{{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}
         {{^isOAuth}}@Authorization(value = "{{name}}"){{^-last}},{{/-last}}
         {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} })
+    {{#implicitHeadersParams.0}}
+    @io.swagger.annotations.ApiImplicitParams({
+        {{#implicitHeadersParams}}
+        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+    })
+    {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}
-    {{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}
+    {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});

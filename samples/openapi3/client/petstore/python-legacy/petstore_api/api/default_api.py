@@ -58,7 +58,7 @@ class DefaultApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: InlineResponseDefault
+        :rtype: FooGetDefaultResponse
         """
         kwargs['_return_http_data_only'] = True
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
@@ -89,10 +89,11 @@ class DefaultApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(InlineResponseDefault, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(FooGetDefaultResponse, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -105,7 +106,9 @@ class DefaultApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -124,7 +127,7 @@ class DefaultApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -136,7 +139,7 @@ class DefaultApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
         }
 

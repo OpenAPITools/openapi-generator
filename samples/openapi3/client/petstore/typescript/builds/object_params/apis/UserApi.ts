@@ -1,11 +1,14 @@
 // TODO: better import syntax?
-import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import {BaseAPIRequestFactory, RequiredError} from './baseapi';
 import {Configuration} from '../configuration';
-import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
-import {isCodeInRange} from '../util';
+import {canConsumeForm, isCodeInRange} from '../util';
+import {SecurityAuthentication} from '../auth/auth';
+
 
 import { User } from '../models/User';
 
@@ -24,7 +27,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
+            throw new RequiredError("UserApi", "createUser", "user");
         }
 
 
@@ -34,12 +37,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -53,17 +50,23 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
         authMethod = _config.authMethods["api_key"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
     }
 
     /**
+     * 
      * Creates list of users with given input array
      * @param user List of user object
      */
@@ -72,7 +75,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+            throw new RequiredError("UserApi", "createUsersWithArrayInput", "user");
         }
 
 
@@ -83,12 +86,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -101,17 +98,23 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
         authMethod = _config.authMethods["api_key"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
     }
 
     /**
+     * 
      * Creates list of users with given input array
      * @param user List of user object
      */
@@ -120,7 +123,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
+            throw new RequiredError("UserApi", "createUsersWithListInput", "user");
         }
 
 
@@ -131,12 +134,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -149,11 +146,16 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
         authMethod = _config.authMethods["api_key"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -169,7 +171,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling deleteUser.');
+            throw new RequiredError("UserApi", "deleteUser", "username");
         }
 
 
@@ -181,26 +183,24 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
         authMethod = _config.authMethods["api_key"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
     }
 
     /**
+     * 
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
@@ -209,7 +209,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling getUserByName.');
+            throw new RequiredError("UserApi", "getUserByName", "username");
         }
 
 
@@ -221,21 +221,18 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }
 
     /**
+     * 
      * Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
@@ -245,13 +242,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling loginUser.');
+            throw new RequiredError("UserApi", "loginUser", "username");
         }
 
 
         // verify required parameter 'password' is not null or undefined
         if (password === null || password === undefined) {
-            throw new RequiredError('Required parameter password was null or undefined when calling loginUser.');
+            throw new RequiredError("UserApi", "loginUser", "password");
         }
 
 
@@ -266,23 +263,24 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         if (username !== undefined) {
             requestContext.setQueryParam("username", ObjectSerializer.serialize(username, "string", ""));
         }
+
+        // Query Params
         if (password !== undefined) {
             requestContext.setQueryParam("password", ObjectSerializer.serialize(password, "string", ""));
         }
 
-        // Header Params
 
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }
 
     /**
+     * 
      * Logs out current logged in user session
      */
     public async logoutUser(_options?: Configuration): Promise<RequestContext> {
@@ -295,20 +293,17 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
         authMethod = _config.authMethods["api_key"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -325,13 +320,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling updateUser.');
+            throw new RequiredError("UserApi", "updateUser", "username");
         }
 
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
+            throw new RequiredError("UserApi", "updateUser", "user");
         }
 
 
@@ -342,12 +337,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -361,11 +350,16 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
         authMethod = _config.authMethods["api_key"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -385,7 +379,7 @@ export class UserApiResponseProcessor {
      public async createUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "successful operation");
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -393,8 +387,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -407,7 +400,7 @@ export class UserApiResponseProcessor {
      public async createUsersWithArrayInput(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "successful operation");
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -415,8 +408,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -429,7 +421,7 @@ export class UserApiResponseProcessor {
      public async createUsersWithListInput(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "successful operation");
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -437,8 +429,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -451,10 +442,10 @@ export class UserApiResponseProcessor {
      public async deleteUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "User not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -462,8 +453,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -483,10 +473,10 @@ export class UserApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "User not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -498,8 +488,7 @@ export class UserApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -519,7 +508,7 @@ export class UserApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid username/password supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username/password supplied", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -531,8 +520,7 @@ export class UserApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -545,7 +533,7 @@ export class UserApiResponseProcessor {
      public async logoutUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "successful operation");
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -553,8 +541,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -567,10 +554,10 @@ export class UserApiResponseProcessor {
      public async updateUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid user supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid user supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "User not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -578,8 +565,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
 }

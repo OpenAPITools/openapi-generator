@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
@@ -88,7 +89,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+        /// Get the actual instance of `Apple`. If the actual instance is not `Apple`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Apple</returns>
@@ -98,7 +99,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+        /// Get the actual instance of `Banana`. If the actual instance is not `Banana`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Banana</returns>
@@ -138,7 +139,7 @@ namespace Org.OpenAPITools.Model
         {
             GmFruit newGmFruit = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newGmFruit;
             }

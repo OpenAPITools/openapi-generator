@@ -9,9 +9,9 @@ from {{packageName}} import util
 
 
 async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> web.Response:
-    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+    """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
-    {{#notes}}{{.}}{{/notes}}
+    {{notes}}
 
     {{#allParams}}
     :param {{paramName}}: {{description}}

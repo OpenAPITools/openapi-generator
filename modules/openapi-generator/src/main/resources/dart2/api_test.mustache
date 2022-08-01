@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 /// tests for {{{classname}}}
 void main() {
-  final instance = {{{classname}}}();
+  // final instance = {{{classname}}}();
 
   group('tests for {{{classname}}}', () {
     {{#operation}}
@@ -18,7 +18,7 @@ void main() {
     // {{{.}}}
     //
     {{/notes}}
-    //{{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async
+    //{{#returnType}}Future<{{{.}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async
     test('test {{{operationId}}}', () async {
       // TODO
     });

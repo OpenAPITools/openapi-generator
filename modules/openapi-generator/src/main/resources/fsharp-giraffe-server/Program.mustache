@@ -45,7 +45,7 @@ module App =
   let HttpPut = PUT
   let HttpDelete = DELETE
 
-  let authFailure : HttpHandler = 
+  let authFailure : HttpHandler =
     setStatusCode 401 >=> text "You must be authenticated to access this resource."
 
   let webApp =
@@ -58,7 +58,7 @@ module App =
       {{/operation}}
       {{/operations}}
       {{/apis}}
-      RequestErrors.notFound (text "Not Found") 
+      RequestErrors.notFound (text "Not Found")
       {{/apiInfo}}
     ])
   // ---------------------------------
@@ -72,13 +72,13 @@ module App =
       .UseResponseCaching() |> ignore
     CustomHandlers.configureApp app |> ignore
     app.UseGiraffe webApp |> ignore
-    
+
 
   let configureServices (services : IServiceCollection) =
     services
           .AddResponseCaching()
           .AddGiraffe()
-          |> AuthSchemes.configureServices      
+          |> AuthSchemes.configureServices
           |> CustomHandlers.configureServices services
           |> ignore
     services.AddDataProtection() |> ignore

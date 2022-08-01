@@ -39,6 +39,15 @@ export interface OuterComposite {
     myBoolean?: boolean;
 }
 
+/**
+ * Check if a given object implements the OuterComposite interface.
+ */
+export function instanceOfOuterComposite(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function OuterCompositeFromJSON(json: any): OuterComposite {
     return OuterCompositeFromJSONTyped(json, false);
 }
@@ -69,5 +78,4 @@ export function OuterCompositeToJSON(value?: OuterComposite | null): any {
         'my_boolean': value.myBoolean,
     };
 }
-
 

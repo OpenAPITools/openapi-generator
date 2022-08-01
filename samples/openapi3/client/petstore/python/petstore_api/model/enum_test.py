@@ -24,19 +24,21 @@ from petstore_api.model_utils import (  # noqa: F401
     file_type,
     none_type,
     validate_get_composed_info,
+    OpenApiModel
 )
-from ..model_utils import OpenApiModel
 from petstore_api.exceptions import ApiAttributeError
 
 
 def lazy_import():
     from petstore_api.model.array_of_enums import ArrayOfEnums
+    from petstore_api.model.boolean_enum import BooleanEnum
     from petstore_api.model.integer_enum import IntegerEnum
     from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
     from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
     from petstore_api.model.string_enum import StringEnum
     from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
     globals()['ArrayOfEnums'] = ArrayOfEnums
+    globals()['BooleanEnum'] = BooleanEnum
     globals()['IntegerEnum'] = IntegerEnum
     globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
     globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue
@@ -87,6 +89,9 @@ class EnumTest(ModelNormal):
             '1.1': 1.1,
             '-1.2': -1.2,
         },
+        ('enum_bool',): {
+            'FALSE': False,
+        },
     }
 
     validations = {
@@ -119,6 +124,8 @@ class EnumTest(ModelNormal):
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
+            'enum_bool': (bool,),  # noqa: E501
+            'bool_enum': (BooleanEnum,),  # noqa: E501
             'string_enum': (StringEnum,),  # noqa: E501
             'integer_enum': (IntegerEnum,),  # noqa: E501
             'string_enum_with_default_value': (StringEnumWithDefaultValue,),  # noqa: E501
@@ -138,6 +145,8 @@ class EnumTest(ModelNormal):
         'enum_string': 'enum_string',  # noqa: E501
         'enum_integer': 'enum_integer',  # noqa: E501
         'enum_number': 'enum_number',  # noqa: E501
+        'enum_bool': 'enum_bool',  # noqa: E501
+        'bool_enum': 'boolEnum',  # noqa: E501
         'string_enum': 'stringEnum',  # noqa: E501
         'integer_enum': 'IntegerEnum',  # noqa: E501
         'string_enum_with_default_value': 'StringEnumWithDefaultValue',  # noqa: E501
@@ -194,6 +203,8 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
+            enum_bool (bool): [optional] if omitted the server will use the default value of False  # noqa: E501
+            bool_enum (BooleanEnum): [optional]  # noqa: E501
             string_enum (StringEnum): [optional]  # noqa: E501
             integer_enum (IntegerEnum): [optional]  # noqa: E501
             string_enum_with_default_value (StringEnumWithDefaultValue): [optional]  # noqa: E501
@@ -204,7 +215,7 @@ class EnumTest(ModelNormal):
         """
 
         _check_type = kwargs.pop('_check_type', True)
-        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', True)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
@@ -212,14 +223,18 @@ class EnumTest(ModelNormal):
         self = super(OpenApiModel, cls).__new__(cls)
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type
@@ -289,6 +304,8 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
+            enum_bool (bool): [optional] if omitted the server will use the default value of False  # noqa: E501
+            bool_enum (BooleanEnum): [optional]  # noqa: E501
             string_enum (StringEnum): [optional]  # noqa: E501
             integer_enum (IntegerEnum): [optional]  # noqa: E501
             string_enum_with_default_value (StringEnumWithDefaultValue): [optional]  # noqa: E501
@@ -305,14 +322,18 @@ class EnumTest(ModelNormal):
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type

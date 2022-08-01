@@ -84,7 +84,6 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     return Objects.hash(arrayArrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

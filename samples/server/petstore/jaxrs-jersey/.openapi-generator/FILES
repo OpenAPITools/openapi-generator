@@ -22,6 +22,7 @@ src/gen/java/org/openapitools/api/StringUtil.java
 src/gen/java/org/openapitools/api/UserApi.java
 src/gen/java/org/openapitools/api/UserApiService.java
 src/gen/java/org/openapitools/model/AdditionalPropertiesClass.java
+src/gen/java/org/openapitools/model/AllOfWithSingleRef.java
 src/gen/java/org/openapitools/model/Animal.java
 src/gen/java/org/openapitools/model/ArrayOfArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayOfNumberOnly.java
@@ -32,6 +33,7 @@ src/gen/java/org/openapitools/model/CatAllOf.java
 src/gen/java/org/openapitools/model/Category.java
 src/gen/java/org/openapitools/model/ClassModel.java
 src/gen/java/org/openapitools/model/Client.java
+src/gen/java/org/openapitools/model/DeprecatedObject.java
 src/gen/java/org/openapitools/model/Dog.java
 src/gen/java/org/openapitools/model/DogAllOf.java
 src/gen/java/org/openapitools/model/EnumArrays.java
@@ -39,18 +41,21 @@ src/gen/java/org/openapitools/model/EnumClass.java
 src/gen/java/org/openapitools/model/EnumTest.java
 src/gen/java/org/openapitools/model/FileSchemaTestClass.java
 src/gen/java/org/openapitools/model/Foo.java
+src/gen/java/org/openapitools/model/FooGetDefaultResponse.java
 src/gen/java/org/openapitools/model/FormatTest.java
 src/gen/java/org/openapitools/model/HasOnlyReadOnly.java
 src/gen/java/org/openapitools/model/HealthCheckResult.java
-src/gen/java/org/openapitools/model/InlineResponseDefault.java
 src/gen/java/org/openapitools/model/MapTest.java
 src/gen/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/gen/java/org/openapitools/model/Model200Response.java
 src/gen/java/org/openapitools/model/ModelApiResponse.java
+src/gen/java/org/openapitools/model/ModelFile.java
+src/gen/java/org/openapitools/model/ModelList.java
 src/gen/java/org/openapitools/model/ModelReturn.java
 src/gen/java/org/openapitools/model/Name.java
 src/gen/java/org/openapitools/model/NullableClass.java
 src/gen/java/org/openapitools/model/NumberOnly.java
+src/gen/java/org/openapitools/model/ObjectWithDeprecatedFields.java
 src/gen/java/org/openapitools/model/Order.java
 src/gen/java/org/openapitools/model/OuterComposite.java
 src/gen/java/org/openapitools/model/OuterEnum.java
@@ -60,6 +65,7 @@ src/gen/java/org/openapitools/model/OuterEnumIntegerDefaultValue.java
 src/gen/java/org/openapitools/model/OuterObjectWithEnumProperty.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
+src/gen/java/org/openapitools/model/SingleRefType.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
 src/gen/java/org/openapitools/model/Tag.java
 src/gen/java/org/openapitools/model/User.java

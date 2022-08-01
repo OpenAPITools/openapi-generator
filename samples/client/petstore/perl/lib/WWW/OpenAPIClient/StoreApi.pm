@@ -22,7 +22,7 @@ package WWW::OpenAPIClient::StoreApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -52,7 +52,7 @@ sub new {
 # delete_order
 #
 # Delete purchase order by ID
-# 
+#
 # @param string $order_id ID of the order that needs to be deleted (required)
 {
     my $params = {
@@ -62,7 +62,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'delete_order' } = { 
+    __PACKAGE__->method_documentation->{ 'delete_order' } = {
         summary => 'Delete purchase order by ID',
         params => $params,
         returns => undef,
@@ -115,11 +115,11 @@ sub delete_order {
 # get_inventory
 #
 # Returns pet inventories by status
-# 
+#
 {
     my $params = {
     };
-    __PACKAGE__->method_documentation->{ 'get_inventory' } = { 
+    __PACKAGE__->method_documentation->{ 'get_inventory' } = {
         summary => 'Returns pet inventories by status',
         params => $params,
         returns => 'HASH[string,int]',
@@ -164,7 +164,7 @@ sub get_inventory {
 # get_order_by_id
 #
 # Find purchase order by ID
-# 
+#
 # @param int $order_id ID of pet that needs to be fetched (required)
 {
     my $params = {
@@ -174,7 +174,7 @@ sub get_inventory {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'get_order_by_id' } = { 
+    __PACKAGE__->method_documentation->{ 'get_order_by_id' } = {
         summary => 'Find purchase order by ID',
         params => $params,
         returns => 'Order',
@@ -231,7 +231,7 @@ sub get_order_by_id {
 # place_order
 #
 # Place an order for a pet
-# 
+#
 # @param Order $order order placed for purchasing the pet (required)
 {
     my $params = {
@@ -241,7 +241,7 @@ sub get_order_by_id {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'place_order' } = { 
+    __PACKAGE__->method_documentation->{ 'place_order' } = {
         summary => 'Place an order for a pet',
         params => $params,
         returns => 'Order',

@@ -13,11 +13,11 @@ Method | HTTP request | Description
 
 
 # **foo_get**
-> InlineResponseDefault foo_get()
+> FooGetDefaultResponse foo_get()
 
 
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::DefaultApi;
@@ -25,7 +25,7 @@ my $api_instance = WWW::OpenAPIClient::DefaultApi->new(
 );
 
 
-eval { 
+eval {
     my $result = $api_instance->foo_get();
     print Dumper($result);
 };
@@ -39,7 +39,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 

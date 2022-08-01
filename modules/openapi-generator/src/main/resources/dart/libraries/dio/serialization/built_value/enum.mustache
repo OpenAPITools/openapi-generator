@@ -9,9 +9,9 @@ class {{classname}} extends EnumClass {
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
-  /// {{{description}}}
+  /// {{{.}}}
       {{/description}}
-  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: r{{{value}}}{{/isInteger}})
+  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{#isLong}}wireNumber: {{{value}}}{{/isLong}}{{^isInteger}}{{^isLong}}wireName: r{{{value}}}{{/isLong}}{{/isInteger}}{{#enumUnknownDefaultCase}}{{#-last}}, fallback: true{{/-last}}{{/enumUnknownDefaultCase}})
   static const {{classname}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}

@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
@@ -29,7 +29,7 @@ FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
 	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -40,20 +40,6 @@ void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const FHttpRequestRef
 
 	HttpRequest->SetVerb(TEXT("DELETE"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIStoreApi::DeleteOrderResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -88,20 +74,6 @@ void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const FHttpRequestRe
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIStoreApi::GetInventoryResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -126,7 +98,7 @@ FString OpenAPIStoreApi::GetOrderByIdRequest::ComputePath() const
 	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -137,20 +109,6 @@ void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const FHttpRequestRe
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIStoreApi::GetOrderByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)

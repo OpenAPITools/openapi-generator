@@ -87,4 +87,3 @@ public interface StoreApi  {
         @ApiResponse(code = 400, message = "Invalid Order") })
     public Order placeOrder(@Valid @NotNull Order body);
 }
-

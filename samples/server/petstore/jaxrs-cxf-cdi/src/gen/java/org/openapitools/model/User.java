@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "A User who is purchasing from the pet store")
 public class User   {

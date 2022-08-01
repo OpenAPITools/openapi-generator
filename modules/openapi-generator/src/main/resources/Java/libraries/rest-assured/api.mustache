@@ -71,7 +71,7 @@ public class {{classname}} {
     @ApiOperation(value = "{{{summary}}}",
             notes = "{{{notes}}}",
             nickname = "{{{operationId}}}",
-            tags = { {{#tags}}{{#name}}"{{{name}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
+            tags = { {{#tags}}{{#name}}"{{{.}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
     @ApiResponses(value = { {{#responses}}
             @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
     {{#isDeprecated}}
@@ -103,7 +103,7 @@ public class {{classname}} {
      * @see #{{#isPathParam}}{{paramName}}Path{{/isPathParam}}{{#isQueryParam}}{{paramName}}Query{{/isQueryParam}}{{#isFormParam}}{{^isFile}}{{paramName}}Form{{/isFile}}{{#isFile}}{{paramName}}MultiPart{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}{{paramName}}Header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
-     * return {{returnType}}
+     * return {{.}}
      {{/returnType}}
      {{#isDeprecated}}
      * @deprecated
@@ -127,9 +127,9 @@ public class {{classname}} {
         public {{operationIdCamelCase}}Oper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
             {{#vendorExtensions}}
-            {{#x-contentType}}
-            reqSpec.setContentType("{{x-contentType}}");
-            {{/x-contentType}}
+            {{#x-content-type}}
+            reqSpec.setContentType("{{x-content-type}}");
+            {{/x-content-type}}
             {{#x-accepts}}
             reqSpec.setAccept("{{x-accepts}}");
             {{/x-accepts}}

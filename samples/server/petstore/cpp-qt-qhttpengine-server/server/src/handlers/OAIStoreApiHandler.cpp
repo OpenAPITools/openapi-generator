@@ -31,37 +31,37 @@ OAIStoreApiHandler::~OAIStoreApiHandler(){
 void OAIStoreApiHandler::deleteOrder(QString order_id) {
     Q_UNUSED(order_id);
     auto reqObj = qobject_cast<OAIStoreApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         
         reqObj->deleteOrderResponse();
-    }    
+    }
 }
 void OAIStoreApiHandler::getInventory() {
     auto reqObj = qobject_cast<OAIStoreApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         QMap<QString, qint32> res;
         reqObj->getInventoryResponse(res);
-    }    
+    }
 }
 void OAIStoreApiHandler::getOrderById(qint64 order_id) {
     Q_UNUSED(order_id);
     auto reqObj = qobject_cast<OAIStoreApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         OAIOrder res;
         reqObj->getOrderByIdResponse(res);
-    }    
+    }
 }
 void OAIStoreApiHandler::placeOrder(OAIOrder body) {
     Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIStoreApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         OAIOrder res;
         reqObj->placeOrderResponse(res);
-    }    
+    }
 }
 
 

@@ -17,19 +17,21 @@ Method | HTTP request | Description
 
 ## add_pet
 
-> add_pet(body)
+> crate::models::Pet add_pet(pet)
 Add a new pet to the store
+
+
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
+**pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
 
 ### Return type
 
- (empty response body)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -38,7 +40,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -47,6 +49,8 @@ Name | Type | Description  | Required | Notes
 
 > delete_pet(pet_id, api_key)
 Deletes a pet
+
+
 
 ### Parameters
 
@@ -164,19 +168,21 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet
 
-> update_pet(body)
+> crate::models::Pet update_pet(pet)
 Update an existing pet
+
+
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
+**pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
 
 ### Return type
 
- (empty response body)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -185,7 +191,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -194,6 +200,8 @@ Name | Type | Description  | Required | Notes
 
 > update_pet_with_form(pet_id, name, status)
 Updates a pet in the store with form data
+
+
 
 ### Parameters
 
@@ -224,6 +232,8 @@ Name | Type | Description  | Required | Notes
 
 > crate::models::ApiResponse upload_file(pet_id, additional_metadata, file)
 uploads an image
+
+
 
 ### Parameters
 

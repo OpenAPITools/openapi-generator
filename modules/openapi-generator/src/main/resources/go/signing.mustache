@@ -136,7 +136,7 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 	}
 	m := make(map[string]bool)
 	for _, h := range h.SignedHeaders {
-		if strings.ToLower(h) == strings.ToLower(HttpHeaderAuthorization) {
+		if strings.EqualFold(h, HttpHeaderAuthorization) {
 			return nil, fmt.Errorf("Signed headers cannot include the 'Authorization' header")
 		}
 		m[h] = true
@@ -208,7 +208,7 @@ func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 		privKey, err = x509.DecryptPEMBlock(pemBlock, []byte(h.Passphrase))
 		if err != nil {
 			// Failed to decrypt PEM block. Because of deficiencies in the encrypted-PEM format,
-			// it's not always possibleto detect an incorrect password.
+			// it's not always possible to detect an incorrect password.
 			return err
 		}
 	} else {

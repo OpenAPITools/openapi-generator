@@ -39,6 +39,8 @@ public class DanishPig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public DanishPig() { 
+  }
 
   public DanishPig className(String className) {
     this.className = className;
@@ -49,6 +51,7 @@ public class DanishPig {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

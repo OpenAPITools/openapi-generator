@@ -1,7 +1,7 @@
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ * {{description}}{{^description}}{{classname}}{{/description}}
  */{{>additionalModelTypeAnnotations}}
-public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
+public class {{classname}}{{#parent}} extends {{{.}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -17,16 +17,16 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     {{/items.isEnum}}
     /**
     {{#description}}
-     * {{{description}}}
+     * {{{.}}}
     {{/description}}
     {{^description}}
      * Get {{name}}
     {{/description}}
     {{#minimum}}
-     * minimum: {{minimum}}
+     * minimum: {{.}}
     {{/minimum}}
     {{#maximum}}
-     * maximum: {{maximum}}
+     * maximum: {{.}}
     {{/maximum}}
      * @return {{name}}
      */

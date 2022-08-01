@@ -83,7 +83,7 @@ export class User {
     static getAttributeTypeMap() {
         return User.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

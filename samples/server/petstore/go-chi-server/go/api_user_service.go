@@ -15,8 +15,8 @@ import (
 	"errors"
 )
 
-// UserApiService is a service that implents the logic for the UserApiServicer
-// This service should implement the business logic for every endpoint for the UserApi API. 
+// UserApiService is a service that implements the logic for the UserApiServicer
+// This service should implement the business logic for every endpoint for the UserApi API.
 // Include any external packages or services that will be required by this service.
 type UserApiService struct {
 }
@@ -128,4 +128,3 @@ func (s *UserApiService) UpdateUser(ctx context.Context, username string, user U
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UpdateUser method not implemented")
 }
-

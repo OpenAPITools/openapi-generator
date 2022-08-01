@@ -23,8 +23,8 @@ package body {{package}}.Servers is
       (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
        {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
        {{/-last}}{{/allParams}}{{#returnType}};
-       Result  : out {{returnType}}{{/returnType}};
-       Context : in out Swagger.Servers.Context_Type) is
+       Result  : out {{.}}{{/returnType}};
+       Context : in out {{openApiPackageName}.Servers.Context_Type) is
    begin
       null;
    end {{operationId}};

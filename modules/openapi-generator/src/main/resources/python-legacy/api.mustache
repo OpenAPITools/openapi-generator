@@ -31,10 +31,10 @@ class {{classname}}(object):
 {{#operation}}
 
     def {{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
-        """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-        {{{notes}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/notes}}
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -48,7 +48,7 @@ class {{classname}}(object):
         >>> result = thread.get()
 
 {{#allParams}}
-        :param {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
@@ -64,16 +64,16 @@ class {{classname}}(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
         kwargs['_return_http_data_only'] = True
         return self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)  # noqa: E501
 
     def {{operationId}}_with_http_info(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
-        """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-        {{{notes}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/notes}}
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -87,7 +87,7 @@ class {{classname}}(object):
         >>> result = thread.get()
 
 {{#allParams}}
-        :param {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
@@ -107,10 +107,11 @@ class {{classname}}(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}tuple({{returnType}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
         """
 
         {{#servers.0}}
@@ -142,7 +143,9 @@ class {{classname}}(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -158,8 +161,7 @@ class {{classname}}(object):
 {{^isNullable}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
-        if self.api_client.client_side_validation and ('{{paramName}}' not in local_var_params or  # noqa: E501
-                                                        local_var_params['{{paramName}}'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('{{paramName}}') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
@@ -214,12 +216,12 @@ class {{classname}}(object):
 
         query_params = []
 {{#queryParams}}
-        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] is not None:  # noqa: E501
+        if local_var_params.get('{{paramName}}') is not None:  # noqa: E501
             query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isArray}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/queryParams}}
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 {{#headerParams}}
         if '{{paramName}}' in local_var_params:
             header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}}  # noqa: E501
@@ -247,20 +249,24 @@ class {{classname}}(object):
         {{/hasProduces}}
         {{#hasConsumes}}
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}],
+                '{{httpMethod}}', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         {{/hasConsumes}}
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
-        
+
         {{#returnType}}
         {{#responses}}
         {{#-first}}
         response_types_map = {
         {{/-first}}
             {{^isWildcard}}
-            {{code}}: {{#dataType}}"{{dataType}}"{{/dataType}}{{^dataType}}None{{/dataType}},
+            {{code}}: {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
             {{/isWildcard}}
         {{#-last}}
         }

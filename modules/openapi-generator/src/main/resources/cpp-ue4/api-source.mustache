@@ -8,11 +8,11 @@
 #include "Serialization/JsonSerializer.h"
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}() 
+{{classname}}::{{classname}}()
 : Url(TEXT("{{basePath}}"))
 {
 }
@@ -56,6 +56,7 @@ void {{classname}}::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManag
 
 FHttpRetrySystem::FManager& {{classname}}::GetHttpRetryManager()
 {
+	checkf(RetryManager, TEXT("{{classname}}: RetryManager is null.  You may have meant to set it with SetHttpRetryManager first, or you may not be using a custom RetryManager at all."))
 	return *RetryManager;
 }
 
@@ -139,7 +140,7 @@ FHttpRequestPtr {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamel
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;

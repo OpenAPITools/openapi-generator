@@ -86,7 +86,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
         additionalProperties.put("apiPackage", apiPackage);
 
-        // Explicitly defining bulid.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
+        // Explicitly defining build.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
         supportingFiles.add(new SupportingFile("build.properties.mustache", "", "project/build.properties"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("dateTimeCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "DateTimeCodecs.scala"));

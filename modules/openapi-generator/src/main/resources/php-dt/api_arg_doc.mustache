@@ -1,0 +1,23 @@
+{{#summary}}
+     * {{&summary}}
+{{/summary}}
+{{#description}}
+     * {{&description}}
+{{/description}}
+{{#vendorExtensions}}
+{{#internal.hasParameterData}}
+     * @param {{internal.parameterDataType}} $parameters
+{{/internal.hasParameterData}}
+{{/vendorExtensions}}
+{{#bodyParam}}
+     * @param {{dataType}} $requestContent
+{{/bodyParam}}
+{{#hasAuthMethods}}
+     * @param iterable|string[][] $security
+{{/hasAuthMethods}}
+{{#hasConsumes}}
+     * @param string $requestMediaType
+{{/hasConsumes}}
+{{#hasProduces}}
+     * @param string $responseMediaType
+{{/hasProduces}}

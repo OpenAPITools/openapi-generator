@@ -118,7 +118,7 @@ sub new {
 
 sub get_tokens {
     my $self = shift;
-   
+
     my $tokens = {};
     $tokens->{username} = $self->{username} if $self->{username};
     $tokens->{password} = $self->{password} if $self->{password};
@@ -144,13 +144,13 @@ sub clear_tokens {
     $self->{api_key} = {};
     $self->{api_key_prefix} = {};
     $self->{api_key_in} = {};
-  
+
     return \%tokens;
 }
 
 sub accept_tokens {
     my ($self, $tokens) = @_;
-  
+
     foreach my $known_name (qw(username password access_token)) {
         next unless $tokens->{$known_name};
         $self->{$known_name} = delete $tokens->{$known_name};
@@ -165,6 +165,6 @@ sub accept_tokens {
         croak "Tokens can only go in 'head' or 'query' (not in '$in')" unless $in =~ /^(?:head|query)$/;
         $self->{api_key_in}{$token_name} = $in;
     }
-}    
+}
 
 1;

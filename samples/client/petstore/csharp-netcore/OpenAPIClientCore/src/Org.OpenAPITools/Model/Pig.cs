@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `BasquePig`. If the actual instanct is not `BasquePig`,
+        /// Get the actual instance of `BasquePig`. If the actual instance is not `BasquePig`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of BasquePig</returns>
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `DanishPig`. If the actual instanct is not `DanishPig`,
+        /// Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of DanishPig</returns>
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
         {
             Pig newPig = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newPig;
             }

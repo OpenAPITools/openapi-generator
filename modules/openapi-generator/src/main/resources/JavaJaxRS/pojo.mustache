@@ -1,7 +1,7 @@
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ * {{description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+@ApiModel(description = "{{{.}}}"){{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
@@ -10,7 +10,10 @@
 })
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -30,6 +33,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
   {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
   {{/isContainer}}
@@ -70,16 +76,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
   /**
   {{#description}}
-   * {{description}}
+   * {{.}}
   {{/description}}
   {{^description}}
    * Get {{name}}
   {{/description}}
   {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
    **/
@@ -89,19 +95,19 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{#jackson}}
   @JsonProperty(value = "{{baseName}}"{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}}{{#isWriteOnly}}, access = JsonProperty.Access.WRITE_ONLY{{/isWriteOnly}})
   {{/jackson}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
 
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
   {{/vars}}
 
-{{^supportJava6}}
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -121,30 +127,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   public int hashCode() {
     return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
-
-{{/supportJava6}}
-{{#supportJava6}}
-  @Override
-  public boolean equals(Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }{{#hasVars}}
-    {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
-    {{/-last}}{{/vars}}{{#parent}} &&
-    super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
-
-{{/supportJava6}}
 
   @Override
   public String toString() {

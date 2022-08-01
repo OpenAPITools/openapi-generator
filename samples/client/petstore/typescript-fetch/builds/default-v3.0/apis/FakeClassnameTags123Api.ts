@@ -14,8 +14,10 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Client,
+} from '../models';
 import {
-    Client,
     ClientFromJSON,
     ClientToJSON,
 } from '../models';
@@ -33,7 +35,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      * To test class name in snake case
      */
-    async testClassnameRaw(requestParameters: TestClassnameRequest): Promise<runtime.ApiResponse<Client>> {
+    async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters.client === null || requestParameters.client === undefined) {
             throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling testClassname.');
         }
@@ -54,7 +56,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ClientToJSON(requestParameters.client),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }
@@ -63,8 +65,8 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      * To test class name in snake case
      */
-    async testClassname(requestParameters: TestClassnameRequest): Promise<Client> {
-        const response = await this.testClassnameRaw(requestParameters);
+    async testClassname(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Client> {
+        const response = await this.testClassnameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

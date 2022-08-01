@@ -67,7 +67,7 @@ import qualified Prelude as P
 -- 
 -- AuthMethod: 'AuthApiKeyApiKeyQuery'
 -- 
-testClassname 
+testClassname
   :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON Client)
   => Client -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest TestClassname MimeJSON Client MimeJSON

@@ -8,7 +8,7 @@
 - Build date: {{generatedDate}}
 {{/hideGenerationTimestamp}}
 
-{{#appDescriptionWithNewLines}}{{{appDescriptionWithNewLines}}}{{/appDescriptionWithNewLines}}
+{{{appDescriptionWithNewLines}}}
 
 {{#infoUrl}}
   For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
@@ -130,8 +130,8 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
-*{{classname}}* | [**{{operationId}}WithHttpInfo**]({{apiDocPath}}{{classname}}.md#{{operationId}}WithHttpInfo) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
+*{{classname}}* | [**{{operationId}}WithHttpInfo**]({{apiDocPath}}{{classname}}.md#{{operationId}}WithHttpInfo) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models

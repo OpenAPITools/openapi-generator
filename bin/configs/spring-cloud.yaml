@@ -1,9 +1,9 @@
 generatorName: spring
 outputDir: samples/client/petstore/spring-cloud
 library: spring-cloud
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/JavaSpring/libraries/spring-cloud
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  documentationProvider: springfox
   artifactId: petstore-spring-cloud
-  responseWrapper: HystrixCommand
   hideGenerationTimestamp: "true"

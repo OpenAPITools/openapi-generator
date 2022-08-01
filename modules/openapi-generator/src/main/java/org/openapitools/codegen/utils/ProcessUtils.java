@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.model.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,9 @@ public class ProcessUtils {
      * @param models       List of models
      * @param initialIndex starting index to use
      */
-    public static void addIndexToProperties(List<Object> models, int initialIndex) {
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public static void addIndexToProperties(List<ModelMap> models, int initialIndex) {
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
 
             int i = initialIndex;
             for (CodegenProperty var : cm.vars) {
@@ -41,7 +41,7 @@ public class ProcessUtils {
      *
      * @param models List of models
      */
-    public static void addIndexToProperties(List<Object> models) {
+    public static void addIndexToProperties(List<ModelMap> models) {
         addIndexToProperties(models, 0);
     }
 
@@ -64,6 +64,24 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns a list of OAS Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OAS Codegen security objects
+     */
+    public static List<CodegenSecurity> getHttpBasicMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> httpBasicMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                httpBasicMethods.add(cs);
+            }
+        }
+
+        return httpBasicMethods;
+    }
+
+    /**
      * Returns true if the specified OAS model has at least one operation with API keys.
      *
      * @param authMethods List of auth methods.
@@ -78,6 +96,24 @@ public class ProcessUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns a list of OAS Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OAS Codegen security objects
+     */
+    public static List<CodegenSecurity> getApiKeyMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> apiKeyMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isApiKey)) {
+                apiKeyMethods.add(cs);
+            }
+        }
+
+        return apiKeyMethods;
     }
 
     /**
@@ -100,6 +136,24 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns a list of OAS Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OAS Codegen security objects
+     */
+    public static List<CodegenSecurity> getHttpSignatureMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> httpSignatureMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isHttpSignature)) {
+                httpSignatureMethods.add(cs);
+            }
+        }
+
+        return httpSignatureMethods;
+    }
+
+    /**
      * Returns true if the specified OAS model has at least one operation with HTTP bearer.
      *
      * @param authMethods List of auth methods.
@@ -114,6 +168,24 @@ public class ProcessUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns a list of Bearer Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of Bearer Codegen security objects
+     */
+    public static List<CodegenSecurity> getHttpBearerMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> httpBearerMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isBasicBearer)) {
+                httpBearerMethods.add(cs);
+            }
+        }
+
+        return httpBearerMethods;
     }
 
     /**

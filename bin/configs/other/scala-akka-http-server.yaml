@@ -1,3 +1,0 @@
-generatorName: scala-akka-http-server
-outputDir: samples/server/petstore/scala-akka-http-server
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml

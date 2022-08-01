@@ -8,22 +8,15 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class EnumArrays  {
   
-@XmlType(name="JustSymbolEnum")
-@XmlEnum(String.class)
 public enum JustSymbolEnum {
 
-@XmlEnumValue(">=") GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), @XmlEnumValue("$") DOLLAR(String.valueOf("$"));
+GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
 
     private String value;
@@ -56,11 +49,9 @@ public enum JustSymbolEnum {
   @ApiModelProperty(value = "")
   private JustSymbolEnum justSymbol;
 
-@XmlType(name="ArrayEnumEnum")
-@XmlEnum(String.class)
 public enum ArrayEnumEnum {
 
-@XmlEnumValue("fish") FISH(String.valueOf("fish")), @XmlEnumValue("crab") CRAB(String.valueOf("crab"));
+FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 
 
     private String value;
@@ -136,6 +127,23 @@ public enum ArrayEnumEnum {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EnumArrays enumArrays = (EnumArrays) o;
+    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(arrayEnum, enumArrays.arrayEnum);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(justSymbol, arrayEnum);
+  }
 
   @Override
   public String toString() {

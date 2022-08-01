@@ -57,7 +57,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
 /// {{{notes}}}
 /// {{#allParams}} @param {{paramName}} {{{description}}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 ///
-/// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+/// {{/allParams}} @returns {{{returnType}}}{{^returnType}}void{{/returnType}}
 ///
 -(NSURLSessionTask*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.x-first-param-alt-name}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{^-first}}
     {{paramName}}{{/-first}}: ({{{dataType}}}) {{paramName}}{{/allParams}}

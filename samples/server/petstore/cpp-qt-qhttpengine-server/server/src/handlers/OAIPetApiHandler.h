@@ -24,7 +24,7 @@ namespace OpenAPI {
 class OAIPetApiHandler : public QObject
 {
     Q_OBJECT
-    
+
 public:
     OAIPetApiHandler();
     virtual ~OAIPetApiHandler();

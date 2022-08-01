@@ -61,7 +61,7 @@ class {{classname}}(object):
     }
 {{/discriminator}}
 
-    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration.get_default_copy()
@@ -93,7 +93,7 @@ class {{classname}}(object):
         """Gets the {{name}} of this {{classname}}.  # noqa: E501
 
 {{#description}}
-        {{{description}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/description}}
 
         :return: The {{name}} of this {{classname}}.  # noqa: E501
@@ -106,7 +106,7 @@ class {{classname}}(object):
         """Sets the {{name}} of this {{classname}}.
 
 {{#description}}
-        {{{description}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/description}}
 
         :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501

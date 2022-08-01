@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Client
         public static CompareLogic compareLogic;
 
         /// <summary>
-        /// Static contstructor to initialise compareLogic.
+        /// Static constructor to initialise compareLogic.
         /// </summary>
         static ClientUtils()
         {
@@ -118,41 +118,6 @@ namespace Org.OpenAPITools.Client
                 return string.Join(",", collection.Cast<object>());
 
             return Convert.ToString(obj, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// URL encode a string
-        /// Credit/Ref: https://github.com/restsharp/RestSharp/blob/master/RestSharp/Extensions/StringExtensions.cs#L50
-        /// </summary>
-        /// <param name="input">string to be URL encoded</param>
-        /// <returns>Byte array</returns>
-        public static string UrlEncode(string input)
-        {
-            const int maxLength = 32766;
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (input.Length <= maxLength)
-            {
-                return Uri.EscapeDataString(input);
-            }
-
-            StringBuilder sb = new StringBuilder(input.Length * 2);
-            int index = 0;
-
-            while (index < input.Length)
-            {
-                int length = Math.Min(input.Length - index, maxLength);
-                string subString = input.Substring(index, length);
-
-                sb.Append(Uri.EscapeDataString(subString));
-                index += subString.Length;
-            }
-
-            return sb.ToString();
         }
 
         /// <summary>

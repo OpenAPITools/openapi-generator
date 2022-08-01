@@ -39,7 +39,7 @@ This will compile the generated code and create a library in the build folder wh
 mkdir build
 cd build
 // To install library to specific location, use following commands
-cmake -DCMAKE_INSTALL_PREFIX=/pathtolocaiton ..
+cmake -DCMAKE_INSTALL_PREFIX=/pathtolocation ..
 // for normal install use following command
 cmake ..
 make
@@ -49,14 +49,14 @@ sudo make install
 Considering the test/source code which uses the API is written in main.c(respective api include is written and all objects necessary are defined and created)
 
 To compile main.c(considering the file is present in build folder) use following command
--L - locaiton of the library(not required if cmake with normal installation is performed)
+-L - location of the library(not required if cmake with normal installation is performed)
 -l library name
 ```bash
 gcc main.c -L. -lopenapi_petstore -o main
 ```
 Once compiled, you can run it with ``` ./main ```
 
-Note: You don't need to specify includes for models and include folder seperately as they are path linked. You just have to import the api.h file in your code, the include linking will work.
+Note: You don't need to specify includes for models and include folder separately as they are path linked. You just have to import the api.h file in your code, the include linking will work.
 
 ## Documentation for API Endpoints
 

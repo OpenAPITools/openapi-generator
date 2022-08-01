@@ -23,7 +23,7 @@ namespace OpenAPI {
 class OAIUserApiHandler : public QObject
 {
     Q_OBJECT
-    
+
 public:
     OAIUserApiHandler();
     virtual ~OAIUserApiHandler();

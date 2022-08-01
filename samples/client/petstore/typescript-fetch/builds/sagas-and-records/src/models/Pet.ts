@@ -13,24 +13,30 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Category } from './Category';
 import {
-    Category,
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
-    DeploymentRequestStatus,
+} from './Category';
+import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
+import {
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
-    Tag,
+} from './DeploymentRequestStatus';
+import type { Tag } from './Tag';
+import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
-    WarningCode,
+} from './Tag';
+import type { WarningCode } from './WarningCode';
+import {
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
-} from './';
+} from './WarningCode';
 
 /**
  * A pet for sale in the pet store
@@ -158,16 +164,47 @@ export interface Pet {
      * @memberof Pet
      */
     status: PetStatusEnum;
+    /**
+     * An array of all 15-minute time slots in 24 hours.
+     * @type {Array<Array<number>>}
+     * @memberof Pet
+     */
+    regions?: Array<Array<number>>;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
+ * @export
+ */
+export const PetStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
+
+
+/**
+ * Check if a given object implements the Pet interface.
+ */
+export function instanceOfPet(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "otherFriendIds" in value;
+    isInstance = isInstance && "friendAge" in value;
+    isInstance = isInstance && "age" in value;
+    isInstance = isInstance && "isHappy" in value;
+    isInstance = isInstance && "isTall" in value;
+    isInstance = isInstance && "category" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photoUrls" in value;
+    isInstance = isInstance && "warningStatus" in value;
+    isInstance = isInstance && "alternateStatus" in value;
+    isInstance = isInstance && "otherDepStatuses" in value;
+    isInstance = isInstance && "tags" in value;
+    isInstance = isInstance && "status" in value;
+
+    return isInstance;
 }
 
 export function PetFromJSON(json: any): Pet {
@@ -200,6 +237,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
         'optionalTags': !exists(json, 'optionalTags') ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
         'status': json['status'],
+        'regions': !exists(json, 'regions') ? undefined : json['regions'],
     };
 }
 
@@ -232,7 +270,7 @@ export function PetToJSON(value?: Pet | null): any {
         'tags': ((value.tags as Array<any>).map(TagToJSON)),
         'optionalTags': value.optionalTags === undefined ? undefined : ((value.optionalTags as Array<any>).map(TagToJSON)),
         'status': value.status,
+        'regions': value.regions,
     };
 }
-
 

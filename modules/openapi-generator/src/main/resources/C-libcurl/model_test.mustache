@@ -27,14 +27,14 @@
   {{classname}}_t* {{classname}} = NULL;
   if (include_optional) {
     {{classname}} = {{classname}}_create(
-{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
+{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{{example}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{example}}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
 {{/isEnum}}{{^isEnum}} // false, not to have infinite recursion
       instantiate_{{{dataType}}}(0){{/isEnum}}{{/isModel}}{{^isModel}}0{{/isModel}}{{/example}}{{^-last}},{{/-last}}
 {{/vars}}
     );
   } else {
     {{classname}} = {{classname}}_create(
-{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
+{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{{example}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{example}}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
 {{/isEnum}}{{^isEnum}}NULL{{/isEnum}}{{/isModel}}{{^isModel}}0{{/isModel}}{{/example}}{{^-last}},{{/-last}}
 {{/vars}}
     );

@@ -37,14 +37,11 @@ info:
     name: {{serviceName}}
     description: Microservice developed by PKMST
     version: {{artifactVersion}}
-
-health:
-  hystrix:
-    enabled: true
-
+    
 security:
   basic:
     enabled: false
+
 # provide rabbitmq configuration
 spring:
   rabbitmq:
@@ -55,7 +52,7 @@ spring:
     port:
   {{#zipkinUri}}
   zipkin:
-    base-url: {{zipkinUri}}
+    base-url: {{.}}
   {{/zipkinUri}}
 
   {{#springBootAdminUri}}
@@ -76,7 +73,7 @@ logging:
       springframework:
         cloud:
           sleuth: DEBUG
-{{#pkmstInterceptor}}    
+{{#pkmstInterceptor}}
 interceptor:
    enable:
        audit: true
@@ -84,4 +81,4 @@ interceptor:
        rateLimit: true
        traceability: true
        correlation: true
-{{/pkmstInterceptor}}          
+{{/pkmstInterceptor}}

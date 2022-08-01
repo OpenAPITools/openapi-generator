@@ -251,8 +251,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      */
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        for (String pathname : openAPI.getPaths().keySet()) {
-            PathItem path = openAPI.getPaths().get(pathname);
+        for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+            String pathname = openAPIGetPathsEntry.getKey();
+            PathItem path = openAPIGetPathsEntry.getValue();
             if (path.readOperations() == null) {
                 continue;
             }
@@ -345,7 +346,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
-     * @param operation     OpoenAPI Operation
+     * @param operation     OpenAPI Operation
      * @param parameters    OpenAPI Parameters
      * @param parameterType OpenAPI Parameter Type
      */

@@ -1,7 +1,8 @@
 <?php
 /**
  * PetApiInterface
- * PHP version 7.1.3
+ *
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server
@@ -46,43 +47,34 @@ interface PetApiInterface
     /**
      * Sets authentication method petstore_auth
      *
-     * @param string $value Value of the petstore_auth authentication method.
+     * @param string|null $value Value of the petstore_auth authentication method.
      *
      * @return void
      */
-    public function setpetstore_auth($value);
-
-    /**
-     * Sets authentication method petstore_auth
-     *
-     * @param string $value Value of the petstore_auth authentication method.
-     *
-     * @return void
-     */
-    public function setpetstore_auth($value);
+    public function setpetstore_auth(?string $value): void;
 
     /**
      * Sets authentication method api_key
      *
-     * @param string $value Value of the api_key authentication method.
+     * @param string|null $value Value of the api_key authentication method.
      *
      * @return void
      */
-    public function setapi_key($value);
+    public function setapi_key(?string $value): void;
 
     /**
      * Operation addPet
      *
      * Add a new pet to the store
      *
-     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  Pet $pet  Pet object that needs to be added to the store (required)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
-     *
+     * @return array|object|null
      */
-    public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
+    public function addPet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation deletePet
@@ -90,42 +82,43 @@ interface PetApiInterface
      * Deletes a pet
      *
      * @param  int $petId  Pet id to delete (required)
-     * @param  string $apiKey   (optional)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  string|null $apiKey   (optional)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
-    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders);
+    public function deletePet(int $petId, ?string $apiKey, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation findPetsByStatus
      *
      * Finds Pets by status
      *
-     * @param  string[] $status  Status values that need to be considered for filter (required)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  array $status  Status values that need to be considered for filter (required) (deprecated)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet[]
-     *
+     * @return array|object|null
      */
-    public function findPetsByStatus(array $status, &$responseCode, array &$responseHeaders);
+    public function findPetsByStatus(array $status, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation findPetsByTags
      *
      * Finds Pets by tags
      *
-     * @param  string[] $tags  Tags to filter by (required)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  array $tags  Tags to filter by (required)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet[]
-     *
+     * @return array|object|null
+     * @deprecated
      */
-    public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders);
+    public function findPetsByTags(array $tags, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation getPetById
@@ -133,27 +126,27 @@ interface PetApiInterface
      * Find pet by ID
      *
      * @param  int $petId  ID of pet to return (required)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
-     *
+     * @return array|object|null
      */
-    public function getPetById($petId, &$responseCode, array &$responseHeaders);
+    public function getPetById(int $petId, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation updatePet
      *
      * Update an existing pet
      *
-     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  Pet $pet  Pet object that needs to be added to the store (required)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
-     *
+     * @return array|object|null
      */
-    public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);
+    public function updatePet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation updatePetWithForm
@@ -161,15 +154,15 @@ interface PetApiInterface
      * Updates a pet in the store with form data
      *
      * @param  int $petId  ID of pet that needs to be updated (required)
-     * @param  string $name  Updated name of the pet (optional)
-     * @param  string $status  Updated status of the pet (optional)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  string|null $name  Updated name of the pet (optional)
+     * @param  string|null $status  Updated status of the pet (optional)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
-    public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders);
+    public function updatePetWithForm(int $petId, ?string $name, ?string $status, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation uploadFile
@@ -177,13 +170,13 @@ interface PetApiInterface
      * uploads an image
      *
      * @param  int $petId  ID of pet to update (required)
-     * @param  string $additionalMetadata  Additional data to pass to server (optional)
-     * @param  UploadedFile $file  file to upload (optional)
-     * @param  integer $responseCode     The HTTP response code to return
+     * @param  string|null $additionalMetadata  Additional data to pass to server (optional)
+     * @param  UploadedFile|null $file  file to upload (optional)
+     * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\ApiResponse
-     *
+     * @return array|object|null
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders);
+    public function uploadFile(int $petId, ?string $additionalMetadata, ?UploadedFile $file, int &$responseCode, array &$responseHeaders): array|object|null;
+
 }

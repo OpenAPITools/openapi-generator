@@ -37,6 +37,8 @@ public class Tag {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+  public Tag() {
+  }
 
   public Tag id(Long id) {
     

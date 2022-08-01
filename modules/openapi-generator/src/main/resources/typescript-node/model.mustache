@@ -8,18 +8,18 @@ import { {{classname}} } from '{{filename}}';
 
 {{#description}}
 /**
-* {{{description}}}
+* {{{.}}}
 */
 {{/description}}
 {{^isEnum}}
-export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
-    * {{{description}}}
+    * {{{.}}}
     */
 {{/description}}
-    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#defaultValue}} = {{#isEnum}}{{classname}}.{{/isEnum}}{{{.}}}{{/defaultValue}};
 {{/vars}}
 
     {{#discriminator}}

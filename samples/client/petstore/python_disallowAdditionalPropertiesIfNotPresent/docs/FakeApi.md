@@ -31,6 +31,7 @@ Test serialization of ArrayModel
 
 ### Example
 
+
 ```python
 import time
 import petstore_api
@@ -83,6 +84,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -97,6 +99,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 
 ```python
 import time
@@ -147,6 +150,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output boolean |  -  |
@@ -161,6 +165,7 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 
 ```python
 import time
@@ -259,6 +264,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -273,6 +279,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 
 ```python
 import time
@@ -324,6 +331,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output number |  -  |
@@ -338,6 +346,7 @@ No authorization required
 Test serialization of object with $refed properties
 
 ### Example
+
 
 ```python
 import time
@@ -393,6 +402,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -407,6 +417,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 
 ```python
 import time
@@ -457,6 +468,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output string |  -  |
@@ -471,6 +483,7 @@ No authorization required
 Test serialization of outer enum
 
 ### Example
+
 
 ```python
 import time
@@ -522,6 +535,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output enum |  -  |
@@ -536,6 +550,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 
 ```python
 import time
@@ -594,6 +609,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -606,6 +622,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -666,6 +683,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -680,6 +698,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 
 ```python
 import time
@@ -733,6 +752,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -747,6 +767,7 @@ No authorization required
 This route has required values with enums of 1
 
 ### Example
+
 
 ```python
 import time
@@ -798,6 +819,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -814,6 +836,7 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 ### Example
 
 * Basic Authentication (http_basic_test):
+
 ```python
 import time
 import petstore_api
@@ -906,6 +929,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -921,6 +945,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 
 ```python
 import time
@@ -948,7 +973,9 @@ with petstore_api.ApiClient() as api_client:
     enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
     enum_query_integer = 1 # int | Query parameter enum test (double) (optional)
     enum_query_double = 1.1 # float | Query parameter enum test (double) (optional)
-    enum_form_string_array = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
+    enum_form_string_array = [
+        "$",
+    ] # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
     enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
 
     # example passing only required values which don't have defaults set
@@ -989,6 +1016,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid request |  -  |
@@ -1004,6 +1032,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 
 ```python
 import time
@@ -1071,6 +1100,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Someting wrong |  -  |
@@ -1083,6 +1113,7 @@ No authorization required
 test inline additionalProperties
 
 ### Example
+
 
 ```python
 import time
@@ -1134,6 +1165,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1146,6 +1178,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 
 ```python
 import time
@@ -1197,6 +1230,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

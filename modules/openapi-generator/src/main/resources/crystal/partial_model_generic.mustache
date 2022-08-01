@@ -1,17 +1,31 @@
   {{#description}}
-  # {{{description}}}
+  # {{{.}}}
   {{/description}}
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
 
-    {{#vars}}
+    {{#hasRequired}}
+    # Required properties
+    {{/hasRequired}}
+    {{#requiredVars}}
     {{#description}}
-    # {{{description}}}
+    # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{#default}}, default: {{{.}}}{{/default}}{{#isNullable}}, nilable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: false, emit_null: false)]
     property {{{name}}} : {{{dataType}}}
 
-  {{/vars}}
+    {{/requiredVars}}
+    {{#hasOptional}}
+    # Optional properties
+    {{/hasOptional}}
+    {{#optionalVars}}
+    {{#description}}
+    # {{{.}}}
+    {{/description}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true, emit_null: false)]
+    property {{{name}}} : {{{dataType}}}?
+
+    {{/optionalVars}}
 {{#hasEnums}}
     class EnumAttributeValidator
       getter datatype : String
@@ -74,31 +88,23 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}} | Nil{{/required}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#requiredVars}}@{{{name}}} : {{{dataType}}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{^-last}}, {{/-last}}{{/optionalVars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = {{^parent}}Array.new{{/parent}}{{#parent}}super{{/parent}}
+      invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
-      {{^isNullable}}
-      {{#required}}
-      if @{{{name}}}.nil?
-        invalid_properties.push("invalid value for \"{{{name}}}\", {{{name}}} cannot be nil.")
-      end
-
-      {{/required}}
-      {{/isNullable}}
       {{#hasValidation}}
       {{#maxLength}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length > {{{maxLength}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length < {{{minLength}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
       end
 
@@ -123,13 +129,13 @@
 
       {{/pattern}}
       {{#maxItems}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length > {{{maxItems}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}."
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length < {{{minItems}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}."
       end
 
@@ -143,11 +149,6 @@
     # @return true if the model is valid
     def valid?
       {{#vars}}
-      {{^isNullable}}
-      {{#required}}
-      return false if @{{{name}}}.nil?
-      {{/required}}
-      {{/isNullable}}
       {{#isEnum}}
       {{^isContainer}}
       {{{name}}}_validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
@@ -156,10 +157,10 @@
       {{/isEnum}}
       {{#hasValidation}}
       {{#maxLength}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length > {{{maxLength}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
       {{/maxLength}}
       {{#minLength}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length < {{{minLength}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
       {{/minLength}}
       {{#maximum}}
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
@@ -171,10 +172,10 @@
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
       {{/pattern}}
       {{#maxItems}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length > {{{maxItems}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
       {{/maxItems}}
       {{#minItems}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length < {{{minItems}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
@@ -217,22 +218,14 @@
     # Custom attribute writer method with validation
     # @param [Object] {{{name}}} Value to be assigned
     def {{{name}}}=({{{name}}})
-      {{^isNullable}}
-      {{#required}}
-      if {{{name}}}.nil?
-        raise ArgumentError.new("{{{name}}} cannot be nil")
-      end
-
-      {{/required}}
-      {{/isNullable}}
       {{#maxLength}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length > {{{maxLength}}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length < {{{minLength}}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size < {{{minLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
       end
 
@@ -257,13 +250,13 @@
 
       {{/pattern}}
       {{#maxItems}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length > {{{maxItems}}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.size > {{{maxItems}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}.")
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length < {{{minItems}}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.size < {{{minItems}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}.")
       end
 
@@ -277,7 +270,7 @@
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
-      return true if self.equal?(o)
+      return true if self.same?(o)
       self.class == o.class{{#vars}} &&
           {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
     end

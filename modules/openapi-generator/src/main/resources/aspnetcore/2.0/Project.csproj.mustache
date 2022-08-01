@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <Description>{{^packageDescription}}{{packageName}}{{/packageDescription}}{{packageDescription}}</Description>
+    <Description>{{packageDescription}}{{^packageDescription}}{{packageName}}{{/packageDescription}}</Description>
     <Copyright>{{packageCopyright}}</Copyright>
     <Authors>{{packageAuthors}}</Authors>
     <TargetFramework>netcoreapp2.0</TargetFramework>

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * AdditionalPropertiesClass
@@ -44,7 +45,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
@@ -80,6 +80,8 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   private Object anytype3;
 
+  public AdditionalPropertiesClass() {
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     
@@ -89,7 +91,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
     if (this.mapString == null) {
-      this.mapString = new HashMap<String, String>();
+      this.mapString = new HashMap<>();
     }
     this.mapString.put(key, mapStringItem);
     return this;
@@ -124,7 +126,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
+      this.mapNumber = new HashMap<>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -159,7 +161,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
     if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<String, Integer>();
+      this.mapInteger = new HashMap<>();
     }
     this.mapInteger.put(key, mapIntegerItem);
     return this;
@@ -194,7 +196,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
     if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<String, Boolean>();
+      this.mapBoolean = new HashMap<>();
     }
     this.mapBoolean.put(key, mapBooleanItem);
     return this;
@@ -229,7 +231,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
     if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<String, List<Integer>>();
+      this.mapArrayInteger = new HashMap<>();
     }
     this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
@@ -264,7 +266,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<String, List<Object>>();
+      this.mapArrayAnytype = new HashMap<>();
     }
     this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
@@ -299,7 +301,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
     if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<String, Map<String, String>>();
+      this.mapMapString = new HashMap<>();
     }
     this.mapMapString.put(key, mapMapStringItem);
     return this;
@@ -334,7 +336,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
     if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<String, Map<String, Object>>();
+      this.mapMapAnytype = new HashMap<>();
     }
     this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;

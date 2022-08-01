@@ -1,5 +1,8 @@
 .gitignore
+PetApi.md
 README.md
+StoreApi.md
+UserApi.md
 apis/PetApi.ts
 apis/StoreApi.ts
 apis/UserApi.ts

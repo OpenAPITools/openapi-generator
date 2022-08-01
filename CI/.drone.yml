@@ -1,5 +1,6 @@
 kind: pipeline
-name: default
+type: docker
+name: java11-test
 steps:
 # test Java 11 HTTP client
 - name: java11-test
@@ -15,11 +16,23 @@ steps:
   - /bin/bash bin/utils/test-fake-petstore-for-all.sh
   # generate test scripts
   - /bin/bash bin/tests/run-all-test
+
+---
+kind: pipeline
+type: docker
+name: nim-client-test
+steps:
 # test nim client
 - name: nim-client-test
   image: nimlang/nim
   commands:
   - (cd samples/client/petstore/nim/ && nim c sample_client.nim)
+
+---
+kind: pipeline
+type: docker
+name: protobuf-schema-test
+steps:
 # test protobuf schema generator
 - name: protobuf-schema-test
   image: nanoservice/protobuf-go
@@ -29,12 +42,24 @@ steps:
   - cd samples/config/petstore/protobuf-schema
   - protoc --go_out=/var/tmp/go/ services/*
   - protoc --go_out=/var/tmp/go/ models/*
+
+---
+kind: pipeline
+type: docker
+name: aspnetcore-test
+steps:
 # test aspnetcore 3.x
 - name: aspnetcore-test
   image: mcr.microsoft.com/dotnet/core/sdk:3.1
   commands:
   - (cd samples/server/petstore/aspnetcore-3.1/ && /bin/sh build.sh)
   - (cd samples/server/petstore/aspnetcore-3.0/ && /bin/sh build.sh)
+
+---
+kind: pipeline
+type: docker
+name: ocaml-test
+steps:
 # test ocaml petstore client
 - name: ocaml-test
   image: ocaml/opam2:4.07
@@ -46,11 +71,23 @@ steps:
   - eval $(opam env)
   - sudo chmod -R 777 .
   - dune build --build-dir=./_build
+
+---
+kind: pipeline
+type: docker
+name: haskell-client-test
+steps:
 # test haskell client
 - name: haskell-client-test
-  image: haskell:8.6.5
+  image: haskell:8.10.4
   commands:
   - (cd samples/client/petstore/haskell-http-client/ && stack --allow-different-user --install-ghc --no-haddock-deps haddock --fast && stack --allow-different-user test --fast)
+
+---
+kind: pipeline
+type: docker
+name: erlang
+steps:
 # test erlang client and server
 - name: erlang
   image: erlang:alpine

@@ -38,6 +38,16 @@ export interface Animal {
     color?: string;
 }
 
+/**
+ * Check if a given object implements the Animal interface.
+ */
+export function instanceOfAnimal(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "className" in value;
+
+    return isInstance;
+}
+
 export function AnimalFromJSON(json: any): Animal {
     return AnimalFromJSONTyped(json, false);
 }
@@ -74,5 +84,4 @@ export function AnimalToJSON(value?: Animal | null): any {
         'color': value.color,
     };
 }
-
 

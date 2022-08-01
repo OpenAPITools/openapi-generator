@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './BehaviorType';
 export * from './Category';
 export * from './CategoryRecord';
@@ -32,6 +34,8 @@ export * from './PartRecord';
 export * from './Pet';
 export * from './PetRecord';
 export * from './PetPartType';
+export * from './PetRegionsResponse';
+export * from './PetRegionsResponseRecord';
 export * from './ResponseMeta';
 export * from './ResponseMetaRecord';
 export * from './Tag';

@@ -5,6 +5,7 @@
 #include "{{prefix}}Helpers.h"
 #include "{{prefix}}HttpRequest.h"
 #include "{{prefix}}ServerConfiguration.h"
+#include "{{prefix}}Oauth.h"
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -43,9 +44,9 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     void abortRequests();
-    QString getParamStylePrefix(QString style);
-    QString getParamStyleSuffix(QString style);
-    QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
+    QString getParamStylePrefix(const QString &style);
+    QString getParamStyleSuffix(const QString &style);
+    QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 {{#operations}}{{#operation}}
 {{#hasParams}}    /**
     {{#allParams}}
@@ -70,24 +71,36 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QNetworkAccessManager* _manager;
-    QMap<QString, QString> defaultHeaders;
-    bool isResponseCompressionEnabled;
-    bool isRequestCompressionEnabled;
+    QMap<QString, QString> _defaultHeaders;
+    bool _isResponseCompressionEnabled;
+    bool _isRequestCompressionEnabled;
+    {{prefix}}HttpRequestInput _latestInput;
+    {{prefix}}HttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 
 signals:
 {{#operations}}{{#operation}}
-    void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});{{/operation}}{{/operations}}
+    void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{returnType}}} summary{{/returnType}});{{/operation}}{{/operations}}
+    void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
 };
 
 {{#cppNamespaceDeclarations}}

@@ -27,6 +27,15 @@ export interface Foo {
     bar?: string;
 }
 
+/**
+ * Check if a given object implements the Foo interface.
+ */
+export function instanceOfFoo(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function FooFromJSON(json: any): Foo {
     return FooFromJSONTyped(json, false);
 }
@@ -53,5 +62,4 @@ export function FooToJSON(value?: Foo | null): any {
         'bar': value.bar,
     };
 }
-
 

@@ -15,7 +15,7 @@
 #include "CoreMinimal.h"
 #include "OpenAPIBaseModel.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 class OPENAPI_API OpenAPIStoreApi
@@ -24,16 +24,16 @@ public:
 	OpenAPIStoreApi();
 	~OpenAPIStoreApi();
 
-	/* Sets the URL Endpoint. 
+	/* Sets the URL Endpoint.
 	* Note: several fallback endpoints can be configured in request retry policies, see Request::SetShouldRetry */
 	void SetURL(const FString& Url);
 
 	/* Adds global header params to all requests */
 	void AddHeaderParam(const FString& Key, const FString& Value);
 	void ClearHeaderParams();
-	
+
 	/* Sets the retry manager to the user-defined retry manager. User must manage the lifetime of the retry manager.
-	* If no retry manager is specified and a request needs retries, a default retry manager will be used. 
+	* If no retry manager is specified and a request needs retries, a default retry manager will be used.
 	* See also: Request::SetShouldRetry */
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
@@ -52,10 +52,10 @@ public:
     DECLARE_DELEGATE_OneParam(FGetOrderByIdDelegate, const GetOrderByIdResponse&);
     DECLARE_DELEGATE_OneParam(FPlaceOrderDelegate, const PlaceOrderResponse&);
     
-    bool DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate = FDeleteOrderDelegate()) const;
-    bool GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate = FGetInventoryDelegate()) const;
-    bool GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate = FGetOrderByIdDelegate()) const;
-    bool PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate = FPlaceOrderDelegate()) const;
+    FHttpRequestPtr DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate = FDeleteOrderDelegate()) const;
+    FHttpRequestPtr GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate = FGetInventoryDelegate()) const;
+    FHttpRequestPtr GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate = FGetOrderByIdDelegate()) const;
+    FHttpRequestPtr PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate = FPlaceOrderDelegate()) const;
     
 private:
     void OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const;
@@ -72,5 +72,5 @@ private:
 	mutable FHttpRetrySystem::FManager* RetryManager = nullptr;
 	mutable TUniquePtr<HttpRetryManager> DefaultRetryManager;
 };
-	
+
 }

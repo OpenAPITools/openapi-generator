@@ -9,13 +9,13 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"map_property",
-    :"map_of_map_property"
+    :map_property,
+    :map_of_map_property
   ]
 
   @type t :: %__MODULE__{
-    :"map_property" => %{optional(String.t) => String.t} | nil,
-    :"map_of_map_property" => %{optional(String.t) => %{optional(String.t) => String.t}} | nil
+    :map_property => %{optional(String.t) => String.t} | nil,
+    :map_of_map_property => %{optional(String.t) => %{optional(String.t) => String.t}} | nil
   }
 end
 

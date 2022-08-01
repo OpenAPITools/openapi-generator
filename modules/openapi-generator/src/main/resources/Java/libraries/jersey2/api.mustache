@@ -32,7 +32,7 @@ public class {{classname}} {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -41,7 +41,7 @@ public class {{classname}} {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -58,7 +58,7 @@ public class {{classname}} {
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
    {{/allParams}}
    {{#returnType}}
-   * @return {{returnType}}
+   * @return {{.}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#responses.0}}
@@ -81,7 +81,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#returnType}}return {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}.getData(){{/returnType}};
   }
   {{/vendorExtensions.x-group-parameters}}
@@ -93,7 +93,7 @@ public class {{classname}} {
    {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
    {{/allParams}}
-   * @return ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+   * @return ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
    * @throws ApiException if fails to make API call
    {{#responses.0}}
    * @http.response.details
@@ -115,7 +115,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -134,7 +134,7 @@ public class {{classname}} {
     {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
 
     {{#queryParams}}
-    localVarQueryParams.addAll(apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
     {{#headerParams}}if ({{paramName}} != null)
@@ -212,13 +212,13 @@ public class {{classname}} {
      {{#isDeprecated}}* @deprecated{{/isDeprecated}}
      */
     {{#isDeprecated}}@Deprecated{{/isDeprecated}}
-    public {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
+    public {{{returnType}}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
       {{#returnType}}return {{/returnType}}this.executeWithHttpInfo().getData();
     }
 
     /**
      * Execute {{operationId}} request with HTTP info returned
-     * @return ApiResponse&lt;{{#returnType}}{{.}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+     * @return ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
      * @throws ApiException if fails to make API call
      {{#responses.0}}
      * @http.response.details
@@ -235,7 +235,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
+    public ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
       return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     }
   }

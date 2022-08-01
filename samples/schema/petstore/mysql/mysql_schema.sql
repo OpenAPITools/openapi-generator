@@ -25,6 +25,15 @@ CREATE TABLE IF NOT EXISTS `AdditionalPropertiesClass` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `AllOfWithSingleRef` generated from model 'AllOfWithSingleRef'
+--
+
+CREATE TABLE IF NOT EXISTS `AllOfWithSingleRef` (
+  `username` TEXT DEFAULT NULL,
+  `SingleRefType` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Animal` generated from model 'Animal'
 --
 
@@ -127,6 +136,14 @@ CREATE TABLE IF NOT EXISTS `Client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `DeprecatedObject` generated from model 'DeprecatedObject'
+--
+
+CREATE TABLE IF NOT EXISTS `DeprecatedObject` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Dog` generated from model 'Dog'
 --
 
@@ -195,6 +212,14 @@ CREATE TABLE IF NOT EXISTS `Foo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `_foo_get_default_response` generated from model 'UnderscorefooUnderscoregetUnderscoredefaultUnderscoreresponse'
+--
+
+CREATE TABLE IF NOT EXISTS `_foo_get_default_response` (
+  `string` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `format_test` generated from model 'formatUnderscoretest'
 --
 
@@ -234,14 +259,6 @@ CREATE TABLE IF NOT EXISTS `hasOnlyReadOnly` (
 CREATE TABLE IF NOT EXISTS `HealthCheckResult` (
   `NullableMessage` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.';
-
---
--- Table structure for table `inline_response_default` generated from model 'inlineUnderscoreresponseUnderscoredefault'
---
-
-CREATE TABLE IF NOT EXISTS `inline_response_default` (
-  `string` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `List` generated from model 'List'
@@ -309,6 +326,17 @@ CREATE TABLE IF NOT EXISTS `NullableClass` (
 
 CREATE TABLE IF NOT EXISTS `NumberOnly` (
   `JustNumber` DECIMAL(20, 9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `ObjectWithDeprecatedFields` generated from model 'ObjectWithDeprecatedFields'
+--
+
+CREATE TABLE IF NOT EXISTS `ObjectWithDeprecatedFields` (
+  `uuid` TEXT DEFAULT NULL,
+  `id` DECIMAL(20, 9) DEFAULT NULL,
+  `deprecatedRef` TEXT DEFAULT NULL,
+  `bars` JSON DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -499,7 +527,7 @@ CREATE TABLE IF NOT EXISTS `oauth_jwt` (
 CREATE TABLE IF NOT EXISTS `oauth_jti` (
   `issuer`              VARCHAR(80)    NOT NULL,
   `subject`             VARCHAR(80)    DEFAULT NULL,
-  `audiance`            VARCHAR(80)    DEFAULT NULL,
+  `audience`            VARCHAR(80)    DEFAULT NULL,
   `expires`             TIMESTAMP      NOT NULL,
   `jti`                 VARCHAR(2000)  NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

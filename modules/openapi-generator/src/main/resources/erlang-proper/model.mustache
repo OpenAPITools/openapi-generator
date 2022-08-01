@@ -23,7 +23,7 @@
 {{/isEnum}}
 {{#isArray}}
 {{classname}}() ->
-  list({{arrayModelType}}{{#minItems}}, {{minItems}}{{#maxItems}}, {{maxItems}}{{/maxItems}}{{/minItems}}).
+  list({{arrayModelType}}{{#minItems}}, {{minItems}}{{#maxItems}}, {{.}}{{/maxItems}}{{/minItems}}).
 {{/isArray}}
 {{^isEnum}}{{^isArray}}
 {{classname}}() ->
@@ -31,7 +31,7 @@
 
 {{classname}}(Fields) ->
   Default = [ {{#vars}}{{^-first}}
-            , {{/-first}}{'{{baseName}}', {{#isString}}{{#isEnum}}elements([{{#allowableValues.values}}{{^-first}}, {{/-first}}<<"{{.}}">>{{/allowableValues.values}}]){{/isEnum}}{{^isEnum}}binary({{#minLength}}{{minLength}}{{#maxLength}}, {{maxLength}}{{/maxLength}}{{/minLength}}){{/isEnum}}{{/isString}}{{^isString}}{{baseType}}{{/isString}} }{{/vars}}
+            , {{/-first}}{'{{baseName}}', {{#isString}}{{#isEnum}}elements([{{#allowableValues.values}}{{^-first}}, {{/-first}}<<"{{.}}">>{{/allowableValues.values}}]){{/isEnum}}{{^isEnum}}binary({{#minLength}}{{minLength}}{{#maxLength}}, {{.}}{{/maxLength}}{{/minLength}}){{/isEnum}}{{/isString}}{{^isString}}{{baseType}}{{/isString}} }{{/vars}}
             ],
   lists:ukeymerge(1, lists:sort(Fields), lists:sort(Default)).
 {{/isArray}}{{/isEnum}}

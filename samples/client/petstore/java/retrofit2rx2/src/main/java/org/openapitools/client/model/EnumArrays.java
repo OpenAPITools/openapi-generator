@@ -133,6 +133,8 @@ public class EnumArrays {
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = null;
 
+  public EnumArrays() {
+  }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     
@@ -165,7 +167,7 @@ public class EnumArrays {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;

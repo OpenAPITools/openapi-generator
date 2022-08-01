@@ -16,7 +16,7 @@ import org.joda.time.DateTime
 import {{classname}}._
 
 case class {{classname}} (
-  {{#vars}}{{#description}}/* {{{description}}} */
+  {{#vars}}{{#description}}/* {{{.}}} */
   {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
   {{/vars}}
 

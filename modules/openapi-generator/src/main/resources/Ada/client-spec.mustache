@@ -2,11 +2,11 @@
 {{#imports}}with {{import}};
 {{/imports}}
 with {{package}}.Models;
-with Swagger.Clients;
+with {{openApiPackageName}}.Clients;
 package {{package}}.Clients is
    pragma Style_Checks ("-mr");
 
-   type Client_Type is new Swagger.Clients.Client_Type with null record;
+   type Client_Type is new {{openApiPackageName}}.Clients.Client_Type with null record;
 
 {{#apiInfo}}
 {{#apis}}
@@ -17,7 +17,7 @@ package {{package}}.Clients is
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
        {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{^-last}};{{/-last}}{{/allParams}}{{#returnType}};
-       Result : out {{returnType}}{{/returnType}});
+       Result : out {{.}}{{/returnType}});
 
 {{/operation}}
 {{/operations}}

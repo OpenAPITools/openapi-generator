@@ -65,7 +65,7 @@ import qualified Prelude as P
 -- 
 -- this route creates an XmlItem
 -- 
-createXmlItem 
+createXmlItem
   :: (Consumes CreateXmlItem contentType, MimeRender contentType XmlItem)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> XmlItem -- ^ "xmlItem" -  XmlItem Body
@@ -101,7 +101,7 @@ instance Produces CreateXmlItem MimeNoContent
 -- 
 -- Test serialization of outer boolean types
 -- 
-fakeOuterBooleanSerialize 
+fakeOuterBooleanSerialize
   :: (Consumes FakeOuterBooleanSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -113,7 +113,7 @@ data FakeOuterBooleanSerialize
 
 -- | /Body Param/ "body" - Input boolean as post body
 instance HasBodyParam FakeOuterBooleanSerialize BodyBool 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes FakeOuterBooleanSerialize mtype
 
@@ -127,7 +127,7 @@ instance MimeType mtype => Produces FakeOuterBooleanSerialize mtype
 -- 
 -- Test serialization of object with outer number type
 -- 
-fakeOuterCompositeSerialize 
+fakeOuterCompositeSerialize
   :: (Consumes FakeOuterCompositeSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -139,7 +139,7 @@ data FakeOuterCompositeSerialize
 
 -- | /Body Param/ "body" - Input composite as post body
 instance HasBodyParam FakeOuterCompositeSerialize OuterComposite 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes FakeOuterCompositeSerialize mtype
 
@@ -153,7 +153,7 @@ instance MimeType mtype => Produces FakeOuterCompositeSerialize mtype
 -- 
 -- Test serialization of outer number types
 -- 
-fakeOuterNumberSerialize 
+fakeOuterNumberSerialize
   :: (Consumes FakeOuterNumberSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -165,7 +165,7 @@ data FakeOuterNumberSerialize
 
 -- | /Body Param/ "body" - Input number as post body
 instance HasBodyParam FakeOuterNumberSerialize BodyDouble 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes FakeOuterNumberSerialize mtype
 
@@ -179,7 +179,7 @@ instance MimeType mtype => Produces FakeOuterNumberSerialize mtype
 -- 
 -- Test serialization of outer string types
 -- 
-fakeOuterStringSerialize 
+fakeOuterStringSerialize
   :: (Consumes FakeOuterStringSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -191,7 +191,7 @@ data FakeOuterStringSerialize
 
 -- | /Body Param/ "body" - Input string as post body
 instance HasBodyParam FakeOuterStringSerialize BodyText 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes FakeOuterStringSerialize mtype
 
@@ -205,7 +205,7 @@ instance MimeType mtype => Produces FakeOuterStringSerialize mtype
 -- 
 -- For this test, the body for this request much reference a schema named `File`.
 -- 
-testBodyWithFileSchema 
+testBodyWithFileSchema
   :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON FileSchemaTestClass)
   => FileSchemaTestClass -- ^ "body"
   -> OpenAPIPetstoreRequest TestBodyWithFileSchema MimeJSON NoContent MimeNoContent
@@ -226,7 +226,7 @@ instance Produces TestBodyWithFileSchema MimeNoContent
 
 -- | @PUT \/fake\/body-with-query-params@
 -- 
-testBodyWithQueryParams 
+testBodyWithQueryParams
   :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON User)
   => User -- ^ "body"
   -> Query -- ^ "query"
@@ -253,7 +253,7 @@ instance Produces TestBodyWithQueryParams MimeNoContent
 -- 
 -- To test \"client\" model
 -- 
-testClientModel 
+testClientModel
   :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client)
   => Client -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest TestClientModel MimeJSON Client MimeJSON
@@ -283,7 +283,7 @@ instance Produces TestClientModel MimeJSON
 -- 
 -- AuthMethod: 'AuthBasicHttpBasicTest'
 -- 
-testEndpointParameters 
+testEndpointParameters
   :: (Consumes TestEndpointParameters MimeFormUrlEncoded)
   => Number -- ^ "number" -  None
   -> ParamDouble -- ^ "double" -  None
@@ -364,7 +364,7 @@ instance Produces TestEndpointParameters MimeNoContent
 -- 
 -- To test enum parameters
 -- 
-testEnumParameters 
+testEnumParameters
   :: (Consumes TestEnumParameters MimeFormUrlEncoded)
   => OpenAPIPetstoreRequest TestEnumParameters MimeFormUrlEncoded NoContent MimeNoContent
 testEnumParameters =
@@ -426,7 +426,7 @@ instance Produces TestEnumParameters MimeNoContent
 -- 
 -- Fake endpoint to test group parameters (optional)
 -- 
-testGroupParameters 
+testGroupParameters
   :: RequiredStringGroup -- ^ "requiredStringGroup" -  Required String in group parameters
   -> RequiredBooleanGroup -- ^ "requiredBooleanGroup" -  Required Boolean in group parameters
   -> RequiredInt64Group -- ^ "requiredInt64Group" -  Required Integer in group parameters
@@ -462,7 +462,7 @@ instance Produces TestGroupParameters MimeNoContent
 -- 
 -- test inline additionalProperties
 -- 
-testInlineAdditionalProperties 
+testInlineAdditionalProperties
   :: (Consumes TestInlineAdditionalProperties MimeJSON, MimeRender MimeJSON ParamMapMapStringText)
   => ParamMapMapStringText -- ^ "param" -  request body
   -> OpenAPIPetstoreRequest TestInlineAdditionalProperties MimeJSON NoContent MimeNoContent
@@ -487,7 +487,7 @@ instance Produces TestInlineAdditionalProperties MimeNoContent
 -- 
 -- test json serialization of form data
 -- 
-testJsonFormData 
+testJsonFormData
   :: (Consumes TestJsonFormData MimeFormUrlEncoded)
   => Param -- ^ "param" -  field1
   -> Param2 -- ^ "param2" -  field2
@@ -507,11 +507,11 @@ instance Produces TestJsonFormData MimeNoContent
 
 -- *** testQueryParameterCollectionFormat
 
--- | @PUT \/fake\/test-query-paramters@
+-- | @PUT \/fake\/test-query-parameters@
 -- 
 -- To test the collection format in query parameters
 -- 
-testQueryParameterCollectionFormat 
+testQueryParameterCollectionFormat
   :: Pipe -- ^ "pipe"
   -> Ioutil -- ^ "ioutil"
   -> Http -- ^ "http"
@@ -519,7 +519,7 @@ testQueryParameterCollectionFormat
   -> Context -- ^ "context"
   -> OpenAPIPetstoreRequest TestQueryParameterCollectionFormat MimeNoContent NoContent MimeNoContent
 testQueryParameterCollectionFormat (Pipe pipe) (Ioutil ioutil) (Http http) (Url url) (Context context) =
-  _mkRequest "PUT" ["/fake/test-query-paramters"]
+  _mkRequest "PUT" ["/fake/test-query-parameters"]
     `addQuery` toQueryColl CommaSeparated ("pipe", Just pipe)
     `addQuery` toQueryColl CommaSeparated ("ioutil", Just ioutil)
     `addQuery` toQueryColl SpaceSeparated ("http", Just http)

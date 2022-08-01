@@ -20,22 +20,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for Client
  */
-public class ClientTest {
+class ClientTest {
     private final Client model = new Client();
 
     /**
      * Model tests for Client
      */
     @Test
-    public void testClient() {
+    void testClient() {
         // TODO: test Client
     }
 
@@ -43,7 +41,7 @@ public class ClientTest {
      * Test the property 'client'
      */
     @Test
-    public void clientTest() {
+    void clientTest() {
         // TODO: test client
     }
 

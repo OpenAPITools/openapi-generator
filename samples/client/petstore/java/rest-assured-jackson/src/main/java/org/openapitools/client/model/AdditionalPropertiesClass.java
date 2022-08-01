@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -47,7 +48,6 @@ import org.hibernate.validator.constraints.*;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
@@ -83,6 +83,8 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   private Object anytype3;
 
+  public AdditionalPropertiesClass() {
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     

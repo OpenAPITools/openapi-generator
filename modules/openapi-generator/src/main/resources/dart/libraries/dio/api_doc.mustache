@@ -1,5 +1,5 @@
 # {{pubName}}.api.{{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 ## Load the API package
 ```dart
@@ -10,19 +10,19 @@ All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 # **{{{operationId}}}**
-> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
-### Example 
+### Example
 ```dart
 import 'package:{{pubName}}/api.dart';
 {{#hasAuthMethods}}
@@ -50,7 +50,7 @@ final api = {{clientName}}().get{{classname}}();
 final {{{dataType}}} {{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-try { 
+try {
     {{#returnType}}final response = {{/returnType}}api.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{#returnType}}
     print(response);
@@ -64,7 +64,7 @@ try {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{{description}}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{{defaultValue}}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{{description}}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

@@ -22,10 +22,10 @@ class {{classname}}
 {{#operation}}
     /**
 {{#summary}}
-     * {{summary}}
+     * {{.}}
 {{/summary}}
 {{#description}}
-     * {{description}}
+     * {{.}}
 {{/description}}
      * @PHA\{{httpMethod}}
 {{#vendorExtensions}}
@@ -55,10 +55,13 @@ class {{classname}}
      * @throws PHException\HttpCode 501 if the method is not implemented
 {{#returnType}}
      *
-     * @return {{returnType}}
+     * @return {{.}}
 {{/returnType}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
-    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{returnType}}{{/returnType}}
+    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{.}}{{/returnType}}
     {
         //TODO implement method
 {{#vendorExtensions}}

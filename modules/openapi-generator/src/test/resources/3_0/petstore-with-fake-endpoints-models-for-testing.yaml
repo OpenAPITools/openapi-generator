@@ -56,6 +56,7 @@ paths:
       summary: Update an existing pet
       description: ''
       operationId: updatePet
+      x-webclient-blocking: true
       responses:
         '200':
           description: Successful operation
@@ -78,6 +79,7 @@ paths:
       summary: Finds Pets by status
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
+      x-webclient-blocking: true
       parameters:
         - name: status
           in: query
@@ -85,6 +87,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -123,6 +126,7 @@ paths:
         Multiple tags can be provided with comma separated strings. Use tag1,
         tag2, tag3 for testing.
       operationId: findPetsByTags
+      x-webclient-blocking: true
       parameters:
         - name: tags
           in: query
@@ -165,6 +169,7 @@ paths:
       summary: Find pet by ID
       description: Returns a single pet
       operationId: getPetById
+      x-webclient-blocking: true
       parameters:
         - name: petId
           in: path
@@ -655,6 +660,12 @@ paths:
             enum:
               - 1.1
               - -1.2
+        - name: enum_query_model_array
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnumClass'
       responses:
         '400':
           description: Invalid request
@@ -1039,7 +1050,7 @@ paths:
               format: binary
         description: image to upload
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1088,6 +1099,20 @@ paths:
             type: array
             items:
               type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+              format: string
+        - name: allowEmpty
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
       responses:
         "200":
           description: Success
@@ -1862,3 +1887,38 @@ components:
       properties:
         value:
           $ref: '#/components/schemas/OuterEnumInteger'
+    DeprecatedObject:
+      type: object
+      deprecated: true
+      properties:
+        name:
+          type: string
+    ObjectWithDeprecatedFields:
+      type: object
+      properties:
+        uuid:
+          type: string
+        id:
+          type: number
+          deprecated: true
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          type: array
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'
+    AllOfWithSingleRef:
+      type: object
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+            - $ref: '#/components/schemas/SingleRefType'
+    SingleRefType:
+      type: string
+      title: SingleRefType
+      enum:
+        - admin
+        - user

@@ -20,16 +20,16 @@ namespace {{this}} {
 
 }
 
-{{#operations}}{{#operation}}void {{classname}}Handler::{{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+{{#operations}}{{#operation}}void {{classname}}Handler::{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     {{#allParams}}
     Q_UNUSED({{paramName}});
     {{/allParams}}
     auto reqObj = qobject_cast<{{classname}}Request*>(sender());
-    if( reqObj != nullptr ) 
-    { 
-        {{#returnType}}{{{returnType}}} res;{{/returnType}}
+    if( reqObj != nullptr )
+    {
+        {{#returnType}}{{{.}}} res;{{/returnType}}
         reqObj->{{nickname}}Response({{#returnType}}res{{/returnType}});
-    }    
+    }
 }
 {{/operation}}{{/operations}}
 

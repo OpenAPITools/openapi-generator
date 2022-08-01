@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -51,14 +51,14 @@ public class UserApi {
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param body Created user object
+     * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUserRequestCreation(User body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling createUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec createUserRequestCreation(User user) throws WebClientResponseException {
+        Object postBody = user;
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new WebClientResponseException("Missing the required parameter 'user' when calling createUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -70,7 +70,9 @@ public class UserApi {
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -83,30 +85,49 @@ public class UserApi {
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param body Created user object
+     * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUser(User body) throws WebClientResponseException {
+    public Mono<Void> createUser(User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return createUserRequestCreation(body).bodyToMono(localVarReturnType);
+        return createUserRequestCreation(user).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Void>> createUserWithHttpInfo(User body) throws WebClientResponseException {
+    /**
+     * Create user
+     * This can only be done by the logged in user.
+     * <p><b>0</b> - successful operation
+     * @param user Created user object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> createUserWithHttpInfo(User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return createUserRequestCreation(body).toEntity(localVarReturnType);
+        return createUserRequestCreation(user).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Create user
+     * This can only be done by the logged in user.
+     * <p><b>0</b> - successful operation
+     * @param user Created user object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec createUserWithResponseSpec(User user) throws WebClientResponseException {
+        return createUserRequestCreation(user);
     }
     /**
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object
+     * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithArrayInputRequestCreation(List<User> body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling createUsersWithArrayInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec createUsersWithArrayInputRequestCreation(List<User> user) throws WebClientResponseException {
+        Object postBody = user;
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new WebClientResponseException("Missing the required parameter 'user' when calling createUsersWithArrayInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -118,7 +139,9 @@ public class UserApi {
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -131,30 +154,49 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object
+     * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUsersWithArrayInput(List<User> body) throws WebClientResponseException {
+    public Mono<Void> createUsersWithArrayInput(List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return createUsersWithArrayInputRequestCreation(body).bodyToMono(localVarReturnType);
+        return createUsersWithArrayInputRequestCreation(user).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Void>> createUsersWithArrayInputWithHttpInfo(List<User> body) throws WebClientResponseException {
+    /**
+     * Creates list of users with given input array
+     * 
+     * <p><b>0</b> - successful operation
+     * @param user List of user object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> createUsersWithArrayInputWithHttpInfo(List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return createUsersWithArrayInputRequestCreation(body).toEntity(localVarReturnType);
+        return createUsersWithArrayInputRequestCreation(user).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Creates list of users with given input array
+     * 
+     * <p><b>0</b> - successful operation
+     * @param user List of user object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec createUsersWithArrayInputWithResponseSpec(List<User> user) throws WebClientResponseException {
+        return createUsersWithArrayInputRequestCreation(user);
     }
     /**
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object
+     * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithListInputRequestCreation(List<User> body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling createUsersWithListInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec createUsersWithListInputRequestCreation(List<User> user) throws WebClientResponseException {
+        Object postBody = user;
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new WebClientResponseException("Missing the required parameter 'user' when calling createUsersWithListInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -166,7 +208,9 @@ public class UserApi {
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -179,17 +223,36 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object
+     * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUsersWithListInput(List<User> body) throws WebClientResponseException {
+    public Mono<Void> createUsersWithListInput(List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return createUsersWithListInputRequestCreation(body).bodyToMono(localVarReturnType);
+        return createUsersWithListInputRequestCreation(user).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Void>> createUsersWithListInputWithHttpInfo(List<User> body) throws WebClientResponseException {
+    /**
+     * Creates list of users with given input array
+     * 
+     * <p><b>0</b> - successful operation
+     * @param user List of user object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> createUsersWithListInputWithHttpInfo(List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return createUsersWithListInputRequestCreation(body).toEntity(localVarReturnType);
+        return createUsersWithListInputRequestCreation(user).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Creates list of users with given input array
+     * 
+     * <p><b>0</b> - successful operation
+     * @param user List of user object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec createUsersWithListInputWithResponseSpec(List<User> user) throws WebClientResponseException {
+        return createUsersWithListInputRequestCreation(user);
     }
     /**
      * Delete user
@@ -239,9 +302,30 @@ public class UserApi {
         return deleteUserRequestCreation(username).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param username The name that needs to be deleted
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Void>> deleteUserWithHttpInfo(String username) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deleteUserRequestCreation(username).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param username The name that needs to be deleted
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec deleteUserWithResponseSpec(String username) throws WebClientResponseException {
+        return deleteUserRequestCreation(username);
     }
     /**
      * Get user by user name
@@ -297,9 +381,33 @@ public class UserApi {
         return getUserByNameRequestCreation(username).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Get user by user name
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return ResponseEntity&lt;User&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<User>> getUserByNameWithHttpInfo(String username) throws WebClientResponseException {
         ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<User>() {};
         return getUserByNameRequestCreation(username).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Get user by user name
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec getUserByNameWithResponseSpec(String username) throws WebClientResponseException {
+        return getUserByNameRequestCreation(username);
     }
     /**
      * Logs user into the system
@@ -360,9 +468,33 @@ public class UserApi {
         return loginUserRequestCreation(username, password).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Logs user into the system
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username/password supplied
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return ResponseEntity&lt;String&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<String>> loginUserWithHttpInfo(String username, String password) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
         return loginUserRequestCreation(username, password).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Logs user into the system
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username/password supplied
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec loginUserWithResponseSpec(String username, String password) throws WebClientResponseException {
+        return loginUserRequestCreation(username, password);
     }
     /**
      * Logs out current logged in user session
@@ -402,9 +534,26 @@ public class UserApi {
         return logoutUserRequestCreation().bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Logs out current logged in user session
+     * 
+     * <p><b>0</b> - successful operation
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Void>> logoutUserWithHttpInfo() throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return logoutUserRequestCreation().toEntity(localVarReturnType);
+    }
+
+    /**
+     * Logs out current logged in user session
+     * 
+     * <p><b>0</b> - successful operation
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec logoutUserWithResponseSpec() throws WebClientResponseException {
+        return logoutUserRequestCreation();
     }
     /**
      * Updated user
@@ -412,18 +561,18 @@ public class UserApi {
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updateUserRequestCreation(String username, User body) throws WebClientResponseException {
-        Object postBody = body;
+    private ResponseSpec updateUserRequestCreation(String username, User user) throws WebClientResponseException {
+        Object postBody = user;
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new WebClientResponseException("Missing the required parameter 'user' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -437,7 +586,9 @@ public class UserApi {
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -452,16 +603,39 @@ public class UserApi {
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updateUser(String username, User body) throws WebClientResponseException {
+    public Mono<Void> updateUser(String username, User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updateUserRequestCreation(username, body).bodyToMono(localVarReturnType);
+        return updateUserRequestCreation(username, user).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(String username, User body) throws WebClientResponseException {
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid user supplied
+     * <p><b>404</b> - User not found
+     * @param username name that need to be deleted
+     * @param user Updated user object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(String username, User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updateUserRequestCreation(username, body).toEntity(localVarReturnType);
+        return updateUserRequestCreation(username, user).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid user supplied
+     * <p><b>404</b> - User not found
+     * @param username name that need to be deleted
+     * @param user Updated user object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updateUserWithResponseSpec(String username, User user) throws WebClientResponseException {
+        return updateUserRequestCreation(username, user);
     }
 }

@@ -44,7 +44,6 @@ public class Animal {
   private String color = "red";
 
   public Animal() {
-    this.className = this.getClass().getSimpleName();
   }
 
   public Animal className(String className) {
@@ -57,6 +56,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 

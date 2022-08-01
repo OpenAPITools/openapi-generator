@@ -1,5 +1,6 @@
 Model/200Response.sql
 Model/AdditionalPropertiesClass.sql
+Model/AllOfWithSingleRef.sql
 Model/Animal.sql
 Model/ApiResponse.sql
 Model/ArrayOfArrayOfNumberOnly.sql
@@ -11,6 +12,7 @@ Model/CatAllOf.sql
 Model/Category.sql
 Model/ClassModel.sql
 Model/Client.sql
+Model/DeprecatedObject.sql
 Model/Dog.sql
 Model/DogAllOf.sql
 Model/EnumArrays.sql
@@ -19,16 +21,17 @@ Model/EnumTest.sql
 Model/File.sql
 Model/FileSchemaTestClass.sql
 Model/Foo.sql
+Model/FooGetDefaultResponse.sql
 Model/FormatTest.sql
 Model/HasOnlyReadOnly.sql
 Model/HealthCheckResult.sql
-Model/InlineResponseDefault.sql
 Model/List.sql
 Model/MapTest.sql
 Model/MixedPropertiesAndAdditionalPropertiesClass.sql
 Model/Name.sql
 Model/NullableClass.sql
 Model/NumberOnly.sql
+Model/ObjectWithDeprecatedFields.sql
 Model/Order.sql
 Model/OuterComposite.sql
 Model/OuterEnum.sql
@@ -39,6 +42,7 @@ Model/OuterObjectWithEnumProperty.sql
 Model/Pet.sql
 Model/ReadOnlyFirst.sql
 Model/Return.sql
+Model/SingleRefType.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
 Model/User.sql

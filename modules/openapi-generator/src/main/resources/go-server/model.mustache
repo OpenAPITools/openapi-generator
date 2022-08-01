@@ -5,7 +5,7 @@ package {{packageName}}
 {{/-first}}	"{{import}}"{{#-last}}
 )
 {{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
-type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
 
 // List of {{{classname}}}
 const (
@@ -28,7 +28,107 @@ type {{classname}} struct {
 {{/isArray}}
 {{/parent}}
 {{#vars}}{{#description}}
-	// {{{description}}}{{/description}}
+	// {{{.}}}{{/description}}
+	{{#deprecated}}
+	// Deprecated
+	{{/deprecated}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-}{{/isEnum}}{{/model}}{{/models}}
+}{{/isEnum}}
+
+// Assert{{classname}}Required checks if the required fields are not zero-ed
+func Assert{{classname}}Required(obj {{classname}}) error {
+{{#hasRequired}}
+	elements := map[string]interface{}{
+{{#requiredVars}}		"{{baseName}}": obj.{{name}},
+{{/requiredVars}}	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+{{/hasRequired}}
+{{#parent}}
+	{{^isMap}}
+		{{^isArray}}
+	if err := Assert{{{parent}}}Required(obj.{{{parent}}}); err != nil {
+		return err
+	}
+
+		{{/isArray}}
+	{{/isMap}}
+{{/parent}}
+{{#Vars}}
+	{{#isNullable}}
+		{{#isModel}}
+	if obj.{{name}} != nil {
+		{{/isModel}}
+		{{#isArray}}
+			{{#items.isModel}}
+	if obj.{{name}} != nil {
+			{{/items.isModel}}
+			{{^items.isModel}}
+				{{#mostInnerItems.isModel}}
+					{{^mostInnerItems.isPrimitiveType}}
+	if obj.{{name}} != nil {
+					{{/mostInnerItems.isPrimitiveType}}
+				{{/mostInnerItems.isModel}}
+			{{/items.isModel}}
+		{{/isArray}}
+	{{/isNullable}}
+	{{#isModel}}
+{{#isNullable}}	{{/isNullable}}	if err := Assert{{baseType}}Required({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
+{{#isNullable}}	{{/isNullable}}		return err
+{{#isNullable}}	{{/isNullable}}	}
+	{{/isModel}}
+	{{#isArray}}
+		{{#items.isModel}}
+{{#isNullable}}	{{/isNullable}}	for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
+{{#isNullable}}	{{/isNullable}}		if err := Assert{{items.baseType}}Required(el); err != nil {
+{{#isNullable}}	{{/isNullable}}			return err
+{{#isNullable}}	{{/isNullable}}		}
+{{#isNullable}}	{{/isNullable}}	}
+		{{/items.isModel}}
+		{{^items.isModel}}
+			{{#mostInnerItems.isModel}}
+				{{^mostInnerItems.isPrimitiveType}}
+{{#isNullable}}	{{/isNullable}}	if err := AssertRecurse{{mostInnerItems.dataType}}Required({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
+{{#isNullable}}	{{/isNullable}}		return err
+{{#isNullable}}	{{/isNullable}}	}
+				{{/mostInnerItems.isPrimitiveType}}
+			{{/mostInnerItems.isModel}}
+		{{/items.isModel}}
+	{{/isArray}}
+	{{#isNullable}}
+		{{#isModel}}
+	}
+		{{/isModel}}
+		{{#isArray}}
+			{{#items.isModel}}
+	}
+			{{/items.isModel}}
+			{{^items.isModel}}
+				{{#mostInnerItems.isModel}}
+					{{^mostInnerItems.isPrimitiveType}}
+	}
+					{{/mostInnerItems.isPrimitiveType}}
+				{{/mostInnerItems.isModel}}
+			{{/items.isModel}}
+		{{/isArray}}
+	{{/isNullable}}
+{{/Vars}}
+	return nil
+}
+
+// AssertRecurse{{classname}}Required recursively checks if required fields are not zero-ed in a nested slice.
+// Accepts only nested slice of {{classname}} (e.g. [][]{{classname}}), otherwise ErrTypeAssertionError is thrown.
+func AssertRecurse{{classname}}Required(objSlice interface{}) error {
+	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+		a{{classname}}, ok := obj.({{classname}})
+		if !ok {
+			return ErrTypeAssertionError
+		}
+		return Assert{{classname}}Required(a{{classname}})
+	})
+}{{/model}}{{/models}}

@@ -2,10 +2,10 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD.
-    define(['expect.js', process.cwd()+'/src/{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}index'], factory);
+    define(['expect.js', process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}index'));
+    factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'));
   } else {
     // Browser globals (root is window)
     factory(root.expect, root.{{moduleName}});

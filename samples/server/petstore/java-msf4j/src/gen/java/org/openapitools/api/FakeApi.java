@@ -231,7 +231,7 @@ public class FakeApi  {
         return delegate.testJsonFormData(param,param2);
     }
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })

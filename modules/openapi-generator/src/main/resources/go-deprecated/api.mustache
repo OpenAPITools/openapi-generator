@@ -25,7 +25,7 @@ type {{classname}} interface {
      * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
      *
     {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
     {{/notes}}
      * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -43,10 +43,10 @@ type {{classname}} interface {
     {{/allParams}}
     {{/hasOptionalParams}}
     {{#returnType}}
-     * @return {{{returnType}}}
+     * @return {{{.}}}
     {{/returnType}}
      */
-    {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error)
+    {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
 {{/operation}}
 }
 
@@ -80,7 +80,7 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts struct {
  * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
  *
 {{#notes}}
- * {{notes}}
+ * {{.}}
  *
 {{/notes}}
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -98,10 +98,10 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts struct {
 {{/allParams}}
 {{/hasOptionalParams}}
 {{#returnType}}
- * @return {{{returnType}}}
+ * @return {{{.}}}
 {{/returnType}}
  */
-func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error) {
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}
@@ -109,13 +109,13 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		localVarFileName     string
 		localVarFileBytes    []byte
 		{{#returnType}}
-		localVarReturnValue  {{{returnType}}}
+		localVarReturnValue  {{{.}}}
 		{{/returnType}}
 	)
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString({{paramName}}, "{{collectionFormat}}")) , -1)
 	{{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
@@ -177,15 +177,15 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
 		}
 	}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-	localVarQueryParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	localVarQueryParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{collectionFormat}}"))
 	{{/isCollectionFormatMulti}}
 	{{/required}}
 	{{^required}}
@@ -195,14 +195,14 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-		localVarQueryParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+		localVarQueryParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{collectionFormat}}"))
 	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}
@@ -232,11 +232,11 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 {{#hasHeaderParams}}
 {{#headerParams}}
 	{{#required}}
-	localVarHeaderParams["{{baseName}}"] = parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
+	localVarHeaderParams["{{baseName}}"] = parameterToString({{paramName}}, "{{collectionFormat}}")
 	{{/required}}
 	{{^required}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-export-param-name}}.IsSet() {
-		localVarHeaderParams["{{baseName}}"] = parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
+		localVarHeaderParams["{{baseName}}"] = parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{collectionFormat}}")
 	}
 	{{/required}}
 {{/headerParams}}
@@ -267,7 +267,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 {{/isFile}}
 {{^isFile}}
 {{#required}}
-	localVarFormParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	localVarFormParams.Add("{{baseName}}", parameterToString({{paramName}}, "{{collectionFormat}}"))
 {{/required}}
 {{^required}}
 {{#isModel}}
@@ -281,7 +281,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 {{/isModel}}
 {{^isModel}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-export-param-name}}.IsSet() {
-		localVarFormParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+		localVarFormParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{collectionFormat}}"))
 	}
 {{/isModel}}
 {{/required}}

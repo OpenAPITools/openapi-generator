@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -20,31 +21,27 @@ class QueryParam {
 }
 
 // Ported from the Java version.
-Iterable<QueryParam> _convertParametersForCollectionFormat(
-  String collectionFormat,
-  String name,
-  dynamic value,
-) {
+Iterable<QueryParam> _queryParams(String collectionFormat, String name, dynamic value,) {
+  // Assertions to run in debug mode only.
+  assert(name.isNotEmpty, 'Parameter cannot be an empty string.');
+
   final params = <QueryParam>[];
 
-  // preconditions
-  if (name != null && name.isNotEmpty && value != null) {
-    if (value is List) {
-      // get the collection format, default: csv
-      collectionFormat = (collectionFormat == null || collectionFormat.isEmpty)
-        ? 'csv'
-        : collectionFormat;
-
-      if (collectionFormat == 'multi') {
-        return value.map((v) => QueryParam(name, parameterToString(v)));
-      }
-
-      final delimiter = _delimiters[collectionFormat] ?? ',';
-
-      params.add(QueryParam(name, value.map((v) => parameterToString(v)).join(delimiter)));
-    } else {
-      params.add(QueryParam(name, parameterToString(value)));
+  if (value is List) {
+    if (collectionFormat == 'multi') {
+      return value.map((dynamic v) => QueryParam(name, parameterToString(v)),);
     }
+
+    // Default collection format is 'csv'.
+    if (collectionFormat.isEmpty) {
+      collectionFormat = 'csv'; // ignore: parameter_assignments
+    }
+
+    final delimiter = _delimiters[collectionFormat] ?? ',';
+
+    params.add(QueryParam(name, value.map<dynamic>(parameterToString).join(delimiter),));
+  } else if (value != null) {
+    params.add(QueryParam(name, parameterToString(value)));
   }
 
   return params;
@@ -73,6 +70,9 @@ String parameterToString(dynamic value) {
   if (value is OuterEnumIntegerDefaultValue) {
     return OuterEnumIntegerDefaultValueTypeTransformer().encode(value).toString();
   }
+  if (value is SingleRefType) {
+    return SingleRefTypeTypeTransformer().encode(value).toString();
+  }
   return value.toString();
 }
 
@@ -81,6 +81,39 @@ String parameterToString(dynamic value) {
 Future<String> _decodeBodyBytes(Response response) async {
   final contentType = response.headers['content-type'];
   return contentType != null && contentType.toLowerCase().startsWith('application/json')
-    ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
+    ? response.bodyBytes.isEmpty ? '' : utf8.decode(response.bodyBytes)
     : response.body;
+}
+
+/// Returns a valid [T] value found at the specified Map [key], null otherwise.
+T? mapValueOfType<T>(dynamic map, String key) {
+  final dynamic value = map is Map ? map[key] : null;
+  return value is T ? value : null;
+}
+
+/// Returns a valid Map<K, V> found at the specified Map [key], null otherwise.
+Map<K, V>? mapCastOfType<K, V>(dynamic map, String key) {
+  final dynamic value = map is Map ? map[key] : null;
+  return value is Map ? value.cast<K, V>() : null;
+}
+
+/// Returns a valid [DateTime] found at the specified Map [key], null otherwise.
+DateTime? mapDateTime(dynamic map, String key, [String? pattern]) {
+  final dynamic value = map is Map ? map[key] : null;
+  if (value != null) {
+    int? millis;
+    if (value is int) {
+      millis = value;
+    } else if (value is String) {
+      if (pattern == _dateEpochMarker) {
+        millis = int.tryParse(value);
+      } else {
+        return DateTime.tryParse(value);
+      }
+    }
+    if (millis != null) {
+      return DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true);
+    }
+  }
+  return null;
 }

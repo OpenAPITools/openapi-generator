@@ -31,6 +31,7 @@ func FindPetsByStatus(c *gin.Context) {
 }
 
 // FindPetsByTags - Finds Pets by tags
+// Deprecated
 func FindPetsByTags(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }

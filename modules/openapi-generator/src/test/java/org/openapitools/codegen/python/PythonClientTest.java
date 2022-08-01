@@ -29,6 +29,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
@@ -360,7 +362,7 @@ public class PythonClientTest {
         final PythonClientCodegen codegen = new PythonClientCodegen();
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema noDefault = new ArraySchema()
+        final Schema noDefault = new Schema()
                 .type("number")
                 .minimum(new BigDecimal("10"));
         final Schema hasDefault = new Schema()
@@ -438,6 +440,21 @@ public class PythonClientTest {
         Assert.assertEquals((int) model.getMinProperties(), 1);
     }
 
+    @Test(description = "tests RegexObjects")
+    public void testRegexObjects() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_11521.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "DateTimeObject";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        final CodegenProperty property1 = model.vars.get(0);
+        Assert.assertEquals(property1.baseName, "datetime");
+        Assert.assertEquals(property1.pattern, "/[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z/");
+        Assert.assertEquals(property1.vendorExtensions.get("x-regex"), "[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z");
+    }
+
     @Test(description = "tests RecursiveToExample")
     public void testRecursiveToExample() throws IOException {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8052_recursive_model.yaml");
@@ -463,5 +480,56 @@ public class PythonClientTest {
         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
 
     }
+
+    @Test(description = "tests NoProxyPyClient")
+    public void testNoProxyPyClient() throws Exception {
+
+        final String gen = "python";
+        final String spec = "src/test/resources/3_0/petstore.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(gen)
+                .setInputSpec(spec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        for (String f : new String[] { "openapi_client/configuration.py", "openapi_client/rest.py" } ) {
+            TestUtils.ensureContainsFile(files, output, f);
+            Path p = output.toPath().resolve(f);
+            TestUtils.assertFileContains(p, "no_proxy");
+        }
+    }
+
+    @DataProvider
+    public Object[][] testToModelData() {
+        return new Object[][] {
+            new Object[] {"", "", "foo", "Foo"},
+            new Object[] {"Abc", "", "foo", "AbcFoo"},
+            new Object[] {"", "Abc", "foo", "FooAbc"},
+            new Object[] {"Abc", "Xyz", "foo", "AbcFooXyz"},
+
+            new Object[] {"", "", "1", "Model1"},
+            new Object[] {"Abc", "", "1", "Abc1"},
+            new Object[] {"", "Abc", "1", "Model1Abc"},
+            new Object[] {"Abc", "Xyz", "1", "Abc1Xyz"},
+
+            new Object[] {"", "", "and", "ModelAnd"},
+            new Object[] {"Abc", "", "and", "AbcAnd"},
+            new Object[] {"", "Abc", "and", "AndAbc"},
+            new Object[] {"Abc", "Xyz", "and", "AbcAndXyz"},
+        };
+    }
+
+    @Test(dataProvider = "testToModelData")
+    public void testToModel(String prefix, String suffix, String input, String want) {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setModelNamePrefix(prefix);
+        codegen.setModelNameSuffix(suffix);
+        Assert.assertEquals(codegen.toModelName(input), want);
+    }
+
 
 }

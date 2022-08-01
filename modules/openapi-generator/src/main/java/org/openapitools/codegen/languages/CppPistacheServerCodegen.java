@@ -25,6 +25,9 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,10 +119,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("date", "std::string");
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("string", "std::string");
@@ -137,7 +140,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
-        super.importMapping = new HashMap<String, String>();
+        super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
@@ -239,7 +242,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             if (apiResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(apiResponse);
                 if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response);
+                    CodegenProperty cm = fromProperty("response", response, false);
                     op.vendorExtensions.put("x-codegen-response", cm);
                     if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
@@ -254,14 +257,13 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         return op;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        String classname = (String) operations.get("classname");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        String classname = operations.getClassname();
         operations.put("classnameSnakeUpperCase", underscore(classname).toUpperCase(Locale.ROOT));
         operations.put("classnameSnakeLowerCase", underscore(classname).toLowerCase(Locale.ROOT));
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             boolean consumeJson = false;
             boolean isParsingSupported = true;
@@ -290,14 +292,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
                 //TODO: This changes the info about the real type but it is needed to parse the header params
                 if (param.isHeaderParam) {
-                    param.dataType = "Pistache::Optional<Pistache::Http::Header::Raw>";
-                    param.baseType = "Pistache::Optional<Pistache::Http::Header::Raw>";
+                    param.dataType = "std::optional<Pistache::Http::Header::Raw>";
+                    param.baseType = "std::optional<Pistache::Http::Header::Raw>";
                 } else if (param.isQueryParam) {
                     if (param.isPrimitiveType) {
-                        param.dataType = "Pistache::Optional<" + param.dataType + ">";
+                        param.dataType = "std::optional<" + param.dataType + ">";
                     } else {
-                        param.dataType = "Pistache::Optional<" + param.dataType + ">";
-                        param.baseType = "Pistache::Optional<" + param.baseType + ">";
+                        param.dataType = "std::optional<" + param.dataType + ">";
+                        param.baseType = "std::optional<" + param.baseType + ">";
                     }
                 }
             }
@@ -376,53 +378,100 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        return openAPIType;
+        String namespace = (String)additionalProperties.get("modelNamespace");
+        return namespace + "::" + openAPIType;
     }
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
-            return "false";
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else {
+                return "false";
+            }
         } else if (ModelUtils.isDateSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) {
-                return "0.0f";
+            if (ModelUtils.isFloatSchema(p)) { // float
+                if (p.getDefault() != null) {
+                    // We have to ensure that our default value has a decimal point,
+                    // because in C++ the 'f' suffix is not valid on integer literals
+                    // i.e. 374.0f is a valid float but 374 isn't.
+                    String defaultStr = p.getDefault().toString();
+                    if (defaultStr.indexOf('.') < 0) {
+                        return defaultStr + ".0f";
+                    } else {
+                        return defaultStr + "f";
+                    }
+                } else {
+                    return "0.0f";
+                }
+            } else { // double
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString();
+                } else {
+                    return "0.0";
+                }
             }
-            return "0.0";
         } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) {
-                return "0L";
+            if (ModelUtils.isLongSchema(p)) { // long
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "L";
+                } else {
+                    return "0L";
+                }
+            } else { // integer
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString();
+                } else {
+                    return "0";
+                }
             }
-            return "0";
         } else if (ModelUtils.isByteArraySchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return "std::vector<" + inner + ">()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() == null) {
-                return "\"\"";
-            } else {
-                return "\"" + p.getDefault().toString() + "\"";
+            if (!languageSpecificPrimitives.contains(inner)) {
+                inner = "std::shared_ptr<" + inner + ">";
             }
+            return "std::vector<" + inner + ">()";
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
         }
 
-        return "";
+        return "nullptr";
     }
 
     /**
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/model").replace("/", File.separator);
     }

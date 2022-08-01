@@ -23,5 +23,4 @@ export type {{classname}} = {
      */
     {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
-}{{#parent}} & {{parent}}{{/parent}}
-
+}{{#parent}} & {{.}}{{/parent}}

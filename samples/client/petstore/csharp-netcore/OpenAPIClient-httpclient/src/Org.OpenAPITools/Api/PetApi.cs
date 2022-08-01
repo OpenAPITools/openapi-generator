@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <returns>List&lt;Pet&gt;</returns>
         List<Pet> FindPetsByStatus(List<string> status);
 
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo(List<string> status);
         /// <summary>
@@ -95,6 +95,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
+        [Obsolete]
         List<Pet> FindPetsByTags(List<string> tags);
 
         /// <summary>
@@ -106,6 +107,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        [Obsolete]
         ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo(List<string> tags);
         /// <summary>
         /// Find pet by ID
@@ -276,7 +278,7 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -288,7 +290,7 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -302,6 +304,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
+        [Obsolete]
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
@@ -314,6 +317,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        [Obsolete]
         System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Find pet by ID
@@ -462,8 +466,8 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
-        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <returns></returns>
         public PetApi() : this((string)null)
@@ -472,8 +476,8 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
-        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
@@ -492,8 +496,8 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -715,7 +719,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -796,7 +800,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -858,7 +862,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -923,7 +927,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -945,7 +949,7 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <returns>List&lt;Pet&gt;</returns>
         public List<Pet> FindPetsByStatus(List<string> status)
         {
@@ -957,7 +961,7 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         public Org.OpenAPITools.Client.ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo(List<string> status)
         {
@@ -1002,7 +1006,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1023,7 +1027,7 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1036,7 +1040,7 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1084,7 +1088,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1108,6 +1112,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
+        [Obsolete]
         public List<Pet> FindPetsByTags(List<string> tags)
         {
             Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = FindPetsByTagsWithHttpInfo(tags);
@@ -1120,6 +1125,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        [Obsolete]
         public Org.OpenAPITools.Client.ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo(List<string> tags)
         {
             // verify the required parameter 'tags' is set
@@ -1163,7 +1169,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1187,6 +1193,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
+        [Obsolete]
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken).ConfigureAwait(false);
@@ -1200,6 +1207,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
+        [Obsolete]
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'tags' is set
@@ -1245,7 +1253,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1442,7 +1450,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1523,7 +1531,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1592,7 +1600,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1664,7 +1672,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1735,7 +1743,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1809,7 +1817,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1863,7 +1871,8 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "application/json",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1881,7 +1890,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1937,7 +1946,8 @@ namespace Org.OpenAPITools.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "application/json",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             };
 
 
@@ -1956,7 +1966,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }

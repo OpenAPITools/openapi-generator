@@ -203,13 +203,13 @@ Method | HTTP request | Description
 ## Documentation For Authorization
 
 ## api_key
-- **Type**: API key 
+- **Type**: API key
 
 Example
 ```
 ```
 ## api_key_query
-- **Type**: API key 
+- **Type**: API key
 
 Example
 ```

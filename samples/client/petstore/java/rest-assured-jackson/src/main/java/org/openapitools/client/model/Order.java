@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -39,7 +40,6 @@ import org.hibernate.validator.constraints.*;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@JsonTypeName("Order")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
@@ -97,6 +97,8 @@ public class Order {
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
+  public Order() {
+  }
 
   public Order id(Long id) {
     

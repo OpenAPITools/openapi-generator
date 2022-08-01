@@ -12,6 +12,7 @@ require 'typhoeus'
 {{/isFaraday}}
 {{#isFaraday}}
 require 'faraday'
+require 'faraday/multipart' if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
 {{/isFaraday}}
 
 module {{moduleName}}
@@ -28,7 +29,7 @@ module {{moduleName}}
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
+      @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
@@ -71,23 +72,30 @@ module {{moduleName}}
       {{/isFaraday}}
       {{#isFaraday}}
       if return_type == 'File'
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
+        if @config.return_binary_data == true
+          # return byte stream
+          encoding = body.encoding
+          return @stream.join.force_encoding(encoding)
         else
-          prefix = 'download-'
+          # return file instead of binary data
+          content_disposition = response.headers['Content-Disposition']
+          if content_disposition && content_disposition =~ /filename=/i
+            filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+            prefix = sanitize_filename(filename)
+          else
+            prefix = 'download-'
+          end
+          prefix = prefix + '-' unless prefix.end_with?('-')
+          encoding = body.encoding
+          @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+          @tempfile.write(@stream.join.force_encoding(encoding))
+          @tempfile.close
+          @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
+                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                              "explicitly with `tempfile.delete`"
+          return @tempfile
         end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = body.encoding
-        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile.write(@stream.join.force_encoding(encoding))
-        @tempfile.close
-        @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
-                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                            "explicitly with `tempfile.delete`"
-        return @tempfile
       end
       {{/isFaraday}}
 
@@ -170,7 +178,7 @@ module {{moduleName}}
       @config.base_url(opts[:operation]) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters
@@ -209,8 +217,8 @@ module {{moduleName}}
     # @param [Array] content_types array for Content-Type
     # @return [String] the Content-Type header  (e.g. application/json)
     def select_header_content_type(content_types)
-      # use application/json by default
-      return 'application/json' if content_types.nil? || content_types.empty?
+      # return nil by default
+      return if content_types.nil? || content_types.empty?
       # use JSON when present, otherwise use the first one
       json_content_type = content_types.find { |s| json_mime?(s) }
       json_content_type || content_types.first

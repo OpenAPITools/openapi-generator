@@ -11,13 +11,22 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ReadOnlyFirst  implements Serializable {
+@JsonTypeName("ReadOnlyFirst")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ReadOnlyFirst  implements Serializable {
   
   private @Valid String bar;
   private @Valid String baz;
+
+  protected ReadOnlyFirst(ReadOnlyFirstBuilder<?, ?> b) {
+  this.bar = b.bar;this.baz = b.baz;
+  }
+
+  public ReadOnlyFirst() { }
 
   /**
    **/
@@ -27,14 +36,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(String bar) {
     this.bar = bar;
   }
@@ -47,14 +55,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public String getBaz() {
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(String baz) {
     this.baz = baz;
   }
@@ -101,5 +108,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static ReadOnlyFirstBuilder<?, ?> builder() {
+    return new ReadOnlyFirstBuilderImpl();
+  }
+
+  private static final class ReadOnlyFirstBuilderImpl extends ReadOnlyFirstBuilder<ReadOnlyFirst, ReadOnlyFirstBuilderImpl> {
+
+    @Override
+    protected ReadOnlyFirstBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ReadOnlyFirst build() {
+      return new ReadOnlyFirst(this);
+    }
+  }
+
+  public static abstract class ReadOnlyFirstBuilder<C extends ReadOnlyFirst, B extends ReadOnlyFirstBuilder<C, B>>  {
+    private String bar;
+    private String baz;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+    public B baz(String baz) {
+      this.baz = baz;
+      return self();
+    }
+  }
 }
 

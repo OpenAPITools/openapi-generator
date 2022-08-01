@@ -2,7 +2,7 @@ h1. {{{appName}}}
 
 {{{appDescription}}}
 
-{{#version}}*Version:* {{{version}}}{{/version}}
+{{#version}}*Version:* {{{.}}}{{/version}}
 
 ----
 
@@ -15,44 +15,44 @@ h2. Endpoints
 
 h3. {{nickname}}
 {panel:title={{nickname}}|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
-    {{#summary}}*Summary:* {{summary}}{{/summary}}
+    {{#summary}}*Summary:* {{.}}{{/summary}}
     *Description:* {{notes}}{{^notes}}*No Description*{{/notes}}
 
 	|| HttpMethod | {status:colour=Yellow|title={{httpMethod}}|subtle=false} |
     || Protocol | {noformat:nopanel=true}{{scheme}}{noformat} |
     || Path | {noformat:nopanel=true}{{path}}{noformat} |
     || Base Path | {noformat:nopanel=true}{{basePath}}{noformat} |
-    {{#hasProduces}}|| Produces | {noformat:nopanel=true}{{#produces}}{{mediaType}}{{/produces}}{noformat} |{{/hasProduces}}
+    {{#hasProduces}}|| Produces | {noformat:nopanel=true}{{#produces}}{{mediaType}} {{/produces}}{noformat} |{{/hasProduces}}
 ----
 h4. Parameters
     {{#hasPathParams}}
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         {{#pathParams}}{{>param}}{{/pathParams}}
     {{/hasPathParams}}
 
     {{#hasBodyParam}}
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         {{#bodyParams}}{{>param}}{{/bodyParams}}
     {{/hasBodyParam}}
 
     {{#hasHeaderParams}}
 h5. Header Parameters
-        ||Name||Description||Required||Default||Pattern||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         {{#headerParams}}{{>param}}{{/headerParams}}
     {{/hasHeaderParams}}
 
     {{#hasQueryParams}}
 h5. Query Parameters
-        ||Name||Description||Required||Default||Pattern||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         {{#queryParams}}{{>param}}{{/queryParams}}
     {{/hasQueryParams}}
 ----
 h4. Responses
     {{#responses}}
 
-    	|| Status Code | {status:colour=Green|title={{code}}|subtle=false} |
+    	|| Status Code | {status:colour={{#is2xx}}Green{{/is2xx}}{{^is2xx}}{{#is4xx}}Orange{{/is4xx}}{{^is4xx}}Red{{/is4xx}}{{/is2xx}}|title={{code}}|subtle=false} |
     	|| Message | {{message}} |
     	|| Response Type | {{{dataType}}} |
     	|| Response Model | [{{dataType}} Model|#{{dataType}}ModelAnchor|Jump to model] |
@@ -76,13 +76,13 @@ h2. Models
         h3. {{classname}}
 
         {{{description}}}
-        
+
         {{#isEnum}} ||Name||Value||Description||
         {{#allowableValues}} {{#enumVars}} |{{{name}}} |{{{value}}} |{{{enumDescription}}} |
-        {{/enumVars}} 
+        {{/enumVars}}
         {{/allowableValues}} {{/isEnum}}
-        {{^isEnum}}||Field Name||Required||Type||Description||Enum||
-        {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} |{{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} |
+        {{^isEnum}}||Field Name||Required||Type||Description||Enum||Example||
+        {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} | {{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} | {{example}}
         {{/vars}} {{/isEnum}}
     {{/model}}
 {{/models}}

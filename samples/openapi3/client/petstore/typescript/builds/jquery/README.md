@@ -1,6 +1,6 @@
 ## ts-petstore-client@1.0.0
 
-This generator creates TypeScript/JavaScript client that utilizes jquery. 
+This generator creates TypeScript/JavaScript client that utilizes jquery.
 
 ### Building
 

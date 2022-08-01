@@ -5,9 +5,9 @@ open Microsoft.AspNetCore.Http
 
 
 module {{classname}}ServiceInterface =
-    
+
     //#region Service interface
-    type I{{classname}}Service = 
+    type I{{classname}}Service =
     {{#operations}}
     {{#operation}}
       abstract member {{operationId}} : {{^hasBodyParam}}unit{{/hasBodyParam}}{{#hasBodyParam}}{{operationId}}BodyParams{{/hasBodyParam}} -> {{operationId}}Result

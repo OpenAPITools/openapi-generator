@@ -23,43 +23,43 @@ ApiResponse::~ApiResponse()
 
 void
 ApiResponse::fromJson(std::string jsonObj)
-{   
+{
     bourne::json object = bourne::json::parse(jsonObj);
 
     const char *codeKey = "code";
-    
-    if(object.has_key(codeKey)) 
+
+    if(object.has_key(codeKey))
     {
         bourne::json value = object[codeKey];
 
 
-        
+
         jsonToValue(&code, value, "int");
 
 
     }
 
     const char *typeKey = "type";
-    
-    if(object.has_key(typeKey)) 
+
+    if(object.has_key(typeKey))
     {
         bourne::json value = object[typeKey];
 
 
-        
+
         jsonToValue(&type, value, "std::string");
 
 
     }
 
     const char *messageKey = "message";
-    
-    if(object.has_key(messageKey)) 
+
+    if(object.has_key(messageKey))
     {
         bourne::json value = object[messageKey];
 
 
-        
+
         jsonToValue(&message, value, "std::string");
 
 
@@ -73,21 +73,21 @@ ApiResponse::toJson()
 {
     bourne::json object = bourne::json::object();
 
-    
+
 
 
 
     object["code"] = getCode();
 
 
-    
+
 
 
 
     object["type"] = getType();
 
 
-    
+
 
 
 

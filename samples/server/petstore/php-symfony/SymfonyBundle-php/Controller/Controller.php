@@ -2,7 +2,7 @@
 /**
  * Controller
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -29,10 +29,12 @@
 
 namespace OpenAPI\Server\Controller;
 
+use OpenAPI\Server\Api\ApiServer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Validator\ConstraintViolation;
 use OpenAPI\Server\Service\SerializerInterface;
 use OpenAPI\Server\Service\ValidatorInterface;
 
@@ -46,23 +48,29 @@ use OpenAPI\Server\Service\ValidatorInterface;
  */
 class Controller extends AbstractController
 {
-    protected $validator;
-    protected $serializer;
-    protected $apiServer;
+    protected ValidatorInterface $validator;
+    protected SerializerInterface $serializer;
+    protected ApiServer $apiServer;
 
-    public function setValidator(ValidatorInterface $validator)
+    public function setValidator(ValidatorInterface $validator): self
     {
         $this->validator = $validator;
+
+        return $this;
     }
 
-    public function setSerializer(SerializerInterface $serializer)
+    public function setSerializer(SerializerInterface $serializer): self
     {
         $this->serializer = $serializer;
+
+        return $this;
     }
 
-    public function setApiServer($server)
+    public function setApiServer(ApiServer $server): self
     {
         $this->apiServer = $server;
+
+        return $this;
     }
 
     /**
@@ -73,7 +81,7 @@ class Controller extends AbstractController
      *
      * @return Response
      */
-    public function createBadRequestResponse($message = 'Bad Request.')
+    public function createBadRequestResponse(string $message = 'Bad Request.'): Response
     {
         return new Response($message, 400);
     }
@@ -86,7 +94,7 @@ class Controller extends AbstractController
      *
      * @return Response
      */
-    public function createErrorResponse(HttpException $exception)
+    public function createErrorResponse(HttpException $exception): Response
     {
         $statusCode = $exception->getStatusCode();
         $headers    = array_merge($exception->getHeaders(), ['Content-Type' => 'application/json']);
@@ -101,12 +109,11 @@ class Controller extends AbstractController
      * Serializes data to a given type format.
      *
      * @param mixed  $data   The data to serialize.
-     * @param string $class  The source data class.
      * @param string $format The target serialization format.
      *
      * @return string A serialized data string.
      */
-    protected function serialize($data, $format)
+    protected function serialize($data, string $format): string
     {
         return $this->serializer->serialize($data, $format);
     }
@@ -114,35 +121,47 @@ class Controller extends AbstractController
     /**
      * Deserializes data from a given type format.
      *
-     * @param string $data   The data to deserialize.
+     * @param mixed  $data   The data to deserialize.
      * @param string $class  The target data class.
      * @param string $format The source serialization format.
      *
      * @return mixed A deserialized data.
      */
-    protected function deserialize($data, $class, $format)
+    protected function deserialize($data, string $class, string $format)
     {
         return $this->serializer->deserialize($data, $class, $format);
     }
 
-    protected function validate($data, $asserts = null)
+    /**
+     * @param mixed $data
+     * @param mixed $asserts
+     *
+     * @return Response|null
+     */
+    protected function validate($data, $asserts = null): ?Response
     {
         $errors = $this->validator->validate($data, $asserts);
 
         if (count($errors) > 0) {
-            $errorsString = (string)$errors;
+            $errorsString = '';
+            /** @var ConstraintViolation $violation */
+            foreach ($errors as $violation) {
+                $errorsString .= $violation->getMessage()."\n";
+            }
             return $this->createBadRequestResponse($errorsString);
         }
+
+        return null;
     }
 
     /**
      * Converts an exception to a serializable array.
      *
-     * @param \Exception|null $exception
+     * @param \Throwable|null $exception
      *
-     * @return array
+     * @return array|null
      */
-    private function exceptionToArray(\Exception $exception = null)
+    private function exceptionToArray(\Throwable $exception = null): ?array
     {
         if (null === $exception) {
             return null;
@@ -161,11 +180,19 @@ class Controller extends AbstractController
         ];
     }
 
-    protected function getOutputFormat($accept, array $produced)
+    /**
+     * Converts an exception to a serializable array.
+     *
+     * @param string $accept
+     * @param array $produced
+     *
+     * @return ?string
+     */
+    protected function getOutputFormat(string $accept, array $produced): ?string
     {
         // Figure out what the client accepts
         $accept = preg_split("/[\s,]+/", $accept);
-        
+
         if (in_array('*/*', $accept) || in_array('application/*', $accept)) {
             // Prefer JSON if the client has no preference
             if (in_array('application/json', $produced)) {
@@ -196,7 +223,7 @@ class Controller extends AbstractController
      *
      * @return bool Returns true if Content-Type supported otherwise false.
      */
-    public static function isContentTypeAllowed(Request $request, array $consumes = [])
+    public static function isContentTypeAllowed(Request $request, array $consumes = []): bool
     {
         if (!empty($consumes) && $consumes[0] !== '*/*') {
             $currentFormat = $request->getContentType();

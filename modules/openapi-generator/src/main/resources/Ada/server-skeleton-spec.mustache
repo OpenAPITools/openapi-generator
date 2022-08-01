@@ -3,7 +3,7 @@
 {{/imports}}
 pragma Warnings (Off, "*is not referenced");
 pragma Warnings (Off, "*no entities of*are referenced");
-with Swagger.Servers;
+with {{openApiPackageName}}.Servers;
 with {{package}}.Models;
 with Security.Permissions;
 package {{package}}.Skeletons is
@@ -27,8 +27,8 @@ package {{package}}.Skeletons is
       (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
        {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
        {{/-last}}{{/allParams}}{{#returnType}};
-       Result  : out {{returnType}}{{/returnType}};
-       Context : in out Swagger.Servers.Context_Type) is abstract;
+       Result  : out {{.}}{{/returnType}};
+       Context : in out {{openApiPackageName}}.Servers.Context_Type) is abstract;
 {{/operation}}
 {{/operations}}
 {{/apis}}
@@ -39,7 +39,7 @@ package {{package}}.Skeletons is
       URI_Prefix : String := "";
    package Skeleton is
 
-      procedure Register (Server : in out Swagger.Servers.Application_Type'Class);
+      procedure Register (Server : in out {{openApiPackageName}}.Servers.Application_Type'Class);
 
 {{#apiInfo}}
 {{#apis}}
@@ -48,10 +48,10 @@ package {{package}}.Skeletons is
 
       --  {{summary}}
       procedure {{operationId}}
-         (Req     : in out Swagger.Servers.Request'Class;
-          Reply   : in out Swagger.Servers.Response'Class;
-          Stream  : in out Swagger.Servers.Output_Stream'Class;
-          Context : in out Swagger.Servers.Context_Type);
+         (Req     : in out {{openApiPackageName}}.Servers.Request'Class;
+          Reply   : in out {{openApiPackageName}}.Servers.Response'Class;
+          Stream  : in out {{openApiPackageName}}.Servers.Output_Stream'Class;
+          Context : in out {{openApiPackageName}}.Servers.Context_Type);
 
 {{/operation}}
 {{/operations}}
@@ -64,7 +64,7 @@ package {{package}}.Skeletons is
       URI_Prefix : String := "";
    package Shared_Instance is
 
-      procedure Register (Server : in out Swagger.Servers.Application_Type'Class);
+      procedure Register (Server : in out {{openApiPackageName}}.Servers.Application_Type'Class);
 
 {{#apiInfo}}
 {{#apis}}
@@ -73,10 +73,10 @@ package {{package}}.Skeletons is
 
       --  {{summary}}
       procedure {{operationId}}
-         (Req     : in out Swagger.Servers.Request'Class;
-          Reply   : in out Swagger.Servers.Response'Class;
-          Stream  : in out Swagger.Servers.Output_Stream'Class;
-          Context : in out Swagger.Servers.Context_Type);
+         (Req     : in out {{openApiPackageName}}.Servers.Request'Class;
+          Reply   : in out {{openApiPackageName}}.Servers.Response'Class;
+          Stream  : in out {{openApiPackageName}}.Servers.Output_Stream'Class;
+          Context : in out {{openApiPackageName}}.Servers.Context_Type);
 
 {{/operation}}
 {{/operations}}
@@ -95,17 +95,17 @@ package {{package}}.Skeletons is
          procedure {{operationId}}
             ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
              {{/-last}}{{/allParams}}{{#returnType}};
-             Result  : out {{returnType}}{{/returnType}};
-             Context : in out Swagger.Servers.Context_Type);
+             Result  : out {{.}}{{/returnType}};
+             Context : in out {{openApiPackageName}}.Servers.Context_Type);
          {{/hasParams}}
          {{^hasParams}}
          {{#returnType}}
          procedure {{operationId}}
             (Result  : out {{returnType}};
-             Context : in out Swagger.Servers.Context_Type);
+             Context : in out {{openApiPackageName}}.Servers.Context_Type);
          {{/returnType}}
          {{^returnType}}
-         procedure {{operationId}} (Context : in out Swagger.Servers.Context_Type);
+         procedure {{operationId}} (Context : in out {{openApiPackageName}}.Servers.Context_Type);
          {{/returnType}}
          {{/hasParams}}
 

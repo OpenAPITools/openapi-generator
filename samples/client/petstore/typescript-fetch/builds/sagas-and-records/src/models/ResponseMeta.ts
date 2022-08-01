@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ErrorCode } from './ErrorCode';
 import {
-    ErrorCode,
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
-} from './';
+} from './ErrorCode';
 
 /**
  * Mandatory part of each response given by our API
@@ -64,34 +64,46 @@ export interface ResponseMeta {
     errors?: Array<Error>;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum ResponseMetaCodeEnum {
-    Ok = 'Ok',
-    GenericException = 'Generic_Exception',
-    FieldErrorException = 'Field_Error_Exception',
-    ImageValidationException = 'Image_Validation_Exception',
-    InvalidContainerCreationWithNoDefaultAssetException = 'Invalid_Container_Creation_With_No_Default_Asset_Exception',
-    InvalidOverrideModeException = 'Invalid_Override_Mode_Exception',
-    InvalidTagException = 'Invalid_Tag_Exception',
-    ItemUseException = 'Item_Use_Exception',
-    MissingPlatformForSoftwareException = 'Missing_Platform_For_Software_Exception',
-    MissingSoftwareForPlatformException = 'Missing_Software_For_Platform_Exception',
-    PlatformNotSupportedException = 'Platform_Not_Supported_Exception',
-    RefreshDataException = 'Refresh_Data_Exception',
-    RoleAssignmentException = 'Role_Assignment_Exception',
-    TaskAlreadyRunningException = 'Task_Already_Running_Exception',
-    LoggedOutException = 'Logged_Out_Exception',
-    AuthorizationException = 'Authorization_Exception',
-    UnauthorizedActionForCurrentUserException = 'Unauthorized_Action_For_Current_User_Exception',
-    UserAlreadyExistsButIsNotAuthenticatedException = 'User_Already_Exists_But_Is_Not_Authenticated_Exception',
-    UserAlreadyHasActiveOrClosedGalaxieApiProductException = 'User_Already_Has_Active_Or_Closed_Galaxie_Api_Product_Exception',
-    UserAlreadyHasMultipleGalaxieApiProductsException = 'User_Already_Has_Multiple_Galaxie_Api_Products_Exception',
-    RecurlyApiException = 'Recurly_Api_Exception',
-    RecurlyTransactionErrorException = 'Recurly_Transaction_Error_Exception',
-    GalaxieApiException = 'Galaxie_Api_Exception'
+ * @export
+ */
+export const ResponseMetaCodeEnum = {
+    Ok: 'Ok',
+    GenericException: 'Generic_Exception',
+    FieldErrorException: 'Field_Error_Exception',
+    ImageValidationException: 'Image_Validation_Exception',
+    InvalidContainerCreationWithNoDefaultAssetException: 'Invalid_Container_Creation_With_No_Default_Asset_Exception',
+    InvalidOverrideModeException: 'Invalid_Override_Mode_Exception',
+    InvalidTagException: 'Invalid_Tag_Exception',
+    ItemUseException: 'Item_Use_Exception',
+    MissingPlatformForSoftwareException: 'Missing_Platform_For_Software_Exception',
+    MissingSoftwareForPlatformException: 'Missing_Software_For_Platform_Exception',
+    PlatformNotSupportedException: 'Platform_Not_Supported_Exception',
+    RefreshDataException: 'Refresh_Data_Exception',
+    RoleAssignmentException: 'Role_Assignment_Exception',
+    TaskAlreadyRunningException: 'Task_Already_Running_Exception',
+    LoggedOutException: 'Logged_Out_Exception',
+    AuthorizationException: 'Authorization_Exception',
+    UnauthorizedActionForCurrentUserException: 'Unauthorized_Action_For_Current_User_Exception',
+    UserAlreadyExistsButIsNotAuthenticatedException: 'User_Already_Exists_But_Is_Not_Authenticated_Exception',
+    UserAlreadyHasActiveOrClosedGalaxieApiProductException: 'User_Already_Has_Active_Or_Closed_Galaxie_Api_Product_Exception',
+    UserAlreadyHasMultipleGalaxieApiProductsException: 'User_Already_Has_Multiple_Galaxie_Api_Products_Exception',
+    RecurlyApiException: 'Recurly_Api_Exception',
+    RecurlyTransactionErrorException: 'Recurly_Transaction_Error_Exception',
+    GalaxieApiException: 'Galaxie_Api_Exception'
+} as const;
+export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof ResponseMetaCodeEnum];
+
+
+/**
+ * Check if a given object implements the ResponseMeta interface.
+ */
+export function instanceOfResponseMeta(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "code" in value;
+
+    return isInstance;
 }
 
 export function ResponseMetaFromJSON(json: any): ResponseMeta {
@@ -130,5 +142,4 @@ export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
         'errors': value.errors,
     };
 }
-
 

@@ -2,8 +2,8 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +13,11 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-public class StoreApiTest {
+class StoreApiTest {
 
     private StoreApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().buildClient(StoreApi.class);
     }
@@ -29,7 +29,7 @@ public class StoreApiTest {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      */
     @Test
-    public void deleteOrderTest() {
+    void deleteOrderTest() {
         String orderId = null;
         // api.deleteOrder(orderId);
 
@@ -43,7 +43,7 @@ public class StoreApiTest {
      * Returns a map of status codes to quantities
      */
     @Test
-    public void getInventoryTest() {
+    void getInventoryTest() {
         // Map<String, Integer> response = api.getInventory();
 
         // TODO: test validations
@@ -56,7 +56,7 @@ public class StoreApiTest {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      */
     @Test
-    public void getOrderByIdTest() {
+    void getOrderByIdTest() {
         Long orderId = null;
         // Order response = api.getOrderById(orderId);
 
@@ -70,7 +70,7 @@ public class StoreApiTest {
      * 
      */
     @Test
-    public void placeOrderTest() {
+    void placeOrderTest() {
         Order body = null;
         // Order response = api.placeOrder(body);
 

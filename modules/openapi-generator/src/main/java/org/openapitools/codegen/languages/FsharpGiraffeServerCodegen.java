@@ -50,7 +50,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     @SuppressWarnings("hiding")
-    protected Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
 
     private boolean useSwashbuckle = false;
     protected int serverPort = 8080;
@@ -267,7 +267,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        operation.httpMethod = "Http" + operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override

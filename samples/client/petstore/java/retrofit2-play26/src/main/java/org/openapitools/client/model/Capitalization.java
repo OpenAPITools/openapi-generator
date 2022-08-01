@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -37,7 +38,6 @@ import javax.validation.Valid;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@JsonTypeName("Capitalization")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
@@ -58,6 +58,8 @@ public class Capitalization {
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   private String ATT_NAME;
 
+  public Capitalization() {
+  }
 
   public Capitalization smallCamel(String smallCamel) {
     

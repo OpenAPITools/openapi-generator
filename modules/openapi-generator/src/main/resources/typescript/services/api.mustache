@@ -2,7 +2,7 @@ import type { Configuration } from "../configuration";
 import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
 
 {{#imports}}
-import { {{classname}} } from "..{{filename}}";
+import { {{classname}} } from "{{filename}}";
 {{/imports}}
 {{#operations}}
 
@@ -16,7 +16,7 @@ export abstract class Abstract{{classname}}RequestFactory {
 
 export abstract class Abstract{{classname}}ResponseProcessor {
     {{#operation}}
-     public abstract {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}>;
+     public abstract {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }

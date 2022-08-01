@@ -65,7 +65,7 @@ import qualified Prelude as P
 -- 
 -- This can only be done by the logged in user.
 -- 
-createUser 
+createUser
   :: (Consumes CreateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User -- ^ "body" -  Created user object
@@ -78,7 +78,7 @@ data CreateUser
 
 -- | /Body Param/ "body" - Created user object
 instance HasBodyParam CreateUser User 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes CreateUser mtype
 
@@ -91,7 +91,7 @@ instance Produces CreateUser MimeNoContent
 -- 
 -- Creates list of users with given input array
 -- 
-createUsersWithArrayInput 
+createUsersWithArrayInput
   :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType Body)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Body -- ^ "body" -  List of user object
@@ -104,7 +104,7 @@ data CreateUsersWithArrayInput
 
 -- | /Body Param/ "body" - List of user object
 instance HasBodyParam CreateUsersWithArrayInput Body 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes CreateUsersWithArrayInput mtype
 
@@ -117,7 +117,7 @@ instance Produces CreateUsersWithArrayInput MimeNoContent
 -- 
 -- Creates list of users with given input array
 -- 
-createUsersWithListInput 
+createUsersWithListInput
   :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType Body)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Body -- ^ "body" -  List of user object
@@ -130,7 +130,7 @@ data CreateUsersWithListInput
 
 -- | /Body Param/ "body" - List of user object
 instance HasBodyParam CreateUsersWithListInput Body 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes CreateUsersWithListInput mtype
 
@@ -145,7 +145,7 @@ instance Produces CreateUsersWithListInput MimeNoContent
 -- 
 -- This can only be done by the logged in user.
 -- 
-deleteUser 
+deleteUser
   :: Username -- ^ "username" -  The name that needs to be deleted
   -> OpenAPIPetstoreRequest DeleteUser MimeNoContent NoContent MimeNoContent
 deleteUser (Username username) =
@@ -161,7 +161,7 @@ instance Produces DeleteUser MimeNoContent
 -- 
 -- Get user by user name
 -- 
-getUserByName 
+getUserByName
   :: Accept accept -- ^ request accept ('MimeType')
   -> Username -- ^ "username" -  The name that needs to be fetched. Use user1 for testing.
   -> OpenAPIPetstoreRequest GetUserByName MimeNoContent User accept
@@ -181,7 +181,7 @@ instance Produces GetUserByName MimeJSON
 -- 
 -- Logs user into the system
 -- 
-loginUser 
+loginUser
   :: Accept accept -- ^ request accept ('MimeType')
   -> Username -- ^ "username" -  The user name for login
   -> Password -- ^ "password" -  The password for login in clear text
@@ -204,7 +204,7 @@ instance Produces LoginUser MimeJSON
 -- 
 -- Logs out current logged in user session
 -- 
-logoutUser 
+logoutUser
   :: OpenAPIPetstoreRequest LogoutUser MimeNoContent NoContent MimeNoContent
 logoutUser =
   _mkRequest "GET" ["/user/logout"]
@@ -221,7 +221,7 @@ instance Produces LogoutUser MimeNoContent
 -- 
 -- This can only be done by the logged in user.
 -- 
-updateUser 
+updateUser
   :: (Consumes UpdateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User -- ^ "body" -  Updated user object
@@ -235,7 +235,7 @@ data UpdateUser
 
 -- | /Body Param/ "body" - Updated user object
 instance HasBodyParam UpdateUser User 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes UpdateUser mtype
 

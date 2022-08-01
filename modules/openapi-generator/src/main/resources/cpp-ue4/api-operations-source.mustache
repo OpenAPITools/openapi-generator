@@ -10,7 +10,7 @@
 #include "PlatformHttp.h"
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 {{#operations}}{{#operation}}
@@ -28,7 +28,7 @@ inline FString ToString(const {{classname}}::{{operationIdCamelCase}}Request::{{
 	}
 	{{/allowableValues}}
 
-	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}} Value (%d)"), (int)Value);	
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}} Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
@@ -46,7 +46,7 @@ inline bool FromString(const FString& EnumAsString, {{classname}}::{{operationId
 	if(Found)
 		Value = *Found;
 
-	return Found != nullptr;	
+	return Found != nullptr;
 }
 
 bool {{classname}}::{{operationIdCamelCase}}Request::EnumFromString(const FString& EnumAsString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& EnumValue)
@@ -89,9 +89,9 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	{ TEXT("{{baseName}}"), ToStringFormatArg({{paramName}}) }{{^-last}},{{/-last}}{{/pathParams}} };
 
 	FString Path = FString::Format(TEXT("{{{path}}}"), PathParams);
-	
+
 	{{/pathParams.0}}
-	{{#queryParams.0}} 
+	{{#queryParams.0}}
 	TArray<FString> QueryParams;
 	{{#queryParams}}
 	{{#required}}
@@ -143,9 +143,10 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 		HttpRequest->SetHeader(TEXT("{{baseName}}"), {{paramName}}.GetValue());
 	}
 	{{/required}}
-	{{/headerParams}} 
+	{{/headerParams}}
 	{{/headerParams.0}}
 
+	{{#isBodyAllowed}}
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
@@ -170,15 +171,32 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
 		HttpRequest->SetContentAsString(JsonBody);
 		{{/bodyParams.0}}
-		{{#formParams.0}}
+		{{^bodyParams.0}}
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
 		{{#formParams}}
-		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Form parameter ({{baseName}}) was ignored, cannot be used in JsonBody"));
+		{{#required}}
+		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
+		WriteJsonValue(Writer, {{paramName}});
+		{{/required}}
+		{{^required}}
+		if ({{paramName}}.IsSet()){
+			Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
+			WriteJsonValue(Writer, {{paramName}}.GetValue());
+		}
+		{{/required}}
 		{{/formParams}}
-		{{/formParams.0}}
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
+		{{/bodyParams.0}}
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		{{#formParams.0}} 
+		{{#formParams.0}}
 		HttpMultipartFormData FormData;
 		{{#formParams}}
 		{{#isContainer}}
@@ -227,7 +245,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		{{#formParams.0}} 
+		{{#formParams.0}}
 		TArray<FString> FormParams;
 		{{#formParams}}
 		{{#isContainer}}
@@ -250,7 +268,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 		{{/isContainer}}
 		{{/isFile}}
 		{{/formParams}}
-		
+
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/x-www-form-urlencoded; charset=utf-8"));
 		HttpRequest->SetContentAsString(FString::Join(FormParams, TEXT("&")));
 		{{/formParams.0}}
@@ -264,6 +282,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 	{
 		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
 	}
+	{{/isBodyAllowed}}
 }
 
 {{#responses.0}}

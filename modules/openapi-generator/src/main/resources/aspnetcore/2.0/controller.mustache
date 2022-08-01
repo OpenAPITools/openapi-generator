@@ -16,14 +16,14 @@ namespace {{packageName}}.Controllers
     /// <summary>
     /// {{description}}
     /// </summary>{{#description}}
-    [Description("{{description}}")]{{/description}}
+    [Description("{{.}}")]{{/description}}
     public class {{classname}}Controller : Controller
     { {{#operation}}
         /// <summary>
-        /// {{#summary}}{{summary}}{{/summary}}
+        /// {{summary}}
         /// </summary>{{#notes}}
-        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
-        /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
+        /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
@@ -32,7 +32,10 @@ namespace {{packageName}}.Controllers
         {{/vendorExtensions.x-aspnetcore-consumes}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
-        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
         public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}, {{/-last}}{{/allParams}})
         { {{#responses}}
 {{#dataType}}

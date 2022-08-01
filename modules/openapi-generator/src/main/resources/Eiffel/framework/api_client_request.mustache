@@ -52,22 +52,22 @@ feature -- Change Element
 			-- with `key'.
 		do
 			header_params.force (new, key)
-		end	
+		end
 
 	add_form (new: ANY; key: READABLE_STRING_GENERAL)
 			-- Update `form_params' so that `new' will be the item associated
 			-- with `key'.
 		do
 			form_params.force (new, key)
-		end	
+		end
 
 	set_body (a_body: like body)
 			-- Set 	'body' with 'a_body'.
 		do
 			body := a_body
 		ensure
-			body_set: body = a_body	
-		end	
+			body_set: body = a_body
+		end
 
 	set_auth_names (a_auth_names: like auth_names)
 			-- Set 'auth_names' with 'a_auth_names'.
@@ -75,5 +75,5 @@ feature -- Change Element
 			auth_names := a_auth_names
 		ensure
 			auth_names_set: auth_names = a_auth_names
-		end	
+		end
 end

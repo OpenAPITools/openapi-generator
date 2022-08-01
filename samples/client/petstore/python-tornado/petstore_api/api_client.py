@@ -198,7 +198,7 @@ class ApiClient(object):
 
         if not _preload_content:
             raise tornado.gen.Return(return_data)
-        
+
         response_type = response_types_map.get(response_data.status, None)
 
         if six.PY3 and response_type not in ["file", "bytes"]:
@@ -210,7 +210,7 @@ class ApiClient(object):
             response_data.data = response_data.data.decode(encoding)
 
         # deserialize response data
-        
+
         if response_type:
             return_data = self.deserialize(response_data, response_type)
         else:
@@ -523,28 +523,35 @@ class ApiClient(object):
         else:
             return ', '.join(accepts)
 
-    def select_header_content_type(self, content_types):
+    def select_header_content_type(self, content_types, method=None, body=None):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
+        :param method: http method (e.g. POST, PATCH).
+        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
-            return 'application/json'
+            return None
 
         content_types = [x.lower() for x in content_types]
+
+        if (method == 'PATCH' and
+                'application/json-patch+json' in content_types and
+                isinstance(body, list)):
+            return 'application/json-patch+json'
 
         if 'application/json' in content_types or '*/*' in content_types:
             return 'application/json'
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings,
+    def update_params_for_auth(self, headers, queries, auth_settings,
                                request_auth=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         :param request_auth: if set, the provided settings will
                              override the token in the configuration.
@@ -553,19 +560,19 @@ class ApiClient(object):
             return
 
         if request_auth:
-            self._apply_auth_params(headers, querys, request_auth)
+            self._apply_auth_params(headers, queries, request_auth)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                self._apply_auth_params(headers, querys, auth_setting)
+                self._apply_auth_params(headers, queries, auth_setting)
 
-    def _apply_auth_params(self, headers, querys, auth_setting):
+    def _apply_auth_params(self, headers, queries, auth_setting):
         """Updates the request parameters based on a single auth_setting
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_setting: auth settings for the endpoint
         """
         if auth_setting['in'] == 'cookie':
@@ -573,7 +580,7 @@ class ApiClient(object):
         elif auth_setting['in'] == 'header':
             headers[auth_setting['key']] = auth_setting['value']
         elif auth_setting['in'] == 'query':
-            querys.append((auth_setting['key'], auth_setting['value']))
+            queries.append((auth_setting['key'], auth_setting['value']))
         else:
             raise ApiValueError(
                 'Authentication token must be in `query` or `header`'

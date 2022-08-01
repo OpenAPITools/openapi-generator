@@ -17,6 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
+
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -24,19 +30,34 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 
 import java.io.File;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
 
 public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -80,6 +101,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelPropertyNaming = "camelCase";
     protected HashSet<String> languageGenericTypes;
 
+    private DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
+    private DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
+
     public TypeScriptClientCodegen() {
         super();
 
@@ -90,9 +114,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
 
-        // clear import mapping (from default generator) as TS does not use it
-        // at the moment
-        importMapping.clear();
         outputFolder = "generated-code" + File.separator + "typescript";
         embeddedTemplateDir = templateDir = "typescript";
 
@@ -102,7 +123,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
-                "requestOptions",
+                "requestOptions", "from",
                 // Typescript reserved words
                 "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
@@ -122,16 +143,17 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "any",
                 "File",
                 "Error",
-                "Map"
+                "Map",
+                "Set"
         ));
 
-        languageGenericTypes = new HashSet<String>(Arrays.asList(
+        languageGenericTypes = new HashSet<>(Arrays.asList(
                 "Array"
         ));
 
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
@@ -148,6 +170,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
         typeMapping.put("map", "any");
+        typeMapping.put("Set", "Set");
+        typeMapping.put("set", "Set");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
@@ -156,6 +180,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("Error", "Error");
+        typeMapping.put("AnyType", "any");
 
 
         cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
@@ -163,7 +188,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
@@ -209,7 +234,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
 
         // models
-        setModelPackage("");
+        setModelPackage("models");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
@@ -218,6 +243,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
         supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 
     public String getNpmName() {
@@ -291,18 +317,16 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> models) {
 
         // Add additional filename information for model imports in the apis
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            im.put("filename", ((String) im.get("import")).replace(".", "/"));
-            im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
+            im.put("filename", im.get("import"));
         }
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
+        OperationMap operationsMap = operations.getOperations();
+        List<CodegenOperation> operationList = operationsMap.getOperation();
         for (CodegenOperation operation: operationList) {
             List<CodegenResponse> responses = operation.responses;
             operation.returnType = this.getReturnType(responses);
@@ -316,7 +340,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @return TypeScript return type
      */
     private String getReturnType(List<CodegenResponse> responses) {
-        Set<String> returnTypes = new HashSet<String>();
+        Set<String> returnTypes = new HashSet<>();
         for (CodegenResponse response: responses) {
             if (response.is2xx) {
                 if (response.dataType != null) {
@@ -332,11 +356,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return String.join(" | ", returnTypes);
-    }
-
-    private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + File.separator).length());
-        return camelize(name);
     }
 
     @Override
@@ -362,7 +381,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -385,6 +404,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         return toTypescriptTypeName(fullModelName, "Model");
     }
 
+    @Override
+    public String toModelImport(String name) {
+        return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
+    }
+
     protected String addPrefix(String name, String prefix) {
         if (!StringUtils.isEmpty(prefix)) {
             name = prefix + "_" + name;
@@ -401,29 +425,31 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     protected String toTypescriptTypeName(final String name, String safePrefix) {
-        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
+        ArrayList<String> exceptions = new ArrayList<>(Arrays.asList("\\|", " "));
         String sanName = sanitizeName(name, "(?![| ])\\W", exceptions);
 
         sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowercase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
             String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
-            LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    sanName, modelName);
             return modelName;
         }
 
@@ -435,7 +461,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // should be the same as the model name
         return toModelName(name);
     }
-
 
     @Override
     protected String getParameterDataType(Parameter parameter, Schema p) {
@@ -482,7 +507,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             if (!isFirst) {
                 b.append(" | ");
             }
-            b.append(toEnumValue(value.toString(), dataType));
+            b.append(toEnumValue(value, dataType));
             isFirst = false;
         }
         return b.toString();
@@ -665,13 +690,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
-        List<Map<String, Object>> models = (List<Map<String, Object>>) postProcessModelsEnum(objs).get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
@@ -687,8 +711,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
         }
-        for (Map<String, Object> mo : models) {
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
             // Add additional filename information for imports
             mo.put("tsImports", toTsImports(cm, cm.imports));
         }
@@ -702,23 +726,20 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", importMapping.getOrDefault(im, toModelImport(im)));
                 tsImports.add(tsImport);
             }
         }
         return tsImports;
     }
 
-
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
 
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
                 if (cm.discriminator != null && cm.children != null) {
                     for (CodegenModel child : cm.children) {
                         this.setDiscriminatorValue(child, cm.discriminator.getPropertyName(), this.getDiscriminatorValue(child));
@@ -782,7 +803,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // change package names
         apiPackage = this.apiPackage + ".apis";
-        modelPackage = this.modelPackage + ".models";
         testPackage = this.testPackage + ".tests";
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
@@ -858,10 +878,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = (Schema) p.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + "; }";
+            inner = getSchemaAdditionalProperties(p);
+            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -877,6 +897,620 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
+    public String typescriptDate(Object dateValue) {
+        String strValue = null;
+        if (dateValue instanceof OffsetDateTime) {
+            OffsetDateTime date = null;
+            try {
+                date = (OffsetDateTime) dateValue;
+            } catch (ClassCastException e) {
+                LOGGER.warn("Invalid `date` format for value {}", dateValue);
+                date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
+            }
+            strValue = date.format(iso8601Date);
+        } else {
+            strValue = dateValue.toString();
+        }
+        return "new Date('" + strValue + "').toISOString().split('T')[0];";
+    }
+
+    public String typescriptDateTime(Object dateTimeValue) {
+        String strValue = null;
+        if (dateTimeValue instanceof OffsetDateTime) {
+            OffsetDateTime dateTime = null;
+            try {
+                dateTime = (OffsetDateTime) dateTimeValue;
+            } catch (ClassCastException e) {
+                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue);
+                dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
+            }
+            strValue = dateTime.format(iso8601DateTime);
+        } else {
+            strValue = dateTimeValue.toString();
+        }
+        return "new Date('" + strValue + "')";
+    }
+
+    public String getModelName(Schema sc) {
+        if (sc.get$ref() != null) {
+            Schema unaliasedSchema = unaliasSchema(sc);
+            if (unaliasedSchema.get$ref() != null) {
+                return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets an example if it exists
+     *
+     * @param sc input schema
+     * @return the example value
+     */
+    protected Object getObjectExample(Schema sc) {
+        Schema schema = sc;
+        String ref = sc.get$ref();
+        if (ref != null) {
+            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        // TODO handle examples in object models in the future
+        Boolean objectModel = (ModelUtils.isObjectSchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isComposedSchema(schema));
+        if (objectModel) {
+            return null;
+        }
+        if (schema.getExample() != null) {
+            return schema.getExample();
+        }
+        if (schema.getDefault() != null) {
+            return schema.getDefault();
+        } else if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            return schema.getEnum().get(0);
+        }
+        return null;
+    }
+
+    /***
+     * Ensures that the string has a leading and trailing quote
+     *
+     * @param in input string
+     * @return quoted string
+     */
+    private String ensureQuotes(String in) {
+        Pattern pattern = Pattern.compile("\r\n|\r|\n");
+        Matcher matcher = pattern.matcher(in);
+        if (matcher.find()) {
+            // if a string has a new line in it add backticks to make it a typescript multiline string
+            return "`" + in + "`";
+        }
+        String strPattern = "^['\"].*?['\"]$";
+        if (in.matches(strPattern)) {
+            return in;
+        }
+        return "\"" + in + "\"";
+    }
+
+    @Override
+    public String toExampleValue(Schema schema) {
+        Object objExample = getObjectExample(schema);
+        return toExampleValue(schema, objExample);
+    }
+
+    public String toExampleValue(Schema schema, Object objExample) {
+        String modelName = getModelName(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
+    }
+
+    private Boolean simpleStringSchema(Schema schema) {
+        Schema sc = schema;
+        String ref = schema.get$ref();
+        if (ref != null) {
+            sc = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        return ModelUtils.isStringSchema(sc) && !ModelUtils.isDateSchema(sc) && !ModelUtils.isDateTimeSchema(sc) && !"Number".equalsIgnoreCase(sc.getFormat()) && !ModelUtils.isByteArraySchema(sc) && !ModelUtils.isBinarySchema(sc) && schema.getPattern() == null;
+    }
+
+    private MappedModel getDiscriminatorMappedModel(CodegenDiscriminator disc) {
+        for (MappedModel mm : disc.getMappedModels()) {
+            String modelName = mm.getModelName();
+            Schema modelSchema = getModelNameToSchemaCache().get(modelName);
+            if (ModelUtils.isObjectSchema(modelSchema)) {
+                return mm;
+            }
+        }
+        return null;
+    }
+
+    /***
+     * Recursively generates string examples for schemas
+     *
+     * @param modelName the string name of the refed model that will be generated for the schema or null
+     * @param schema the schema that we need an example for
+     * @param objExample the example that applies to this schema, for now only string example are used
+     * @param indentationLevel integer indentation level that we are currently at
+     *                         we assume the indentation amount is 2 spaces times this integer
+     * @param prefix the string prefix that we will use when assigning an example for this line
+     *               this is used when setting key: value, pairs "key: " is the prefix
+     *               and this is used when setting properties like some_property='some_property_example'
+     * @param exampleLine this is the current line that we are generating an example for, starts at 0
+     *                    we don't indent the 0th line because using the example value looks like:
+     *                    prop = ModelName( line 0
+     *                        some_property='some_property_example' line 1
+     *                    ) line 2
+     *                    and our example value is:
+     *                    ModelName( line 0
+     *                        some_property='some_property_example' line 1
+     *                    ) line 2
+     * @param seenSchemas This set contains all the schemas passed into the recursive function. It is used to check
+     *                    if a schema was already passed into the function and breaks the infinite recursive loop. The
+     *                    only schemas that are not added are ones that contain $ref != null
+     * @return the string example
+     */
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
+        final String indentionConst = "  ";
+        String currentIndentation = "";
+        String closingIndentation = "";
+        for (int i = 0; i < indentationLevel; i++) currentIndentation += indentionConst;
+        if (exampleLine.equals(0)) {
+            closingIndentation = currentIndentation;
+            currentIndentation = "";
+        } else {
+            closingIndentation = currentIndentation;
+        }
+        String openChars = "";
+        String closeChars = "";
+        String fullPrefix = currentIndentation + prefix + openChars;
+
+        String example = null;
+        if (objExample != null) {
+            example = objExample.toString();
+        }
+        // checks if the current schema has already been passed in. If so, breaks the current recursive pass
+        if (seenSchemas.contains(schema)) {
+            if (modelName != null) {
+                return fullPrefix + closeChars;
+            } else {
+                // this is a recursive schema
+                // need to add a reasonable example to avoid
+                // infinite recursion
+                if (ModelUtils.isNullable(schema)) {
+                    // if the schema is nullable, then 'null' is a valid value
+                    return fullPrefix + "null" + closeChars;
+                } else if (ModelUtils.isArraySchema(schema)) {
+                    // the schema is an array, add an empty array
+                    return fullPrefix + "[]" + closeChars;
+                } else {
+                    // the schema is an object, make an empty object
+                    return fullPrefix + "{}" + closeChars;
+                }
+            }
+        }
+
+        if (null != schema.get$ref()) {
+            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema refSchema = allDefinitions.get(ref);
+            if (null == refSchema) {
+                LOGGER.warn("Unable to find referenced schema " + schema.get$ref() + "\n");
+                return fullPrefix + "null" + closeChars;
+            }
+            String refModelName = getModelName(schema);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
+        } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyType(schema)) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
+            return fullPrefix + "null" + closeChars;
+        } else if (ModelUtils.isBooleanSchema(schema)) {
+            if (objExample == null) {
+                example = "true";
+            } else {
+                if ("false".equalsIgnoreCase(objExample.toString())) {
+                    example = "false";
+                } else {
+                    example = "true";
+                }
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isDateSchema(schema)) {
+            if (objExample == null) {
+                example = typescriptDate("1970-01-01");
+            } else {
+                example = typescriptDate(objExample);
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
+            if (objExample == null) {
+                example = typescriptDateTime("1970-01-01T00:00:00.00Z");
+            } else {
+                example = typescriptDateTime(objExample);
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            if (objExample == null) {
+                example = "/path/to/file";
+            }
+            example = "{ data: Buffer.from(fs.readFileSync('" + example + "', 'utf-8')), name: '" + example + "' }";
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isByteArraySchema(schema)) {
+            if (objExample == null) {
+                example = "'YQ=='";
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isStringSchema(schema)) {
+            if (objExample == null) {
+                // a BigDecimal:
+                if ("Number".equalsIgnoreCase(schema.getFormat())) {
+                    example = "2";
+                    return fullPrefix + example + closeChars;
+                } else if (StringUtils.isNotBlank(schema.getPattern())) {
+                    String pattern = schema.getPattern();
+                    /*
+                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
+                    So strip off the leading / and trailing / and turn on ignore case if we have it
+                     */
+                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                    Matcher m = valueExtractor.matcher(pattern);
+                    RgxGen rgxGen = null;
+                    if (m.find()) {
+                        int groupCount = m.groupCount();
+                        if (groupCount == 1) {
+                            // only pattern found
+                            String isolatedPattern = m.group(1);
+                            rgxGen = new RgxGen(isolatedPattern);
+                        } else if (groupCount == 2) {
+                            // patterns and flag found
+                            String isolatedPattern = m.group(1);
+                            String flags = m.group(2);
+                            if (flags.contains("i")) {
+                                rgxGen = new RgxGen(isolatedPattern);
+                                RgxGenProperties properties = new RgxGenProperties();
+                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
+                                rgxGen.setProperties(properties);
+                            } else {
+                                rgxGen = new RgxGen(isolatedPattern);
+                            }
+                        }
+                    } else {
+                        rgxGen = new RgxGen(pattern);
+                    }
+
+                    // this seed makes it so if we have [a-z] we pick a
+                    Random random = new Random(18);
+                    if (rgxGen != null){
+                        example = rgxGen.generate(random);
+                    } else {
+                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                    }
+                } else if (schema.getMinLength() != null) {
+                    example = "";
+                    int len = schema.getMinLength().intValue();
+                    for (int i = 0; i < len; i++) example += "a";
+                } else if (ModelUtils.isUUIDSchema(schema)) {
+                    example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+                } else {
+                    example = "string_example";
+                }
+            }
+            return fullPrefix + ensureQuotes(example) + closeChars;
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (objExample == null) {
+                if (schema.getMinimum() != null) {
+                    example = schema.getMinimum().toString();
+                } else {
+                    example = "1";
+                }
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (objExample == null) {
+                if (schema.getMinimum() != null) {
+                    example = schema.getMinimum().toString();
+                } else {
+                    example = "3.14";
+                }
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arrayschema = (ArraySchema) schema;
+            Schema itemSchema = arrayschema.getItems();
+            String itemModelName = getModelName(itemSchema);
+            if (objExample instanceof Iterable && itemModelName == null) {
+                // If the example is already a list, return it directly instead of wrongly wrap it in another list
+                return fullPrefix + objExample + closeChars;
+            }
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
+            return example;
+        } else if (ModelUtils.isMapSchema(schema)) {
+            if (modelName == null) {
+                fullPrefix += "{";
+                closeChars = "}";
+            }
+            Object addPropsObj = schema.getAdditionalProperties();
+            // TODO handle true case for additionalProperties
+            if (addPropsObj instanceof Schema) {
+                Schema addPropsSchema = (Schema) addPropsObj;
+                String key = "key";
+                Object addPropsExample = getObjectExample(addPropsSchema);
+                if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
+                    key = addPropsSchema.getEnum().get(0).toString();
+                }
+                addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
+                String addPropPrefix = key + ": ";
+                if (modelName == null) {
+                    addPropPrefix = ensureQuotes(key) + ": ";
+                }
+                String addPropsModelName = "\"" + getModelName(addPropsSchema) + "\"";
+                Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                newSeenSchemas.add(schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + closeChars;
+            } else {
+                example = fullPrefix + closeChars;
+            }
+            return example;
+        } else if (ModelUtils.isComposedSchema(schema)) {
+            ComposedSchema cm = (ComposedSchema) schema;
+            List<Schema> ls = cm.getOneOf();
+            if (ls != null && !ls.isEmpty()) {
+                return fullPrefix + toExampleValue(ls.get(0)) + closeChars;
+            }
+            return fullPrefix + closeChars;
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            fullPrefix += "{";
+            closeChars = "}";
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (disc != null) {
+                MappedModel mm = getDiscriminatorMappedModel(disc);
+                if (mm != null) {
+                    String discPropNameValue = mm.getMappingName();
+                    String chosenModelName = mm.getModelName();
+                    // TODO handle this case in the future, this is when the discriminated
+                    // schema allOf includes this schema, like Cat allOf includes Pet
+                    // so this is the composed schema use case
+                } else {
+                    return fullPrefix + closeChars;
+                }
+            }
+
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
+            return exampleForObjectModel;
+        } else {
+            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+        }
+
+        return example;
+    }
+
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, Set<Schema> seenSchemas) {
+        Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
+        if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
+            return fullPrefix + closeChars;
+        }
+
+        String example = fullPrefix + "\n";
+        for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
+            String propName = entry.getKey();
+            Schema propSchema = entry.getValue();
+            boolean readOnly = false;
+            if (propSchema.getReadOnly() != null) {
+                readOnly = propSchema.getReadOnly();
+            }
+            if (readOnly) {
+                continue;
+            }
+            String ref = propSchema.get$ref();
+            if (ref != null) {
+                Schema refSchema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+                if (refSchema.getReadOnly() != null) {
+                    readOnly = refSchema.getReadOnly();
+                }
+                if (readOnly) {
+                    continue;
+                }
+            }
+            propName = toVarName(propName);
+            String propModelName = null;
+            Object propExample = null;
+            if (discProp != null && propName.equals(discProp.name)) {
+                propModelName = null;
+                propExample = discProp.example;
+            } else {
+                propModelName = getModelName(propSchema);
+                propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
+            }
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + ": ", exampleLine + 1, seenSchemas) + ",\n";
+        }
+        // TODO handle additionalProperties also
+        example += closingIndentation + closeChars;
+        return example;
+    }
+
+    private Object exampleFromStringOrArraySchema(Schema sc, Object currentExample, String propName) {
+        if (currentExample != null) {
+            return currentExample;
+        }
+        Schema schema = sc;
+        String ref = sc.get$ref();
+        if (ref != null) {
+            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        Object example = getObjectExample(schema);
+        if (example != null) {
+            return example;
+        } else if (simpleStringSchema(schema)) {
+            return propName + "_example";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            Schema itemSchema = arraySchema.getItems();
+            example = getObjectExample(itemSchema);
+            if (example != null) {
+                return example;
+            } else if (simpleStringSchema(itemSchema)) {
+                return propName + "_example";
+            }
+        }
+        return null;
+    }
+
+    protected String setPropertyExampleValue(CodegenProperty p) {
+        String example;
+
+        if (p == null) {
+            return "null";
+        }
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if (Boolean.TRUE.equals(p.isInteger)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "789";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.name + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + "{{moduleName}}" + "." + type + "()";
+        }
+
+        return example;
+    }
+
+
+    /***
+     *
+     * Set the codegenParameter example value
+     * We have a custom version of this function so we can invoke toExampleValue
+     *
+     * @param codegenParameter the item we are setting the example on
+     * @param parameter the base parameter that came from the spec
+     */
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        Schema schema = parameter.getSchema();
+        if (schema == null) {
+            LOGGER.warn("CodegenParameter.example defaulting to null because parameter lacks a schema");
+            return;
+        }
+
+        Object example = null;
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            example = codegenParameter.vendorExtensions.get("x-example");
+        } else if (parameter.getExample() != null) {
+            example = parameter.getExample();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty() && parameter.getExamples().values().iterator().next().getValue() != null) {
+            example = parameter.getExamples().values().iterator().next().getValue();
+        } else {
+            example = getObjectExample(schema);
+        }
+        example = exampleFromStringOrArraySchema(schema, example, parameter.getName());
+        String finalExample = toExampleValue(schema, example);
+        codegenParameter.example = finalExample;
+    }
+
+    /**
+     * Return the example value of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param requestBody      Request body
+     */
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        }
+
+        Content content = requestBody.getContent();
+
+        if (content.size() > 1) {
+            // @see ModelUtils.getSchemaFromContent()
+            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        Schema schema = mediaType.getSchema();
+        if (schema == null) {
+            LOGGER.warn("CodegenParameter.example defaulting to null because requestBody content lacks a schema");
+            return;
+        }
+
+        Object example = null;
+        if (mediaType.getExample() != null) {
+            example = mediaType.getExample();
+        } else if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty() && mediaType.getExamples().values().iterator().next().getValue() != null) {
+            example = mediaType.getExamples().values().iterator().next().getValue();
+        } else {
+            example = getObjectExample(schema);
+        }
+        example = exampleFromStringOrArraySchema(schema, example, codegenParameter.paramName);
+        codegenParameter.example = toExampleValue(schema, example);
+    }
+
+    /**
+     * Create a CodegenParameter for a Form Property
+     * We have a custom version of this method so we can invoke
+     * setParameterExampleValue(codegenParameter, parameter)
+     * rather than setParameterExampleValue(codegenParameter)
+     * This ensures that all of our samples are generated in
+     * toExampleValueRecursive
+     *
+     * @param name           the property name
+     * @param propertySchema the property schema
+     * @param imports        our import set
+     * @return the resultant CodegenParameter
+     */
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter cp = super.fromFormProperty(name, propertySchema, imports);
+        Parameter p = new Parameter();
+        p.setSchema(propertySchema);
+        p.setName(cp.paramName);
+        setParameterExampleValue(cp, p);
+        return cp;
+    }
+
     @Override
     public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
@@ -889,6 +1523,13 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
 
         return String.join(" | ", types);
+    }
+
+    @Override
+    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+        List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
+
+        return String.join(" & ", types);
     }
 
     /**
@@ -920,11 +1561,37 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
             if (needToImport(s)) {
                 m.imports.add(s);
             }
         }
     }
+
+    @Override
+    protected void addImport(Set<String> importsToBeAddedTo, String type) {
+        if (type == null) {
+            return;
+        }
+
+        String[] parts = splitComposedType(type);
+        for (String s : parts) {
+            super.addImport(importsToBeAddedTo, s);
+        }
+    }
+
+    /**
+     * Split composed types
+     * e.g. TheFirstType | TheSecondType to TheFirstType and TheSecondType
+     *
+     * @param type String with composed types
+     * @return list of types
+     */
+    protected String[] splitComposedType(String type) {
+        return type.replace(" ","").split("[|&<>]");
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
 }

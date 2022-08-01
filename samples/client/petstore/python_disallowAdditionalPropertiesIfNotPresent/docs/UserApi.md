@@ -23,6 +23,7 @@ This can only be done by the logged in user.
 
 ### Example
 
+
 ```python
 import time
 import petstore_api
@@ -81,6 +82,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -93,6 +95,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 
 ```python
 import time
@@ -154,6 +157,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -166,6 +170,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 
 ```python
 import time
@@ -227,6 +232,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -241,6 +247,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 import time
@@ -290,6 +297,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -303,6 +311,7 @@ No authorization required
 Get user by user name
 
 ### Example
+
 
 ```python
 import time
@@ -354,6 +363,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -368,6 +378,7 @@ No authorization required
 Logs user into the system
 
 ### Example
+
 
 ```python
 import time
@@ -420,6 +431,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
@@ -433,6 +445,7 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
+
 
 ```python
 import time
@@ -478,6 +491,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -492,6 +506,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 import time
@@ -553,6 +568,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid user supplied |  -  |

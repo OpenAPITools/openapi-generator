@@ -11,11 +11,11 @@
 {{^notes.isEmpty}}
 %% {{{notes}}}
 {{/notes.isEmpty}}
--spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}) -> {ok, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
+-spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}) -> {ok, {{{returnType}}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
 {{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}) ->
     {{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}, #{}).
 
--spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}, maps:map()) -> {ok, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
+-spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}, maps:map()) -> {ok, {{{returnType}}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
 {{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),

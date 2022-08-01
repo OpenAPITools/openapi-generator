@@ -22,7 +22,7 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **orderId** | **char \*** | ID of the order that needs to be deleted | 
 
 ### Return type
@@ -52,7 +52,7 @@ list_t* StoreAPI_getInventory(apiClient_t *apiClient);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 
 ### Return type
 
@@ -85,7 +85,7 @@ order_t* StoreAPI_getOrderById(apiClient_t *apiClient, long orderId);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **orderId** | **long** | ID of pet that needs to be fetched | 
 
 ### Return type
@@ -114,7 +114,7 @@ order_t* StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **body** | **[order_t](order.md) \*** | order placed for purchasing the pet | 
 
 ### Return type

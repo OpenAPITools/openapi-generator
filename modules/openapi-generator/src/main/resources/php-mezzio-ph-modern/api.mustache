@@ -22,10 +22,10 @@ class {{classname}}
 {{#operation}}
     /**
 {{#summary}}
-     * {{summary}}
+     * {{.}}
 {{/summary}}
 {{#description}}
-     * {{description}}
+     * {{.}}
 {{/description}}
      */
     #[PHA\{{httpMethod}}]
@@ -51,7 +51,7 @@ class {{classname}}
     // TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
     #[PHA\Producer("{{{mediaType}}}", PHProducer\Transfer::class)]
 {{/produces}}
-    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{returnType}}{{/returnType}}
+    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{.}}{{/returnType}}
     {
         //TODO implement method
 {{#vendorExtensions}}

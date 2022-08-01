@@ -1,6 +1,15 @@
 /**
  * @type {{classname}}{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  */
-export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
+export type {{classname}} = {{#discriminator}}{{!
+
+discriminator with mapped models - TypeScript discriminating union
+}}{{#mappedModels}}{ {{discriminator.propertyName}}: '{{mappingName}}' } & {{modelName}}{{^-last}} | {{/-last}}{{/mappedModels}}{{!
+
+discriminator only - fallback to not use the discriminator. Default model names are available but possibility of having null/nullable values could introduce more edge cases
+}}{{^mappedModels}}{{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}{{/mappedModels}}{{/discriminator}}{{!
+
+plain oneOf
+}}{{^discriminator}}{{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}{{/discriminator}};

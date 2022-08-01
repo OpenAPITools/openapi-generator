@@ -6,8 +6,7 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -55,7 +54,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -83,7 +82,7 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -93,9 +92,12 @@ if(hasProperty('target') && target == 'android') {
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -112,8 +114,9 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
     jersey_version = "2.27"
-    junit_version = "4.13.1"
+    junit_version = "4.13.2"
     {{#threetenbp}}
     threetenbp_version = "2.9.10"
     {{/threetenbp}}
@@ -157,7 +160,7 @@ dependencies {
     {{^java8}}
     implementation "com.brsanthu:migbase64:2.2"
     {{/java8}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }
 

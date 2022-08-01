@@ -14,7 +14,7 @@
         classNames = [NSMutableSet new];
         lock = [NSObject new];
     });
-    
+
     BOOL initSync;
     @synchronized(lock)
     {

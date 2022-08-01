@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -97,6 +98,8 @@ public class NullableClass {
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   private Map<String, Object> objectItemsNullable = null;
 
+  public NullableClass() { 
+  }
 
   public NullableClass integerProp(Integer integerProp) {
     this.integerProp = JsonNullable.<Integer>of(integerProp);
@@ -603,24 +606,35 @@ public class NullableClass {
       return false;
     }
     NullableClass nullableClass = (NullableClass) o;
-    return Objects.equals(this.integerProp, nullableClass.integerProp) &&
-        Objects.equals(this.numberProp, nullableClass.numberProp) &&
-        Objects.equals(this.booleanProp, nullableClass.booleanProp) &&
-        Objects.equals(this.stringProp, nullableClass.stringProp) &&
-        Objects.equals(this.dateProp, nullableClass.dateProp) &&
-        Objects.equals(this.datetimeProp, nullableClass.datetimeProp) &&
-        Objects.equals(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
-        Objects.equals(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
+    return equalsNullable(this.integerProp, nullableClass.integerProp) &&
+        equalsNullable(this.numberProp, nullableClass.numberProp) &&
+        equalsNullable(this.booleanProp, nullableClass.booleanProp) &&
+        equalsNullable(this.stringProp, nullableClass.stringProp) &&
+        equalsNullable(this.dateProp, nullableClass.dateProp) &&
+        equalsNullable(this.datetimeProp, nullableClass.datetimeProp) &&
+        equalsNullable(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
+        equalsNullable(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
         Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
-        Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
-        Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
+        equalsNullable(this.objectNullableProp, nullableClass.objectNullableProp) &&
+        equalsNullable(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
         Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable)&&
         Objects.equals(this.additionalProperties, nullableClass.additionalProperties);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, additionalProperties);
+    return Objects.hash(hashCodeNullable(integerProp), hashCodeNullable(numberProp), hashCodeNullable(booleanProp), hashCodeNullable(stringProp), hashCodeNullable(dateProp), hashCodeNullable(datetimeProp), hashCodeNullable(arrayNullableProp), hashCodeNullable(arrayAndItemsNullableProp), arrayItemsNullable, hashCodeNullable(objectNullableProp), hashCodeNullable(objectAndItemsNullableProp), objectItemsNullable, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

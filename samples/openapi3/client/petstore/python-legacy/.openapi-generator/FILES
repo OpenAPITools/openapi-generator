@@ -3,6 +3,7 @@
 .travis.yml
 README.md
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -16,6 +17,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/EnumArrays.md
@@ -26,10 +28,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -38,6 +40,7 @@ docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -48,6 +51,7 @@ docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -59,7 +63,7 @@ petstore_api/api/__init__.py
 petstore_api/api/another_fake_api.py
 petstore_api/api/default_api.py
 petstore_api/api/fake_api.py
-petstore_api/api/fake_classname_tags_123_api.py
+petstore_api/api/fake_classname_tags123_api.py
 petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py
@@ -68,6 +72,7 @@ petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py
 petstore_api/models/additional_properties_class.py
+petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/api_response.py
 petstore_api/models/array_of_array_of_number_only.py
@@ -79,6 +84,7 @@ petstore_api/models/cat_all_of.py
 petstore_api/models/category.py
 petstore_api/models/class_model.py
 petstore_api/models/client.py
+petstore_api/models/deprecated_object.py
 petstore_api/models/dog.py
 petstore_api/models/dog_all_of.py
 petstore_api/models/enum_arrays.py
@@ -87,10 +93,10 @@ petstore_api/models/enum_test.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
 petstore_api/models/foo.py
+petstore_api/models/foo_get_default_response.py
 petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
-petstore_api/models/inline_response_default.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
@@ -99,6 +105,7 @@ petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py
 petstore_api/models/number_only.py
+petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py
 petstore_api/models/outer_enum.py
@@ -108,6 +115,7 @@ petstore_api/models/outer_enum_integer_default_value.py
 petstore_api/models/outer_object_with_enum_property.py
 petstore_api/models/pet.py
 petstore_api/models/read_only_first.py
+petstore_api/models/single_ref_type.py
 petstore_api/models/special_model_name.py
 petstore_api/models/tag.py
 petstore_api/models/user.py

@@ -1,9 +1,16 @@
+{{#model}}
     /// <summary>
-    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
+    {{#vendorExtensions.x-cls-compliant}}
+    [CLSCompliant({{{.}}})]
+    {{/vendorExtensions.x-cls-compliant}}
+    {{#vendorExtensions.x-com-visible}}
+    [ComVisible({{{.}}})]
+    {{/vendorExtensions.x-com-visible}}
     [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
-    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
         {{#isNullable}}
         /// <summary>
@@ -16,20 +23,22 @@
         }
 
         {{/isNullable}}
-        {{#oneOf}}
+        {{#composedSchemas.oneOf}}
+        {{^isNull}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
-        /// with the <see cref="{{{.}}}" /> class
+        /// with the <see cref="{{#lambdaCref}}{{{dataType}}}{{/lambdaCref}}" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of {{{.}}}.</param>
-        public {{classname}}({{{.}}} actualInstance)
+        /// <param name="actualInstance">An instance of {{dataType}}.</param>
+        public {{classname}}({{{dataType}}} actualInstance)
         {
-            this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
+            this.IsNullable = {{#model.isNullable}}true{{/model.isNullable}}{{^model.isNullable}}false{{/model.isNullable}};
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance{{^isNullable}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isNullable}};
+            this.ActualInstance = actualInstance{{^model.isNullable}}{{^isPrimitiveType}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isPrimitiveType}}{{#isPrimitiveType}}{{#isArray}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isArray}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isFreeFormObject}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isFreeFormObject}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isString}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isString}}{{/isPrimitiveType}}{{/model.isNullable}};
         }
 
-        {{/oneOf}}
+        {{/isNull}}
+        {{/composedSchemas.oneOf}}
 
         private Object _actualInstance;
 
@@ -56,18 +65,20 @@
                 }
             }
         }
-        {{#oneOf}}
+        {{#composedSchemas.oneOf}}
+        {{^isNull}}
 
         /// <summary>
-        /// Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+        /// Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of {{{.}}}</returns>
-        public {{{.}}} Get{{{.}}}()
+        /// <returns>An instance of {{dataType}}</returns>
+        public {{{dataType}}} Get{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}{{#isArray}}{{#lambda.titlecase}}{{{dataFormat}}}{{/lambda.titlecase}}{{/isArray}}()
         {
-            return ({{{.}}})this.ActualInstance;
+            return ({{{dataType}}})this.ActualInstance;
         }
-        {{/oneOf}}
+        {{/isNull}}
+        {{/composedSchemas.oneOf}}
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -100,24 +111,32 @@
         {
             {{classname}} new{{classname}} = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return new{{classname}};
             }
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 
-            string discriminatorValue = JObject.Parse(jsonString)["{{{propertyBaseName}}}"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                {{#mappedModels}}
-                case "{{{mappingName}}}":
-                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
-                    return new{{classname}};
-                {{/mappedModels}}
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["{{{propertyBaseName}}}"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    {{#mappedModels}}
+                    case "{{{mappingName}}}":
+                        new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
+                        return new{{classname}};
+                    {{/mappedModels}}
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             {{/discriminator}}
@@ -208,6 +227,7 @@
             }
         }
 
+        {{#validatable}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -217,6 +237,7 @@
         {
             yield break;
         }
+        {{/validatable}}
     }
 
     /// <summary>
@@ -262,3 +283,4 @@
             return false;
         }
     }
+{{/model}}

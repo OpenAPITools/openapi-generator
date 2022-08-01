@@ -1,17 +1,13 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class DogAllOf  {
   
@@ -35,6 +31,22 @@ public class DogAllOf  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DogAllOf dogAllOf = (DogAllOf) o;
+    return Objects.equals(breed, dogAllOf.breed);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(breed);
+  }
 
   @Override
   public String toString() {

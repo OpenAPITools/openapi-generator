@@ -153,7 +153,7 @@ Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntege
  * Notes: To test the collection format in query parameters
 
  */
-Route::put('/v2/fake/test-query-paramters', 'FakeController@testQueryParameterCollectionFormat');
+Route::put('/v2/fake/test-query-parameters', 'FakeController@testQueryParameterCollectionFormat');
 /**
  * patch testClassname
  * Summary: To test class name in snake case

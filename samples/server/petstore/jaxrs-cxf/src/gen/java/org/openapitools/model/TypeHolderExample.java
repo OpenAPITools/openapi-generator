@@ -7,14 +7,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class TypeHolderExample  {
   
@@ -35,7 +30,7 @@ public class TypeHolderExample  {
   private Boolean boolItem;
 
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
  /**
    * Get stringItem
    * @return stringItem
@@ -155,6 +150,27 @@ public class TypeHolderExample  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TypeHolderExample typeHolderExample = (TypeHolderExample) o;
+    return Objects.equals(stringItem, typeHolderExample.stringItem) &&
+        Objects.equals(numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(floatItem, typeHolderExample.floatItem) &&
+        Objects.equals(integerItem, typeHolderExample.integerItem) &&
+        Objects.equals(boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(arrayItem, typeHolderExample.arrayItem);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
+  }
 
   @Override
   public String toString() {

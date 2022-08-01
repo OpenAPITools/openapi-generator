@@ -95,6 +95,7 @@ class StoreApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -112,7 +113,9 @@ class StoreApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -125,8 +128,7 @@ class StoreApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'order_id' is set
-        if self.api_client.client_side_validation and ('order_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['order_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('order_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
 
         collection_formats = {}
@@ -137,7 +139,7 @@ class StoreApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -145,7 +147,7 @@ class StoreApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -220,6 +222,7 @@ class StoreApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -236,7 +239,9 @@ class StoreApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -255,7 +260,7 @@ class StoreApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -267,7 +272,7 @@ class StoreApi(object):
 
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
-        
+
         response_types_map = {
             200: "dict(str, int)",
         }
@@ -348,6 +353,7 @@ class StoreApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -365,7 +371,9 @@ class StoreApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -378,8 +386,7 @@ class StoreApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'order_id' is set
-        if self.api_client.client_side_validation and ('order_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['order_id'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('order_id') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
 
         if self.api_client.client_side_validation and 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
@@ -394,7 +401,7 @@ class StoreApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -406,7 +413,7 @@ class StoreApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "Order",
             400: None,
@@ -433,6 +440,7 @@ class StoreApi(object):
     def place_order(self, order, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -462,6 +470,7 @@ class StoreApi(object):
     def place_order_with_http_info(self, order, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -487,6 +496,7 @@ class StoreApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -504,7 +514,9 @@ class StoreApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -517,8 +529,7 @@ class StoreApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'order' is set
-        if self.api_client.client_side_validation and ('order' not in local_var_params or  # noqa: E501
-                                                        local_var_params['order'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('order') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
 
         collection_formats = {}
@@ -527,7 +538,7 @@ class StoreApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -540,12 +551,16 @@ class StoreApi(object):
             ['application/xml', 'application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "Order",
             400: None,

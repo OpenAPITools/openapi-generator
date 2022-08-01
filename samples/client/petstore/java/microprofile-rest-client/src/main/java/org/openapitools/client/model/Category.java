@@ -30,15 +30,16 @@ import javax.json.bind.annotation.JsonbProperty;
 
 public class Category  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("name")
   private String name;
-  
+
  /**
    * Get id
    * @return id
   **/
-  @JsonbProperty("id")
   public Long getId() {
     return id;
   }
@@ -59,7 +60,6 @@ public class Category  {
    * Get name
    * @return name
   **/
-  @JsonbProperty("name")
   public String getName() {
     return name;
   }

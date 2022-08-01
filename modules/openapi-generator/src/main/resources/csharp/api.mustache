@@ -25,54 +25,66 @@ namespace {{packageName}}.{{apiPackage}}
         #region Synchronous Operations
         {{#operation}}
         /// <summary>
-        /// {{summary}}
+        /// {{{summary}}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
+        {{/allParams}}/// <returns>{{{returnType}}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 
         /// <summary>
-        /// {{summary}}
+        /// {{{summary}}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
-        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
+        {{/allParams}}/// <returns>ApiResponse of {{{returnType}}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/operation}}
         #endregion Synchronous Operations
         {{#supportsAsync}}
         #region Asynchronous Operations
         {{#operation}}
         /// <summary>
-        /// {{summary}}
+        /// {{{summary}}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
-        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>Task of {{{returnType}}}{{^returnType}}void{{/returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        {{#returnType}}System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// {{summary}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
-        System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>Task of ApiResponse{{#returnType}} ({{.}}){{/returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        System.Threading.Tasks.Task<ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
         {{/operation}}
         #endregion Asynchronous Operations
         {{/supportsAsync}}
@@ -188,24 +200,30 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#operation}}
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
+        {{/allParams}}/// <returns>{{{returnType}}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        public {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
         {
              {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
              return localVarResponse.Data;{{/returnType}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/returnType}}
         }
 
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
-        public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
+        {{/allParams}}/// <returns>ApiResponse of {{{returnType}}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        public ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
         {
             {{#allParams}}
             {{#required}}
@@ -245,7 +263,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
             {{#queryParams}}
-            if ({{paramName}} != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
+            if ({{paramName}} != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("{{collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
@@ -289,7 +307,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isBasicBasic}}
             {{#isBasicBearer}}
-            // http beerer authentication required
+            // http bearer authentication required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
@@ -321,7 +339,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#returnType}}
             return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value){{#caseInsensitiveResponseHeaders}}, StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}),
-                ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
+                ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{{returnContainer}}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
             {{/returnType}}
             {{^returnType}}
             return new ApiResponse<Object>(localVarStatusCode,
@@ -332,13 +350,16 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#supportsAsync}}
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
-        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>Task of {{{returnType}}}{{^returnType}}void{{/returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        {{#returnType}}public async System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
         {
              {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);
              return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);{{/returnType}}
@@ -346,13 +367,16 @@ namespace {{packageName}}.{{apiPackage}}
         }
 
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>Task of ApiResponse{{#returnType}} ({{.}}){{/returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        public async System.Threading.Tasks.Task<ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
         {
             {{#allParams}}
             {{#required}}
@@ -392,7 +416,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
             {{#queryParams}}
-            if ({{paramName}} != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
+            if ({{paramName}} != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("{{collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
@@ -468,7 +492,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#returnType}}
             return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value){{#caseInsensitiveResponseHeaders}}, StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}),
-                ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
+                ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{{returnContainer}}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
             {{/returnType}}
             {{^returnType}}
             return new ApiResponse<Object>(localVarStatusCode,

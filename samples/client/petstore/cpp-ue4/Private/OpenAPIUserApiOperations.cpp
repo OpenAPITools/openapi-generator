@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIUserApi::CreateUserRequest::ComputePath() const
@@ -200,7 +200,7 @@ FString OpenAPIUserApi::DeleteUserRequest::ComputePath() const
 	{ TEXT("username"), ToStringFormatArg(Username) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -211,20 +211,6 @@ void OpenAPIUserApi::DeleteUserRequest::SetupHttpRequest(const FHttpRequestRef& 
 
 	HttpRequest->SetVerb(TEXT("DELETE"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::DeleteUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -252,7 +238,7 @@ FString OpenAPIUserApi::GetUserByNameRequest::ComputePath() const
 	{ TEXT("username"), ToStringFormatArg(Username) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -263,20 +249,6 @@ void OpenAPIUserApi::GetUserByNameRequest::SetupHttpRequest(const FHttpRequestRe
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -320,20 +292,6 @@ void OpenAPIUserApi::LoginUserRequest::SetupHttpRequest(const FHttpRequestRef& H
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -368,20 +326,6 @@ void OpenAPIUserApi::LogoutUserRequest::SetupHttpRequest(const FHttpRequestRef& 
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::LogoutUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -407,7 +351,7 @@ FString OpenAPIUserApi::UpdateUserRequest::ComputePath() const
 	{ TEXT("username"), ToStringFormatArg(Username) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 

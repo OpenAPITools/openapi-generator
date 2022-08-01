@@ -6,7 +6,7 @@
 {{/imports}}
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 {{#models}}
@@ -34,14 +34,14 @@ public:
 		{{/enumVars}}
   	};
 
-	Values Value{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+	Values Value{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 	{{/allowableValues}}
 
 	static FString EnumToString(const Values& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, Values& EnumValue);
 	{{/isEnum}}
 	{{^isEnum}}
-	FString Value{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+	FString Value{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 	{{/isEnum}}
 	{{/isString}}
     {{#vars}}
@@ -54,15 +54,15 @@ public:
 		{{/enumVars}}
   	};
 	{{/allowableValues}}
-	
+
 	static FString EnumToString(const {{{enumName}}}& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, {{{enumName}}}& EnumValue);
-	{{#description}}/* {{{description}}} */
-	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
+	{{#description}}/* {{{.}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
 	{{/isEnum}}
 	{{^isEnum}}
-	{{#description}}/* {{{description}}} */
-	{{/description}}{{^required}}TOptional<{{/required}}{{{datatype}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
+	{{#description}}/* {{{.}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{datatype}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
 	{{/isEnum}}
     {{/vars}}
 };

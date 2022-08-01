@@ -23,7 +23,7 @@ namespace OpenAPI {
 class OAIStoreApiHandler : public QObject
 {
     Q_OBJECT
-    
+
 public:
     OAIStoreApiHandler();
     virtual ~OAIStoreApiHandler();

@@ -79,7 +79,7 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                         {{^required}}
-                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{defaultValue}}{{^defaultValue}}null{{/defaultValue}}
                             else Gson().fromJson({{paramName}}Param.encode(),
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}

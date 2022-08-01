@@ -125,7 +125,7 @@ var JSONSchemaView = (function () {
     this.options = options;
     this.isCollapsed = open <= 0;
 
-    // if schema is an empty object which means any JOSN
+    // if schema is an empty object which means any JSON
     this.isAny = typeof schema === 'object' && !Array.isArray(schema) && !Object.keys(schema).filter(function (k) {
       return ['title', 'description'].indexOf(k) === -1;
     }).length;

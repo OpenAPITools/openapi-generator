@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Decimal } from './Decimal';
 import {
-    Decimal,
     DecimalFromJSON,
     DecimalFromJSONTyped,
     DecimalToJSON,
-} from './';
+} from './Decimal';
 
 /**
  * 
@@ -124,6 +124,19 @@ export interface FormatTest {
     patternWithDigitsAndDelimiter?: string;
 }
 
+/**
+ * Check if a given object implements the FormatTest interface.
+ */
+export function instanceOfFormatTest(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "number" in value;
+    isInstance = isInstance && "_byte" in value;
+    isInstance = isInstance && "date" in value;
+    isInstance = isInstance && "password" in value;
+
+    return isInstance;
+}
+
 export function FormatTestFromJSON(json: any): FormatTest {
     return FormatTestFromJSONTyped(json, false);
 }
@@ -180,5 +193,4 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
         'pattern_with_digits_and_delimiter': value.patternWithDigitsAndDelimiter,
     };
 }
-
 
