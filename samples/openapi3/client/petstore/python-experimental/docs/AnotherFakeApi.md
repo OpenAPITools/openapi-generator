@@ -4,7 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **patch** /another-fake/dummy | To test special tags
 
 # **call_123_test_special_tags**
 > Client call_123_test_special_tags(client)
@@ -17,7 +17,7 @@ To test special tags and operation ID starting with number
 
 ```python
 import petstore_api
-from petstore_api.api import another_fake_api
+from petstore_api.apis.tags import another_fake_api
 from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

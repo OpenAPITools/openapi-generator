@@ -1,0 +1,33 @@
+{{#if bodyParam}}
+{{#with bodyParam}}
+body=body,
+{{/with}}
+{{/if}}
+{{#if queryParams}}
+query_params=query_params,
+{{/if}}
+{{#if headerParams}}
+header_params=header_params,
+{{/if}}
+{{#if pathParams}}
+path_params=path_params,
+{{/if}}
+{{#if cookieParams}}
+cookie_params=cookie_params,
+{{/if}}
+{{#with bodyParam}}
+{{#each content}}
+{{#if @first}}
+content_type=content_type,
+{{/if}}
+{{/each}}
+{{/with}}
+{{#if produces}}
+accept_content_types=accept_content_types,
+{{/if}}
+{{#if servers}}
+host_index=host_index,
+{{/if}}
+stream=stream,
+timeout=timeout,
+skip_deserialization=skip_deserialization

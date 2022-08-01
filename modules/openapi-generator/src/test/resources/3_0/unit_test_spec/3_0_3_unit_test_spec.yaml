@@ -10,6 +10,7 @@ tags:
 - name: operation.requestBody
 - name: path.post
 - name: contentType_json
+- name: response.content.contentType.schema
 paths:
   /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody:
     post:

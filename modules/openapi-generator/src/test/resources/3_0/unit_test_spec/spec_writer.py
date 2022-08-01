@@ -497,7 +497,7 @@ def write_openapi_spec():
     post_tag = OpenApiTag(name='path.post')
     json_tag = OpenApiTag(name='contentType_json')
     response_content_tag = OpenApiTag(name='response.content.contentType.schema')
-    openapi.tags.extend([request_body_tag, post_tag, json_tag])
+    openapi.tags.extend([request_body_tag, post_tag, json_tag, response_content_tag])
     # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
         component_schemas, component_name_to_test_examples = (

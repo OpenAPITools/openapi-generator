@@ -4,10 +4,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete_order**](StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**get_inventory**](StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
-[**get_order_by_id**](StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**place_order**](StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
+[**delete_order**](StoreApi.md#delete_order) | **delete** /store/order/{order_id} | Delete purchase order by ID
+[**get_inventory**](StoreApi.md#get_inventory) | **get** /store/inventory | Returns pet inventories by status
+[**get_order_by_id**](StoreApi.md#get_order_by_id) | **get** /store/order/{order_id} | Find purchase order by ID
+[**place_order**](StoreApi.md#place_order) | **post** /store/order | Place an order for a pet
 
 # **delete_order**
 > delete_order(order_id)
@@ -20,7 +20,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ```python
 import petstore_api
-from petstore_api.api import store_api
+from petstore_api.apis.tags import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -110,7 +110,7 @@ Returns a map of status codes to quantities
 * Api Key Authentication (api_key):
 ```python
 import petstore_api
-from petstore_api.api import store_api
+from petstore_api.apis.tags import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -185,7 +185,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ```python
 import petstore_api
-from petstore_api.api import store_api
+from petstore_api.apis.tags import store_api
 from petstore_api.model.order import Order
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -295,7 +295,7 @@ Place an order for a pet
 
 ```python
 import petstore_api
-from petstore_api.api import store_api
+from petstore_api.apis.tags import store_api
 from petstore_api.model.order import Order
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

@@ -4,37 +4,37 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**additional_properties_with_array_of_enums**](FakeApi.md#additional_properties_with_array_of_enums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
-[**array_model**](FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
-[**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
-[**body_with_file_schema**](FakeApi.md#body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
-[**body_with_query_params**](FakeApi.md#body_with_query_params) | **PUT** /fake/body-with-query-params | 
-[**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
-[**case_sensitive_params**](FakeApi.md#case_sensitive_params) | **PUT** /fake/case-sensitive-params | 
-[**client_model**](FakeApi.md#client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **POST** /fake/refs/composed_one_of_number_with_validations | 
-[**delete_coffee**](FakeApi.md#delete_coffee) | **DELETE** /fake/deleteCoffee/{id} | Delete coffee
-[**endpoint_parameters**](FakeApi.md#endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**enum_parameters**](FakeApi.md#enum_parameters) | **GET** /fake | To test enum parameters
-[**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-[**group_parameters**](FakeApi.md#group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**inline_additional_properties**](FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**inline_composition**](FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
-[**json_form_data**](FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**json_with_charset**](FakeApi.md#json_with_charset) | **POST** /fake/jsonWithCharset | json with charset tx and rx
-[**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
-[**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
-[**object_in_query**](FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
-[**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
-[**parameter_collisions**](FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
-[**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
-[**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
-[**response_without_schema**](FakeApi.md#response_without_schema) | **GET** /fake/responseWithoutSchema | receives a response without schema
-[**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
-[**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
-[**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
-[**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
-[**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
+[**additional_properties_with_array_of_enums**](FakeApi.md#additional_properties_with_array_of_enums) | **get** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
+[**array_model**](FakeApi.md#array_model) | **post** /fake/refs/arraymodel | 
+[**array_of_enums**](FakeApi.md#array_of_enums) | **post** /fake/refs/array-of-enums | Array of Enums
+[**body_with_file_schema**](FakeApi.md#body_with_file_schema) | **put** /fake/body-with-file-schema | 
+[**body_with_query_params**](FakeApi.md#body_with_query_params) | **put** /fake/body-with-query-params | 
+[**boolean**](FakeApi.md#boolean) | **post** /fake/refs/boolean | 
+[**case_sensitive_params**](FakeApi.md#case_sensitive_params) | **put** /fake/case-sensitive-params | 
+[**client_model**](FakeApi.md#client_model) | **patch** /fake | To test \&quot;client\&quot; model
+[**composed_one_of_different_types**](FakeApi.md#composed_one_of_different_types) | **post** /fake/refs/composed_one_of_number_with_validations | 
+[**delete_coffee**](FakeApi.md#delete_coffee) | **delete** /fake/deleteCoffee/{id} | Delete coffee
+[**endpoint_parameters**](FakeApi.md#endpoint_parameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**enum_parameters**](FakeApi.md#enum_parameters) | **get** /fake | To test enum parameters
+[**fake_health_get**](FakeApi.md#fake_health_get) | **get** /fake/health | Health check endpoint
+[**group_parameters**](FakeApi.md#group_parameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
+[**inline_additional_properties**](FakeApi.md#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
+[**inline_composition**](FakeApi.md#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
+[**json_form_data**](FakeApi.md#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
+[**json_with_charset**](FakeApi.md#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
+[**mammal**](FakeApi.md#mammal) | **post** /fake/refs/mammal | 
+[**number_with_validations**](FakeApi.md#number_with_validations) | **post** /fake/refs/number | 
+[**object_in_query**](FakeApi.md#object_in_query) | **get** /fake/objInQuery | user list
+[**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **post** /fake/refs/object_model_with_ref_props | 
+[**parameter_collisions**](FakeApi.md#parameter_collisions) | **post** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
+[**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **put** /fake/test-query-paramters | 
+[**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **get** /fake/refObjInQuery | user list
+[**response_without_schema**](FakeApi.md#response_without_schema) | **get** /fake/responseWithoutSchema | receives a response without schema
+[**string**](FakeApi.md#string) | **post** /fake/refs/string | 
+[**string_enum**](FakeApi.md#string_enum) | **post** /fake/refs/enum | 
+[**upload_download_file**](FakeApi.md#upload_download_file) | **post** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
+[**upload_file**](FakeApi.md#upload_file) | **post** /fake/uploadFile | uploads a file using multipart/form-data
+[**upload_files**](FakeApi.md#upload_files) | **post** /fake/uploadFiles | uploads files using multipart/form-data
 
 # **additional_properties_with_array_of_enums**
 > AdditionalPropertiesWithArrayOfEnums additional_properties_with_array_of_enums()
@@ -45,7 +45,7 @@ Additional Properties with Array of Enums
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -133,7 +133,7 @@ Test serialization of ArrayModel
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.animal_farm import AnimalFarm
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -216,7 +216,7 @@ Array of Enums
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.array_of_enums import ArrayOfEnums
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -302,7 +302,7 @@ For this test, the body for this request much reference a schema named `File`.
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -382,7 +382,7 @@ No authorization required
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -490,7 +490,7 @@ Test serialization of outer boolean types
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -572,7 +572,7 @@ Ensures that original naming is used in endpoint params, that way we on't have c
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -669,7 +669,7 @@ To test \"client\" model
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -755,7 +755,7 @@ Test serialization of object with $refed properties
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -838,7 +838,7 @@ Delete the coffee identified by the given id, (delete without request body)
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -928,7 +928,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 * Basic Authentication (http_basic_test):
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1051,7 +1051,7 @@ To test enum parameters
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1213,7 +1213,7 @@ Health check endpoint
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.health_check_result import HealthCheckResult
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1279,7 +1279,7 @@ Fake endpoint to test group parameters (optional)
 * Bearer (JWT) Authentication (bearer_test):
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1435,7 +1435,7 @@ test inline additionalProperties
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1511,7 +1511,7 @@ testing composed schemas at inline locations
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1642,7 +1642,7 @@ test json serialization of form data
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1721,7 +1721,7 @@ json with charset tx and rx
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1804,7 +1804,7 @@ Test serialization of mammals
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.mammal import Mammal
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1891,7 +1891,7 @@ Test serialization of outer number types
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.number_with_validations import NumberWithValidations
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1972,7 +1972,7 @@ user list
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2058,7 +2058,7 @@ Test serialization of object with $refed properties
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2143,7 +2143,7 @@ parameter collision case
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2445,7 +2445,7 @@ To test the collection format in query parameters
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.string_with_validation import StringWithValidation
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2575,7 +2575,7 @@ user list
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.foo import Foo
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2658,7 +2658,7 @@ receives a response without schema
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2715,7 +2715,7 @@ Test serialization of outer string types
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2797,7 +2797,7 @@ Test serialization of outer enum
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.string_enum import StringEnum
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -2878,7 +2878,7 @@ uploads a file and downloads a file using application/octet-stream
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2963,7 +2963,7 @@ uploads a file using multipart/form-data
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -3051,7 +3051,7 @@ uploads files using multipart/form-data
 
 ```python
 import petstore_api
-from petstore_api.api import fake_api
+from petstore_api.apis.tags import fake_api
 from petstore_api.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

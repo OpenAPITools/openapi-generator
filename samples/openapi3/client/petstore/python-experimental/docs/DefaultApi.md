@@ -4,7 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**foo_get**](DefaultApi.md#foo_get) | **GET** /foo | 
+[**foo_get**](DefaultApi.md#foo_get) | **get** /foo | 
 
 # **foo_get**
 > {str: (bool, date, datetime, dict, float, int, list, str, none_type)} foo_get()
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ```python
 import petstore_api
-from petstore_api.api import default_api
+from petstore_api.apis.tags import default_api
 from petstore_api.model.foo import Foo
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

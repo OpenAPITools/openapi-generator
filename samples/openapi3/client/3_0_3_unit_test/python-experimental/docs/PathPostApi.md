@@ -4,174 +4,174 @@ All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](PathPostApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **POST** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
-[**post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types) | **POST** /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes | 
-[**post_additionalproperties_are_allowed_by_default_request_body**](PathPostApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **POST** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
-[**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_are_allowed_by_default_response_body_for_content_types) | **POST** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
-[**post_additionalproperties_can_exist_by_itself_request_body**](PathPostApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **POST** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
-[**post_additionalproperties_can_exist_by_itself_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_can_exist_by_itself_response_body_for_content_types) | **POST** /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes | 
-[**post_additionalproperties_should_not_look_in_applicators_request_body**](PathPostApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **POST** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
-[**post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types) | **POST** /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes | 
-[**post_allof_combined_with_anyof_oneof_request_body**](PathPostApi.md#post_allof_combined_with_anyof_oneof_request_body) | **POST** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
-[**post_allof_combined_with_anyof_oneof_response_body_for_content_types**](PathPostApi.md#post_allof_combined_with_anyof_oneof_response_body_for_content_types) | **POST** /responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes | 
-[**post_allof_request_body**](PathPostApi.md#post_allof_request_body) | **POST** /requestBody/postAllofRequestBody | 
-[**post_allof_response_body_for_content_types**](PathPostApi.md#post_allof_response_body_for_content_types) | **POST** /responseBody/postAllofResponseBodyForContentTypes | 
-[**post_allof_simple_types_request_body**](PathPostApi.md#post_allof_simple_types_request_body) | **POST** /requestBody/postAllofSimpleTypesRequestBody | 
-[**post_allof_simple_types_response_body_for_content_types**](PathPostApi.md#post_allof_simple_types_response_body_for_content_types) | **POST** /responseBody/postAllofSimpleTypesResponseBodyForContentTypes | 
-[**post_allof_with_base_schema_request_body**](PathPostApi.md#post_allof_with_base_schema_request_body) | **POST** /requestBody/postAllofWithBaseSchemaRequestBody | 
-[**post_allof_with_base_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_base_schema_response_body_for_content_types) | **POST** /responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes | 
-[**post_allof_with_one_empty_schema_request_body**](PathPostApi.md#post_allof_with_one_empty_schema_request_body) | **POST** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
-[**post_allof_with_one_empty_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_one_empty_schema_response_body_for_content_types) | **POST** /responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes | 
-[**post_allof_with_the_first_empty_schema_request_body**](PathPostApi.md#post_allof_with_the_first_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
-[**post_allof_with_the_first_empty_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_the_first_empty_schema_response_body_for_content_types) | **POST** /responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes | 
-[**post_allof_with_the_last_empty_schema_request_body**](PathPostApi.md#post_allof_with_the_last_empty_schema_request_body) | **POST** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
-[**post_allof_with_the_last_empty_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_the_last_empty_schema_response_body_for_content_types) | **POST** /responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes | 
-[**post_allof_with_two_empty_schemas_request_body**](PathPostApi.md#post_allof_with_two_empty_schemas_request_body) | **POST** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
-[**post_allof_with_two_empty_schemas_response_body_for_content_types**](PathPostApi.md#post_allof_with_two_empty_schemas_response_body_for_content_types) | **POST** /responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes | 
-[**post_anyof_complex_types_request_body**](PathPostApi.md#post_anyof_complex_types_request_body) | **POST** /requestBody/postAnyofComplexTypesRequestBody | 
-[**post_anyof_complex_types_response_body_for_content_types**](PathPostApi.md#post_anyof_complex_types_response_body_for_content_types) | **POST** /responseBody/postAnyofComplexTypesResponseBodyForContentTypes | 
-[**post_anyof_request_body**](PathPostApi.md#post_anyof_request_body) | **POST** /requestBody/postAnyofRequestBody | 
-[**post_anyof_response_body_for_content_types**](PathPostApi.md#post_anyof_response_body_for_content_types) | **POST** /responseBody/postAnyofResponseBodyForContentTypes | 
-[**post_anyof_with_base_schema_request_body**](PathPostApi.md#post_anyof_with_base_schema_request_body) | **POST** /requestBody/postAnyofWithBaseSchemaRequestBody | 
-[**post_anyof_with_base_schema_response_body_for_content_types**](PathPostApi.md#post_anyof_with_base_schema_response_body_for_content_types) | **POST** /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes | 
-[**post_anyof_with_one_empty_schema_request_body**](PathPostApi.md#post_anyof_with_one_empty_schema_request_body) | **POST** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
-[**post_anyof_with_one_empty_schema_response_body_for_content_types**](PathPostApi.md#post_anyof_with_one_empty_schema_response_body_for_content_types) | **POST** /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes | 
-[**post_array_type_matches_arrays_request_body**](PathPostApi.md#post_array_type_matches_arrays_request_body) | **POST** /requestBody/postArrayTypeMatchesArraysRequestBody | 
-[**post_array_type_matches_arrays_response_body_for_content_types**](PathPostApi.md#post_array_type_matches_arrays_response_body_for_content_types) | **POST** /responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes | 
-[**post_boolean_type_matches_booleans_request_body**](PathPostApi.md#post_boolean_type_matches_booleans_request_body) | **POST** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
-[**post_boolean_type_matches_booleans_response_body_for_content_types**](PathPostApi.md#post_boolean_type_matches_booleans_response_body_for_content_types) | **POST** /responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes | 
-[**post_by_int_request_body**](PathPostApi.md#post_by_int_request_body) | **POST** /requestBody/postByIntRequestBody | 
-[**post_by_int_response_body_for_content_types**](PathPostApi.md#post_by_int_response_body_for_content_types) | **POST** /responseBody/postByIntResponseBodyForContentTypes | 
-[**post_by_number_request_body**](PathPostApi.md#post_by_number_request_body) | **POST** /requestBody/postByNumberRequestBody | 
-[**post_by_number_response_body_for_content_types**](PathPostApi.md#post_by_number_response_body_for_content_types) | **POST** /responseBody/postByNumberResponseBodyForContentTypes | 
-[**post_by_small_number_request_body**](PathPostApi.md#post_by_small_number_request_body) | **POST** /requestBody/postBySmallNumberRequestBody | 
-[**post_by_small_number_response_body_for_content_types**](PathPostApi.md#post_by_small_number_response_body_for_content_types) | **POST** /responseBody/postBySmallNumberResponseBodyForContentTypes | 
-[**post_date_time_format_request_body**](PathPostApi.md#post_date_time_format_request_body) | **POST** /requestBody/postDateTimeFormatRequestBody | 
-[**post_date_time_format_response_body_for_content_types**](PathPostApi.md#post_date_time_format_response_body_for_content_types) | **POST** /responseBody/postDateTimeFormatResponseBodyForContentTypes | 
-[**post_email_format_request_body**](PathPostApi.md#post_email_format_request_body) | **POST** /requestBody/postEmailFormatRequestBody | 
-[**post_email_format_response_body_for_content_types**](PathPostApi.md#post_email_format_response_body_for_content_types) | **POST** /responseBody/postEmailFormatResponseBodyForContentTypes | 
-[**post_enum_with0_does_not_match_false_request_body**](PathPostApi.md#post_enum_with0_does_not_match_false_request_body) | **POST** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
-[**post_enum_with0_does_not_match_false_response_body_for_content_types**](PathPostApi.md#post_enum_with0_does_not_match_false_response_body_for_content_types) | **POST** /responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes | 
-[**post_enum_with1_does_not_match_true_request_body**](PathPostApi.md#post_enum_with1_does_not_match_true_request_body) | **POST** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
-[**post_enum_with1_does_not_match_true_response_body_for_content_types**](PathPostApi.md#post_enum_with1_does_not_match_true_response_body_for_content_types) | **POST** /responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes | 
-[**post_enum_with_escaped_characters_request_body**](PathPostApi.md#post_enum_with_escaped_characters_request_body) | **POST** /requestBody/postEnumWithEscapedCharactersRequestBody | 
-[**post_enum_with_escaped_characters_response_body_for_content_types**](PathPostApi.md#post_enum_with_escaped_characters_response_body_for_content_types) | **POST** /responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes | 
-[**post_enum_with_false_does_not_match0_request_body**](PathPostApi.md#post_enum_with_false_does_not_match0_request_body) | **POST** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
-[**post_enum_with_false_does_not_match0_response_body_for_content_types**](PathPostApi.md#post_enum_with_false_does_not_match0_response_body_for_content_types) | **POST** /responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes | 
-[**post_enum_with_true_does_not_match1_request_body**](PathPostApi.md#post_enum_with_true_does_not_match1_request_body) | **POST** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
-[**post_enum_with_true_does_not_match1_response_body_for_content_types**](PathPostApi.md#post_enum_with_true_does_not_match1_response_body_for_content_types) | **POST** /responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes | 
-[**post_enums_in_properties_request_body**](PathPostApi.md#post_enums_in_properties_request_body) | **POST** /requestBody/postEnumsInPropertiesRequestBody | 
-[**post_enums_in_properties_response_body_for_content_types**](PathPostApi.md#post_enums_in_properties_response_body_for_content_types) | **POST** /responseBody/postEnumsInPropertiesResponseBodyForContentTypes | 
-[**post_forbidden_property_request_body**](PathPostApi.md#post_forbidden_property_request_body) | **POST** /requestBody/postForbiddenPropertyRequestBody | 
-[**post_forbidden_property_response_body_for_content_types**](PathPostApi.md#post_forbidden_property_response_body_for_content_types) | **POST** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
-[**post_hostname_format_request_body**](PathPostApi.md#post_hostname_format_request_body) | **POST** /requestBody/postHostnameFormatRequestBody | 
-[**post_hostname_format_response_body_for_content_types**](PathPostApi.md#post_hostname_format_response_body_for_content_types) | **POST** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
-[**post_integer_type_matches_integers_request_body**](PathPostApi.md#post_integer_type_matches_integers_request_body) | **POST** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
-[**post_integer_type_matches_integers_response_body_for_content_types**](PathPostApi.md#post_integer_type_matches_integers_response_body_for_content_types) | **POST** /responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes | 
-[**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](PathPostApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **POST** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
-[**post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**](PathPostApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types) | **POST** /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes | 
-[**post_invalid_string_value_for_default_request_body**](PathPostApi.md#post_invalid_string_value_for_default_request_body) | **POST** /requestBody/postInvalidStringValueForDefaultRequestBody | 
-[**post_invalid_string_value_for_default_response_body_for_content_types**](PathPostApi.md#post_invalid_string_value_for_default_response_body_for_content_types) | **POST** /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes | 
-[**post_ipv4_format_request_body**](PathPostApi.md#post_ipv4_format_request_body) | **POST** /requestBody/postIpv4FormatRequestBody | 
-[**post_ipv4_format_response_body_for_content_types**](PathPostApi.md#post_ipv4_format_response_body_for_content_types) | **POST** /responseBody/postIpv4FormatResponseBodyForContentTypes | 
-[**post_ipv6_format_request_body**](PathPostApi.md#post_ipv6_format_request_body) | **POST** /requestBody/postIpv6FormatRequestBody | 
-[**post_ipv6_format_response_body_for_content_types**](PathPostApi.md#post_ipv6_format_response_body_for_content_types) | **POST** /responseBody/postIpv6FormatResponseBodyForContentTypes | 
-[**post_json_pointer_format_request_body**](PathPostApi.md#post_json_pointer_format_request_body) | **POST** /requestBody/postJsonPointerFormatRequestBody | 
-[**post_json_pointer_format_response_body_for_content_types**](PathPostApi.md#post_json_pointer_format_response_body_for_content_types) | **POST** /responseBody/postJsonPointerFormatResponseBodyForContentTypes | 
-[**post_maximum_validation_request_body**](PathPostApi.md#post_maximum_validation_request_body) | **POST** /requestBody/postMaximumValidationRequestBody | 
-[**post_maximum_validation_response_body_for_content_types**](PathPostApi.md#post_maximum_validation_response_body_for_content_types) | **POST** /responseBody/postMaximumValidationResponseBodyForContentTypes | 
-[**post_maximum_validation_with_unsigned_integer_request_body**](PathPostApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **POST** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
-[**post_maximum_validation_with_unsigned_integer_response_body_for_content_types**](PathPostApi.md#post_maximum_validation_with_unsigned_integer_response_body_for_content_types) | **POST** /responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes | 
-[**post_maxitems_validation_request_body**](PathPostApi.md#post_maxitems_validation_request_body) | **POST** /requestBody/postMaxitemsValidationRequestBody | 
-[**post_maxitems_validation_response_body_for_content_types**](PathPostApi.md#post_maxitems_validation_response_body_for_content_types) | **POST** /responseBody/postMaxitemsValidationResponseBodyForContentTypes | 
-[**post_maxlength_validation_request_body**](PathPostApi.md#post_maxlength_validation_request_body) | **POST** /requestBody/postMaxlengthValidationRequestBody | 
-[**post_maxlength_validation_response_body_for_content_types**](PathPostApi.md#post_maxlength_validation_response_body_for_content_types) | **POST** /responseBody/postMaxlengthValidationResponseBodyForContentTypes | 
-[**post_maxproperties0_means_the_object_is_empty_request_body**](PathPostApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **POST** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
-[**post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**](PathPostApi.md#post_maxproperties0_means_the_object_is_empty_response_body_for_content_types) | **POST** /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes | 
-[**post_maxproperties_validation_request_body**](PathPostApi.md#post_maxproperties_validation_request_body) | **POST** /requestBody/postMaxpropertiesValidationRequestBody | 
-[**post_maxproperties_validation_response_body_for_content_types**](PathPostApi.md#post_maxproperties_validation_response_body_for_content_types) | **POST** /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes | 
-[**post_minimum_validation_request_body**](PathPostApi.md#post_minimum_validation_request_body) | **POST** /requestBody/postMinimumValidationRequestBody | 
-[**post_minimum_validation_response_body_for_content_types**](PathPostApi.md#post_minimum_validation_response_body_for_content_types) | **POST** /responseBody/postMinimumValidationResponseBodyForContentTypes | 
-[**post_minimum_validation_with_signed_integer_request_body**](PathPostApi.md#post_minimum_validation_with_signed_integer_request_body) | **POST** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
-[**post_minimum_validation_with_signed_integer_response_body_for_content_types**](PathPostApi.md#post_minimum_validation_with_signed_integer_response_body_for_content_types) | **POST** /responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes | 
-[**post_minitems_validation_request_body**](PathPostApi.md#post_minitems_validation_request_body) | **POST** /requestBody/postMinitemsValidationRequestBody | 
-[**post_minitems_validation_response_body_for_content_types**](PathPostApi.md#post_minitems_validation_response_body_for_content_types) | **POST** /responseBody/postMinitemsValidationResponseBodyForContentTypes | 
-[**post_minlength_validation_request_body**](PathPostApi.md#post_minlength_validation_request_body) | **POST** /requestBody/postMinlengthValidationRequestBody | 
-[**post_minlength_validation_response_body_for_content_types**](PathPostApi.md#post_minlength_validation_response_body_for_content_types) | **POST** /responseBody/postMinlengthValidationResponseBodyForContentTypes | 
-[**post_minproperties_validation_request_body**](PathPostApi.md#post_minproperties_validation_request_body) | **POST** /requestBody/postMinpropertiesValidationRequestBody | 
-[**post_minproperties_validation_response_body_for_content_types**](PathPostApi.md#post_minproperties_validation_response_body_for_content_types) | **POST** /responseBody/postMinpropertiesValidationResponseBodyForContentTypes | 
-[**post_nested_allof_to_check_validation_semantics_request_body**](PathPostApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
-[**post_nested_allof_to_check_validation_semantics_response_body_for_content_types**](PathPostApi.md#post_nested_allof_to_check_validation_semantics_response_body_for_content_types) | **POST** /responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes | 
-[**post_nested_anyof_to_check_validation_semantics_request_body**](PathPostApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
-[**post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**](PathPostApi.md#post_nested_anyof_to_check_validation_semantics_response_body_for_content_types) | **POST** /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes | 
-[**post_nested_items_request_body**](PathPostApi.md#post_nested_items_request_body) | **POST** /requestBody/postNestedItemsRequestBody | 
-[**post_nested_items_response_body_for_content_types**](PathPostApi.md#post_nested_items_response_body_for_content_types) | **POST** /responseBody/postNestedItemsResponseBodyForContentTypes | 
-[**post_nested_oneof_to_check_validation_semantics_request_body**](PathPostApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **POST** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
-[**post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**](PathPostApi.md#post_nested_oneof_to_check_validation_semantics_response_body_for_content_types) | **POST** /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes | 
-[**post_not_more_complex_schema_request_body**](PathPostApi.md#post_not_more_complex_schema_request_body) | **POST** /requestBody/postNotMoreComplexSchemaRequestBody | 
-[**post_not_more_complex_schema_response_body_for_content_types**](PathPostApi.md#post_not_more_complex_schema_response_body_for_content_types) | **POST** /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes | 
-[**post_not_request_body**](PathPostApi.md#post_not_request_body) | **POST** /requestBody/postNotRequestBody | 
-[**post_not_response_body_for_content_types**](PathPostApi.md#post_not_response_body_for_content_types) | **POST** /responseBody/postNotResponseBodyForContentTypes | 
-[**post_nul_characters_in_strings_request_body**](PathPostApi.md#post_nul_characters_in_strings_request_body) | **POST** /requestBody/postNulCharactersInStringsRequestBody | 
-[**post_nul_characters_in_strings_response_body_for_content_types**](PathPostApi.md#post_nul_characters_in_strings_response_body_for_content_types) | **POST** /responseBody/postNulCharactersInStringsResponseBodyForContentTypes | 
-[**post_null_type_matches_only_the_null_object_request_body**](PathPostApi.md#post_null_type_matches_only_the_null_object_request_body) | **POST** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
-[**post_null_type_matches_only_the_null_object_response_body_for_content_types**](PathPostApi.md#post_null_type_matches_only_the_null_object_response_body_for_content_types) | **POST** /responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes | 
-[**post_number_type_matches_numbers_request_body**](PathPostApi.md#post_number_type_matches_numbers_request_body) | **POST** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
-[**post_number_type_matches_numbers_response_body_for_content_types**](PathPostApi.md#post_number_type_matches_numbers_response_body_for_content_types) | **POST** /responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes | 
-[**post_object_properties_validation_request_body**](PathPostApi.md#post_object_properties_validation_request_body) | **POST** /requestBody/postObjectPropertiesValidationRequestBody | 
-[**post_object_properties_validation_response_body_for_content_types**](PathPostApi.md#post_object_properties_validation_response_body_for_content_types) | **POST** /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes | 
-[**post_object_type_matches_objects_request_body**](PathPostApi.md#post_object_type_matches_objects_request_body) | **POST** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
-[**post_object_type_matches_objects_response_body_for_content_types**](PathPostApi.md#post_object_type_matches_objects_response_body_for_content_types) | **POST** /responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes | 
-[**post_oneof_complex_types_request_body**](PathPostApi.md#post_oneof_complex_types_request_body) | **POST** /requestBody/postOneofComplexTypesRequestBody | 
-[**post_oneof_complex_types_response_body_for_content_types**](PathPostApi.md#post_oneof_complex_types_response_body_for_content_types) | **POST** /responseBody/postOneofComplexTypesResponseBodyForContentTypes | 
-[**post_oneof_request_body**](PathPostApi.md#post_oneof_request_body) | **POST** /requestBody/postOneofRequestBody | 
-[**post_oneof_response_body_for_content_types**](PathPostApi.md#post_oneof_response_body_for_content_types) | **POST** /responseBody/postOneofResponseBodyForContentTypes | 
-[**post_oneof_with_base_schema_request_body**](PathPostApi.md#post_oneof_with_base_schema_request_body) | **POST** /requestBody/postOneofWithBaseSchemaRequestBody | 
-[**post_oneof_with_base_schema_response_body_for_content_types**](PathPostApi.md#post_oneof_with_base_schema_response_body_for_content_types) | **POST** /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes | 
-[**post_oneof_with_empty_schema_request_body**](PathPostApi.md#post_oneof_with_empty_schema_request_body) | **POST** /requestBody/postOneofWithEmptySchemaRequestBody | 
-[**post_oneof_with_empty_schema_response_body_for_content_types**](PathPostApi.md#post_oneof_with_empty_schema_response_body_for_content_types) | **POST** /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes | 
-[**post_pattern_is_not_anchored_request_body**](PathPostApi.md#post_pattern_is_not_anchored_request_body) | **POST** /requestBody/postPatternIsNotAnchoredRequestBody | 
-[**post_pattern_is_not_anchored_response_body_for_content_types**](PathPostApi.md#post_pattern_is_not_anchored_response_body_for_content_types) | **POST** /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes | 
-[**post_pattern_validation_request_body**](PathPostApi.md#post_pattern_validation_request_body) | **POST** /requestBody/postPatternValidationRequestBody | 
-[**post_pattern_validation_response_body_for_content_types**](PathPostApi.md#post_pattern_validation_response_body_for_content_types) | **POST** /responseBody/postPatternValidationResponseBodyForContentTypes | 
-[**post_properties_with_escaped_characters_request_body**](PathPostApi.md#post_properties_with_escaped_characters_request_body) | **POST** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
-[**post_properties_with_escaped_characters_response_body_for_content_types**](PathPostApi.md#post_properties_with_escaped_characters_response_body_for_content_types) | **POST** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
-[**post_property_named_ref_that_is_not_a_reference_request_body**](PathPostApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **POST** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-[**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](PathPostApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **POST** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
-[**post_ref_in_additionalproperties_request_body**](PathPostApi.md#post_ref_in_additionalproperties_request_body) | **POST** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-[**post_ref_in_additionalproperties_response_body_for_content_types**](PathPostApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **POST** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
-[**post_ref_in_allof_request_body**](PathPostApi.md#post_ref_in_allof_request_body) | **POST** /requestBody/postRefInAllofRequestBody | 
-[**post_ref_in_allof_response_body_for_content_types**](PathPostApi.md#post_ref_in_allof_response_body_for_content_types) | **POST** /responseBody/postRefInAllofResponseBodyForContentTypes | 
-[**post_ref_in_anyof_request_body**](PathPostApi.md#post_ref_in_anyof_request_body) | **POST** /requestBody/postRefInAnyofRequestBody | 
-[**post_ref_in_anyof_response_body_for_content_types**](PathPostApi.md#post_ref_in_anyof_response_body_for_content_types) | **POST** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
-[**post_ref_in_items_request_body**](PathPostApi.md#post_ref_in_items_request_body) | **POST** /requestBody/postRefInItemsRequestBody | 
-[**post_ref_in_items_response_body_for_content_types**](PathPostApi.md#post_ref_in_items_response_body_for_content_types) | **POST** /responseBody/postRefInItemsResponseBodyForContentTypes | 
-[**post_ref_in_oneof_request_body**](PathPostApi.md#post_ref_in_oneof_request_body) | **POST** /requestBody/postRefInOneofRequestBody | 
-[**post_ref_in_oneof_response_body_for_content_types**](PathPostApi.md#post_ref_in_oneof_response_body_for_content_types) | **POST** /responseBody/postRefInOneofResponseBodyForContentTypes | 
-[**post_ref_in_property_request_body**](PathPostApi.md#post_ref_in_property_request_body) | **POST** /requestBody/postRefInPropertyRequestBody | 
-[**post_ref_in_property_response_body_for_content_types**](PathPostApi.md#post_ref_in_property_response_body_for_content_types) | **POST** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
-[**post_required_default_validation_request_body**](PathPostApi.md#post_required_default_validation_request_body) | **POST** /requestBody/postRequiredDefaultValidationRequestBody | 
-[**post_required_default_validation_response_body_for_content_types**](PathPostApi.md#post_required_default_validation_response_body_for_content_types) | **POST** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
-[**post_required_validation_request_body**](PathPostApi.md#post_required_validation_request_body) | **POST** /requestBody/postRequiredValidationRequestBody | 
-[**post_required_validation_response_body_for_content_types**](PathPostApi.md#post_required_validation_response_body_for_content_types) | **POST** /responseBody/postRequiredValidationResponseBodyForContentTypes | 
-[**post_required_with_empty_array_request_body**](PathPostApi.md#post_required_with_empty_array_request_body) | **POST** /requestBody/postRequiredWithEmptyArrayRequestBody | 
-[**post_required_with_empty_array_response_body_for_content_types**](PathPostApi.md#post_required_with_empty_array_response_body_for_content_types) | **POST** /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes | 
-[**post_simple_enum_validation_request_body**](PathPostApi.md#post_simple_enum_validation_request_body) | **POST** /requestBody/postSimpleEnumValidationRequestBody | 
-[**post_simple_enum_validation_response_body_for_content_types**](PathPostApi.md#post_simple_enum_validation_response_body_for_content_types) | **POST** /responseBody/postSimpleEnumValidationResponseBodyForContentTypes | 
-[**post_string_type_matches_strings_request_body**](PathPostApi.md#post_string_type_matches_strings_request_body) | **POST** /requestBody/postStringTypeMatchesStringsRequestBody | 
-[**post_string_type_matches_strings_response_body_for_content_types**](PathPostApi.md#post_string_type_matches_strings_response_body_for_content_types) | **POST** /responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes | 
-[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](PathPostApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **POST** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
-[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types**](PathPostApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types) | **POST** /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes | 
-[**post_uniqueitems_false_validation_request_body**](PathPostApi.md#post_uniqueitems_false_validation_request_body) | **POST** /requestBody/postUniqueitemsFalseValidationRequestBody | 
-[**post_uniqueitems_false_validation_response_body_for_content_types**](PathPostApi.md#post_uniqueitems_false_validation_response_body_for_content_types) | **POST** /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes | 
-[**post_uniqueitems_validation_request_body**](PathPostApi.md#post_uniqueitems_validation_request_body) | **POST** /requestBody/postUniqueitemsValidationRequestBody | 
-[**post_uniqueitems_validation_response_body_for_content_types**](PathPostApi.md#post_uniqueitems_validation_response_body_for_content_types) | **POST** /responseBody/postUniqueitemsValidationResponseBodyForContentTypes | 
-[**post_uri_format_request_body**](PathPostApi.md#post_uri_format_request_body) | **POST** /requestBody/postUriFormatRequestBody | 
-[**post_uri_format_response_body_for_content_types**](PathPostApi.md#post_uri_format_response_body_for_content_types) | **POST** /responseBody/postUriFormatResponseBodyForContentTypes | 
-[**post_uri_reference_format_request_body**](PathPostApi.md#post_uri_reference_format_request_body) | **POST** /requestBody/postUriReferenceFormatRequestBody | 
-[**post_uri_reference_format_response_body_for_content_types**](PathPostApi.md#post_uri_reference_format_response_body_for_content_types) | **POST** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
-[**post_uri_template_format_request_body**](PathPostApi.md#post_uri_template_format_request_body) | **POST** /requestBody/postUriTemplateFormatRequestBody | 
-[**post_uri_template_format_response_body_for_content_types**](PathPostApi.md#post_uri_template_format_response_body_for_content_types) | **POST** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
+[**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](PathPostApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **post** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+[**post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes | 
+[**post_additionalproperties_are_allowed_by_default_request_body**](PathPostApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+[**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_are_allowed_by_default_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
+[**post_additionalproperties_can_exist_by_itself_request_body**](PathPostApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **post** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
+[**post_additionalproperties_can_exist_by_itself_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_can_exist_by_itself_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes | 
+[**post_additionalproperties_should_not_look_in_applicators_request_body**](PathPostApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **post** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+[**post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**](PathPostApi.md#post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes | 
+[**post_allof_combined_with_anyof_oneof_request_body**](PathPostApi.md#post_allof_combined_with_anyof_oneof_request_body) | **post** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
+[**post_allof_combined_with_anyof_oneof_response_body_for_content_types**](PathPostApi.md#post_allof_combined_with_anyof_oneof_response_body_for_content_types) | **post** /responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes | 
+[**post_allof_request_body**](PathPostApi.md#post_allof_request_body) | **post** /requestBody/postAllofRequestBody | 
+[**post_allof_response_body_for_content_types**](PathPostApi.md#post_allof_response_body_for_content_types) | **post** /responseBody/postAllofResponseBodyForContentTypes | 
+[**post_allof_simple_types_request_body**](PathPostApi.md#post_allof_simple_types_request_body) | **post** /requestBody/postAllofSimpleTypesRequestBody | 
+[**post_allof_simple_types_response_body_for_content_types**](PathPostApi.md#post_allof_simple_types_response_body_for_content_types) | **post** /responseBody/postAllofSimpleTypesResponseBodyForContentTypes | 
+[**post_allof_with_base_schema_request_body**](PathPostApi.md#post_allof_with_base_schema_request_body) | **post** /requestBody/postAllofWithBaseSchemaRequestBody | 
+[**post_allof_with_base_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes | 
+[**post_allof_with_one_empty_schema_request_body**](PathPostApi.md#post_allof_with_one_empty_schema_request_body) | **post** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
+[**post_allof_with_one_empty_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_one_empty_schema_response_body_for_content_types) | **post** /responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes | 
+[**post_allof_with_the_first_empty_schema_request_body**](PathPostApi.md#post_allof_with_the_first_empty_schema_request_body) | **post** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
+[**post_allof_with_the_first_empty_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_the_first_empty_schema_response_body_for_content_types) | **post** /responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes | 
+[**post_allof_with_the_last_empty_schema_request_body**](PathPostApi.md#post_allof_with_the_last_empty_schema_request_body) | **post** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
+[**post_allof_with_the_last_empty_schema_response_body_for_content_types**](PathPostApi.md#post_allof_with_the_last_empty_schema_response_body_for_content_types) | **post** /responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes | 
+[**post_allof_with_two_empty_schemas_request_body**](PathPostApi.md#post_allof_with_two_empty_schemas_request_body) | **post** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
+[**post_allof_with_two_empty_schemas_response_body_for_content_types**](PathPostApi.md#post_allof_with_two_empty_schemas_response_body_for_content_types) | **post** /responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes | 
+[**post_anyof_complex_types_request_body**](PathPostApi.md#post_anyof_complex_types_request_body) | **post** /requestBody/postAnyofComplexTypesRequestBody | 
+[**post_anyof_complex_types_response_body_for_content_types**](PathPostApi.md#post_anyof_complex_types_response_body_for_content_types) | **post** /responseBody/postAnyofComplexTypesResponseBodyForContentTypes | 
+[**post_anyof_request_body**](PathPostApi.md#post_anyof_request_body) | **post** /requestBody/postAnyofRequestBody | 
+[**post_anyof_response_body_for_content_types**](PathPostApi.md#post_anyof_response_body_for_content_types) | **post** /responseBody/postAnyofResponseBodyForContentTypes | 
+[**post_anyof_with_base_schema_request_body**](PathPostApi.md#post_anyof_with_base_schema_request_body) | **post** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+[**post_anyof_with_base_schema_response_body_for_content_types**](PathPostApi.md#post_anyof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes | 
+[**post_anyof_with_one_empty_schema_request_body**](PathPostApi.md#post_anyof_with_one_empty_schema_request_body) | **post** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+[**post_anyof_with_one_empty_schema_response_body_for_content_types**](PathPostApi.md#post_anyof_with_one_empty_schema_response_body_for_content_types) | **post** /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes | 
+[**post_array_type_matches_arrays_request_body**](PathPostApi.md#post_array_type_matches_arrays_request_body) | **post** /requestBody/postArrayTypeMatchesArraysRequestBody | 
+[**post_array_type_matches_arrays_response_body_for_content_types**](PathPostApi.md#post_array_type_matches_arrays_response_body_for_content_types) | **post** /responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes | 
+[**post_boolean_type_matches_booleans_request_body**](PathPostApi.md#post_boolean_type_matches_booleans_request_body) | **post** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
+[**post_boolean_type_matches_booleans_response_body_for_content_types**](PathPostApi.md#post_boolean_type_matches_booleans_response_body_for_content_types) | **post** /responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes | 
+[**post_by_int_request_body**](PathPostApi.md#post_by_int_request_body) | **post** /requestBody/postByIntRequestBody | 
+[**post_by_int_response_body_for_content_types**](PathPostApi.md#post_by_int_response_body_for_content_types) | **post** /responseBody/postByIntResponseBodyForContentTypes | 
+[**post_by_number_request_body**](PathPostApi.md#post_by_number_request_body) | **post** /requestBody/postByNumberRequestBody | 
+[**post_by_number_response_body_for_content_types**](PathPostApi.md#post_by_number_response_body_for_content_types) | **post** /responseBody/postByNumberResponseBodyForContentTypes | 
+[**post_by_small_number_request_body**](PathPostApi.md#post_by_small_number_request_body) | **post** /requestBody/postBySmallNumberRequestBody | 
+[**post_by_small_number_response_body_for_content_types**](PathPostApi.md#post_by_small_number_response_body_for_content_types) | **post** /responseBody/postBySmallNumberResponseBodyForContentTypes | 
+[**post_date_time_format_request_body**](PathPostApi.md#post_date_time_format_request_body) | **post** /requestBody/postDateTimeFormatRequestBody | 
+[**post_date_time_format_response_body_for_content_types**](PathPostApi.md#post_date_time_format_response_body_for_content_types) | **post** /responseBody/postDateTimeFormatResponseBodyForContentTypes | 
+[**post_email_format_request_body**](PathPostApi.md#post_email_format_request_body) | **post** /requestBody/postEmailFormatRequestBody | 
+[**post_email_format_response_body_for_content_types**](PathPostApi.md#post_email_format_response_body_for_content_types) | **post** /responseBody/postEmailFormatResponseBodyForContentTypes | 
+[**post_enum_with0_does_not_match_false_request_body**](PathPostApi.md#post_enum_with0_does_not_match_false_request_body) | **post** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
+[**post_enum_with0_does_not_match_false_response_body_for_content_types**](PathPostApi.md#post_enum_with0_does_not_match_false_response_body_for_content_types) | **post** /responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes | 
+[**post_enum_with1_does_not_match_true_request_body**](PathPostApi.md#post_enum_with1_does_not_match_true_request_body) | **post** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
+[**post_enum_with1_does_not_match_true_response_body_for_content_types**](PathPostApi.md#post_enum_with1_does_not_match_true_response_body_for_content_types) | **post** /responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes | 
+[**post_enum_with_escaped_characters_request_body**](PathPostApi.md#post_enum_with_escaped_characters_request_body) | **post** /requestBody/postEnumWithEscapedCharactersRequestBody | 
+[**post_enum_with_escaped_characters_response_body_for_content_types**](PathPostApi.md#post_enum_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes | 
+[**post_enum_with_false_does_not_match0_request_body**](PathPostApi.md#post_enum_with_false_does_not_match0_request_body) | **post** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
+[**post_enum_with_false_does_not_match0_response_body_for_content_types**](PathPostApi.md#post_enum_with_false_does_not_match0_response_body_for_content_types) | **post** /responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes | 
+[**post_enum_with_true_does_not_match1_request_body**](PathPostApi.md#post_enum_with_true_does_not_match1_request_body) | **post** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
+[**post_enum_with_true_does_not_match1_response_body_for_content_types**](PathPostApi.md#post_enum_with_true_does_not_match1_response_body_for_content_types) | **post** /responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes | 
+[**post_enums_in_properties_request_body**](PathPostApi.md#post_enums_in_properties_request_body) | **post** /requestBody/postEnumsInPropertiesRequestBody | 
+[**post_enums_in_properties_response_body_for_content_types**](PathPostApi.md#post_enums_in_properties_response_body_for_content_types) | **post** /responseBody/postEnumsInPropertiesResponseBodyForContentTypes | 
+[**post_forbidden_property_request_body**](PathPostApi.md#post_forbidden_property_request_body) | **post** /requestBody/postForbiddenPropertyRequestBody | 
+[**post_forbidden_property_response_body_for_content_types**](PathPostApi.md#post_forbidden_property_response_body_for_content_types) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
+[**post_hostname_format_request_body**](PathPostApi.md#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
+[**post_hostname_format_response_body_for_content_types**](PathPostApi.md#post_hostname_format_response_body_for_content_types) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
+[**post_integer_type_matches_integers_request_body**](PathPostApi.md#post_integer_type_matches_integers_request_body) | **post** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
+[**post_integer_type_matches_integers_response_body_for_content_types**](PathPostApi.md#post_integer_type_matches_integers_response_body_for_content_types) | **post** /responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes | 
+[**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](PathPostApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **post** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+[**post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**](PathPostApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types) | **post** /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes | 
+[**post_invalid_string_value_for_default_request_body**](PathPostApi.md#post_invalid_string_value_for_default_request_body) | **post** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+[**post_invalid_string_value_for_default_response_body_for_content_types**](PathPostApi.md#post_invalid_string_value_for_default_response_body_for_content_types) | **post** /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes | 
+[**post_ipv4_format_request_body**](PathPostApi.md#post_ipv4_format_request_body) | **post** /requestBody/postIpv4FormatRequestBody | 
+[**post_ipv4_format_response_body_for_content_types**](PathPostApi.md#post_ipv4_format_response_body_for_content_types) | **post** /responseBody/postIpv4FormatResponseBodyForContentTypes | 
+[**post_ipv6_format_request_body**](PathPostApi.md#post_ipv6_format_request_body) | **post** /requestBody/postIpv6FormatRequestBody | 
+[**post_ipv6_format_response_body_for_content_types**](PathPostApi.md#post_ipv6_format_response_body_for_content_types) | **post** /responseBody/postIpv6FormatResponseBodyForContentTypes | 
+[**post_json_pointer_format_request_body**](PathPostApi.md#post_json_pointer_format_request_body) | **post** /requestBody/postJsonPointerFormatRequestBody | 
+[**post_json_pointer_format_response_body_for_content_types**](PathPostApi.md#post_json_pointer_format_response_body_for_content_types) | **post** /responseBody/postJsonPointerFormatResponseBodyForContentTypes | 
+[**post_maximum_validation_request_body**](PathPostApi.md#post_maximum_validation_request_body) | **post** /requestBody/postMaximumValidationRequestBody | 
+[**post_maximum_validation_response_body_for_content_types**](PathPostApi.md#post_maximum_validation_response_body_for_content_types) | **post** /responseBody/postMaximumValidationResponseBodyForContentTypes | 
+[**post_maximum_validation_with_unsigned_integer_request_body**](PathPostApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **post** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
+[**post_maximum_validation_with_unsigned_integer_response_body_for_content_types**](PathPostApi.md#post_maximum_validation_with_unsigned_integer_response_body_for_content_types) | **post** /responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes | 
+[**post_maxitems_validation_request_body**](PathPostApi.md#post_maxitems_validation_request_body) | **post** /requestBody/postMaxitemsValidationRequestBody | 
+[**post_maxitems_validation_response_body_for_content_types**](PathPostApi.md#post_maxitems_validation_response_body_for_content_types) | **post** /responseBody/postMaxitemsValidationResponseBodyForContentTypes | 
+[**post_maxlength_validation_request_body**](PathPostApi.md#post_maxlength_validation_request_body) | **post** /requestBody/postMaxlengthValidationRequestBody | 
+[**post_maxlength_validation_response_body_for_content_types**](PathPostApi.md#post_maxlength_validation_response_body_for_content_types) | **post** /responseBody/postMaxlengthValidationResponseBodyForContentTypes | 
+[**post_maxproperties0_means_the_object_is_empty_request_body**](PathPostApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **post** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+[**post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**](PathPostApi.md#post_maxproperties0_means_the_object_is_empty_response_body_for_content_types) | **post** /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes | 
+[**post_maxproperties_validation_request_body**](PathPostApi.md#post_maxproperties_validation_request_body) | **post** /requestBody/postMaxpropertiesValidationRequestBody | 
+[**post_maxproperties_validation_response_body_for_content_types**](PathPostApi.md#post_maxproperties_validation_response_body_for_content_types) | **post** /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes | 
+[**post_minimum_validation_request_body**](PathPostApi.md#post_minimum_validation_request_body) | **post** /requestBody/postMinimumValidationRequestBody | 
+[**post_minimum_validation_response_body_for_content_types**](PathPostApi.md#post_minimum_validation_response_body_for_content_types) | **post** /responseBody/postMinimumValidationResponseBodyForContentTypes | 
+[**post_minimum_validation_with_signed_integer_request_body**](PathPostApi.md#post_minimum_validation_with_signed_integer_request_body) | **post** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+[**post_minimum_validation_with_signed_integer_response_body_for_content_types**](PathPostApi.md#post_minimum_validation_with_signed_integer_response_body_for_content_types) | **post** /responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes | 
+[**post_minitems_validation_request_body**](PathPostApi.md#post_minitems_validation_request_body) | **post** /requestBody/postMinitemsValidationRequestBody | 
+[**post_minitems_validation_response_body_for_content_types**](PathPostApi.md#post_minitems_validation_response_body_for_content_types) | **post** /responseBody/postMinitemsValidationResponseBodyForContentTypes | 
+[**post_minlength_validation_request_body**](PathPostApi.md#post_minlength_validation_request_body) | **post** /requestBody/postMinlengthValidationRequestBody | 
+[**post_minlength_validation_response_body_for_content_types**](PathPostApi.md#post_minlength_validation_response_body_for_content_types) | **post** /responseBody/postMinlengthValidationResponseBodyForContentTypes | 
+[**post_minproperties_validation_request_body**](PathPostApi.md#post_minproperties_validation_request_body) | **post** /requestBody/postMinpropertiesValidationRequestBody | 
+[**post_minproperties_validation_response_body_for_content_types**](PathPostApi.md#post_minproperties_validation_response_body_for_content_types) | **post** /responseBody/postMinpropertiesValidationResponseBodyForContentTypes | 
+[**post_nested_allof_to_check_validation_semantics_request_body**](PathPostApi.md#post_nested_allof_to_check_validation_semantics_request_body) | **post** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
+[**post_nested_allof_to_check_validation_semantics_response_body_for_content_types**](PathPostApi.md#post_nested_allof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes | 
+[**post_nested_anyof_to_check_validation_semantics_request_body**](PathPostApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **post** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+[**post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**](PathPostApi.md#post_nested_anyof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes | 
+[**post_nested_items_request_body**](PathPostApi.md#post_nested_items_request_body) | **post** /requestBody/postNestedItemsRequestBody | 
+[**post_nested_items_response_body_for_content_types**](PathPostApi.md#post_nested_items_response_body_for_content_types) | **post** /responseBody/postNestedItemsResponseBodyForContentTypes | 
+[**post_nested_oneof_to_check_validation_semantics_request_body**](PathPostApi.md#post_nested_oneof_to_check_validation_semantics_request_body) | **post** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+[**post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**](PathPostApi.md#post_nested_oneof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes | 
+[**post_not_more_complex_schema_request_body**](PathPostApi.md#post_not_more_complex_schema_request_body) | **post** /requestBody/postNotMoreComplexSchemaRequestBody | 
+[**post_not_more_complex_schema_response_body_for_content_types**](PathPostApi.md#post_not_more_complex_schema_response_body_for_content_types) | **post** /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes | 
+[**post_not_request_body**](PathPostApi.md#post_not_request_body) | **post** /requestBody/postNotRequestBody | 
+[**post_not_response_body_for_content_types**](PathPostApi.md#post_not_response_body_for_content_types) | **post** /responseBody/postNotResponseBodyForContentTypes | 
+[**post_nul_characters_in_strings_request_body**](PathPostApi.md#post_nul_characters_in_strings_request_body) | **post** /requestBody/postNulCharactersInStringsRequestBody | 
+[**post_nul_characters_in_strings_response_body_for_content_types**](PathPostApi.md#post_nul_characters_in_strings_response_body_for_content_types) | **post** /responseBody/postNulCharactersInStringsResponseBodyForContentTypes | 
+[**post_null_type_matches_only_the_null_object_request_body**](PathPostApi.md#post_null_type_matches_only_the_null_object_request_body) | **post** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+[**post_null_type_matches_only_the_null_object_response_body_for_content_types**](PathPostApi.md#post_null_type_matches_only_the_null_object_response_body_for_content_types) | **post** /responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes | 
+[**post_number_type_matches_numbers_request_body**](PathPostApi.md#post_number_type_matches_numbers_request_body) | **post** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
+[**post_number_type_matches_numbers_response_body_for_content_types**](PathPostApi.md#post_number_type_matches_numbers_response_body_for_content_types) | **post** /responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes | 
+[**post_object_properties_validation_request_body**](PathPostApi.md#post_object_properties_validation_request_body) | **post** /requestBody/postObjectPropertiesValidationRequestBody | 
+[**post_object_properties_validation_response_body_for_content_types**](PathPostApi.md#post_object_properties_validation_response_body_for_content_types) | **post** /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes | 
+[**post_object_type_matches_objects_request_body**](PathPostApi.md#post_object_type_matches_objects_request_body) | **post** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
+[**post_object_type_matches_objects_response_body_for_content_types**](PathPostApi.md#post_object_type_matches_objects_response_body_for_content_types) | **post** /responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes | 
+[**post_oneof_complex_types_request_body**](PathPostApi.md#post_oneof_complex_types_request_body) | **post** /requestBody/postOneofComplexTypesRequestBody | 
+[**post_oneof_complex_types_response_body_for_content_types**](PathPostApi.md#post_oneof_complex_types_response_body_for_content_types) | **post** /responseBody/postOneofComplexTypesResponseBodyForContentTypes | 
+[**post_oneof_request_body**](PathPostApi.md#post_oneof_request_body) | **post** /requestBody/postOneofRequestBody | 
+[**post_oneof_response_body_for_content_types**](PathPostApi.md#post_oneof_response_body_for_content_types) | **post** /responseBody/postOneofResponseBodyForContentTypes | 
+[**post_oneof_with_base_schema_request_body**](PathPostApi.md#post_oneof_with_base_schema_request_body) | **post** /requestBody/postOneofWithBaseSchemaRequestBody | 
+[**post_oneof_with_base_schema_response_body_for_content_types**](PathPostApi.md#post_oneof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes | 
+[**post_oneof_with_empty_schema_request_body**](PathPostApi.md#post_oneof_with_empty_schema_request_body) | **post** /requestBody/postOneofWithEmptySchemaRequestBody | 
+[**post_oneof_with_empty_schema_response_body_for_content_types**](PathPostApi.md#post_oneof_with_empty_schema_response_body_for_content_types) | **post** /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes | 
+[**post_pattern_is_not_anchored_request_body**](PathPostApi.md#post_pattern_is_not_anchored_request_body) | **post** /requestBody/postPatternIsNotAnchoredRequestBody | 
+[**post_pattern_is_not_anchored_response_body_for_content_types**](PathPostApi.md#post_pattern_is_not_anchored_response_body_for_content_types) | **post** /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes | 
+[**post_pattern_validation_request_body**](PathPostApi.md#post_pattern_validation_request_body) | **post** /requestBody/postPatternValidationRequestBody | 
+[**post_pattern_validation_response_body_for_content_types**](PathPostApi.md#post_pattern_validation_response_body_for_content_types) | **post** /responseBody/postPatternValidationResponseBodyForContentTypes | 
+[**post_properties_with_escaped_characters_request_body**](PathPostApi.md#post_properties_with_escaped_characters_request_body) | **post** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+[**post_properties_with_escaped_characters_response_body_for_content_types**](PathPostApi.md#post_properties_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
+[**post_property_named_ref_that_is_not_a_reference_request_body**](PathPostApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+[**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](PathPostApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
+[**post_ref_in_additionalproperties_request_body**](PathPostApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+[**post_ref_in_additionalproperties_response_body_for_content_types**](PathPostApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
+[**post_ref_in_allof_request_body**](PathPostApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
+[**post_ref_in_allof_response_body_for_content_types**](PathPostApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
+[**post_ref_in_anyof_request_body**](PathPostApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
+[**post_ref_in_anyof_response_body_for_content_types**](PathPostApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
+[**post_ref_in_items_request_body**](PathPostApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
+[**post_ref_in_items_response_body_for_content_types**](PathPostApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+[**post_ref_in_oneof_request_body**](PathPostApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
+[**post_ref_in_oneof_response_body_for_content_types**](PathPostApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
+[**post_ref_in_property_request_body**](PathPostApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
+[**post_ref_in_property_response_body_for_content_types**](PathPostApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
+[**post_required_default_validation_request_body**](PathPostApi.md#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
+[**post_required_default_validation_response_body_for_content_types**](PathPostApi.md#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
+[**post_required_validation_request_body**](PathPostApi.md#post_required_validation_request_body) | **post** /requestBody/postRequiredValidationRequestBody | 
+[**post_required_validation_response_body_for_content_types**](PathPostApi.md#post_required_validation_response_body_for_content_types) | **post** /responseBody/postRequiredValidationResponseBodyForContentTypes | 
+[**post_required_with_empty_array_request_body**](PathPostApi.md#post_required_with_empty_array_request_body) | **post** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+[**post_required_with_empty_array_response_body_for_content_types**](PathPostApi.md#post_required_with_empty_array_response_body_for_content_types) | **post** /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes | 
+[**post_simple_enum_validation_request_body**](PathPostApi.md#post_simple_enum_validation_request_body) | **post** /requestBody/postSimpleEnumValidationRequestBody | 
+[**post_simple_enum_validation_response_body_for_content_types**](PathPostApi.md#post_simple_enum_validation_response_body_for_content_types) | **post** /responseBody/postSimpleEnumValidationResponseBodyForContentTypes | 
+[**post_string_type_matches_strings_request_body**](PathPostApi.md#post_string_type_matches_strings_request_body) | **post** /requestBody/postStringTypeMatchesStringsRequestBody | 
+[**post_string_type_matches_strings_response_body_for_content_types**](PathPostApi.md#post_string_type_matches_strings_response_body_for_content_types) | **post** /responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes | 
+[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](PathPostApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **post** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types**](PathPostApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types) | **post** /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes | 
+[**post_uniqueitems_false_validation_request_body**](PathPostApi.md#post_uniqueitems_false_validation_request_body) | **post** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+[**post_uniqueitems_false_validation_response_body_for_content_types**](PathPostApi.md#post_uniqueitems_false_validation_response_body_for_content_types) | **post** /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes | 
+[**post_uniqueitems_validation_request_body**](PathPostApi.md#post_uniqueitems_validation_request_body) | **post** /requestBody/postUniqueitemsValidationRequestBody | 
+[**post_uniqueitems_validation_response_body_for_content_types**](PathPostApi.md#post_uniqueitems_validation_response_body_for_content_types) | **post** /responseBody/postUniqueitemsValidationResponseBodyForContentTypes | 
+[**post_uri_format_request_body**](PathPostApi.md#post_uri_format_request_body) | **post** /requestBody/postUriFormatRequestBody | 
+[**post_uri_format_response_body_for_content_types**](PathPostApi.md#post_uri_format_response_body_for_content_types) | **post** /responseBody/postUriFormatResponseBodyForContentTypes | 
+[**post_uri_reference_format_request_body**](PathPostApi.md#post_uri_reference_format_request_body) | **post** /requestBody/postUriReferenceFormatRequestBody | 
+[**post_uri_reference_format_response_body_for_content_types**](PathPostApi.md#post_uri_reference_format_response_body_for_content_types) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
+[**post_uri_template_format_request_body**](PathPostApi.md#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
+[**post_uri_template_format_response_body_for_content_types**](PathPostApi.md#post_uri_template_format_response_body_for_content_types) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
 
 # **post_additionalproperties_allows_a_schema_which_should_validate_request_body**
 > post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
@@ -182,7 +182,7 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -258,7 +258,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -320,7 +320,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -393,7 +393,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -455,7 +455,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -530,7 +530,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -592,7 +592,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -665,7 +665,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -727,7 +727,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_combined_with_anyof_oneof import AllofCombinedWithAnyofOneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -800,7 +800,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_combined_with_anyof_oneof import AllofCombinedWithAnyofOneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -862,7 +862,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof import Allof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -935,7 +935,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof import Allof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -997,7 +997,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_simple_types import AllofSimpleTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1070,7 +1070,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_simple_types import AllofSimpleTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1132,7 +1132,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1205,7 +1205,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1267,7 +1267,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1340,7 +1340,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1402,7 +1402,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1475,7 +1475,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1537,7 +1537,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1610,7 +1610,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1672,7 +1672,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1745,7 +1745,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1807,7 +1807,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1880,7 +1880,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -1942,7 +1942,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof import Anyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2015,7 +2015,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof import Anyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2077,7 +2077,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2150,7 +2150,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2212,7 +2212,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2285,7 +2285,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2347,7 +2347,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2422,7 +2422,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2484,7 +2484,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2556,7 +2556,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2617,7 +2617,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.by_int import ByInt
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2690,7 +2690,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.by_int import ByInt
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2752,7 +2752,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.by_number import ByNumber
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2825,7 +2825,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.by_number import ByNumber
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2887,7 +2887,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.by_small_number import BySmallNumber
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -2960,7 +2960,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.by_small_number import BySmallNumber
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3022,7 +3022,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3095,7 +3095,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3157,7 +3157,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3230,7 +3230,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3292,7 +3292,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with0_does_not_match_false import EnumWith0DoesNotMatchFalse
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3365,7 +3365,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with0_does_not_match_false import EnumWith0DoesNotMatchFalse
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3427,7 +3427,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with1_does_not_match_true import EnumWith1DoesNotMatchTrue
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3500,7 +3500,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with1_does_not_match_true import EnumWith1DoesNotMatchTrue
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3562,7 +3562,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with_escaped_characters import EnumWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3577,8 +3577,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
     api_instance = path_post_api.PathPostApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = EnumWithEscapedCharacters("foo
-bar")
+    body = EnumWithEscapedCharacters("foo\nbar")
     try:
         api_response = api_instance.post_enum_with_escaped_characters_request_body(
             body=body,
@@ -3636,7 +3635,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with_escaped_characters import EnumWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3698,7 +3697,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with_false_does_not_match0 import EnumWithFalseDoesNotMatch0
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3771,7 +3770,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with_false_does_not_match0 import EnumWithFalseDoesNotMatch0
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3833,7 +3832,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with_true_does_not_match1 import EnumWithTrueDoesNotMatch1
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3906,7 +3905,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enum_with_true_does_not_match1 import EnumWithTrueDoesNotMatch1
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -3968,7 +3967,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enums_in_properties import EnumsInProperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4044,7 +4043,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.enums_in_properties import EnumsInProperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4106,7 +4105,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.forbidden_property import ForbiddenProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4179,7 +4178,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.forbidden_property import ForbiddenProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4241,7 +4240,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4314,7 +4313,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4376,7 +4375,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4448,7 +4447,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4509,7 +4508,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4582,7 +4581,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4644,7 +4643,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.invalid_string_value_for_default import InvalidStringValueForDefault
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4717,7 +4716,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.invalid_string_value_for_default import InvalidStringValueForDefault
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -4779,7 +4778,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4852,7 +4851,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4914,7 +4913,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -4987,7 +4986,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -5049,7 +5048,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -5122,7 +5121,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -5184,7 +5183,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maximum_validation import MaximumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5257,7 +5256,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maximum_validation import MaximumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5319,7 +5318,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5392,7 +5391,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5454,7 +5453,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxitems_validation import MaxitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5527,7 +5526,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxitems_validation import MaxitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5589,7 +5588,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxlength_validation import MaxlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5662,7 +5661,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxlength_validation import MaxlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5724,7 +5723,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5797,7 +5796,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5859,7 +5858,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5932,7 +5931,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -5994,7 +5993,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minimum_validation import MinimumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6067,7 +6066,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minimum_validation import MinimumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6129,7 +6128,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6202,7 +6201,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6264,7 +6263,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minitems_validation import MinitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6337,7 +6336,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minitems_validation import MinitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6399,7 +6398,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minlength_validation import MinlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6472,7 +6471,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minlength_validation import MinlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6534,7 +6533,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minproperties_validation import MinpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6607,7 +6606,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.minproperties_validation import MinpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6669,7 +6668,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6742,7 +6741,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6804,7 +6803,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6877,7 +6876,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -6939,7 +6938,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_items import NestedItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7020,7 +7019,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_items import NestedItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7082,7 +7081,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7155,7 +7154,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7217,7 +7216,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7290,7 +7289,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7352,7 +7351,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7425,7 +7424,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7487,7 +7486,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7502,7 +7501,7 @@ with unit_test_api.ApiClient(configuration) as api_client:
     api_instance = path_post_api.PathPostApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = NulCharactersInStrings("hello there")
+    body = NulCharactersInStrings("hello\x00there")
     try:
         api_response = api_instance.post_nul_characters_in_strings_request_body(
             body=body,
@@ -7560,7 +7559,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7622,7 +7621,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7694,7 +7693,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7755,7 +7754,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7827,7 +7826,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7888,7 +7887,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -7961,7 +7960,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8023,7 +8022,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -8096,7 +8095,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -8158,7 +8157,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof_complex_types import OneofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8231,7 +8230,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof_complex_types import OneofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8293,7 +8292,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof import Oneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8366,7 +8365,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof import Oneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8428,7 +8427,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8501,7 +8500,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8563,7 +8562,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8636,7 +8635,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8698,7 +8697,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8771,7 +8770,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8833,7 +8832,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.pattern_validation import PatternValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8906,7 +8905,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.pattern_validation import PatternValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -8968,7 +8967,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9041,7 +9040,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9103,7 +9102,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9176,7 +9175,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9238,7 +9237,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9313,7 +9312,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9375,7 +9374,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_allof import RefInAllof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9448,7 +9447,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_allof import RefInAllof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9510,7 +9509,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_anyof import RefInAnyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9583,7 +9582,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_anyof import RefInAnyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9645,7 +9644,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_items import RefInItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9720,7 +9719,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_items import RefInItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9782,7 +9781,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_oneof import RefInOneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9855,7 +9854,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_oneof import RefInOneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9917,7 +9916,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_property import RefInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -9990,7 +9989,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.ref_in_property import RefInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10052,7 +10051,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.required_default_validation import RequiredDefaultValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10125,7 +10124,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.required_default_validation import RequiredDefaultValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10187,7 +10186,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.required_validation import RequiredValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10260,7 +10259,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.required_validation import RequiredValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10322,7 +10321,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10395,7 +10394,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10457,7 +10456,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10530,7 +10529,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10592,7 +10591,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -10664,7 +10663,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -10725,7 +10724,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10800,7 +10799,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10862,7 +10861,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10935,7 +10934,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10997,7 +10996,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -11070,7 +11069,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -11132,7 +11131,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -11205,7 +11204,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -11267,7 +11266,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -11340,7 +11339,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -11402,7 +11401,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -11475,7 +11474,7 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.api import path_post_api
+from unit_test_api.apis.tags import path_post_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
