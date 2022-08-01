@@ -80,7 +80,7 @@ function flattenQueryParams(urlSearchParams: Record<string, any>, parameter: any
         if (Array.isArray(parameter)) {
             (parameter as any[]).forEach( item => flattenQueryParams(urlSearchParams, item));
         } else {
-            Object.keys(parameter as Record<string, any>).forEach( _key => flattenQueryParams(urlSearchParams, parameter[_key], _key));
+            Object.keys(parameter as Record<string, any>).forEach( currentKey => flattenQueryParams(urlSearchParams, parameter[currentKey], currentKey));
         }
     } else {
         urlSearchParams[key] = parameter;
