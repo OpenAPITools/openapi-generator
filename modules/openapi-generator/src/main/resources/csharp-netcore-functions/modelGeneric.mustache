@@ -397,7 +397,7 @@
             {{#parent}}
             {{^isArray}}
             {{^isMap}}
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach(var x in {{#discriminator}}base.{{/discriminator}}BaseValidate(validationContext)) yield return x;
             {{/isMap}}
             {{/isArray}}
             {{/parent}}
