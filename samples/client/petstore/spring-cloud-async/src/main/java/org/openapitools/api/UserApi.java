@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "User", description = "Operations about user")

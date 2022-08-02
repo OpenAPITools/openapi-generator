@@ -18,6 +18,7 @@ import java.nio.charset.Charset;
 /**
  * Home redirection to OpenAPI api documentation
  */
+@SuppressWarnings(value = {"unused"})
 @Controller
 public class HomeController {
 

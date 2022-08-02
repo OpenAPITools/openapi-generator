@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.*;
 import javax.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 /**
  * Model for testing reserved words
  */

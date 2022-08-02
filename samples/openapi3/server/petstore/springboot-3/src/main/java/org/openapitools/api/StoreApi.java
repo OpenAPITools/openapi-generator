@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
+@SuppressWarnings(value = {"unused"})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "store", description = "Access to Petstore orders")
