@@ -289,6 +289,8 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_items_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_REF_IN_ITEMS_REQUEST_BODY) | **post** /requestBody/postRefInItemsRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_items_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_REF_IN_ITEMS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*ContentTypeJsonApi* | [**post_ref_in_not_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_REF_IN_NOT_REQUEST_BODY) | **post** /requestBody/postRefInNotRequestBody | 
+*ContentTypeJsonApi* | [**post_ref_in_not_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_REF_IN_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_oneof_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_REF_IN_ONEOF_REQUEST_BODY) | **post** /requestBody/postRefInOneofRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_property_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_REF_IN_PROPERTY_REQUEST_BODY) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -386,6 +388,7 @@ Class | Method | HTTP request | Description
 *OperationRequestBodyApi* | [**post_ref_in_allof_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REF_IN_ALLOF_REQUEST_BODY) | **post** /requestBody/postRefInAllofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_anyof_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REF_IN_ANYOF_REQUEST_BODY) | **post** /requestBody/postRefInAnyofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_items_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REF_IN_ITEMS_REQUEST_BODY) | **post** /requestBody/postRefInItemsRequestBody | 
+*OperationRequestBodyApi* | [**post_ref_in_not_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REF_IN_NOT_REQUEST_BODY) | **post** /requestBody/postRefInNotRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_oneof_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REF_IN_ONEOF_REQUEST_BODY) | **post** /requestBody/postRefInOneofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_property_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REF_IN_PROPERTY_REQUEST_BODY) | **post** /requestBody/postRefInPropertyRequestBody | 
 *OperationRequestBodyApi* | [**post_required_default_validation_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_REQUIRED_DEFAULT_VALIDATION_REQUEST_BODY) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
@@ -541,6 +544,8 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/PathPostApi.md#RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_items_request_body**](docs/PathPostApi.md#REQUEST_BODY_POST_REF_IN_ITEMS_REQUEST_BODY) | **post** /requestBody/postRefInItemsRequestBody | 
 *PathPostApi* | [**post_ref_in_items_response_body_for_content_types**](docs/PathPostApi.md#RESPONSE_BODY_POST_REF_IN_ITEMS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*PathPostApi* | [**post_ref_in_not_request_body**](docs/PathPostApi.md#REQUEST_BODY_POST_REF_IN_NOT_REQUEST_BODY) | **post** /requestBody/postRefInNotRequestBody | 
+*PathPostApi* | [**post_ref_in_not_response_body_for_content_types**](docs/PathPostApi.md#RESPONSE_BODY_POST_REF_IN_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_oneof_request_body**](docs/PathPostApi.md#REQUEST_BODY_POST_REF_IN_ONEOF_REQUEST_BODY) | **post** /requestBody/postRefInOneofRequestBody | 
 *PathPostApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/PathPostApi.md#RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_property_request_body**](docs/PathPostApi.md#REQUEST_BODY_POST_REF_IN_PROPERTY_REQUEST_BODY) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -638,6 +643,7 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REF_IN_ALLOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_items_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REF_IN_ITEMS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*ResponseContentContentTypeSchemaApi* | [**post_ref_in_not_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REF_IN_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_property_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REF_IN_PROPERTY_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_required_default_validation_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_REQUIRED_DEFAULT_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
@@ -724,6 +730,7 @@ Class | Method | HTTP request | Description
  - [RefInAllof](docs/RefInAllof.md)
  - [RefInAnyof](docs/RefInAnyof.md)
  - [RefInItems](docs/RefInItems.md)
+ - [RefInNot](docs/RefInNot.md)
  - [RefInOneof](docs/RefInOneof.md)
  - [RefInProperty](docs/RefInProperty.md)
  - [RequiredDefaultValidation](docs/RequiredDefaultValidation.md)

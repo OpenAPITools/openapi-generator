@@ -2944,6 +2944,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        addImports(m.imports, m.getImports(false));
         return m;
     }
 
@@ -4654,12 +4655,6 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseType = codegenProperty.dataType;
         codegenParameter.isContainer = true;
         codegenParameter.isMap = true;
-
-        // recursively add import
-        while (codegenProperty != null) {
-            imports.add(codegenProperty.baseType);
-            codegenProperty = codegenProperty.items;
-        }
     }
 
     protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
@@ -4868,12 +4863,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.mostInnerItems = itemsProperty.mostInnerItems;
             codegenParameter.baseType = itemsProperty.dataType;
             codegenParameter.isContainer = true;
-
-            // recursively add import
-            while (itemsProperty != null) {
-                imports.add(itemsProperty.baseType);
-                itemsProperty = itemsProperty.items;
-            }
         } else {
             // referenced schemas
             ;
@@ -4891,9 +4880,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else {
             codegenParameter.dataType = codegenProperty.dataType;
-        }
-        if (ModelUtils.isSet(parameterSchema)) {
-            imports.add(codegenProperty.baseType);
         }
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         if (parameter.getRequired() != null) {
@@ -4923,11 +4909,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isCollectionFormatMulti = true;
         }
         codegenParameter.paramName = toParamName(parameter.getName());
-
-        // import
-        if (codegenProperty.complexType != null) {
-            imports.add(codegenProperty.complexType);
-        }
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
@@ -4962,6 +4943,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         finishUpdatingParameter(codegenParameter, parameter);
+        addImports(imports, codegenParameter.getImports(false));
         return codegenParameter;
     }
 
@@ -5483,8 +5465,6 @@ public class DefaultCodegen implements CodegenConfig {
                 if (!Boolean.TRUE.equals(cp.isReadOnly)) {
                     cm.hasOnlyReadOnly = false;
                 }
-
-                addImportsForPropertyType(cm, cp);
 
                 // if required, add to the list "requiredVars"
                 if (Boolean.FALSE.equals(cp.required)) {
@@ -6621,12 +6601,6 @@ public class DefaultCodegen implements CodegenConfig {
             String collectionFormat = getCollectionFormat(codegenParameter);
             codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
             codegenParameter.isCollectionFormatMulti = "multi".equals(collectionFormat);
-
-            // recursively add import
-            while (arrayInnerProperty != null) {
-                imports.add(arrayInnerProperty.baseType);
-                arrayInnerProperty = arrayInnerProperty.items;
-            }
         } else {
             // referenced schemas
             ;
@@ -6653,14 +6627,10 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.enumName = codegenProperty.enumName;
         }
 
-        // import
-        if (codegenProperty.complexType != null) {
-            imports.add(codegenProperty.complexType);
-        }
-
         setParameterExampleValue(codegenParameter);
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
+        addImports(imports, codegenParameter.getImports(false));
 
         return codegenParameter;
     }
@@ -6686,7 +6656,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
             codegenParameter.isNullable = codegenModel.isNullable;
-            imports.add(codegenParameter.baseType);
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
@@ -6730,11 +6699,6 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.baseType = codegenModelName;
                     codegenParameter.dataType = getTypeDeclaration(codegenModelName);
                     codegenParameter.description = codegenModelDescription;
-                    imports.add(codegenParameter.baseType);
-
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
-                    }
                 }
             }
 
@@ -6754,16 +6718,6 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setAdditionalProperties(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
-
-            imports.add(codegenProperty.baseType);
-
-            CodegenProperty innerCp = codegenProperty;
-            while (innerCp != null) {
-                if (innerCp.complexType != null) {
-                    imports.add(innerCp.complexType);
-                }
-                innerCp = innerCp.items;
-            }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = "request_body";
@@ -6799,10 +6753,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.pattern = codegenProperty.pattern;
             codegenParameter.isNullable = codegenProperty.isNullable;
-
-            if (codegenProperty.complexType != null) {
-                imports.add(codegenProperty.complexType);
-            }
 
         }
         // set nullable
@@ -6849,15 +6799,11 @@ public class DefaultCodegen implements CodegenConfig {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
-            imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
             CodegenProperty mostInnerItem = innerCp;
             // loop through multidimensional array to add proper import
             // also find the most inner item
             while (innerCp != null) {
-                if (innerCp.complexType != null) {
-                    imports.add(innerCp.complexType);
-                }
                 mostInnerItem = innerCp;
                 innerCp = innerCp.items;
             }
@@ -6881,11 +6827,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
-
-            while (codegenProperty != null) {
-                imports.add(codegenProperty.baseType);
-                codegenProperty = codegenProperty.items;
-            }
         }
     }
 
@@ -7096,6 +7037,7 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
+        addImports(imports, codegenParameter.getImports(false));
 
         return codegenParameter;
     }
