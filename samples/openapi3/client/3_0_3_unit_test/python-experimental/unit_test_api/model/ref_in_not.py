@@ -111,3 +111,5 @@ class RefInNot(
             _configuration=_configuration,
             **kwargs,
         )
+
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference

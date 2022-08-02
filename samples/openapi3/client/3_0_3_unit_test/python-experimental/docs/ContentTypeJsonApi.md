@@ -9240,6 +9240,7 @@ No authorization required
 ```python
 import unit_test_api
 from unit_test_api.apis.tags import content_type_json_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
@@ -10056,6 +10057,7 @@ No authorization required
 ```python
 import unit_test_api
 from unit_test_api.apis.tags import content_type_json_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from unit_test_api.model.ref_in_property import RefInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
