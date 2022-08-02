@@ -451,8 +451,8 @@ namespace Org.OpenAPITools.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            IDisposable timeoutTokenSource = null;
-            IDisposable finalTokenSource = null;
+            CancellationTokenSource timeoutTokenSource = null;
+            CancellationTokenSource finalTokenSource = null;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
             var finalToken = cancellationToken;
 
