@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+//import apple.laf.JRSUIConstants;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -29,6 +30,7 @@ import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.*;
@@ -73,6 +75,8 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
@@ -1155,7 +1159,7 @@ public class DefaultGenerator implements Generator {
 
         final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
-        for (Operation operation : processMultipleResponseContentTypes(inputOperation)) {
+        for (Operation operation : processMultipleVersion(inputOperation)) {
             for (Tag tag : tags) {
                 try {
                     CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
@@ -1233,6 +1237,66 @@ public class DefaultGenerator implements Generator {
         return operations;
     }
 
+    private List<Operation> processMultipleVersion(Operation operation) {
+        if (!splitResponseTypes) {
+            return Collections.singletonList(operation);
+        }
+        ApiResponses apiResponses = operation.getResponses();
+        ApiResponse methodResponse = DefaultCodegen.findMethodResponse(apiResponses);
+        if (methodResponse == null || methodResponse.getContent().size() < 2) {
+            return Collections.singletonList(operation);
+        }
+
+        LOGGER.info("Split operation is enabled: operation {} would be split into {} different operations", operation.getOperationId(), methodResponse.getContent().size());
+        List<Operation> operations = new ArrayList<>();
+        String methodResponseCodeWithMultipleContentTypes = DefaultCodegen.findMethodResponseCode(apiResponses);
+        Content methodResponseAllContentTypes = methodResponse.getContent();
+        for (String contentTypeName : methodResponseAllContentTypes.keySet()) {
+            MediaType contentType = methodResponseAllContentTypes.get(contentTypeName);
+            String version = findVersionName(contentTypeName);
+            if (operation.getRequestBody() == null){
+                Content contentTypeWithSingeValue = new Content();
+                contentTypeWithSingeValue.addMediaType(contentTypeName, contentType);
+                ApiResponse apiResponseWithSingeContentType = copyApiResponse(methodResponse);
+                apiResponseWithSingeContentType.setContent(contentTypeWithSingeValue);
+
+                ApiResponses singleContentTypeApiResponses = copyApiResponses(apiResponses);
+                singleContentTypeApiResponses.put(methodResponseCodeWithMultipleContentTypes, apiResponseWithSingeContentType);
+
+                Operation singleContentTypeOperation = copyOperation(operation);
+                singleContentTypeOperation.setResponses(singleContentTypeApiResponses);
+                // correct operation name should be handled by final generator
+                singleContentTypeOperation.setOperationId(operation.getOperationId() + "-" + version);
+
+                operations.add(singleContentTypeOperation);
+            }
+            else {
+                if (operation.getRequestBody().getContent().get(contentTypeName) == null) continue;
+                else {
+                    Content contentTypeWithSingeValue = new Content();
+                    contentTypeWithSingeValue.addMediaType(contentTypeName, contentType);
+                    ApiResponse apiResponseWithSingeContentType = copyApiResponse(methodResponse);
+                    apiResponseWithSingeContentType.setContent(contentTypeWithSingeValue);
+
+                    ApiResponses singleContentTypeApiResponses = copyApiResponses(apiResponses);
+                    singleContentTypeApiResponses.put(methodResponseCodeWithMultipleContentTypes, apiResponseWithSingeContentType);
+
+                    Operation singleContentTypeOperation = copyOperation(operation);
+                    singleContentTypeOperation.setResponses(singleContentTypeApiResponses);
+                    // correct operation name should be handled by final generator
+                    singleContentTypeOperation.setOperationId(operation.getOperationId() + "-" + version);
+                    RequestBody singleContentRequestBody = getSingleRequestBody(operation, contentTypeName);
+                    singleContentTypeOperation.setRequestBody(singleContentRequestBody);
+                    operations.add(singleContentTypeOperation);
+                }
+            }
+        }
+        return operations;
+    }
+
+
+
+
     private static Operation copyOperation(Operation operation) {
         Operation copy = new Operation();
         copy.setTags(operation.getTags());
@@ -1251,6 +1315,21 @@ public class DefaultGenerator implements Generator {
         return copy;
     }
 
+    private static RequestBody getSingleRequestBody(Operation operation, String version) {
+        RequestBody requestBody = operation.getRequestBody();
+        MediaType mediaType = requestBody.getContent().get(version);
+        Content single = new Content();
+        Content contentTypeWithSingeValue = new Content();
+        contentTypeWithSingeValue.addMediaType(version, mediaType);
+        RequestBody requestBodywithSingleContent = new RequestBody();
+        requestBodywithSingleContent.set$ref(requestBody.get$ref());
+        requestBodywithSingleContent.setDescription(requestBody.getDescription());
+        requestBodywithSingleContent.setRequired(requestBody.getRequired());
+        requestBodywithSingleContent.setExtensions(requestBody.getExtensions());
+        requestBodywithSingleContent.setContent(contentTypeWithSingeValue);
+        return requestBodywithSingleContent;
+    }
+
     private static ApiResponses copyApiResponses(ApiResponses apiResponses) {
         ApiResponses copy = new ApiResponses();
         copy.setExtensions(apiResponses.getExtensions());
@@ -1266,7 +1345,6 @@ public class DefaultGenerator implements Generator {
         copy.setLinks(apiResponse.getLinks());
         copy.setExtensions(apiResponse.getExtensions());
         copy.set$ref(apiResponse.get$ref());
-
         return copy;
     }
 
@@ -1604,6 +1682,16 @@ public class DefaultGenerator implements Generator {
 
     private String removeTrailingSlash(String value) {
         return StringUtils.removeEnd(value, "/");
+    }
+
+    private String findVersionName(String typeName){
+        Pattern p = Pattern.compile("(segment.)(.*)(\\+json)");
+        Matcher m = p.matcher(typeName);
+        if(m.find())
+        {
+            return m.group(2);
+        }
+        else return "Latest";
     }
 
 }
