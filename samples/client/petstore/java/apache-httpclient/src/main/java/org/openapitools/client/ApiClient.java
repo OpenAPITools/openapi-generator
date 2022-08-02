@@ -65,6 +65,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
@@ -703,7 +704,14 @@ public class ApiClient extends JavaTimeFormatter {
         } else if (value instanceof byte[]) {
           multiPartBuilder.addBinaryBody(paramEntry.getKey(), (byte[]) value);
         } else {
-          multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()));
+          Charset charset = contentType.getCharset();
+          if (charset != null) {
+            ContentType customContentType = ContentType.create(ContentType.TEXT_PLAIN.getMimeType(), charset);
+            multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()),
+                    customContentType);
+          } else {
+            multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()));
+          }
         }
       }
       return multiPartBuilder.build();
