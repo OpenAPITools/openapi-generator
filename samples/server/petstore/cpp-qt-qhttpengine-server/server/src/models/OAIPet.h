@@ -23,7 +23,7 @@
 #include "OAICategory.h"
 #include "OAITag.h"
 #include <QList>
-#include <QString>
+#include <QMap>
 
 #include "OAIEnum.h"
 #include "OAIObject.h"

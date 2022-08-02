@@ -63,7 +63,7 @@ public class TypeScriptClientCodegenTest {
         // TODO revise the commented test below as oneOf is no longer defined inline
         //but instead defined using $ref with the new inline model resolver in 6.x
         //Assert.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));
-        Assert.assertEquals(operation.imports, Sets.newHashSet("PetsPatchRequest"));
+        Assert.assertEquals(operation.imports, Sets.newHashSet("PetsPatchRequest", "Cat", "Dog"));
 
     }
 

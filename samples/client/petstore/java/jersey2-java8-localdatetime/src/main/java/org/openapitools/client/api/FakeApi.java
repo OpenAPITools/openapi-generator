@@ -14,6 +14,7 @@ import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.openapitools.client.model.ModelFile;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;

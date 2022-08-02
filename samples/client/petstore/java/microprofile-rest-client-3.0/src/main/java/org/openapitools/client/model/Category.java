@@ -12,6 +12,8 @@
 
 package org.openapitools.client.model;
 
+import java.util.HashMap;
+import java.util.Map;
 
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;

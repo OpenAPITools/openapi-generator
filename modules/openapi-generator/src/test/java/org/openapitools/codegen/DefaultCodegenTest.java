@@ -2066,6 +2066,7 @@ public class DefaultCodegenTest {
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
 
         Set<String> imports = new HashSet<>();
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
@@ -2073,7 +2074,7 @@ public class DefaultCodegenTest {
         // TODO: This must be updated to work with flattened inline models
         Assert.assertEquals(parameter.dataType, "ListPageQueryParameter");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "ListPageQueryParameter");
+        Assert.assertEquals(imports, Arrays.asList("ListPageQueryParameter"));
 
         Assert.assertNotNull(parameter.getSchema());
         Assert.assertEquals(parameter.getSchema().dataType, "Object");
@@ -2244,6 +2245,7 @@ public class DefaultCodegenTest {
             new InlineModelResolver().flatten(openAPI);
             final DefaultCodegen codegen = new DefaultCodegen();
             codegen.setOpenAPI(openAPI);
+            codegen.processOpts();
 
             return codegen
                     .fromParameter(

@@ -22,22 +22,32 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_and_convert_types
 )
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
+from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
 from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.array_of_enums import ArrayOfEnums
+from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.client import Client
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
+from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
+from petstore_api.model.integer_enum import IntegerEnum
+from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
+from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
+from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
+from petstore_api.model.readonly import Readonly
 from petstore_api.model.stream_options import StreamOptions
 from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
 from petstore_api.model.user import User
 
 

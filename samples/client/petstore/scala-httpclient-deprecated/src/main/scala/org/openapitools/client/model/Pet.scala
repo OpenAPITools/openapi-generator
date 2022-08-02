@@ -12,6 +12,8 @@
 
 package org.openapitools.client.model
 
+import java.util.HashMap
+import scala.collection.mutable.ListBuffer
 
 case class Pet (
   id: Option[Long] = None,

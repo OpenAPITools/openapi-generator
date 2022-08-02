@@ -18,8 +18,12 @@
 #include "PFXOauth.h"
 
 #include "PFXApiResponse.h"
+#include "PFXCategory.h"
 #include "PFXHttpFileElement.h"
+#include "PFXObject.h"
 #include "PFXPet.h"
+#include "PFXTag.h"
+#include <QList>
 #include <QSet>
 #include <QString>
 

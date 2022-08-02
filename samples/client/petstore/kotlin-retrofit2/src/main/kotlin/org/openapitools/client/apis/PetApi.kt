@@ -5,8 +5,10 @@ import retrofit2.http.*
 import retrofit2.Call
 import okhttp3.RequestBody
 
+import org.openapitools.client.models.Category
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
+import org.openapitools.client.models.Tag
 
 import okhttp3.MultipartBody
 

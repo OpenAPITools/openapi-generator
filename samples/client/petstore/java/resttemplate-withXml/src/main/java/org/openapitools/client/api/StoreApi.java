@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.Order;
 
 import java.util.Collections;

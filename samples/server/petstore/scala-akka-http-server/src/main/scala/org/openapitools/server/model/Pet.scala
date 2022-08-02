@@ -1,5 +1,6 @@
 package org.openapitools.server.model
 
+import scala.collection.mutable.ListBuffer
 
 /**
  * = a Pet =

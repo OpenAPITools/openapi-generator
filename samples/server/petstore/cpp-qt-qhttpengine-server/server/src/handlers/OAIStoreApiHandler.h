@@ -14,6 +14,7 @@
 
 #include <QObject>
 
+#include "OAIObject.h"
 #include "OAIOrder.h"
 #include <QMap>
 #include <QString>

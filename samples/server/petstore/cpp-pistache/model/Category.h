@@ -20,6 +20,7 @@
 
 
 #include <string>
+#include <map>
 #include <nlohmann/json.hpp>
 
 namespace org::openapitools::server::model

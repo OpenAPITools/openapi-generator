@@ -22,6 +22,7 @@
 
 #include "CppRestPetstoreClient/ApiClient.h"
 
+#include "CppRestPetstoreClient/Object.h"
 #include "CppRestPetstoreClient/model/User.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>

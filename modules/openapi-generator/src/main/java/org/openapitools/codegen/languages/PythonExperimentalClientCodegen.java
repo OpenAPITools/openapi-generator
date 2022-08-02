@@ -105,10 +105,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // for apis.tags tag api definition
     private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
 
+    protected boolean importBaseType = false;
+
 
     public PythonExperimentalClientCodegen() {
         super();
         loadDeepObjectIntoItems = false;
+        hoistParameterArrayItemBaseTypeHigher = false;
+        importBaseType = false;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
@@ -901,12 +905,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         boolean anyModelContainsTestCases = false;
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         for (String schemaName : allDefinitions.keySet()) {
-            Schema refSchema = new Schema().$ref("#/components/schemas/" + schemaName);
-            Schema unaliasedSchema = unaliasSchema(refSchema);
             String modelName = toModelName(schemaName);
-            if (unaliasedSchema.get$ref() == null) {
-                continue;
-            }
             ModelsMap objModel = objs.get(modelName);
             if (objModel == null) {
                 // to avoid form parameter's models that are not generated (skipFormModel=true)

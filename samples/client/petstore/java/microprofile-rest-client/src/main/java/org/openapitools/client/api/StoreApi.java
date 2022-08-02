@@ -12,6 +12,7 @@
 
 package org.openapitools.client.api;
 
+import java.util.Date;
 import org.openapitools.client.model.Order;
 
 import java.io.InputStream;

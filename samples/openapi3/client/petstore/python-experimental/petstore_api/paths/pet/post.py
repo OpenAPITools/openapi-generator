@@ -67,6 +67,8 @@ from petstore_api.schemas import (  # noqa: F401
 )
 
 from petstore_api.model.pet import Pet
+from petstore_api.model.category import Category
+from petstore_api.model.tag import Tag
 
 from . import path
 

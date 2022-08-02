@@ -17,6 +17,7 @@ local basexx = require "basexx"
 
 -- model import
 local petstore_order = require "petstore.model.order"
+local petstore_todo_object_mapping = require "petstore.model.todo_object_mapping"
 
 local store_api = {}
 local store_api_mt = {

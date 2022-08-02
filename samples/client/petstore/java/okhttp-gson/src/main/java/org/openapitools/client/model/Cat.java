@@ -23,7 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.Map;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.CatAllOf;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

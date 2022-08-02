@@ -14,6 +14,7 @@
 
 #include <QObject>
 
+#include "OAIObject.h"
 #include "OAIUser.h"
 #include <QList>
 #include <QString>

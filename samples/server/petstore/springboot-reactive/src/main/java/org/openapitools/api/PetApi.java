@@ -6,9 +6,12 @@
 package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
+import org.openapitools.model.Category;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import org.openapitools.model.Tag;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

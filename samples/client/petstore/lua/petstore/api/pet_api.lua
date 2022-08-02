@@ -17,7 +17,10 @@ local basexx = require "basexx"
 
 -- model import
 local petstore_api_response = require "petstore.model.api_response"
+local petstore_category = require "petstore.model.category"
 local petstore_pet = require "petstore.model.pet"
+local petstore_todo_object_mapping = require "petstore.model.todo_object_mapping"
+local petstore_tag = require "petstore.model.tag"
 
 local pet_api = {}
 local pet_api_mt = {

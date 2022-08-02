@@ -1,7 +1,9 @@
 package org.openapitools.server.api.verticle
 
+import org.openapitools.server.api.model.Category
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
+import org.openapitools.server.api.model.Tag
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
 import io.vertx.core.json.JsonArray

@@ -9,6 +9,7 @@ import org.openapitools.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.MySchemaNameCharacters;
+import org.openapitools.client.model.Parent;
 
 import java.util.ArrayList;
 import java.util.HashMap;

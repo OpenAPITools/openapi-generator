@@ -36,6 +36,7 @@ Test serialization of ArrayModel
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -352,6 +353,7 @@ Test serialization of object with $refed properties
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -556,6 +558,7 @@ For this test, the body for this request much reference a schema named `File`.
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

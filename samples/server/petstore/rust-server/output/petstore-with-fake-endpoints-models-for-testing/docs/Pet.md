@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **id** | **i64** |  | [optional] [default to None]
 **category** | [***models::Category**](Category.md) |  | [optional] [default to None]
 **name** | **String** |  | 
-**photo_urls** | **Vec<String>** |  | 
+**photo_urls** | [**Vec<String>**](.md) |  | 
 **tags** | [**Vec<models::Tag>**](Tag.md) |  | [optional] [default to None]
 **status** | **String** | pet status in the store | [optional] [default to None]
 

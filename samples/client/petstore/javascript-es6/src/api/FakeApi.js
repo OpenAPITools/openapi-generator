@@ -13,13 +13,16 @@
 
 
 import ApiClient from "../ApiClient";
+import Category from '../model/Category';
 import Client from '../model/Client';
 import EnumClass from '../model/EnumClass';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
+import OuterEnumInteger from '../model/OuterEnumInteger';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import Tag from '../model/Tag';
 import User from '../model/User';
 
 /**

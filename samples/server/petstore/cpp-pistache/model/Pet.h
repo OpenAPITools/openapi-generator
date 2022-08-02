@@ -22,6 +22,7 @@
 #include "Tag.h"
 #include <string>
 #include "Category.h"
+#include <map>
 #include <vector>
 #include <nlohmann/json.hpp>
 

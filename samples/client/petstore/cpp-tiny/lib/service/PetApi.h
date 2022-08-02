@@ -9,7 +9,11 @@
 #include <list>
 
 #include "ApiResponse.h"
+#include "Category.h"
+#include "Object.h"
 #include "Pet.h"
+#include "Tag.h"
+#include <list>
 
 namespace Tiny {
 

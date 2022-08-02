@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import java.io.IOException;
 
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.Order;
 
 import java.lang.reflect.Type;

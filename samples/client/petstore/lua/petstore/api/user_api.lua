@@ -16,6 +16,7 @@ local dkjson = require "dkjson"
 local basexx = require "basexx"
 
 -- model import
+local petstore_todo_object_mapping = require "petstore.model.todo_object_mapping"
 local petstore_user = require "petstore.model.user"
 
 local user_api = {}

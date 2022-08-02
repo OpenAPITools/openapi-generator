@@ -1,9 +1,12 @@
 package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
+import org.openapitools.model.Category;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import org.openapitools.model.Tag;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

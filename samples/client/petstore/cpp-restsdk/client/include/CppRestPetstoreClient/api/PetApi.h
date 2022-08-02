@@ -23,8 +23,12 @@
 #include "CppRestPetstoreClient/ApiClient.h"
 
 #include "CppRestPetstoreClient/model/ApiResponse.h"
+#include "CppRestPetstoreClient/model/Category.h"
 #include "CppRestPetstoreClient/HttpContent.h"
+#include "CppRestPetstoreClient/Object.h"
 #include "CppRestPetstoreClient/model/Pet.h"
+#include "CppRestPetstoreClient/model/Tag.h"
+#include <vector>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

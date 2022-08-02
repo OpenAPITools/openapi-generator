@@ -17,8 +17,10 @@ import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
 import org.openapitools.client.infrastructure.CollectionFormats.*
 
+import org.openapitools.client.models.Category
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
+import org.openapitools.client.models.Tag
 
 /*
 * If you wish to use a custom http stack with your client you

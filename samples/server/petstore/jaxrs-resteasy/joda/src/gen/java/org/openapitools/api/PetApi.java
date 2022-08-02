@@ -6,9 +6,12 @@ import org.openapitools.api.PetApiService;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import org.openapitools.model.Category;
 import java.io.File;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.openapitools.model.Tag;
 
 import java.util.Map;
 import java.util.List;

@@ -1,8 +1,11 @@
 package controllers;
 
+import apimodels.Category;
 import java.io.InputStream;
+import java.util.List;
 import apimodels.ModelApiResponse;
 import apimodels.Pet;
+import apimodels.Tag;
 
 import play.mvc.Http;
 import java.util.List;

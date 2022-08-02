@@ -6,7 +6,10 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/api_response.h"
+#include "../model/category.h"
+#include "../model/object.h"
 #include "../model/pet.h"
+#include "../model/tag.h"
 
 // Enum STATUS for PetAPI_findPetsByStatus
 typedef enum  { openapi_petstore_findPetsByStatus_STATUS_NULL = 0, openapi_petstore_findPetsByStatus_STATUS_available, openapi_petstore_findPetsByStatus_STATUS_pending, openapi_petstore_findPetsByStatus_STATUS_sold } openapi_petstore_findPetsByStatus_status_e;

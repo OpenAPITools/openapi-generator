@@ -158,6 +158,8 @@ Class | Method | HTTP request | Description
 *RefApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_items_request_body**](docs/apis/tags/RefApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *RefApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_not_request_body**](docs/apis/tags/RefApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
+*RefApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/RefApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *RefApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_property_request_body**](docs/apis/tags/RefApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -342,6 +344,8 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_items_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*ContentTypeJsonApi* | [**post_ref_in_not_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
+*ContentTypeJsonApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_property_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -530,6 +534,7 @@ Class | Method | HTTP request | Description
 *OperationRequestBodyApi* | [**post_ref_in_allof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_anyof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_items_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
+*OperationRequestBodyApi* | [**post_ref_in_not_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_property_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
 *OperationRequestBodyApi* | [**post_required_default_validation_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
@@ -688,6 +693,8 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_items_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *PathPostApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*PathPostApi* | [**post_ref_in_not_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
+*PathPostApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *PathPostApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_property_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -804,6 +811,7 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*ResponseContentContentTypeSchemaApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_required_default_validation_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
@@ -910,6 +918,7 @@ Class | Method | HTTP request | Description
  - [RefInAllof](docs/models/RefInAllof.md)
  - [RefInAnyof](docs/models/RefInAnyof.md)
  - [RefInItems](docs/models/RefInItems.md)
+ - [RefInNot](docs/models/RefInNot.md)
  - [RefInOneof](docs/models/RefInOneof.md)
  - [RefInProperty](docs/models/RefInProperty.md)
  - [RequiredDefaultValidation](docs/models/RequiredDefaultValidation.md)

@@ -5,10 +5,13 @@ import org.openapitools.model.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 
+import org.openapitools.model.Category;
 import java.io.File;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import org.openapitools.model.Tag;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;

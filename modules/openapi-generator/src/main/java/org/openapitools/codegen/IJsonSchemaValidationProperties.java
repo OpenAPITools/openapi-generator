@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -262,31 +263,97 @@ public interface IJsonSchemaValidationProperties {
      * Recursively collect all necessary imports to include so that the type may be resolved.
      *
      * @param includeContainerTypes whether or not to include the container types in the returned imports.
+     * @param includeBaseType whether or not to include the base types in the returned imports.
      * @return all of the imports
      */
-    default Set<String> getImports(boolean includeContainerTypes) {
+    default Set<String> getImports(boolean includeContainerTypes, boolean includeBaseType, Map<String, String> instantiationTypes, Map<String, String> typeMapping) {
         Set<String> imports = new HashSet<>();
         if (this.getComposedSchemas() != null) {
-            CodegenComposedSchemas composed = (CodegenComposedSchemas) this.getComposedSchemas();
+            CodegenComposedSchemas composed = this.getComposedSchemas();
             List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
             List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
-            Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
-            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
-        } else if (includeContainerTypes || !(this.getIsArray() || this.getIsMap())) {
-            // this is our base case, add imports for referenced schemas
-            // this can't be broken out as a separate if block because Typescript only generates union types as A | B
-            // and would need to handle this differently
-            imports.add(this.getComplexType());
-            imports.add(this.getBaseType());
+            List<CodegenProperty> anyOfs =  composed.getAnyOf() == null ? Collections.emptyList() : composed.getAnyOf();
+            List<CodegenProperty> nots =  composed.getNot() == null ? Collections.emptyList() : Arrays.asList(composed.getNot());
+            Stream<CodegenProperty> innerTypes = Stream.of(
+                            allOfs.stream(), anyOfs.stream(), oneOfs.stream(), nots.stream())
+                    .flatMap(i -> i);
+            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping).stream()).forEach(s -> imports.add(s));
         }
-        if (this.getItems() !=null && this.getIsArray()) {
-            imports.addAll(this.getItems().getImports(includeContainerTypes));
+        // items can exist for AnyType and type array
+        if (this.getItems() != null && this.getIsArray()) {
+            imports.addAll(this.getItems().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping));
         }
+        // additionalProperties can exist for AnyType and type object
         if (this.getAdditionalProperties() != null) {
-            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes));
+            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping));
         }
+        // vars can exist for AnyType and type object
         if (this.getVars() != null && !this.getVars().isEmpty()) {
-            this.getVars().stream().flatMap(v -> v.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
+            this.getVars().stream().flatMap(v -> v.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping).stream()).forEach(s -> imports.add(s));
+        }
+        if (this.getIsArray() || this.getIsMap()) {
+            /*
+            use-case for this complexType block:
+            DefaultCodegenTest.objectQueryParamIdentifyAsObject
+            DefaultCodegenTest.mapParamImportInnerObject
+            */
+            String complexType = this.getComplexType();
+            if (complexType != null) {
+                imports.add(complexType);
+            } else {
+                if (includeContainerTypes) {
+                    String containerType;
+                    if (this.getIsArray()) {
+                        if (this.getUniqueItems()) {
+                            containerType = "set";
+                        } else {
+                            containerType = "array";
+                        }
+                    } else {
+                        containerType = "map";
+                    }
+                    /*
+                     use case:
+                     generator has instantiationType for array/map/set
+                     */
+                    final String instantiationType = instantiationTypes.get(containerType);
+                    if (instantiationType != null) {
+                        imports.add(instantiationType);
+                    }
+                    /*
+                     use case:
+                     generator has typeMapping for array/map/set
+                     */
+                    final String mappedType = typeMapping.get(containerType);
+                    if (mappedType != null) {
+                        imports.add(mappedType);
+                    }
+                }
+            }
+            /*
+            use-case:
+            Adding List/Map etc, Java uses this
+             */
+            if (includeBaseType) {
+                imports.add(this.getBaseType());
+            }
+        } else {
+            // referenced or inline schemas
+            String complexType = this.getComplexType();
+            if (this.getRef() != null && complexType != null) {
+                /*
+                use case:
+                referenced components store the model name in complexType
+                 */
+                imports.add(complexType);
+            } else if (complexType != null) {
+                 /*
+                 use-case:
+                 c, c++, java, + others primitive type imports
+                  */
+                imports.add(complexType);
+            }
+            return imports;
         }
         return imports;
     }

@@ -20,8 +20,7 @@
 
 #include <QJsonObject>
 
-#include <QDateTime>
-#include <QString>
+#include <QMap>
 
 #include "OAIEnum.h"
 #include "OAIObject.h"

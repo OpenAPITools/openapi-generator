@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import java.io.Serializable;
 import javax.validation.constraints.*;

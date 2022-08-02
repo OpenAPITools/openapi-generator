@@ -36,6 +36,8 @@ Add a new pet to the store
 ```scala
 // Import classes:
 import 
+import 
+import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
 import org.openapitools.client.core.ApiKeyLocations._
@@ -444,6 +446,8 @@ Update an existing pet
 
 ```scala
 // Import classes:
+import 
+import 
 import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._

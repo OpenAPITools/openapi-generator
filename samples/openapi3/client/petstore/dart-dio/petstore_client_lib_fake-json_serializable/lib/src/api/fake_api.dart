@@ -9,13 +9,17 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/health_check_result.dart';
 import 'package:openapi/src/model/model_client.dart';
 import 'package:openapi/src/model/model_enum_class.dart';
+import 'package:openapi/src/model/model_file.dart';
 import 'package:openapi/src/model/outer_composite.dart';
+import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
+import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
 
 class FakeApi {

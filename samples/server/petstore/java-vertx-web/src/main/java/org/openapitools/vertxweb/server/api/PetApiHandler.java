@@ -1,8 +1,10 @@
 package org.openapitools.vertxweb.server.api;
 
+import org.openapitools.vertxweb.server.model.Category;
 import io.vertx.ext.web.FileUpload;
 import org.openapitools.vertxweb.server.model.ModelApiResponse;
 import org.openapitools.vertxweb.server.model.Pet;
+import org.openapitools.vertxweb.server.model.Tag;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.json.jackson.DatabindCodec;

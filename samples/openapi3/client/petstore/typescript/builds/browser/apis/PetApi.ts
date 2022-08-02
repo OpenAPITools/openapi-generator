@@ -9,7 +9,9 @@ import {SecurityAuthentication} from '../auth/auth';
 
 
 import { ApiResponse } from '../models/ApiResponse';
+import { Category } from '../models/Category';
 import { Pet } from '../models/Pet';
+import { Tag } from '../models/Tag';
 
 /**
  * no description

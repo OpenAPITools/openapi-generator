@@ -47,6 +47,7 @@ Additional Properties with Array of Enums
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -119,6 +120,7 @@ Test serialization of ArrayModel
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -187,6 +189,7 @@ import time
 import petstore_api
 from petstore_api.api import fake_api
 from petstore_api.model.array_of_enums import ArrayOfEnums
+from petstore_api.model.string_enum import StringEnum
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -451,6 +454,13 @@ Object contains enum properties and array properties containing enums
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
+from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
+from petstore_api.model.array_of_enums import ArrayOfEnums
+from petstore_api.model.boolean_enum import BooleanEnum
+from petstore_api.model.integer_enum import IntegerEnum
+from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
 from petstore_api.model.enum_test import EnumTest
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -731,7 +741,9 @@ Test serialization of object with $refed properties
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.readonly import Readonly
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -801,6 +813,7 @@ import time
 import petstore_api
 from petstore_api.api import fake_api
 from petstore_api.model.post_inline_additional_properties_payload_request import PostInlineAdditionalPropertiesPayloadRequest
+from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -873,6 +886,7 @@ No authorization required
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.post_inline_additional_properties_payload_request_array_data_inner import PostInlineAdditionalPropertiesPayloadRequestArrayDataInner
 from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1081,6 +1095,7 @@ For this test, the body for this request much reference a schema named `File`.
 import time
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2

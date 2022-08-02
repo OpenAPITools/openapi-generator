@@ -475,7 +475,7 @@ validate_response('DeleteOrder', 404, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 
 validate_response('GetInventory', 200, Body, ValidatorState) ->
-    validate_response_body('map', 'integer', Body, ValidatorState);
+    validate_response_body('map', 'map', Body, ValidatorState);
 
 validate_response('GetOrderById', 200, Body, ValidatorState) ->
     validate_response_body('Order', 'Order', Body, ValidatorState);

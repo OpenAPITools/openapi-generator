@@ -17,7 +17,9 @@ import { BaseAPI, throwIfNullOrUndefined, encodeURI, COLLECTION_FORMATS } from '
 import type { OperationOpts, HttpHeaders, HttpQuery } from '../runtime';
 import type {
     ApiResponse,
+    Category,
     Pet,
+    Tag,
 } from '../models';
 
 export interface AddPetRequest {

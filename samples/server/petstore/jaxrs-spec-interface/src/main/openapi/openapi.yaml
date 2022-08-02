@@ -1686,6 +1686,8 @@ components:
           type: object
       type: object
     List:
+      example:
+        "123-list": 123-list
       properties:
         "123-list":
           type: string

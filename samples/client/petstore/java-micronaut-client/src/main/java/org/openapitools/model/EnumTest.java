@@ -15,6 +15,8 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.model.OuterEnum;
 import com.fasterxml.jackson.annotation.*;
 

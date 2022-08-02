@@ -15,7 +15,9 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.openapitools.model.ModelFile;
 import com.fasterxml.jackson.annotation.*;
 

@@ -12,8 +12,10 @@ import org.openapitools.server.MultipartDirectives
 import org.openapitools.server.FileField
 import org.openapitools.server.PartsAndFiles
 import org.openapitools.server.model.ApiResponse
+import org.openapitools.server.model.Category
 import java.io.File
 import org.openapitools.server.model.Pet
+import org.openapitools.server.model.Tag
 import scala.util.Try
 import akka.http.scaladsl.server.MalformedRequestContentRejection
 import akka.http.scaladsl.server.directives.FileInfo

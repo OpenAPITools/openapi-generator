@@ -19,6 +19,7 @@ import typetraits
 import uri
 
 import ../models/model_user
+import ../models/model_object
 
 const basepath = "http://petstore.swagger.io/v2"
 

@@ -22,6 +22,7 @@
 
 #include "CppRestPetstoreClient/ApiClient.h"
 
+#include "CppRestPetstoreClient/Object.h"
 #include "CppRestPetstoreClient/model/Order.h"
 #include <map>
 #include <cpprest/details/basic_types.h>

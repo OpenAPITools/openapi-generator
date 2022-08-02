@@ -1,7 +1,9 @@
 package org.openapitools.api;
 
+import org.openapitools.model.Entity;
 import org.openapitools.model.Foo;
 import org.openapitools.model.FooRefOrValue;
+import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

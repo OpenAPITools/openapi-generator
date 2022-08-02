@@ -65,7 +65,7 @@ impl AdditionalPropertiesWithList {
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+fn wrap_in_snake_another_xml_inner<S>(item: &Vec<ErrorUnknown>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
@@ -76,30 +76,30 @@ where
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnotherXmlArray(
     #[serde(serialize_with = "wrap_in_snake_another_xml_inner")]
-    Vec<String>
+    Vec<ErrorUnknown>
 );
 
-impl std::convert::From<Vec<String>> for AnotherXmlArray {
-    fn from(x: Vec<String>) -> Self {
+impl std::convert::From<Vec<ErrorUnknown>> for AnotherXmlArray {
+    fn from(x: Vec<ErrorUnknown>) -> Self {
         AnotherXmlArray(x)
     }
 }
 
-impl std::convert::From<AnotherXmlArray> for Vec<String> {
+impl std::convert::From<AnotherXmlArray> for Vec<ErrorUnknown> {
     fn from(x: AnotherXmlArray) -> Self {
         x.0
     }
 }
 
-impl std::iter::FromIterator<String> for AnotherXmlArray {
-    fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
-        AnotherXmlArray(Vec::<String>::from_iter(u))
+impl std::iter::FromIterator<ErrorUnknown> for AnotherXmlArray {
+    fn from_iter<U: IntoIterator<Item=ErrorUnknown>>(u: U) -> Self {
+        AnotherXmlArray(Vec::<ErrorUnknown>::from_iter(u))
     }
 }
 
 impl std::iter::IntoIterator for AnotherXmlArray {
-    type Item = String;
-    type IntoIter = std::vec::IntoIter<String>;
+    type Item = ErrorUnknown;
+    type IntoIter = std::vec::IntoIter<ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
@@ -107,8 +107,8 @@ impl std::iter::IntoIterator for AnotherXmlArray {
 }
 
 impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
-    type Item = &'a String;
-    type IntoIter = std::slice::Iter<'a, String>;
+    type Item = &'a ErrorUnknown;
+    type IntoIter = std::slice::Iter<'a, ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
@@ -116,8 +116,8 @@ impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
 }
 
 impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
-    type Item = &'a mut String;
-    type IntoIter = std::slice::IterMut<'a, String>;
+    type Item = &'a mut ErrorUnknown;
+    type IntoIter = std::slice::IterMut<'a, ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
@@ -125,7 +125,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
 }
 
 impl std::ops::Deref for AnotherXmlArray {
-    type Target = Vec<String>;
+    type Target = Vec<ErrorUnknown>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -150,7 +150,7 @@ impl std::string::ToString for AnotherXmlArray {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AnotherXmlArray {
-    type Err = <String as std::str::FromStr>::Err;
+    type Err = <ErrorUnknown as std::str::FromStr>::Err;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
@@ -1417,30 +1417,30 @@ impl MyId {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MyIdList(
-    Vec<i32>
+    Vec<ErrorUnknown>
 );
 
-impl std::convert::From<Vec<i32>> for MyIdList {
-    fn from(x: Vec<i32>) -> Self {
+impl std::convert::From<Vec<ErrorUnknown>> for MyIdList {
+    fn from(x: Vec<ErrorUnknown>) -> Self {
         MyIdList(x)
     }
 }
 
-impl std::convert::From<MyIdList> for Vec<i32> {
+impl std::convert::From<MyIdList> for Vec<ErrorUnknown> {
     fn from(x: MyIdList) -> Self {
         x.0
     }
 }
 
-impl std::iter::FromIterator<i32> for MyIdList {
-    fn from_iter<U: IntoIterator<Item=i32>>(u: U) -> Self {
-        MyIdList(Vec::<i32>::from_iter(u))
+impl std::iter::FromIterator<ErrorUnknown> for MyIdList {
+    fn from_iter<U: IntoIterator<Item=ErrorUnknown>>(u: U) -> Self {
+        MyIdList(Vec::<ErrorUnknown>::from_iter(u))
     }
 }
 
 impl std::iter::IntoIterator for MyIdList {
-    type Item = i32;
-    type IntoIter = std::vec::IntoIter<i32>;
+    type Item = ErrorUnknown;
+    type IntoIter = std::vec::IntoIter<ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
@@ -1448,8 +1448,8 @@ impl std::iter::IntoIterator for MyIdList {
 }
 
 impl<'a> std::iter::IntoIterator for &'a MyIdList {
-    type Item = &'a i32;
-    type IntoIter = std::slice::Iter<'a, i32>;
+    type Item = &'a ErrorUnknown;
+    type IntoIter = std::slice::Iter<'a, ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
@@ -1457,8 +1457,8 @@ impl<'a> std::iter::IntoIterator for &'a MyIdList {
 }
 
 impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
-    type Item = &'a mut i32;
-    type IntoIter = std::slice::IterMut<'a, i32>;
+    type Item = &'a mut ErrorUnknown;
+    type IntoIter = std::slice::IterMut<'a, ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
@@ -1466,7 +1466,7 @@ impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
 }
 
 impl std::ops::Deref for MyIdList {
-    type Target = Vec<i32>;
+    type Target = Vec<ErrorUnknown>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -1491,7 +1491,7 @@ impl std::string::ToString for MyIdList {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MyIdList {
-    type Err = <i32 as std::str::FromStr>::Err;
+    type Err = <ErrorUnknown as std::str::FromStr>::Err;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
@@ -1624,11 +1624,7 @@ impl std::string::ToString for NullableTest {
             params.push(nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
         }
 
-
-        if let Some(ref nullable_array) = self.nullable_array {
-            params.push("nullableArray".to_string());
-            params.push(nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
-        }
+        // Skipping nullableArray in query parameter serialization
 
         params.join(",").to_string()
     }
@@ -2178,11 +2174,7 @@ impl ObjectWithArrayOfObjects {
 impl std::string::ToString for ObjectWithArrayOfObjects {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
-
-        if let Some(ref object_array) = self.object_array {
-            params.push("objectArray".to_string());
-            params.push(object_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+        // Skipping objectArray in query parameter serialization
 
         params.join(",").to_string()
     }
@@ -2709,7 +2701,7 @@ impl UuidObject {
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+fn wrap_in_camelXmlInner<S>(item: &Vec<ErrorUnknown>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
@@ -2720,30 +2712,30 @@ where
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct XmlArray(
     #[serde(serialize_with = "wrap_in_camelXmlInner")]
-    Vec<String>
+    Vec<ErrorUnknown>
 );
 
-impl std::convert::From<Vec<String>> for XmlArray {
-    fn from(x: Vec<String>) -> Self {
+impl std::convert::From<Vec<ErrorUnknown>> for XmlArray {
+    fn from(x: Vec<ErrorUnknown>) -> Self {
         XmlArray(x)
     }
 }
 
-impl std::convert::From<XmlArray> for Vec<String> {
+impl std::convert::From<XmlArray> for Vec<ErrorUnknown> {
     fn from(x: XmlArray) -> Self {
         x.0
     }
 }
 
-impl std::iter::FromIterator<String> for XmlArray {
-    fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
-        XmlArray(Vec::<String>::from_iter(u))
+impl std::iter::FromIterator<ErrorUnknown> for XmlArray {
+    fn from_iter<U: IntoIterator<Item=ErrorUnknown>>(u: U) -> Self {
+        XmlArray(Vec::<ErrorUnknown>::from_iter(u))
     }
 }
 
 impl std::iter::IntoIterator for XmlArray {
-    type Item = String;
-    type IntoIter = std::vec::IntoIter<String>;
+    type Item = ErrorUnknown;
+    type IntoIter = std::vec::IntoIter<ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
@@ -2751,8 +2743,8 @@ impl std::iter::IntoIterator for XmlArray {
 }
 
 impl<'a> std::iter::IntoIterator for &'a XmlArray {
-    type Item = &'a String;
-    type IntoIter = std::slice::Iter<'a, String>;
+    type Item = &'a ErrorUnknown;
+    type IntoIter = std::slice::Iter<'a, ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
@@ -2760,8 +2752,8 @@ impl<'a> std::iter::IntoIterator for &'a XmlArray {
 }
 
 impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
-    type Item = &'a mut String;
-    type IntoIter = std::slice::IterMut<'a, String>;
+    type Item = &'a mut ErrorUnknown;
+    type IntoIter = std::slice::IterMut<'a, ErrorUnknown>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
@@ -2769,7 +2761,7 @@ impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
 }
 
 impl std::ops::Deref for XmlArray {
-    type Target = Vec<String>;
+    type Target = Vec<ErrorUnknown>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -2794,7 +2786,7 @@ impl std::string::ToString for XmlArray {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for XmlArray {
-    type Err = <String as std::str::FromStr>::Err;
+    type Err = <ErrorUnknown as std::str::FromStr>::Err;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];

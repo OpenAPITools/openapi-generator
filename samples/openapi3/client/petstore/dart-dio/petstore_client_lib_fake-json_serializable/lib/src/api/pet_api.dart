@@ -10,7 +10,9 @@ import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
 import 'package:openapi/src/model/api_response.dart';
+import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/pet.dart';
+import 'package:openapi/src/model/tag.dart';
 
 class PetApi {
 

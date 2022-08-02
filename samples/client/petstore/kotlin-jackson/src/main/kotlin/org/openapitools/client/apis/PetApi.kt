@@ -23,8 +23,10 @@ package org.openapitools.client.apis
 import java.io.IOException
 import okhttp3.OkHttpClient
 
+import org.openapitools.client.models.Category
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
+import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

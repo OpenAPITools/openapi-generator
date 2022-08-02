@@ -14,10 +14,12 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
+import org.openapitools.client.model.Category;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
+import org.openapitools.client.model.Tag;
 
 import java.util.ArrayList;
 import java.util.Arrays;

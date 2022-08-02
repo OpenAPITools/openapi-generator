@@ -1,8 +1,10 @@
 package org.openapitools.api;
 
 import org.openapitools.api.ApiUtils
+import org.openapitools.model.Category
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+import org.openapitools.model.Tag
 
 class PetApi {
     String basePath = "http://petstore.swagger.io/v2"

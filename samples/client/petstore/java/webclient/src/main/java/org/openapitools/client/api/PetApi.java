@@ -2,10 +2,12 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import org.openapitools.client.model.Category;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
+import org.openapitools.client.model.Tag;
 
 import java.util.HashMap;
 import java.util.List;

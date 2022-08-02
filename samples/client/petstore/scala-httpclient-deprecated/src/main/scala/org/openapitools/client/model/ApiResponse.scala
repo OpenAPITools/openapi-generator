@@ -12,6 +12,7 @@
 
 package org.openapitools.client.model
 
+import java.util.HashMap
 
 case class ApiResponse (
   code: Option[Integer] = None,

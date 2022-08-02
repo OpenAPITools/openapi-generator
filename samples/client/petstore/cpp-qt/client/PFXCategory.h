@@ -19,8 +19,12 @@
 #define PFXCategory_H
 
 #include <QJsonObject>
-
+#include <QDateTime>
 #include <QString>
+#include <QByteArray>
+#include <QDate>
+
+#include <QMap>
 
 #include "PFXEnum.h"
 #include "PFXObject.h"

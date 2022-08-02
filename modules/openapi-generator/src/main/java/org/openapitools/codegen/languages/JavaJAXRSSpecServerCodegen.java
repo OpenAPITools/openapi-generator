@@ -51,6 +51,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJAXRSSpecServerCodegen() {
         super();
 
+        hoistParameterArrayItemBaseTypeHigher = false;
+
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         invokerPackage = "org.openapitools.api";

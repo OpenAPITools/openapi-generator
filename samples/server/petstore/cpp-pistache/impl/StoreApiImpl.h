@@ -29,6 +29,7 @@
 #include <StoreApi.h>
 
 
+#include "Object.h"
 #include "Order.h"
 #include <map>
 #include <string>

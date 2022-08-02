@@ -66,6 +66,7 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
+from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 
 from . import path

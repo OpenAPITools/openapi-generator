@@ -156,7 +156,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**String**](string.md)
+**String**
 
 ### Authorization
 

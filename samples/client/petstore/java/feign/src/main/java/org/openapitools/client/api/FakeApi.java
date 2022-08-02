@@ -5,6 +5,7 @@ import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import java.io.File;
@@ -13,8 +14,11 @@ import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterEnumInteger;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
+import org.openapitools.client.model.Tag;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;

@@ -12,9 +12,11 @@
 
 package org.openapitools.client.api;
 
+import org.openapitools.client.model.Category;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.Tag;
 
 import java.io.InputStream;
 import java.io.OutputStream;

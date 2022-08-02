@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import java.util.Map;
+import java.time.OffsetDateTime;
 import org.openapitools.model.Order;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -2,6 +2,8 @@ package org.openapitools.api;
 
 import org.openapitools.model.Bar;
 import org.openapitools.model.BarCreate;
+import org.openapitools.model.Entity;
+import org.openapitools.model.FooRefOrValue;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

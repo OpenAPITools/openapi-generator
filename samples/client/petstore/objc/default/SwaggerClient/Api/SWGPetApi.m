@@ -1,7 +1,9 @@
 #import "SWGPetApi.h"
 #import "SWGQueryParamCollection.h"
 #import "SWGApiClient.h"
+#import "SWGCategory.h"
 #import "SWGPet.h"
+#import "SWGTag.h"
 
 
 @interface SWGPetApi ()

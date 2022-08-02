@@ -26,6 +26,7 @@
 #include <optional>
 #include <utility>
 
+#include "Object.h"
 #include "User.h"
 #include <string>
 #include <vector>

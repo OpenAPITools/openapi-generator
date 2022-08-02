@@ -2,7 +2,9 @@ import type { Configuration } from "../configuration";
 import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
 
 import { ApiResponse } from "../models/ApiResponse";
+import { Category } from "../models/Category";
 import { Pet } from "../models/Pet";
+import { Tag } from "../models/Tag";
 
 export abstract class AbstractPetApiRequestFactory {
     public abstract addPet(pet: Pet, options?: Configuration): Promise<RequestContext>;

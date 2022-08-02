@@ -22,7 +22,9 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_and_convert_types
 )
 from petstore_api.model.api_response import ApiResponse
+from petstore_api.model.category import Category
 from petstore_api.model.pet import Pet
+from petstore_api.model.tag import Tag
 
 
 class PetApi(object):

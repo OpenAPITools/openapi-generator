@@ -29,6 +29,7 @@
 #include <UserApi.h>
 
 
+#include "Object.h"
 #include "User.h"
 #include <string>
 #include <vector>

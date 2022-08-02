@@ -5,8 +5,11 @@
  */
 package org.openapitools.api;
 
+import org.openapitools.model.Category;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.openapitools.model.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
