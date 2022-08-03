@@ -336,7 +336,3 @@ test_that("Tests anyOf", {
 #  #expect_equal(response$tags, list(Tag$new(123, "tag_test"), Tag$new(456, "unknown")))
 #})
 
-#test_that("updatePetWithForm", {
-#  response <- pet_api$updatePetWithForm(pet_id, "test", "sold")
-#  expect_equal(response, "Pet updated")
-#})

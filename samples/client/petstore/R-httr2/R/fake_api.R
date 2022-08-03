@@ -125,6 +125,9 @@ FakeApi <- R6::R6Class(
       args <- list(...)
       query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`dummy`)) {
         rlang::abort(message = "Missing required parameter `dummy`.",
@@ -137,7 +140,6 @@ FakeApi <- R6::R6Class(
 
       header_params["data_file"] <- `var_data_file`
 
-      local_var_body <- NULL
       local_var_url_path <- "/fake/data_file"
 
       # The Accept request HTTP header
@@ -150,6 +152,8 @@ FakeApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,

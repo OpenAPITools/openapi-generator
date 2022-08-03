@@ -273,6 +273,9 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`order_id`)) {
         rlang::abort(message = "Missing required parameter `order_id`.",
@@ -281,7 +284,6 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
-      local_var_body <- NULL
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
@@ -298,6 +300,8 @@ StoreApi <- R6::R6Class(
                                  method = "DELETE",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -366,8 +370,10 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       query_params <- list()
       header_params <- c()
-
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
+
       local_var_url_path <- "/store/inventory"
       # API key authentication
       if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
@@ -384,6 +390,8 @@ StoreApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -467,6 +475,9 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`order_id`)) {
         rlang::abort(message = "Missing required parameter `order_id`.",
@@ -475,7 +486,6 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
-      local_var_body <- NULL
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
@@ -492,6 +502,8 @@ StoreApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -575,6 +587,9 @@ StoreApi <- R6::R6Class(
       args <- list(...)
       query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`order`)) {
         rlang::abort(message = "Missing required parameter `order`.",
@@ -601,6 +616,8 @@ StoreApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,

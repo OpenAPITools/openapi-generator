@@ -161,8 +161,8 @@ ApiClient  <- R6::R6Class(
           if (resp$status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
             resp <- self$Execute(url, method, query_params, header_params,
-                                 form_params, file_params, body,
-                                 stream_callback = stream_callback, ...)
+                                 form_params, file_params, accepts, content_types,
+                                 body, stream_callback = stream_callback, ...)
           } else {
             break
           }

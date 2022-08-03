@@ -235,6 +235,9 @@
       args <- list(...)
       query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
@@ -255,32 +258,29 @@
 
       {{/headerParams}}
       {{#queryParams}}
-      query_params["{{baseName}}"] <- {{paramName}}
+      query_params["{{baseName}}"] <- `{{paramName}}`
 
       {{/queryParams}}
       {{#hasFormParams}}
-      local_var_body <- list(
-        {{#formParams}}
-        {{^isFile}}
-        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
-        {{/isFile}}
-        {{#isFile}}
-        {{^isHttr2}}
-        "{{baseName}}" = httr::upload_file({{paramName}}){{^-last}},{{/-last}}
-        {{/isHttr2}}
-        {{#isHttr2}}
-        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
-        {{/isHttr2}}
-        {{/isFile}}
-        {{/formParams}}
-      )
-
+      {{#formParams}}
+      {{^isFile}}
+      form_params["{{baseName}}"] <- `{{paramName}}`
+      {{/isFile}}
+      {{#isFile}}
+      {{^isHttr2}}
+      file_params["{{baseName}}"] <- httr::upload_file(`{{paramName}}`)
+      {{/isHttr2}}
+      {{#isHttr2}}
+      file_params["{{baseName}}"] <- curl::form_file(`{{paramName}}`)
+      {{/isHttr2}}
+      {{/isFile}}
+      {{/formParams}}
       {{/hasFormParams}}
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
         {{#isArray}}
-        body.items <- paste(unlist(lapply({{paramName}}, function(param) {
+        body.items <- paste(unlist(lapply(`{{paramName}}`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
         local_var_body <- paste0("[", body.items, "]")
@@ -293,11 +293,6 @@
       }
 
       {{/bodyParams}}
-      {{/hasBodyParam}}
-      {{^hasBodyParam}}
-      {{^hasFormParams}}
-      local_var_body <- NULL
-      {{/hasFormParams}}
       {{/hasBodyParam}}
       local_var_url_path <- "{{path}}"
       {{#hasPathParams}}
@@ -358,6 +353,8 @@
                                  method = "{{httpMethod}}",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
