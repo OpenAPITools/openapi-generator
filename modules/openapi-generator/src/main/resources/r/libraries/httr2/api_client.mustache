@@ -220,22 +220,16 @@ ApiClient  <- R6::R6Class(
 
       # has file upload?
       if (!is.null(file_params) && length(file_params) != 0) {
-        for (http_form in names(file_params)) {
-          req <- req %>% req_body_multipart(http_form = file_params[http_form])
-        }
+        req <- req %>% req_body_multipart(!!!file_params)
 
         # add form parameters via req_body_multipart
         if (!is.null(form_params) && length(form_params) != 0) {
-          for (http_form in names(form_params)) {
-            req <- req %>% req_body_multipart(http_form = form_params[http_form])
-          } 
+          req <- req %>% req_body_multipart(!!!form_params)
         }
       } else { # no file upload
         # add form parameters via req_body_form
         if (!is.null(form_params) && length(form_params) != 0) {
-          for (http_form in names(form_params)) {
-            req <- req %>% req_body_form(http_form = form_params[http_form])
-          } 
+          req <- req %>% req_body_form(!!!form_params)
         }
       }
 
