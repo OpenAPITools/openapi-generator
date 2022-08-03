@@ -457,10 +457,10 @@ UserApi <- R6::R6Class(
     #' @export
     create_user_with_http_info = function(user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`user`)) {
@@ -560,10 +560,10 @@ UserApi <- R6::R6Class(
     #' @export
     create_users_with_array_input_with_http_info = function(user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`user`)) {
@@ -666,10 +666,10 @@ UserApi <- R6::R6Class(
     #' @export
     create_users_with_list_input_with_http_info = function(user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`user`)) {
@@ -772,10 +772,10 @@ UserApi <- R6::R6Class(
     #' @export
     delete_user_with_http_info = function(username, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`username`)) {
@@ -875,10 +875,10 @@ UserApi <- R6::R6Class(
     #' @export
     get_user_by_name_with_http_info = function(username, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`username`)) {
@@ -989,10 +989,10 @@ UserApi <- R6::R6Class(
     #' @export
     login_user_with_http_info = function(username, password, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`username`)) {
@@ -1104,10 +1104,10 @@ UserApi <- R6::R6Class(
     #' @export
     logout_user_with_http_info = function(...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       local_var_url_path <- "/user/logout"
@@ -1196,10 +1196,10 @@ UserApi <- R6::R6Class(
     #' @export
     update_user_with_http_info = function(username, user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`username`)) {

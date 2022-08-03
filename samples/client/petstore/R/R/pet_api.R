@@ -567,8 +567,11 @@ PetApi <- R6::R6Class(
     #' @export
     AddPetWithHttpInfo = function(pet, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet`)) {
         rlang::abort(message = "Missing required parameter `pet`.",
@@ -603,6 +606,8 @@ PetApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -684,8 +689,11 @@ PetApi <- R6::R6Class(
     #' @export
     DeletePetWithHttpInfo = function(pet_id, api_key = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -696,7 +704,6 @@ PetApi <- R6::R6Class(
 
       header_params["api_key"] <- `api_key`
 
-      local_var_body <- NULL
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
@@ -715,6 +722,8 @@ PetApi <- R6::R6Class(
                                  method = "DELETE",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -783,8 +792,11 @@ PetApi <- R6::R6Class(
     #' @export
     FindPetsByStatusWithHttpInfo = function(status, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`status`)) {
         rlang::abort(message = "Missing required parameter `status`.",
@@ -793,9 +805,8 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `status`."))
       }
 
-      query_params["status"] <- status
+      query_params["status"] <- `status`
 
-      local_var_body <- NULL
       local_var_url_path <- "/pet/findByStatus"
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
@@ -810,6 +821,8 @@ PetApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -891,8 +904,11 @@ PetApi <- R6::R6Class(
     #' @export
     FindPetsByTagsWithHttpInfo = function(tags, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`tags`)) {
         rlang::abort(message = "Missing required parameter `tags`.",
@@ -901,9 +917,8 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `tags`."))
       }
 
-      query_params["tags"] <- tags
+      query_params["tags"] <- `tags`
 
-      local_var_body <- NULL
       local_var_url_path <- "/pet/findByTags"
       # OAuth token
       header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
@@ -918,6 +933,8 @@ PetApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -999,8 +1016,11 @@ PetApi <- R6::R6Class(
     #' @export
     GetPetByIdWithHttpInfo = function(pet_id, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1009,7 +1029,6 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      local_var_body <- NULL
       local_var_url_path <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
@@ -1027,6 +1046,8 @@ PetApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -1114,8 +1135,11 @@ PetApi <- R6::R6Class(
     #' @export
     GetPetByIdStreamingWithHttpInfo = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1124,7 +1148,6 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      local_var_body <- NULL
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
@@ -1145,6 +1168,8 @@ PetApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -1231,8 +1256,11 @@ PetApi <- R6::R6Class(
     #' @export
     UpdatePetWithHttpInfo = function(pet, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet`)) {
         rlang::abort(message = "Missing required parameter `pet`.",
@@ -1261,6 +1289,8 @@ PetApi <- R6::R6Class(
                                  method = "PUT",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -1344,8 +1374,11 @@ PetApi <- R6::R6Class(
     #' @export
     UpdatePetWithFormWithHttpInfo = function(pet_id, name = NULL, status = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1354,11 +1387,8 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      local_var_body <- list(
-        "name" = name,
-        "status" = status
-      )
-
+      form_params["name"] <- `name`
+      form_params["status"] <- `status`
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
@@ -1377,6 +1407,8 @@ PetApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -1449,8 +1481,11 @@ PetApi <- R6::R6Class(
     #' @export
     UploadFileWithHttpInfo = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1459,11 +1494,8 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      local_var_body <- list(
-        "additionalMetadata" = additional_metadata,
-        "file" = httr::upload_file(file)
-      )
-
+      form_params["additionalMetadata"] <- `additional_metadata`
+      file_params["file"] <- httr::upload_file(`file`)
       local_var_url_path <- "/pet/{petId}/uploadImage"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
@@ -1482,6 +1514,8 @@ PetApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,

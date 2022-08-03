@@ -271,10 +271,10 @@ StoreApi <- R6::R6Class(
     #' @export
     delete_order_with_http_info = function(order_id, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`order_id`)) {
@@ -368,10 +368,10 @@ StoreApi <- R6::R6Class(
     #' @export
     get_inventory_with_http_info = function(data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       local_var_url_path <- "/store/inventory"
@@ -473,10 +473,10 @@ StoreApi <- R6::R6Class(
     #' @export
     get_order_by_id_with_http_info = function(order_id, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`order_id`)) {
@@ -585,10 +585,10 @@ StoreApi <- R6::R6Class(
     #' @export
     place_order_with_http_info = function(order, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`order`)) {

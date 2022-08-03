@@ -567,10 +567,10 @@ PetApi <- R6::R6Class(
     #' @export
     add_pet_with_http_info = function(pet, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet`)) {
@@ -689,10 +689,10 @@ PetApi <- R6::R6Class(
     #' @export
     delete_pet_with_http_info = function(pet_id, api_key = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet_id`)) {
@@ -792,10 +792,10 @@ PetApi <- R6::R6Class(
     #' @export
     find_pets_by_status_with_http_info = function(status, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`status`)) {
@@ -904,10 +904,10 @@ PetApi <- R6::R6Class(
     #' @export
     find_pets_by_tags_with_http_info = function(tags, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`tags`)) {
@@ -1016,10 +1016,10 @@ PetApi <- R6::R6Class(
     #' @export
     get_pet_by_id_with_http_info = function(pet_id, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet_id`)) {
@@ -1135,10 +1135,10 @@ PetApi <- R6::R6Class(
     #' @export
     get_pet_by_id_streaming_with_http_info = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet_id`)) {
@@ -1256,10 +1256,10 @@ PetApi <- R6::R6Class(
     #' @export
     update_pet_with_http_info = function(pet, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet`)) {
@@ -1374,10 +1374,10 @@ PetApi <- R6::R6Class(
     #' @export
     update_pet_with_form_with_http_info = function(pet_id, name = NULL, status = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet_id`)) {
@@ -1481,10 +1481,10 @@ PetApi <- R6::R6Class(
     #' @export
     upload_file_with_http_info = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-      form_params <- c()
-      file_params <- c()
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
 
       if (missing(`pet_id`)) {

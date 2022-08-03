@@ -457,8 +457,11 @@ UserApi <- R6::R6Class(
     #' @export
     CreateUserWithHttpInfo = function(user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`user`)) {
         rlang::abort(message = "Missing required parameter `user`.",
@@ -489,6 +492,8 @@ UserApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -555,8 +560,11 @@ UserApi <- R6::R6Class(
     #' @export
     CreateUsersWithArrayInputWithHttpInfo = function(user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`user`)) {
         rlang::abort(message = "Missing required parameter `user`.",
@@ -566,7 +574,7 @@ UserApi <- R6::R6Class(
       }
 
       if (!missing(`user`)) {
-        body.items <- paste(unlist(lapply(user, function(param) {
+        body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
         local_var_body <- paste0("[", body.items, "]")
@@ -590,6 +598,8 @@ UserApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -656,8 +666,11 @@ UserApi <- R6::R6Class(
     #' @export
     CreateUsersWithListInputWithHttpInfo = function(user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`user`)) {
         rlang::abort(message = "Missing required parameter `user`.",
@@ -667,7 +680,7 @@ UserApi <- R6::R6Class(
       }
 
       if (!missing(`user`)) {
-        body.items <- paste(unlist(lapply(user, function(param) {
+        body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
         local_var_body <- paste0("[", body.items, "]")
@@ -691,6 +704,8 @@ UserApi <- R6::R6Class(
                                  method = "POST",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -757,8 +772,11 @@ UserApi <- R6::R6Class(
     #' @export
     DeleteUserWithHttpInfo = function(username, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`username`)) {
         rlang::abort(message = "Missing required parameter `username`.",
@@ -767,7 +785,6 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `username`."))
       }
 
-      local_var_body <- NULL
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
         local_var_url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
@@ -788,6 +805,8 @@ UserApi <- R6::R6Class(
                                  method = "DELETE",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -856,8 +875,11 @@ UserApi <- R6::R6Class(
     #' @export
     GetUserByNameWithHttpInfo = function(username, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`username`)) {
         rlang::abort(message = "Missing required parameter `username`.",
@@ -866,7 +888,6 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `username`."))
       }
 
-      local_var_body <- NULL
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
         local_var_url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
@@ -883,6 +904,8 @@ UserApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -966,8 +989,11 @@ UserApi <- R6::R6Class(
     #' @export
     LoginUserWithHttpInfo = function(username, password, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`username`)) {
         rlang::abort(message = "Missing required parameter `username`.",
@@ -983,11 +1009,10 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `password`."))
       }
 
-      query_params["username"] <- username
+      query_params["username"] <- `username`
 
-      query_params["password"] <- password
+      query_params["password"] <- `password`
 
-      local_var_body <- NULL
       local_var_url_path <- "/user/login"
 
       # The Accept request HTTP header
@@ -1000,6 +1025,8 @@ UserApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -1077,10 +1104,12 @@ UserApi <- R6::R6Class(
     #' @export
     LogoutUserWithHttpInfo = function(...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
-
+      form_params <- list()
+      file_params <- list()
       local_var_body <- NULL
+
       local_var_url_path <- "/user/logout"
       # API key authentication
       if ("api_key" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["api_key"]) > 0) {
@@ -1097,6 +1126,8 @@ UserApi <- R6::R6Class(
                                  method = "GET",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
@@ -1165,8 +1196,11 @@ UserApi <- R6::R6Class(
     #' @export
     UpdateUserWithHttpInfo = function(username, user, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
 
       if (missing(`username`)) {
         rlang::abort(message = "Missing required parameter `username`.",
@@ -1208,6 +1242,8 @@ UserApi <- R6::R6Class(
                                  method = "PUT",
                                  query_params = query_params,
                                  header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
