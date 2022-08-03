@@ -68,6 +68,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
 *PetApi* | [**get_pet_by_id_streaming**](docs/PetApi.md#get_pet_by_id_streaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
+*PetApi* | [**test_header**](docs/PetApi.md#test_header) | **GET** /pet_header_test | Header test
 *PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
