@@ -271,7 +271,7 @@ StoreApi <- R6::R6Class(
     #' @export
     DeleteOrderWithHttpInfo = function(order_id, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
 
       if (missing(`order_id`)) {
@@ -364,7 +364,7 @@ StoreApi <- R6::R6Class(
     #' @export
     GetInventoryWithHttpInfo = function(data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
 
       local_var_body <- NULL
@@ -465,7 +465,7 @@ StoreApi <- R6::R6Class(
     #' @export
     GetOrderByIdWithHttpInfo = function(order_id, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
 
       if (missing(`order_id`)) {
@@ -573,7 +573,7 @@ StoreApi <- R6::R6Class(
     #' @export
     PlaceOrderWithHttpInfo = function(order, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
 
       if (missing(`order`)) {
