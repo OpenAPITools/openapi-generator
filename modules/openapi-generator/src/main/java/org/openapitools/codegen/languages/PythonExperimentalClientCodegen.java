@@ -1679,6 +1679,23 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return null;
     }
 
+    /**
+     * Function to isolate the call to add schemas to the includedSchemas list that will detect when
+     * a schema is added multiple times.
+     * @param includedSchemas List of includedSchemas from toExampleValueRecursive
+     * @param schema the schema to add
+     */
+    private void addSchemaToIncludedSchemaList(List<Schema> includedSchemas, Schema schema) {
+
+        // if the schema is in the list, then throw an exception.
+        // this should never happen
+        if(includedSchemas.contains(schema)) {
+            throw new RuntimeException("Attempted to add a schema to the includedSchemas list twice");
+        }
+
+        includedSchemas.add(schema);
+    }
+
     /***
      * Recursively generates string examples for schemas
      *
@@ -1753,9 +1770,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
              TODO generate examples for some of these use cases in the future like
              only oneOf without a discriminator
              */
+            if (cycleFound) {
+                return "";
+            }
             Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (ModelUtils.isComposedSchema(schema)) {
+                addSchemaToIncludedSchemaList(includedSchemas, schema);
                 // complex composed object type schemas not yet handled and the code returns early
                 if (hasProperties) {
                     // what if this composed schema defined properties + allOf?
@@ -1920,7 +1941,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            includedSchemas.add(schema);
+            addSchemaToIncludedSchemaList(includedSchemas, schema);
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
             if (StringUtils.isEmpty(itemExample) || cycleFound) {
                 return fullPrefix + "[]" + closeChars;
@@ -1997,7 +2018,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                includedSchemas.add(schema);
+                addSchemaToIncludedSchemaList(includedSchemas, schema);
                 example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
@@ -2020,6 +2041,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         String example = fullPrefix + "\n";
+
+        addSchemaToIncludedSchemaList(includedSchemas, schema);
+
         for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
             String propName = entry.getKey();
             Schema propSchema = entry.getValue();
@@ -2033,7 +2057,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            includedSchemas.add(schema);
+
             example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
