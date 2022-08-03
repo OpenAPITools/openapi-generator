@@ -1243,7 +1243,7 @@ public class DefaultGenerator implements Generator {
         }
         ApiResponses apiResponses = operation.getResponses();
         ApiResponse methodResponse = DefaultCodegen.findMethodResponse(apiResponses);
-        if (methodResponse == null || methodResponse.getContent().size() < 2) {
+        if (methodResponse == null || methodResponse.getContent() == null || methodResponse.getContent().size() < 2) {
             return Collections.singletonList(operation);
         }
 
@@ -1254,37 +1254,14 @@ public class DefaultGenerator implements Generator {
         for (String contentTypeName : methodResponseAllContentTypes.keySet()) {
             MediaType contentType = methodResponseAllContentTypes.get(contentTypeName);
             String version = findVersionName(contentTypeName);
-            if (operation.getRequestBody() == null){
-                Content contentTypeWithSingeValue = new Content();
-                contentTypeWithSingeValue.addMediaType(contentTypeName, contentType);
-                ApiResponse apiResponseWithSingeContentType = copyApiResponse(methodResponse);
-                apiResponseWithSingeContentType.setContent(contentTypeWithSingeValue);
-
-                ApiResponses singleContentTypeApiResponses = copyApiResponses(apiResponses);
-                singleContentTypeApiResponses.put(methodResponseCodeWithMultipleContentTypes, apiResponseWithSingeContentType);
-
-                Operation singleContentTypeOperation = copyOperation(operation);
-                singleContentTypeOperation.setResponses(singleContentTypeApiResponses);
-                // correct operation name should be handled by final generator
-                singleContentTypeOperation.setOperationId(operation.getOperationId() + "-" + version);
-
+            if (operation.getRequestBody() == null || operation.getRequestBody().getContent() == null ){
+                Operation singleContentTypeOperation = getSingleContentTypeOperation(operation, apiResponses, methodResponse, methodResponseCodeWithMultipleContentTypes, contentTypeName, contentType, version);
                 operations.add(singleContentTypeOperation);
             }
             else {
                 if (operation.getRequestBody().getContent().get(contentTypeName) == null) continue;
                 else {
-                    Content contentTypeWithSingeValue = new Content();
-                    contentTypeWithSingeValue.addMediaType(contentTypeName, contentType);
-                    ApiResponse apiResponseWithSingeContentType = copyApiResponse(methodResponse);
-                    apiResponseWithSingeContentType.setContent(contentTypeWithSingeValue);
-
-                    ApiResponses singleContentTypeApiResponses = copyApiResponses(apiResponses);
-                    singleContentTypeApiResponses.put(methodResponseCodeWithMultipleContentTypes, apiResponseWithSingeContentType);
-
-                    Operation singleContentTypeOperation = copyOperation(operation);
-                    singleContentTypeOperation.setResponses(singleContentTypeApiResponses);
-                    // correct operation name should be handled by final generator
-                    singleContentTypeOperation.setOperationId(operation.getOperationId() + "-" + version);
+                    Operation singleContentTypeOperation = getSingleContentTypeOperation(operation, apiResponses, methodResponse, methodResponseCodeWithMultipleContentTypes, contentTypeName, contentType, version);
                     RequestBody singleContentRequestBody = getSingleRequestBody(operation, contentTypeName);
                     singleContentTypeOperation.setRequestBody(singleContentRequestBody);
                     operations.add(singleContentTypeOperation);
@@ -1294,7 +1271,19 @@ public class DefaultGenerator implements Generator {
         return operations;
     }
 
-
+    private Operation getSingleContentTypeOperation(Operation operation, ApiResponses apiResponses, ApiResponse methodResponse, String methodResponseCodeWithMultipleContentTypes, String contentTypeName, MediaType contentType, String version) {
+        Content contentTypeWithSingeValue = new Content();
+        contentTypeWithSingeValue.addMediaType(contentTypeName, contentType);
+        ApiResponse apiResponseWithSingeContentType = copyApiResponse(methodResponse);
+        apiResponseWithSingeContentType.setContent(contentTypeWithSingeValue);
+        ApiResponses singleContentTypeApiResponses = copyApiResponses(apiResponses);
+        singleContentTypeApiResponses.put(methodResponseCodeWithMultipleContentTypes, apiResponseWithSingeContentType);
+        Operation singleContentTypeOperation = copyOperation(operation);
+        singleContentTypeOperation.setResponses(singleContentTypeApiResponses);
+        // correct operation name should be handled by final generator
+        singleContentTypeOperation.setOperationId(operation.getOperationId() + "-" + version);
+        return singleContentTypeOperation;
+    }
 
 
     private static Operation copyOperation(Operation operation) {
@@ -1318,7 +1307,6 @@ public class DefaultGenerator implements Generator {
     private static RequestBody getSingleRequestBody(Operation operation, String version) {
         RequestBody requestBody = operation.getRequestBody();
         MediaType mediaType = requestBody.getContent().get(version);
-        Content single = new Content();
         Content contentTypeWithSingeValue = new Content();
         contentTypeWithSingeValue.addMediaType(version, mediaType);
         RequestBody requestBodywithSingleContent = new RequestBody();
