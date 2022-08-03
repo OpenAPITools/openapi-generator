@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
 [**get_pet_by_id_streaming**](PetApi.md#get_pet_by_id_streaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
+[**test_header**](PetApi.md#test_header) | **GET** /pet_header_test | Header test
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -374,6 +375,72 @@ if (!is.null(result$ApiException)) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **integer**| ID of pet to return | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
+
+# **test_header**
+> Pet test_header(header_test_int)
+
+Header test
+
+Header test
+
+### Example
+```R
+library(petstore)
+
+var_header_test_int <- 56 # integer | header test int
+
+#Header test
+api_instance <- PetApi$new()
+# Configure API key authorization: api_key
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$test_header(var_header_test_int, data_file = "result.txt"),
+             # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+             # api_instance$test_header(var_header_test_int, stream_callback = function(x){ print(length(x)) }),
+             api_instance$test_header(var_header_test_int),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
+} else {
+  # deserialized response object
+  dput(result$content)
+  # response headers
+  dput(result$response$headers)
+  # response status code
+  dput(result$response$status_code)
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **header_test_int** | **integer**| header test int | 
 
 ### Return type
 

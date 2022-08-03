@@ -101,6 +101,21 @@ test_that("get_pet_by_id_streaming", {
             )
 })
 
+test_that("Test header parameters", {
+  # test exception 
+  result <- tryCatch(pet_api$test_header(45345), 
+          ApiException = function(ex) ex
+  )
+
+  expect_true(!is.null(result))
+  expect_true(!is.null(result$ApiException))
+  expect_equal(result$ApiException$status, 404)
+  # test error object `ApiResponse`
+  #expect_equal(result$ApiException$error_object$toString(), "{\"code\":404,\"type\":\"unknown\",\"message\":\"null for uri: http://pet\n  x[1]: store.swagger.io/v2/pet_header_test\"}")
+  expect_equal(result$ApiException$error_object$code, 404)
+})
+
+
 test_that("Test GetPetById exception", {
   # test exception
   result <- tryCatch(pet_api$get_pet_by_id(98765), # petId not exist

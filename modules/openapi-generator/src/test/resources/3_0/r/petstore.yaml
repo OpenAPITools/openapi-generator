@@ -242,6 +242,38 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  '/pet_header_test':
+    get:
+      tags:
+        - pet
+      summary: Header test
+      description: Header test
+      operationId: test_header
+      x-streaming: true
+      parameters:
+        - name: header_test_int
+          in: header
+          description: header test int
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
   '/pet/{petId}?streaming':
     get:
       tags:
