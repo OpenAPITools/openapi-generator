@@ -65,6 +65,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
@@ -662,14 +663,18 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Parse content type object from header value
    */
-  private ContentType getContentType(String headerValue) {
-    return ContentType.getByMimeType(headerValue);
+  private ContentType getContentType(String headerValue) throws ApiException {
+    try {
+      return ContentType.parse(headerValue);
+    } catch (ParseException e) {
+      throw new ApiException("Could not parse content type " + headerValue);
+    }
   }
 
   /**
    * Get content type of a response or null if one was not provided
    */
-  private String getResponseMimeType(HttpResponse response) {
+  private String getResponseMimeType(HttpResponse response) throws ApiException {
     Header contentTypeHeader = response.getFirstHeader("Content-Type");
     if (contentTypeHeader != null) {
       return getContentType(contentTypeHeader.getValue()).getMimeType();
@@ -703,7 +708,14 @@ public class ApiClient extends JavaTimeFormatter {
         } else if (value instanceof byte[]) {
           multiPartBuilder.addBinaryBody(paramEntry.getKey(), (byte[]) value);
         } else {
-          multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()));
+          Charset charset = contentType.getCharset();
+          if (charset != null) {
+            ContentType customContentType = ContentType.create(ContentType.TEXT_PLAIN.getMimeType(), charset);
+            multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()),
+                    customContentType);
+          } else {
+            multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()));
+          }
         }
       }
       return multiPartBuilder.build();
@@ -712,11 +724,7 @@ public class ApiClient extends JavaTimeFormatter {
       for (Entry<String, Object> paramEntry : formParams.entrySet()) {
         formValues.add(new BasicNameValuePair(paramEntry.getKey(), parameterToString(paramEntry.getValue())));
       }
-      try {
-        return new UrlEncodedFormEntity(formValues);
-      } catch (UnsupportedEncodingException e) {
-        throw new ApiException(e);
-      }
+      return new UrlEncodedFormEntity(formValues, contentType.getCharset());
     } else {
       // Handle files with unknown content type
       if (obj instanceof File) {
