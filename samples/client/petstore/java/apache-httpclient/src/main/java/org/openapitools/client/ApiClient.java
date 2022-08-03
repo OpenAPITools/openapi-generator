@@ -720,11 +720,7 @@ public class ApiClient extends JavaTimeFormatter {
       for (Entry<String, Object> paramEntry : formParams.entrySet()) {
         formValues.add(new BasicNameValuePair(paramEntry.getKey(), parameterToString(paramEntry.getValue())));
       }
-      try {
-        return new UrlEncodedFormEntity(formValues);
-      } catch (UnsupportedEncodingException e) {
-        throw new ApiException(e);
-      }
+      return new UrlEncodedFormEntity(formValues, contentType.getCharset());
     } else {
       // Handle files with unknown content type
       if (obj instanceof File) {
