@@ -124,9 +124,20 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
+{{#variables}}
+{{#-first}}
+     *  Variables:
+{{/-first}}
+     *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+{{#-first}}
+     *      Allowed values:
+{{/-first}}
+     *        - {{{.}}}{{/enumValues}}
+{{/variables}}
 {{#-last}}
      *
 {{/-last}}
@@ -134,6 +145,12 @@ use {{invokerPackage}}\ObjectSerializer;
 {{#allParams}}
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
+{{#servers}}
+{{#-first}}
+     * @param  null|int $hostIndex Host index. Defaults to null. If null, then the library will use $this->hostIndex instead
+     * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
+{{/-first}}
+{{/servers}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -142,9 +159,9 @@ use {{invokerPackage}}\ObjectSerializer;
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}?int $hostIndex = null, array $variables = []{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
-        {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
+        {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}$hostIndex, $variables{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
         return $response;{{/returnType}}
     }
 
@@ -165,9 +182,20 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
+{{#variables}}
+{{#-first}}
+     *  Variables:
+{{/-first}}
+     *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+{{#-first}}
+     *      Allowed values:
+{{/-first}}
+     *        - {{{.}}}{{/enumValues}}
+{{/variables}}
 {{#-last}}
      *
 {{/-last}}
@@ -175,6 +203,12 @@ use {{invokerPackage}}\ObjectSerializer;
 {{#allParams}}
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
+{{#servers}}
+{{#-first}}
+     * @param  null|int $hostIndex Host index. Defaults to null. If null, then the library will use $this->hostIndex instead
+     * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
+{{/-first}}
+{{/servers}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -183,9 +217,9 @@ use {{invokerPackage}}\ObjectSerializer;
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}?int $hostIndex = null, array $variables = []{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
-        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
+        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}$hostIndex, $variables{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
 
         try {
             $options = $this->createHttpClientOption();
@@ -306,9 +340,20 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
+{{#variables}}
+{{#-first}}
+     *  Variables:
+{{/-first}}
+     *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+{{#-first}}
+     *      Allowed values:
+{{/-first}}
+     *        - {{{.}}}{{/enumValues}}
+{{/variables}}
 {{#-last}}
      *
 {{/-last}}
@@ -316,6 +361,12 @@ use {{invokerPackage}}\ObjectSerializer;
 {{#allParams}}
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
+{{#servers}}
+{{#-first}}
+     * @param  null|int $hostIndex Host index. Defaults to null. If null, then the library will use $this->hostIndex instead
+     * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
+{{/-first}}
+{{/servers}}
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -323,9 +374,9 @@ use {{invokerPackage}}\ObjectSerializer;
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}Async({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Async({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}?int $hostIndex = null, array $variables = []{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
-        return $this->{{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+        return $this->{{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}$hostIndex, $variables{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
             ->then(
                 function ($response) {
                     return $response[0];
@@ -350,9 +401,20 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
+{{#variables}}
+{{#-first}}
+     *  Variables:
+{{/-first}}
+     *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+{{#-first}}
+     *      Allowed values:
+{{/-first}}
+     *        - {{{.}}}{{/enumValues}}
+{{/variables}}
 {{#-last}}
      *
 {{/-last}}
@@ -360,6 +422,12 @@ use {{invokerPackage}}\ObjectSerializer;
 {{#allParams}}
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
+{{#servers}}
+{{#-first}}
+     * @param  null|int $hostIndex Host index. Defaults to null. If null, then the library will use $this->hostIndex instead
+     * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
+{{/-first}}
+{{/servers}}
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -367,10 +435,10 @@ use {{invokerPackage}}\ObjectSerializer;
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}?int $hostIndex = null, array $variables = []{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         $returnType = '{{{returnType}}}';
-        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
+        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}$hostIndex, $variables{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -422,9 +490,20 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+    * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+    * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
+{{#variables}}
+{{#-first}}
+     *  Variables:
+{{/-first}}
+    *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+{{#-first}}
+     *      Allowed values:
+{{/-first}}
+     *        - {{{.}}}{{/enumValues}}
+{{/variables}}
 {{#-last}}
      *
 {{/-last}}
@@ -432,6 +511,12 @@ use {{invokerPackage}}\ObjectSerializer;
 {{#allParams}}
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
+{{#servers}}
+{{#-first}}
+     * @param  null|int $hostIndex Host index. Defaults to null. If null, then the library will use $this->hostIndex instead
+     * @param  array $variables Associative array of variables to pass to the host. Defaults to empty array.
+{{/-first}}
+{{/servers}}
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -439,16 +524,16 @@ use {{invokerPackage}}\ObjectSerializer;
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#servers}}{{#-first}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}?int $hostIndex = null, array $variables = []{{/-first}}{{/servers}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         {{#vendorExtensions.x-group-parameters}}
         // unbox the parameters from the associative array
-        {{#allParams}}
+{{#allParams}}
         ${{paramName}} = array_key_exists('{{paramName}}', $associative_array) ? $associative_array['{{paramName}}'] : {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}};
-        {{/allParams}}
-
-        {{/vendorExtensions.x-group-parameters}}
-        {{#allParams}}
+{{/allParams}}{{#servers.0}}
+        $hostIndex = $associative_array['hostIndex'];
+        $variables = array_key_exists('variables', $associative_array) ? $associative_array['variables'] : [];
+{{/servers.0}}{{/vendorExtensions.x-group-parameters}}{{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null || (is_array(${{paramName}}) && count(${{paramName}}) === 0)) {
@@ -653,22 +738,70 @@ use {{invokerPackage}}\ObjectSerializer;
         );
 
         {{#servers.0}}
-        $operationHosts = [{{#servers}}"{{{url}}}"{{^-last}}, {{/-last}}{{/servers}}];
-        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
-            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        # Preserve the original behavior of server indexing.
+        if ($hostIndex === null) {
+            $hostIndex = $this->hostIndex;
         }
-        $operationHost = $operationHosts[$this->hostIndex];
 
+        $hostSettings = $this->getHostSettingsFor{{operationId}}();
+
+        if ($hostIndex < 0 || $hostIndex >= count($hostSettings)) {
+            throw new \InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".count($hostSettings));
+        }
+        $operationHost = Configuration::getHostString($hostSettings, $hostIndex, $variables);
+        {{/servers.0}}
+        {{^servers.0}}
+        $operationHost = $this->config->getHost();
         {{/servers.0}}
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             '{{httpMethod}}',
-            {{^servers.0}}$this->config->getHost(){{/servers.0}}{{#servers.0}}$operationHost{{/servers.0}} . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
+    {{#servers.0}}
+    /**
+     * Returns an array of host settings for Operation {{operationId}}
+     *
+     * @return array an array of host settings
+     */
+    protected function getHostSettingsFor{{operationId}}(): array
+    {
+        return [
+        {{#servers}}
+            [
+                "url" => "{{{url}}}",
+                "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
+                {{#variables}}
+                {{#-first}}
+                "variables" => [
+                {{/-first}}
+                    "{{{name}}}" => [
+                    "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
+                    "default_value" => "{{{defaultValue}}}",
+                    {{#enumValues}}
+                    {{#-first}}
+                    "enum_values" => [
+                    {{/-first}}
+                        "{{{.}}}",
+                    {{#-last}}
+                    ]
+                    {{/-last}}
+                    {{/enumValues}}
+                    ]{{^-last}},{{/-last}}
+                {{#-last}}
+                ]
+                {{/-last}}
+                {{/variables}}
+            ]{{^-last}},{{/-last}}
+        {{/servers}}
+        ];
+    }
+
+    {{/servers.0}}
     {{/operation}}
     /**
      * Create http client option

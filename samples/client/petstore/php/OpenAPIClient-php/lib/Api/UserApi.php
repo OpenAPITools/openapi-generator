@@ -258,6 +258,7 @@ class UserApi
      */
     public function createUserRequest($user)
     {
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -330,10 +331,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -482,6 +484,7 @@ class UserApi
      */
     public function createUsersWithArrayInputRequest($user)
     {
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -554,10 +557,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -706,6 +710,7 @@ class UserApi
      */
     public function createUsersWithListInputRequest($user)
     {
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -778,10 +783,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -930,6 +936,7 @@ class UserApi
      */
     public function deleteUserRequest($username)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
@@ -1004,10 +1011,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'DELETE',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1210,6 +1218,7 @@ class UserApi
      */
     public function getUserByNameRequest($username)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
@@ -1284,10 +1293,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1495,12 +1505,14 @@ class UserApi
      */
     public function loginUserRequest($username, $password)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling loginUser'
             );
         }
+
         // verify the required parameter 'password' is set
         if ($password === null || (is_array($password) && count($password) === 0)) {
             throw new \InvalidArgumentException(
@@ -1585,10 +1597,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1792,10 +1805,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1949,12 +1963,14 @@ class UserApi
      */
     public function updateUserRequest($username, $user)
     {
+
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling updateUser'
             );
         }
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -2035,10 +2051,11 @@ class UserApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
