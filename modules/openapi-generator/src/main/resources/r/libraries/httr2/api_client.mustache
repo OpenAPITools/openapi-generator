@@ -185,14 +185,10 @@ ApiClient  <- R6::R6Class(
 
       ## add headers and default headers
       if (!is.null(header_params) && length(header_params) != 0) {
-        for (http_header in names(header_params)) {
-          req <- req %>% req_headers(http_header = header_params[http_header])
-        }
+        req <- req %>% req_headers(!!!header_params)
       }
       if (!is.null(self$default_headers) && length(self$default_headers) != 0) {
-        for (http_header in names(header_params)) {
-          req <- req %>% req_headers(http_header = self$default_headers[http_header])
-        }
+        req <- req %>% req_headers(!!!self$default_headers)
       }
 
       # set HTTP accept header
