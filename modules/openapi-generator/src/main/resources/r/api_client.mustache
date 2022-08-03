@@ -134,9 +134,9 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
-    #' @param file_params The form parameters to upload files
-    #' @param accepts The HTTP accpet headers.
-    #' @param content_types The HTTP content-type headers.
+    #' @param file_params The form parameters for uploading files.
+    #' @param accepts The list of Accept headers.
+    #' @param content_types The list of Content-Type headers.
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process the data stream
     #' @param ... Other optional arguments.
@@ -147,7 +147,8 @@ ApiClient  <- R6::R6Class(
                        body, stream_callback = NULL, ...) {
 
       resp <- self$Execute(url, method, query_params, header_params,
-                           form_params, file_params, accepts, content_types,
+                           form_params, file_params,
+                           accepts, content_types,
                            body, stream_callback = stream_callback, ...)
 
       if (is.null(self$max_retry_attempts)) {
@@ -180,16 +181,17 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
-    #' @param file_params The form parameters to upload files
-    #' @param accepts The HTTP accpet headers.
-    #' @param content_types The HTTP content-type headers.
+    #' @param file_params The form parameters for uploading files.
+    #' @param accepts The list of Accept headers
+    #' @param content_types The list of Content-Type headers
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
     Execute = function(url, method, query_params, header_params,
-                       form_params, file_params, accepts, content_types,
+                       form_params, file_params,
+                       accepts, content_types,
                        body, stream_callback = NULL, ...) {
       headers <- httr::add_headers(c(header_params, self$default_headers))
 

@@ -100,7 +100,7 @@ test_that("update_pet_with_form", {
   update_pet <- Pet$new("name_test",
     photoUrls = list("photo_test", "second test"),
     category = Category$new(id = 450, name = "test_cat"),
-    id = pet_id,
+    id = update_pet_id,
     tags = list(
       Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
     ),
@@ -113,22 +113,22 @@ test_that("update_pet_with_form", {
   ## update pet with form
   update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
 
-  ## get pet
-  #response <- pet_api$get_pet_by_id(update_pet_id)
-  #expect_equal(response$id, update_pet_id)
-  #expect_equal(response$name, "pet2")
-  #expect_equal(
-  #  response$photoUrls,
-  #  list("photo_test", "second test")
-  #)
-  #expect_equal(response$status, "sold")
-  #expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
+  # get pet
+  response <- pet_api$get_pet_by_id(update_pet_id)
+  expect_equal(response$id, update_pet_id)
+  expect_equal(response$name, "pet2")
+  expect_equal(response$status, "sold")
+  expect_equal(
+    response$photoUrls,
+    list("photo_test", "second test")
+  )
+  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
 
-  #expect_equal(pet$tags, response$tags)
-  #expect_equal(
-  #  response$tags,
-  #  list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
-  #)
+  expect_equal(pet$tags, response$tags)
+  expect_equal(
+    response$tags,
+    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
+  )
 })
 
 test_that("get_pet_by_id_streaming", {
@@ -137,6 +137,21 @@ test_that("get_pet_by_id_streaming", {
                ApiException = function(ex) ex
             )
 })
+
+test_that("Test header parameters", {
+  # test exception 
+  result <- tryCatch(pet_api$test_header(45345), 
+          ApiException = function(ex) ex
+  )
+
+  expect_true(!is.null(result))
+  expect_true(!is.null(result$ApiException))
+  expect_equal(result$ApiException$status, 404)
+  # test error object `ApiResponse`
+  #expect_equal(result$ApiException$error_object$toString(), "{\"code\":404,\"type\":\"unknown\",\"message\":\"null for uri: http://pet\n  x[1]: store.swagger.io/v2/pet_header_test\"}")
+  expect_equal(result$ApiException$error_object$code, 404)
+})
+
 
 test_that("Test GetPetById exception", {
   # test exception

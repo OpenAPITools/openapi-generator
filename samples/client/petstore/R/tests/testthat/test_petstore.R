@@ -100,11 +100,62 @@ test_that("GetPetById", {
   )
 })
 
+test_that("update_pet_with_form", {
+  ## add pet
+  update_pet_id <- 123999
+  update_pet <- Pet$new("name_test",
+    photoUrls = list("photo_test", "second test"),
+    category = Category$new(id = 450, name = "test_cat"),
+    id = update_pet_id,
+    tags = list(
+      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
+    ),
+    status = "available"
+  )
+  pet_api$api_client$username <- "username123"
+  pet_api$api_client$password <- "password123"
+  result <- pet_api$AddPet(update_pet)
+
+  ## update pet with form
+  update_result <- pet_api$UpdatePetWithForm(update_pet_id, name = "pet2", status = "sold")
+
+  ## get pet
+  #response <- pet_api$get_pet_by_id(update_pet_id)
+  #expect_equal(response$id, update_pet_id)
+  #expect_equal(response$name, "pet2")
+  #expect_equal(
+  #  response$photoUrls,
+  #  list("photo_test", "second test")
+  #)
+  #expect_equal(response$status, "sold")
+  #expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
+
+  #expect_equal(pet$tags, response$tags)
+  #expect_equal(
+  #  response$tags,
+  #  list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
+  #)
+})
+
 test_that("GetPetByIdStreaming", {
   result <- tryCatch(
                pet_api$GetPetByIdStreaming(pet_id, stream_callback = function(x) { print(x) }),
                ApiException = function(ex) ex
             )
+})
+
+test_that("Test header parameters", {
+  # test exception 
+  result <- tryCatch(pet_api$TestHeader(45345), 
+          ApiException = function(ex) ex
+  )
+
+  expect_true(!is.null(result))
+  expect_true(!is.null(result$ApiException))
+  expect_equal(result$ApiException$status, 404)
+  # test error object `ApiResponse`
+  #expect_equal(result$ApiException$error_object$toString(), "{\"code\":404,\"type\":\"unknown\",\"message\":\"null for uri: http://pet\n  x[1]: store.swagger.io/v2/pet_header_test\"}")
+  expect_equal(result$ApiException$error_object$code, 404)
 })
 
 test_that("Test GetPetById exception", {
@@ -322,7 +373,3 @@ test_that("Tests anyOf", {
 #  #expect_equal(response$tags, list(Tag$new(123, "tag_test"), Tag$new(456, "unknown")))
 #})
 
-#test_that("updatePetWithForm", {
-#  response <- pet_api$updatePetWithForm(pet_id, "test", "sold")
-#  expect_equal(response, "Pet updated")
-#})
