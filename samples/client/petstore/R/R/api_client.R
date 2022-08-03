@@ -138,6 +138,8 @@ ApiClient  <- R6::R6Class(
     #' @param method HTTP method.
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
+    #' @param form_params The form parameters.
+    #' @param file_params The form parameters for uploading files.
     #' @param accepts The list of Accept headers.
     #' @param content_types The list of Content-Type headers.
     #' @param body The HTTP request body.
@@ -145,10 +147,13 @@ ApiClient  <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    CallApi = function(url, method, query_params, header_params, accepts, content_types,
+    CallApi = function(url, method, query_params, header_params, form_params,
+                       file_params, accepts, content_types,
                        body, stream_callback = NULL, ...) {
 
-      resp <- self$Execute(url, method, query_params, header_params, accepts, content_types,
+      resp <- self$Execute(url, method, query_params, header_params,
+                           form_params, file_params,
+                           accepts, content_types,
                            body, stream_callback = stream_callback, ...)
 
       if (is.null(self$max_retry_attempts)) {
@@ -160,7 +165,9 @@ ApiClient  <- R6::R6Class(
         for (i in 1 : self$max_retry_attempts) {
           if (resp$status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-            resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
+            resp <- self$Execute(url, method, query_params, header_params,
+                                 form_params, file_params, body,
+                                 stream_callback = stream_callback, ...)
           } else {
             break
           }
@@ -178,6 +185,8 @@ ApiClient  <- R6::R6Class(
     #' @param method HTTP method.
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
+    #' @param form_params The form parameters.
+    #' @param file_params The form parameters for uploading files.
     #' @param accepts The list of Accept headers
     #' @param content_types The list of Content-Type headers
     #' @param body The HTTP request body.
@@ -185,7 +194,9 @@ ApiClient  <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    Execute = function(url, method, query_params, header_params, accepts, content_types,
+    Execute = function(url, method, query_params, header_params,
+                       form_params, file_params,
+                       accepts, content_types,
                        body, stream_callback = NULL, ...) {
       headers <- httr::add_headers(c(header_params, self$default_headers))
 

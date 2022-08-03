@@ -233,7 +233,7 @@
     #' @export
     {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
 
       {{#requiredParams}}

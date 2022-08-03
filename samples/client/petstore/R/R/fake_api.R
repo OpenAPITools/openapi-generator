@@ -123,7 +123,7 @@ FakeApi <- R6::R6Class(
     #' @export
     FakeDataFileWithHttpInfo = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
       args <- list(...)
-      query_params <- c()
+      query_params <- list()
       header_params <- c()
 
       if (missing(`dummy`)) {
