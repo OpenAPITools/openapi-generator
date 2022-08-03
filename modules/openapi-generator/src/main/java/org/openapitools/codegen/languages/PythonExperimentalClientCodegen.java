@@ -1687,13 +1687,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     private void addSchemaToIncludedSchemaList(List<Schema> includedSchemas, Schema schema) {
 
-        // if the schema is in the list, then throw an exception.
-        // this should never happen
+        // if the schema is in the list, issue a warning
         if(includedSchemas.contains(schema)) {
-            throw new RuntimeException("Attempted to add a schema to the includedSchemas list twice");
+            LOGGER.warn("Attempted to add a schema to the includedSchemas list twice");
+        } else {
+            includedSchemas.add(schema);
         }
-
-        includedSchemas.add(schema);
     }
 
     /***
