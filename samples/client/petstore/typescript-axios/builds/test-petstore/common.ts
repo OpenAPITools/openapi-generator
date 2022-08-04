@@ -86,7 +86,7 @@ export const setOAuthToObject = async function (object: any, name: string, scope
 function setFlattenedQueryParams(urlSearchParams: Record<string, any>, parameter: any, key: string=""): void {
     if (typeof parameter === "object") {
         if (Array.isArray(parameter)) {
-            (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item));
+            (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
         } 
         else {
             Object.keys(parameter as Record<string, any>).forEach(currentKey => 
