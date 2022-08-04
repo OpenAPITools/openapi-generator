@@ -1,13 +1,14 @@
-# unit_test_api.MaxLengthApi
+# unit_test_api.apis.tags.MaxLengthApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_maxlength_validation_request_body**](MaxLengthApi.md#post_maxlength_validation_request_body) | **post** /requestBody/postMaxlengthValidationRequestBody | 
-[**post_maxlength_validation_response_body_for_content_types**](MaxLengthApi.md#post_maxlength_validation_response_body_for_content_types) | **post** /responseBody/postMaxlengthValidationResponseBodyForContentTypes | 
+[**post_maxlength_validation_request_body**](#post_maxlength_validation_request_body) | **post** /requestBody/postMaxlengthValidationRequestBody | 
+[**post_maxlength_validation_response_body_for_content_types**](#post_maxlength_validation_response_body_for_content_types) | **post** /responseBody/postMaxlengthValidationResponseBodyForContentTypes | 
 
 # **post_maxlength_validation_request_body**
+<a name="post_maxlength_validation_request_body"></a>
 > post_maxlength_validation_request_body(body)
 
 
@@ -78,9 +79,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_maxlength_validation_response_body_for_content_types**
+<a name="post_maxlength_validation_response_body_for_content_types"></a>
 > MaxlengthValidation post_maxlength_validation_response_body_for_content_types()
 
 
@@ -140,5 +142,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

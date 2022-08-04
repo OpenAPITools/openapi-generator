@@ -1,14 +1,15 @@
-# unit_test_api.MinLengthApi
+# unit_test_api.apis.tags.MinPropertiesApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_minlength_validation_request_body**](MinLengthApi.md#post_minlength_validation_request_body) | **post** /requestBody/postMinlengthValidationRequestBody | 
-[**post_minlength_validation_response_body_for_content_types**](MinLengthApi.md#post_minlength_validation_response_body_for_content_types) | **post** /responseBody/postMinlengthValidationResponseBodyForContentTypes | 
+[**post_minproperties_validation_request_body**](#post_minproperties_validation_request_body) | **post** /requestBody/postMinpropertiesValidationRequestBody | 
+[**post_minproperties_validation_response_body_for_content_types**](#post_minproperties_validation_response_body_for_content_types) | **post** /responseBody/postMinpropertiesValidationResponseBodyForContentTypes | 
 
-# **post_minlength_validation_request_body**
-> post_minlength_validation_request_body(body)
+# **post_minproperties_validation_request_body**
+<a name="post_minproperties_validation_request_body"></a>
+> post_minproperties_validation_request_body(body)
 
 
 
@@ -16,8 +17,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import min_length_api
-from unit_test_api.model.minlength_validation import MinlengthValidation
+from unit_test_api.apis.tags import min_properties_api
+from unit_test_api.model.minproperties_validation import MinpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -28,16 +29,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = min_length_api.MinLengthApi(api_client)
+    api_instance = min_properties_api.MinPropertiesApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = MinlengthValidation(None)
+    body = MinpropertiesValidation(None)
     try:
-        api_response = api_instance.post_minlength_validation_request_body(
+        api_response = api_instance.post_minproperties_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling MinLengthApi->post_minlength_validation_request_body: %s\n" % e)
+        print("Exception when calling MinPropertiesApi->post_minproperties_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -54,7 +55,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MinlengthValidation**](MinlengthValidation.md) |  | 
+[**MinpropertiesValidation**](MinpropertiesValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -78,10 +79,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_minlength_validation_response_body_for_content_types**
-> MinlengthValidation post_minlength_validation_response_body_for_content_types()
+# **post_minproperties_validation_response_body_for_content_types**
+<a name="post_minproperties_validation_response_body_for_content_types"></a>
+> MinpropertiesValidation post_minproperties_validation_response_body_for_content_types()
 
 
 
@@ -89,8 +91,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import min_length_api
-from unit_test_api.model.minlength_validation import MinlengthValidation
+from unit_test_api.apis.tags import min_properties_api
+from unit_test_api.model.minproperties_validation import MinpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -101,14 +103,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = min_length_api.MinLengthApi(api_client)
+    api_instance = min_properties_api.MinPropertiesApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_minlength_validation_response_body_for_content_types()
+        api_response = api_instance.post_minproperties_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling MinLengthApi->post_minlength_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling MinPropertiesApi->post_minproperties_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -130,15 +132,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MinlengthValidation**](MinlengthValidation.md) |  | 
+[**MinpropertiesValidation**](MinpropertiesValidation.md) |  | 
 
 
 
-[**MinlengthValidation**](MinlengthValidation.md)
+[**MinpropertiesValidation**](MinpropertiesValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

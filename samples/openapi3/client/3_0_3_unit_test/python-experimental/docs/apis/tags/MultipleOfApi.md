@@ -1,19 +1,20 @@
-# unit_test_api.MultipleOfApi
+# unit_test_api.apis.tags.MultipleOfApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_by_int_request_body**](MultipleOfApi.md#post_by_int_request_body) | **post** /requestBody/postByIntRequestBody | 
-[**post_by_int_response_body_for_content_types**](MultipleOfApi.md#post_by_int_response_body_for_content_types) | **post** /responseBody/postByIntResponseBodyForContentTypes | 
-[**post_by_number_request_body**](MultipleOfApi.md#post_by_number_request_body) | **post** /requestBody/postByNumberRequestBody | 
-[**post_by_number_response_body_for_content_types**](MultipleOfApi.md#post_by_number_response_body_for_content_types) | **post** /responseBody/postByNumberResponseBodyForContentTypes | 
-[**post_by_small_number_request_body**](MultipleOfApi.md#post_by_small_number_request_body) | **post** /requestBody/postBySmallNumberRequestBody | 
-[**post_by_small_number_response_body_for_content_types**](MultipleOfApi.md#post_by_small_number_response_body_for_content_types) | **post** /responseBody/postBySmallNumberResponseBodyForContentTypes | 
-[**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](MultipleOfApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **post** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
-[**post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**](MultipleOfApi.md#post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types) | **post** /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes | 
+[**post_by_int_request_body**](#post_by_int_request_body) | **post** /requestBody/postByIntRequestBody | 
+[**post_by_int_response_body_for_content_types**](#post_by_int_response_body_for_content_types) | **post** /responseBody/postByIntResponseBodyForContentTypes | 
+[**post_by_number_request_body**](#post_by_number_request_body) | **post** /requestBody/postByNumberRequestBody | 
+[**post_by_number_response_body_for_content_types**](#post_by_number_response_body_for_content_types) | **post** /responseBody/postByNumberResponseBodyForContentTypes | 
+[**post_by_small_number_request_body**](#post_by_small_number_request_body) | **post** /requestBody/postBySmallNumberRequestBody | 
+[**post_by_small_number_response_body_for_content_types**](#post_by_small_number_response_body_for_content_types) | **post** /responseBody/postBySmallNumberResponseBodyForContentTypes | 
+[**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body) | **post** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+[**post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**](#post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types) | **post** /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes | 
 
 # **post_by_int_request_body**
+<a name="post_by_int_request_body"></a>
 > post_by_int_request_body(body)
 
 
@@ -84,9 +85,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_by_int_response_body_for_content_types**
+<a name="post_by_int_response_body_for_content_types"></a>
 > ByInt post_by_int_response_body_for_content_types()
 
 
@@ -146,9 +148,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_by_number_request_body**
+<a name="post_by_number_request_body"></a>
 > post_by_number_request_body(body)
 
 
@@ -219,9 +222,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_by_number_response_body_for_content_types**
+<a name="post_by_number_response_body_for_content_types"></a>
 > ByNumber post_by_number_response_body_for_content_types()
 
 
@@ -281,9 +285,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_by_small_number_request_body**
+<a name="post_by_small_number_request_body"></a>
 > post_by_small_number_request_body(body)
 
 
@@ -354,9 +359,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_by_small_number_response_body_for_content_types**
+<a name="post_by_small_number_response_body_for_content_types"></a>
 > BySmallNumber post_by_small_number_response_body_for_content_types()
 
 
@@ -416,9 +422,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**
+<a name="post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body"></a>
 > post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(body)
 
 
@@ -489,9 +496,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**
+<a name="post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types"></a>
 > InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types()
 
 
@@ -551,5 +559,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

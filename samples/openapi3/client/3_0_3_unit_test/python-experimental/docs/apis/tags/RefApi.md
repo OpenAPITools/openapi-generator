@@ -1,25 +1,26 @@
-# unit_test_api.RefApi
+# unit_test_api.apis.tags.RefApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_property_named_ref_that_is_not_a_reference_request_body**](RefApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-[**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](RefApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
-[**post_ref_in_additionalproperties_request_body**](RefApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-[**post_ref_in_additionalproperties_response_body_for_content_types**](RefApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
-[**post_ref_in_allof_request_body**](RefApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
-[**post_ref_in_allof_response_body_for_content_types**](RefApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
-[**post_ref_in_anyof_request_body**](RefApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
-[**post_ref_in_anyof_response_body_for_content_types**](RefApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
-[**post_ref_in_items_request_body**](RefApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
-[**post_ref_in_items_response_body_for_content_types**](RefApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
-[**post_ref_in_oneof_request_body**](RefApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
-[**post_ref_in_oneof_response_body_for_content_types**](RefApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
-[**post_ref_in_property_request_body**](RefApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
-[**post_ref_in_property_response_body_for_content_types**](RefApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
+[**post_property_named_ref_that_is_not_a_reference_request_body**](#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+[**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
+[**post_ref_in_additionalproperties_request_body**](#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+[**post_ref_in_additionalproperties_response_body_for_content_types**](#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
+[**post_ref_in_allof_request_body**](#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
+[**post_ref_in_allof_response_body_for_content_types**](#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
+[**post_ref_in_anyof_request_body**](#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
+[**post_ref_in_anyof_response_body_for_content_types**](#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
+[**post_ref_in_items_request_body**](#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
+[**post_ref_in_items_response_body_for_content_types**](#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+[**post_ref_in_oneof_request_body**](#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
+[**post_ref_in_oneof_response_body_for_content_types**](#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
+[**post_ref_in_property_request_body**](#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
+[**post_ref_in_property_response_body_for_content_types**](#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 
 # **post_property_named_ref_that_is_not_a_reference_request_body**
+<a name="post_property_named_ref_that_is_not_a_reference_request_body"></a>
 > post_property_named_ref_that_is_not_a_reference_request_body(property_named_ref_that_is_not_a_reference)
 
 
@@ -90,9 +91,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**
+<a name="post_property_named_ref_that_is_not_a_reference_response_body_for_content_types"></a>
 > PropertyNamedRefThatIsNotAReference post_property_named_ref_that_is_not_a_reference_response_body_for_content_types()
 
 
@@ -152,9 +154,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_additionalproperties_request_body**
+<a name="post_ref_in_additionalproperties_request_body"></a>
 > post_ref_in_additionalproperties_request_body(ref_in_additionalproperties)
 
 
@@ -227,9 +230,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_additionalproperties_response_body_for_content_types**
+<a name="post_ref_in_additionalproperties_response_body_for_content_types"></a>
 > RefInAdditionalproperties post_ref_in_additionalproperties_response_body_for_content_types()
 
 
@@ -289,9 +293,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_allof_request_body**
+<a name="post_ref_in_allof_request_body"></a>
 > post_ref_in_allof_request_body(ref_in_allof)
 
 
@@ -362,9 +367,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_allof_response_body_for_content_types**
+<a name="post_ref_in_allof_response_body_for_content_types"></a>
 > RefInAllof post_ref_in_allof_response_body_for_content_types()
 
 
@@ -424,9 +430,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_anyof_request_body**
+<a name="post_ref_in_anyof_request_body"></a>
 > post_ref_in_anyof_request_body(ref_in_anyof)
 
 
@@ -497,9 +504,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_anyof_response_body_for_content_types**
+<a name="post_ref_in_anyof_response_body_for_content_types"></a>
 > RefInAnyof post_ref_in_anyof_response_body_for_content_types()
 
 
@@ -559,9 +567,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_items_request_body**
+<a name="post_ref_in_items_request_body"></a>
 > post_ref_in_items_request_body(ref_in_items)
 
 
@@ -634,9 +643,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_items_response_body_for_content_types**
+<a name="post_ref_in_items_response_body_for_content_types"></a>
 > RefInItems post_ref_in_items_response_body_for_content_types()
 
 
@@ -696,9 +706,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_oneof_request_body**
+<a name="post_ref_in_oneof_request_body"></a>
 > post_ref_in_oneof_request_body(ref_in_oneof)
 
 
@@ -769,9 +780,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_oneof_response_body_for_content_types**
+<a name="post_ref_in_oneof_response_body_for_content_types"></a>
 > RefInOneof post_ref_in_oneof_response_body_for_content_types()
 
 
@@ -831,9 +843,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_property_request_body**
+<a name="post_ref_in_property_request_body"></a>
 > post_ref_in_property_request_body(ref_in_property)
 
 
@@ -904,9 +917,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ref_in_property_response_body_for_content_types**
+<a name="post_ref_in_property_response_body_for_content_types"></a>
 > RefInProperty post_ref_in_property_response_body_for_content_types()
 
 
@@ -966,5 +980,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

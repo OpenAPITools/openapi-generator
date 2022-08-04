@@ -1,16 +1,17 @@
-# unit_test_api.MaximumApi
+# unit_test_api.apis.tags.MaxPropertiesApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_maximum_validation_request_body**](MaximumApi.md#post_maximum_validation_request_body) | **post** /requestBody/postMaximumValidationRequestBody | 
-[**post_maximum_validation_response_body_for_content_types**](MaximumApi.md#post_maximum_validation_response_body_for_content_types) | **post** /responseBody/postMaximumValidationResponseBodyForContentTypes | 
-[**post_maximum_validation_with_unsigned_integer_request_body**](MaximumApi.md#post_maximum_validation_with_unsigned_integer_request_body) | **post** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
-[**post_maximum_validation_with_unsigned_integer_response_body_for_content_types**](MaximumApi.md#post_maximum_validation_with_unsigned_integer_response_body_for_content_types) | **post** /responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes | 
+[**post_maxproperties0_means_the_object_is_empty_request_body**](#post_maxproperties0_means_the_object_is_empty_request_body) | **post** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+[**post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**](#post_maxproperties0_means_the_object_is_empty_response_body_for_content_types) | **post** /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes | 
+[**post_maxproperties_validation_request_body**](#post_maxproperties_validation_request_body) | **post** /requestBody/postMaxpropertiesValidationRequestBody | 
+[**post_maxproperties_validation_response_body_for_content_types**](#post_maxproperties_validation_response_body_for_content_types) | **post** /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes | 
 
-# **post_maximum_validation_request_body**
-> post_maximum_validation_request_body(body)
+# **post_maxproperties0_means_the_object_is_empty_request_body**
+<a name="post_maxproperties0_means_the_object_is_empty_request_body"></a>
+> post_maxproperties0_means_the_object_is_empty_request_body(body)
 
 
 
@@ -18,8 +19,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import maximum_api
-from unit_test_api.model.maximum_validation import MaximumValidation
+from unit_test_api.apis.tags import max_properties_api
+from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -30,16 +31,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = maximum_api.MaximumApi(api_client)
+    api_instance = max_properties_api.MaxPropertiesApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = MaximumValidation(None)
+    body = Maxproperties0MeansTheObjectIsEmpty(None)
     try:
-        api_response = api_instance.post_maximum_validation_request_body(
+        api_response = api_instance.post_maxproperties0_means_the_object_is_empty_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaximumApi->post_maximum_validation_request_body: %s\n" % e)
+        print("Exception when calling MaxPropertiesApi->post_maxproperties0_means_the_object_is_empty_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -56,7 +57,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaximumValidation**](MaximumValidation.md) |  | 
+[**Maxproperties0MeansTheObjectIsEmpty**](Maxproperties0MeansTheObjectIsEmpty.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,10 +81,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maximum_validation_response_body_for_content_types**
-> MaximumValidation post_maximum_validation_response_body_for_content_types()
+# **post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**
+<a name="post_maxproperties0_means_the_object_is_empty_response_body_for_content_types"></a>
+> Maxproperties0MeansTheObjectIsEmpty post_maxproperties0_means_the_object_is_empty_response_body_for_content_types()
 
 
 
@@ -91,8 +93,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import maximum_api
-from unit_test_api.model.maximum_validation import MaximumValidation
+from unit_test_api.apis.tags import max_properties_api
+from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -103,14 +105,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = maximum_api.MaximumApi(api_client)
+    api_instance = max_properties_api.MaxPropertiesApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_maximum_validation_response_body_for_content_types()
+        api_response = api_instance.post_maxproperties0_means_the_object_is_empty_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaximumApi->post_maximum_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling MaxPropertiesApi->post_maxproperties0_means_the_object_is_empty_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -132,20 +134,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaximumValidation**](MaximumValidation.md) |  | 
+[**Maxproperties0MeansTheObjectIsEmpty**](Maxproperties0MeansTheObjectIsEmpty.md) |  | 
 
 
 
-[**MaximumValidation**](MaximumValidation.md)
+[**Maxproperties0MeansTheObjectIsEmpty**](Maxproperties0MeansTheObjectIsEmpty.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maximum_validation_with_unsigned_integer_request_body**
-> post_maximum_validation_with_unsigned_integer_request_body(body)
+# **post_maxproperties_validation_request_body**
+<a name="post_maxproperties_validation_request_body"></a>
+> post_maxproperties_validation_request_body(body)
 
 
 
@@ -153,8 +156,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import maximum_api
-from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
+from unit_test_api.apis.tags import max_properties_api
+from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -165,16 +168,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = maximum_api.MaximumApi(api_client)
+    api_instance = max_properties_api.MaxPropertiesApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = MaximumValidationWithUnsignedInteger(None)
+    body = MaxpropertiesValidation(None)
     try:
-        api_response = api_instance.post_maximum_validation_with_unsigned_integer_request_body(
+        api_response = api_instance.post_maxproperties_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaximumApi->post_maximum_validation_with_unsigned_integer_request_body: %s\n" % e)
+        print("Exception when calling MaxPropertiesApi->post_maxproperties_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -191,7 +194,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaximumValidationWithUnsignedInteger**](MaximumValidationWithUnsignedInteger.md) |  | 
+[**MaxpropertiesValidation**](MaxpropertiesValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,10 +218,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maximum_validation_with_unsigned_integer_response_body_for_content_types**
-> MaximumValidationWithUnsignedInteger post_maximum_validation_with_unsigned_integer_response_body_for_content_types()
+# **post_maxproperties_validation_response_body_for_content_types**
+<a name="post_maxproperties_validation_response_body_for_content_types"></a>
+> MaxpropertiesValidation post_maxproperties_validation_response_body_for_content_types()
 
 
 
@@ -226,8 +230,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import maximum_api
-from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
+from unit_test_api.apis.tags import max_properties_api
+from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -238,14 +242,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = maximum_api.MaximumApi(api_client)
+    api_instance = max_properties_api.MaxPropertiesApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_maximum_validation_with_unsigned_integer_response_body_for_content_types()
+        api_response = api_instance.post_maxproperties_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaximumApi->post_maximum_validation_with_unsigned_integer_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling MaxPropertiesApi->post_maxproperties_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -267,15 +271,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaximumValidationWithUnsignedInteger**](MaximumValidationWithUnsignedInteger.md) |  | 
+[**MaxpropertiesValidation**](MaxpropertiesValidation.md) |  | 
 
 
 
-[**MaximumValidationWithUnsignedInteger**](MaximumValidationWithUnsignedInteger.md)
+[**MaxpropertiesValidation**](MaxpropertiesValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

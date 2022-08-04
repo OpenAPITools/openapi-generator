@@ -1,16 +1,17 @@
-# unit_test_api.MaxPropertiesApi
+# unit_test_api.apis.tags.PatternApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_maxproperties0_means_the_object_is_empty_request_body**](MaxPropertiesApi.md#post_maxproperties0_means_the_object_is_empty_request_body) | **post** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
-[**post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**](MaxPropertiesApi.md#post_maxproperties0_means_the_object_is_empty_response_body_for_content_types) | **post** /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes | 
-[**post_maxproperties_validation_request_body**](MaxPropertiesApi.md#post_maxproperties_validation_request_body) | **post** /requestBody/postMaxpropertiesValidationRequestBody | 
-[**post_maxproperties_validation_response_body_for_content_types**](MaxPropertiesApi.md#post_maxproperties_validation_response_body_for_content_types) | **post** /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes | 
+[**post_pattern_is_not_anchored_request_body**](#post_pattern_is_not_anchored_request_body) | **post** /requestBody/postPatternIsNotAnchoredRequestBody | 
+[**post_pattern_is_not_anchored_response_body_for_content_types**](#post_pattern_is_not_anchored_response_body_for_content_types) | **post** /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes | 
+[**post_pattern_validation_request_body**](#post_pattern_validation_request_body) | **post** /requestBody/postPatternValidationRequestBody | 
+[**post_pattern_validation_response_body_for_content_types**](#post_pattern_validation_response_body_for_content_types) | **post** /responseBody/postPatternValidationResponseBodyForContentTypes | 
 
-# **post_maxproperties0_means_the_object_is_empty_request_body**
-> post_maxproperties0_means_the_object_is_empty_request_body(body)
+# **post_pattern_is_not_anchored_request_body**
+<a name="post_pattern_is_not_anchored_request_body"></a>
+> post_pattern_is_not_anchored_request_body(body)
 
 
 
@@ -18,8 +19,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import max_properties_api
-from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
+from unit_test_api.apis.tags import pattern_api
+from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -30,16 +31,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = max_properties_api.MaxPropertiesApi(api_client)
+    api_instance = pattern_api.PatternApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = Maxproperties0MeansTheObjectIsEmpty(None)
+    body = PatternIsNotAnchored(None)
     try:
-        api_response = api_instance.post_maxproperties0_means_the_object_is_empty_request_body(
+        api_response = api_instance.post_pattern_is_not_anchored_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaxPropertiesApi->post_maxproperties0_means_the_object_is_empty_request_body: %s\n" % e)
+        print("Exception when calling PatternApi->post_pattern_is_not_anchored_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -56,7 +57,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Maxproperties0MeansTheObjectIsEmpty**](Maxproperties0MeansTheObjectIsEmpty.md) |  | 
+[**PatternIsNotAnchored**](PatternIsNotAnchored.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,10 +81,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**
-> Maxproperties0MeansTheObjectIsEmpty post_maxproperties0_means_the_object_is_empty_response_body_for_content_types()
+# **post_pattern_is_not_anchored_response_body_for_content_types**
+<a name="post_pattern_is_not_anchored_response_body_for_content_types"></a>
+> PatternIsNotAnchored post_pattern_is_not_anchored_response_body_for_content_types()
 
 
 
@@ -91,8 +93,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import max_properties_api
-from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
+from unit_test_api.apis.tags import pattern_api
+from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -103,14 +105,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = max_properties_api.MaxPropertiesApi(api_client)
+    api_instance = pattern_api.PatternApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_maxproperties0_means_the_object_is_empty_response_body_for_content_types()
+        api_response = api_instance.post_pattern_is_not_anchored_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaxPropertiesApi->post_maxproperties0_means_the_object_is_empty_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling PatternApi->post_pattern_is_not_anchored_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -132,20 +134,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Maxproperties0MeansTheObjectIsEmpty**](Maxproperties0MeansTheObjectIsEmpty.md) |  | 
+[**PatternIsNotAnchored**](PatternIsNotAnchored.md) |  | 
 
 
 
-[**Maxproperties0MeansTheObjectIsEmpty**](Maxproperties0MeansTheObjectIsEmpty.md)
+[**PatternIsNotAnchored**](PatternIsNotAnchored.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maxproperties_validation_request_body**
-> post_maxproperties_validation_request_body(body)
+# **post_pattern_validation_request_body**
+<a name="post_pattern_validation_request_body"></a>
+> post_pattern_validation_request_body(body)
 
 
 
@@ -153,8 +156,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import max_properties_api
-from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
+from unit_test_api.apis.tags import pattern_api
+from unit_test_api.model.pattern_validation import PatternValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -165,16 +168,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = max_properties_api.MaxPropertiesApi(api_client)
+    api_instance = pattern_api.PatternApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = MaxpropertiesValidation(None)
+    body = PatternValidation(None)
     try:
-        api_response = api_instance.post_maxproperties_validation_request_body(
+        api_response = api_instance.post_pattern_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaxPropertiesApi->post_maxproperties_validation_request_body: %s\n" % e)
+        print("Exception when calling PatternApi->post_pattern_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -191,7 +194,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaxpropertiesValidation**](MaxpropertiesValidation.md) |  | 
+[**PatternValidation**](PatternValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,10 +218,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maxproperties_validation_response_body_for_content_types**
-> MaxpropertiesValidation post_maxproperties_validation_response_body_for_content_types()
+# **post_pattern_validation_response_body_for_content_types**
+<a name="post_pattern_validation_response_body_for_content_types"></a>
+> PatternValidation post_pattern_validation_response_body_for_content_types()
 
 
 
@@ -226,8 +230,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import max_properties_api
-from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
+from unit_test_api.apis.tags import pattern_api
+from unit_test_api.model.pattern_validation import PatternValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -238,14 +242,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = max_properties_api.MaxPropertiesApi(api_client)
+    api_instance = pattern_api.PatternApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_maxproperties_validation_response_body_for_content_types()
+        api_response = api_instance.post_pattern_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaxPropertiesApi->post_maxproperties_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling PatternApi->post_pattern_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -267,15 +271,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaxpropertiesValidation**](MaxpropertiesValidation.md) |  | 
+[**PatternValidation**](PatternValidation.md) |  | 
 
 
 
-[**MaxpropertiesValidation**](MaxpropertiesValidation.md)
+[**PatternValidation**](PatternValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

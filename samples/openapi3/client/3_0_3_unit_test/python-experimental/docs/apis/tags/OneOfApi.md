@@ -1,22 +1,23 @@
-# unit_test_api.AnyOfApi
+# unit_test_api.apis.tags.OneOfApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_anyof_complex_types_request_body**](AnyOfApi.md#post_anyof_complex_types_request_body) | **post** /requestBody/postAnyofComplexTypesRequestBody | 
-[**post_anyof_complex_types_response_body_for_content_types**](AnyOfApi.md#post_anyof_complex_types_response_body_for_content_types) | **post** /responseBody/postAnyofComplexTypesResponseBodyForContentTypes | 
-[**post_anyof_request_body**](AnyOfApi.md#post_anyof_request_body) | **post** /requestBody/postAnyofRequestBody | 
-[**post_anyof_response_body_for_content_types**](AnyOfApi.md#post_anyof_response_body_for_content_types) | **post** /responseBody/postAnyofResponseBodyForContentTypes | 
-[**post_anyof_with_base_schema_request_body**](AnyOfApi.md#post_anyof_with_base_schema_request_body) | **post** /requestBody/postAnyofWithBaseSchemaRequestBody | 
-[**post_anyof_with_base_schema_response_body_for_content_types**](AnyOfApi.md#post_anyof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes | 
-[**post_anyof_with_one_empty_schema_request_body**](AnyOfApi.md#post_anyof_with_one_empty_schema_request_body) | **post** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
-[**post_anyof_with_one_empty_schema_response_body_for_content_types**](AnyOfApi.md#post_anyof_with_one_empty_schema_response_body_for_content_types) | **post** /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes | 
-[**post_nested_anyof_to_check_validation_semantics_request_body**](AnyOfApi.md#post_nested_anyof_to_check_validation_semantics_request_body) | **post** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
-[**post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**](AnyOfApi.md#post_nested_anyof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes | 
+[**post_nested_oneof_to_check_validation_semantics_request_body**](#post_nested_oneof_to_check_validation_semantics_request_body) | **post** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+[**post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**](#post_nested_oneof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes | 
+[**post_oneof_complex_types_request_body**](#post_oneof_complex_types_request_body) | **post** /requestBody/postOneofComplexTypesRequestBody | 
+[**post_oneof_complex_types_response_body_for_content_types**](#post_oneof_complex_types_response_body_for_content_types) | **post** /responseBody/postOneofComplexTypesResponseBodyForContentTypes | 
+[**post_oneof_request_body**](#post_oneof_request_body) | **post** /requestBody/postOneofRequestBody | 
+[**post_oneof_response_body_for_content_types**](#post_oneof_response_body_for_content_types) | **post** /responseBody/postOneofResponseBodyForContentTypes | 
+[**post_oneof_with_base_schema_request_body**](#post_oneof_with_base_schema_request_body) | **post** /requestBody/postOneofWithBaseSchemaRequestBody | 
+[**post_oneof_with_base_schema_response_body_for_content_types**](#post_oneof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes | 
+[**post_oneof_with_empty_schema_request_body**](#post_oneof_with_empty_schema_request_body) | **post** /requestBody/postOneofWithEmptySchemaRequestBody | 
+[**post_oneof_with_empty_schema_response_body_for_content_types**](#post_oneof_with_empty_schema_response_body_for_content_types) | **post** /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes | 
 
-# **post_anyof_complex_types_request_body**
-> post_anyof_complex_types_request_body(anyof_complex_types)
+# **post_nested_oneof_to_check_validation_semantics_request_body**
+<a name="post_nested_oneof_to_check_validation_semantics_request_body"></a>
+> post_nested_oneof_to_check_validation_semantics_request_body(nested_oneof_to_check_validation_semantics)
 
 
 
@@ -24,8 +25,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -36,16 +37,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AnyofComplexTypes(None)
+    body = NestedOneofToCheckValidationSemantics(None)
     try:
-        api_response = api_instance.post_anyof_complex_types_request_body(
+        api_response = api_instance.post_nested_oneof_to_check_validation_semantics_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_complex_types_request_body: %s\n" % e)
+        print("Exception when calling OneOfApi->post_nested_oneof_to_check_validation_semantics_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -62,7 +63,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofComplexTypes**](AnyofComplexTypes.md) |  | 
+[**NestedOneofToCheckValidationSemantics**](NestedOneofToCheckValidationSemantics.md) |  | 
 
 
 ### Return Types, Responses
@@ -86,10 +87,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_complex_types_response_body_for_content_types**
-> AnyofComplexTypes post_anyof_complex_types_response_body_for_content_types()
+# **post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**
+<a name="post_nested_oneof_to_check_validation_semantics_response_body_for_content_types"></a>
+> NestedOneofToCheckValidationSemantics post_nested_oneof_to_check_validation_semantics_response_body_for_content_types()
 
 
 
@@ -97,8 +99,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -109,14 +111,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_anyof_complex_types_response_body_for_content_types()
+        api_response = api_instance.post_nested_oneof_to_check_validation_semantics_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_complex_types_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling OneOfApi->post_nested_oneof_to_check_validation_semantics_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -138,20 +140,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofComplexTypes**](AnyofComplexTypes.md) |  | 
+[**NestedOneofToCheckValidationSemantics**](NestedOneofToCheckValidationSemantics.md) |  | 
 
 
 
-[**AnyofComplexTypes**](AnyofComplexTypes.md)
+[**NestedOneofToCheckValidationSemantics**](NestedOneofToCheckValidationSemantics.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_request_body**
-> post_anyof_request_body(anyof)
+# **post_oneof_complex_types_request_body**
+<a name="post_oneof_complex_types_request_body"></a>
+> post_oneof_complex_types_request_body(oneof_complex_types)
 
 
 
@@ -159,8 +162,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof import Anyof
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof_complex_types import OneofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -171,16 +174,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = Anyof(None)
+    body = OneofComplexTypes(None)
     try:
-        api_response = api_instance.post_anyof_request_body(
+        api_response = api_instance.post_oneof_complex_types_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_request_body: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_complex_types_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -197,7 +200,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Anyof**](Anyof.md) |  | 
+[**OneofComplexTypes**](OneofComplexTypes.md) |  | 
 
 
 ### Return Types, Responses
@@ -221,10 +224,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_response_body_for_content_types**
-> Anyof post_anyof_response_body_for_content_types()
+# **post_oneof_complex_types_response_body_for_content_types**
+<a name="post_oneof_complex_types_response_body_for_content_types"></a>
+> OneofComplexTypes post_oneof_complex_types_response_body_for_content_types()
 
 
 
@@ -232,8 +236,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof import Anyof
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof_complex_types import OneofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -244,14 +248,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_anyof_response_body_for_content_types()
+        api_response = api_instance.post_oneof_complex_types_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_complex_types_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -273,20 +277,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Anyof**](Anyof.md) |  | 
+[**OneofComplexTypes**](OneofComplexTypes.md) |  | 
 
 
 
-[**Anyof**](Anyof.md)
+[**OneofComplexTypes**](OneofComplexTypes.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_with_base_schema_request_body**
-> post_anyof_with_base_schema_request_body(body)
+# **post_oneof_request_body**
+<a name="post_oneof_request_body"></a>
+> post_oneof_request_body(oneof)
 
 
 
@@ -294,8 +299,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof import Oneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -306,16 +311,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AnyofWithBaseSchema("body_example")
+    body = Oneof(None)
     try:
-        api_response = api_instance.post_anyof_with_base_schema_request_body(
+        api_response = api_instance.post_oneof_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_with_base_schema_request_body: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -332,7 +337,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md) |  | 
+[**Oneof**](Oneof.md) |  | 
 
 
 ### Return Types, Responses
@@ -356,10 +361,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_with_base_schema_response_body_for_content_types**
-> AnyofWithBaseSchema post_anyof_with_base_schema_response_body_for_content_types()
+# **post_oneof_response_body_for_content_types**
+<a name="post_oneof_response_body_for_content_types"></a>
+> Oneof post_oneof_response_body_for_content_types()
 
 
 
@@ -367,8 +373,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof import Oneof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -379,14 +385,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_anyof_with_base_schema_response_body_for_content_types()
+        api_response = api_instance.post_oneof_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_with_base_schema_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -408,20 +414,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md) |  | 
+[**Oneof**](Oneof.md) |  | 
 
 
 
-[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md)
+[**Oneof**](Oneof.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_with_one_empty_schema_request_body**
-> post_anyof_with_one_empty_schema_request_body(anyof_with_one_empty_schema)
+# **post_oneof_with_base_schema_request_body**
+<a name="post_oneof_with_base_schema_request_body"></a>
+> post_oneof_with_base_schema_request_body(body)
 
 
 
@@ -429,8 +436,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -441,16 +448,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AnyofWithOneEmptySchema(None)
+    body = OneofWithBaseSchema("body_example")
     try:
-        api_response = api_instance.post_anyof_with_one_empty_schema_request_body(
+        api_response = api_instance.post_oneof_with_base_schema_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_with_one_empty_schema_request_body: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_with_base_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -467,7 +474,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md) |  | 
+[**OneofWithBaseSchema**](OneofWithBaseSchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -491,10 +498,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_anyof_with_one_empty_schema_response_body_for_content_types**
-> AnyofWithOneEmptySchema post_anyof_with_one_empty_schema_response_body_for_content_types()
+# **post_oneof_with_base_schema_response_body_for_content_types**
+<a name="post_oneof_with_base_schema_response_body_for_content_types"></a>
+> OneofWithBaseSchema post_oneof_with_base_schema_response_body_for_content_types()
 
 
 
@@ -502,8 +510,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -514,14 +522,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_anyof_with_one_empty_schema_response_body_for_content_types()
+        api_response = api_instance.post_oneof_with_base_schema_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_anyof_with_one_empty_schema_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_with_base_schema_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -543,20 +551,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md) |  | 
+[**OneofWithBaseSchema**](OneofWithBaseSchema.md) |  | 
 
 
 
-[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md)
+[**OneofWithBaseSchema**](OneofWithBaseSchema.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_nested_anyof_to_check_validation_semantics_request_body**
-> post_nested_anyof_to_check_validation_semantics_request_body(nested_anyof_to_check_validation_semantics)
+# **post_oneof_with_empty_schema_request_body**
+<a name="post_oneof_with_empty_schema_request_body"></a>
+> post_oneof_with_empty_schema_request_body(oneof_with_empty_schema)
 
 
 
@@ -564,8 +573,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -576,16 +585,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = NestedAnyofToCheckValidationSemantics(None)
+    body = OneofWithEmptySchema(None)
     try:
-        api_response = api_instance.post_nested_anyof_to_check_validation_semantics_request_body(
+        api_response = api_instance.post_oneof_with_empty_schema_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_nested_anyof_to_check_validation_semantics_request_body: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_with_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -602,7 +611,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md) |  | 
+[**OneofWithEmptySchema**](OneofWithEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -626,10 +635,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**
-> NestedAnyofToCheckValidationSemantics post_nested_anyof_to_check_validation_semantics_response_body_for_content_types()
+# **post_oneof_with_empty_schema_response_body_for_content_types**
+<a name="post_oneof_with_empty_schema_response_body_for_content_types"></a>
+> OneofWithEmptySchema post_oneof_with_empty_schema_response_body_for_content_types()
 
 
 
@@ -637,8 +647,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import any_of_api
-from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
+from unit_test_api.apis.tags import one_of_api
+from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -649,14 +659,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = any_of_api.AnyOfApi(api_client)
+    api_instance = one_of_api.OneOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_nested_anyof_to_check_validation_semantics_response_body_for_content_types()
+        api_response = api_instance.post_oneof_with_empty_schema_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AnyOfApi->post_nested_anyof_to_check_validation_semantics_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling OneOfApi->post_oneof_with_empty_schema_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -678,15 +688,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md) |  | 
+[**OneofWithEmptySchema**](OneofWithEmptySchema.md) |  | 
 
 
 
-[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md)
+[**OneofWithEmptySchema**](OneofWithEmptySchema.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

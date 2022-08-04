@@ -1,14 +1,15 @@
-# unit_test_api.MaxItemsApi
+# unit_test_api.apis.tags.ItemsApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_maxitems_validation_request_body**](MaxItemsApi.md#post_maxitems_validation_request_body) | **post** /requestBody/postMaxitemsValidationRequestBody | 
-[**post_maxitems_validation_response_body_for_content_types**](MaxItemsApi.md#post_maxitems_validation_response_body_for_content_types) | **post** /responseBody/postMaxitemsValidationResponseBodyForContentTypes | 
+[**post_nested_items_request_body**](#post_nested_items_request_body) | **post** /requestBody/postNestedItemsRequestBody | 
+[**post_nested_items_response_body_for_content_types**](#post_nested_items_response_body_for_content_types) | **post** /responseBody/postNestedItemsResponseBodyForContentTypes | 
 
-# **post_maxitems_validation_request_body**
-> post_maxitems_validation_request_body(body)
+# **post_nested_items_request_body**
+<a name="post_nested_items_request_body"></a>
+> post_nested_items_request_body(nested_items)
 
 
 
@@ -16,8 +17,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import max_items_api
-from unit_test_api.model.maxitems_validation import MaxitemsValidation
+from unit_test_api.apis.tags import items_api
+from unit_test_api.model.nested_items import NestedItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -28,16 +29,24 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = max_items_api.MaxItemsApi(api_client)
+    api_instance = items_api.ItemsApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = MaxitemsValidation(None)
+    body = NestedItems([
+        [
+            [
+                [
+                    3.14
+                ]
+            ]
+        ]
+    ])
     try:
-        api_response = api_instance.post_maxitems_validation_request_body(
+        api_response = api_instance.post_nested_items_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaxItemsApi->post_maxitems_validation_request_body: %s\n" % e)
+        print("Exception when calling ItemsApi->post_nested_items_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -54,7 +63,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaxitemsValidation**](MaxitemsValidation.md) |  | 
+[**NestedItems**](NestedItems.md) |  | 
 
 
 ### Return Types, Responses
@@ -78,10 +87,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_maxitems_validation_response_body_for_content_types**
-> MaxitemsValidation post_maxitems_validation_response_body_for_content_types()
+# **post_nested_items_response_body_for_content_types**
+<a name="post_nested_items_response_body_for_content_types"></a>
+> NestedItems post_nested_items_response_body_for_content_types()
 
 
 
@@ -89,8 +99,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import max_items_api
-from unit_test_api.model.maxitems_validation import MaxitemsValidation
+from unit_test_api.apis.tags import items_api
+from unit_test_api.model.nested_items import NestedItems
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -101,14 +111,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = max_items_api.MaxItemsApi(api_client)
+    api_instance = items_api.ItemsApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_maxitems_validation_response_body_for_content_types()
+        api_response = api_instance.post_nested_items_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling MaxItemsApi->post_maxitems_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling ItemsApi->post_nested_items_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -130,15 +140,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**MaxitemsValidation**](MaxitemsValidation.md) |  | 
+[**NestedItems**](NestedItems.md) |  | 
 
 
 
-[**MaxitemsValidation**](MaxitemsValidation.md)
+[**NestedItems**](NestedItems.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

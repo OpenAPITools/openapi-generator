@@ -1,16 +1,17 @@
-# unit_test_api.UniqueItemsApi
+# unit_test_api.apis.tags.MinimumApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_uniqueitems_false_validation_request_body**](UniqueItemsApi.md#post_uniqueitems_false_validation_request_body) | **post** /requestBody/postUniqueitemsFalseValidationRequestBody | 
-[**post_uniqueitems_false_validation_response_body_for_content_types**](UniqueItemsApi.md#post_uniqueitems_false_validation_response_body_for_content_types) | **post** /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes | 
-[**post_uniqueitems_validation_request_body**](UniqueItemsApi.md#post_uniqueitems_validation_request_body) | **post** /requestBody/postUniqueitemsValidationRequestBody | 
-[**post_uniqueitems_validation_response_body_for_content_types**](UniqueItemsApi.md#post_uniqueitems_validation_response_body_for_content_types) | **post** /responseBody/postUniqueitemsValidationResponseBodyForContentTypes | 
+[**post_minimum_validation_request_body**](#post_minimum_validation_request_body) | **post** /requestBody/postMinimumValidationRequestBody | 
+[**post_minimum_validation_response_body_for_content_types**](#post_minimum_validation_response_body_for_content_types) | **post** /responseBody/postMinimumValidationResponseBodyForContentTypes | 
+[**post_minimum_validation_with_signed_integer_request_body**](#post_minimum_validation_with_signed_integer_request_body) | **post** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+[**post_minimum_validation_with_signed_integer_response_body_for_content_types**](#post_minimum_validation_with_signed_integer_response_body_for_content_types) | **post** /responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes | 
 
-# **post_uniqueitems_false_validation_request_body**
-> post_uniqueitems_false_validation_request_body(body)
+# **post_minimum_validation_request_body**
+<a name="post_minimum_validation_request_body"></a>
+> post_minimum_validation_request_body(body)
 
 
 
@@ -18,8 +19,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import unique_items_api
-from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
+from unit_test_api.apis.tags import minimum_api
+from unit_test_api.model.minimum_validation import MinimumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -30,16 +31,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = unique_items_api.UniqueItemsApi(api_client)
+    api_instance = minimum_api.MinimumApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = UniqueitemsFalseValidation(None)
+    body = MinimumValidation(None)
     try:
-        api_response = api_instance.post_uniqueitems_false_validation_request_body(
+        api_response = api_instance.post_minimum_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling UniqueItemsApi->post_uniqueitems_false_validation_request_body: %s\n" % e)
+        print("Exception when calling MinimumApi->post_minimum_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -56,7 +57,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**UniqueitemsFalseValidation**](UniqueitemsFalseValidation.md) |  | 
+[**MinimumValidation**](MinimumValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,10 +81,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_uniqueitems_false_validation_response_body_for_content_types**
-> UniqueitemsFalseValidation post_uniqueitems_false_validation_response_body_for_content_types()
+# **post_minimum_validation_response_body_for_content_types**
+<a name="post_minimum_validation_response_body_for_content_types"></a>
+> MinimumValidation post_minimum_validation_response_body_for_content_types()
 
 
 
@@ -91,8 +93,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import unique_items_api
-from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
+from unit_test_api.apis.tags import minimum_api
+from unit_test_api.model.minimum_validation import MinimumValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -103,14 +105,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = unique_items_api.UniqueItemsApi(api_client)
+    api_instance = minimum_api.MinimumApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_uniqueitems_false_validation_response_body_for_content_types()
+        api_response = api_instance.post_minimum_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling UniqueItemsApi->post_uniqueitems_false_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling MinimumApi->post_minimum_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -132,20 +134,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**UniqueitemsFalseValidation**](UniqueitemsFalseValidation.md) |  | 
+[**MinimumValidation**](MinimumValidation.md) |  | 
 
 
 
-[**UniqueitemsFalseValidation**](UniqueitemsFalseValidation.md)
+[**MinimumValidation**](MinimumValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_uniqueitems_validation_request_body**
-> post_uniqueitems_validation_request_body(body)
+# **post_minimum_validation_with_signed_integer_request_body**
+<a name="post_minimum_validation_with_signed_integer_request_body"></a>
+> post_minimum_validation_with_signed_integer_request_body(body)
 
 
 
@@ -153,8 +156,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import unique_items_api
-from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
+from unit_test_api.apis.tags import minimum_api
+from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -165,16 +168,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = unique_items_api.UniqueItemsApi(api_client)
+    api_instance = minimum_api.MinimumApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = UniqueitemsValidation(None)
+    body = MinimumValidationWithSignedInteger(None)
     try:
-        api_response = api_instance.post_uniqueitems_validation_request_body(
+        api_response = api_instance.post_minimum_validation_with_signed_integer_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling UniqueItemsApi->post_uniqueitems_validation_request_body: %s\n" % e)
+        print("Exception when calling MinimumApi->post_minimum_validation_with_signed_integer_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -191,7 +194,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**UniqueitemsValidation**](UniqueitemsValidation.md) |  | 
+[**MinimumValidationWithSignedInteger**](MinimumValidationWithSignedInteger.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,10 +218,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_uniqueitems_validation_response_body_for_content_types**
-> UniqueitemsValidation post_uniqueitems_validation_response_body_for_content_types()
+# **post_minimum_validation_with_signed_integer_response_body_for_content_types**
+<a name="post_minimum_validation_with_signed_integer_response_body_for_content_types"></a>
+> MinimumValidationWithSignedInteger post_minimum_validation_with_signed_integer_response_body_for_content_types()
 
 
 
@@ -226,8 +230,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import unique_items_api
-from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
+from unit_test_api.apis.tags import minimum_api
+from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -238,14 +242,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = unique_items_api.UniqueItemsApi(api_client)
+    api_instance = minimum_api.MinimumApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_uniqueitems_validation_response_body_for_content_types()
+        api_response = api_instance.post_minimum_validation_with_signed_integer_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling UniqueItemsApi->post_uniqueitems_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling MinimumApi->post_minimum_validation_with_signed_integer_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -267,15 +271,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**UniqueitemsValidation**](UniqueitemsValidation.md) |  | 
+[**MinimumValidationWithSignedInteger**](MinimumValidationWithSignedInteger.md) |  | 
 
 
 
-[**UniqueitemsValidation**](UniqueitemsValidation.md)
+[**MinimumValidationWithSignedInteger**](MinimumValidationWithSignedInteger.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

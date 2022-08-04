@@ -1,16 +1,17 @@
-# unit_test_api.PatternApi
+# unit_test_api.apis.tags.PropertiesApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_pattern_is_not_anchored_request_body**](PatternApi.md#post_pattern_is_not_anchored_request_body) | **post** /requestBody/postPatternIsNotAnchoredRequestBody | 
-[**post_pattern_is_not_anchored_response_body_for_content_types**](PatternApi.md#post_pattern_is_not_anchored_response_body_for_content_types) | **post** /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes | 
-[**post_pattern_validation_request_body**](PatternApi.md#post_pattern_validation_request_body) | **post** /requestBody/postPatternValidationRequestBody | 
-[**post_pattern_validation_response_body_for_content_types**](PatternApi.md#post_pattern_validation_response_body_for_content_types) | **post** /responseBody/postPatternValidationResponseBodyForContentTypes | 
+[**post_object_properties_validation_request_body**](#post_object_properties_validation_request_body) | **post** /requestBody/postObjectPropertiesValidationRequestBody | 
+[**post_object_properties_validation_response_body_for_content_types**](#post_object_properties_validation_response_body_for_content_types) | **post** /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes | 
+[**post_properties_with_escaped_characters_request_body**](#post_properties_with_escaped_characters_request_body) | **post** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+[**post_properties_with_escaped_characters_response_body_for_content_types**](#post_properties_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
 
-# **post_pattern_is_not_anchored_request_body**
-> post_pattern_is_not_anchored_request_body(body)
+# **post_object_properties_validation_request_body**
+<a name="post_object_properties_validation_request_body"></a>
+> post_object_properties_validation_request_body(object_properties_validation)
 
 
 
@@ -18,8 +19,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import pattern_api
-from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
+from unit_test_api.apis.tags import properties_api
+from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -30,16 +31,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = pattern_api.PatternApi(api_client)
+    api_instance = properties_api.PropertiesApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = PatternIsNotAnchored(None)
+    body = ObjectPropertiesValidation(None)
     try:
-        api_response = api_instance.post_pattern_is_not_anchored_request_body(
+        api_response = api_instance.post_object_properties_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PatternApi->post_pattern_is_not_anchored_request_body: %s\n" % e)
+        print("Exception when calling PropertiesApi->post_object_properties_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -56,7 +57,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternIsNotAnchored**](PatternIsNotAnchored.md) |  | 
+[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,10 +81,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_pattern_is_not_anchored_response_body_for_content_types**
-> PatternIsNotAnchored post_pattern_is_not_anchored_response_body_for_content_types()
+# **post_object_properties_validation_response_body_for_content_types**
+<a name="post_object_properties_validation_response_body_for_content_types"></a>
+> ObjectPropertiesValidation post_object_properties_validation_response_body_for_content_types()
 
 
 
@@ -91,8 +93,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import pattern_api
-from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
+from unit_test_api.apis.tags import properties_api
+from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -103,14 +105,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = pattern_api.PatternApi(api_client)
+    api_instance = properties_api.PropertiesApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_pattern_is_not_anchored_response_body_for_content_types()
+        api_response = api_instance.post_object_properties_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling PatternApi->post_pattern_is_not_anchored_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling PropertiesApi->post_object_properties_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -132,20 +134,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternIsNotAnchored**](PatternIsNotAnchored.md) |  | 
+[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md) |  | 
 
 
 
-[**PatternIsNotAnchored**](PatternIsNotAnchored.md)
+[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_pattern_validation_request_body**
-> post_pattern_validation_request_body(body)
+# **post_properties_with_escaped_characters_request_body**
+<a name="post_properties_with_escaped_characters_request_body"></a>
+> post_properties_with_escaped_characters_request_body(properties_with_escaped_characters)
 
 
 
@@ -153,8 +156,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import pattern_api
-from unit_test_api.model.pattern_validation import PatternValidation
+from unit_test_api.apis.tags import properties_api
+from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -165,16 +168,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = pattern_api.PatternApi(api_client)
+    api_instance = properties_api.PropertiesApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = PatternValidation(None)
+    body = PropertiesWithEscapedCharacters(None)
     try:
-        api_response = api_instance.post_pattern_validation_request_body(
+        api_response = api_instance.post_properties_with_escaped_characters_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PatternApi->post_pattern_validation_request_body: %s\n" % e)
+        print("Exception when calling PropertiesApi->post_properties_with_escaped_characters_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -191,7 +194,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternValidation**](PatternValidation.md) |  | 
+[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,10 +218,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_pattern_validation_response_body_for_content_types**
-> PatternValidation post_pattern_validation_response_body_for_content_types()
+# **post_properties_with_escaped_characters_response_body_for_content_types**
+<a name="post_properties_with_escaped_characters_response_body_for_content_types"></a>
+> PropertiesWithEscapedCharacters post_properties_with_escaped_characters_response_body_for_content_types()
 
 
 
@@ -226,8 +230,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import pattern_api
-from unit_test_api.model.pattern_validation import PatternValidation
+from unit_test_api.apis.tags import properties_api
+from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -238,14 +242,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = pattern_api.PatternApi(api_client)
+    api_instance = properties_api.PropertiesApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_pattern_validation_response_body_for_content_types()
+        api_response = api_instance.post_properties_with_escaped_characters_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling PatternApi->post_pattern_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling PropertiesApi->post_properties_with_escaped_characters_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -267,15 +271,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternValidation**](PatternValidation.md) |  | 
+[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md) |  | 
 
 
 
-[**PatternValidation**](PatternValidation.md)
+[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

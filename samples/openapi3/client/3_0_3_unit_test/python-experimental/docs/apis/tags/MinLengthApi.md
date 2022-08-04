@@ -1,14 +1,15 @@
-# unit_test_api.ItemsApi
+# unit_test_api.apis.tags.MinLengthApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_nested_items_request_body**](ItemsApi.md#post_nested_items_request_body) | **post** /requestBody/postNestedItemsRequestBody | 
-[**post_nested_items_response_body_for_content_types**](ItemsApi.md#post_nested_items_response_body_for_content_types) | **post** /responseBody/postNestedItemsResponseBodyForContentTypes | 
+[**post_minlength_validation_request_body**](#post_minlength_validation_request_body) | **post** /requestBody/postMinlengthValidationRequestBody | 
+[**post_minlength_validation_response_body_for_content_types**](#post_minlength_validation_response_body_for_content_types) | **post** /responseBody/postMinlengthValidationResponseBodyForContentTypes | 
 
-# **post_nested_items_request_body**
-> post_nested_items_request_body(nested_items)
+# **post_minlength_validation_request_body**
+<a name="post_minlength_validation_request_body"></a>
+> post_minlength_validation_request_body(body)
 
 
 
@@ -16,8 +17,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import items_api
-from unit_test_api.model.nested_items import NestedItems
+from unit_test_api.apis.tags import min_length_api
+from unit_test_api.model.minlength_validation import MinlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -28,24 +29,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = items_api.ItemsApi(api_client)
+    api_instance = min_length_api.MinLengthApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = NestedItems([
-        [
-            [
-                [
-                    3.14
-                ]
-            ]
-        ]
-    ])
+    body = MinlengthValidation(None)
     try:
-        api_response = api_instance.post_nested_items_request_body(
+        api_response = api_instance.post_minlength_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling ItemsApi->post_nested_items_request_body: %s\n" % e)
+        print("Exception when calling MinLengthApi->post_minlength_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -62,7 +55,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedItems**](NestedItems.md) |  | 
+[**MinlengthValidation**](MinlengthValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -86,10 +79,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_nested_items_response_body_for_content_types**
-> NestedItems post_nested_items_response_body_for_content_types()
+# **post_minlength_validation_response_body_for_content_types**
+<a name="post_minlength_validation_response_body_for_content_types"></a>
+> MinlengthValidation post_minlength_validation_response_body_for_content_types()
 
 
 
@@ -97,8 +91,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import items_api
-from unit_test_api.model.nested_items import NestedItems
+from unit_test_api.apis.tags import min_length_api
+from unit_test_api.model.minlength_validation import MinlengthValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -109,14 +103,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = items_api.ItemsApi(api_client)
+    api_instance = min_length_api.MinLengthApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_nested_items_response_body_for_content_types()
+        api_response = api_instance.post_minlength_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling ItemsApi->post_nested_items_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling MinLengthApi->post_minlength_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -138,15 +132,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedItems**](NestedItems.md) |  | 
+[**MinlengthValidation**](MinlengthValidation.md) |  | 
 
 
 
-[**NestedItems**](NestedItems.md)
+[**MinlengthValidation**](MinlengthValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -1,16 +1,17 @@
-# unit_test_api.PropertiesApi
+# unit_test_api.apis.tags.UniqueItemsApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_object_properties_validation_request_body**](PropertiesApi.md#post_object_properties_validation_request_body) | **post** /requestBody/postObjectPropertiesValidationRequestBody | 
-[**post_object_properties_validation_response_body_for_content_types**](PropertiesApi.md#post_object_properties_validation_response_body_for_content_types) | **post** /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes | 
-[**post_properties_with_escaped_characters_request_body**](PropertiesApi.md#post_properties_with_escaped_characters_request_body) | **post** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
-[**post_properties_with_escaped_characters_response_body_for_content_types**](PropertiesApi.md#post_properties_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
+[**post_uniqueitems_false_validation_request_body**](#post_uniqueitems_false_validation_request_body) | **post** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+[**post_uniqueitems_false_validation_response_body_for_content_types**](#post_uniqueitems_false_validation_response_body_for_content_types) | **post** /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes | 
+[**post_uniqueitems_validation_request_body**](#post_uniqueitems_validation_request_body) | **post** /requestBody/postUniqueitemsValidationRequestBody | 
+[**post_uniqueitems_validation_response_body_for_content_types**](#post_uniqueitems_validation_response_body_for_content_types) | **post** /responseBody/postUniqueitemsValidationResponseBodyForContentTypes | 
 
-# **post_object_properties_validation_request_body**
-> post_object_properties_validation_request_body(object_properties_validation)
+# **post_uniqueitems_false_validation_request_body**
+<a name="post_uniqueitems_false_validation_request_body"></a>
+> post_uniqueitems_false_validation_request_body(body)
 
 
 
@@ -18,8 +19,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import properties_api
-from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
+from unit_test_api.apis.tags import unique_items_api
+from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -30,16 +31,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = properties_api.PropertiesApi(api_client)
+    api_instance = unique_items_api.UniqueItemsApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = ObjectPropertiesValidation(None)
+    body = UniqueitemsFalseValidation(None)
     try:
-        api_response = api_instance.post_object_properties_validation_request_body(
+        api_response = api_instance.post_uniqueitems_false_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PropertiesApi->post_object_properties_validation_request_body: %s\n" % e)
+        print("Exception when calling UniqueItemsApi->post_uniqueitems_false_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -56,7 +57,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md) |  | 
+[**UniqueitemsFalseValidation**](UniqueitemsFalseValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,10 +81,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_object_properties_validation_response_body_for_content_types**
-> ObjectPropertiesValidation post_object_properties_validation_response_body_for_content_types()
+# **post_uniqueitems_false_validation_response_body_for_content_types**
+<a name="post_uniqueitems_false_validation_response_body_for_content_types"></a>
+> UniqueitemsFalseValidation post_uniqueitems_false_validation_response_body_for_content_types()
 
 
 
@@ -91,8 +93,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import properties_api
-from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
+from unit_test_api.apis.tags import unique_items_api
+from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -103,14 +105,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = properties_api.PropertiesApi(api_client)
+    api_instance = unique_items_api.UniqueItemsApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_object_properties_validation_response_body_for_content_types()
+        api_response = api_instance.post_uniqueitems_false_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling PropertiesApi->post_object_properties_validation_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling UniqueItemsApi->post_uniqueitems_false_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -132,20 +134,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md) |  | 
+[**UniqueitemsFalseValidation**](UniqueitemsFalseValidation.md) |  | 
 
 
 
-[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md)
+[**UniqueitemsFalseValidation**](UniqueitemsFalseValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_properties_with_escaped_characters_request_body**
-> post_properties_with_escaped_characters_request_body(properties_with_escaped_characters)
+# **post_uniqueitems_validation_request_body**
+<a name="post_uniqueitems_validation_request_body"></a>
+> post_uniqueitems_validation_request_body(body)
 
 
 
@@ -153,8 +156,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import properties_api
-from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
+from unit_test_api.apis.tags import unique_items_api
+from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -165,16 +168,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = properties_api.PropertiesApi(api_client)
+    api_instance = unique_items_api.UniqueItemsApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = PropertiesWithEscapedCharacters(None)
+    body = UniqueitemsValidation(None)
     try:
-        api_response = api_instance.post_properties_with_escaped_characters_request_body(
+        api_response = api_instance.post_uniqueitems_validation_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling PropertiesApi->post_properties_with_escaped_characters_request_body: %s\n" % e)
+        print("Exception when calling UniqueItemsApi->post_uniqueitems_validation_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -191,7 +194,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md) |  | 
+[**UniqueitemsValidation**](UniqueitemsValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,10 +218,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_properties_with_escaped_characters_response_body_for_content_types**
-> PropertiesWithEscapedCharacters post_properties_with_escaped_characters_response_body_for_content_types()
+# **post_uniqueitems_validation_response_body_for_content_types**
+<a name="post_uniqueitems_validation_response_body_for_content_types"></a>
+> UniqueitemsValidation post_uniqueitems_validation_response_body_for_content_types()
 
 
 
@@ -226,8 +230,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import properties_api
-from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
+from unit_test_api.apis.tags import unique_items_api
+from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -238,14 +242,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = properties_api.PropertiesApi(api_client)
+    api_instance = unique_items_api.UniqueItemsApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_properties_with_escaped_characters_response_body_for_content_types()
+        api_response = api_instance.post_uniqueitems_validation_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling PropertiesApi->post_properties_with_escaped_characters_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling UniqueItemsApi->post_uniqueitems_validation_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -267,15 +271,15 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md) |  | 
+[**UniqueitemsValidation**](UniqueitemsValidation.md) |  | 
 
 
 
-[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md)
+[**UniqueitemsValidation**](UniqueitemsValidation.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

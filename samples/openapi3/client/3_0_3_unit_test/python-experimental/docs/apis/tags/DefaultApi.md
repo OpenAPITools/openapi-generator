@@ -1,15 +1,16 @@
-# unit_test_api.DefaultApi
+# unit_test_api.apis.tags.DefaultApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_invalid_string_value_for_default_request_body**](DefaultApi.md#post_invalid_string_value_for_default_request_body) | **post** /requestBody/postInvalidStringValueForDefaultRequestBody | 
-[**post_invalid_string_value_for_default_response_body_for_content_types**](DefaultApi.md#post_invalid_string_value_for_default_response_body_for_content_types) | **post** /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes | 
-[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](DefaultApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **post** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
-[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types**](DefaultApi.md#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types) | **post** /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes | 
+[**post_invalid_string_value_for_default_request_body**](#post_invalid_string_value_for_default_request_body) | **post** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+[**post_invalid_string_value_for_default_response_body_for_content_types**](#post_invalid_string_value_for_default_response_body_for_content_types) | **post** /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes | 
+[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body) | **post** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+[**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types**](#post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types) | **post** /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes | 
 
 # **post_invalid_string_value_for_default_request_body**
+<a name="post_invalid_string_value_for_default_request_body"></a>
 > post_invalid_string_value_for_default_request_body(invalid_string_value_for_default)
 
 
@@ -80,9 +81,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_invalid_string_value_for_default_response_body_for_content_types**
+<a name="post_invalid_string_value_for_default_response_body_for_content_types"></a>
 > InvalidStringValueForDefault post_invalid_string_value_for_default_response_body_for_content_types()
 
 
@@ -142,9 +144,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**
+<a name="post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body"></a>
 > post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body(the_default_keyword_does_not_do_anything_if_the_property_is_missing)
 
 
@@ -217,9 +220,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types**
+<a name="post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types"></a>
 > TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types()
 
 
@@ -279,5 +283,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -1,20 +1,23 @@
-# unit_test_api.AdditionalPropertiesApi
+# unit_test_api.apis.tags.AnyOfApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](AdditionalPropertiesApi.md#post_additionalproperties_allows_a_schema_which_should_validate_request_body) | **post** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
-[**post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**](AdditionalPropertiesApi.md#post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes | 
-[**post_additionalproperties_are_allowed_by_default_request_body**](AdditionalPropertiesApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
-[**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](AdditionalPropertiesApi.md#post_additionalproperties_are_allowed_by_default_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
-[**post_additionalproperties_can_exist_by_itself_request_body**](AdditionalPropertiesApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **post** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
-[**post_additionalproperties_can_exist_by_itself_response_body_for_content_types**](AdditionalPropertiesApi.md#post_additionalproperties_can_exist_by_itself_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes | 
-[**post_additionalproperties_should_not_look_in_applicators_request_body**](AdditionalPropertiesApi.md#post_additionalproperties_should_not_look_in_applicators_request_body) | **post** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
-[**post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**](AdditionalPropertiesApi.md#post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes | 
+[**post_anyof_complex_types_request_body**](#post_anyof_complex_types_request_body) | **post** /requestBody/postAnyofComplexTypesRequestBody | 
+[**post_anyof_complex_types_response_body_for_content_types**](#post_anyof_complex_types_response_body_for_content_types) | **post** /responseBody/postAnyofComplexTypesResponseBodyForContentTypes | 
+[**post_anyof_request_body**](#post_anyof_request_body) | **post** /requestBody/postAnyofRequestBody | 
+[**post_anyof_response_body_for_content_types**](#post_anyof_response_body_for_content_types) | **post** /responseBody/postAnyofResponseBodyForContentTypes | 
+[**post_anyof_with_base_schema_request_body**](#post_anyof_with_base_schema_request_body) | **post** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+[**post_anyof_with_base_schema_response_body_for_content_types**](#post_anyof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes | 
+[**post_anyof_with_one_empty_schema_request_body**](#post_anyof_with_one_empty_schema_request_body) | **post** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+[**post_anyof_with_one_empty_schema_response_body_for_content_types**](#post_anyof_with_one_empty_schema_response_body_for_content_types) | **post** /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes | 
+[**post_nested_anyof_to_check_validation_semantics_request_body**](#post_nested_anyof_to_check_validation_semantics_request_body) | **post** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+[**post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**](#post_nested_anyof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes | 
 
-# **post_additionalproperties_allows_a_schema_which_should_validate_request_body**
-> post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
+# **post_anyof_complex_types_request_body**
+<a name="post_anyof_complex_types_request_body"></a>
+> post_anyof_complex_types_request_body(anyof_complex_types)
 
 
 
@@ -22,8 +25,8 @@ Method | HTTP request | Description
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -34,19 +37,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AdditionalpropertiesAllowsASchemaWhichShouldValidate(
-        foo=None,
-        bar=None,
-    )
+    body = AnyofComplexTypes(None)
     try:
-        api_response = api_instance.post_additionalproperties_allows_a_schema_which_should_validate_request_body(
+        api_response = api_instance.post_anyof_complex_types_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_allows_a_schema_which_should_validate_request_body: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_complex_types_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -63,7 +63,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesAllowsASchemaWhichShouldValidate**](AdditionalpropertiesAllowsASchemaWhichShouldValidate.md) |  | 
+[**AnyofComplexTypes**](AnyofComplexTypes.md) |  | 
 
 
 ### Return Types, Responses
@@ -87,10 +87,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**
-> AdditionalpropertiesAllowsASchemaWhichShouldValidate post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types()
+# **post_anyof_complex_types_response_body_for_content_types**
+<a name="post_anyof_complex_types_response_body_for_content_types"></a>
+> AnyofComplexTypes post_anyof_complex_types_response_body_for_content_types()
 
 
 
@@ -98,8 +99,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -110,14 +111,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types()
+        api_response = api_instance.post_anyof_complex_types_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_complex_types_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -139,20 +140,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesAllowsASchemaWhichShouldValidate**](AdditionalpropertiesAllowsASchemaWhichShouldValidate.md) |  | 
+[**AnyofComplexTypes**](AnyofComplexTypes.md) |  | 
 
 
 
-[**AdditionalpropertiesAllowsASchemaWhichShouldValidate**](AdditionalpropertiesAllowsASchemaWhichShouldValidate.md)
+[**AnyofComplexTypes**](AnyofComplexTypes.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_are_allowed_by_default_request_body**
-> post_additionalproperties_are_allowed_by_default_request_body(additionalproperties_are_allowed_by_default)
+# **post_anyof_request_body**
+<a name="post_anyof_request_body"></a>
+> post_anyof_request_body(anyof)
 
 
 
@@ -160,8 +162,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof import Anyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -172,16 +174,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AdditionalpropertiesAreAllowedByDefault(None)
+    body = Anyof(None)
     try:
-        api_response = api_instance.post_additionalproperties_are_allowed_by_default_request_body(
+        api_response = api_instance.post_anyof_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_are_allowed_by_default_request_body: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -198,7 +200,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesAreAllowedByDefault**](AdditionalpropertiesAreAllowedByDefault.md) |  | 
+[**Anyof**](Anyof.md) |  | 
 
 
 ### Return Types, Responses
@@ -222,10 +224,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_are_allowed_by_default_response_body_for_content_types**
-> AdditionalpropertiesAreAllowedByDefault post_additionalproperties_are_allowed_by_default_response_body_for_content_types()
+# **post_anyof_response_body_for_content_types**
+<a name="post_anyof_response_body_for_content_types"></a>
+> Anyof post_anyof_response_body_for_content_types()
 
 
 
@@ -233,8 +236,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof import Anyof
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -245,14 +248,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_additionalproperties_are_allowed_by_default_response_body_for_content_types()
+        api_response = api_instance.post_anyof_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_are_allowed_by_default_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -274,20 +277,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesAreAllowedByDefault**](AdditionalpropertiesAreAllowedByDefault.md) |  | 
+[**Anyof**](Anyof.md) |  | 
 
 
 
-[**AdditionalpropertiesAreAllowedByDefault**](AdditionalpropertiesAreAllowedByDefault.md)
+[**Anyof**](Anyof.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_can_exist_by_itself_request_body**
-> post_additionalproperties_can_exist_by_itself_request_body(additionalproperties_can_exist_by_itself)
+# **post_anyof_with_base_schema_request_body**
+<a name="post_anyof_with_base_schema_request_body"></a>
+> post_anyof_with_base_schema_request_body(body)
 
 
 
@@ -295,8 +299,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -307,18 +311,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AdditionalpropertiesCanExistByItself(
-        key=True,
-    )
+    body = AnyofWithBaseSchema("body_example")
     try:
-        api_response = api_instance.post_additionalproperties_can_exist_by_itself_request_body(
+        api_response = api_instance.post_anyof_with_base_schema_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_can_exist_by_itself_request_body: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_with_base_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -335,7 +337,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesCanExistByItself**](AdditionalpropertiesCanExistByItself.md) |  | 
+[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -359,10 +361,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_can_exist_by_itself_response_body_for_content_types**
-> AdditionalpropertiesCanExistByItself post_additionalproperties_can_exist_by_itself_response_body_for_content_types()
+# **post_anyof_with_base_schema_response_body_for_content_types**
+<a name="post_anyof_with_base_schema_response_body_for_content_types"></a>
+> AnyofWithBaseSchema post_anyof_with_base_schema_response_body_for_content_types()
 
 
 
@@ -370,8 +373,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -382,14 +385,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_additionalproperties_can_exist_by_itself_response_body_for_content_types()
+        api_response = api_instance.post_anyof_with_base_schema_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_can_exist_by_itself_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_with_base_schema_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -411,20 +414,21 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesCanExistByItself**](AdditionalpropertiesCanExistByItself.md) |  | 
+[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md) |  | 
 
 
 
-[**AdditionalpropertiesCanExistByItself**](AdditionalpropertiesCanExistByItself.md)
+[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_should_not_look_in_applicators_request_body**
-> post_additionalproperties_should_not_look_in_applicators_request_body(additionalproperties_should_not_look_in_applicators)
+# **post_anyof_with_one_empty_schema_request_body**
+<a name="post_anyof_with_one_empty_schema_request_body"></a>
+> post_anyof_with_one_empty_schema_request_body(anyof_with_one_empty_schema)
 
 
 
@@ -432,8 +436,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -444,16 +448,16 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = AdditionalpropertiesShouldNotLookInApplicators(None)
+    body = AnyofWithOneEmptySchema(None)
     try:
-        api_response = api_instance.post_additionalproperties_should_not_look_in_applicators_request_body(
+        api_response = api_instance.post_anyof_with_one_empty_schema_request_body(
             body=body,
         )
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_should_not_look_in_applicators_request_body: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_with_one_empty_schema_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -470,7 +474,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesShouldNotLookInApplicators**](AdditionalpropertiesShouldNotLookInApplicators.md) |  | 
+[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -494,10 +498,11 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**
-> AdditionalpropertiesShouldNotLookInApplicators post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types()
+# **post_anyof_with_one_empty_schema_response_body_for_content_types**
+<a name="post_anyof_with_one_empty_schema_response_body_for_content_types"></a>
+> AnyofWithOneEmptySchema post_anyof_with_one_empty_schema_response_body_for_content_types()
 
 
 
@@ -505,8 +510,8 @@ No authorization required
 
 ```python
 import unit_test_api
-from unit_test_api.apis.tags import additional_properties_api
-from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -517,14 +522,14 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = additional_properties_api.AdditionalPropertiesApi(api_client)
+    api_instance = any_of_api.AnyOfApi(api_client)
 
     # example, this endpoint has no required or optional parameters
     try:
-        api_response = api_instance.post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types()
+        api_response = api_instance.post_anyof_with_one_empty_schema_response_body_for_content_types()
         pprint(api_response)
     except unit_test_api.ApiException as e:
-        print("Exception when calling AdditionalPropertiesApi->post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types: %s\n" % e)
+        print("Exception when calling AnyOfApi->post_anyof_with_one_empty_schema_response_body_for_content_types: %s\n" % e)
 ```
 ### Parameters
 This endpoint does not need any parameter.
@@ -546,15 +551,152 @@ headers | Unset | headers were not defined |
 #### SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalpropertiesShouldNotLookInApplicators**](AdditionalpropertiesShouldNotLookInApplicators.md) |  | 
+[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md) |  | 
 
 
 
-[**AdditionalpropertiesShouldNotLookInApplicators**](AdditionalpropertiesShouldNotLookInApplicators.md)
+[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md)
 
 ### Authorization
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **post_nested_anyof_to_check_validation_semantics_request_body**
+<a name="post_nested_anyof_to_check_validation_semantics_request_body"></a>
+> post_nested_anyof_to_check_validation_semantics_request_body(nested_anyof_to_check_validation_semantics)
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = any_of_api.AnyOfApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    body = NestedAnyofToCheckValidationSemantics(None)
+    try:
+        api_response = api_instance.post_nested_anyof_to_check_validation_semantics_request_body(
+            body=body,
+        )
+    except unit_test_api.ApiException as e:
+        print("Exception when calling AnyOfApi->post_nested_anyof_to_check_validation_semantics_request_body: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJson] | required |
+content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md) |  | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**
+<a name="post_nested_anyof_to_check_validation_semantics_response_body_for_content_types"></a>
+> NestedAnyofToCheckValidationSemantics post_nested_anyof_to_check_validation_semantics_response_body_for_content_types()
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import any_of_api
+from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = any_of_api.AnyOfApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
+    try:
+        api_response = api_instance.post_nested_anyof_to_check_validation_semantics_response_body_for_content_types()
+        pprint(api_response)
+    except unit_test_api.ApiException as e:
+        print("Exception when calling AnyOfApi->post_nested_anyof_to_check_validation_semantics_response_body_for_content_types: %s\n" % e)
+```
+### Parameters
+This endpoint does not need any parameter.
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+#### SchemaFor200ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md) |  | 
+
+
+
+[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

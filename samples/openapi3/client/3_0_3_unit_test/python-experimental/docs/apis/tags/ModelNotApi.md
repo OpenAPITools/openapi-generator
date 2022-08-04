@@ -1,17 +1,18 @@
-# unit_test_api.ModelNotApi
+# unit_test_api.apis.tags.ModelNotApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_forbidden_property_request_body**](ModelNotApi.md#post_forbidden_property_request_body) | **post** /requestBody/postForbiddenPropertyRequestBody | 
-[**post_forbidden_property_response_body_for_content_types**](ModelNotApi.md#post_forbidden_property_response_body_for_content_types) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
-[**post_not_more_complex_schema_request_body**](ModelNotApi.md#post_not_more_complex_schema_request_body) | **post** /requestBody/postNotMoreComplexSchemaRequestBody | 
-[**post_not_more_complex_schema_response_body_for_content_types**](ModelNotApi.md#post_not_more_complex_schema_response_body_for_content_types) | **post** /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes | 
-[**post_not_request_body**](ModelNotApi.md#post_not_request_body) | **post** /requestBody/postNotRequestBody | 
-[**post_not_response_body_for_content_types**](ModelNotApi.md#post_not_response_body_for_content_types) | **post** /responseBody/postNotResponseBodyForContentTypes | 
+[**post_forbidden_property_request_body**](#post_forbidden_property_request_body) | **post** /requestBody/postForbiddenPropertyRequestBody | 
+[**post_forbidden_property_response_body_for_content_types**](#post_forbidden_property_response_body_for_content_types) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
+[**post_not_more_complex_schema_request_body**](#post_not_more_complex_schema_request_body) | **post** /requestBody/postNotMoreComplexSchemaRequestBody | 
+[**post_not_more_complex_schema_response_body_for_content_types**](#post_not_more_complex_schema_response_body_for_content_types) | **post** /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes | 
+[**post_not_request_body**](#post_not_request_body) | **post** /requestBody/postNotRequestBody | 
+[**post_not_response_body_for_content_types**](#post_not_response_body_for_content_types) | **post** /responseBody/postNotResponseBodyForContentTypes | 
 
 # **post_forbidden_property_request_body**
+<a name="post_forbidden_property_request_body"></a>
 > post_forbidden_property_request_body(forbidden_property)
 
 
@@ -82,9 +83,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_forbidden_property_response_body_for_content_types**
+<a name="post_forbidden_property_response_body_for_content_types"></a>
 > ForbiddenProperty post_forbidden_property_response_body_for_content_types()
 
 
@@ -144,9 +146,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_not_more_complex_schema_request_body**
+<a name="post_not_more_complex_schema_request_body"></a>
 > post_not_more_complex_schema_request_body(body)
 
 
@@ -217,9 +220,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_not_more_complex_schema_response_body_for_content_types**
+<a name="post_not_more_complex_schema_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_not_more_complex_schema_response_body_for_content_types()
 
 
@@ -279,9 +283,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_not_request_body**
+<a name="post_not_request_body"></a>
 > post_not_request_body(body)
 
 
@@ -352,9 +357,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_not_response_body_for_content_types**
+<a name="post_not_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_not_response_body_for_content_types()
 
 
@@ -414,5 +420,5 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

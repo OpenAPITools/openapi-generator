@@ -80,8 +80,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public static final String USE_INLINE_MODEL_RESOLVER = "useInlineModelResolver";
 
     protected String packageUrl;
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = "docs/apis/tags/";
+    protected String modelDocPath = "docs/models/";
     protected boolean useNose = false;
     protected boolean useInlineModelResolver = false;
 

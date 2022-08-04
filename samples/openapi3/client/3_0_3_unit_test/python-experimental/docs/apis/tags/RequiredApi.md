@@ -1,17 +1,18 @@
-# unit_test_api.RequiredApi
+# unit_test_api.apis.tags.RequiredApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_required_default_validation_request_body**](RequiredApi.md#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
-[**post_required_default_validation_response_body_for_content_types**](RequiredApi.md#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
-[**post_required_validation_request_body**](RequiredApi.md#post_required_validation_request_body) | **post** /requestBody/postRequiredValidationRequestBody | 
-[**post_required_validation_response_body_for_content_types**](RequiredApi.md#post_required_validation_response_body_for_content_types) | **post** /responseBody/postRequiredValidationResponseBodyForContentTypes | 
-[**post_required_with_empty_array_request_body**](RequiredApi.md#post_required_with_empty_array_request_body) | **post** /requestBody/postRequiredWithEmptyArrayRequestBody | 
-[**post_required_with_empty_array_response_body_for_content_types**](RequiredApi.md#post_required_with_empty_array_response_body_for_content_types) | **post** /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes | 
+[**post_required_default_validation_request_body**](#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
+[**post_required_default_validation_response_body_for_content_types**](#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
+[**post_required_validation_request_body**](#post_required_validation_request_body) | **post** /requestBody/postRequiredValidationRequestBody | 
+[**post_required_validation_response_body_for_content_types**](#post_required_validation_response_body_for_content_types) | **post** /responseBody/postRequiredValidationResponseBodyForContentTypes | 
+[**post_required_with_empty_array_request_body**](#post_required_with_empty_array_request_body) | **post** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+[**post_required_with_empty_array_response_body_for_content_types**](#post_required_with_empty_array_response_body_for_content_types) | **post** /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes | 
 
 # **post_required_default_validation_request_body**
+<a name="post_required_default_validation_request_body"></a>
 > post_required_default_validation_request_body(required_default_validation)
 
 
@@ -82,9 +83,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_required_default_validation_response_body_for_content_types**
+<a name="post_required_default_validation_response_body_for_content_types"></a>
 > RequiredDefaultValidation post_required_default_validation_response_body_for_content_types()
 
 
@@ -144,9 +146,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_required_validation_request_body**
+<a name="post_required_validation_request_body"></a>
 > post_required_validation_request_body(required_validation)
 
 
@@ -217,9 +220,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_required_validation_response_body_for_content_types**
+<a name="post_required_validation_response_body_for_content_types"></a>
 > RequiredValidation post_required_validation_response_body_for_content_types()
 
 
@@ -279,9 +283,10 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_required_with_empty_array_request_body**
+<a name="post_required_with_empty_array_request_body"></a>
 > post_required_with_empty_array_request_body(required_with_empty_array)
 
 
@@ -352,9 +357,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_required_with_empty_array_response_body_for_content_types**
+<a name="post_required_with_empty_array_response_body_for_content_types"></a>
 > RequiredWithEmptyArray post_required_with_empty_array_response_body_for_content_types()
 
 
@@ -414,5 +420,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

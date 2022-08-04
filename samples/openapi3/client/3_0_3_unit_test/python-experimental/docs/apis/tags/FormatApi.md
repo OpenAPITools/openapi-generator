@@ -1,29 +1,30 @@
-# unit_test_api.FormatApi
+# unit_test_api.apis.tags.FormatApi
 
 All URIs are relative to *https://someserver.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_date_time_format_request_body**](FormatApi.md#post_date_time_format_request_body) | **post** /requestBody/postDateTimeFormatRequestBody | 
-[**post_date_time_format_response_body_for_content_types**](FormatApi.md#post_date_time_format_response_body_for_content_types) | **post** /responseBody/postDateTimeFormatResponseBodyForContentTypes | 
-[**post_email_format_request_body**](FormatApi.md#post_email_format_request_body) | **post** /requestBody/postEmailFormatRequestBody | 
-[**post_email_format_response_body_for_content_types**](FormatApi.md#post_email_format_response_body_for_content_types) | **post** /responseBody/postEmailFormatResponseBodyForContentTypes | 
-[**post_hostname_format_request_body**](FormatApi.md#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
-[**post_hostname_format_response_body_for_content_types**](FormatApi.md#post_hostname_format_response_body_for_content_types) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
-[**post_ipv4_format_request_body**](FormatApi.md#post_ipv4_format_request_body) | **post** /requestBody/postIpv4FormatRequestBody | 
-[**post_ipv4_format_response_body_for_content_types**](FormatApi.md#post_ipv4_format_response_body_for_content_types) | **post** /responseBody/postIpv4FormatResponseBodyForContentTypes | 
-[**post_ipv6_format_request_body**](FormatApi.md#post_ipv6_format_request_body) | **post** /requestBody/postIpv6FormatRequestBody | 
-[**post_ipv6_format_response_body_for_content_types**](FormatApi.md#post_ipv6_format_response_body_for_content_types) | **post** /responseBody/postIpv6FormatResponseBodyForContentTypes | 
-[**post_json_pointer_format_request_body**](FormatApi.md#post_json_pointer_format_request_body) | **post** /requestBody/postJsonPointerFormatRequestBody | 
-[**post_json_pointer_format_response_body_for_content_types**](FormatApi.md#post_json_pointer_format_response_body_for_content_types) | **post** /responseBody/postJsonPointerFormatResponseBodyForContentTypes | 
-[**post_uri_format_request_body**](FormatApi.md#post_uri_format_request_body) | **post** /requestBody/postUriFormatRequestBody | 
-[**post_uri_format_response_body_for_content_types**](FormatApi.md#post_uri_format_response_body_for_content_types) | **post** /responseBody/postUriFormatResponseBodyForContentTypes | 
-[**post_uri_reference_format_request_body**](FormatApi.md#post_uri_reference_format_request_body) | **post** /requestBody/postUriReferenceFormatRequestBody | 
-[**post_uri_reference_format_response_body_for_content_types**](FormatApi.md#post_uri_reference_format_response_body_for_content_types) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
-[**post_uri_template_format_request_body**](FormatApi.md#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
-[**post_uri_template_format_response_body_for_content_types**](FormatApi.md#post_uri_template_format_response_body_for_content_types) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
+[**post_date_time_format_request_body**](#post_date_time_format_request_body) | **post** /requestBody/postDateTimeFormatRequestBody | 
+[**post_date_time_format_response_body_for_content_types**](#post_date_time_format_response_body_for_content_types) | **post** /responseBody/postDateTimeFormatResponseBodyForContentTypes | 
+[**post_email_format_request_body**](#post_email_format_request_body) | **post** /requestBody/postEmailFormatRequestBody | 
+[**post_email_format_response_body_for_content_types**](#post_email_format_response_body_for_content_types) | **post** /responseBody/postEmailFormatResponseBodyForContentTypes | 
+[**post_hostname_format_request_body**](#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
+[**post_hostname_format_response_body_for_content_types**](#post_hostname_format_response_body_for_content_types) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
+[**post_ipv4_format_request_body**](#post_ipv4_format_request_body) | **post** /requestBody/postIpv4FormatRequestBody | 
+[**post_ipv4_format_response_body_for_content_types**](#post_ipv4_format_response_body_for_content_types) | **post** /responseBody/postIpv4FormatResponseBodyForContentTypes | 
+[**post_ipv6_format_request_body**](#post_ipv6_format_request_body) | **post** /requestBody/postIpv6FormatRequestBody | 
+[**post_ipv6_format_response_body_for_content_types**](#post_ipv6_format_response_body_for_content_types) | **post** /responseBody/postIpv6FormatResponseBodyForContentTypes | 
+[**post_json_pointer_format_request_body**](#post_json_pointer_format_request_body) | **post** /requestBody/postJsonPointerFormatRequestBody | 
+[**post_json_pointer_format_response_body_for_content_types**](#post_json_pointer_format_response_body_for_content_types) | **post** /responseBody/postJsonPointerFormatResponseBodyForContentTypes | 
+[**post_uri_format_request_body**](#post_uri_format_request_body) | **post** /requestBody/postUriFormatRequestBody | 
+[**post_uri_format_response_body_for_content_types**](#post_uri_format_response_body_for_content_types) | **post** /responseBody/postUriFormatResponseBodyForContentTypes | 
+[**post_uri_reference_format_request_body**](#post_uri_reference_format_request_body) | **post** /requestBody/postUriReferenceFormatRequestBody | 
+[**post_uri_reference_format_response_body_for_content_types**](#post_uri_reference_format_response_body_for_content_types) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
+[**post_uri_template_format_request_body**](#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
+[**post_uri_template_format_response_body_for_content_types**](#post_uri_template_format_response_body_for_content_types) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
 
 # **post_date_time_format_request_body**
+<a name="post_date_time_format_request_body"></a>
 > post_date_time_format_request_body(body)
 
 
@@ -94,9 +95,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_date_time_format_response_body_for_content_types**
+<a name="post_date_time_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_date_time_format_response_body_for_content_types()
 
 
@@ -156,9 +158,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_email_format_request_body**
+<a name="post_email_format_request_body"></a>
 > post_email_format_request_body(body)
 
 
@@ -229,9 +232,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_email_format_response_body_for_content_types**
+<a name="post_email_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_email_format_response_body_for_content_types()
 
 
@@ -291,9 +295,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_hostname_format_request_body**
+<a name="post_hostname_format_request_body"></a>
 > post_hostname_format_request_body(body)
 
 
@@ -364,9 +369,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_hostname_format_response_body_for_content_types**
+<a name="post_hostname_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_hostname_format_response_body_for_content_types()
 
 
@@ -426,9 +432,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ipv4_format_request_body**
+<a name="post_ipv4_format_request_body"></a>
 > post_ipv4_format_request_body(body)
 
 
@@ -499,9 +506,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ipv4_format_response_body_for_content_types**
+<a name="post_ipv4_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_ipv4_format_response_body_for_content_types()
 
 
@@ -561,9 +569,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ipv6_format_request_body**
+<a name="post_ipv6_format_request_body"></a>
 > post_ipv6_format_request_body(body)
 
 
@@ -634,9 +643,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_ipv6_format_response_body_for_content_types**
+<a name="post_ipv6_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_ipv6_format_response_body_for_content_types()
 
 
@@ -696,9 +706,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_json_pointer_format_request_body**
+<a name="post_json_pointer_format_request_body"></a>
 > post_json_pointer_format_request_body(body)
 
 
@@ -769,9 +780,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_json_pointer_format_response_body_for_content_types**
+<a name="post_json_pointer_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_json_pointer_format_response_body_for_content_types()
 
 
@@ -831,9 +843,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_uri_format_request_body**
+<a name="post_uri_format_request_body"></a>
 > post_uri_format_request_body(body)
 
 
@@ -904,9 +917,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_uri_format_response_body_for_content_types**
+<a name="post_uri_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_uri_format_response_body_for_content_types()
 
 
@@ -966,9 +980,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_uri_reference_format_request_body**
+<a name="post_uri_reference_format_request_body"></a>
 > post_uri_reference_format_request_body(body)
 
 
@@ -1039,9 +1054,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_uri_reference_format_response_body_for_content_types**
+<a name="post_uri_reference_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_uri_reference_format_response_body_for_content_types()
 
 
@@ -1101,9 +1117,10 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_uri_template_format_request_body**
+<a name="post_uri_template_format_request_body"></a>
 > post_uri_template_format_request_body(body)
 
 
@@ -1174,9 +1191,10 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **post_uri_template_format_response_body_for_content_types**
+<a name="post_uri_template_format_response_body_for_content_types"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type post_uri_template_format_response_body_for_content_types()
 
 
@@ -1236,5 +1254,5 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
