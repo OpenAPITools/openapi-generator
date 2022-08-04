@@ -19,15 +19,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("hasOnlyReadOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class HasOnlyReadOnly  implements Serializable {
-  
   private @Valid String bar;
   private @Valid String foo;
 
   protected HasOnlyReadOnly(HasOnlyReadOnlyBuilder<?, ?> b) {
-  this.bar = b.bar;this.foo = b.foo;
+    this.bar = b.bar;
+    this.foo = b.foo;
   }
 
-  public HasOnlyReadOnly() { }
+  public HasOnlyReadOnly() {
+  }
 
   /**
    **/
@@ -48,7 +49,7 @@ public class HasOnlyReadOnly  implements Serializable {
     this.bar = bar;
   }
 
-/**
+  /**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
