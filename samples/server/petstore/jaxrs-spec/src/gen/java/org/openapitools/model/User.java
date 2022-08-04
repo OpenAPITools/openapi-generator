@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("User")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class User  implements Serializable {
-  
   private @Valid Long id;
   private @Valid String username;
   private @Valid String firstName;
@@ -29,10 +28,17 @@ public class User  implements Serializable {
   private @Valid Integer userStatus;
 
   protected User(UserBuilder<?, ?> b) {
-  this.id = b.id;this.username = b.username;this.firstName = b.firstName;this.lastName = b.lastName;this.email = b.email;this.password = b.password;this.phone = b.phone;this.userStatus = b.userStatus;
+    this.id = b.id;
+    this.username = b.username;
+    this.firstName = b.firstName;
+    this.lastName = b.lastName;
+    this.email = b.email;
+    this.password = b.password;
+    this.phone = b.phone;
+    this.userStatus = b.userStatus;
   }
 
-  public User() { }
+  public User() {
 
   /**
    **/
@@ -53,7 +59,7 @@ public class User  implements Serializable {
     this.id = id;
   }
 
-/**
+  /**
    **/
   public User username(String username) {
     this.username = username;
@@ -72,7 +78,7 @@ public class User  implements Serializable {
     this.username = username;
   }
 
-/**
+  /**
    **/
   public User firstName(String firstName) {
     this.firstName = firstName;
@@ -91,7 +97,7 @@ public class User  implements Serializable {
     this.firstName = firstName;
   }
 
-/**
+  /**
    **/
   public User lastName(String lastName) {
     this.lastName = lastName;
@@ -110,7 +116,7 @@ public class User  implements Serializable {
     this.lastName = lastName;
   }
 
-/**
+  /**
    **/
   public User email(String email) {
     this.email = email;
@@ -129,7 +135,7 @@ public class User  implements Serializable {
     this.email = email;
   }
 
-/**
+  /**
    **/
   public User password(String password) {
     this.password = password;
@@ -148,7 +154,7 @@ public class User  implements Serializable {
     this.password = password;
   }
 
-/**
+  /**
    **/
   public User phone(String phone) {
     this.phone = phone;
@@ -167,7 +173,7 @@ public class User  implements Serializable {
     this.phone = phone;
   }
 
-/**
+  /**
    * User Status
    **/
   public User userStatus(Integer userStatus) {
