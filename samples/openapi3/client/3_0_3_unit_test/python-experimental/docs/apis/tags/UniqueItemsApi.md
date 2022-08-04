@@ -1,5 +1,5 @@
-# unit_test_api.apis.tags.UniqueItemsApi
 <a name="__pageTop"></a>
+# unit_test_api.apis.tags.UniqueItemsApi
 
 All URIs are relative to *https://someserver.com/v1*
 
