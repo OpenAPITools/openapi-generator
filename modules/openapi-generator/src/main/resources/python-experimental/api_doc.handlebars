@@ -1,16 +1,18 @@
-# {{packageName}}.{{classname}}{{#if description}}
+<a name="__pageTop"></a>
+# {{packageName}}.{{apiPackage}}.tags.{{classFilename}}.{{classname}}{{#if description}}
 {{description}}{{/if}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#with operations}}{{#each operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
+{{#with operations}}{{#each operation}}[**{{operationId}}**](#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
 {{/each}}{{/with}}
 
 {{#with operations}}
 {{#each operation}}
 # **{{{operationId}}}**
+<a name="{{{operationId}}}"></a>
 > {{#if returnType}}{{{returnType}}} {{/if}}{{{operationId}}}({{#each requiredParams}}{{#unless defaultValue}}{{paramName}}{{#if hasMore}}, {{/if}}{{/unless}}{{/each}})
 
 {{#if summary}}{{{summary}}}{{/if}}{{#if notes}}
@@ -204,9 +206,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-{{#unless authMethods}}No authorization required{{/unless}}{{#each authMethods}}[{{{name}}}](../README.md#{{{name}}}){{#unless @last}}, {{/unless}}{{/each}}
+{{#unless authMethods}}No authorization required{{/unless}}{{#each authMethods}}[{{{name}}}](../../../README.md#{{{name}}}){{#unless @last}}, {{/unless}}{{/each}}
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 {{/each}}
 {{/with}}
