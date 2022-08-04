@@ -30,6 +30,7 @@ public class ModelApiResponse  implements Serializable {
   }
 
   public ModelApiResponse() {
+  }
 
   /**
    **/

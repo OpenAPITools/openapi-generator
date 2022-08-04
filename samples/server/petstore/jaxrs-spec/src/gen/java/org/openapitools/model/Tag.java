@@ -27,6 +27,7 @@ public class Tag  implements Serializable {
   }
 
   public Tag() {
+  }
 
   /**
    **/

@@ -74,6 +74,7 @@ public class BigCat extends Cat implements Serializable {
   }
 
   public BigCat() {
+  }
 
   /**
    **/

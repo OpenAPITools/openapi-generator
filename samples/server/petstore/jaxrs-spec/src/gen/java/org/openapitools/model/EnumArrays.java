@@ -123,6 +123,7 @@ public class EnumArrays  implements Serializable {
   }
 
   public EnumArrays() {
+  }
 
   /**
    **/

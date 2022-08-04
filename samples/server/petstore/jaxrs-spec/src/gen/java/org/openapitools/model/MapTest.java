@@ -80,6 +80,7 @@ public class MapTest  implements Serializable {
   }
 
   public MapTest() {
+  }
 
   /**
    **/

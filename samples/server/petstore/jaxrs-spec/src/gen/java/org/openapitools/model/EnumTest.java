@@ -223,6 +223,7 @@ public class EnumTest  implements Serializable {
   }
 
   public EnumTest() {
+  }
 
   /**
    **/

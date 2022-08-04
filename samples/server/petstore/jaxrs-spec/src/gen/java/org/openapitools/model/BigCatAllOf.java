@@ -73,6 +73,7 @@ public class BigCatAllOf  implements Serializable {
   }
 
   public BigCatAllOf() {
+  }
 
   /**
    **/

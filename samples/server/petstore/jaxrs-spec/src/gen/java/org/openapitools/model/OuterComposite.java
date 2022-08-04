@@ -30,6 +30,7 @@ public class OuterComposite  implements Serializable {
   }
 
   public OuterComposite() {
+  }
 
   /**
    **/

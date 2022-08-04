@@ -26,6 +26,7 @@ public class ModelList  implements Serializable {
   }
 
   public ModelList() {
+  }
 
   /**
    **/

@@ -26,6 +26,7 @@ public class NumberOnly  implements Serializable {
   }
 
   public NumberOnly() {
+  }
 
   /**
    **/

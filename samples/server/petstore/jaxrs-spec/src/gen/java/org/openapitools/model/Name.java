@@ -33,6 +33,7 @@ public class Name  implements Serializable {
   }
 
   public Name() {
+  }
 
   /**
    **/

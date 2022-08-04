@@ -30,6 +30,7 @@ public class Model200Response  implements Serializable {
   }
 
   public Model200Response() {
+  }
 
   /**
    **/

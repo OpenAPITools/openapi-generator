@@ -35,6 +35,7 @@ public class Capitalization  implements Serializable {
   }
 
   public Capitalization() {
+  }
 
   /**
    **/

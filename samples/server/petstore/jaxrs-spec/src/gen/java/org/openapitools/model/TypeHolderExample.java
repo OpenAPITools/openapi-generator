@@ -38,6 +38,7 @@ public class TypeHolderExample  implements Serializable {
   }
 
   public TypeHolderExample() {
+  }
 
   /**
    **/

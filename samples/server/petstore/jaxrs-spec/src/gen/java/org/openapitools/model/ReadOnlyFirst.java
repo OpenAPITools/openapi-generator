@@ -27,6 +27,7 @@ public class ReadOnlyFirst  implements Serializable {
   }
 
   public ReadOnlyFirst() {
+  }
 
   /**
    **/

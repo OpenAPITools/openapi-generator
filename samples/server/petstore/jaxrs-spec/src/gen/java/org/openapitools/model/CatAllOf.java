@@ -26,6 +26,7 @@ public class CatAllOf  implements Serializable {
   }
 
   public CatAllOf() {
+  }
 
   /**
    **/

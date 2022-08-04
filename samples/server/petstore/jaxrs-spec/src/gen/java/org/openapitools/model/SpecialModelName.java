@@ -26,6 +26,7 @@ public class SpecialModelName  implements Serializable {
   }
 
   public SpecialModelName() {
+  }
 
   /**
    **/

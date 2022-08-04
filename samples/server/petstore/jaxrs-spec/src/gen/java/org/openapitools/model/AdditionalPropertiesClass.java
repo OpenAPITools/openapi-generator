@@ -49,6 +49,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   public AdditionalPropertiesClass() {
+  }
 
   /**
    **/

@@ -36,6 +36,7 @@ public class TypeHolderDefault  implements Serializable {
   }
 
   public TypeHolderDefault() {
+  }
 
   /**
    **/

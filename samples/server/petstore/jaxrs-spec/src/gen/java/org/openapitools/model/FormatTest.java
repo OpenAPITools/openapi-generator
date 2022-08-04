@@ -58,6 +58,7 @@ public class FormatTest  implements Serializable {
   }
 
   public FormatTest() {
+  }
 
   /**
    * minimum: 10

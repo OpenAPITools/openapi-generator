@@ -30,6 +30,7 @@ public class FileSchemaTestClass  implements Serializable {
   }
 
   public FileSchemaTestClass() {
+  }
 
   /**
    **/

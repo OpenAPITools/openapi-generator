@@ -28,6 +28,7 @@ public class ModelReturn  implements Serializable {
   }
 
   public ModelReturn() {
+  }
 
   /**
    **/

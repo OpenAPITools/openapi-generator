@@ -84,6 +84,7 @@ public class XmlItem  implements Serializable {
   }
 
   public XmlItem() {
+  }
 
   /**
    **/

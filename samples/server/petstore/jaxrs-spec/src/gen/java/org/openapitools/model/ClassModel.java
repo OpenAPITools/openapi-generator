@@ -27,6 +27,7 @@ public class ClassModel  implements Serializable {
   }
 
   public ClassModel() {
+  }
 
   /**
    **/

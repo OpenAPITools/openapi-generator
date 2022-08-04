@@ -27,6 +27,7 @@ public class Cat extends Animal implements Serializable {
   }
 
   public Cat() {
+  }
 
   /**
    **/

@@ -36,6 +36,7 @@ public class Animal  implements Serializable {
   }
 
   public Animal() {
+  }
 
   /**
    **/

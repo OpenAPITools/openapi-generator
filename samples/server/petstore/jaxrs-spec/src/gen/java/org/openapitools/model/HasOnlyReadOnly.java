@@ -28,6 +28,7 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   public HasOnlyReadOnly() {
+  }
 
   /**
    **/

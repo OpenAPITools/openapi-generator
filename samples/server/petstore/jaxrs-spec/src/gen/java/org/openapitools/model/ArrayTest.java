@@ -32,6 +32,7 @@ public class ArrayTest  implements Serializable {
   }
 
   public ArrayTest() {
+  }
 
   /**
    **/

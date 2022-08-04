@@ -34,6 +34,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
+  }
 
   /**
    **/

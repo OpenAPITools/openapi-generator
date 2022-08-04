@@ -28,6 +28,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   }
 
   public ArrayOfArrayOfNumberOnly() {
+  }
 
   /**
    **/

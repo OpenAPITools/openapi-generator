@@ -28,6 +28,7 @@ public class ModelFile  implements Serializable {
   }
 
   public ModelFile() {
+  }
 
   /**
    * Test capitalization

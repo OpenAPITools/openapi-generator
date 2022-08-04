@@ -89,6 +89,7 @@ public class Pet  implements Serializable {
   }
 
   public Pet() {
+  }
 
   /**
    **/

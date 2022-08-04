@@ -83,6 +83,7 @@ public class Order  implements Serializable {
   }
 
   public Order() {
+  }
 
   /**
    **/
