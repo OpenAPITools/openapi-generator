@@ -1357,7 +1357,6 @@ class Schema:
     ):
         # We have a Dynamic class and we are making an instance of it
         if issubclass(cls, frozendict):
-            print(cls.__bases__)
             properties = cls._get_properties(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
         elif issubclass(cls, tuple):
