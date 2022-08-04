@@ -1,5 +1,6 @@
 context("basic functionality")
 
+## create a new pet and add to petstore server
 pet_api <- PetApi$new()
 pet_id <- 123321
 pet <- Pet$new("name_test",
@@ -15,12 +16,12 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
-test_that("add_pet", {
+test_that("Test toJSON toJSONString fromJSON fromJSONString", {
+  # test pet
   expect_equal(pet_id, 123321)
   expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
-})
 
-test_that("Test toJSON toJSONString fromJSON fromJSONString", {
+  # tests for other pet objects
   pet0 <- Pet$new()
   jsonpet <- pet0$toJSON()
   pet2 <- pet0$fromJSON(
@@ -350,25 +351,3 @@ test_that("Tests anyOf", {
   expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 })
-
-#test_that("GetPetById", {
-#  pet.id <- pet.id
-#  pet <- Pet$new(pet.id, NULL, "name_test2",
-#                 list("photo_test2", "second test2"),
-#                 NULL, NULL)
-#  result <-pet_api$AddPet(pet)
-#
-#  response <- pet_api$GetPetById(pet.id)
-#
-#  expect_equal(response$id, pet.id)
-#  expect_equal(response$name, "name_test2")
-#  #expect_equal(response$category, Category$new(450,"test_cat"))
-#  expect_equal(response$photoUrls, list("photo_test2", "second test2"))
-#  expect_equal(response$status, NULL)
-#  #expect_equal(response$tags, list(Tag$new(123, "tag_test"), Tag$new(456, "unknown")))
-#})
-
-#test_that("updatePetWithForm", {
-#  response <- pet_api$updatePetWithForm(pet_id, "test", "sold")
-#  expect_equal(response, "Pet updated")
-#})
