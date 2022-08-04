@@ -11,6 +11,30 @@ tags:
 - name: path.post
 - name: contentType_json
 - name: response.content.contentType.schema
+- name: additionalProperties
+- name: allOf
+- name: anyOf
+- name: default
+- name: enum
+- name: format
+- name: items
+- name: maximum
+- name: maxItems
+- name: maxLength
+- name: maxProperties
+- name: minimum
+- name: minItems
+- name: minLength
+- name: minProperties
+- name: multipleOf
+- name: not
+- name: oneOf
+- name: pattern
+- name: properties
+- name: $ref
+- name: required
+- name: type
+- name: uniqueItems
 paths:
   /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody:
     post:
@@ -30,6 +54,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - additionalProperties
   /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes:
     post:
       operationId: postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes
@@ -46,6 +71,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - additionalProperties
   /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody:
     post:
       operationId: postAdditionalpropertiesCanExistByItselfRequestBody
@@ -64,6 +90,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - additionalProperties
   /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes:
     post:
       operationId: postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes
@@ -80,6 +107,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - additionalProperties
   /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody:
     post:
       operationId: postAdditionalpropertiesAreAllowedByDefaultRequestBody
@@ -98,6 +126,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - additionalProperties
   /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes:
     post:
       operationId: postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes
@@ -114,6 +143,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - additionalProperties
   /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody:
     post:
       operationId: postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody
@@ -132,6 +162,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - additionalProperties
   /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes:
     post:
       operationId: postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes
@@ -148,6 +179,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - additionalProperties
   /requestBody/postAllofRequestBody:
     post:
       operationId: postAllofRequestBody
@@ -166,6 +198,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofResponseBodyForContentTypes:
     post:
       operationId: postAllofResponseBodyForContentTypes
@@ -182,6 +215,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofWithBaseSchemaRequestBody:
     post:
       operationId: postAllofWithBaseSchemaRequestBody
@@ -200,6 +234,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes:
     post:
       operationId: postAllofWithBaseSchemaResponseBodyForContentTypes
@@ -216,6 +251,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofSimpleTypesRequestBody:
     post:
       operationId: postAllofSimpleTypesRequestBody
@@ -234,6 +270,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofSimpleTypesResponseBodyForContentTypes:
     post:
       operationId: postAllofSimpleTypesResponseBodyForContentTypes
@@ -250,6 +287,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofWithOneEmptySchemaRequestBody:
     post:
       operationId: postAllofWithOneEmptySchemaRequestBody
@@ -268,6 +306,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes:
     post:
       operationId: postAllofWithOneEmptySchemaResponseBodyForContentTypes
@@ -284,6 +323,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofWithTwoEmptySchemasRequestBody:
     post:
       operationId: postAllofWithTwoEmptySchemasRequestBody
@@ -302,6 +342,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes:
     post:
       operationId: postAllofWithTwoEmptySchemasResponseBodyForContentTypes
@@ -318,6 +359,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofWithTheFirstEmptySchemaRequestBody:
     post:
       operationId: postAllofWithTheFirstEmptySchemaRequestBody
@@ -336,6 +378,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes:
     post:
       operationId: postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes
@@ -352,6 +395,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofWithTheLastEmptySchemaRequestBody:
     post:
       operationId: postAllofWithTheLastEmptySchemaRequestBody
@@ -370,6 +414,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes:
     post:
       operationId: postAllofWithTheLastEmptySchemaResponseBodyForContentTypes
@@ -386,6 +431,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAllofToCheckValidationSemanticsRequestBody
@@ -404,6 +450,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes:
     post:
       operationId: postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes
@@ -420,6 +467,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAllofCombinedWithAnyofOneofRequestBody:
     post:
       operationId: postAllofCombinedWithAnyofOneofRequestBody
@@ -438,6 +486,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - allOf
   /responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes:
     post:
       operationId: postAllofCombinedWithAnyofOneofResponseBodyForContentTypes
@@ -454,6 +503,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - allOf
   /requestBody/postAnyofRequestBody:
     post:
       operationId: postAnyofRequestBody
@@ -472,6 +522,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - anyOf
   /responseBody/postAnyofResponseBodyForContentTypes:
     post:
       operationId: postAnyofResponseBodyForContentTypes
@@ -488,6 +539,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - anyOf
   /requestBody/postAnyofWithBaseSchemaRequestBody:
     post:
       operationId: postAnyofWithBaseSchemaRequestBody
@@ -506,6 +558,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - anyOf
   /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes:
     post:
       operationId: postAnyofWithBaseSchemaResponseBodyForContentTypes
@@ -522,6 +575,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - anyOf
   /requestBody/postAnyofComplexTypesRequestBody:
     post:
       operationId: postAnyofComplexTypesRequestBody
@@ -540,6 +594,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - anyOf
   /responseBody/postAnyofComplexTypesResponseBodyForContentTypes:
     post:
       operationId: postAnyofComplexTypesResponseBodyForContentTypes
@@ -556,6 +611,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - anyOf
   /requestBody/postAnyofWithOneEmptySchemaRequestBody:
     post:
       operationId: postAnyofWithOneEmptySchemaRequestBody
@@ -574,6 +630,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - anyOf
   /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes:
     post:
       operationId: postAnyofWithOneEmptySchemaResponseBodyForContentTypes
@@ -590,6 +647,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - anyOf
   /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAnyofToCheckValidationSemanticsRequestBody
@@ -608,6 +666,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - anyOf
   /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes:
     post:
       operationId: postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes
@@ -624,6 +683,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - anyOf
   /requestBody/postInvalidStringValueForDefaultRequestBody:
     post:
       operationId: postInvalidStringValueForDefaultRequestBody
@@ -642,6 +702,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - default
   /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes:
     post:
       operationId: postInvalidStringValueForDefaultResponseBodyForContentTypes
@@ -658,6 +719,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - default
   /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody:
     post:
       operationId: postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody
@@ -676,6 +738,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - default
   /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes:
     post:
       operationId: postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes
@@ -692,6 +755,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - default
   /requestBody/postSimpleEnumValidationRequestBody:
     post:
       operationId: postSimpleEnumValidationRequestBody
@@ -710,6 +774,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postSimpleEnumValidationResponseBodyForContentTypes:
     post:
       operationId: postSimpleEnumValidationResponseBodyForContentTypes
@@ -726,6 +791,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEnumsInPropertiesRequestBody:
     post:
       operationId: postEnumsInPropertiesRequestBody
@@ -744,6 +810,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postEnumsInPropertiesResponseBodyForContentTypes:
     post:
       operationId: postEnumsInPropertiesResponseBodyForContentTypes
@@ -760,6 +827,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEnumWithEscapedCharactersRequestBody:
     post:
       operationId: postEnumWithEscapedCharactersRequestBody
@@ -778,6 +846,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes:
     post:
       operationId: postEnumWithEscapedCharactersResponseBodyForContentTypes
@@ -794,6 +863,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEnumWithFalseDoesNotMatch0RequestBody:
     post:
       operationId: postEnumWithFalseDoesNotMatch0RequestBody
@@ -812,6 +882,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes:
     post:
       operationId: postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes
@@ -828,6 +899,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEnumWithTrueDoesNotMatch1RequestBody:
     post:
       operationId: postEnumWithTrueDoesNotMatch1RequestBody
@@ -846,6 +918,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes:
     post:
       operationId: postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes
@@ -862,6 +935,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEnumWith0DoesNotMatchFalseRequestBody:
     post:
       operationId: postEnumWith0DoesNotMatchFalseRequestBody
@@ -880,6 +954,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes:
     post:
       operationId: postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes
@@ -896,6 +971,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEnumWith1DoesNotMatchTrueRequestBody:
     post:
       operationId: postEnumWith1DoesNotMatchTrueRequestBody
@@ -914,6 +990,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes:
     post:
       operationId: postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes
@@ -930,6 +1007,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postNulCharactersInStringsRequestBody:
     post:
       operationId: postNulCharactersInStringsRequestBody
@@ -948,6 +1026,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - enum
   /responseBody/postNulCharactersInStringsResponseBodyForContentTypes:
     post:
       operationId: postNulCharactersInStringsResponseBodyForContentTypes
@@ -964,6 +1043,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - enum
   /requestBody/postEmailFormatRequestBody:
     post:
       operationId: postEmailFormatRequestBody
@@ -982,6 +1062,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postEmailFormatResponseBodyForContentTypes:
     post:
       operationId: postEmailFormatResponseBodyForContentTypes
@@ -998,6 +1079,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postIpv4FormatRequestBody:
     post:
       operationId: postIpv4FormatRequestBody
@@ -1016,6 +1098,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postIpv4FormatResponseBodyForContentTypes:
     post:
       operationId: postIpv4FormatResponseBodyForContentTypes
@@ -1032,6 +1115,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postIpv6FormatRequestBody:
     post:
       operationId: postIpv6FormatRequestBody
@@ -1050,6 +1134,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postIpv6FormatResponseBodyForContentTypes:
     post:
       operationId: postIpv6FormatResponseBodyForContentTypes
@@ -1066,6 +1151,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postHostnameFormatRequestBody:
     post:
       operationId: postHostnameFormatRequestBody
@@ -1084,6 +1170,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postHostnameFormatResponseBodyForContentTypes:
     post:
       operationId: postHostnameFormatResponseBodyForContentTypes
@@ -1100,6 +1187,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postDateTimeFormatRequestBody:
     post:
       operationId: postDateTimeFormatRequestBody
@@ -1118,6 +1206,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postDateTimeFormatResponseBodyForContentTypes:
     post:
       operationId: postDateTimeFormatResponseBodyForContentTypes
@@ -1134,6 +1223,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postJsonPointerFormatRequestBody:
     post:
       operationId: postJsonPointerFormatRequestBody
@@ -1152,6 +1242,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postJsonPointerFormatResponseBodyForContentTypes:
     post:
       operationId: postJsonPointerFormatResponseBodyForContentTypes
@@ -1168,6 +1259,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postUriFormatRequestBody:
     post:
       operationId: postUriFormatRequestBody
@@ -1186,6 +1278,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postUriFormatResponseBodyForContentTypes:
     post:
       operationId: postUriFormatResponseBodyForContentTypes
@@ -1202,6 +1295,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postUriReferenceFormatRequestBody:
     post:
       operationId: postUriReferenceFormatRequestBody
@@ -1220,6 +1314,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postUriReferenceFormatResponseBodyForContentTypes:
     post:
       operationId: postUriReferenceFormatResponseBodyForContentTypes
@@ -1236,6 +1331,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postUriTemplateFormatRequestBody:
     post:
       operationId: postUriTemplateFormatRequestBody
@@ -1254,6 +1350,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - format
   /responseBody/postUriTemplateFormatResponseBodyForContentTypes:
     post:
       operationId: postUriTemplateFormatResponseBodyForContentTypes
@@ -1270,6 +1367,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - format
   /requestBody/postNestedItemsRequestBody:
     post:
       operationId: postNestedItemsRequestBody
@@ -1288,6 +1386,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - items
   /responseBody/postNestedItemsResponseBodyForContentTypes:
     post:
       operationId: postNestedItemsResponseBodyForContentTypes
@@ -1304,6 +1403,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - items
   /requestBody/postMaximumValidationRequestBody:
     post:
       operationId: postMaximumValidationRequestBody
@@ -1322,6 +1422,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - maximum
   /responseBody/postMaximumValidationResponseBodyForContentTypes:
     post:
       operationId: postMaximumValidationResponseBodyForContentTypes
@@ -1338,6 +1439,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - maximum
   /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody:
     post:
       operationId: postMaximumValidationWithUnsignedIntegerRequestBody
@@ -1356,6 +1458,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - maximum
   /responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes:
     post:
       operationId: postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes
@@ -1372,6 +1475,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - maximum
   /requestBody/postMaxitemsValidationRequestBody:
     post:
       operationId: postMaxitemsValidationRequestBody
@@ -1390,6 +1494,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - maxItems
   /responseBody/postMaxitemsValidationResponseBodyForContentTypes:
     post:
       operationId: postMaxitemsValidationResponseBodyForContentTypes
@@ -1406,6 +1511,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - maxItems
   /requestBody/postMaxlengthValidationRequestBody:
     post:
       operationId: postMaxlengthValidationRequestBody
@@ -1424,6 +1530,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - maxLength
   /responseBody/postMaxlengthValidationResponseBodyForContentTypes:
     post:
       operationId: postMaxlengthValidationResponseBodyForContentTypes
@@ -1440,6 +1547,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - maxLength
   /requestBody/postMaxpropertiesValidationRequestBody:
     post:
       operationId: postMaxpropertiesValidationRequestBody
@@ -1458,6 +1566,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - maxProperties
   /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes:
     post:
       operationId: postMaxpropertiesValidationResponseBodyForContentTypes
@@ -1474,6 +1583,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - maxProperties
   /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody:
     post:
       operationId: postMaxproperties0MeansTheObjectIsEmptyRequestBody
@@ -1492,6 +1602,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - maxProperties
   /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes:
     post:
       operationId: postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes
@@ -1508,6 +1619,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - maxProperties
   /requestBody/postMinimumValidationRequestBody:
     post:
       operationId: postMinimumValidationRequestBody
@@ -1526,6 +1638,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - minimum
   /responseBody/postMinimumValidationResponseBodyForContentTypes:
     post:
       operationId: postMinimumValidationResponseBodyForContentTypes
@@ -1542,6 +1655,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - minimum
   /requestBody/postMinimumValidationWithSignedIntegerRequestBody:
     post:
       operationId: postMinimumValidationWithSignedIntegerRequestBody
@@ -1560,6 +1674,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - minimum
   /responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes:
     post:
       operationId: postMinimumValidationWithSignedIntegerResponseBodyForContentTypes
@@ -1576,6 +1691,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - minimum
   /requestBody/postMinitemsValidationRequestBody:
     post:
       operationId: postMinitemsValidationRequestBody
@@ -1594,6 +1710,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - minItems
   /responseBody/postMinitemsValidationResponseBodyForContentTypes:
     post:
       operationId: postMinitemsValidationResponseBodyForContentTypes
@@ -1610,6 +1727,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - minItems
   /requestBody/postMinlengthValidationRequestBody:
     post:
       operationId: postMinlengthValidationRequestBody
@@ -1628,6 +1746,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - minLength
   /responseBody/postMinlengthValidationResponseBodyForContentTypes:
     post:
       operationId: postMinlengthValidationResponseBodyForContentTypes
@@ -1644,6 +1763,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - minLength
   /requestBody/postMinpropertiesValidationRequestBody:
     post:
       operationId: postMinpropertiesValidationRequestBody
@@ -1662,6 +1782,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - minProperties
   /responseBody/postMinpropertiesValidationResponseBodyForContentTypes:
     post:
       operationId: postMinpropertiesValidationResponseBodyForContentTypes
@@ -1678,6 +1799,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - minProperties
   /requestBody/postByIntRequestBody:
     post:
       operationId: postByIntRequestBody
@@ -1696,6 +1818,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - multipleOf
   /responseBody/postByIntResponseBodyForContentTypes:
     post:
       operationId: postByIntResponseBodyForContentTypes
@@ -1712,6 +1835,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - multipleOf
   /requestBody/postByNumberRequestBody:
     post:
       operationId: postByNumberRequestBody
@@ -1730,6 +1854,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - multipleOf
   /responseBody/postByNumberResponseBodyForContentTypes:
     post:
       operationId: postByNumberResponseBodyForContentTypes
@@ -1746,6 +1871,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - multipleOf
   /requestBody/postBySmallNumberRequestBody:
     post:
       operationId: postBySmallNumberRequestBody
@@ -1764,6 +1890,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - multipleOf
   /responseBody/postBySmallNumberResponseBodyForContentTypes:
     post:
       operationId: postBySmallNumberResponseBodyForContentTypes
@@ -1780,6 +1907,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - multipleOf
   /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody:
     post:
       operationId: postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody
@@ -1798,6 +1926,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - multipleOf
   /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes:
     post:
       operationId: postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes
@@ -1814,6 +1943,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - multipleOf
   /requestBody/postNotRequestBody:
     post:
       operationId: postNotRequestBody
@@ -1832,6 +1962,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - not
   /responseBody/postNotResponseBodyForContentTypes:
     post:
       operationId: postNotResponseBodyForContentTypes
@@ -1848,6 +1979,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - not
   /requestBody/postNotMoreComplexSchemaRequestBody:
     post:
       operationId: postNotMoreComplexSchemaRequestBody
@@ -1866,6 +1998,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - not
   /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes:
     post:
       operationId: postNotMoreComplexSchemaResponseBodyForContentTypes
@@ -1882,6 +2015,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - not
   /requestBody/postForbiddenPropertyRequestBody:
     post:
       operationId: postForbiddenPropertyRequestBody
@@ -1900,6 +2034,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - not
   /responseBody/postForbiddenPropertyResponseBodyForContentTypes:
     post:
       operationId: postForbiddenPropertyResponseBodyForContentTypes
@@ -1916,6 +2051,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - not
   /requestBody/postOneofRequestBody:
     post:
       operationId: postOneofRequestBody
@@ -1934,6 +2070,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - oneOf
   /responseBody/postOneofResponseBodyForContentTypes:
     post:
       operationId: postOneofResponseBodyForContentTypes
@@ -1950,6 +2087,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - oneOf
   /requestBody/postOneofWithBaseSchemaRequestBody:
     post:
       operationId: postOneofWithBaseSchemaRequestBody
@@ -1968,6 +2106,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - oneOf
   /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes:
     post:
       operationId: postOneofWithBaseSchemaResponseBodyForContentTypes
@@ -1984,6 +2123,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - oneOf
   /requestBody/postOneofComplexTypesRequestBody:
     post:
       operationId: postOneofComplexTypesRequestBody
@@ -2002,6 +2142,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - oneOf
   /responseBody/postOneofComplexTypesResponseBodyForContentTypes:
     post:
       operationId: postOneofComplexTypesResponseBodyForContentTypes
@@ -2018,6 +2159,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - oneOf
   /requestBody/postOneofWithEmptySchemaRequestBody:
     post:
       operationId: postOneofWithEmptySchemaRequestBody
@@ -2036,6 +2178,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - oneOf
   /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes:
     post:
       operationId: postOneofWithEmptySchemaResponseBodyForContentTypes
@@ -2052,6 +2195,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - oneOf
   /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedOneofToCheckValidationSemanticsRequestBody
@@ -2070,6 +2214,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - oneOf
   /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes:
     post:
       operationId: postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes
@@ -2086,6 +2231,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - oneOf
   /requestBody/postPatternValidationRequestBody:
     post:
       operationId: postPatternValidationRequestBody
@@ -2104,6 +2250,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - pattern
   /responseBody/postPatternValidationResponseBodyForContentTypes:
     post:
       operationId: postPatternValidationResponseBodyForContentTypes
@@ -2120,6 +2267,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - pattern
   /requestBody/postPatternIsNotAnchoredRequestBody:
     post:
       operationId: postPatternIsNotAnchoredRequestBody
@@ -2138,6 +2286,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - pattern
   /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes:
     post:
       operationId: postPatternIsNotAnchoredResponseBodyForContentTypes
@@ -2154,6 +2303,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - pattern
   /requestBody/postObjectPropertiesValidationRequestBody:
     post:
       operationId: postObjectPropertiesValidationRequestBody
@@ -2172,6 +2322,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - properties
   /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes:
     post:
       operationId: postObjectPropertiesValidationResponseBodyForContentTypes
@@ -2188,6 +2339,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - properties
   /requestBody/postPropertiesWithEscapedCharactersRequestBody:
     post:
       operationId: postPropertiesWithEscapedCharactersRequestBody
@@ -2206,6 +2358,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - properties
   /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes:
     post:
       operationId: postPropertiesWithEscapedCharactersResponseBodyForContentTypes
@@ -2222,6 +2375,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - properties
   /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody:
     post:
       operationId: postPropertyNamedRefThatIsNotAReferenceRequestBody
@@ -2240,6 +2394,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes:
     post:
       operationId: postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes
@@ -2256,6 +2411,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRefInAdditionalpropertiesRequestBody:
     post:
       operationId: postRefInAdditionalpropertiesRequestBody
@@ -2274,6 +2430,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes:
     post:
       operationId: postRefInAdditionalpropertiesResponseBodyForContentTypes
@@ -2290,6 +2447,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRefInItemsRequestBody:
     post:
       operationId: postRefInItemsRequestBody
@@ -2308,6 +2466,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postRefInItemsResponseBodyForContentTypes:
     post:
       operationId: postRefInItemsResponseBodyForContentTypes
@@ -2324,6 +2483,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRefInPropertyRequestBody:
     post:
       operationId: postRefInPropertyRequestBody
@@ -2342,6 +2502,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postRefInPropertyResponseBodyForContentTypes:
     post:
       operationId: postRefInPropertyResponseBodyForContentTypes
@@ -2358,6 +2519,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRefInAllofRequestBody:
     post:
       operationId: postRefInAllofRequestBody
@@ -2376,6 +2538,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postRefInAllofResponseBodyForContentTypes:
     post:
       operationId: postRefInAllofResponseBodyForContentTypes
@@ -2392,6 +2555,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRefInOneofRequestBody:
     post:
       operationId: postRefInOneofRequestBody
@@ -2410,6 +2574,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postRefInOneofResponseBodyForContentTypes:
     post:
       operationId: postRefInOneofResponseBodyForContentTypes
@@ -2426,6 +2591,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRefInAnyofRequestBody:
     post:
       operationId: postRefInAnyofRequestBody
@@ -2444,6 +2610,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - $ref
   /responseBody/postRefInAnyofResponseBodyForContentTypes:
     post:
       operationId: postRefInAnyofResponseBodyForContentTypes
@@ -2460,6 +2627,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - $ref
   /requestBody/postRequiredValidationRequestBody:
     post:
       operationId: postRequiredValidationRequestBody
@@ -2478,6 +2646,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - required
   /responseBody/postRequiredValidationResponseBodyForContentTypes:
     post:
       operationId: postRequiredValidationResponseBodyForContentTypes
@@ -2494,6 +2663,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - required
   /requestBody/postRequiredDefaultValidationRequestBody:
     post:
       operationId: postRequiredDefaultValidationRequestBody
@@ -2512,6 +2682,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - required
   /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes:
     post:
       operationId: postRequiredDefaultValidationResponseBodyForContentTypes
@@ -2528,6 +2699,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - required
   /requestBody/postRequiredWithEmptyArrayRequestBody:
     post:
       operationId: postRequiredWithEmptyArrayRequestBody
@@ -2546,6 +2718,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - required
   /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes:
     post:
       operationId: postRequiredWithEmptyArrayResponseBodyForContentTypes
@@ -2562,6 +2735,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - required
   /requestBody/postIntegerTypeMatchesIntegersRequestBody:
     post:
       operationId: postIntegerTypeMatchesIntegersRequestBody
@@ -2580,6 +2754,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes:
     post:
       operationId: postIntegerTypeMatchesIntegersResponseBodyForContentTypes
@@ -2596,6 +2771,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postNumberTypeMatchesNumbersRequestBody:
     post:
       operationId: postNumberTypeMatchesNumbersRequestBody
@@ -2614,6 +2790,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes:
     post:
       operationId: postNumberTypeMatchesNumbersResponseBodyForContentTypes
@@ -2630,6 +2807,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postStringTypeMatchesStringsRequestBody:
     post:
       operationId: postStringTypeMatchesStringsRequestBody
@@ -2648,6 +2826,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes:
     post:
       operationId: postStringTypeMatchesStringsResponseBodyForContentTypes
@@ -2664,6 +2843,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postObjectTypeMatchesObjectsRequestBody:
     post:
       operationId: postObjectTypeMatchesObjectsRequestBody
@@ -2682,6 +2862,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes:
     post:
       operationId: postObjectTypeMatchesObjectsResponseBodyForContentTypes
@@ -2698,6 +2879,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postBooleanTypeMatchesBooleansRequestBody:
     post:
       operationId: postBooleanTypeMatchesBooleansRequestBody
@@ -2716,6 +2898,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes:
     post:
       operationId: postBooleanTypeMatchesBooleansResponseBodyForContentTypes
@@ -2732,6 +2915,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody:
     post:
       operationId: postNullTypeMatchesOnlyTheNullObjectRequestBody
@@ -2750,6 +2934,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes:
     post:
       operationId: postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes
@@ -2766,6 +2951,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postArrayTypeMatchesArraysRequestBody:
     post:
       operationId: postArrayTypeMatchesArraysRequestBody
@@ -2784,6 +2970,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - type
   /responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes:
     post:
       operationId: postArrayTypeMatchesArraysResponseBodyForContentTypes
@@ -2800,6 +2987,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - type
   /requestBody/postUniqueitemsValidationRequestBody:
     post:
       operationId: postUniqueitemsValidationRequestBody
@@ -2818,6 +3006,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - uniqueItems
   /responseBody/postUniqueitemsValidationResponseBodyForContentTypes:
     post:
       operationId: postUniqueitemsValidationResponseBodyForContentTypes
@@ -2834,6 +3023,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - uniqueItems
   /requestBody/postUniqueitemsFalseValidationRequestBody:
     post:
       operationId: postUniqueitemsFalseValidationRequestBody
@@ -2852,6 +3042,7 @@ paths:
       - operation.requestBody
       - path.post
       - contentType_json
+      - uniqueItems
   /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes:
     post:
       operationId: postUniqueitemsFalseValidationResponseBodyForContentTypes
@@ -2868,6 +3059,7 @@ paths:
       - response.content.contentType.schema
       - path.post
       - contentType_json
+      - uniqueItems
 components:
   schemas:
     AdditionalpropertiesAllowsASchemaWhichShouldValidate:

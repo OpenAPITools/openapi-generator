@@ -266,6 +266,13 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'unknownKeyword.json': (json_schema_test_draft,),
 }
 
+file_name_to_tag_name = {
+    'ref': '$ref',
+    'id': '$id',
+    'refRemote': '$ref',
+    'unknownKeyword': None
+}
+
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
     json_schema_test_schemas = []
     filename = file_path[-1]
@@ -503,6 +510,14 @@ def write_openapi_spec():
         component_schemas, component_name_to_test_examples = (
             get_component_schemas_and_test_examples(json_schema_test_file, folders)
         )
+        if not component_schemas and not component_name_to_test_examples:
+            continue
+        json_schema_test_file_name = json_schema_test_file.split('.')[0]
+        json_schema_tag_name = file_name_to_tag_name.get(json_schema_test_file_name, json_schema_test_file_name)
+        json_schema_tag = None
+        if json_schema_tag_name is not None:
+            json_schema_tag = OpenApiTag(name=json_schema_tag_name)
+            openapi.tags.append(json_schema_tag)
         for component_name, schema in component_schemas.items():
             if component_name in openapi.components['schemas']:
                 raise ValueError('A component schema with that name is already defined!')
@@ -512,13 +527,20 @@ def write_openapi_spec():
                 raise ValueError('A component schema test example map with that name is already defined!')
             openapi.components['x-schema-test-examples'][component_name] = test_examples
 
-            operation = generate_post_operation_with_request_body(component_name, [request_body_tag, post_tag, json_tag])
+            request_body_tag_list = [request_body_tag, post_tag, json_tag]
+            if json_schema_tag is not None:
+                request_body_tag_list.append(json_schema_tag)
+
+            operation = generate_post_operation_with_request_body(component_name, request_body_tag_list)
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/requestBody/{operation["operationId"]}'] = path_item
 
             # todo add put and patch with paths requestBody/someIdentifier
 
-            operation = generate_post_operation_with_response_content_schema(component_name, [response_content_tag, post_tag, json_tag])
+            response_body_tag_list = [response_content_tag, post_tag, json_tag]
+            if json_schema_tag is not None:
+                response_body_tag_list.append(json_schema_tag)
+            operation = generate_post_operation_with_response_content_schema(component_name, response_body_tag_list)
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/responseBody/{operation["operationId"]}'] = path_item
     print(
