@@ -84,22 +84,25 @@ export const setOAuthToObject = async function (object: any, name: string, scope
     }
 }
 
-function flattenQueryParams(urlSearchParams: Record<string, any>, parameter: any, key: string=""): void {
-    if(typeof parameter === "object") {
+function setFlattenedQueryParams(urlSearchParams: Record<string, any>, parameter: any, key: string=""): void {
+    if (typeof parameter === "object") {
         if (Array.isArray(parameter)) {
-            (parameter as any[]).forEach( item => flattenQueryParams(urlSearchParams, item));
-        } else {
-            Object.keys(parameter as Record<string, any>).forEach( _key => flattenQueryParams(urlSearchParams, parameter[_key], _key));
+            (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item));
+        } 
+        else {
+            Object.keys(parameter as Record<string, any>).forEach(currentKey => 
+                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], currentKey)
+            );
         }
-    } else {
-        urlSearchParams[key] = parameter;
+    } 
+    else {
+        if (urlSearchParams.get(key)) {
+            urlSearchParams.append(key, parameter);
+        } 
+        else {
+            urlSearchParams.set(key, parameter);
+        }
     }
-}
-
-function getFlattenedQueryParams(parameter: any): Record<string, any> {
-    const flattenedParameters = {};
-    flattenQueryParams(flattenedParameters, parameter);
-    return flattenedParameters;
 }
 
 /**
@@ -108,10 +111,7 @@ function getFlattenedQueryParams(parameter: any): Record<string, any> {
  */
 export const setSearchParams = function (url: URL, ...objects: any[]) {
     const searchParams = new URLSearchParams(url.search);
-    const flattenedParameters = getFlattenedQueryParams(objects);
-    for (const key of Object.keys(flattenedParameters)) {
-        searchParams.append(key, flattenedParameters[key]);
-    }
+    setFlattenedQueryParams(searchParams, objects);
     url.search = searchParams.toString();
 }
 
