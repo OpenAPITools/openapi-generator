@@ -1,4 +1,4 @@
-# unit_test_api.model.AllofWithBaseSchema
+# unit_test_api.model.allof_with_base_schema.AllofWithBaseSchema
 
 #### Properties
 Name | Type | Description | Notes

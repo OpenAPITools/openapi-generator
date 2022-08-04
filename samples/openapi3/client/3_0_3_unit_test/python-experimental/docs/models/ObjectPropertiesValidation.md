@@ -1,4 +1,4 @@
-# unit_test_api.model.ObjectPropertiesValidation
+# unit_test_api.model.object_properties_validation.ObjectPropertiesValidation
 
 #### Properties
 Name | Type | Description | Notes

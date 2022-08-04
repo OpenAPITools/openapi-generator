@@ -1,4 +1,4 @@
-# petstore_api.model.ArrayWithValidationsInItems
+# petstore_api.model.array_with_validations_in_items.ArrayWithValidationsInItems
 
 Type | Description | Notes
 ------------- | ------------- | -------------

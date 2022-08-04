@@ -1,5 +1,5 @@
 <a name="__pageTop"></a>
-# unit_test_api.apis.tags.ResponseContentContentTypeSchemaApi
+# unit_test_api.apis.tags.response_content_content_type_schema_api.ResponseContentContentTypeSchemaApi
 
 All URIs are relative to *https://someserver.com/v1*
 

@@ -1,4 +1,4 @@
-# petstore_api.model.Number
+# petstore_api.model.number.Number
 
 Type | Description | Notes
 ------------- | ------------- | -------------

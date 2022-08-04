@@ -1,4 +1,4 @@
-# petstore_api.model.ShapeOrNull
+# petstore_api.model.shape_or_null.ShapeOrNull
 
 The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
 

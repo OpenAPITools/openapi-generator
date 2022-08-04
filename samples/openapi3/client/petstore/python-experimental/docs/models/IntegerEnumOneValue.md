@@ -1,4 +1,4 @@
-# petstore_api.model.IntegerEnumOneValue
+# petstore_api.model.integer_enum_one_value.IntegerEnumOneValue
 
 Type | Description | Notes
 ------------- | ------------- | -------------

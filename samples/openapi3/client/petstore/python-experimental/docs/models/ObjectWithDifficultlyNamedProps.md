@@ -1,4 +1,4 @@
-# petstore_api.model.ObjectWithDifficultlyNamedProps
+# petstore_api.model.object_with_difficultly_named_props.ObjectWithDifficultlyNamedProps
 
 model with properties that have invalid names for python
 

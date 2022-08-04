@@ -1,4 +1,4 @@
-# petstore_api.model.FormatTest
+# petstore_api.model.format_test.FormatTest
 
 #### Properties
 Name | Type | Description | Notes

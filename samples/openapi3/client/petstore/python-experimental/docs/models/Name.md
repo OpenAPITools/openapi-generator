@@ -1,4 +1,4 @@
-# petstore_api.model.Name
+# petstore_api.model.name.Name
 
 Model for testing model name same as property name
 

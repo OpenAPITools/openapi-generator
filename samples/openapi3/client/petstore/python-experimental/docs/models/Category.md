@@ -1,4 +1,4 @@
-# petstore_api.model.Category
+# petstore_api.model.category.Category
 
 #### Properties
 Name | Type | Description | Notes

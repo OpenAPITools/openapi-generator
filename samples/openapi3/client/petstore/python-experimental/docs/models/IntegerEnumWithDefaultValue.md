@@ -1,4 +1,4 @@
-# petstore_api.model.IntegerEnumWithDefaultValue
+# petstore_api.model.integer_enum_with_default_value.IntegerEnumWithDefaultValue
 
 Type | Description | Notes
 ------------- | ------------- | -------------

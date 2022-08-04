@@ -1,4 +1,4 @@
-# petstore_api.model.IntegerMax10
+# petstore_api.model.integer_max10.IntegerMax10
 
 Type | Description | Notes
 ------------- | ------------- | -------------

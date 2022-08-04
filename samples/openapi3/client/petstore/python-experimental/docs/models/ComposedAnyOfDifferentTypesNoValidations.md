@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedAnyOfDifferentTypesNoValidations
+# petstore_api.model.composed_any_of_different_types_no_validations.ComposedAnyOfDifferentTypesNoValidations
 
 #### Properties
 Name | Type | Description | Notes

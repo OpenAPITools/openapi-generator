@@ -1,4 +1,4 @@
-# petstore_api.model.DateWithValidations
+# petstore_api.model.date_with_validations.DateWithValidations
 
 Type | Description | Notes
 ------------- | ------------- | -------------

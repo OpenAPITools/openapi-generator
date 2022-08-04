@@ -1,4 +1,4 @@
-# unit_test_api.model.PatternIsNotAnchored
+# unit_test_api.model.pattern_is_not_anchored.PatternIsNotAnchored
 
 #### Properties
 Name | Type | Description | Notes

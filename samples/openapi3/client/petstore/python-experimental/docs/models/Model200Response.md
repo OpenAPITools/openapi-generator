@@ -1,4 +1,4 @@
-# petstore_api.model.Model200Response
+# petstore_api.model.model200_response.Model200Response
 
 model with an invalid class name for python, starts with a number
 

@@ -1,4 +1,4 @@
-# unit_test_api.model.MinimumValidationWithSignedInteger
+# unit_test_api.model.minimum_validation_with_signed_integer.MinimumValidationWithSignedInteger
 
 #### Properties
 Name | Type | Description | Notes

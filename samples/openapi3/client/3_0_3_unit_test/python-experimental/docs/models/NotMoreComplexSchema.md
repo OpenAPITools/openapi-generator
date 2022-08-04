@@ -1,4 +1,4 @@
-# unit_test_api.model.NotMoreComplexSchema
+# unit_test_api.model.not_more_complex_schema.NotMoreComplexSchema
 
 #### Properties
 Name | Type | Description | Notes

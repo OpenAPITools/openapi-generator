@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedNumber
+# petstore_api.model.composed_number.ComposedNumber
 
 Type | Description | Notes
 ------------- | ------------- | -------------

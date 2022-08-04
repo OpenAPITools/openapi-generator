@@ -1,4 +1,4 @@
-# petstore_api.model.Currency
+# petstore_api.model.currency.Currency
 
 Type | Description | Notes
 ------------- | ------------- | -------------

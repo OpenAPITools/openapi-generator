@@ -1,4 +1,4 @@
-# petstore_api.model.ApiResponse
+# petstore_api.model.api_response.ApiResponse
 
 #### Properties
 Name | Type | Description | Notes

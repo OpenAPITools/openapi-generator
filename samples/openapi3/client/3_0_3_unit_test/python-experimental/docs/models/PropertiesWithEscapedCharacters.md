@@ -1,4 +1,4 @@
-# unit_test_api.model.PropertiesWithEscapedCharacters
+# unit_test_api.model.properties_with_escaped_characters.PropertiesWithEscapedCharacters
 
 #### Properties
 Name | Type | Description | Notes

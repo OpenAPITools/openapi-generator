@@ -1,4 +1,4 @@
-# petstore_api.model.DecimalPayload
+# petstore_api.model.decimal_payload.DecimalPayload
 
 Type | Description | Notes
 ------------- | ------------- | -------------

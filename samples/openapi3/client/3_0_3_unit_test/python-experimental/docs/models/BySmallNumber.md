@@ -1,4 +1,4 @@
-# unit_test_api.model.BySmallNumber
+# unit_test_api.model.by_small_number.BySmallNumber
 
 #### Properties
 Name | Type | Description | Notes

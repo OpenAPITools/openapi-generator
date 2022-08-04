@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedString
+# petstore_api.model.composed_string.ComposedString
 
 Type | Description | Notes
 ------------- | ------------- | -------------

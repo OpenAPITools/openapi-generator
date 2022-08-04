@@ -1,4 +1,4 @@
-# petstore_api.model.ArrayTest
+# petstore_api.model.array_test.ArrayTest
 
 #### Properties
 Name | Type | Description | Notes

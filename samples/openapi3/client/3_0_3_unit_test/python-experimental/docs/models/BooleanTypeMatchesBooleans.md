@@ -1,4 +1,4 @@
-# unit_test_api.model.BooleanTypeMatchesBooleans
+# unit_test_api.model.boolean_type_matches_booleans.BooleanTypeMatchesBooleans
 
 Type | Description | Notes
 ------------- | ------------- | -------------

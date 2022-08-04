@@ -1,4 +1,4 @@
-# petstore_api.model.File
+# petstore_api.model.file.File
 
 Must be named `File` for test.
 

@@ -1,4 +1,4 @@
-# unit_test_api.model.Maxproperties0MeansTheObjectIsEmpty
+# unit_test_api.model.maxproperties0_means_the_object_is_empty.Maxproperties0MeansTheObjectIsEmpty
 
 #### Properties
 Name | Type | Description | Notes

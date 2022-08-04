@@ -1,4 +1,4 @@
-# unit_test_api.model.AnyofWithOneEmptySchema
+# unit_test_api.model.anyof_with_one_empty_schema.AnyofWithOneEmptySchema
 
 #### Properties
 Name | Type | Description | Notes

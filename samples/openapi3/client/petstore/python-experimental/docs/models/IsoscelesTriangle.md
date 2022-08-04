@@ -1,4 +1,4 @@
-# petstore_api.model.IsoscelesTriangle
+# petstore_api.model.isosceles_triangle.IsoscelesTriangle
 
 #### Properties
 Name | Type | Description | Notes

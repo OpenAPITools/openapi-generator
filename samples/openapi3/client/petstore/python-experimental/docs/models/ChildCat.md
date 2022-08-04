@@ -1,4 +1,4 @@
-# petstore_api.model.ChildCat
+# petstore_api.model.child_cat.ChildCat
 
 #### Properties
 Name | Type | Description | Notes

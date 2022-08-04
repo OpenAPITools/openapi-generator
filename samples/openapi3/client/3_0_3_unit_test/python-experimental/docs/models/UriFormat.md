@@ -1,4 +1,4 @@
-# unit_test_api.model.UriFormat
+# unit_test_api.model.uri_format.UriFormat
 
 #### Properties
 Name | Type | Description | Notes

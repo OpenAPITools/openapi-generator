@@ -1,4 +1,4 @@
-# petstore_api.model.SpecialModelName
+# petstore_api.model.special_model_name.SpecialModelName
 
 model with an invalid class name for python
 

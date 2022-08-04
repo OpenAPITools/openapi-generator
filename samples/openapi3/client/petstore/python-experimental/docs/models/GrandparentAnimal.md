@@ -1,4 +1,4 @@
-# petstore_api.model.GrandparentAnimal
+# petstore_api.model.grandparent_animal.GrandparentAnimal
 
 #### Properties
 Name | Type | Description | Notes

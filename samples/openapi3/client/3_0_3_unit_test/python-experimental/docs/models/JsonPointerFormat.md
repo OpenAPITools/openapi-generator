@@ -1,4 +1,4 @@
-# unit_test_api.model.JsonPointerFormat
+# unit_test_api.model.json_pointer_format.JsonPointerFormat
 
 #### Properties
 Name | Type | Description | Notes

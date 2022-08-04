@@ -1,4 +1,4 @@
-# unit_test_api.model.ArrayTypeMatchesArrays
+# unit_test_api.model.array_type_matches_arrays.ArrayTypeMatchesArrays
 
 Type | Description | Notes
 ------------- | ------------- | -------------

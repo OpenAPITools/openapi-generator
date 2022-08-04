@@ -1,4 +1,4 @@
-# unit_test_api.model.OneofWithBaseSchema
+# unit_test_api.model.oneof_with_base_schema.OneofWithBaseSchema
 
 Type | Description | Notes
 ------------- | ------------- | -------------

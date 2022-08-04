@@ -1,4 +1,4 @@
-# petstore_api.model.Money
+# petstore_api.model.money.Money
 
 #### Properties
 Name | Type | Description | Notes

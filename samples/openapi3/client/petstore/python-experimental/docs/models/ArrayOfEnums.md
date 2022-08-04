@@ -1,4 +1,4 @@
-# petstore_api.model.ArrayOfEnums
+# petstore_api.model.array_of_enums.ArrayOfEnums
 
 Type | Description | Notes
 ------------- | ------------- | -------------

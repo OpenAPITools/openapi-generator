@@ -1,4 +1,4 @@
-# petstore_api.model.ArrayOfNumberOnly
+# petstore_api.model.array_of_number_only.ArrayOfNumberOnly
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# unit_test_api.model.ModelNot
+# unit_test_api.model.model_not.ModelNot
 
 #### Properties
 Name | Type | Description | Notes

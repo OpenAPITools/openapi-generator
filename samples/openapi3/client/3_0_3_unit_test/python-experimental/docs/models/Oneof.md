@@ -1,4 +1,4 @@
-# unit_test_api.model.Oneof
+# unit_test_api.model.oneof.Oneof
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.Shape
+# petstore_api.model.shape.Shape
 
 #### Properties
 Name | Type | Description | Notes

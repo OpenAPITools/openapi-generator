@@ -1,4 +1,4 @@
-# unit_test_api.model.RequiredDefaultValidation
+# unit_test_api.model.required_default_validation.RequiredDefaultValidation
 
 #### Properties
 Name | Type | Description | Notes

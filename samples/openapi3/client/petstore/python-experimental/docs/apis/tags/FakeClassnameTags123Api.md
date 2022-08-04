@@ -1,5 +1,5 @@
 <a name="__pageTop"></a>
-# petstore_api.apis.tags.FakeClassnameTags123Api
+# petstore_api.apis.tags.fake_classname_tags123_api.FakeClassnameTags123Api
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 

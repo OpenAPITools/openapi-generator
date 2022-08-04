@@ -1,4 +1,4 @@
-# unit_test_api.model.ByInt
+# unit_test_api.model.by_int.ByInt
 
 #### Properties
 Name | Type | Description | Notes

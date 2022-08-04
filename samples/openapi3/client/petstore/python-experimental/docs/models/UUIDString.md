@@ -1,4 +1,4 @@
-# petstore_api.model.UUIDString
+# petstore_api.model.uuid_string.UUIDString
 
 Type | Description | Notes
 ------------- | ------------- | -------------

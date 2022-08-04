@@ -1,4 +1,4 @@
-# unit_test_api.model.NulCharactersInStrings
+# unit_test_api.model.nul_characters_in_strings.NulCharactersInStrings
 
 Type | Description | Notes
 ------------- | ------------- | -------------

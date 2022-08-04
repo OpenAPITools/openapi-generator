@@ -1,4 +1,4 @@
-# petstore_api.model.Boolean
+# petstore_api.model.boolean.Boolean
 
 Type | Description | Notes
 ------------- | ------------- | -------------

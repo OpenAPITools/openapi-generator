@@ -1,4 +1,4 @@
-# unit_test_api.model.MinlengthValidation
+# unit_test_api.model.minlength_validation.MinlengthValidation
 
 #### Properties
 Name | Type | Description | Notes

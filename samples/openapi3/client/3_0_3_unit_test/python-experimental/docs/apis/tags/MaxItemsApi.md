@@ -1,5 +1,5 @@
 <a name="__pageTop"></a>
-# unit_test_api.apis.tags.MaxItemsApi
+# unit_test_api.apis.tags.max_items_api.MaxItemsApi
 
 All URIs are relative to *https://someserver.com/v1*
 

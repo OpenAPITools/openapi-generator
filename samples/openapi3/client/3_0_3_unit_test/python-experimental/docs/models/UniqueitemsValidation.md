@@ -1,4 +1,4 @@
-# unit_test_api.model.UniqueitemsValidation
+# unit_test_api.model.uniqueitems_validation.UniqueitemsValidation
 
 #### Properties
 Name | Type | Description | Notes

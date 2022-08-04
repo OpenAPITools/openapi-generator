@@ -1,4 +1,4 @@
-# unit_test_api.model.Ipv6Format
+# unit_test_api.model.ipv6_format.Ipv6Format
 
 #### Properties
 Name | Type | Description | Notes

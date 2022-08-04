@@ -1,4 +1,4 @@
-# unit_test_api.model.MinpropertiesValidation
+# unit_test_api.model.minproperties_validation.MinpropertiesValidation
 
 #### Properties
 Name | Type | Description | Notes

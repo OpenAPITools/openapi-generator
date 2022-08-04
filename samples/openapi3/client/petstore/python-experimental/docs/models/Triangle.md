@@ -1,4 +1,4 @@
-# petstore_api.model.Triangle
+# petstore_api.model.triangle.Triangle
 
 #### Properties
 Name | Type | Description | Notes

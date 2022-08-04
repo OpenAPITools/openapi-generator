@@ -1,4 +1,4 @@
-# petstore_api.model.EnumArrays
+# petstore_api.model.enum_arrays.EnumArrays
 
 #### Properties
 Name | Type | Description | Notes

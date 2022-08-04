@@ -1,4 +1,4 @@
-# petstore_api.model.Quadrilateral
+# petstore_api.model.quadrilateral.Quadrilateral
 
 #### Properties
 Name | Type | Description | Notes

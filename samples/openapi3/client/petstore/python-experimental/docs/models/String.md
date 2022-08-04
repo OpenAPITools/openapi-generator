@@ -1,4 +1,4 @@
-# petstore_api.model.String
+# petstore_api.model.string.String
 
 Type | Description | Notes
 ------------- | ------------- | -------------

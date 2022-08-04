@@ -1,4 +1,4 @@
-# unit_test_api.model.Allof
+# unit_test_api.model.allof.Allof
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.AnimalFarm
+# petstore_api.model.animal_farm.AnimalFarm
 
 Type | Description | Notes
 ------------- | ------------- | -------------

@@ -1,5 +1,5 @@
 <a name="__pageTop"></a>
-# unit_test_api.apis.tags.MinPropertiesApi
+# unit_test_api.apis.tags.min_properties_api.MinPropertiesApi
 
 All URIs are relative to *https://someserver.com/v1*
 

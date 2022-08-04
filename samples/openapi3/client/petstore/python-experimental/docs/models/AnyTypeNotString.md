@@ -1,4 +1,4 @@
-# petstore_api.model.AnyTypeNotString
+# petstore_api.model.any_type_not_string.AnyTypeNotString
 
 #### Properties
 Name | Type | Description | Notes

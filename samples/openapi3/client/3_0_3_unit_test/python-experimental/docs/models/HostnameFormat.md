@@ -1,4 +1,4 @@
-# unit_test_api.model.HostnameFormat
+# unit_test_api.model.hostname_format.HostnameFormat
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.NoAdditionalProperties
+# petstore_api.model.no_additional_properties.NoAdditionalProperties
 
 #### Properties
 Name | Type | Description | Notes

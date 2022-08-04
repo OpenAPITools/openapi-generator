@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedObject
+# petstore_api.model.composed_object.ComposedObject
 
 #### Properties
 Name | Type | Description | Notes

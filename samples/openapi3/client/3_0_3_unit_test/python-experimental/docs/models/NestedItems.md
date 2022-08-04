@@ -1,4 +1,4 @@
-# unit_test_api.model.NestedItems
+# unit_test_api.model.nested_items.NestedItems
 
 Type | Description | Notes
 ------------- | ------------- | -------------

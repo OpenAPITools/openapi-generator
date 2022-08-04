@@ -1,4 +1,4 @@
-# unit_test_api.model.NumberTypeMatchesNumbers
+# unit_test_api.model.number_type_matches_numbers.NumberTypeMatchesNumbers
 
 Type | Description | Notes
 ------------- | ------------- | -------------

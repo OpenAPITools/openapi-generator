@@ -1,4 +1,4 @@
-# petstore_api.model.HasOnlyReadOnly
+# petstore_api.model.has_only_read_only.HasOnlyReadOnly
 
 #### Properties
 Name | Type | Description | Notes

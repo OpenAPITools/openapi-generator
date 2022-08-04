@@ -1,4 +1,4 @@
-# petstore_api.model.Order
+# petstore_api.model.order.Order
 
 #### Properties
 Name | Type | Description | Notes

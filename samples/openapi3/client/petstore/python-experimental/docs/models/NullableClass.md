@@ -1,4 +1,4 @@
-# petstore_api.model.NullableClass
+# petstore_api.model.nullable_class.NullableClass
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# unit_test_api.model.DateTimeFormat
+# unit_test_api.model.date_time_format.DateTimeFormat
 
 #### Properties
 Name | Type | Description | Notes

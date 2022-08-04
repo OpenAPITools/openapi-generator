@@ -1,4 +1,4 @@
-# unit_test_api.model.RefInOneof
+# unit_test_api.model.ref_in_oneof.RefInOneof
 
 #### Properties
 Name | Type | Description | Notes

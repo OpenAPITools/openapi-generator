@@ -1,4 +1,4 @@
-# unit_test_api.model.MaximumValidation
+# unit_test_api.model.maximum_validation.MaximumValidation
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# unit_test_api.model.EmailFormat
+# unit_test_api.model.email_format.EmailFormat
 
 #### Properties
 Name | Type | Description | Notes

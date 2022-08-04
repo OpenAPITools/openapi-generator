@@ -1,4 +1,4 @@
-# unit_test_api.model.MinitemsValidation
+# unit_test_api.model.minitems_validation.MinitemsValidation
 
 #### Properties
 Name | Type | Description | Notes

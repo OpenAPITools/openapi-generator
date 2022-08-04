@@ -1,4 +1,4 @@
-# petstore_api.model.Capitalization
+# petstore_api.model.capitalization.Capitalization
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# unit_test_api.model.NestedAnyofToCheckValidationSemantics
+# unit_test_api.model.nested_anyof_to_check_validation_semantics.NestedAnyofToCheckValidationSemantics
 
 #### Properties
 Name | Type | Description | Notes

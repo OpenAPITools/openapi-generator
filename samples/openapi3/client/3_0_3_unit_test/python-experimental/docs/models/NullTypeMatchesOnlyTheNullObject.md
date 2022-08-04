@@ -1,4 +1,4 @@
-# unit_test_api.model.NullTypeMatchesOnlyTheNullObject
+# unit_test_api.model.null_type_matches_only_the_null_object.NullTypeMatchesOnlyTheNullObject
 
 Type | Description | Notes
 ------------- | ------------- | -------------

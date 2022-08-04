@@ -1,4 +1,4 @@
-# unit_test_api.model.AdditionalpropertiesAreAllowedByDefault
+# unit_test_api.model.additionalproperties_are_allowed_by_default.AdditionalpropertiesAreAllowedByDefault
 
 #### Properties
 Name | Type | Description | Notes

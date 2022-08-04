@@ -1,4 +1,4 @@
-# unit_test_api.model.MaxpropertiesValidation
+# unit_test_api.model.maxproperties_validation.MaxpropertiesValidation
 
 #### Properties
 Name | Type | Description | Notes

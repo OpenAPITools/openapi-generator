@@ -1,4 +1,4 @@
-# petstore_api.model.FileSchemaTestClass
+# petstore_api.model.file_schema_test_class.FileSchemaTestClass
 
 #### Properties
 Name | Type | Description | Notes

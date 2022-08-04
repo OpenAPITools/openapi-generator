@@ -1,4 +1,4 @@
-# petstore_api.model.EnumClass
+# petstore_api.model.enum_class.EnumClass
 
 Type | Description | Notes
 ------------- | ------------- | -------------

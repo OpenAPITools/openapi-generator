@@ -1,4 +1,4 @@
-# petstore_api.model.TriangleInterface
+# petstore_api.model.triangle_interface.TriangleInterface
 
 #### Properties
 Name | Type | Description | Notes

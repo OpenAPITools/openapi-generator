@@ -1,4 +1,4 @@
-# petstore_api.model.StringWithValidation
+# petstore_api.model.string_with_validation.StringWithValidation
 
 Type | Description | Notes
 ------------- | ------------- | -------------

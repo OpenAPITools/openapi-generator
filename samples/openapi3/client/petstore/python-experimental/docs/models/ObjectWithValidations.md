@@ -1,4 +1,4 @@
-# petstore_api.model.ObjectWithValidations
+# petstore_api.model.object_with_validations.ObjectWithValidations
 
 #### Properties
 Name | Type | Description | Notes

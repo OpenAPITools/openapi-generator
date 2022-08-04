@@ -1,4 +1,4 @@
-# unit_test_api.model.AdditionalpropertiesAllowsASchemaWhichShouldValidate
+# unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate.AdditionalpropertiesAllowsASchemaWhichShouldValidate
 
 #### Properties
 Name | Type | Description | Notes

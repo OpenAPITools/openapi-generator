@@ -1,4 +1,4 @@
-# petstore_api.model.IntegerEnumBig
+# petstore_api.model.integer_enum_big.IntegerEnumBig
 
 Type | Description | Notes
 ------------- | ------------- | -------------

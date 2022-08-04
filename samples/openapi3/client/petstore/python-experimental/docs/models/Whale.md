@@ -1,4 +1,4 @@
-# petstore_api.model.Whale
+# petstore_api.model.whale.Whale
 
 #### Properties
 Name | Type | Description | Notes

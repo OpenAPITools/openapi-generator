@@ -1,4 +1,4 @@
-# petstore_api.model.SomeObject
+# petstore_api.model.some_object.SomeObject
 
 #### Properties
 Name | Type | Description | Notes

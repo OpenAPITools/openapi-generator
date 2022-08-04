@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedArray
+# petstore_api.model.composed_array.ComposedArray
 
 Type | Description | Notes
 ------------- | ------------- | -------------

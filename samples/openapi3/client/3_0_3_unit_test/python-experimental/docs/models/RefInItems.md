@@ -1,4 +1,4 @@
-# unit_test_api.model.RefInItems
+# unit_test_api.model.ref_in_items.RefInItems
 
 Type | Description | Notes
 ------------- | ------------- | -------------

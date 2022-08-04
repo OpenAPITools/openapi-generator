@@ -1,4 +1,4 @@
-# petstore_api.model.Zebra
+# petstore_api.model.zebra.Zebra
 
 #### Properties
 Name | Type | Description | Notes

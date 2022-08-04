@@ -1,4 +1,4 @@
-# unit_test_api.model.AllofWithTheLastEmptySchema
+# unit_test_api.model.allof_with_the_last_empty_schema.AllofWithTheLastEmptySchema
 
 #### Properties
 Name | Type | Description | Notes

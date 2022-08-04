@@ -1,4 +1,4 @@
-# unit_test_api.model.Ipv4Format
+# unit_test_api.model.ipv4_format.Ipv4Format
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.EquilateralTriangle
+# petstore_api.model.equilateral_triangle.EquilateralTriangle
 
 #### Properties
 Name | Type | Description | Notes

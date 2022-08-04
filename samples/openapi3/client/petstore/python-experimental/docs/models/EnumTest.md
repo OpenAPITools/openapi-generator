@@ -1,4 +1,4 @@
-# petstore_api.model.EnumTest
+# petstore_api.model.enum_test.EnumTest
 
 #### Properties
 Name | Type | Description | Notes

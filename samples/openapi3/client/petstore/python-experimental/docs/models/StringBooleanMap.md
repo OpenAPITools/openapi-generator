@@ -1,4 +1,4 @@
-# petstore_api.model.StringBooleanMap
+# petstore_api.model.string_boolean_map.StringBooleanMap
 
 #### Properties
 Name | Type | Description | Notes

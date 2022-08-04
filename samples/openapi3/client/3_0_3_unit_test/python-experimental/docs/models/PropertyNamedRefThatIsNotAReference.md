@@ -1,4 +1,4 @@
-# unit_test_api.model.PropertyNamedRefThatIsNotAReference
+# unit_test_api.model.property_named_ref_that_is_not_a_reference.PropertyNamedRefThatIsNotAReference
 
 #### Properties
 Name | Type | Description | Notes

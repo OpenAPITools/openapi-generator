@@ -1,5 +1,5 @@
 <a name="__pageTop"></a>
-# petstore_api.apis.tags.AnotherFakeApi
+# petstore_api.apis.tags.another_fake_api.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 

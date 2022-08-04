@@ -1,4 +1,4 @@
-# petstore_api.model.NullableString
+# petstore_api.model.nullable_string.NullableString
 
 Type | Description | Notes
 ------------- | ------------- | -------------

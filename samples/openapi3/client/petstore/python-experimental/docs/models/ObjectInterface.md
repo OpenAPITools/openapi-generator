@@ -1,4 +1,4 @@
-# petstore_api.model.ObjectInterface
+# petstore_api.model.object_interface.ObjectInterface
 
 #### Properties
 Name | Type | Description | Notes

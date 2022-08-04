@@ -1,4 +1,4 @@
-# petstore_api.model.Dog
+# petstore_api.model.dog.Dog
 
 #### Properties
 Name | Type | Description | Notes

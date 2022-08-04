@@ -1,4 +1,4 @@
-# unit_test_api.model.RefInAdditionalproperties
+# unit_test_api.model.ref_in_additionalproperties.RefInAdditionalproperties
 
 #### Properties
 Name | Type | Description | Notes

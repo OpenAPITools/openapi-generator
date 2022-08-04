@@ -1,4 +1,4 @@
-# petstore_api.model.MapTest
+# petstore_api.model.map_test.MapTest
 
 #### Properties
 Name | Type | Description | Notes

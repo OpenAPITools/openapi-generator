@@ -1,4 +1,4 @@
-# unit_test_api.model.InvalidStringValueForDefault
+# unit_test_api.model.invalid_string_value_for_default.InvalidStringValueForDefault
 
 #### Properties
 Name | Type | Description | Notes

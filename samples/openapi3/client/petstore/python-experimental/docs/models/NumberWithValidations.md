@@ -1,4 +1,4 @@
-# petstore_api.model.NumberWithValidations
+# petstore_api.model.number_with_validations.NumberWithValidations
 
 Type | Description | Notes
 ------------- | ------------- | -------------

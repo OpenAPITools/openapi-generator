@@ -1,4 +1,4 @@
-# unit_test_api.model.ForbiddenProperty
+# unit_test_api.model.forbidden_property.ForbiddenProperty
 
 #### Properties
 Name | Type | Description | Notes

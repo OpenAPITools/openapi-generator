@@ -1,4 +1,4 @@
-# petstore_api.model.ClassModel
+# petstore_api.model.class_model.ClassModel
 
 Model for testing model with \"_class\" property
 

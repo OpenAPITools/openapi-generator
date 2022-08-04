@@ -1,4 +1,4 @@
-# petstore_api.model.ModelReturn
+# petstore_api.model.model_return.ModelReturn
 
 Model for testing reserved words
 

@@ -1,4 +1,4 @@
-# petstore_api.model.AdditionalPropertiesWithArrayOfEnums
+# petstore_api.model.additional_properties_with_array_of_enums.AdditionalPropertiesWithArrayOfEnums
 
 #### Properties
 Name | Type | Description | Notes

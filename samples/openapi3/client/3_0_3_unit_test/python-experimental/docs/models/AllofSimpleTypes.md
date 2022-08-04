@@ -1,4 +1,4 @@
-# unit_test_api.model.AllofSimpleTypes
+# unit_test_api.model.allof_simple_types.AllofSimpleTypes
 
 #### Properties
 Name | Type | Description | Notes

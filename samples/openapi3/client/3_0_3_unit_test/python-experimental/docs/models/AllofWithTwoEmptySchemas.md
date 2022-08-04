@@ -1,4 +1,4 @@
-# unit_test_api.model.AllofWithTwoEmptySchemas
+# unit_test_api.model.allof_with_two_empty_schemas.AllofWithTwoEmptySchemas
 
 #### Properties
 Name | Type | Description | Notes

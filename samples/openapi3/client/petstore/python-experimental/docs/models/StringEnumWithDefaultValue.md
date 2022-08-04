@@ -1,4 +1,4 @@
-# petstore_api.model.StringEnumWithDefaultValue
+# petstore_api.model.string_enum_with_default_value.StringEnumWithDefaultValue
 
 Type | Description | Notes
 ------------- | ------------- | -------------

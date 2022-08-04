@@ -1,4 +1,4 @@
-# petstore_api.model.Pet
+# petstore_api.model.pet.Pet
 
 Pet object that needs to be added to the store
 

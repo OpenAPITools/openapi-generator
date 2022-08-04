@@ -1,4 +1,4 @@
-# unit_test_api.model.AdditionalpropertiesCanExistByItself
+# unit_test_api.model.additionalproperties_can_exist_by_itself.AdditionalpropertiesCanExistByItself
 
 #### Properties
 Name | Type | Description | Notes

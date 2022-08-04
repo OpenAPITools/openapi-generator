@@ -1,4 +1,4 @@
-# unit_test_api.model.UriReferenceFormat
+# unit_test_api.model.uri_reference_format.UriReferenceFormat
 
 #### Properties
 Name | Type | Description | Notes

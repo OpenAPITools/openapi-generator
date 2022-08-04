@@ -1,4 +1,4 @@
-# unit_test_api.model.EnumWithFalseDoesNotMatch0
+# unit_test_api.model.enum_with_false_does_not_match0.EnumWithFalseDoesNotMatch0
 
 Type | Description | Notes
 ------------- | ------------- | -------------

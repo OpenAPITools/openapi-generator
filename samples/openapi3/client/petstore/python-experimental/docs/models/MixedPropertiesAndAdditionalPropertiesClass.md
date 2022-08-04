@@ -1,4 +1,4 @@
-# petstore_api.model.MixedPropertiesAndAdditionalPropertiesClass
+# petstore_api.model.mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass
 
 #### Properties
 Name | Type | Description | Notes

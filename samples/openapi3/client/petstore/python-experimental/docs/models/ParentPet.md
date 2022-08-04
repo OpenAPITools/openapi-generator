@@ -1,4 +1,4 @@
-# petstore_api.model.ParentPet
+# petstore_api.model.parent_pet.ParentPet
 
 #### Properties
 Name | Type | Description | Notes

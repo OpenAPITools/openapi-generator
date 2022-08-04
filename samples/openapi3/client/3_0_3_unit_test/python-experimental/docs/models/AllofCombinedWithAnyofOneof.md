@@ -1,4 +1,4 @@
-# unit_test_api.model.AllofCombinedWithAnyofOneof
+# unit_test_api.model.allof_combined_with_anyof_oneof.AllofCombinedWithAnyofOneof
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.BasquePig
+# petstore_api.model.basque_pig.BasquePig
 
 #### Properties
 Name | Type | Description | Notes

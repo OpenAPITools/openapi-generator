@@ -1,4 +1,4 @@
-# petstore_api.model.BooleanEnum
+# petstore_api.model.boolean_enum.BooleanEnum
 
 Type | Description | Notes
 ------------- | ------------- | -------------

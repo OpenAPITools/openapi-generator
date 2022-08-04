@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedNone
+# petstore_api.model.composed_none.ComposedNone
 
 Type | Description | Notes
 ------------- | ------------- | -------------

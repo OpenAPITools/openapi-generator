@@ -1,4 +1,4 @@
-# petstore_api.model.DateTimeTest
+# petstore_api.model.date_time_test.DateTimeTest
 
 Type | Description | Notes
 ------------- | ------------- | -------------

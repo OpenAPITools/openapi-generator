@@ -1,4 +1,4 @@
-# petstore_api.model.ObjectWithDecimalProperties
+# petstore_api.model.object_with_decimal_properties.ObjectWithDecimalProperties
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.Bar
+# petstore_api.model.bar.Bar
 
 Type | Description | Notes
 ------------- | ------------- | -------------

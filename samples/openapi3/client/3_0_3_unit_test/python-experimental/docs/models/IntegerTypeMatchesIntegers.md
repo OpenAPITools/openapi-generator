@@ -1,4 +1,4 @@
-# unit_test_api.model.IntegerTypeMatchesIntegers
+# unit_test_api.model.integer_type_matches_integers.IntegerTypeMatchesIntegers
 
 Type | Description | Notes
 ------------- | ------------- | -------------

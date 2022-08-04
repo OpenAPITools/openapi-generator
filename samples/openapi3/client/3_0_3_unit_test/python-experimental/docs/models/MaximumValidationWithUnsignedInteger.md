@@ -1,4 +1,4 @@
-# unit_test_api.model.MaximumValidationWithUnsignedInteger
+# unit_test_api.model.maximum_validation_with_unsigned_integer.MaximumValidationWithUnsignedInteger
 
 #### Properties
 Name | Type | Description | Notes

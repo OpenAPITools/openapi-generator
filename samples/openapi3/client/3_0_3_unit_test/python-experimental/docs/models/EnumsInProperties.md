@@ -1,4 +1,4 @@
-# unit_test_api.model.EnumsInProperties
+# unit_test_api.model.enums_in_properties.EnumsInProperties
 
 #### Properties
 Name | Type | Description | Notes

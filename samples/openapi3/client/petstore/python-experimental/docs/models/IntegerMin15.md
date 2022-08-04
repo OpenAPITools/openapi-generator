@@ -1,4 +1,4 @@
-# petstore_api.model.IntegerMin15
+# petstore_api.model.integer_min15.IntegerMin15
 
 Type | Description | Notes
 ------------- | ------------- | -------------

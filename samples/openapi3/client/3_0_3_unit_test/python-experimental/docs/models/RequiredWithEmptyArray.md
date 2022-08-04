@@ -1,4 +1,4 @@
-# unit_test_api.model.RequiredWithEmptyArray
+# unit_test_api.model.required_with_empty_array.RequiredWithEmptyArray
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# unit_test_api.model.StringTypeMatchesStrings
+# unit_test_api.model.string_type_matches_strings.StringTypeMatchesStrings
 
 Type | Description | Notes
 ------------- | ------------- | -------------

@@ -1,4 +1,4 @@
-# unit_test_api.model.SimpleEnumValidation
+# unit_test_api.model.simple_enum_validation.SimpleEnumValidation
 
 Type | Description | Notes
 ------------- | ------------- | -------------

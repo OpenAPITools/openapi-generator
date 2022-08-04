@@ -1,4 +1,4 @@
-# petstore_api.model.AppleReq
+# petstore_api.model.apple_req.AppleReq
 
 #### Properties
 Name | Type | Description | Notes

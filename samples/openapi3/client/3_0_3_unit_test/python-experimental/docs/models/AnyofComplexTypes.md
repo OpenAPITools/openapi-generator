@@ -1,4 +1,4 @@
-# unit_test_api.model.AnyofComplexTypes
+# unit_test_api.model.anyof_complex_types.AnyofComplexTypes
 
 #### Properties
 Name | Type | Description | Notes

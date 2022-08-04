@@ -1,4 +1,4 @@
-# unit_test_api.model.RefInAllof
+# unit_test_api.model.ref_in_allof.RefInAllof
 
 #### Properties
 Name | Type | Description | Notes

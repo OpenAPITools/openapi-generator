@@ -1,4 +1,4 @@
-# petstore_api.model.ArrayHoldingAnyType
+# petstore_api.model.array_holding_any_type.ArrayHoldingAnyType
 
 Type | Description | Notes
 ------------- | ------------- | -------------

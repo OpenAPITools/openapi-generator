@@ -1,4 +1,4 @@
-# unit_test_api.model.AnyofWithBaseSchema
+# unit_test_api.model.anyof_with_base_schema.AnyofWithBaseSchema
 
 Type | Description | Notes
 ------------- | ------------- | -------------

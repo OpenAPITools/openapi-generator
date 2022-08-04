@@ -1,4 +1,4 @@
-# petstore_api.model.Client
+# petstore_api.model.client.Client
 
 #### Properties
 Name | Type | Description | Notes

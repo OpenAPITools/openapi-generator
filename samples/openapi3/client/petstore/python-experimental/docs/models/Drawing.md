@@ -1,4 +1,4 @@
-# petstore_api.model.Drawing
+# petstore_api.model.drawing.Drawing
 
 #### Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# petstore_api.model.GmFruit
+# petstore_api.model.gm_fruit.GmFruit
 
 #### Properties
 Name | Type | Description | Notes

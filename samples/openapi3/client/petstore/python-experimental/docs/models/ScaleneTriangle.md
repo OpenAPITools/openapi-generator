@@ -1,4 +1,4 @@
-# petstore_api.model.ScaleneTriangle
+# petstore_api.model.scalene_triangle.ScaleneTriangle
 
 #### Properties
 Name | Type | Description | Notes

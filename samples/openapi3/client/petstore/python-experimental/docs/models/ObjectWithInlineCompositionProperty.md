@@ -1,4 +1,4 @@
-# petstore_api.model.ObjectWithInlineCompositionProperty
+# petstore_api.model.object_with_inline_composition_property.ObjectWithInlineCompositionProperty
 
 #### Properties
 Name | Type | Description | Notes

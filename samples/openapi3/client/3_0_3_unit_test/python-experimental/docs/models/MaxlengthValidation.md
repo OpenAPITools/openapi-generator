@@ -1,4 +1,4 @@
-# unit_test_api.model.MaxlengthValidation
+# unit_test_api.model.maxlength_validation.MaxlengthValidation
 
 #### Properties
 Name | Type | Description | Notes

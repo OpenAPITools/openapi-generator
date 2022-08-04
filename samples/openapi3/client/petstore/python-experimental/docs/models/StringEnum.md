@@ -1,4 +1,4 @@
-# petstore_api.model.StringEnum
+# petstore_api.model.string_enum.StringEnum
 
 Type | Description | Notes
 ------------- | ------------- | -------------

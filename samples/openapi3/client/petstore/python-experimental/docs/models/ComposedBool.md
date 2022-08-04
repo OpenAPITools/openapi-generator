@@ -1,4 +1,4 @@
-# petstore_api.model.ComposedBool
+# petstore_api.model.composed_bool.ComposedBool
 
 Type | Description | Notes
 ------------- | ------------- | -------------

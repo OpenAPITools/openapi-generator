@@ -1,4 +1,4 @@
-# unit_test_api.model.AdditionalpropertiesShouldNotLookInApplicators
+# unit_test_api.model.additionalproperties_should_not_look_in_applicators.AdditionalpropertiesShouldNotLookInApplicators
 
 #### Properties
 Name | Type | Description | Notes

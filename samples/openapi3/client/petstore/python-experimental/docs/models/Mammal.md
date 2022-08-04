@@ -1,4 +1,4 @@
-# petstore_api.model.Mammal
+# petstore_api.model.mammal.Mammal
 
 #### Properties
 Name | Type | Description | Notes

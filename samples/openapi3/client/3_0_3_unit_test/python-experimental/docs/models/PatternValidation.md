@@ -1,4 +1,4 @@
-# unit_test_api.model.PatternValidation
+# unit_test_api.model.pattern_validation.PatternValidation
 
 #### Properties
 Name | Type | Description | Notes

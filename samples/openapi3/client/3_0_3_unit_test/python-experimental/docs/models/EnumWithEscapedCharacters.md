@@ -1,4 +1,4 @@
-# unit_test_api.model.EnumWithEscapedCharacters
+# unit_test_api.model.enum_with_escaped_characters.EnumWithEscapedCharacters
 
 Type | Description | Notes
 ------------- | ------------- | -------------
