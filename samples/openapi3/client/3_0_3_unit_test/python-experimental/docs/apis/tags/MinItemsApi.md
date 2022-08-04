@@ -1,4 +1,5 @@
 # unit_test_api.apis.tags.MinItemsApi
+<a name="__pageTop"></a>
 
 All URIs are relative to *https://someserver.com/v1*
 
@@ -79,7 +80,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_minitems_validation_response_body_for_content_types**
 <a name="post_minitems_validation_response_body_for_content_types"></a>
@@ -142,5 +143,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 

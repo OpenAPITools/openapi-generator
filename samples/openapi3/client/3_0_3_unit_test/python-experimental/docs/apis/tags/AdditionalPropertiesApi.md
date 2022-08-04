@@ -1,4 +1,5 @@
 # unit_test_api.apis.tags.AdditionalPropertiesApi
+<a name="__pageTop"></a>
 
 All URIs are relative to *https://someserver.com/v1*
 
@@ -88,7 +89,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**
 <a name="post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types"></a>
@@ -151,7 +152,7 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_are_allowed_by_default_request_body**
 <a name="post_additionalproperties_are_allowed_by_default_request_body"></a>
@@ -225,7 +226,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_are_allowed_by_default_response_body_for_content_types**
 <a name="post_additionalproperties_are_allowed_by_default_response_body_for_content_types"></a>
@@ -288,7 +289,7 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_can_exist_by_itself_request_body**
 <a name="post_additionalproperties_can_exist_by_itself_request_body"></a>
@@ -364,7 +365,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_can_exist_by_itself_response_body_for_content_types**
 <a name="post_additionalproperties_can_exist_by_itself_response_body_for_content_types"></a>
@@ -427,7 +428,7 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_should_not_look_in_applicators_request_body**
 <a name="post_additionalproperties_should_not_look_in_applicators_request_body"></a>
@@ -501,7 +502,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**
 <a name="post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types"></a>
@@ -564,5 +565,5 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 

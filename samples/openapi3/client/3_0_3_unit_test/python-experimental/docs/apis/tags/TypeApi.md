@@ -1,4 +1,5 @@
 # unit_test_api.apis.tags.TypeApi
+<a name="__pageTop"></a>
 
 All URIs are relative to *https://someserver.com/v1*
 
@@ -93,7 +94,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_array_type_matches_arrays_response_body_for_content_types**
 <a name="post_array_type_matches_arrays_response_body_for_content_types"></a>
@@ -156,7 +157,7 @@ Type | Description  | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_boolean_type_matches_booleans_request_body**
 <a name="post_boolean_type_matches_booleans_request_body"></a>
@@ -229,7 +230,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_boolean_type_matches_booleans_response_body_for_content_types**
 <a name="post_boolean_type_matches_booleans_response_body_for_content_types"></a>
@@ -291,7 +292,7 @@ Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_integer_type_matches_integers_request_body**
 <a name="post_integer_type_matches_integers_request_body"></a>
@@ -364,7 +365,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_integer_type_matches_integers_response_body_for_content_types**
 <a name="post_integer_type_matches_integers_response_body_for_content_types"></a>
@@ -426,7 +427,7 @@ Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_null_type_matches_only_the_null_object_request_body**
 <a name="post_null_type_matches_only_the_null_object_request_body"></a>
@@ -499,7 +500,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_null_type_matches_only_the_null_object_response_body_for_content_types**
 <a name="post_null_type_matches_only_the_null_object_response_body_for_content_types"></a>
@@ -561,7 +562,7 @@ Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_number_type_matches_numbers_request_body**
 <a name="post_number_type_matches_numbers_request_body"></a>
@@ -634,7 +635,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_number_type_matches_numbers_response_body_for_content_types**
 <a name="post_number_type_matches_numbers_response_body_for_content_types"></a>
@@ -696,7 +697,7 @@ Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_object_type_matches_objects_request_body**
 <a name="post_object_type_matches_objects_request_body"></a>
@@ -770,7 +771,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_object_type_matches_objects_response_body_for_content_types**
 <a name="post_object_type_matches_objects_response_body_for_content_types"></a>
@@ -833,7 +834,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_string_type_matches_strings_request_body**
 <a name="post_string_type_matches_strings_request_body"></a>
@@ -906,7 +907,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_string_type_matches_strings_response_body_for_content_types**
 <a name="post_string_type_matches_strings_response_body_for_content_types"></a>
@@ -968,5 +969,5 @@ Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 

@@ -1,4 +1,5 @@
 # unit_test_api.apis.tags.FormatApi
+<a name="__pageTop"></a>
 
 All URIs are relative to *https://someserver.com/v1*
 
@@ -95,7 +96,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_date_time_format_response_body_for_content_types**
 <a name="post_date_time_format_response_body_for_content_types"></a>
@@ -158,7 +159,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_email_format_request_body**
 <a name="post_email_format_request_body"></a>
@@ -232,7 +233,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_email_format_response_body_for_content_types**
 <a name="post_email_format_response_body_for_content_types"></a>
@@ -295,7 +296,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_hostname_format_request_body**
 <a name="post_hostname_format_request_body"></a>
@@ -369,7 +370,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_hostname_format_response_body_for_content_types**
 <a name="post_hostname_format_response_body_for_content_types"></a>
@@ -432,7 +433,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_ipv4_format_request_body**
 <a name="post_ipv4_format_request_body"></a>
@@ -506,7 +507,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_ipv4_format_response_body_for_content_types**
 <a name="post_ipv4_format_response_body_for_content_types"></a>
@@ -569,7 +570,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_ipv6_format_request_body**
 <a name="post_ipv6_format_request_body"></a>
@@ -643,7 +644,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_ipv6_format_response_body_for_content_types**
 <a name="post_ipv6_format_response_body_for_content_types"></a>
@@ -706,7 +707,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_json_pointer_format_request_body**
 <a name="post_json_pointer_format_request_body"></a>
@@ -780,7 +781,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_json_pointer_format_response_body_for_content_types**
 <a name="post_json_pointer_format_response_body_for_content_types"></a>
@@ -843,7 +844,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_uri_format_request_body**
 <a name="post_uri_format_request_body"></a>
@@ -917,7 +918,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_uri_format_response_body_for_content_types**
 <a name="post_uri_format_response_body_for_content_types"></a>
@@ -980,7 +981,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_uri_reference_format_request_body**
 <a name="post_uri_reference_format_request_body"></a>
@@ -1054,7 +1055,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_uri_reference_format_response_body_for_content_types**
 <a name="post_uri_reference_format_response_body_for_content_types"></a>
@@ -1117,7 +1118,7 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_uri_template_format_request_body**
 <a name="post_uri_template_format_request_body"></a>
@@ -1191,7 +1192,7 @@ void (empty response body)
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_uri_template_format_response_body_for_content_types**
 <a name="post_uri_template_format_response_body_for_content_types"></a>
@@ -1254,5 +1255,5 @@ Name | Type | Description | Notes
 
 No authorization required
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
