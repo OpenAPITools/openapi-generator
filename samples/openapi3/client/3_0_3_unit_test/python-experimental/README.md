@@ -51,60 +51,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import time
 import unit_test_api
 from pprint import pprint
-from unit_test_api.apis import content_type_json_api
-from unit_test_api.model.additionalproperties_allows_a_schema_which_should_validate import AdditionalpropertiesAllowsASchemaWhichShouldValidate
-from unit_test_api.model.additionalproperties_are_allowed_by_default import AdditionalpropertiesAreAllowedByDefault
-from unit_test_api.model.additionalproperties_can_exist_by_itself import AdditionalpropertiesCanExistByItself
-from unit_test_api.model.additionalproperties_should_not_look_in_applicators import AdditionalpropertiesShouldNotLookInApplicators
-from unit_test_api.model.allof import Allof
-from unit_test_api.model.allof_combined_with_anyof_oneof import AllofCombinedWithAnyofOneof
-from unit_test_api.model.allof_simple_types import AllofSimpleTypes
-from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
-from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
-from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
-from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
-from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
-from unit_test_api.model.anyof import Anyof
-from unit_test_api.model.anyof_complex_types import AnyofComplexTypes
-from unit_test_api.model.anyof_with_base_schema import AnyofWithBaseSchema
-from unit_test_api.model.anyof_with_one_empty_schema import AnyofWithOneEmptySchema
-from unit_test_api.model.array_type_matches_arrays import ArrayTypeMatchesArrays
-from unit_test_api.model.by_int import ByInt
-from unit_test_api.model.by_number import ByNumber
-from unit_test_api.model.by_small_number import BySmallNumber
-from unit_test_api.model.enum_with0_does_not_match_false import EnumWith0DoesNotMatchFalse
-from unit_test_api.model.enum_with1_does_not_match_true import EnumWith1DoesNotMatchTrue
-from unit_test_api.model.enum_with_escaped_characters import EnumWithEscapedCharacters
-from unit_test_api.model.enum_with_false_does_not_match0 import EnumWithFalseDoesNotMatch0
-from unit_test_api.model.enum_with_true_does_not_match1 import EnumWithTrueDoesNotMatch1
-from unit_test_api.model.enums_in_properties import EnumsInProperties
-from unit_test_api.model.forbidden_property import ForbiddenProperty
-from unit_test_api.model.invalid_instance_should_not_raise_error_when_float_division_inf import InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf
-from unit_test_api.model.invalid_string_value_for_default import InvalidStringValueForDefault
-from unit_test_api.model.maximum_validation import MaximumValidation
-from unit_test_api.model.maximum_validation_with_unsigned_integer import MaximumValidationWithUnsignedInteger
-from unit_test_api.model.maxitems_validation import MaxitemsValidation
-from unit_test_api.model.maxlength_validation import MaxlengthValidation
-from unit_test_api.model.maxproperties0_means_the_object_is_empty import Maxproperties0MeansTheObjectIsEmpty
-from unit_test_api.model.maxproperties_validation import MaxpropertiesValidation
-from unit_test_api.model.minimum_validation import MinimumValidation
-from unit_test_api.model.minimum_validation_with_signed_integer import MinimumValidationWithSignedInteger
-from unit_test_api.model.minitems_validation import MinitemsValidation
-from unit_test_api.model.minlength_validation import MinlengthValidation
-from unit_test_api.model.minproperties_validation import MinpropertiesValidation
-from unit_test_api.model.nested_allof_to_check_validation_semantics import NestedAllofToCheckValidationSemantics
-from unit_test_api.model.nested_anyof_to_check_validation_semantics import NestedAnyofToCheckValidationSemantics
-from unit_test_api.model.nested_items import NestedItems
-from unit_test_api.model.nested_oneof_to_check_validation_semantics import NestedOneofToCheckValidationSemantics
-from unit_test_api.model.nul_characters_in_strings import NulCharactersInStrings
-from unit_test_api.model.object_properties_validation import ObjectPropertiesValidation
-from unit_test_api.model.oneof import Oneof
-from unit_test_api.model.oneof_complex_types import OneofComplexTypes
-from unit_test_api.model.oneof_with_base_schema import OneofWithBaseSchema
-from unit_test_api.model.oneof_with_empty_schema import OneofWithEmptySchema
-from unit_test_api.model.pattern_is_not_anchored import PatternIsNotAnchored
-from unit_test_api.model.pattern_validation import PatternValidation
-from unit_test_api.model.properties_with_escaped_characters import PropertiesWithEscapedCharacters
+from unit_test_api.apis import ref_api
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from unit_test_api.model.ref_in_allof import RefInAllof
@@ -112,13 +59,6 @@ from unit_test_api.model.ref_in_anyof import RefInAnyof
 from unit_test_api.model.ref_in_items import RefInItems
 from unit_test_api.model.ref_in_oneof import RefInOneof
 from unit_test_api.model.ref_in_property import RefInProperty
-from unit_test_api.model.required_default_validation import RequiredDefaultValidation
-from unit_test_api.model.required_validation import RequiredValidation
-from unit_test_api.model.required_with_empty_array import RequiredWithEmptyArray
-from unit_test_api.model.simple_enum_validation import SimpleEnumValidation
-from unit_test_api.model.the_default_keyword_does_not_do_anything_if_the_property_is_missing import TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing
-from unit_test_api.model.uniqueitems_false_validation import UniqueitemsFalseValidation
-from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
 configuration = unit_test_api.Configuration(
@@ -129,16 +69,13 @@ configuration = unit_test_api.Configuration(
 # Enter a context with an instance of the API client
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = content_type_json_api.ContentTypeJsonApi(api_client)
-    additionalproperties_allows_a_schema_which_should_validate = AdditionalpropertiesAllowsASchemaWhichShouldValidate(
-        foo=None,
-        bar=None,
-    ) # AdditionalpropertiesAllowsASchemaWhichShouldValidate | 
+    api_instance = ref_api.RefApi(api_client)
+    property_named_ref_that_is_not_a_reference = PropertyNamedRefThatIsNotAReference(None) # PropertyNamedRefThatIsNotAReference | 
 
     try:
-        api_instance.post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
+        api_instance.post_property_named_ref_that_is_not_a_reference_request_body(property_named_ref_that_is_not_a_reference)
     except unit_test_api.ApiException as e:
-        print("Exception when calling ContentTypeJsonApi->post_additionalproperties_allows_a_schema_which_should_validate_request_body: %s\n" % e)
+        print("Exception when calling RefApi->post_property_named_ref_that_is_not_a_reference_request_body: %s\n" % e)
 ```
 
 ## Documentation for API Endpoints
@@ -147,6 +84,56 @@ All URIs are relative to *https://someserver.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*RefApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/RefApi.md#REQUEST_BODY_POST_PROPERTY_NAMED_REF_THAT_IS_NOT_AREFERENCE_REQUEST_BODY) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
+*RefApi* | [**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_PROPERTY_NAMED_REF_THAT_IS_NOT_AREFERENCE_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_additionalproperties_request_body**](docs/RefApi.md#REQUEST_BODY_POST_REF_IN_ADDITIONALPROPERTIES_REQUEST_BODY) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
+*RefApi* | [**post_ref_in_additionalproperties_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_REF_IN_ADDITIONALPROPERTIES_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_allof_request_body**](docs/RefApi.md#REQUEST_BODY_POST_REF_IN_ALLOF_REQUEST_BODY) | **post** /requestBody/postRefInAllofRequestBody | 
+*RefApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_REF_IN_ALLOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_anyof_request_body**](docs/RefApi.md#REQUEST_BODY_POST_REF_IN_ANYOF_REQUEST_BODY) | **post** /requestBody/postRefInAnyofRequestBody | 
+*RefApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_items_request_body**](docs/RefApi.md#REQUEST_BODY_POST_REF_IN_ITEMS_REQUEST_BODY) | **post** /requestBody/postRefInItemsRequestBody | 
+*RefApi* | [**post_ref_in_items_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_REF_IN_ITEMS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_oneof_request_body**](docs/RefApi.md#REQUEST_BODY_POST_REF_IN_ONEOF_REQUEST_BODY) | **post** /requestBody/postRefInOneofRequestBody | 
+*RefApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_property_request_body**](docs/RefApi.md#REQUEST_BODY_POST_REF_IN_PROPERTY_REQUEST_BODY) | **post** /requestBody/postRefInPropertyRequestBody | 
+*RefApi* | [**post_ref_in_property_response_body_for_content_types**](docs/RefApi.md#RESPONSE_BODY_POST_REF_IN_PROPERTY_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/AdditionalPropertiesApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**](docs/AdditionalPropertiesApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/AdditionalPropertiesApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_ARE_ALLOWED_BY_DEFAULT_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](docs/AdditionalPropertiesApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_ARE_ALLOWED_BY_DEFAULT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/AdditionalPropertiesApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_CAN_EXIST_BY_ITSELF_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_can_exist_by_itself_response_body_for_content_types**](docs/AdditionalPropertiesApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_CAN_EXIST_BY_ITSELF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_should_not_look_in_applicators_request_body**](docs/AdditionalPropertiesApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_SHOULD_NOT_LOOK_IN_APPLICATORS_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesShouldNotLookInApplicatorsRequestBody | 
+*AdditionalPropertiesApi* | [**post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**](docs/AdditionalPropertiesApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_SHOULD_NOT_LOOK_IN_APPLICATORS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_combined_with_anyof_oneof_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_COMBINED_WITH_ANYOF_ONEOF_REQUEST_BODY) | **post** /requestBody/postAllofCombinedWithAnyofOneofRequestBody | 
+*AllOfApi* | [**post_allof_combined_with_anyof_oneof_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_COMBINED_WITH_ANYOF_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofCombinedWithAnyofOneofResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_REQUEST_BODY) | **post** /requestBody/postAllofRequestBody | 
+*AllOfApi* | [**post_allof_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_simple_types_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_SIMPLE_TYPES_REQUEST_BODY) | **post** /requestBody/postAllofSimpleTypesRequestBody | 
+*AllOfApi* | [**post_allof_simple_types_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_SIMPLE_TYPES_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofSimpleTypesResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_with_base_schema_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_WITH_BASE_SCHEMA_REQUEST_BODY) | **post** /requestBody/postAllofWithBaseSchemaRequestBody | 
+*AllOfApi* | [**post_allof_with_base_schema_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_WITH_BASE_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofWithBaseSchemaResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_with_one_empty_schema_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_WITH_ONE_EMPTY_SCHEMA_REQUEST_BODY) | **post** /requestBody/postAllofWithOneEmptySchemaRequestBody | 
+*AllOfApi* | [**post_allof_with_one_empty_schema_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_WITH_ONE_EMPTY_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofWithOneEmptySchemaResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_with_the_first_empty_schema_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_WITH_THE_FIRST_EMPTY_SCHEMA_REQUEST_BODY) | **post** /requestBody/postAllofWithTheFirstEmptySchemaRequestBody | 
+*AllOfApi* | [**post_allof_with_the_first_empty_schema_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_WITH_THE_FIRST_EMPTY_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofWithTheFirstEmptySchemaResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_with_the_last_empty_schema_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_WITH_THE_LAST_EMPTY_SCHEMA_REQUEST_BODY) | **post** /requestBody/postAllofWithTheLastEmptySchemaRequestBody | 
+*AllOfApi* | [**post_allof_with_the_last_empty_schema_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_WITH_THE_LAST_EMPTY_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes | 
+*AllOfApi* | [**post_allof_with_two_empty_schemas_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_ALLOF_WITH_TWO_EMPTY_SCHEMAS_REQUEST_BODY) | **post** /requestBody/postAllofWithTwoEmptySchemasRequestBody | 
+*AllOfApi* | [**post_allof_with_two_empty_schemas_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_ALLOF_WITH_TWO_EMPTY_SCHEMAS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAllofWithTwoEmptySchemasResponseBodyForContentTypes | 
+*AllOfApi* | [**post_nested_allof_to_check_validation_semantics_request_body**](docs/AllOfApi.md#REQUEST_BODY_POST_NESTED_ALLOF_TO_CHECK_VALIDATION_SEMANTICS_REQUEST_BODY) | **post** /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody | 
+*AllOfApi* | [**post_nested_allof_to_check_validation_semantics_response_body_for_content_types**](docs/AllOfApi.md#RESPONSE_BODY_POST_NESTED_ALLOF_TO_CHECK_VALIDATION_SEMANTICS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes | 
+*AnyOfApi* | [**post_anyof_complex_types_request_body**](docs/AnyOfApi.md#REQUEST_BODY_POST_ANYOF_COMPLEX_TYPES_REQUEST_BODY) | **post** /requestBody/postAnyofComplexTypesRequestBody | 
+*AnyOfApi* | [**post_anyof_complex_types_response_body_for_content_types**](docs/AnyOfApi.md#RESPONSE_BODY_POST_ANYOF_COMPLEX_TYPES_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAnyofComplexTypesResponseBodyForContentTypes | 
+*AnyOfApi* | [**post_anyof_request_body**](docs/AnyOfApi.md#REQUEST_BODY_POST_ANYOF_REQUEST_BODY) | **post** /requestBody/postAnyofRequestBody | 
+*AnyOfApi* | [**post_anyof_response_body_for_content_types**](docs/AnyOfApi.md#RESPONSE_BODY_POST_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAnyofResponseBodyForContentTypes | 
+*AnyOfApi* | [**post_anyof_with_base_schema_request_body**](docs/AnyOfApi.md#REQUEST_BODY_POST_ANYOF_WITH_BASE_SCHEMA_REQUEST_BODY) | **post** /requestBody/postAnyofWithBaseSchemaRequestBody | 
+*AnyOfApi* | [**post_anyof_with_base_schema_response_body_for_content_types**](docs/AnyOfApi.md#RESPONSE_BODY_POST_ANYOF_WITH_BASE_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAnyofWithBaseSchemaResponseBodyForContentTypes | 
+*AnyOfApi* | [**post_anyof_with_one_empty_schema_request_body**](docs/AnyOfApi.md#REQUEST_BODY_POST_ANYOF_WITH_ONE_EMPTY_SCHEMA_REQUEST_BODY) | **post** /requestBody/postAnyofWithOneEmptySchemaRequestBody | 
+*AnyOfApi* | [**post_anyof_with_one_empty_schema_response_body_for_content_types**](docs/AnyOfApi.md#RESPONSE_BODY_POST_ANYOF_WITH_ONE_EMPTY_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAnyofWithOneEmptySchemaResponseBodyForContentTypes | 
+*AnyOfApi* | [**post_nested_anyof_to_check_validation_semantics_request_body**](docs/AnyOfApi.md#REQUEST_BODY_POST_NESTED_ANYOF_TO_CHECK_VALIDATION_SEMANTICS_REQUEST_BODY) | **post** /requestBody/postNestedAnyofToCheckValidationSemanticsRequestBody | 
+*AnyOfApi* | [**post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**](docs/AnyOfApi.md#RESPONSE_BODY_POST_NESTED_ANYOF_TO_CHECK_VALIDATION_SEMANTICS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
 *ContentTypeJsonApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_ARE_ALLOWED_BY_DEFAULT_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
@@ -315,6 +302,92 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_URI_REFERENCE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_uri_template_format_request_body**](docs/ContentTypeJsonApi.md#REQUEST_BODY_POST_URI_TEMPLATE_FORMAT_REQUEST_BODY) | **post** /requestBody/postUriTemplateFormatRequestBody | 
 *ContentTypeJsonApi* | [**post_uri_template_format_response_body_for_content_types**](docs/ContentTypeJsonApi.md#RESPONSE_BODY_POST_URI_TEMPLATE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
+*DefaultApi* | [**post_invalid_string_value_for_default_request_body**](docs/DefaultApi.md#REQUEST_BODY_POST_INVALID_STRING_VALUE_FOR_DEFAULT_REQUEST_BODY) | **post** /requestBody/postInvalidStringValueForDefaultRequestBody | 
+*DefaultApi* | [**post_invalid_string_value_for_default_response_body_for_content_types**](docs/DefaultApi.md#RESPONSE_BODY_POST_INVALID_STRING_VALUE_FOR_DEFAULT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postInvalidStringValueForDefaultResponseBodyForContentTypes | 
+*DefaultApi* | [**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_request_body**](docs/DefaultApi.md#REQUEST_BODY_POST_THE_DEFAULT_KEYWORD_DOES_NOT_DO_ANYTHING_IF_THE_PROPERTY_IS_MISSING_REQUEST_BODY) | **post** /requestBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingRequestBody | 
+*DefaultApi* | [**post_the_default_keyword_does_not_do_anything_if_the_property_is_missing_response_body_for_content_types**](docs/DefaultApi.md#RESPONSE_BODY_POST_THE_DEFAULT_KEYWORD_DOES_NOT_DO_ANYTHING_IF_THE_PROPERTY_IS_MISSING_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissingResponseBodyForContentTypes | 
+*EnumApi* | [**post_enum_with0_does_not_match_false_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_ENUM_WITH0DOES_NOT_MATCH_FALSE_REQUEST_BODY) | **post** /requestBody/postEnumWith0DoesNotMatchFalseRequestBody | 
+*EnumApi* | [**post_enum_with0_does_not_match_false_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_ENUM_WITH0DOES_NOT_MATCH_FALSE_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEnumWith0DoesNotMatchFalseResponseBodyForContentTypes | 
+*EnumApi* | [**post_enum_with1_does_not_match_true_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_ENUM_WITH1DOES_NOT_MATCH_TRUE_REQUEST_BODY) | **post** /requestBody/postEnumWith1DoesNotMatchTrueRequestBody | 
+*EnumApi* | [**post_enum_with1_does_not_match_true_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_ENUM_WITH1DOES_NOT_MATCH_TRUE_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEnumWith1DoesNotMatchTrueResponseBodyForContentTypes | 
+*EnumApi* | [**post_enum_with_escaped_characters_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_ENUM_WITH_ESCAPED_CHARACTERS_REQUEST_BODY) | **post** /requestBody/postEnumWithEscapedCharactersRequestBody | 
+*EnumApi* | [**post_enum_with_escaped_characters_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_ENUM_WITH_ESCAPED_CHARACTERS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEnumWithEscapedCharactersResponseBodyForContentTypes | 
+*EnumApi* | [**post_enum_with_false_does_not_match0_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_ENUM_WITH_FALSE_DOES_NOT_MATCH0REQUEST_BODY) | **post** /requestBody/postEnumWithFalseDoesNotMatch0RequestBody | 
+*EnumApi* | [**post_enum_with_false_does_not_match0_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_ENUM_WITH_FALSE_DOES_NOT_MATCH0RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEnumWithFalseDoesNotMatch0ResponseBodyForContentTypes | 
+*EnumApi* | [**post_enum_with_true_does_not_match1_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_ENUM_WITH_TRUE_DOES_NOT_MATCH1REQUEST_BODY) | **post** /requestBody/postEnumWithTrueDoesNotMatch1RequestBody | 
+*EnumApi* | [**post_enum_with_true_does_not_match1_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_ENUM_WITH_TRUE_DOES_NOT_MATCH1RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEnumWithTrueDoesNotMatch1ResponseBodyForContentTypes | 
+*EnumApi* | [**post_enums_in_properties_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_ENUMS_IN_PROPERTIES_REQUEST_BODY) | **post** /requestBody/postEnumsInPropertiesRequestBody | 
+*EnumApi* | [**post_enums_in_properties_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_ENUMS_IN_PROPERTIES_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEnumsInPropertiesResponseBodyForContentTypes | 
+*EnumApi* | [**post_nul_characters_in_strings_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_NUL_CHARACTERS_IN_STRINGS_REQUEST_BODY) | **post** /requestBody/postNulCharactersInStringsRequestBody | 
+*EnumApi* | [**post_nul_characters_in_strings_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_NUL_CHARACTERS_IN_STRINGS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNulCharactersInStringsResponseBodyForContentTypes | 
+*EnumApi* | [**post_simple_enum_validation_request_body**](docs/EnumApi.md#REQUEST_BODY_POST_SIMPLE_ENUM_VALIDATION_REQUEST_BODY) | **post** /requestBody/postSimpleEnumValidationRequestBody | 
+*EnumApi* | [**post_simple_enum_validation_response_body_for_content_types**](docs/EnumApi.md#RESPONSE_BODY_POST_SIMPLE_ENUM_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postSimpleEnumValidationResponseBodyForContentTypes | 
+*FormatApi* | [**post_date_time_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_DATE_TIME_FORMAT_REQUEST_BODY) | **post** /requestBody/postDateTimeFormatRequestBody | 
+*FormatApi* | [**post_date_time_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_DATE_TIME_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postDateTimeFormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_email_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_EMAIL_FORMAT_REQUEST_BODY) | **post** /requestBody/postEmailFormatRequestBody | 
+*FormatApi* | [**post_email_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_EMAIL_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postEmailFormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_hostname_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_HOSTNAME_FORMAT_REQUEST_BODY) | **post** /requestBody/postHostnameFormatRequestBody | 
+*FormatApi* | [**post_hostname_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_HOSTNAME_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_ipv4_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_IPV4FORMAT_REQUEST_BODY) | **post** /requestBody/postIpv4FormatRequestBody | 
+*FormatApi* | [**post_ipv4_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_IPV4FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postIpv4FormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_ipv6_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_IPV6FORMAT_REQUEST_BODY) | **post** /requestBody/postIpv6FormatRequestBody | 
+*FormatApi* | [**post_ipv6_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_IPV6FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postIpv6FormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_json_pointer_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_JSON_POINTER_FORMAT_REQUEST_BODY) | **post** /requestBody/postJsonPointerFormatRequestBody | 
+*FormatApi* | [**post_json_pointer_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_JSON_POINTER_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postJsonPointerFormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_uri_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_URI_FORMAT_REQUEST_BODY) | **post** /requestBody/postUriFormatRequestBody | 
+*FormatApi* | [**post_uri_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_URI_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriFormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_uri_reference_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_URI_REFERENCE_FORMAT_REQUEST_BODY) | **post** /requestBody/postUriReferenceFormatRequestBody | 
+*FormatApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_URI_REFERENCE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
+*FormatApi* | [**post_uri_template_format_request_body**](docs/FormatApi.md#REQUEST_BODY_POST_URI_TEMPLATE_FORMAT_REQUEST_BODY) | **post** /requestBody/postUriTemplateFormatRequestBody | 
+*FormatApi* | [**post_uri_template_format_response_body_for_content_types**](docs/FormatApi.md#RESPONSE_BODY_POST_URI_TEMPLATE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
+*ItemsApi* | [**post_nested_items_request_body**](docs/ItemsApi.md#REQUEST_BODY_POST_NESTED_ITEMS_REQUEST_BODY) | **post** /requestBody/postNestedItemsRequestBody | 
+*ItemsApi* | [**post_nested_items_response_body_for_content_types**](docs/ItemsApi.md#RESPONSE_BODY_POST_NESTED_ITEMS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNestedItemsResponseBodyForContentTypes | 
+*MaxItemsApi* | [**post_maxitems_validation_request_body**](docs/MaxItemsApi.md#REQUEST_BODY_POST_MAXITEMS_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMaxitemsValidationRequestBody | 
+*MaxItemsApi* | [**post_maxitems_validation_response_body_for_content_types**](docs/MaxItemsApi.md#RESPONSE_BODY_POST_MAXITEMS_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMaxitemsValidationResponseBodyForContentTypes | 
+*MaxLengthApi* | [**post_maxlength_validation_request_body**](docs/MaxLengthApi.md#REQUEST_BODY_POST_MAXLENGTH_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMaxlengthValidationRequestBody | 
+*MaxLengthApi* | [**post_maxlength_validation_response_body_for_content_types**](docs/MaxLengthApi.md#RESPONSE_BODY_POST_MAXLENGTH_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMaxlengthValidationResponseBodyForContentTypes | 
+*MaxPropertiesApi* | [**post_maxproperties0_means_the_object_is_empty_request_body**](docs/MaxPropertiesApi.md#REQUEST_BODY_POST_MAXPROPERTIES0MEANS_THE_OBJECT_IS_EMPTY_REQUEST_BODY) | **post** /requestBody/postMaxproperties0MeansTheObjectIsEmptyRequestBody | 
+*MaxPropertiesApi* | [**post_maxproperties0_means_the_object_is_empty_response_body_for_content_types**](docs/MaxPropertiesApi.md#RESPONSE_BODY_POST_MAXPROPERTIES0MEANS_THE_OBJECT_IS_EMPTY_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMaxproperties0MeansTheObjectIsEmptyResponseBodyForContentTypes | 
+*MaxPropertiesApi* | [**post_maxproperties_validation_request_body**](docs/MaxPropertiesApi.md#REQUEST_BODY_POST_MAXPROPERTIES_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMaxpropertiesValidationRequestBody | 
+*MaxPropertiesApi* | [**post_maxproperties_validation_response_body_for_content_types**](docs/MaxPropertiesApi.md#RESPONSE_BODY_POST_MAXPROPERTIES_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMaxpropertiesValidationResponseBodyForContentTypes | 
+*MaximumApi* | [**post_maximum_validation_request_body**](docs/MaximumApi.md#REQUEST_BODY_POST_MAXIMUM_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMaximumValidationRequestBody | 
+*MaximumApi* | [**post_maximum_validation_response_body_for_content_types**](docs/MaximumApi.md#RESPONSE_BODY_POST_MAXIMUM_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMaximumValidationResponseBodyForContentTypes | 
+*MaximumApi* | [**post_maximum_validation_with_unsigned_integer_request_body**](docs/MaximumApi.md#REQUEST_BODY_POST_MAXIMUM_VALIDATION_WITH_UNSIGNED_INTEGER_REQUEST_BODY) | **post** /requestBody/postMaximumValidationWithUnsignedIntegerRequestBody | 
+*MaximumApi* | [**post_maximum_validation_with_unsigned_integer_response_body_for_content_types**](docs/MaximumApi.md#RESPONSE_BODY_POST_MAXIMUM_VALIDATION_WITH_UNSIGNED_INTEGER_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMaximumValidationWithUnsignedIntegerResponseBodyForContentTypes | 
+*MinItemsApi* | [**post_minitems_validation_request_body**](docs/MinItemsApi.md#REQUEST_BODY_POST_MINITEMS_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMinitemsValidationRequestBody | 
+*MinItemsApi* | [**post_minitems_validation_response_body_for_content_types**](docs/MinItemsApi.md#RESPONSE_BODY_POST_MINITEMS_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMinitemsValidationResponseBodyForContentTypes | 
+*MinLengthApi* | [**post_minlength_validation_request_body**](docs/MinLengthApi.md#REQUEST_BODY_POST_MINLENGTH_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMinlengthValidationRequestBody | 
+*MinLengthApi* | [**post_minlength_validation_response_body_for_content_types**](docs/MinLengthApi.md#RESPONSE_BODY_POST_MINLENGTH_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMinlengthValidationResponseBodyForContentTypes | 
+*MinPropertiesApi* | [**post_minproperties_validation_request_body**](docs/MinPropertiesApi.md#REQUEST_BODY_POST_MINPROPERTIES_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMinpropertiesValidationRequestBody | 
+*MinPropertiesApi* | [**post_minproperties_validation_response_body_for_content_types**](docs/MinPropertiesApi.md#RESPONSE_BODY_POST_MINPROPERTIES_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMinpropertiesValidationResponseBodyForContentTypes | 
+*MinimumApi* | [**post_minimum_validation_request_body**](docs/MinimumApi.md#REQUEST_BODY_POST_MINIMUM_VALIDATION_REQUEST_BODY) | **post** /requestBody/postMinimumValidationRequestBody | 
+*MinimumApi* | [**post_minimum_validation_response_body_for_content_types**](docs/MinimumApi.md#RESPONSE_BODY_POST_MINIMUM_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMinimumValidationResponseBodyForContentTypes | 
+*MinimumApi* | [**post_minimum_validation_with_signed_integer_request_body**](docs/MinimumApi.md#REQUEST_BODY_POST_MINIMUM_VALIDATION_WITH_SIGNED_INTEGER_REQUEST_BODY) | **post** /requestBody/postMinimumValidationWithSignedIntegerRequestBody | 
+*MinimumApi* | [**post_minimum_validation_with_signed_integer_response_body_for_content_types**](docs/MinimumApi.md#RESPONSE_BODY_POST_MINIMUM_VALIDATION_WITH_SIGNED_INTEGER_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postMinimumValidationWithSignedIntegerResponseBodyForContentTypes | 
+*MultipleOfApi* | [**post_by_int_request_body**](docs/MultipleOfApi.md#REQUEST_BODY_POST_BY_INT_REQUEST_BODY) | **post** /requestBody/postByIntRequestBody | 
+*MultipleOfApi* | [**post_by_int_response_body_for_content_types**](docs/MultipleOfApi.md#RESPONSE_BODY_POST_BY_INT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postByIntResponseBodyForContentTypes | 
+*MultipleOfApi* | [**post_by_number_request_body**](docs/MultipleOfApi.md#REQUEST_BODY_POST_BY_NUMBER_REQUEST_BODY) | **post** /requestBody/postByNumberRequestBody | 
+*MultipleOfApi* | [**post_by_number_response_body_for_content_types**](docs/MultipleOfApi.md#RESPONSE_BODY_POST_BY_NUMBER_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postByNumberResponseBodyForContentTypes | 
+*MultipleOfApi* | [**post_by_small_number_request_body**](docs/MultipleOfApi.md#REQUEST_BODY_POST_BY_SMALL_NUMBER_REQUEST_BODY) | **post** /requestBody/postBySmallNumberRequestBody | 
+*MultipleOfApi* | [**post_by_small_number_response_body_for_content_types**](docs/MultipleOfApi.md#RESPONSE_BODY_POST_BY_SMALL_NUMBER_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postBySmallNumberResponseBodyForContentTypes | 
+*MultipleOfApi* | [**post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**](docs/MultipleOfApi.md#REQUEST_BODY_POST_INVALID_INSTANCE_SHOULD_NOT_RAISE_ERROR_WHEN_FLOAT_DIVISION_INF_REQUEST_BODY) | **post** /requestBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfRequestBody | 
+*MultipleOfApi* | [**post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**](docs/MultipleOfApi.md#RESPONSE_BODY_POST_INVALID_INSTANCE_SHOULD_NOT_RAISE_ERROR_WHEN_FLOAT_DIVISION_INF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes | 
+*ModelNotApi* | [**post_forbidden_property_request_body**](docs/ModelNotApi.md#REQUEST_BODY_POST_FORBIDDEN_PROPERTY_REQUEST_BODY) | **post** /requestBody/postForbiddenPropertyRequestBody | 
+*ModelNotApi* | [**post_forbidden_property_response_body_for_content_types**](docs/ModelNotApi.md#RESPONSE_BODY_POST_FORBIDDEN_PROPERTY_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
+*ModelNotApi* | [**post_not_more_complex_schema_request_body**](docs/ModelNotApi.md#REQUEST_BODY_POST_NOT_MORE_COMPLEX_SCHEMA_REQUEST_BODY) | **post** /requestBody/postNotMoreComplexSchemaRequestBody | 
+*ModelNotApi* | [**post_not_more_complex_schema_response_body_for_content_types**](docs/ModelNotApi.md#RESPONSE_BODY_POST_NOT_MORE_COMPLEX_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes | 
+*ModelNotApi* | [**post_not_request_body**](docs/ModelNotApi.md#REQUEST_BODY_POST_NOT_REQUEST_BODY) | **post** /requestBody/postNotRequestBody | 
+*ModelNotApi* | [**post_not_response_body_for_content_types**](docs/ModelNotApi.md#RESPONSE_BODY_POST_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNotResponseBodyForContentTypes | 
+*OneOfApi* | [**post_nested_oneof_to_check_validation_semantics_request_body**](docs/OneOfApi.md#REQUEST_BODY_POST_NESTED_ONEOF_TO_CHECK_VALIDATION_SEMANTICS_REQUEST_BODY) | **post** /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody | 
+*OneOfApi* | [**post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**](docs/OneOfApi.md#RESPONSE_BODY_POST_NESTED_ONEOF_TO_CHECK_VALIDATION_SEMANTICS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes | 
+*OneOfApi* | [**post_oneof_complex_types_request_body**](docs/OneOfApi.md#REQUEST_BODY_POST_ONEOF_COMPLEX_TYPES_REQUEST_BODY) | **post** /requestBody/postOneofComplexTypesRequestBody | 
+*OneOfApi* | [**post_oneof_complex_types_response_body_for_content_types**](docs/OneOfApi.md#RESPONSE_BODY_POST_ONEOF_COMPLEX_TYPES_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postOneofComplexTypesResponseBodyForContentTypes | 
+*OneOfApi* | [**post_oneof_request_body**](docs/OneOfApi.md#REQUEST_BODY_POST_ONEOF_REQUEST_BODY) | **post** /requestBody/postOneofRequestBody | 
+*OneOfApi* | [**post_oneof_response_body_for_content_types**](docs/OneOfApi.md#RESPONSE_BODY_POST_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postOneofResponseBodyForContentTypes | 
+*OneOfApi* | [**post_oneof_with_base_schema_request_body**](docs/OneOfApi.md#REQUEST_BODY_POST_ONEOF_WITH_BASE_SCHEMA_REQUEST_BODY) | **post** /requestBody/postOneofWithBaseSchemaRequestBody | 
+*OneOfApi* | [**post_oneof_with_base_schema_response_body_for_content_types**](docs/OneOfApi.md#RESPONSE_BODY_POST_ONEOF_WITH_BASE_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes | 
+*OneOfApi* | [**post_oneof_with_empty_schema_request_body**](docs/OneOfApi.md#REQUEST_BODY_POST_ONEOF_WITH_EMPTY_SCHEMA_REQUEST_BODY) | **post** /requestBody/postOneofWithEmptySchemaRequestBody | 
+*OneOfApi* | [**post_oneof_with_empty_schema_response_body_for_content_types**](docs/OneOfApi.md#RESPONSE_BODY_POST_ONEOF_WITH_EMPTY_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes | 
 *OperationRequestBodyApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody | 
 *OperationRequestBodyApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_ARE_ALLOWED_BY_DEFAULT_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
 *OperationRequestBodyApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/OperationRequestBodyApi.md#REQUEST_BODY_POST_ADDITIONALPROPERTIES_CAN_EXIST_BY_ITSELF_REQUEST_BODY) | **post** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
@@ -567,6 +640,20 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/PathPostApi.md#RESPONSE_BODY_POST_URI_REFERENCE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
 *PathPostApi* | [**post_uri_template_format_request_body**](docs/PathPostApi.md#REQUEST_BODY_POST_URI_TEMPLATE_FORMAT_REQUEST_BODY) | **post** /requestBody/postUriTemplateFormatRequestBody | 
 *PathPostApi* | [**post_uri_template_format_response_body_for_content_types**](docs/PathPostApi.md#RESPONSE_BODY_POST_URI_TEMPLATE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
+*PatternApi* | [**post_pattern_is_not_anchored_request_body**](docs/PatternApi.md#REQUEST_BODY_POST_PATTERN_IS_NOT_ANCHORED_REQUEST_BODY) | **post** /requestBody/postPatternIsNotAnchoredRequestBody | 
+*PatternApi* | [**post_pattern_is_not_anchored_response_body_for_content_types**](docs/PatternApi.md#RESPONSE_BODY_POST_PATTERN_IS_NOT_ANCHORED_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes | 
+*PatternApi* | [**post_pattern_validation_request_body**](docs/PatternApi.md#REQUEST_BODY_POST_PATTERN_VALIDATION_REQUEST_BODY) | **post** /requestBody/postPatternValidationRequestBody | 
+*PatternApi* | [**post_pattern_validation_response_body_for_content_types**](docs/PatternApi.md#RESPONSE_BODY_POST_PATTERN_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postPatternValidationResponseBodyForContentTypes | 
+*PropertiesApi* | [**post_object_properties_validation_request_body**](docs/PropertiesApi.md#REQUEST_BODY_POST_OBJECT_PROPERTIES_VALIDATION_REQUEST_BODY) | **post** /requestBody/postObjectPropertiesValidationRequestBody | 
+*PropertiesApi* | [**post_object_properties_validation_response_body_for_content_types**](docs/PropertiesApi.md#RESPONSE_BODY_POST_OBJECT_PROPERTIES_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postObjectPropertiesValidationResponseBodyForContentTypes | 
+*PropertiesApi* | [**post_properties_with_escaped_characters_request_body**](docs/PropertiesApi.md#REQUEST_BODY_POST_PROPERTIES_WITH_ESCAPED_CHARACTERS_REQUEST_BODY) | **post** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
+*PropertiesApi* | [**post_properties_with_escaped_characters_response_body_for_content_types**](docs/PropertiesApi.md#RESPONSE_BODY_POST_PROPERTIES_WITH_ESCAPED_CHARACTERS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
+*RequiredApi* | [**post_required_default_validation_request_body**](docs/RequiredApi.md#REQUEST_BODY_POST_REQUIRED_DEFAULT_VALIDATION_REQUEST_BODY) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
+*RequiredApi* | [**post_required_default_validation_response_body_for_content_types**](docs/RequiredApi.md#RESPONSE_BODY_POST_REQUIRED_DEFAULT_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
+*RequiredApi* | [**post_required_validation_request_body**](docs/RequiredApi.md#REQUEST_BODY_POST_REQUIRED_VALIDATION_REQUEST_BODY) | **post** /requestBody/postRequiredValidationRequestBody | 
+*RequiredApi* | [**post_required_validation_response_body_for_content_types**](docs/RequiredApi.md#RESPONSE_BODY_POST_REQUIRED_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRequiredValidationResponseBodyForContentTypes | 
+*RequiredApi* | [**post_required_with_empty_array_request_body**](docs/RequiredApi.md#REQUEST_BODY_POST_REQUIRED_WITH_EMPTY_ARRAY_REQUEST_BODY) | **post** /requestBody/postRequiredWithEmptyArrayRequestBody | 
+*RequiredApi* | [**post_required_with_empty_array_response_body_for_content_types**](docs/RequiredApi.md#RESPONSE_BODY_POST_REQUIRED_WITH_EMPTY_ARRAY_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_ARE_ALLOWED_BY_DEFAULT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_additionalproperties_can_exist_by_itself_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_ADDITIONALPROPERTIES_CAN_EXIST_BY_ITSELF_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postAdditionalpropertiesCanExistByItselfResponseBodyForContentTypes | 
@@ -651,6 +738,24 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_uri_format_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_URI_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_URI_REFERENCE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_uri_template_format_response_body_for_content_types**](docs/ResponseContentContentTypeSchemaApi.md#RESPONSE_BODY_POST_URI_TEMPLATE_FORMAT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
+*TypeApi* | [**post_array_type_matches_arrays_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_ARRAY_TYPE_MATCHES_ARRAYS_REQUEST_BODY) | **post** /requestBody/postArrayTypeMatchesArraysRequestBody | 
+*TypeApi* | [**post_array_type_matches_arrays_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_ARRAY_TYPE_MATCHES_ARRAYS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes | 
+*TypeApi* | [**post_boolean_type_matches_booleans_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_BOOLEAN_TYPE_MATCHES_BOOLEANS_REQUEST_BODY) | **post** /requestBody/postBooleanTypeMatchesBooleansRequestBody | 
+*TypeApi* | [**post_boolean_type_matches_booleans_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_BOOLEAN_TYPE_MATCHES_BOOLEANS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postBooleanTypeMatchesBooleansResponseBodyForContentTypes | 
+*TypeApi* | [**post_integer_type_matches_integers_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_INTEGER_TYPE_MATCHES_INTEGERS_REQUEST_BODY) | **post** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
+*TypeApi* | [**post_integer_type_matches_integers_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_INTEGER_TYPE_MATCHES_INTEGERS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes | 
+*TypeApi* | [**post_null_type_matches_only_the_null_object_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_NULL_TYPE_MATCHES_ONLY_THE_NULL_OBJECT_REQUEST_BODY) | **post** /requestBody/postNullTypeMatchesOnlyTheNullObjectRequestBody | 
+*TypeApi* | [**post_null_type_matches_only_the_null_object_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_NULL_TYPE_MATCHES_ONLY_THE_NULL_OBJECT_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNullTypeMatchesOnlyTheNullObjectResponseBodyForContentTypes | 
+*TypeApi* | [**post_number_type_matches_numbers_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_NUMBER_TYPE_MATCHES_NUMBERS_REQUEST_BODY) | **post** /requestBody/postNumberTypeMatchesNumbersRequestBody | 
+*TypeApi* | [**post_number_type_matches_numbers_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_NUMBER_TYPE_MATCHES_NUMBERS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postNumberTypeMatchesNumbersResponseBodyForContentTypes | 
+*TypeApi* | [**post_object_type_matches_objects_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_OBJECT_TYPE_MATCHES_OBJECTS_REQUEST_BODY) | **post** /requestBody/postObjectTypeMatchesObjectsRequestBody | 
+*TypeApi* | [**post_object_type_matches_objects_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_OBJECT_TYPE_MATCHES_OBJECTS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postObjectTypeMatchesObjectsResponseBodyForContentTypes | 
+*TypeApi* | [**post_string_type_matches_strings_request_body**](docs/TypeApi.md#REQUEST_BODY_POST_STRING_TYPE_MATCHES_STRINGS_REQUEST_BODY) | **post** /requestBody/postStringTypeMatchesStringsRequestBody | 
+*TypeApi* | [**post_string_type_matches_strings_response_body_for_content_types**](docs/TypeApi.md#RESPONSE_BODY_POST_STRING_TYPE_MATCHES_STRINGS_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes | 
+*UniqueItemsApi* | [**post_uniqueitems_false_validation_request_body**](docs/UniqueItemsApi.md#REQUEST_BODY_POST_UNIQUEITEMS_FALSE_VALIDATION_REQUEST_BODY) | **post** /requestBody/postUniqueitemsFalseValidationRequestBody | 
+*UniqueItemsApi* | [**post_uniqueitems_false_validation_response_body_for_content_types**](docs/UniqueItemsApi.md#RESPONSE_BODY_POST_UNIQUEITEMS_FALSE_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUniqueitemsFalseValidationResponseBodyForContentTypes | 
+*UniqueItemsApi* | [**post_uniqueitems_validation_request_body**](docs/UniqueItemsApi.md#REQUEST_BODY_POST_UNIQUEITEMS_VALIDATION_REQUEST_BODY) | **post** /requestBody/postUniqueitemsValidationRequestBody | 
+*UniqueItemsApi* | [**post_uniqueitems_validation_response_body_for_content_types**](docs/UniqueItemsApi.md#RESPONSE_BODY_POST_UNIQUEITEMS_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES) | **post** /responseBody/postUniqueitemsValidationResponseBodyForContentTypes | 
 
 ## Documentation For Models
 
@@ -743,6 +848,30 @@ Class | Method | HTTP request | Description
  All endpoints do not require authorization.
 
 ## Author
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
