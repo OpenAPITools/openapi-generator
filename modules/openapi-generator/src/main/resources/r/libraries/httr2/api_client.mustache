@@ -189,34 +189,29 @@ ApiClient  <- R6::R6Class(
     #' @export
     Execute = function(url, method, query_params, header_params, form_params, file_params,
                        accepts, content_types, body, stream_callback = NULL, ...) {
+      # set the URL
       req <- request(url)
 
-      ## add headers and default headers
-      if (!is.null(header_params) && length(header_params) != 0) {
-        req <- req %>% req_headers(!!!header_params)
-      }
-      if (!is.null(self$default_headers) && length(self$default_headers) != 0) {
-        req <- req %>% req_headers(!!!self$default_headers)
-      }
+      ## add headers
+      req <- req %>% req_headers(!!!header_params)
+
+      ## add default headers
+      req <- req %>% req_headers(!!!self$default_headers)
 
       # set HTTP accept header
-      accept = self$select_header(accepts)
+      accept <- self$select_header(accepts)
       if (!is.null(accept)) {
         req <- req %>% req_headers("Accept" = accept)
       }
 
       # set HTTP content-type header
-      content_type = self$select_header(content_types)
+      content_type <- self$select_header(content_types)
       if (!is.null(content_type)) {
         req <- req %>% req_headers("Content-Type" = content_type)
       }
 
       ## add query parameters
-      if (length(query_params) != 0) {
-        for (query_param in names(query_params)) {
-          req <- req %>% req_url_query(query_param = query_params[query_param])
-        }
-      }
+      req <- req %>% req_url_query(!!!query_params)
 
       # has file upload?
       if (!is.null(file_params) && length(file_params) != 0) {
