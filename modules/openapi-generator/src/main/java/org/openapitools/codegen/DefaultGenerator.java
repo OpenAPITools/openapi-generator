@@ -1269,7 +1269,7 @@ public class DefaultGenerator implements Generator {
                      operations.add(singleContentTypeOperation);
                  }
                  else{
-                     LOGGER.warn(contentTypeName + " in operation Id: " + operation.getOperationId() + "doesn't have a related content type! \b SKIP! "  );
+                     LOGGER.warn(contentTypeName + " in operation Id: " + operation.getOperationId() + "doesn't have a related content type! \n SKIP! "  );
                  }
                 }
                 else {
