@@ -1,4 +1,4 @@
-use Test::More tests => 59;
+use Test::More tests => 57;
 use Test::Exception;
 
 use lib 'lib';
@@ -190,9 +190,5 @@ my %undef_test_order_data = (
     id     => undef,
     status => undef,
 );
-my $undef_test_order = WWW::OpenAPIClient::Object::Order->new->from_hash(\%order_data);
-is ref($undef_test_order->ship_date), 'DateTime';
-
-my $undef_test_order_to_json = JSON->new->convert_blessed->encode($order);
-like $undef_test_order_to_json, qr/123/, '$order{id} is string. But, json type is number';
-unlike $undef_test_order_to_json, qr/"123"/, '$order{id} is string. But, json type is number';
+my $undef_test_order = WWW::OpenAPIClient::Object::Order->new->from_hash(\%undef_test_order_data);
+lives_ok { JSON->new->convert_blessed->encode($undef_test_order) };
