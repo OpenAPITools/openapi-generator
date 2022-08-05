@@ -30,14 +30,15 @@ var_user <- User$new(123, "username_example", "firstName_example", "lastName_exa
 #Create user
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
 result <- tryCatch(
              api_instance$CreateUser(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `CreateUser`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -88,14 +89,15 @@ var_user <- list(User$new(123, "username_example", "firstName_example", "lastNam
 #Creates list of users with given input array
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
 result <- tryCatch(
              api_instance$CreateUsersWithArrayInput(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `CreateUsersWithArrayInput`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -146,14 +148,15 @@ var_user <- list(User$new(123, "username_example", "firstName_example", "lastNam
 #Creates list of users with given input array
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
 result <- tryCatch(
              api_instance$CreateUsersWithListInput(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `CreateUsersWithListInput`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -204,14 +207,15 @@ var_username <- "username_example" # character | The name that needs to be delet
 #Delete user
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
 result <- tryCatch(
              api_instance$DeleteUser(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `DeleteUser`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -270,7 +274,8 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `GetUserByName`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -333,7 +338,8 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `LoginUser`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -387,14 +393,15 @@ library(petstore)
 #Logs out current logged in user session
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
 result <- tryCatch(
              api_instance$LogoutUser(),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `LogoutUser`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
@@ -443,14 +450,15 @@ var_user <- User$new(123, "username_example", "firstName_example", "lastName_exa
 #Updated user
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
 result <- tryCatch(
              api_instance$UpdateUser(var_username, var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `UpdateUser`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
