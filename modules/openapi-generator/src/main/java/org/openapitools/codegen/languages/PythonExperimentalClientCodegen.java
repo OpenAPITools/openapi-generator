@@ -1687,13 +1687,15 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     private void addSchemaToIncludedSchemaList(List<Schema> includedSchemas, Schema schema) {
 
-        // if the schema is in the list, then throw an exception.
-        // this should never happen
         if(includedSchemas.contains(schema)) {
-            throw new RuntimeException("Attempted to add a schema to the includedSchemas list twice");
+            String title = schema.getTitle();
+            if(title == null && schema instanceof ArraySchema) {
+                title = "Array<" + ((ArraySchema) schema).getItems().get$ref() + ">";
+            }
+            LOGGER.warn("Attempted to add a schema " + title + " to the includedSchemas list twice");
+        } else {
+            includedSchemas.add(schema);
         }
-
-        includedSchemas.add(schema);
     }
 
     /***
@@ -2035,34 +2037,56 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
+
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
         }
 
-        String example = fullPrefix + "\n";
+        if(includedSchemas.contains(schema)) {
+            return "";
+        } else {
 
-        addSchemaToIncludedSchemaList(includedSchemas, schema);
 
-        for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
-            String propName = entry.getKey();
-            Schema propSchema = entry.getValue();
-            propName = toVarName(propName);
-            String propModelName = null;
-            Object propExample = null;
-            if (discProp != null && propName.equals(discProp.name)) {
-                propModelName = null;
-                propExample = discProp.example;
-            } else {
-                propModelName = getModelName(propSchema);
-                propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
+            String example = fullPrefix + "\n";
+
+            addSchemaToIncludedSchemaList(
+                    includedSchemas,
+                    schema);
+
+            for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
+                String propName = entry.getKey();
+                Schema propSchema = entry.getValue();
+                propName = toVarName(propName);
+                String propModelName = null;
+                Object propExample = null;
+                if (discProp != null && propName.equals(discProp.name)) {
+                    propModelName = null;
+                    propExample = discProp.example;
+                } else {
+                    propModelName = getModelName(propSchema);
+                    propExample = exampleFromStringOrArraySchema(
+                            propSchema,
+                            null,
+                            propName);
+                }
+
+                example += toExampleValueRecursive(propModelName,
+                                                   propSchema,
+                                                   propExample,
+                                                   indentationLevel + 1,
+                                                   propName + "=",
+                                                   exampleLine + 1,
+                                                   includedSchemas) + ",\n";
             }
 
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
+            // TODO handle additionalProperties also
+            example += closingIndentation + closeChars;
+            return example;
+
         }
-        // TODO handle additionalProperties also
-        example += closingIndentation + closeChars;
-        return example;
+
+
     }
 
     private Object exampleFromStringOrArraySchema(Schema sc, Object currentExample, String propName) {
