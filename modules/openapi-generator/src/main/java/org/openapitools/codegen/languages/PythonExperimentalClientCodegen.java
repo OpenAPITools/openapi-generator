@@ -999,6 +999,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }

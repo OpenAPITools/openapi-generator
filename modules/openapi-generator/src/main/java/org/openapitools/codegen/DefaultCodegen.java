@@ -7141,7 +7141,9 @@ public class DefaultCodegen implements CodegenConfig {
                         throw new RuntimeException("additionalProperties is unset and should be set in" + schema.toString());
                     }
                     CodegenProperty cp;
-                    if (schema.getAdditionalProperties() == null || schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                    if (schema.getAdditionalProperties() == null) {
+                        cp = fromProperty(requiredPropertyName, new Schema());
+                    } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                         cp = fromProperty(requiredPropertyName, new Schema());
                     } else {
                         cp = fromProperty(requiredPropertyName, (Schema) schema.getAdditionalProperties());
