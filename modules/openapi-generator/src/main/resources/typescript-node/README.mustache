@@ -59,7 +59,7 @@ import localName = require('./symlinkDir')';
 
 The default url is our production url, you can change it to staging url via
 ``` typescript
-let apisInSameTags = new apis.apisInSameTags(STAGING_URL)
+const apisInSameTags = new apis.apisInSameTags(STAGING_URL)
 ```
 
 
@@ -70,18 +70,18 @@ import * as apis from './api/apis';
 const YOUR_TOKEN = "YOUR_TOKEN"
 const STAGING_URL = "https://api.segmentapis.build"
 
-let getWorkspace =  async()=>{
-let workspace = new apis.WorkspacesApi(STAGING_URL)
+const getWorkspace =  async()=>{
+const workspace = new apis.WorkspacesApi(STAGING_URL)
 workspace.accessToken = YOUR_TOKEN;
-let result = await workspace.getWorkspaceV1({})
+const result = await workspace.getWorkspaceV1({})
 console.log(result.body)
 }
 
-let testEcho =  async()=>{
-let echoApi = new apis.TestingApi()
+const testEcho =  async()=>{
+const echoApi = new apis.TestingApi()
 echoApi.accessToken = YOUR_TOKEN;
 const echoAlphaInput: EchoAlphaInput = { message: 'Hello, World!' }
-let result = await echoApi.echoV1(echoAlphaInput)
+const result = await echoApi.echoV1(echoAlphaInput)
 console.log(result.body)
 }
 
@@ -111,10 +111,10 @@ console.log(result.body)
 
             ```typescript
 
-            let getWorkspace =  async()=>{
-            let workspaceAPIs = new api.WorkspacesAPIs()
+            const getWorkspace =  async()=>{
+            const workspaceAPIs = new api.WorkspacesAPIs()
             workspace.accessToken = 'YOUR_TOKEN';
-            let result = await workspaceAPIs.getWorkspace()
+            const result = await workspaceAPIs.getWorkspace()
             console.log(result.body)
             }
             ```
@@ -126,9 +126,9 @@ console.log(result.body)
             Example
 
             ```typescript
-            let getWorkspace =  async()=>{
-            let workspaceAPIs = new api.WorkspacesAPIs('YOUR_USERNAME','YOUR_PASSWORD')
-            let result = await workspaceAPIs.getWorkspace()
+            const getWorkspace =  async()=>{
+            const workspaceAPIs = new api.WorkspacesAPIs('YOUR_USERNAME','YOUR_PASSWORD')
+            const result = await workspaceAPIs.getWorkspace()
             console.log(result.body)
             }
             ```
@@ -156,7 +156,4 @@ Class | Method | HTTP request | Description
 
 
 
-## Author
 
-{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
-{{/-last}}{{/apis}}{{/apiInfo}}
