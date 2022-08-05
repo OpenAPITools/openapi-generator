@@ -1251,6 +1251,7 @@ public class DefaultGenerator implements Generator {
         List<Operation> operations = new ArrayList<>();
         String methodResponseCodeWithMultipleContentTypes = DefaultCodegen.findMethodResponseCode(apiResponses);
         Content methodResponseAllContentTypes = methodResponse.getContent();
+        String preContentTypeName = "";
         for (String contentTypeName : methodResponseAllContentTypes.keySet()) {
             MediaType contentType = methodResponseAllContentTypes.get(contentTypeName);
             String version = findVersionName(contentTypeName);
@@ -1259,7 +1260,18 @@ public class DefaultGenerator implements Generator {
                 operations.add(singleContentTypeOperation);
             }
             else {
-                if (operation.getRequestBody().getContent().get(contentTypeName) == null) continue;
+                if (operation.getRequestBody().getContent().get(contentTypeName) == null) {
+                 if( contentTypeName == "application/json"){
+                     contentTypeName = preContentTypeName;
+                     Operation singleContentTypeOperation = getSingleContentTypeOperation(operation, apiResponses, methodResponse, methodResponseCodeWithMultipleContentTypes, contentTypeName, contentType, version);
+                     RequestBody singleContentRequestBody = getSingleRequestBody(operation, contentTypeName);
+                     singleContentTypeOperation.setRequestBody(singleContentRequestBody);
+                     operations.add(singleContentTypeOperation);
+                 }
+                 else{
+                     LOGGER.warn(contentTypeName + " in operation Id: " + operation.getOperationId() + "doesn't have a related content type! \b SKIP! "  );
+                 }
+                }
                 else {
                     Operation singleContentTypeOperation = getSingleContentTypeOperation(operation, apiResponses, methodResponse, methodResponseCodeWithMultipleContentTypes, contentTypeName, contentType, version);
                     RequestBody singleContentRequestBody = getSingleRequestBody(operation, contentTypeName);
@@ -1267,6 +1279,7 @@ public class DefaultGenerator implements Generator {
                     operations.add(singleContentTypeOperation);
                 }
             }
+            preContentTypeName = contentTypeName;
         }
         return operations;
     }
@@ -1304,11 +1317,11 @@ public class DefaultGenerator implements Generator {
         return copy;
     }
 
-    private static RequestBody getSingleRequestBody(Operation operation, String version) {
+    private static RequestBody getSingleRequestBody(Operation operation, String contentTypeName) {
         RequestBody requestBody = operation.getRequestBody();
-        MediaType mediaType = requestBody.getContent().get(version);
+        MediaType mediaType = requestBody.getContent().get(contentTypeName);
         Content contentTypeWithSingeValue = new Content();
-        contentTypeWithSingeValue.addMediaType(version, mediaType);
+        contentTypeWithSingeValue.addMediaType(contentTypeName, mediaType);
         RequestBody requestBodywithSingleContent = new RequestBody();
         requestBodywithSingleContent.set$ref(requestBody.get$ref());
         requestBodywithSingleContent.setDescription(requestBody.getDescription());
@@ -1673,13 +1686,12 @@ public class DefaultGenerator implements Generator {
     }
 
     private String findVersionName(String typeName){
-        Pattern p = Pattern.compile("(segment.)(.*)(\\+json)");
-        Matcher m = p.matcher(typeName);
-        if(m.find())
-        {
-            return m.group(2);
-        }
-        else return "Latest";
+        Pattern p1 = Pattern.compile("(segment.v\\d)(.+)(\\+json)");
+        Pattern p2 = Pattern.compile("(segment.)(v\\d)(\\+json)");
+        Matcher m1 = p1.matcher(typeName);
+        Matcher m2 = p2.matcher(typeName);
+        if(m2.find()) return m2.group(2);
+        else if (m1.find())return m1.group(2);
+        else return "Current";
     }
-
 }
