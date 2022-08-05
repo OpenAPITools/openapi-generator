@@ -1,0 +1,21 @@
+{
+  "name": "{{{npmName}}}",
+  "version": "{{{npmVersion}}}",
+  "description": "Typescript model of {{{npmName}}}",
+  "author": "padoa",
+  "keywords": [
+    "padoa"
+  ],"main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "Private",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "{{{tsVersion}}}",
+  }{{#npmRepository}},
+  "publishConfig": {
+    "registry": "{{{npmRepository}}}"
+  }
+{{/npmRepository}}
+}

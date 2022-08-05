@@ -1,0 +1,4 @@
+generatorName: typescript-model
+outputDir: samples/client/petstore/typescript-model
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+additionalProperties:
