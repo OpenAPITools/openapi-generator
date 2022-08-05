@@ -29,20 +29,22 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * UserTest Class Doc Comment
  *
- * @category    Class */
-// * @description A User who is purchasing from the pet store
-/**
+ * @category    Class
+ * @description A User who is purchasing from the pet store
  * @package     OpenAPI\Server\Tests\Model
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
+ * @coversDefaultClass \OpenAPI\Server\Model\User
  */
 class UserTest extends TestCase
 {
+    protected User|MockObject $object;
 
     /**
      * Setup before running any test case
@@ -56,6 +58,7 @@ class UserTest extends TestCase
      */
     public function setUp(): void
     {
+         $this->object = $this->getMockBuilder(User::class)->getMockForAbstractClass();
     }
 
     /**
@@ -73,66 +76,100 @@ class UserTest extends TestCase
     }
 
     /**
-     * Test "User"
+     * @group integration
+     * @small
      */
-    public function testUser()
+    public function testTestClassExists(): void
     {
-        $testUser = new User();
+        $this->assertTrue(class_exists(User::class));
+        $this->assertInstanceOf(User::class, $this->object);
     }
 
     /**
      * Test attribute "id"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyId()
+    public function testPropertyId(): void
     {
+        $this->markTestSkipped('Test for property id not implemented');
     }
 
     /**
      * Test attribute "username"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyUsername()
+    public function testPropertyUsername(): void
     {
+        $this->markTestSkipped('Test for property username not implemented');
     }
 
     /**
      * Test attribute "firstName"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyFirstName()
+    public function testPropertyFirstName(): void
     {
+        $this->markTestSkipped('Test for property firstName not implemented');
     }
 
     /**
      * Test attribute "lastName"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyLastName()
+    public function testPropertyLastName(): void
     {
+        $this->markTestSkipped('Test for property lastName not implemented');
     }
 
     /**
      * Test attribute "email"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyEmail()
+    public function testPropertyEmail(): void
     {
+        $this->markTestSkipped('Test for property email not implemented');
     }
 
     /**
      * Test attribute "password"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyPassword()
+    public function testPropertyPassword(): void
     {
+        $this->markTestSkipped('Test for property password not implemented');
     }
 
     /**
      * Test attribute "phone"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyPhone()
+    public function testPropertyPhone(): void
     {
+        $this->markTestSkipped('Test for property phone not implemented');
     }
 
     /**
      * Test attribute "userStatus"
+     *
+     * @group unit
+     * @small
      */
-    public function testPropertyUserStatus()
+    public function testPropertyUserStatus(): void
     {
+        $this->markTestSkipped('Test for property userStatus not implemented');
     }
 }

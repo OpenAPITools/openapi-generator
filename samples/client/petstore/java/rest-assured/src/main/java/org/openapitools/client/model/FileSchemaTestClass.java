@@ -43,7 +43,7 @@ public class FileSchemaTestClass {
   @SerializedName(SERIALIZED_NAME_FILES)
   private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {

@@ -42,7 +42,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#with apiInfo}}{{#each apis}}{{#with operations}}{{#each operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
+{{#with apiInfo}}{{#each apis}}{{#with operations}}{{#each operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
 {{/each}}{{/with}}{{/each}}{{/with}}
 
 ## Documentation For Models

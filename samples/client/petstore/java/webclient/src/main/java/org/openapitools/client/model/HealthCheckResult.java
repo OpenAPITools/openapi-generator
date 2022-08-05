@@ -41,7 +41,7 @@ public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
-  public HealthCheckResult() { 
+  public HealthCheckResult() {
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {

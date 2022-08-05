@@ -157,6 +157,26 @@ public class InlineModelResolver {
      * @param schema target schema
      */
     private boolean isModelNeeded(Schema schema) {
+        return isModelNeeded(schema, new HashSet<>());
+    }
+
+    /**
+     * Return false if model can be represented by primitives e.g. string, object
+     * without properties, array or map of other model (model contanier), etc.
+     * <p>
+     * Return true if a model should be generated e.g. object with properties,
+     * enum, oneOf, allOf, anyOf, etc.
+     *
+     * @param schema target schema
+     * @param visitedSchemas Visited schemas
+     */
+    private boolean isModelNeeded(Schema schema, Set<Schema> visitedSchemas) {
+        if (visitedSchemas.contains(schema)) { // circular reference
+            return true;
+        } else {
+            visitedSchemas.add(schema);
+        }
+
         if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
             return true;
         }
@@ -172,7 +192,7 @@ public class InlineModelResolver {
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
                 // check to ensure at least of the allOf item is model
                 for (Schema inner : m.getAllOf()) {
-                    if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner))) {
+                    if (isModelNeeded(ModelUtils.getReferencedSchema(openAPI, inner), visitedSchemas)) {
                         return true;
                     }
                 }

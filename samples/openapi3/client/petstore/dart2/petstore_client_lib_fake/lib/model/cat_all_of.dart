@@ -40,6 +40,8 @@ class CatAllOf {
     final _json = <String, dynamic>{};
     if (declawed != null) {
       _json[r'declawed'] = declawed;
+    } else {
+      _json[r'declawed'] = null;
     }
     return _json;
   }

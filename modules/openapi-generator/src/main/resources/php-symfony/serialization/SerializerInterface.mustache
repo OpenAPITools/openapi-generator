@@ -12,16 +12,16 @@ interface SerializerInterface
      *
      * @return string
      */
-    public function serialize($data, $format);
+     public function serialize($data, string $format): string;
 
     /**
      * Deserializes the given data to the specified type.
      *
-     * @param string $data
+     * @param mixed $data
      * @param string $type
      * @param string $format
      *
      * @return object|array|scalar
      */
-    public function deserialize($data, $type, $format);
+    public function deserialize($data, string $type, string $format);
 }

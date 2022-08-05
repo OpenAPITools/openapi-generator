@@ -21,7 +21,14 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -38,32 +45,32 @@ import kotlinx.parcelize.Parcelize
  * @param userStatus User Status
  */
 @Parcelize
-
+@Serializable
 data class User (
 
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "username")
+    @SerialName(value = "username")
     val username: kotlin.String? = null,
 
-    @Json(name = "firstName")
+    @SerialName(value = "firstName")
     val firstName: kotlin.String? = null,
 
-    @Json(name = "lastName")
+    @SerialName(value = "lastName")
     val lastName: kotlin.String? = null,
 
-    @Json(name = "email")
+    @SerialName(value = "email")
     val email: kotlin.String? = null,
 
-    @Json(name = "password")
+    @SerialName(value = "password")
     val password: kotlin.String? = null,
 
-    @Json(name = "phone")
+    @SerialName(value = "phone")
     val phone: kotlin.String? = null,
 
     /* User Status */
-    @Json(name = "userStatus")
+    @SerialName(value = "userStatus")
     val userStatus: kotlin.Int? = null
 
 ) : Parcelable

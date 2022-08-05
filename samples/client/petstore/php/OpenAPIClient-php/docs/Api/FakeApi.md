@@ -1,26 +1,26 @@
 # OpenAPI\Client\FakeApi
 
-All URIs are relative to http://petstore.swagger.io:80/v2.
+All URIs are relative to http://petstore.swagger.io:80/v2, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**fakeHealthGet()**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest()**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize()**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize()**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
-[**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
-[**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testClientModel()**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters()**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-[**testEnumParameters()**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testGroupParameters()**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties()**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**fakeHealthGet()**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
+| [**fakeHttpSignatureTest()**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
+| [**fakeOuterBooleanSerialize()**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
+| [**fakeOuterCompositeSerialize()**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
+| [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
+| [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
+| [**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
+| [**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
+| [**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
+| [**testClientModel()**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model |
+| [**testEndpointParameters()**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 |
+| [**testEnumParameters()**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
+| [**testGroupParameters()**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**testInlineAdditionalProperties()**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 
 
 ## `fakeHealthGet()`
@@ -110,11 +110,11 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
- **query_1** | **string**| query parameter | [optional]
- **header_1** | **string**| header parameter | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+| **query_1** | **string**| query parameter | [optional] |
+| **header_1** | **string**| header parameter | [optional] |
 
 ### Return type
 
@@ -168,9 +168,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **bool**| Input boolean as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **bool**| Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -224,9 +224,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **outer_composite** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **outer_composite** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional] |
 
 ### Return type
 
@@ -280,9 +280,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **float**| Input number as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **float**| Input number as post body | [optional] |
 
 ### Return type
 
@@ -336,9 +336,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **string**| Input string as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **string**| Input string as post body | [optional] |
 
 ### Return type
 
@@ -392,9 +392,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **outer_object_with_enum_property** | [**\OpenAPI\Client\Model\OuterObjectWithEnumProperty**](../Model/OuterObjectWithEnumProperty.md)| Input enum (int) as post body |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **outer_object_with_enum_property** | [**\OpenAPI\Client\Model\OuterObjectWithEnumProperty**](../Model/OuterObjectWithEnumProperty.md)| Input enum (int) as post body | |
 
 ### Return type
 
@@ -447,9 +447,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **\SplFileObject****\SplFileObject**| image to upload |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **\SplFileObject****\SplFileObject**| image to upload | |
 
 ### Return type
 
@@ -502,9 +502,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **file_schema_test_class** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **file_schema_test_class** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  | |
 
 ### Return type
 
@@ -556,10 +556,10 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **string**|  |
- **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **query** | **string**|  | |
+| **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  | |
 
 ### Return type
 
@@ -613,9 +613,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model | |
 
 ### Return type
 
@@ -687,22 +687,22 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **float**| None |
- **double** | **double**| None |
- **pattern_without_delimiter** | **string**| None |
- **byte** | **string**| None |
- **integer** | **int**| None | [optional]
- **int32** | **int**| None | [optional]
- **int64** | **int**| None | [optional]
- **float** | **float**| None | [optional]
- **string** | **string**| None | [optional]
- **binary** | **\SplFileObject****\SplFileObject**| None | [optional]
- **date** | **\DateTime**| None | [optional]
- **date_time** | **\DateTime**| None | [optional]
- **password** | **string**| None | [optional]
- **callback** | **string**| None | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **number** | **float**| None | |
+| **double** | **double**| None | |
+| **pattern_without_delimiter** | **string**| None | |
+| **byte** | **string**| None | |
+| **integer** | **int**| None | [optional] |
+| **int32** | **int**| None | [optional] |
+| **int64** | **int**| None | [optional] |
+| **float** | **float**| None | [optional] |
+| **string** | **string**| None | [optional] |
+| **binary** | **\SplFileObject****\SplFileObject**| None | [optional] |
+| **date** | **\DateTime**| None | [optional] |
+| **date_time** | **\DateTime**| None | [optional] |
+| **password** | **string**| None | [optional] |
+| **callback** | **string**| None | [optional] |
 
 ### Return type
 
@@ -763,17 +763,17 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
- **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
- **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
- **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
- **enum_query_model_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)|  | [optional]
- **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional] |
+| **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
+| **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional] |
+| **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
+| **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] |
+| **enum_query_double** | **double**| Query parameter enum test (double) | [optional] |
+| **enum_query_model_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)|  | [optional] |
+| **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;] |
+| **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
 
 ### Return type
 
@@ -819,12 +819,15 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
-$associate_array['required_string_group'] = 56; // int | Required String in group parameters
-$associate_array['required_boolean_group'] = True; // bool | Required Boolean in group parameters
-$associate_array['required_int64_group'] = 56; // int | Required Integer in group parameters
-$associate_array['string_group'] = 56; // int | String in group parameters
-$associate_array['boolean_group'] = True; // bool | Boolean in group parameters
-$associate_array['int64_group'] = 56; // int | Integer in group parameters
+
+$associative_array = [
+    'required_string_group' => 56, // int | Required String in group parameters
+    'required_boolean_group' => True, // bool | Required Boolean in group parameters
+    'required_int64_group' => 56, // int | Required Integer in group parameters
+    'string_group' => 56, // int | String in group parameters
+    'boolean_group' => True, // bool | Boolean in group parameters
+    'int64_group' => 56, // int | Integer in group parameters
+];
 
 try {
     $apiInstance->testGroupParameters($associate_array);
@@ -835,16 +838,16 @@ try {
 
 ### Parameters
 
-Note: the input parameter is an associative array with the keys listed as the parameter name below.
+Note: the input parameter is an associative array with the keys listed as the parameter names below.
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **required_string_group** | **int**| Required String in group parameters |
- **required_boolean_group** | **bool**| Required Boolean in group parameters |
- **required_int64_group** | **int**| Required Integer in group parameters |
- **string_group** | **int**| String in group parameters | [optional]
- **boolean_group** | **bool**| Boolean in group parameters | [optional]
- **int64_group** | **int**| Integer in group parameters | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **required_string_group** | **int**| Required String in group parameters | |
+| **required_boolean_group** | **bool**| Required Boolean in group parameters | |
+| **required_int64_group** | **int**| Required Integer in group parameters | |
+| **string_group** | **int**| String in group parameters | [optional] |
+| **boolean_group** | **bool**| Boolean in group parameters | [optional] |
+| **int64_group** | **int**| Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -897,9 +900,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request_body** | [**array<string,string>**](../Model/string.md)| request body |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **request_body** | [**array<string,string>**](../Model/string.md)| request body | |
 
 ### Return type
 
@@ -953,10 +956,10 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **string**| field1 |
- **param2** | **string**| field2 |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **param** | **string**| field1 | |
+| **param2** | **string**| field2 | |
 
 ### Return type
 
@@ -1015,15 +1018,15 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | [**string[]**](../Model/string.md)|  |
- **ioutil** | [**string[]**](../Model/string.md)|  |
- **http** | [**string[]**](../Model/string.md)|  |
- **url** | [**string[]**](../Model/string.md)|  |
- **context** | [**string[]**](../Model/string.md)|  |
- **allow_empty** | **string**|  |
- **language** | [**array<string,string>**](../Model/string.md)|  | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pipe** | [**string[]**](../Model/string.md)|  | |
+| **ioutil** | [**string[]**](../Model/string.md)|  | |
+| **http** | [**string[]**](../Model/string.md)|  | |
+| **url** | [**string[]**](../Model/string.md)|  | |
+| **context** | [**string[]**](../Model/string.md)|  | |
+| **allow_empty** | **string**|  | |
+| **language** | [**array<string,string>**](../Model/string.md)|  | [optional] |
 
 ### Return type
 

@@ -134,6 +134,9 @@ public interface {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
@@ -201,14 +204,15 @@ public interface {{classname}} {
         {{#implicitHeadersParams}}
         {{>paramDoc}}{{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
+    })
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiImplicitParams({
         {{#implicitHeadersParams}}
         {{>implicitHeader}}{{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
-    {{/swagger1AnnotationLibrary}}
     })
+    {{/swagger1AnnotationLibrary}}
     {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},

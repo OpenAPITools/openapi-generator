@@ -357,7 +357,7 @@ class DeserializationTests(unittest.TestCase):
 
     def test_deserialize_NumberWithValidations(self):
         from petstore_api.model.number_with_validations import NumberWithValidations
-        from petstore_api.api.fake_api_endpoints.number_with_validations import _response_for_200
+        from petstore_api.paths.fake_refs_number.post import _response_for_200
 
         # make sure that an exception is thrown on an invalid type value
         with self.assertRaises(petstore_api.ApiTypeError):
@@ -378,7 +378,7 @@ class DeserializationTests(unittest.TestCase):
 
     def test_array_of_enums(self):
         from petstore_api.model.array_of_enums import ArrayOfEnums
-        from petstore_api.api.fake_api_endpoints.array_of_enums import _response_for_200
+        from petstore_api.paths.fake_refs_array_of_enums.post import _response_for_200
         from petstore_api.model import string_enum
         data = ["placed", None]
         response = self.__response(data)

@@ -25,7 +25,8 @@ import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.User
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
@@ -310,7 +311,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -380,7 +381,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -591,7 +592,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

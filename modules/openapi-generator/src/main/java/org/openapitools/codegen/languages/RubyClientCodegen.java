@@ -63,6 +63,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public RubyClientCodegen() {
         super();
 
@@ -251,6 +253,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
         supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
@@ -366,6 +369,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         String modelName;
         modelName = sanitizeName(name);
 
@@ -381,6 +396,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
@@ -393,7 +409,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(modelName);
+        String camelizedName = camelize(modelName);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override

@@ -54,7 +54,7 @@ public class FooGetDefaultResponse {
   @SerializedName(SERIALIZED_NAME_STRING)
   private Foo string;
 
-  public FooGetDefaultResponse() { 
+  public FooGetDefaultResponse() {
   }
 
   public FooGetDefaultResponse string(Foo string) {
@@ -183,7 +183,7 @@ public class FooGetDefaultResponse {
         }
       }
       // validate the optional field `string`
-      if (jsonObj.getAsJsonObject("string") != null) {
+      if (jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) {
         Foo.validateJsonObject(jsonObj.getAsJsonObject("string"));
       }
   }

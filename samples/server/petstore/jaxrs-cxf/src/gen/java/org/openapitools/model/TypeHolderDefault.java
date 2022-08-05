@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -127,27 +128,26 @@ public class TypeHolderDefault  {
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
-      return Objects.equals(stringItem, typeHolderDefault.stringItem) &&
-          Objects.equals(numberItem, typeHolderDefault.numberItem) &&
-          Objects.equals(integerItem, typeHolderDefault.integerItem) &&
-          Objects.equals(boolItem, typeHolderDefault.boolItem) &&
-          Objects.equals(arrayItem, typeHolderDefault.arrayItem);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
+    return Objects.equals(stringItem, typeHolderDefault.stringItem) &&
+        Objects.equals(numberItem, typeHolderDefault.numberItem) &&
+        Objects.equals(integerItem, typeHolderDefault.integerItem) &&
+        Objects.equals(boolItem, typeHolderDefault.boolItem) &&
+        Objects.equals(arrayItem, typeHolderDefault.arrayItem);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+  }
 
   @Override
   public String toString() {

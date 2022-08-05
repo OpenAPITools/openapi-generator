@@ -40,6 +40,8 @@ class DeprecatedObject {
     final _json = <String, dynamic>{};
     if (name != null) {
       _json[r'name'] = name;
+    } else {
+      _json[r'name'] = null;
     }
     return _json;
   }

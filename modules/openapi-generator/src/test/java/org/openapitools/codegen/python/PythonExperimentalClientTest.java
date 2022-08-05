@@ -18,12 +18,15 @@ package org.openapitools.codegen.python;
 
 import com.google.common.io.Resources;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("static-method")
@@ -69,6 +72,30 @@ public class PythonExperimentalClientTest {
         Assert.assertEquals(openAPI.getOpenapi() , "3.0.0");
         Assert.assertFalse(openAPI.getExtensions().isEmpty());
         Assert.assertFalse(openAPI.getExtensions().containsValue("x-original-swagger-version"));
+    }
+
+    @Test(description = "tests GeoJson Examples")
+    public void testRecursiveGeoJsonExample() throws IOException {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_13043_recursive_model.yaml");
+        final PythonExperimentalClientCodegen codegen = new PythonExperimentalClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Operation operation = openAPI.getPaths().get("/geojson").getPost();
+        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        String exampleValue = codegen.toExampleValue(schema, null);
+
+       // uncomment if you need to regenerate the expected value
+       //        PrintWriter printWriter = new PrintWriter("src/test/resources/3_0/issue_8052_recursive_model_expected_value.txt");
+       //        printWriter.write(exampleValue);
+       //        printWriter.close();
+       //        org.junit.Assert.assertTrue(false);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_13043_recursive_model_expected_value.txt"),
+                StandardCharsets.UTF_8);
+        expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
+        Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
+
     }
 
 }

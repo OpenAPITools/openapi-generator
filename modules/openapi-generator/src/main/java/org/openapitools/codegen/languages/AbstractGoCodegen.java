@@ -346,7 +346,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             // specification is aligned with the JSON schema specification.
             // When "items" is not specified, the elements of the array may be anything at all.
             if (inner != null) {
-                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+                inner = unaliasSchema(inner);
             }
             String typDecl;
             if (inner != null) {
@@ -360,10 +360,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            return getSchemaType(p) + "[string]" +  getTypeDeclaration(unaliasSchema(inner));
         }
-        //return super.getTypeDeclaration(p);
 
+        //return super.getTypeDeclaration(p);
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
@@ -792,7 +792,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
-        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
+        schema = unaliasSchema(schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {

@@ -23,7 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 
 /**
@@ -86,8 +85,8 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCat() { 
-    this.className = this.getClass().getSimpleName();
+  public BigCat() {
+
   }
 
   public BigCat kind(KindEnum kind) {

@@ -926,6 +926,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         // only add JsonNullable and related imports to optional and nullable values
                         addImports |= isOptionalNullable;
                         var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                        findByName(var.name, cm.readOnlyVars)
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
                     }
 
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
@@ -975,8 +977,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary())) {
-                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
-
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
                     cm.isNullable = true;

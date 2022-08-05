@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -149,28 +150,27 @@ public class TypeHolderExample  {
     return this;
   }
 
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      TypeHolderExample typeHolderExample = (TypeHolderExample) o;
-      return Objects.equals(stringItem, typeHolderExample.stringItem) &&
-          Objects.equals(numberItem, typeHolderExample.numberItem) &&
-          Objects.equals(floatItem, typeHolderExample.floatItem) &&
-          Objects.equals(integerItem, typeHolderExample.integerItem) &&
-          Objects.equals(boolItem, typeHolderExample.boolItem) &&
-          Objects.equals(arrayItem, typeHolderExample.arrayItem);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    TypeHolderExample typeHolderExample = (TypeHolderExample) o;
+    return Objects.equals(stringItem, typeHolderExample.stringItem) &&
+        Objects.equals(numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(floatItem, typeHolderExample.floatItem) &&
+        Objects.equals(integerItem, typeHolderExample.integerItem) &&
+        Objects.equals(boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(arrayItem, typeHolderExample.arrayItem);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
+  }
 
   @Override
   public String toString() {

@@ -14,19 +14,19 @@ lazy val root = (project in file(".")).
       "io.rest-assured" % "scala-support" % "4.5.1",
       "com.google.code.findbugs" % "jsr305" % "3.0.2",
 {{#jackson}}
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.10.3",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.3",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.3",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.12.5",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.12.5",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.6.1",
       {{#openApiNullable}}
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.2",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.3",
       {{/openApiNullable}}
       {{#withXml}}
-      "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % "2.10.3",
+      "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % "2.12.6.1",
       {{/withXml}}
       {{#joda}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.10.3",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.12.6.1",
       {{/joda}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.10.3",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.12.6.1",
 {{/jackson}}
 {{#gson}}
       "com.google.code.gson" % "gson" % "2.8.9",

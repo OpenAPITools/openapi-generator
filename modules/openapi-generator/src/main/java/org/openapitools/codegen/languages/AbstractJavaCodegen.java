@@ -130,6 +130,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractJavaCodegen() {
         super();
 
@@ -824,6 +826,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         final String sanitizedName = sanitizeName(name);
 
         String nameWithPrefixSuffix = sanitizedName;
@@ -844,6 +858,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
+            schemaKeyToModelNameCache.put(origName, modelName);
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
@@ -851,10 +866,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            schemaKeyToModelNameCache.put(origName, modelName);
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
             return modelName;
         }
+
+        schemaKeyToModelNameCache.put(origName, camelizedName);
 
         return camelizedName;
     }
@@ -867,7 +885,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -2045,6 +2063,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.additionalPropertiesType = getSchemaType(s);
             addImport(codegenModel, codegenModel.additionalPropertiesType);
         }
+    }
+
+    /**
+     * Search for property by {@link CodegenProperty#name}
+     * @param name - name to search for
+     * @param properties - list of properties
+     * @return either found property or {@link Optional#empty()} if nothing has been found
+     */
+    protected Optional<CodegenProperty> findByName(String name, List<CodegenProperty> properties) {
+        if (properties == null || properties.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return properties.stream()
+            .filter(p -> p.name.equals(name))
+            .findFirst();
     }
 
     /**

@@ -34,6 +34,7 @@ docs/DogAllOf.md
 docs/Drawing.md
 docs/EnumArrays.md
 docs/EnumClass.md
+docs/EnumStringDiscriminator.md
 docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
@@ -155,6 +156,7 @@ src/main/java/org/openapitools/client/model/DogAllOf.java
 src/main/java/org/openapitools/client/model/Drawing.java
 src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
+src/main/java/org/openapitools/client/model/EnumStringDiscriminator.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java

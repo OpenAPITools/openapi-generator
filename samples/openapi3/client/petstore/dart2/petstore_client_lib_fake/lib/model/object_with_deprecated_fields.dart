@@ -67,12 +67,18 @@ class ObjectWithDeprecatedFields {
     final _json = <String, dynamic>{};
     if (uuid != null) {
       _json[r'uuid'] = uuid;
+    } else {
+      _json[r'uuid'] = null;
     }
     if (id != null) {
       _json[r'id'] = id;
+    } else {
+      _json[r'id'] = null;
     }
     if (deprecatedRef != null) {
       _json[r'deprecatedRef'] = deprecatedRef;
+    } else {
+      _json[r'deprecatedRef'] = null;
     }
       _json[r'bars'] = bars;
     return _json;

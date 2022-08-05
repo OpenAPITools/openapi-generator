@@ -44,6 +44,11 @@ library(devtools)
 install_github("GIT_USER_ID/GIT_REPO_ID")
 ```
 
+To install the package from a local file:
+```R
+install.packages("petstore_1.0.0.tar.gz", repos = NULL, type = "source")
+```
+
 ### Usage
 
 ```R
@@ -62,6 +67,8 @@ Class | Method | HTTP request | Description
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**FindPetsByTags**](docs/PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**GetPetById**](docs/PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**GetPetByIdStreaming**](docs/PetApi.md#GetPetByIdStreaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
+*PetApi* | [**TestHeader**](docs/PetApi.md#TestHeader) | **GET** /pet_header_test | Header test
 *PetApi* | [**UpdatePet**](docs/PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -92,21 +99,32 @@ Class | Method | HTTP request | Description
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [NestedOneOf](docs/NestedOneOf.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
+ - [Special](docs/Special.md)
  - [Tag](docs/Tag.md)
+ - [UpdatePetRequest](docs/UpdatePetRequest.md)
  - [User](docs/User.md)
 
 
 ## Documentation for Authorization
 
 
+### BearerToken
+
+- **Type**: HTTP basic authentication
+
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+### http_auth
+
+- **Type**: HTTP basic authentication
 
 ### petstore_auth
 

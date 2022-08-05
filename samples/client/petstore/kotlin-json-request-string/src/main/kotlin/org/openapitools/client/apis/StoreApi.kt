@@ -25,7 +25,8 @@ import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.Order
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
@@ -109,7 +110,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -246,7 +247,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

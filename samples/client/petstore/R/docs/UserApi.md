@@ -36,13 +36,15 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -92,13 +94,15 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -148,13 +152,15 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -193,7 +199,7 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | The name that needs to be deleted
+var_username <- "username_example" # character | The name that needs to be deleted
 
 #Delete user
 api_instance <- UserApi$new()
@@ -204,13 +210,15 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -250,24 +258,28 @@ Get user by user name
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
+var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 
 #Get user by user name
 api_instance <- UserApi$new()
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetUserByName(var_username, data_file = "result.txt"),
              api_instance$GetUserByName(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
+  dput(result$content)
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -308,25 +320,29 @@ Logs user into the system
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | The user name for login
-var_password <- 'password_example' # character | The password for login in clear text
+var_username <- "username_example" # character | The user name for login
+var_password <- "password_example" # character | The password for login in clear text
 
 #Logs user into the system
 api_instance <- UserApi$new()
 result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$LoginUser(var_username, var_password, data_file = "result.txt"),
              api_instance$LoginUser(var_username, var_password),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
+  dput(result$content)
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -377,13 +393,15 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 
@@ -419,7 +437,7 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var_username <- 'username_example' # character | name that need to be deleted
+var_username <- "username_example" # character | name that need to be deleted
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
@@ -431,13 +449,15 @@ result <- tryCatch(
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+if (!is.null(result$ApiException)) {
+  dput(result$ApiException)
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # response headers
-  response.headers <- result$response$headers
+  dput(result$response$headers)
   # response status code
-  response.status.code <- result$response$status_code
+  dput(result$response$status_code)
 }
 ```
 

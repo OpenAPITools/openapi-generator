@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -69,7 +71,7 @@ from petstore_api.schemas import (  # noqa: F401
 class BooleanEnum(
     _SchemaEnumMaker(
         enum_value_to_name={
-            True: "TRUE",
+            BoolClass.TRUE: "TRUE",
         }
     ),
     BoolSchema
@@ -83,4 +85,4 @@ class BooleanEnum(
     @classmethod
     @property
     def TRUE(cls):
-        return cls(True)
+        return cls(BoolClass.TRUE)
