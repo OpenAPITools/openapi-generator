@@ -321,7 +321,10 @@
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       {{/isBasicBasic}}
       {{#isBasicBearer}}
-      header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      # Bearer token
+      if (!is.null(self$api_client$bearer_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      }
       {{/isBasicBearer}}
       {{/isBasic}}
       {{#isApiKey}}
@@ -339,7 +342,9 @@
       {{/isApiKey}}
       {{#isOAuth}}
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
       {{/isOAuth}}
       {{/authMethods}}
 

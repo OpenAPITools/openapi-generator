@@ -37,12 +37,10 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters

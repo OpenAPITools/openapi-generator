@@ -35,12 +35,8 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
-} else {
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
 }
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -83,7 +79,7 @@ library(petstore)
 #Returns pet inventories by status
 api_instance <- StoreApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY'
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$get_inventory(data_file = "result.txt"),
@@ -98,12 +94,10 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -156,12 +150,10 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -219,12 +211,10 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
