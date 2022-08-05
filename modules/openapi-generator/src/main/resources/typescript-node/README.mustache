@@ -1,4 +1,4 @@
-# Typescript API client for {{packageName}}
+# Typescript API client  {{#packageName}}{{.}}{{/packageName}}
 
 {{#appDescriptionWithNewLines}}
     {{{.}}}
@@ -54,6 +54,39 @@ The CommonJS syntax is as follows:
 ```
 import localName = require('./symlinkDir')';
 ```
+
+## Code Example
+
+The default url is our production url, you can change it to staging url via
+``` typescript
+let apisInSameTags = new apis.apisInSameTags(STAGING_URL)
+```
+
+
+``` typescript
+import * as models from './model/models'
+import * as apis from './api/apis';
+
+const YOUR_TOKEN = "YOUR_TOKEN"
+const STAGING_URL = "https://api.segmentapis.build"
+
+let getWorkspace =  async()=>{
+let workspace = new apis.WorkspacesApi(STAGING_URL)
+workspace.accessToken = YOUR_TOKEN;
+let result = await workspace.getWorkspaceV1({})
+console.log(result.body)
+}
+
+let testEcho =  async()=>{
+let echoApi = new apis.TestingApi()
+echoApi.accessToken = YOUR_TOKEN;
+const echoAlphaInput: EchoAlphaInput = { message: 'Hello, World!' }
+let result = await echoApi.echoV1(echoAlphaInput)
+console.log(result.body)
+}
+
+```
+
 ## Documentation For Authorization
 
 {{^authMethods}} Endpoints do not require authorization.
