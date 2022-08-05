@@ -661,6 +661,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
                 addVars(property, property.getVars(), schema.getProperties(), requiredVars);
             }
+            addRequiredVarsMap(schema, property);
             return;
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
             HashSet<String> requiredVars = new HashSet<>();
@@ -673,6 +674,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 property.setHasVars(true);
             }
         }
+        addRequiredVarsMap(schema, property);
         return;
     }
 
@@ -2328,6 +2330,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
+        // custom version of this method so properties are always added with addVars
         if (schema.getProperties() != null || schema.getRequired() != null) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
@@ -2336,6 +2339,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override
@@ -2353,6 +2357,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override

@@ -1,7 +1,7 @@
-{{#if getHasRequired}}
+{{#if getRequiredVarsMap}}
     _required_property_names = set((
-    {{#each requiredVars}}
-        '{{baseName}}',
+    {{#each getRequiredVarsMap}}
+        '{{@key}}',
     {{/each}}
     ))
 {{/if}}
