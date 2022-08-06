@@ -24,7 +24,7 @@ class ApiClient {
      _defaultHeaderMap[key] = value;
   }
 
-  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
+  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
@@ -38,7 +38,7 @@ class ApiClient {
     String? contentType,
     List<String> authNames,
   ) async {
-    _updateParamsForAuth(authNames, queryParams, headerParams);
+    await authentication?.applyToParams(authNames, queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
@@ -157,15 +157,6 @@ class ApiClient {
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
   String serialize(Object? value) => value == null ? '' : json.encode(value);
-
-  /// Update query and header parameters based on authentication settings.
-  void _updateParamsForAuth(
-    List<String> authNames,
-    List<QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) {
-    authentication?.applyToParams(authNames, queryParams, headerParams);
-  }
 
 {{#native_serialization}}
   static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
