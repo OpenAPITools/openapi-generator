@@ -94,7 +94,7 @@ class OneofComplexTypes(
             AnyTypeSchema
         ):
             _required_property_names = {
-                'bar',
+                "bar",
             }
             bar = IntSchema
         
@@ -118,7 +118,7 @@ class OneofComplexTypes(
             AnyTypeSchema
         ):
             _required_property_names = {
-                'foo',
+                "foo",
             }
             foo = StrSchema
         

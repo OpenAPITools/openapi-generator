@@ -7118,6 +7118,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         for (String requiredPropertyName: requiredPropertyNames) {
             // required property is defined in properties, value is that CodegenProperty
+            String usedRequiredPropertyName = handleSpecialCharacters(requiredPropertyName);
             if (properties != null && properties.containsKey(requiredPropertyName)) {
                 // get cp from property
                 boolean found = false;
@@ -7131,8 +7132,9 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("Property " + requiredPropertyName + " is missing from getVars");
                 }
             } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+                // TODO add processing for requiredPropertyName
                 // required property is not defined in properties, and additionalProperties is false, value is null
-                requiredVarsMap.put(requiredPropertyName, null);
+                requiredVarsMap.put(usedRequiredPropertyName, null);
             } else {
                 // required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
                 // required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
@@ -7142,14 +7144,14 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     CodegenProperty cp;
                     if (schema.getAdditionalProperties() == null) {
-                        cp = fromProperty(requiredPropertyName, new Schema());
+                        cp = fromProperty(usedRequiredPropertyName, new Schema());
                     } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                         cp = fromProperty(requiredPropertyName, new Schema());
                     } else {
                         cp = fromProperty(requiredPropertyName, (Schema) schema.getAdditionalProperties());
                     }
                     // TODO add complexType info connecting it to the existing additional properties?
-                    requiredVarsMap.put(requiredPropertyName, cp);
+                    requiredVarsMap.put(usedRequiredPropertyName, cp);
                 }
             }
         }
@@ -7725,4 +7727,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseInlineModelResolver() { return true; }
+
+    /*
+    A function to convert yaml or json ingested strings like property names
+    And convert special characters like newline, tab, carriage return
+    Into strings that can be rendered in the language that the generator will output to
+    */
+    protected String handleSpecialCharacters(String name) { return name; }
 }

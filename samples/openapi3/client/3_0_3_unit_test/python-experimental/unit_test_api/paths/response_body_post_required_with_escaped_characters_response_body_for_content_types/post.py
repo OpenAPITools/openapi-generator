@@ -74,13 +74,12 @@ class SchemaFor200ResponseBodyApplicationJson(
     AnyTypeSchema
 ):
     _required_property_names = {
-        'foo\bar',
-        'foobar',
-        'foobar',
-        'foo&quot;bar',
-        'foo	bar',
-        'foo
-bar',
+        "foo\"bar",
+        "foo\nbar",
+        "foo\fbar",
+        "foo\tbar",
+        "foo\rbar",
+        "foo\\bar",
     }
 
     def __new__(

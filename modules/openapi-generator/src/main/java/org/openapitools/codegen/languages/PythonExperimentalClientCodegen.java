@@ -1342,7 +1342,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
-    private String processStringValue(String value) {
+    protected String handleSpecialCharacters(String value) {
         // handles escape characters and the like
         String stringValue = value;
         String backslash = "\\";
@@ -1382,7 +1382,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
-            return processStringValue((String) value);
+            return handleSpecialCharacters((String) value);
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
             for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
@@ -1838,7 +1838,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (example != null) {
-                return fullPrefix + ensureQuotes(processStringValue(example)) + closeChars;
+                return fullPrefix + ensureQuotes(handleSpecialCharacters(example)) + closeChars;
             }
             if (ModelUtils.isDateSchema(schema)) {
                 if (objExample == null) {

@@ -77,7 +77,7 @@ class AllofWithBaseSchema(
     Do not edit the class manually.
     """
     _required_property_names = {
-        'bar',
+        "bar",
     }
     bar = IntSchema
 
@@ -98,7 +98,7 @@ class AllofWithBaseSchema(
             AnyTypeSchema
         ):
             _required_property_names = {
-                'foo',
+                "foo",
             }
             foo = StrSchema
         
@@ -122,7 +122,7 @@ class AllofWithBaseSchema(
             AnyTypeSchema
         ):
             _required_property_names = {
-                'baz',
+                "baz",
             }
             baz = NoneSchema
         

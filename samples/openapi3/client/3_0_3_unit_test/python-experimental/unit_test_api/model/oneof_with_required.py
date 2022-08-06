@@ -95,23 +95,19 @@ class OneofWithRequired(
             AnyTypeSchema
         ):
             _required_property_names = {
-                'bar',
-                'foo',
+                "bar",
+                "foo",
             }
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                bar: bar,
-                foo: foo,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> 'oneOf_0':
                 return super().__new__(
                     cls,
                     *args,
-                    bar=bar,
-                    foo=foo,
                     _configuration=_configuration,
                     **kwargs,
                 )
@@ -121,23 +117,19 @@ class OneofWithRequired(
             AnyTypeSchema
         ):
             _required_property_names = {
-                'foo',
-                'baz',
+                "foo",
+                "baz",
             }
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                foo: foo,
-                baz: baz,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> 'oneOf_1':
                 return super().__new__(
                     cls,
                     *args,
-                    foo=foo,
-                    baz=baz,
                     _configuration=_configuration,
                     **kwargs,
                 )
