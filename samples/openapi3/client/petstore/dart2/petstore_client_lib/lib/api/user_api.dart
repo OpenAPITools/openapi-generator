@@ -37,6 +37,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key'];
     const contentTypes = <String>['application/json'];
 
 
@@ -48,6 +49,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -87,6 +89,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key'];
     const contentTypes = <String>['application/json'];
 
 
@@ -98,6 +101,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -137,6 +141,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key'];
     const contentTypes = <String>['application/json'];
 
 
@@ -148,6 +153,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -188,6 +194,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key'];
     const contentTypes = <String>[];
 
 
@@ -199,6 +206,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -239,6 +247,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -250,6 +259,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -303,6 +313,7 @@ class UserApi {
       queryParams.addAll(_queryParams('', 'username', username));
       queryParams.addAll(_queryParams('', 'password', password));
 
+    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -314,6 +325,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -359,6 +371,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key'];
     const contentTypes = <String>[];
 
 
@@ -370,6 +383,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -408,6 +422,7 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key'];
     const contentTypes = <String>['application/json'];
 
 
@@ -419,6 +434,7 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 

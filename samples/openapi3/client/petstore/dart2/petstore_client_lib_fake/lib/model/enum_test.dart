@@ -84,44 +84,44 @@ class EnumTest {
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     if (enumString != null) {
-      _json[r'enum_string'] = enumString;
+      json[r'enum_string'] = enumString;
     } else {
-      _json[r'enum_string'] = null;
+      json[r'enum_string'] = null;
     }
-      _json[r'enum_string_required'] = enumStringRequired;
+      json[r'enum_string_required'] = enumStringRequired;
     if (enumInteger != null) {
-      _json[r'enum_integer'] = enumInteger;
+      json[r'enum_integer'] = enumInteger;
     } else {
-      _json[r'enum_integer'] = null;
+      json[r'enum_integer'] = null;
     }
     if (enumNumber != null) {
-      _json[r'enum_number'] = enumNumber;
+      json[r'enum_number'] = enumNumber;
     } else {
-      _json[r'enum_number'] = null;
+      json[r'enum_number'] = null;
     }
     if (outerEnum != null) {
-      _json[r'outerEnum'] = outerEnum;
+      json[r'outerEnum'] = outerEnum;
     } else {
-      _json[r'outerEnum'] = null;
+      json[r'outerEnum'] = null;
     }
     if (outerEnumInteger != null) {
-      _json[r'outerEnumInteger'] = outerEnumInteger;
+      json[r'outerEnumInteger'] = outerEnumInteger;
     } else {
-      _json[r'outerEnumInteger'] = null;
+      json[r'outerEnumInteger'] = null;
     }
     if (outerEnumDefaultValue != null) {
-      _json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
+      json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
     } else {
-      _json[r'outerEnumDefaultValue'] = null;
+      json[r'outerEnumDefaultValue'] = null;
     }
     if (outerEnumIntegerDefaultValue != null) {
-      _json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
+      json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
     } else {
-      _json[r'outerEnumIntegerDefaultValue'] = null;
+      json[r'outerEnumIntegerDefaultValue'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [EnumTest] instance and imports its values from

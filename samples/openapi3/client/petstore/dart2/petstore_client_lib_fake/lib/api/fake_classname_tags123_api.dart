@@ -37,6 +37,7 @@ class FakeClassnameTags123Api {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['api_key_query'];
     const contentTypes = <String>['application/json'];
 
 
@@ -48,6 +49,7 @@ class FakeClassnameTags123Api {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 

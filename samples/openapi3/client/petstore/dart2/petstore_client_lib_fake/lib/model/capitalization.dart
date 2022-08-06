@@ -93,38 +93,38 @@ class Capitalization {
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     if (smallCamel != null) {
-      _json[r'smallCamel'] = smallCamel;
+      json[r'smallCamel'] = smallCamel;
     } else {
-      _json[r'smallCamel'] = null;
+      json[r'smallCamel'] = null;
     }
     if (capitalCamel != null) {
-      _json[r'CapitalCamel'] = capitalCamel;
+      json[r'CapitalCamel'] = capitalCamel;
     } else {
-      _json[r'CapitalCamel'] = null;
+      json[r'CapitalCamel'] = null;
     }
     if (smallSnake != null) {
-      _json[r'small_Snake'] = smallSnake;
+      json[r'small_Snake'] = smallSnake;
     } else {
-      _json[r'small_Snake'] = null;
+      json[r'small_Snake'] = null;
     }
     if (capitalSnake != null) {
-      _json[r'Capital_Snake'] = capitalSnake;
+      json[r'Capital_Snake'] = capitalSnake;
     } else {
-      _json[r'Capital_Snake'] = null;
+      json[r'Capital_Snake'] = null;
     }
     if (sCAETHFlowPoints != null) {
-      _json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
+      json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
     } else {
-      _json[r'SCA_ETH_Flow_Points'] = null;
+      json[r'SCA_ETH_Flow_Points'] = null;
     }
     if (ATT_NAME != null) {
-      _json[r'ATT_NAME'] = ATT_NAME;
+      json[r'ATT_NAME'] = ATT_NAME;
     } else {
-      _json[r'ATT_NAME'] = null;
+      json[r'ATT_NAME'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Capitalization] instance and imports its values from

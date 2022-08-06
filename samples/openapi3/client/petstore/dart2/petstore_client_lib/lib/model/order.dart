@@ -81,34 +81,34 @@ class Order {
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     if (id != null) {
-      _json[r'id'] = id;
+      json[r'id'] = id;
     } else {
-      _json[r'id'] = null;
+      json[r'id'] = null;
     }
     if (petId != null) {
-      _json[r'petId'] = petId;
+      json[r'petId'] = petId;
     } else {
-      _json[r'petId'] = null;
+      json[r'petId'] = null;
     }
     if (quantity != null) {
-      _json[r'quantity'] = quantity;
+      json[r'quantity'] = quantity;
     } else {
-      _json[r'quantity'] = null;
+      json[r'quantity'] = null;
     }
     if (shipDate != null) {
-      _json[r'shipDate'] = shipDate!.toUtc().toIso8601String();
+      json[r'shipDate'] = shipDate!.toUtc().toIso8601String();
     } else {
-      _json[r'shipDate'] = null;
+      json[r'shipDate'] = null;
     }
     if (status != null) {
-      _json[r'status'] = status;
+      json[r'status'] = status;
     } else {
-      _json[r'status'] = null;
+      json[r'status'] = null;
     }
-      _json[r'complete'] = complete;
-    return _json;
+      json[r'complete'] = complete;
+    return json;
   }
 
   /// Returns a new [Order] instance and imports its values from

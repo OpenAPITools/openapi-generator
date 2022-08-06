@@ -37,6 +37,7 @@ class AnotherFakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -48,6 +49,7 @@ class AnotherFakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 

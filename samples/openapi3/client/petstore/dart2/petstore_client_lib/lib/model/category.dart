@@ -48,18 +48,18 @@ class Category {
   String toString() => 'Category[id=$id, name=$name]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     if (id != null) {
-      _json[r'id'] = id;
+      json[r'id'] = id;
     } else {
-      _json[r'id'] = null;
+      json[r'id'] = null;
     }
     if (name != null) {
-      _json[r'name'] = name;
+      json[r'name'] = name;
     } else {
-      _json[r'name'] = null;
+      json[r'name'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Category] instance and imports its values from

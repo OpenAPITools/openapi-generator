@@ -28,6 +28,7 @@ class DefaultApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -39,6 +40,7 @@ class DefaultApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 

@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.authentication});
+  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.authentication,});
 
   final String basePath;
 
@@ -46,8 +46,9 @@ class ApiClient {
     Map<String, String> headerParams,
     Map<String, String> formParams,
     String? contentType,
+    List<String> authNames,
   ) async {
-    _updateParamsForAuth(queryParams, headerParams);
+    _updateParamsForAuth(authNames, queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
@@ -167,12 +168,11 @@ class ApiClient {
 
   /// Update query and header parameters based on authentication settings.
   void _updateParamsForAuth(
+    List<String> authNames,
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) {
-    if (authentication != null) {
-      authentication!.applyToParams(queryParams, headerParams);
-    }
+    authentication?.applyToParams(authNames, queryParams, headerParams);
   }
 
   static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {

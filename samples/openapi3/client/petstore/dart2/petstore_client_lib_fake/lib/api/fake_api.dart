@@ -30,6 +30,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -41,6 +42,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -93,6 +95,7 @@ class FakeApi {
       headerParams[r'header_1'] = parameterToString(header1);
     }
 
+    const authNames = <String>['http_signature_test'];
     const contentTypes = <String>['application/json', 'application/xml'];
 
 
@@ -104,6 +107,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -145,6 +149,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -156,6 +161,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -199,6 +205,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -210,6 +217,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -253,6 +261,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -264,6 +273,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -307,6 +317,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -318,6 +329,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -361,6 +373,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -372,6 +385,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -415,6 +429,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['image/png'];
 
 
@@ -426,6 +441,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -460,6 +476,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -471,6 +488,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -505,6 +523,7 @@ class FakeApi {
 
       queryParams.addAll(_queryParams('', 'query', query));
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -516,6 +535,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -552,6 +572,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -563,6 +584,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -649,6 +671,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>['http_basic_test'];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (integer != null) {
@@ -699,6 +722,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -823,6 +847,7 @@ class FakeApi {
       headerParams[r'enum_header_string'] = parameterToString(enumHeaderString);
     }
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (enumFormStringArray != null) {
@@ -840,6 +865,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -931,6 +957,7 @@ class FakeApi {
       headerParams[r'boolean_group'] = parameterToString(booleanGroup);
     }
 
+    const authNames = <String>['bearer_test'];
     const contentTypes = <String>[];
 
 
@@ -942,6 +969,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -996,6 +1024,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -1007,6 +1036,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -1049,6 +1079,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    const authNames = <String>[];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (param != null) {
@@ -1066,6 +1097,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
@@ -1127,6 +1159,7 @@ class FakeApi {
     }
       queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
+    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -1138,6 +1171,7 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      authNames,
     );
   }
 
