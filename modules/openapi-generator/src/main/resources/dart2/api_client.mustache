@@ -1,11 +1,13 @@
 {{>header}}
 {{>part_of}}
-class ApiClient {
+class ApiClient<T extends Authentication> {
   ApiClient({this.basePath = '{{{basePath}}}', this.authentication,});
 
   final String basePath;
+  final T? authentication;
 
   var _client = Client();
+  final _defaultHeaderMap = <String, String>{};
 
   /// Returns the current HTTP [Client] instance to use in this class.
   ///
@@ -17,14 +19,11 @@ class ApiClient {
     _client = newClient;
   }
 
-  final _defaultHeaderMap = <String, String>{};
-  final Authentication? authentication;
+  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
 
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
   }
-
-  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
