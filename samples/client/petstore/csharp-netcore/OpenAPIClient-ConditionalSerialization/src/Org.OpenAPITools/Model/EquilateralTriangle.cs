@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = true)]
         public string ShapeType
         {
             get{ return _ShapeType;}
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
-        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = true)]
         public string TriangleType
         {
             get{ return _TriangleType;}
