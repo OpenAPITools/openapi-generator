@@ -84,6 +84,8 @@ Mono<Order> StoreController.placeOrder(order)
 
 Place an order for a pet
 
+
+
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------

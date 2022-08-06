@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"value"
+    :value
   ]
 
   @type t :: %__MODULE__{
-    :"value" => OpenapiPetstore.Model.OuterEnumInteger.t
+    :value => OpenapiPetstore.Model.OuterEnumInteger.t
   }
 end
 
@@ -21,7 +21,7 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterObjectWithEnumProperty d
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"value", :struct, OpenapiPetstore.Model.OuterEnumInteger, options)
+    |> deserialize(:value, :struct, OpenapiPetstore.Model.OuterEnumInteger, options)
   end
 end
 

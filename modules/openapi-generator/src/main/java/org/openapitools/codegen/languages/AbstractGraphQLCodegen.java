@@ -20,6 +20,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -420,10 +423,10 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
-        for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
+        for (CodegenOperation op : objs.getOperation()) {
             // non GET/HEAD methods are mutation
             if (!"GET".equals(op.httpMethod.toUpperCase(Locale.ROOT)) && !"HEAD".equals(op.httpMethod.toUpperCase(Locale.ROOT))) {
                 op.vendorExtensions.put("x-is-mutation", Boolean.TRUE);
@@ -439,7 +442,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
             }
         }
 
-        return objs;
+        return operations;
     }
 
     public String graphQlInputsPackage() {

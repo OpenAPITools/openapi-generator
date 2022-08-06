@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.GenericType;
 
 public class FakeClassnameTags123Api {
     private ApiClient localVarApiClient;
@@ -86,7 +87,6 @@ public class FakeClassnameTags123Api {
      */
     public okhttp3.Call testClassnameCall(Client body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
-
         // Operation Servers
         String[] localBasePaths = new String[] {  };
 

@@ -1230,7 +1230,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
-     * @param \App\DTO\InlineObject $requestContent
+     * @param \App\DTO\UpdatePetWithFormRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return ResponseInterface
@@ -1239,7 +1239,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function updatePetWithFormRaw(
         \App\DTO\UpdatePetWithFormParameterData $parameters,
-        \App\DTO\InlineObject $requestContent,
+        \App\DTO\UpdatePetWithFormRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'application/x-www-form-urlencoded'
     ): ResponseInterface
@@ -1253,7 +1253,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
-     * @param \App\DTO\InlineObject $requestContent
+     * @param \App\DTO\UpdatePetWithFormRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return array
@@ -1263,7 +1263,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function updatePetWithForm(
         \App\DTO\UpdatePetWithFormParameterData $parameters,
-        \App\DTO\InlineObject $requestContent,
+        \App\DTO\UpdatePetWithFormRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'application/x-www-form-urlencoded'
     ): array
@@ -1283,7 +1283,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
-     * @param \App\DTO\InlineObject $requestContent
+     * @param \App\DTO\UpdatePetWithFormRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return mixed
@@ -1294,7 +1294,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function updatePetWithFormResult(
         \App\DTO\UpdatePetWithFormParameterData $parameters,
-        \App\DTO\InlineObject $requestContent,
+        \App\DTO\UpdatePetWithFormRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'application/x-www-form-urlencoded'
     )
@@ -1387,7 +1387,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\UploadFileRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1397,7 +1397,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFileRaw(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\UploadFileRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'
@@ -1413,7 +1413,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\UploadFileRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1424,7 +1424,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFile(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\UploadFileRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'
@@ -1446,7 +1446,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\UploadFileRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1458,7 +1458,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFileResult(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\UploadFileRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'

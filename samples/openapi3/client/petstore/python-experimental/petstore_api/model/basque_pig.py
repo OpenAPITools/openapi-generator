@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -75,7 +84,7 @@ class BasquePig(
     class className(
         _SchemaEnumMaker(
             enum_value_to_name={
-                "BasquePig": "BASQUEPIG",
+                "BasquePig": "BASQUE_PIG",
             }
         ),
         StrSchema
@@ -83,21 +92,21 @@ class BasquePig(
         
         @classmethod
         @property
-        def BASQUEPIG(cls):
-            return cls._enum_by_value["BasquePig"]("BasquePig")
+        def BASQUE_PIG(cls):
+            return cls("BasquePig")
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         className: className,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'BasquePig':
         return super().__new__(
             cls,
             *args,
             className=className,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

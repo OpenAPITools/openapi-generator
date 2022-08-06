@@ -26,6 +26,10 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -209,26 +213,62 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name) {
+    /**
+     * Adds prefix to the enum allowable values
+     * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
+     *
+     * @param allowableValues allowable values
+     * @param prefix added prefix
+     */
+    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix){
+        if(allowableValues.containsKey("enumVars")) {
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+
+            for(Map<String, Object> value : enumVars) {
+                String name = (String)value.get("name");
+                value.put("name", prefix + "_" + name);
+                value.put("value", "\"" + prefix + "_" + name + "\"");
+            }
+        }
+
+        if(allowableValues.containsKey("values")) {
+            List<String> values = (List<String>)allowableValues.get("values");
+            for(String value : values) {
+                value = prefix + "_" + value;
+            }
+        }
+    }
+
+    /**
+     * Adds unknown value to the enum allowable values
+     *
+     * @param allowableValues allowable values
+     */
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
         if(startEnumsWithUnknown) {
             if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
-                
+
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", name + "_UNKNOWN");
+                unknown.put("name", "UNKNOWN");
                 unknown.put("isString", "false");
-                unknown.put("value", "\"" + name + "_UNKNOWN\"");
+                unknown.put("value", "\"UNKNOWN\"");
 
                 enumVars.add(0, unknown);
             }
 
             if(allowableValues.containsKey("values")) {
                 List<String> values = (List<String>)allowableValues.get("values");           
-                values.add(0, name + "_UNKNOWN");
+                values.add(0, "UNKNOWN");
             }
         }
     }
 
+    /**
+     * Iterates enum vars and puts index to them
+     *
+     * @param enumVars list of enum vars
+     */
     public void addEnumIndexes(List<Map<String, Object>> enumVars) {
         int enumIndex = 0;
         for (Map<String, Object> enumVar : enumVars) {
@@ -238,18 +278,16 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
-        List<Object> models = (List<Object>) objs.get("models");
 
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
 
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
-                addUnknownToAllowableValues(allowableValues, cm.getClassname());
-
+                addUnknownToAllowableValues(allowableValues);
+                addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                     addEnumIndexes(enumVars);
@@ -277,7 +315,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues, var.getEnumName());
+                    addUnknownToAllowableValues(var.allowableValues);
+                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
                 
                     if(var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
@@ -307,7 +346,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModels = this.getAllModels(objs);
@@ -331,22 +370,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return objs;
     }
 
-    public void addImport(Map<String, Object> objs, CodegenModel cm, String importValue) {
+    public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
         String modelFileName = this.toModelFilename(importValue);
         boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
         if (!skipImport) {
             this.addImport(cm, importValue);
-            Map<String, Object> importItem = new HashMap<>();
+            Map<String, String> importItem = new HashMap<>();
             importItem.put(IMPORT, modelFileName);
-            ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS)).add(importItem);
+            objs.get(cm.getName()).getImports().add(importItem);
         }
     }
 
-    private boolean isImportAlreadyPresentInModel(Map<String, Object> objs, CodegenModel cm, String importValue) {
+    private boolean isImportAlreadyPresentInModel(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
         boolean skipImport = false;
-        List<Map<String, Object>> cmImports = ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS));
-        for (Map<String, Object> cmImportItem : cmImports) {
-            for (Entry<String, Object> cmImportItemEntry : cmImportItem.entrySet()) {
+        List<Map<String, String>> cmImports = objs.get(cm.getName()).getImports();
+        for (Map<String, String> cmImportItem : cmImports) {
+            for (Entry<String, String> cmImportItemEntry : cmImportItem.entrySet()) {
                 if (importValue.equals(cmImportItemEntry.getValue())) {
                     skipImport = true;
                     break;
@@ -504,9 +543,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             int index = 1;
             for (CodegenParameter p : op.allParams) {

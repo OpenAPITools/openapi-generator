@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,8 +18,9 @@ import javax.annotation.Generated;
  * HasOnlyReadOnly
  */
 
+@JsonTypeName("hasOnlyReadOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class HasOnlyReadOnly   {
+public class HasOnlyReadOnly {
 
   @JsonProperty("bar")
   private String bar;

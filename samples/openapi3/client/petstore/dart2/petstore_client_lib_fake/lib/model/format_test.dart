@@ -190,48 +190,72 @@ class FormatTest {
   String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (integer != null) {
-      json[r'integer'] = integer;
+      _json[r'integer'] = integer;
+    } else {
+      _json[r'integer'] = null;
     }
     if (int32 != null) {
-      json[r'int32'] = int32;
+      _json[r'int32'] = int32;
+    } else {
+      _json[r'int32'] = null;
     }
     if (int64 != null) {
-      json[r'int64'] = int64;
+      _json[r'int64'] = int64;
+    } else {
+      _json[r'int64'] = null;
     }
-      json[r'number'] = number;
+      _json[r'number'] = number;
     if (float != null) {
-      json[r'float'] = float;
+      _json[r'float'] = float;
+    } else {
+      _json[r'float'] = null;
     }
     if (double_ != null) {
-      json[r'double'] = double_;
+      _json[r'double'] = double_;
+    } else {
+      _json[r'double'] = null;
     }
     if (decimal != null) {
-      json[r'decimal'] = decimal;
+      _json[r'decimal'] = decimal;
+    } else {
+      _json[r'decimal'] = null;
     }
     if (string != null) {
-      json[r'string'] = string;
+      _json[r'string'] = string;
+    } else {
+      _json[r'string'] = null;
     }
-      json[r'byte'] = byte;
+      _json[r'byte'] = byte;
     if (binary != null) {
-      json[r'binary'] = binary;
+      _json[r'binary'] = binary;
+    } else {
+      _json[r'binary'] = null;
     }
-      json[r'date'] = _dateFormatter.format(date.toUtc());
+      _json[r'date'] = _dateFormatter.format(date.toUtc());
     if (dateTime != null) {
-      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+      _json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+    } else {
+      _json[r'dateTime'] = null;
     }
     if (uuid != null) {
-      json[r'uuid'] = uuid;
+      _json[r'uuid'] = uuid;
+    } else {
+      _json[r'uuid'] = null;
     }
-      json[r'password'] = password;
+      _json[r'password'] = password;
     if (patternWithDigits != null) {
-      json[r'pattern_with_digits'] = patternWithDigits;
+      _json[r'pattern_with_digits'] = patternWithDigits;
+    } else {
+      _json[r'pattern_with_digits'] = null;
     }
     if (patternWithDigitsAndDelimiter != null) {
-      json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+      _json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+    } else {
+      _json[r'pattern_with_digits_and_delimiter'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [FormatTest] instance and imports its values from

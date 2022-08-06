@@ -24,6 +24,10 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.PrefixWithHashLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -167,6 +171,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("float", "Float32");
         typeMapping.put("double", "Float64");
         typeMapping.put("number", "Float64");
+        typeMapping.put("decimal", "Float64");
         typeMapping.put("date", "Time");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
@@ -473,7 +478,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -554,19 +559,21 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (isSkipOperationExample()) {
+            return objs;
+        }
+        OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));

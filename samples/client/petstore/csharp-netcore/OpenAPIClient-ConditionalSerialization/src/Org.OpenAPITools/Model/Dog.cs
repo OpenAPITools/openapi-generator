@@ -51,6 +51,10 @@ namespace Org.OpenAPITools.Model
         public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
         {
             this._Breed = breed;
+            if (this.Breed != null)
+            {
+                this._flagBreed = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -166,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach (var x in BaseValidate(validationContext))
+            foreach (var x in base.BaseValidate(validationContext))
             {
                 yield return x;
             }

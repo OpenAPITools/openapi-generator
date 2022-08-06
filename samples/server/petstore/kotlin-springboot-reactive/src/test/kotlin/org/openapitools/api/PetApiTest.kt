@@ -3,7 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.junit.jupiter.api.Test
-import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
 
@@ -20,7 +20,7 @@ class PetApiTest {
      */
     @Test
     fun addPetTest() = runBlockingTest {
-        val body:Pet = TODO()
+        val body: Pet = TODO()
         val response: ResponseEntity<Unit> = api.addPet(body)
 
         // TODO: test validations
@@ -34,8 +34,8 @@ class PetApiTest {
      */
     @Test
     fun deletePetTest() = runBlockingTest {
-        val petId:kotlin.Long = TODO()
-        val apiKey:kotlin.String? = TODO()
+        val petId: kotlin.Long = TODO()
+        val apiKey: kotlin.String? = TODO()
         val response: ResponseEntity<Unit> = api.deletePet(petId, apiKey)
 
         // TODO: test validations
@@ -49,7 +49,7 @@ class PetApiTest {
      */
     @Test
     fun findPetsByStatusTest() = runBlockingTest {
-        val status:kotlin.collections.List<kotlin.String> = TODO()
+        val status: kotlin.collections.List<kotlin.String> = TODO()
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByStatus(status)
 
         // TODO: test validations
@@ -63,7 +63,7 @@ class PetApiTest {
      */
     @Test
     fun findPetsByTagsTest() = runBlockingTest {
-        val tags:kotlin.collections.List<kotlin.String> = TODO()
+        val tags: kotlin.collections.List<kotlin.String> = TODO()
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByTags(tags)
 
         // TODO: test validations
@@ -77,7 +77,7 @@ class PetApiTest {
      */
     @Test
     fun getPetByIdTest() = runBlockingTest {
-        val petId:kotlin.Long = TODO()
+        val petId: kotlin.Long = TODO()
         val response: ResponseEntity<Pet> = api.getPetById(petId)
 
         // TODO: test validations
@@ -91,7 +91,7 @@ class PetApiTest {
      */
     @Test
     fun updatePetTest() = runBlockingTest {
-        val body:Pet = TODO()
+        val body: Pet = TODO()
         val response: ResponseEntity<Unit> = api.updatePet(body)
 
         // TODO: test validations
@@ -105,9 +105,9 @@ class PetApiTest {
      */
     @Test
     fun updatePetWithFormTest() = runBlockingTest {
-        val petId:kotlin.Long = TODO()
-        val name:kotlin.String? = TODO()
-        val status:kotlin.String? = TODO()
+        val petId: kotlin.Long = TODO()
+        val name: kotlin.String? = TODO()
+        val status: kotlin.String? = TODO()
         val response: ResponseEntity<Unit> = api.updatePetWithForm(petId, name, status)
 
         // TODO: test validations
@@ -121,12 +121,11 @@ class PetApiTest {
      */
     @Test
     fun uploadFileTest() = runBlockingTest {
-        val petId:kotlin.Long = TODO()
-        val additionalMetadata:kotlin.String? = TODO()
-        val file:org.springframework.core.io.Resource? = TODO()
+        val petId: kotlin.Long = TODO()
+        val additionalMetadata: kotlin.String? = TODO()
+        val file: org.springframework.core.io.Resource? = TODO()
         val response: ResponseEntity<ModelApiResponse> = api.uploadFile(petId, additionalMetadata, file)
 
         // TODO: test validations
     }
-
 }

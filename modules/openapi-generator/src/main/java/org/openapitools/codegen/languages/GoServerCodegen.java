@@ -21,6 +21,9 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +34,7 @@ import java.util.*;
 public class GoServerCodegen extends AbstractGoCodegen {
 
     /**
-     *  Name of additional property for switching routers
+     * Name of additional property for switching routers
      */
     private static final String ROUTER_SWITCH = "router";
 
@@ -43,7 +46,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     /**
      * List of available routers
      */
-    private static final String[] ROUTERS = { "mux", "chi" };
+    private static final String[] ROUTERS = {"mux", "chi"};
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
@@ -53,6 +56,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected String sourceFolder = "go";
     protected Boolean corsFeatureEnabled = false;
     protected Boolean addResponseHeaders = false;
+    protected Boolean outputAsLibrary = false;
+    protected Boolean onlyInterfaces = false;
 
 
     public GoServerCodegen() {
@@ -85,7 +90,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
                 .defaultValue(sourceFolder));
 
         CliOption frameworkOption = new CliOption(ROUTER_SWITCH, ROUTER_SWITCH_DESC);
-        for (String option: ROUTERS) {
+        for (String option : ROUTERS) {
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(ROUTERS[0]);
@@ -109,6 +114,18 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
+        
+        // option to exclude service factories; only interfaces are rendered
+        CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
+        optOnlyInterfaces.setType("bool");
+        optOnlyInterfaces.defaultValue(onlyInterfaces.toString());
+        cliOptions.add(optOnlyInterfaces);
+
+        // option to exclude main package (main.go), Dockerfile, and go.mod files
+        CliOption optOutputAsLibrary = new CliOption("outputAsLibrary", "Exclude main.go, go.mod, and Dockerfile from output");
+        optOutputAsLibrary.setType("bool");
+        optOutputAsLibrary.defaultValue(outputAsLibrary.toString());
+        cliOptions.add(optOutputAsLibrary);
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
@@ -214,6 +231,22 @@ public class GoServerCodegen extends AbstractGoCodegen {
             additionalProperties.put("addResponseHeaders", addResponseHeaders);
         }
 
+        if (additionalProperties.containsKey("onlyInterfaces")) {
+            this.setOnlyInterfaces(convertPropertyToBooleanAndWriteBack("onlyInterfaces"));
+        } else {
+            additionalProperties.put("onlyInterfaces", onlyInterfaces);
+        }
+
+        if (this.onlyInterfaces) {
+          apiTemplateFiles.remove("service.mustache");
+        }
+
+        if (additionalProperties.containsKey("outputAsLibrary")) {
+            this.setOutputAsLibrary(convertPropertyToBooleanAndWriteBack("outputAsLibrary"));
+        } else {
+            additionalProperties.put("outputAsLibrary", outputAsLibrary);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
             setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
             if (enumClassPrefix) {
@@ -225,7 +258,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         final Object propRouter = additionalProperties.get(ROUTER_SWITCH);
         final Map<String, Boolean> routers = new HashMap<>();
-        for (String router: ROUTERS) {
+        for (String router : ROUTERS) {
             routers.put(router, router.equals(propRouter));
         }
         additionalProperties.put("routers", routers);
@@ -238,13 +271,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
+        if (!outputAsLibrary) {
+          supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
+          supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+          supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+        }
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
-        supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
-        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
-        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
-        supportingFiles.add(new SupportingFile("impl.mustache",sourceFolder, "impl.go"));
+        supportingFiles.add(new SupportingFile("impl.mustache", sourceFolder, "impl.go"));
         supportingFiles.add(new SupportingFile("helpers.mustache", sourceFolder, "helpers.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
         supportingFiles.add(new SupportingFile("error.mustache", sourceFolder, "error.go"));
@@ -253,14 +288,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
 
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         if (imports == null)
             return objs;
 
@@ -361,6 +394,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setAddResponseHeaders(Boolean addResponseHeaders) {
         this.addResponseHeaders = addResponseHeaders;
+    }
+
+    public void setOnlyInterfaces(Boolean onlyInterfaces) {
+        this.onlyInterfaces = onlyInterfaces;
+    }
+
+    public void setOutputAsLibrary(Boolean outputAsLibrary) {
+        this.outputAsLibrary = outputAsLibrary;
     }
 
     @Override

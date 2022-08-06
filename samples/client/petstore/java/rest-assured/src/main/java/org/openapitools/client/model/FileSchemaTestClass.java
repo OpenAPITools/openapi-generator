@@ -43,7 +43,7 @@ public class FileSchemaTestClass {
   @SerializedName(SERIALIZED_NAME_FILES)
   private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
@@ -78,7 +78,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<ModelFile>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

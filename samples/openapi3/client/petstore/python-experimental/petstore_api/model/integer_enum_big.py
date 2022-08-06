@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -78,14 +87,14 @@ class IntegerEnumBig(
     @classmethod
     @property
     def POSITIVE_10(cls):
-        return cls._enum_by_value[10](10)
+        return cls(10)
     
     @classmethod
     @property
     def POSITIVE_11(cls):
-        return cls._enum_by_value[11](11)
+        return cls(11)
     
     @classmethod
     @property
     def POSITIVE_12(cls):
-        return cls._enum_by_value[12](12)
+        return cls(12)

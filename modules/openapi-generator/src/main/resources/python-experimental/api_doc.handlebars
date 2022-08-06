@@ -1,19 +1,21 @@
-# {{packageName}}.{{classname}}{{#if description}}
+<a name="__pageTop"></a>
+# {{packageName}}.{{apiPackage}}.tags.{{classFilename}}.{{classname}}{{#if description}}
 {{description}}{{/if}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#with operations}}{{#each operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
+{{#with operations}}{{#each operation}}[**{{operationId}}**](#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
 {{/each}}{{/with}}
 
 {{#with operations}}
 {{#each operation}}
 # **{{{operationId}}}**
+<a name="{{{operationId}}}"></a>
 > {{#if returnType}}{{{returnType}}} {{/if}}{{{operationId}}}({{#each requiredParams}}{{#unless defaultValue}}{{paramName}}{{#if hasMore}}, {{/if}}{{/unless}}{{/each}})
 
-{{{summary}}}{{#if notes}}
+{{#if summary}}{{{summary}}}{{/if}}{{#if notes}}
 
 {{{notes}}}{{/if}}
 
@@ -159,9 +161,9 @@ Code | Class | Description
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 {{#each responses}}
 {{#if isDefault}}
-default | ApiResponseForDefault | {{message}} {{description}}
+default | ApiResponseForDefault | {{message}}
 {{else}}
-{{code}} | ApiResponseFor{{code}} | {{message}} {{description}}
+{{code}} | ApiResponseFor{{code}} | {{message}}
 {{/if}}
 {{/each}}
 {{#each responses}}
@@ -175,7 +177,7 @@ default | ApiResponseForDefault | {{message}} {{description}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
-body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{this.schema.baseName}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
+body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{#if this.schema}}{{this.schema.baseName}}{{else}}Unset{{/if}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
 headers | {{#unless responseHeaders}}Unset{{else}}ResponseHeadersFor{{code}}{{/unless}} | {{#unless responseHeaders}}headers were not defined{{/unless}} |
 {{#each content}}
 {{#with this.schema}}
@@ -204,9 +206,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-{{#unless authMethods}}No authorization required{{/unless}}{{#each authMethods}}[{{{name}}}](../README.md#{{{name}}}){{#unless @last}}, {{/unless}}{{/each}}
+{{#unless authMethods}}No authorization required{{/unless}}{{#each authMethods}}[{{{name}}}](../../../README.md#{{{name}}}){{#unless @last}}, {{/unless}}{{/each}}
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 {{/each}}
 {{/with}}

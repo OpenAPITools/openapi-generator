@@ -127,7 +127,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             if (!supportAsync) {
                 additionalProperties.remove(SUPPORT_ASYNC);
             } else {
-                setJava8ModeAndAdditionalProperties(true);
+                // java8 tag has been deprecated
+                //setJava8ModeAndAdditionalProperties(true);
             }
         }
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
@@ -267,6 +268,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        // Add imports for java.util.Arrays
+        if (property.isByteArray) {
+            model.imports.add("Arrays");
+        }
     }
 
 }

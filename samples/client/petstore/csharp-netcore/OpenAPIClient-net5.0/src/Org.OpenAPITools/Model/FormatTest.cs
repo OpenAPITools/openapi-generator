@@ -63,13 +63,15 @@ namespace Org.OpenAPITools.Model
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
-            if (_byte == null) {
+            if (_byte == null)
+            {
                 throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             }
             this.Byte = _byte;
             this.Date = date;
             // to ensure "password" is required (not null)
-            if (password == null) {
+            if (password == null)
+            {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this.Password = password;
@@ -109,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = true)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -151,7 +153,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -170,7 +172,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = true)]
         public string Password { get; set; }
 
         /// <summary>

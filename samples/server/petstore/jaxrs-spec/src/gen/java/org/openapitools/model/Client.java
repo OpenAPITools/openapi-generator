@@ -16,9 +16,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Client")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Client  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Client  implements Serializable {
   private @Valid String client;
+
+  protected Client(ClientBuilder<?, ?> b) {
+    this.client = b.client;
+  }
+
+  public Client() {
+  }
 
   /**
    **/
@@ -26,8 +33,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.client = client;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -81,5 +86,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ClientBuilder<?, ?> builder() {
+    return new ClientBuilderImpl();
+  }
+
+  private static final class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
+
+    @Override
+    protected ClientBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Client build() {
+      return new Client(this);
+    }
+  }
+
+  public static abstract class ClientBuilder<C extends Client, B extends ClientBuilder<C, B>>  {
+    private String client;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B client(String client) {
+      this.client = client;
+      return self();
+    }
+  }
 }
 

@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * Warning code returned when a potential problem is detected
  * @export
- * @enum {string}
  */
-export enum WarningCode {
-    ReduceVolumeRangeToAvoidLargeSteps = 'Reduce_Volume_Range_To_Avoid_Large_Steps',
-    RaiseAmplifierVolume = 'Raise_Amplifier_Volume',
-    NoVolumeRangeSpecified = 'No_Volume_Range_Specified'
-}
+export const WarningCode = {
+    ReduceVolumeRangeToAvoidLargeSteps: 'Reduce_Volume_Range_To_Avoid_Large_Steps',
+    RaiseAmplifierVolume: 'Raise_Amplifier_Volume',
+    NoVolumeRangeSpecified: 'No_Volume_Range_Specified'
+} as const;
+export type WarningCode = typeof WarningCode[keyof typeof WarningCode];
+
 
 export function WarningCodeFromJSON(json: any): WarningCode {
     return WarningCodeFromJSONTyped(json, false);

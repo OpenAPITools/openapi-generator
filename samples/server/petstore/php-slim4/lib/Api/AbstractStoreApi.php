@@ -103,6 +103,7 @@ abstract class AbstractStoreApi
     /**
      * POST placeOrder
      * Summary: Place an order for a pet
+     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param ServerRequestInterface $request  Request

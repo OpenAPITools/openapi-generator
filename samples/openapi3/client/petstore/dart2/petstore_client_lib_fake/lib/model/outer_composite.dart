@@ -59,17 +59,23 @@ class OuterComposite {
   String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (myNumber != null) {
-      json[r'my_number'] = myNumber;
+      _json[r'my_number'] = myNumber;
+    } else {
+      _json[r'my_number'] = null;
     }
     if (myString != null) {
-      json[r'my_string'] = myString;
+      _json[r'my_string'] = myString;
+    } else {
+      _json[r'my_string'] = null;
     }
     if (myBoolean != null) {
-      json[r'my_boolean'] = myBoolean;
+      _json[r'my_boolean'] = myBoolean;
+    } else {
+      _json[r'my_boolean'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [OuterComposite] instance and imports its values from

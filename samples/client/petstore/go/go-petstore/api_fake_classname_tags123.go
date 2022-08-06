@@ -18,10 +18,6 @@ import (
 	"net/url"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type FakeClassnameTags123Api interface {
 
@@ -30,8 +26,8 @@ type FakeClassnameTags123Api interface {
 
 	To test class name in snake case
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiTestClassnameRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestClassnameRequest
 	*/
 	TestClassname(ctx context.Context) ApiTestClassnameRequest
 

@@ -11,7 +11,7 @@ title: Documentation for the typescript-nestjs Generator
 | generator type | CLIENT | |
 | generator language | Typescript | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a TypeScript Nestjs 6.x client library. | |
+| helpTxt | Generates a TypeScript Nestjs 8.x or 6.x client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -29,7 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
-|nestVersion|The version of Nestjs.| |6.0.0|
+|nestVersion|The version of Nestjs.|<dl><dt>**8.0.0**</dt><dd>Use new HttpModule and HttpService from @nestjs/axios.</dd><dt>**6.0.0**</dt><dd>Use old HttpModule and HttpService from @nestjs/common.</dd></dl>|8.0.0|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
@@ -185,7 +185,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -245,6 +249,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

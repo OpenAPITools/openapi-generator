@@ -6,11 +6,12 @@ import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.EnumClass;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
@@ -472,7 +473,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
+  void testEndpointParameters(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("callback") String paramCallback);
 
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -498,7 +499,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  ApiResponse<Void> testEndpointParametersWithHttpInfo(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
+  ApiResponse<Void> testEndpointParametersWithHttpInfo(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("callback") String paramCallback);
 
 
 
@@ -511,10 +512,11 @@ public interface FakeApi extends ApiClient.Api {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
+   * @param enumQueryModelArray  (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    */
-  @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}")
+  @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}&enum_query_model_array={enumQueryModelArray}")
   @Headers({
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
@@ -522,7 +524,7 @@ public interface FakeApi extends ApiClient.Api {
     
     "enum_header_string: {enumHeaderString}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString);
+  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumQueryModelArray") List<EnumClass> enumQueryModelArray, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString);
 
   /**
    * To test enum parameters
@@ -534,10 +536,11 @@ public interface FakeApi extends ApiClient.Api {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
+   * @param enumQueryModelArray  (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    */
-  @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}")
+  @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}&enum_query_model_array={enumQueryModelArray}")
   @Headers({
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
@@ -545,7 +548,7 @@ public interface FakeApi extends ApiClient.Api {
     
     "enum_header_string: {enumHeaderString}"
   })
-  ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString);
+  ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumQueryModelArray") List<EnumClass> enumQueryModelArray, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString);
 
 
   /**
@@ -567,9 +570,10 @@ public interface FakeApi extends ApiClient.Api {
    *   <li>enumQueryString - Query parameter enum test (string) (optional, default to -efg)</li>
    *   <li>enumQueryInteger - Query parameter enum test (double) (optional)</li>
    *   <li>enumQueryDouble - Query parameter enum test (double) (optional)</li>
+   *   <li>enumQueryModelArray -  (optional)</li>
    *   </ul>
    */
-  @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}")
+  @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}&enum_query_model_array={enumQueryModelArray}")
   @Headers({
   "Content-Type: application/x-www-form-urlencoded",
   "Accept: application/json",
@@ -577,7 +581,7 @@ public interface FakeApi extends ApiClient.Api {
       
       "enum_header_string: {enumHeaderString}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
   * To test enum parameters
@@ -595,9 +599,10 @@ public interface FakeApi extends ApiClient.Api {
           *   <li>enumQueryString - Query parameter enum test (string) (optional, default to -efg)</li>
           *   <li>enumQueryInteger - Query parameter enum test (double) (optional)</li>
           *   <li>enumQueryDouble - Query parameter enum test (double) (optional)</li>
+          *   <li>enumQueryModelArray -  (optional)</li>
       *   </ul>
       */
-      @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}")
+      @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}&enum_query_model_array={enumQueryModelArray}")
       @Headers({
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
@@ -605,7 +610,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "enum_header_string: {enumHeaderString}"
       })
-   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -627,6 +632,10 @@ public interface FakeApi extends ApiClient.Api {
     }
     public TestEnumParametersQueryParams enumQueryDouble(final Double value) {
       put("enum_query_double", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestEnumParametersQueryParams enumQueryModelArray(final List<EnumClass> value) {
+      put("enum_query_model_array", EncodingUtils.encodeCollection(value, "multi"));
       return this;
     }
   }

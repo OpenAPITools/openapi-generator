@@ -15,7 +15,7 @@ lazy val root = (project in file(".")).
       "org.jboss.resteasy" % "resteasy-jackson2-provider" % "4.5.11.Final" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.6.1" % "compile",
       "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.9.10" % "compile",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",

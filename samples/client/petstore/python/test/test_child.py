@@ -115,9 +115,9 @@ class TestChild(unittest.TestCase):
         self.assertEqual(
             child._var_name_to_model_instances,
             {
-                'radio_waves': [child, child_allof_instance, parent_instance],
-                'tele_vision': [child, child_allof_instance, parent_instance],
-                'inter_net': [child, child_allof_instance, parent_instance]
+                'radio_waves': [child, parent_instance],
+                'tele_vision': [child, parent_instance],
+                'inter_net': [child, child_allof_instance]
             }
         )
         # model._additional_properties_model_instances stores a list of

@@ -86,40 +86,60 @@ class NullableClass {
   String toString() => 'NullableClass[integerProp=$integerProp, numberProp=$numberProp, booleanProp=$booleanProp, stringProp=$stringProp, dateProp=$dateProp, datetimeProp=$datetimeProp, arrayNullableProp=$arrayNullableProp, arrayAndItemsNullableProp=$arrayAndItemsNullableProp, arrayItemsNullable=$arrayItemsNullable, objectNullableProp=$objectNullableProp, objectAndItemsNullableProp=$objectAndItemsNullableProp, objectItemsNullable=$objectItemsNullable]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (integerProp != null) {
-      json[r'integer_prop'] = integerProp;
+      _json[r'integer_prop'] = integerProp;
+    } else {
+      _json[r'integer_prop'] = null;
     }
     if (numberProp != null) {
-      json[r'number_prop'] = numberProp;
+      _json[r'number_prop'] = numberProp;
+    } else {
+      _json[r'number_prop'] = null;
     }
     if (booleanProp != null) {
-      json[r'boolean_prop'] = booleanProp;
+      _json[r'boolean_prop'] = booleanProp;
+    } else {
+      _json[r'boolean_prop'] = null;
     }
     if (stringProp != null) {
-      json[r'string_prop'] = stringProp;
+      _json[r'string_prop'] = stringProp;
+    } else {
+      _json[r'string_prop'] = null;
     }
     if (dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
+      _json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
+    } else {
+      _json[r'date_prop'] = null;
     }
     if (datetimeProp != null) {
-      json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
+      _json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
+    } else {
+      _json[r'datetime_prop'] = null;
     }
     if (arrayNullableProp != null) {
-      json[r'array_nullable_prop'] = arrayNullableProp;
+      _json[r'array_nullable_prop'] = arrayNullableProp;
+    } else {
+      _json[r'array_nullable_prop'] = null;
     }
     if (arrayAndItemsNullableProp != null) {
-      json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
+      _json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
+    } else {
+      _json[r'array_and_items_nullable_prop'] = null;
     }
-      json[r'array_items_nullable'] = arrayItemsNullable;
+      _json[r'array_items_nullable'] = arrayItemsNullable;
     if (objectNullableProp != null) {
-      json[r'object_nullable_prop'] = objectNullableProp;
+      _json[r'object_nullable_prop'] = objectNullableProp;
+    } else {
+      _json[r'object_nullable_prop'] = null;
     }
     if (objectAndItemsNullableProp != null) {
-      json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
+      _json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
+    } else {
+      _json[r'object_and_items_nullable_prop'] = null;
     }
-      json[r'object_items_nullable'] = objectItemsNullable;
-    return json;
+      _json[r'object_items_nullable'] = objectItemsNullable;
+    return _json;
   }
 
   /// Returns a new [NullableClass] instance and imports its values from
@@ -152,9 +172,9 @@ class NullableClass {
         arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']) ?? const [],
         arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']) ?? const [],
         arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']) ?? const [],
-        objectNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_nullable_prop') ?? const {},
-        objectAndItemsNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_and_items_nullable_prop') ?? const {},
-        objectItemsNullable: mapValueOfType<Map<String, Object>>(json, r'object_items_nullable') ?? const {},
+        objectNullableProp: mapCastOfType<String, Object>(json, r'object_nullable_prop') ?? const {},
+        objectAndItemsNullableProp: mapCastOfType<String, Object>(json, r'object_and_items_nullable_prop') ?? const {},
+        objectItemsNullable: mapCastOfType<String, Object>(json, r'object_items_nullable') ?? const {},
       );
     }
     return null;

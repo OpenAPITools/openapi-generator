@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -70,6 +79,7 @@ class ComplexQuadrilateral(
 
     @classmethod
     @property
+    @functools.cache
     def _composed_schemas(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
@@ -78,29 +88,66 @@ class ComplexQuadrilateral(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        
+        
+        class allOf_1(
+            DictSchema
+        ):
+            
+            
+            class quadrilateralType(
+                _SchemaEnumMaker(
+                    enum_value_to_name={
+                        "ComplexQuadrilateral": "COMPLEX_QUADRILATERAL",
+                    }
+                ),
+                StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def COMPLEX_QUADRILATERAL(cls):
+                    return cls("ComplexQuadrilateral")
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                quadrilateralType: typing.Union[quadrilateralType, Unset] = unset,
+                _configuration: typing.Optional[Configuration] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    quadrilateralType=quadrilateralType,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 QuadrilateralInterface,
-                ComplexQuadrilateralAllOf,
+                allOf_1,
             ],
             'oneOf': [
             ],
             'anyOf': [
             ],
+            'not':
+                None
         }
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'ComplexQuadrilateral':
         return super().__new__(
             cls,
             *args,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 
-from petstore_api.model.complex_quadrilateral_all_of import ComplexQuadrilateralAllOf
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface

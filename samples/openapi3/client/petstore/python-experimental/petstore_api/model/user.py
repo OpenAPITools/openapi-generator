@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -79,7 +88,7 @@ class User(
     
     
     class objectWithNoDeclaredPropsNullable(
-        _SchemaTypeChecker(typing.Union[frozendict, none_type, ]),
+        _SchemaTypeChecker(typing.Union[frozendict, NoneClass, ]),
         DictBase,
         NoneBase,
         Schema
@@ -88,16 +97,57 @@ class User(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'objectWithNoDeclaredPropsNullable':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     anyTypeProp = AnyTypeSchema
+    
+    
+    class anyTypeExceptNullProp(
+        ComposedSchema
+    ):
+    
+        @classmethod
+        @property
+        @functools.cache
+        def _composed_schemas(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            NotSchema = NoneSchema
+            return {
+                'allOf': [
+                ],
+                'oneOf': [
+                ],
+                'anyOf': [
+                ],
+                'not':
+                    NotSchema
+            }
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _configuration: typing.Optional[Configuration] = None,
+            **kwargs: typing.Type[Schema],
+        ) -> 'anyTypeExceptNullProp':
+            return super().__new__(
+                cls,
+                *args,
+                _configuration=_configuration,
+                **kwargs,
+            )
     anyTypePropNullable = AnyTypeSchema
 
 
@@ -115,8 +165,9 @@ class User(
         objectWithNoDeclaredProps: typing.Union[objectWithNoDeclaredProps, Unset] = unset,
         objectWithNoDeclaredPropsNullable: typing.Union[objectWithNoDeclaredPropsNullable, Unset] = unset,
         anyTypeProp: typing.Union[anyTypeProp, Unset] = unset,
+        anyTypeExceptNullProp: typing.Union[anyTypeExceptNullProp, Unset] = unset,
         anyTypePropNullable: typing.Union[anyTypePropNullable, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'User':
         return super().__new__(
@@ -133,7 +184,8 @@ class User(
             objectWithNoDeclaredProps=objectWithNoDeclaredProps,
             objectWithNoDeclaredPropsNullable=objectWithNoDeclaredPropsNullable,
             anyTypeProp=anyTypeProp,
+            anyTypeExceptNullProp=anyTypeExceptNullProp,
             anyTypePropNullable=anyTypePropNullable,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

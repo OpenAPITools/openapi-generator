@@ -9,21 +9,21 @@ defmodule OpenapiPetstore.Model.Pet do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"id",
-    :"category",
-    :"name",
-    :"photoUrls",
-    :"tags",
-    :"status"
+    :id,
+    :category,
+    :name,
+    :photoUrls,
+    :tags,
+    :status
   ]
 
   @type t :: %__MODULE__{
-    :"id" => integer() | nil,
-    :"category" => OpenapiPetstore.Model.Category.t | nil,
-    :"name" => String.t,
-    :"photoUrls" => [String.t],
-    :"tags" => [OpenapiPetstore.Model.Tag.t] | nil,
-    :"status" => String.t | nil
+    :id => integer() | nil,
+    :category => OpenapiPetstore.Model.Category.t | nil,
+    :name => String.t,
+    :photoUrls => [String.t],
+    :tags => [OpenapiPetstore.Model.Tag.t] | nil,
+    :status => String.t | nil
   }
 end
 
@@ -31,8 +31,8 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.Pet do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"category", :struct, OpenapiPetstore.Model.Category, options)
-    |> deserialize(:"tags", :list, OpenapiPetstore.Model.Tag, options)
+    |> deserialize(:category, :struct, OpenapiPetstore.Model.Category, options)
+    |> deserialize(:tags, :list, OpenapiPetstore.Model.Tag, options)
   end
 end
 

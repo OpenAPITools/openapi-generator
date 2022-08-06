@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,12 +49,19 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -67,7 +76,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
 
     Do not edit the class manually.
     """
-    uuid = StrSchema
+    uuid = UUIDSchema
     dateTime = DateTimeSchema
     
     
@@ -84,13 +93,13 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'map':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
 
@@ -101,7 +110,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         uuid: typing.Union[uuid, Unset] = unset,
         dateTime: typing.Union[dateTime, Unset] = unset,
         map: typing.Union[map, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
@@ -110,7 +119,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             uuid=uuid,
             dateTime=dateTime,
             map=map,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 

@@ -87,7 +87,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   /**
    **/
@@ -131,6 +131,22 @@ public enum ArrayEnumEnum {
     this.arrayEnum = arrayEnum;
   }
 
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<>();
+    }
+
+    this.arrayEnum.add(arrayEnumItem);
+    return this;
+  }
+
+  public EnumArrays removeArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (arrayEnumItem != null && this.arrayEnum != null) {
+      this.arrayEnum.remove(arrayEnumItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

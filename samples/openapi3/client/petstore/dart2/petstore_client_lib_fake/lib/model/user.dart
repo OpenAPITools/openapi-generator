@@ -115,32 +115,48 @@ class User {
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (id != null) {
-      json[r'id'] = id;
+      _json[r'id'] = id;
+    } else {
+      _json[r'id'] = null;
     }
     if (username != null) {
-      json[r'username'] = username;
+      _json[r'username'] = username;
+    } else {
+      _json[r'username'] = null;
     }
     if (firstName != null) {
-      json[r'firstName'] = firstName;
+      _json[r'firstName'] = firstName;
+    } else {
+      _json[r'firstName'] = null;
     }
     if (lastName != null) {
-      json[r'lastName'] = lastName;
+      _json[r'lastName'] = lastName;
+    } else {
+      _json[r'lastName'] = null;
     }
     if (email != null) {
-      json[r'email'] = email;
+      _json[r'email'] = email;
+    } else {
+      _json[r'email'] = null;
     }
     if (password != null) {
-      json[r'password'] = password;
+      _json[r'password'] = password;
+    } else {
+      _json[r'password'] = null;
     }
     if (phone != null) {
-      json[r'phone'] = phone;
+      _json[r'phone'] = phone;
+    } else {
+      _json[r'phone'] = null;
     }
     if (userStatus != null) {
-      json[r'userStatus'] = userStatus;
+      _json[r'userStatus'] = userStatus;
+    } else {
+      _json[r'userStatus'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [User] instance and imports its values from

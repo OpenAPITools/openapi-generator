@@ -2,7 +2,7 @@
 
 /**
  * PetController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -114,6 +114,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->addPet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -140,7 +141,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -198,7 +199,8 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
+
+            $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -220,7 +222,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -286,6 +288,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->findPetsByStatus($status, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -312,7 +315,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -376,6 +379,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -402,7 +406,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -461,6 +465,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getPetById($petId, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -490,7 +495,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -559,6 +564,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -591,7 +597,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -657,7 +663,8 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updatePetWithForm($petId, $name, $status, $responseCode, $responseHeaders);
+
+            $handler->updatePetWithForm($petId, $name, $status, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -679,7 +686,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -753,6 +760,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->uploadFile($petId, $additionalMetadata, $file, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -776,7 +784,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }

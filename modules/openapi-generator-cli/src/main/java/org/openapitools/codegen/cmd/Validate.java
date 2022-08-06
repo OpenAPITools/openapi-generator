@@ -24,7 +24,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.openapitools.codegen.validation.ValidationResult;
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator;
 import org.openapitools.codegen.validations.oas.RuleConfiguration;

@@ -921,24 +921,6 @@
       ]
     },
     {
-      "input": "spring-mvc-petstore-j8-async-server.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-j8-localdatetime.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-server.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
       "input": "spring-stubs.sh",
       "matches": [
         "Server: Spring"
@@ -1240,6 +1222,12 @@
     },
     {
       "input": "typescript-nestjs-v6-petstore-provided-in-root.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-nestjs-v8-petstore-provided-in-root.sh",
       "matches": [
         "Client: TypeScript"
       ]

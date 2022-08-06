@@ -17,12 +17,24 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
+import com.google.common.base.CaseFormat;
+import io.swagger.v3.oas.annotations.tags.Tags;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
+
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.*;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
@@ -51,8 +63,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
@@ -63,11 +77,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
     public static final String RECURSION_LIMIT = "recursionLimit";
+    public static final String USE_INLINE_MODEL_RESOLVER = "useInlineModelResolver";
 
     protected String packageUrl;
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
-    protected boolean useNose = Boolean.FALSE;
+    protected String apiDocPath = "docs/apis/tags/";
+    protected String modelDocPath = "docs/models/";
+    protected boolean useNose = false;
+    protected boolean useInlineModelResolver = false;
 
     protected Map<Character, String> regexModifiers;
 
@@ -82,15 +98,28 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     protected CodegenIgnoreProcessor ignoreProcessor;
     protected TemplateProcessor templateProcessor = null;
 
+    // for apis.tags imports
+    private Map<String, String> tagModuleNameToApiClassname = new LinkedHashMap<>();
+    // for apis.tags enum tag definition
+    private Map<String, String> enumToTag = new LinkedHashMap<>();
+    // for apis.tags tag api definition
+    private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
+
+
     public PythonExperimentalClientCodegen() {
         super();
+        loadDeepObjectIntoItems = false;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
                         SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.not
                 )
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.Custom))
@@ -100,6 +129,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Null,
+                        DataTypeFeature.AnyType,
+                        DataTypeFeature.Uuid
+                )
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer,
                         GlobalFeature.ParameterStyling
@@ -121,7 +155,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         importMapping.clear();
 
         modelPackage = "model";
-        apiPackage = "api";
+        apiPackage = "apis";
         outputFolder = "generated-code" + File.separatorChar + "python";
 
         embeddedTemplateDir = templateDir = "python-experimental";
@@ -175,11 +209,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
+        cliOptions.add(CliOption.newBoolean(USE_INLINE_MODEL_RESOLVER, "use the inline model resolver, if true inline complex models will be extracted into components and $refs to them will be used").
+                defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
-        supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
-        supportedLibraries.put("tornado", "tornado-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -245,9 +279,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         modelTemplateFiles.put("model." + templateExtension, ".py");
-            apiTemplateFiles.put("api." + templateExtension, ".py");
+        apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
-        apiTestTemplateFiles.put("api_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
         apiDocTemplateFiles.put("api_doc." + templateExtension, ".md");
 
@@ -306,6 +339,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             setUseNose((String) additionalProperties.get(USE_NOSE));
         }
 
+        if (additionalProperties.containsKey(USE_INLINE_MODEL_RESOLVER)) {
+            setUseInlineModelResolver((String) additionalProperties.get(USE_INLINE_MODEL_RESOLVER));
+        }
+
         // check to see if setRecursionLimit is set and whether it's an integer
         if (additionalProperties.containsKey(RECURSION_LIMIT)) {
             try {
@@ -353,6 +390,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder + File.separator + "test_models", "__init__.py"));
         }
 
         supportingFiles.add(new SupportingFile("api_client." + templateExtension, packagePath(), "api_client.py"));
@@ -372,8 +410,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models." + templateExtension, packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model." + templateExtension, packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + "apis", "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
                 (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
@@ -392,8 +429,16 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
-    public String endpointFilename(String templateName, String tag, String operationId) {
-        return apiFileFolder() + File.separator + toApiFilename(tag) + "_endpoints" + File.separator + operationId + ".py";
+    public String packageFilename(List<String> pathSegments) {
+        String prefix = outputFolder + File.separatorChar + packagePath() + File.separatorChar;
+        String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
+        return prefix + suffix;
+    }
+
+    public String filenameFromRoot(List<String> pathSegments) {
+        String prefix = outputFolder + File.separatorChar;
+        String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
+        return prefix + suffix;
     }
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
@@ -417,35 +462,178 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    private void generateFiles(List<List<Object>> processTemplateToFileInfos, String skippedByOption) {
+        for (List<Object> processTemplateToFileInfo: processTemplateToFileInfos) {
+            Map<String, Object> templateData = (Map<String, Object>) processTemplateToFileInfo.get(0);
+            String templateName = (String) processTemplateToFileInfo.get(1);
+            String outputFilename = (String) processTemplateToFileInfo.get(2);
+            try {
+                processTemplateToFile(templateData, templateName, outputFilename, true, skippedByOption);
+            } catch (IOException e) {
+                LOGGER.error("Error when writing template file {}", e.toString());
+            }
+        }
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        return toModelName(name) + apiNameSuffix;
+    }
+
     /*
     I made this method because endpoint parameters not contain a lot of needed metadata
     It is very verbose to write all of this info into the api template
     This ingests all operations under a tag in the objs input and writes out one file for each endpoint
      */
-    protected void generateEndpoints(Map<String, Object> objs) {
+    protected void generateEndpoints(OperationsMap objs) {
         if (!(Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS)) {
             return;
         }
-        HashMap<String, Object> operations = (HashMap<String, Object>) objs.get("operations");
-        ArrayList<CodegenOperation> codegenOperations = (ArrayList<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation co: codegenOperations) {
-            for (Tag tag: co.tags) {
-                String tagName = tag.getName();
-                String pythonTagName = toVarName(tagName);
-                Map<String, Object> operationMap = new HashMap<>();
-                operationMap.put("operation", co);
-                operationMap.put("imports", co.imports);
-                operationMap.put("packageName", packageName);
+        Paths paths = openAPI.getPaths();
+        if (paths == null) {
+            return;
+        }
+        List<List<Object>> pathsFiles = new ArrayList<>();
+        List<List<Object>> apisFiles = new ArrayList<>();
+        List<List<Object>> testFiles = new ArrayList<>();
+        String outputFilename;
 
-                String templateName = "endpoint.handlebars";
-                String filename = endpointFilename(templateName, pythonTagName, co.operationId);
-                try {
-                    File written = processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-                } catch (IOException e) {
-                    LOGGER.error("Error when writing template file {}", e.toString());
-                }
+        // endpoint tags may not exist in the root of the spec file
+        // this is allowed per openapi
+        // because spec tags may be empty ro incomplete, tags are also accumulated from endpoints
+        List<Tag> tags = openAPI.getTags();
+        if (tags != null) {
+            for (Tag tag: tags) {
+                String tagName = tag.getName();
+                String tagModuleName = toApiFilename(tagName);
+                String apiClassname = toApiName(tagName);
+                tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+                String tagEnum = toEnumVarName(tagName, "str");
+                enumToTag.put(tagEnum, tagName);
+                tagEnumToApiClassname.put(tagEnum, apiClassname);
             }
         }
+
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> codegenOperations = operations.getOperation();
+        HashMap<String, String> pathModuleToPath = new HashMap<>();
+        // paths.some_path.post.py (single endpoint definition)
+        for (CodegenOperation co: codegenOperations) {
+            if (co.tags != null) {
+                for (Tag tag: co.tags) {
+                    String tagName = tag.getName();
+                    String tagModuleName = toApiFilename(tagName);
+                    String apiClassname = toApiName(tagName);
+                    tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+                    String tagEnum = toEnumVarName(tagName, "str");
+                    enumToTag.put(tagEnum, tagName);
+                    tagEnumToApiClassname.put(tagEnum, apiClassname);
+                }
+            }
+            String path = co.path;
+            String pathModuleName = co.nickname;
+            if (!pathModuleToPath.containsKey(pathModuleName)) {
+                pathModuleToPath.put(pathModuleName, path);
+            }
+            Map<String, Object> endpointMap = new HashMap<>();
+            endpointMap.put("operation", co);
+            endpointMap.put("imports", co.imports);
+            endpointMap.put("packageName", packageName);
+            outputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
+            pathsFiles.add(Arrays.asList(endpointMap, "endpoint.handlebars", outputFilename));
+
+            Map<String, Object> endpointTestMap = new HashMap<>();
+            endpointTestMap.put("operation", co);
+            endpointTestMap.put("packageName", packageName);
+            outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "test_" + co.httpMethod + ".py"));
+            testFiles.add(Arrays.asList(endpointTestMap, "api_test.handlebars", outputFilename));
+            outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "__init__.py"));
+            testFiles.add(Arrays.asList(new HashMap<>(), "__init__.handlebars", outputFilename));
+        }
+        outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "__init__.py"));
+        testFiles.add(Arrays.asList(new HashMap<>(), "__init__test_paths.handlebars", outputFilename));
+
+        Map<String, String> pathValToVar = new LinkedHashMap<>();
+        Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
+        Map<String, String> pathEnumToApiClassname = new LinkedHashMap<>();
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String path = pathsEntry.getKey();
+            String pathEnumVar = toEnumVarName(path, "str");
+            pathValToVar.put(path, pathEnumVar);
+            String apiClassName = toModelName(path);
+            pathEnumToApiClassname.put(pathEnumVar, apiClassName);
+            pathModuleToApiClassname.put(toVarName(path), apiClassName);
+        }
+        // Note: __init__apis.handlebars is generated as a supporting file
+        // apis.tag_to_api.py
+        Map<String, Object> tagToApiMap = new HashMap<>();
+        tagToApiMap.put("packageName", packageName);
+        tagToApiMap.put("apiClassname", "Api");
+        tagToApiMap.put("tagModuleNameToApiClassname", tagModuleNameToApiClassname);
+        tagToApiMap.put("tagEnumToApiClassname", tagEnumToApiClassname);
+        outputFilename = packageFilename(Arrays.asList("apis", "tag_to_api.py"));
+        apisFiles.add(Arrays.asList(tagToApiMap, "apis_tag_to_api.handlebars", outputFilename));
+        // apis.path_to_api.py
+        Map<String, Object> allByPathsFileMap = new HashMap<>();
+        allByPathsFileMap.put("packageName", packageName);
+        allByPathsFileMap.put("apiClassname", "Api");
+        allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
+        allByPathsFileMap.put("pathEnumToApiClassname", pathEnumToApiClassname);
+        outputFilename = packageFilename(Arrays.asList("apis", "path_to_api.py"));
+        apisFiles.add(Arrays.asList(allByPathsFileMap, "apis_path_to_api.handlebars", outputFilename));
+        // apis.paths.__init__.py
+        Map<String, Object> initApiTagsMap = new HashMap<>();
+        initApiTagsMap.put("packageName", packageName);
+        initApiTagsMap.put("enumToTag", enumToTag);
+        outputFilename = packageFilename(Arrays.asList("apis", "tags", "__init__.py"));
+        apisFiles.add(Arrays.asList(initApiTagsMap, "__init__apis_tags.handlebars", outputFilename));
+
+        // paths.__init__.py (contains path str enum)
+        Map<String, Object> initOperationMap = new HashMap<>();
+        initOperationMap.put("packageName", packageName);
+        initOperationMap.put("apiClassname", "Api");
+        initOperationMap.put("pathValToVar", pathValToVar);
+        outputFilename = packageFilename(Arrays.asList("paths", "__init__.py"));
+        pathsFiles.add(Arrays.asList(initOperationMap, "__init__paths_enum.handlebars", outputFilename));
+        // apis.paths.__init__.py
+        outputFilename = packageFilename(Arrays.asList("apis", "paths", "__init__.py"));
+        apisFiles.add(Arrays.asList(initOperationMap, "__init__paths.handlebars", outputFilename));
+        // paths.some_path.__init__.py
+        // apis.paths.some_path.py
+        for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
+            String pathModule = entry.getKey();
+            String path = entry.getValue();
+            String pathVar = pathValToVar.get(path);
+            Map<String, Object> pathApiMap = new HashMap<>();
+            pathApiMap.put("packageName", packageName);
+            pathApiMap.put("pathModule", pathModule);
+            pathApiMap.put("apiClassName", "Api");
+            pathApiMap.put("pathVar", pathVar);
+            outputFilename = packageFilename(Arrays.asList("paths", pathModule, "__init__.py"));
+            pathsFiles.add(Arrays.asList(pathApiMap, "__init__paths_x.handlebars", outputFilename));
+
+            PathItem pi = openAPI.getPaths().get(path);
+            String apiClassName = pathEnumToApiClassname.get(pathVar);
+            Map<String, Object> operationMap = new HashMap<>();
+            operationMap.put("packageName", packageName);
+            operationMap.put("pathModule", pathModule);
+            operationMap.put("apiClassName", apiClassName);
+            operationMap.put("pathItem", pi);
+            outputFilename = packageFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
+            apisFiles.add(Arrays.asList(operationMap, "apis_path_module.handlebars", outputFilename));
+        }
+        generateFiles(pathsFiles, CodegenConstants.APIS);
+        generateFiles(apisFiles, CodegenConstants.APIS);
+        generateFiles(testFiles, CodegenConstants.API_TESTS);
     }
 
     /*
@@ -457,13 +645,15 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
-        if (schema instanceof ComposedSchema && supportsAdditionalPropertiesWithComposedSchema) {
-            // if schema has properties outside of allOf/oneOf/anyOf also add them
-            ComposedSchema cs = (ComposedSchema) schema;
+        if (ModelUtils.isAnyType(schema) && supportsAdditionalPropertiesWithComposedSchema) {
+            // if anyType schema has properties then add them
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
-                    LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
-                            "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                if (schema instanceof ComposedSchema) {
+                    ComposedSchema cs = (ComposedSchema) schema;
+                    if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                        LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
+                                "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                    }
                 }
                 HashSet<String> requiredVars = new HashSet<>();
                 if (schema.getRequired() != null) {
@@ -506,12 +696,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 "Features in this generator:",
                 "- type hints on endpoints and model creation",
                 "- model parameter names use the spec defined keys and cases",
-                "- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only",
+                "- robust composition (oneOf/anyOf/allOf/not) where payload data is stored in one instance only",
                 "- endpoint parameter names use the spec defined keys and cases",
                 "- inline schemas are supported at any location including composition",
                 "- multiple content types supported in request body and response bodies",
                 "- run time type checking",
                 "- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema",
+                "- Sending/receiving uuids as strings supported with type:string format: uuid -> UUIDSchema",
                 "- quicker load time for python modules (a single endpoint can be imported and used without loading others)",
                 "- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed",
                 "- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)",
@@ -520,7 +711,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+    public Schema unaliasSchema(Schema schema) {
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -530,8 +721,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
-            if (usedImportMappings.containsKey(simpleRef)) {
-                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, usedImportMappings.get(simpleRef));
+            if (schemaMapping.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMapping.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -545,8 +736,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 if (ModelUtils.isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            usedImportMappings);
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (ModelUtils.isComposedSchema(ref)) {
                 return schema;
@@ -558,8 +748,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
-                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                usedImportMappings);
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                     }
                 }
             } else if (ModelUtils.isObjectSchema(ref)) { // model
@@ -572,8 +761,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
                         return schema;
                     }
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            usedImportMappings);
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (ModelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
@@ -587,7 +775,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 // we make these models so instances of this will be subclasses of this model
                 return schema;
             } else {
-                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
+                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
         }
         return schema;
@@ -607,7 +795,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else {
             strValue = dateValue.toString();
         }
-        return "isoparse('" + strValue + "').date()";
+        return strValue;
     }
 
     public String pythonDateTime(Object dateTimeValue) {
@@ -624,7 +812,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else {
             strValue = dateTimeValue.toString();
         }
-        return "isoparse('" + strValue + "')";
+        return strValue;
     }
 
     /**
@@ -669,14 +857,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         // fix the imports that each model has, add the module reference to the model
         // loops through imports and converts them all
         // from 'Pet' to 'from petstore_api.model.pet import Pet'
 
-        HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
-        ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>) objs.get("imports");
+        OperationMap val = objs.getOperations();
+        List<CodegenOperation> operations = val.getOperation();
+        List<Map<String, String>> imports = objs.getImports();
         for (CodegenOperation operation : operations) {
             if (operation.imports.size() == 0) {
                 continue;
@@ -699,35 +887,52 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *      this means that the generated client does not use these models
      *      because they are not used we do not write them
      * - fix the model imports, go from model name to the full import string with toModelImport + globalImportFixer
+     * Also cleans the test folder if test cases exist and the testFolder is set because the tests are autogenerated
      *
      * @param objs a map going from the model name to a object hoding the model info
      * @return the updated objs
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
+        boolean anyModelContainsTestCases = false;
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         for (String schemaName : allDefinitions.keySet()) {
             Schema refSchema = new Schema().$ref("#/components/schemas/" + schemaName);
-            Schema unaliasedSchema = unaliasSchema(refSchema, importMapping);
+            Schema unaliasedSchema = unaliasSchema(refSchema);
             String modelName = toModelName(schemaName);
             if (unaliasedSchema.get$ref() == null) {
                 continue;
-            } else {
-                HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
-                if (objModel != null) { // to avoid form parameter's models that are not generated (skipFormModel=true)
-                    List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
-                    for (Map<String, Object> model : models) {
-                        CodegenModel cm = (CodegenModel) model.get("model");
-                        String[] importModelNames = cm.imports.toArray(new String[0]);
-                        cm.imports.clear();
-                        for (String importModelName : importModelNames) {
-                            cm.imports.add(toModelImport(importModelName));
-                        }
-                    }
+            }
+            ModelsMap objModel = objs.get(modelName);
+            if (objModel == null) {
+                // to avoid form parameter's models that are not generated (skipFormModel=true)
+                continue;
+            }
+            for (ModelMap model : objModel.getModels()) {
+                CodegenModel cm = model.getModel();
+                if (cm.testCases != null && !cm.testCases.isEmpty()) {
+                    anyModelContainsTestCases = true;
+                }
+                String[] importModelNames = cm.imports.toArray(new String[0]);
+                cm.imports.clear();
+                for (String importModelName : importModelNames) {
+                    cm.imports.add(toModelImport(importModelName));
                 }
             }
+        }
+        boolean testFolderSet = testFolder != null;
+        if (testFolderSet && anyModelContainsTestCases) {
+            // delete the test folder because tests there will be autogenerated
+            String testPath = outputFolder + File.separatorChar + testFolder;
+            File testDirectory = new File(testPath);
+            try {
+                FileUtils.cleanDirectory(testDirectory);
+            } catch (IOException e) {
+                LOGGER.info("Unable to delete the test folder because of exception=" + e.toString());
+            }
+
         }
 
         return objs;
@@ -735,28 +940,30 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter cp = super.fromParameter(parameter, imports);
-        switch(parameter.getStyle()) {
-            case MATRIX:
-                cp.style = "MATRIX";
-                break;
-            case LABEL:
-                cp.style = "LABEL";
-                break;
-            case FORM:
-                cp.style = "FORM";
-                break;
-            case SIMPLE:
-                cp.style = "SIMPLE";
-                break;
-            case SPACEDELIMITED:
-                cp.style = "SPACE_DELIMITED";
-                break;
-            case PIPEDELIMITED:
-                cp.style = "PIPE_DELIMITED";
-                break;
-            case DEEPOBJECT:
-                cp.style = "DEEP_OBJECT";
-                break;
+        if (parameter.getStyle() != null) {
+            switch(parameter.getStyle()) {
+                case MATRIX:
+                    cp.style = "MATRIX";
+                    break;
+                case LABEL:
+                    cp.style = "LABEL";
+                    break;
+                case FORM:
+                    cp.style = "FORM";
+                    break;
+                case SIMPLE:
+                    cp.style = "SIMPLE";
+                    break;
+                case SPACEDELIMITED:
+                    cp.style = "SPACE_DELIMITED";
+                    break;
+                case PIPEDELIMITED:
+                    cp.style = "PIPE_DELIMITED";
+                    break;
+                case DEEPOBJECT:
+                    cp.style = "DEEP_OBJECT";
+                    break;
+            }
         }
         // clone this so we can change some properties on it
         CodegenProperty schemaProp = cp.getSchema().clone();
@@ -788,8 +995,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cp = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cp = super.fromProperty(name, p, required);
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }
@@ -807,13 +1014,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // templates use its presence to handle these badly named variables / keys
         if ((isReservedWord(name) || !isValidPythonVarOrClassName(name)) && !name.equals(cp.name)) {
             cp.nameInSnakeCase = cp.name;
+            cp.baseName = (String) processTestExampleData(name);
         } else {
             cp.nameInSnakeCase = null;
         }
         if (cp.isEnum) {
             updateCodegenPropertyEnum(cp);
         }
-        Schema unaliasedSchema = unaliasSchema(p, importMapping);
+        Schema unaliasedSchema = unaliasSchema(p);
         if (cp.isPrimitiveType && unaliasedSchema.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
@@ -901,8 +1109,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (schema.get$ref() == null) {
             return cp;
         }
-        Schema unaliasedSchema = unaliasSchema(schema, importMapping);
-        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
+        Schema unaliasedSchema = unaliasSchema(schema);
+        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema, false);
         Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
         Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
         if (dataTypeMismatch || baseTypeMismatch) {
@@ -919,6 +1127,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * With this customization, we ensure that when schemas are passed to getSchemaType
      * - if they have ref in them they are a model
      * - if they do not have ref in them they are not a model
+     * and code is also customized to allow anyType request body schemas
      *
      * @param codegenParameter the body parameter
      * @param name model schema ref key in components
@@ -931,12 +1140,80 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     protected void addBodyModelSchema(CodegenParameter codegenParameter, String name, Schema schema, Set<String> imports, String bodyParameterName, boolean forceSimpleRef) {
         if (name != null) {
             Schema bodySchema = new Schema().$ref("#/components/schemas/" + name);
-            Schema unaliased = unaliasSchema(bodySchema, importMapping);
+            Schema unaliased = unaliasSchema(bodySchema);
             if (unaliased.get$ref() != null) {
                 forceSimpleRef = true;
             }
         }
-        super.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, forceSimpleRef);
+
+        CodegenModel codegenModel = null;
+        if (StringUtils.isNotBlank(name)) {
+            schema.setName(name);
+            codegenModel = fromModel(name, schema);
+        }
+        if (codegenModel != null) {
+            codegenParameter.isModel = true;
+        }
+
+        if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = codegenModel.classname;
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            codegenParameter.baseType = codegenModel.classname;
+            codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+            codegenParameter.description = codegenModel.description;
+            codegenParameter.isNullable = codegenModel.isNullable;
+            imports.add(codegenParameter.baseType);
+        } else {
+            CodegenProperty codegenProperty = fromProperty("property", schema, false);
+
+            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                imports.addAll(parts);
+                String codegenModelName = codegenProperty.getComplexType();
+                codegenParameter.baseName = codegenModelName;
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.baseType = codegenParameter.baseName;
+                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                codegenParameter.description = codegenProperty.getDescription();
+                codegenParameter.isNullable = codegenProperty.isNullable;
+            } else {
+                if (ModelUtils.isMapSchema(schema)) {// http body is map
+                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                } else if (codegenProperty != null) {
+                    String codegenModelName, codegenModelDescription;
+
+                    if (codegenModel != null) {
+                        codegenModelName = codegenModel.classname;
+                        codegenModelDescription = codegenModel.description;
+                    } else {
+                        codegenModelName = "anyType";
+                        codegenModelDescription = "";
+                    }
+
+                    if (StringUtils.isEmpty(bodyParameterName)) {
+                        codegenParameter.baseName = codegenModelName;
+                    } else {
+                        codegenParameter.baseName = bodyParameterName;
+                    }
+
+                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                    codegenParameter.description = codegenModelDescription;
+
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
+                    }
+                }
+            }
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+        }
 
     }
 
@@ -974,10 +1251,22 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return value;
         }
         // Replace " " with _
-        String usedValue = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
+        String usedValue = value.replaceAll("\\s+", "_");
         // strip first character if it is invalid
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        // Replace / with _ for path enums
+        usedValue = usedValue.replaceAll("/", "_");
+        // Replace . with _ for tag enums
+        usedValue = usedValue.replaceAll("\\.", "_");
+        // add underscore at camelCase locations
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        usedValue = usedValue.replaceAll(regex, replacement);
+        // Replace invalid characters with empty space
         usedValue = usedValue.replaceAll("[^_a-zA-Z0-9]*", "");
+        // uppercase
+        usedValue = usedValue.toUpperCase(Locale.ROOT);
+
         if (usedValue.length() == 0) {
             for (int i = 0; i < value.length(); i++){
                 Character c = value.charAt(i);
@@ -1015,9 +1304,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if ("int".equals(datatype) || "float".equals(datatype) || datatype.equals("int, float")) {
             return value;
         } else if ("bool".equals(datatype)) {
-            return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
+            if (value.equals("true")) {
+                return "BoolClass.TRUE";
+            }
+            return "BoolClass.FALSE";
         } else {
-            return ensureQuotes(value);
+            String fixedValue = (String) processTestExampleData(value);
+            return ensureQuotes(fixedValue);
         }
     }
 
@@ -1042,6 +1335,72 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
     }
 
+    protected String toTestCaseName(String specTestCaseName) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
+    }
+
+    private String processStringValue(String value) {
+        // handles escape characters and the like
+        String stringValue = value;
+        String backslash = "\\";
+        if (stringValue.contains(backslash)) {
+            stringValue = stringValue.replace(backslash, "\\\\");
+        }
+        String nullChar = "\0";
+        if (stringValue.contains(nullChar)) {
+            stringValue = stringValue.replace(nullChar, "\\x00");
+        }
+        String doubleQuoteChar = "\"";
+        if (stringValue.contains(doubleQuoteChar)) {
+            stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
+        }
+        String lineSep = System.lineSeparator();
+        if (stringValue.contains(lineSep)) {
+            stringValue = stringValue.replace(lineSep, "\\n");
+        }
+        String carriageReturn = "\r";
+        if (stringValue.contains(carriageReturn)) {
+            stringValue = stringValue.replace(carriageReturn, "\\r");
+        }
+        String tab = "\t";
+        if (stringValue.contains(tab)) {
+            stringValue = stringValue.replace(tab, "\\t");
+        }
+        String formFeed = "\f";
+        if (stringValue.contains(formFeed)) {
+            stringValue = stringValue.replace(formFeed, "\\f");
+        }
+        return stringValue;
+    }
+
+    protected Object processTestExampleData(Object value) {
+        if (value instanceof Integer){
+            return value;
+        } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
+            return value;
+        } else if (value instanceof String) {
+            return processStringValue((String) value);
+        } else if (value instanceof LinkedHashMap) {
+            LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
+            for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
+                String entryKey = (String) processTestExampleData(entry.getKey());
+                Object entryValue = processTestExampleData(entry.getValue());
+                fixedValues.put(entryKey, entryValue);
+            }
+            return fixedValues;
+        } else if (value instanceof ArrayList) {
+            ArrayList<Object> fixedValues = (ArrayList<Object>) value;
+            for (int i = 0; i < fixedValues.size(); i++) {
+                Object item = processTestExampleData(fixedValues.get(i));
+                fixedValues.set(i, item);
+            }
+            return fixedValues;
+        } else if (value == null) {
+            return value;
+        }
+        return value;
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object
      * We have a custom version of this method so we can:
@@ -1055,7 +1414,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema sc) {
         CodegenModel cm = super.fromModel(name, sc);
-        Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+        Schema unaliasedSchema = unaliasSchema(sc);
         if (unaliasedSchema != null) {
             if (ModelUtils.isDecimalSchema(unaliasedSchema)) { // type: string, format: number
                 cm.isString = false;
@@ -1106,7 +1465,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            Schema unaliasedSchema = unaliasSchema(sc);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
@@ -1143,7 +1502,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (StringUtils.isNotEmpty(p.get$ref())) {
             // The input schema is a reference. If the resolved schema is
             // a composed schema, convert the name to a Python class.
-            Schema unaliasedSchema = unaliasSchema(p, importMapping);
+            Schema unaliasedSchema = unaliasSchema(p);
             if (unaliasedSchema.get$ref() != null) {
                 String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
@@ -1152,20 +1511,31 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return prefix + modelName + fullSuffix;
             }
         }
-        if (isAnyTypeSchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
-        } else if (ModelUtils.isNumberSchema(p)) {
+        if (ModelUtils.isNumberSchema(p)) {
             return prefix + "int, float" + fullSuffix;
-        } else if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
-            Schema inner = getAdditionalProperties(p);
-            return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
+            if (p.getAdditionalProperties() != null && p.getAdditionalProperties().equals(false)) {
+                if (p.getProperties() == null) {
+                    // type object with no properties and additionalProperties = false, empty dict only
+                    return prefix + "{str: typing.Any}" + fullSuffix;
+                } else {
+                    // properties only
+                    // TODO add type hints for those properties only as values
+                    return prefix + "{str: typing.Any}" + fullSuffix;
+                }
+            } else {
+                // additionalProperties exists
+                Schema inner = getAdditionalProperties(p);
+                return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
+                // TODO add code here to add property values too if they exist
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
@@ -1182,8 +1552,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
-        }
-        if (ModelUtils.isFileSchema(p)) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
         String baseType = getSchemaType(p);
@@ -1200,7 +1569,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         // in Python we will wrap this in () to make it a tuple but here we
-        // will omit the parens so the generated documentaion will not include
+        // will omit the parens so the generated documentation will not include
         // them
         return getTypeString(p, "", "", null);
     }
@@ -1268,12 +1637,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return quoted string
      */
     private String ensureQuotes(String in) {
-        Pattern pattern = Pattern.compile("\r\n|\r|\n");
-        Matcher matcher = pattern.matcher(in);
-        if (matcher.find()) {
-            // if a string has a new line in it add triple quotes to make it a python multiline string
-            return "'''" + in + "'''";
-        }
         String strPattern = "^['\"].*?['\"]$";
         if (in.matches(strPattern)) {
             return in;
@@ -1281,9 +1644,16 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return "\"" + in + "\"";
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        String modelName = getModelName(schema);
+        Object objExample = getObjectExample(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, new ArrayList<>());
+    }
+
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
-        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, new ArrayList<>());
     }
 
     private Boolean simpleStringSchema(Schema schema) {
@@ -1309,6 +1679,23 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return null;
     }
 
+    /**
+     * Function to isolate the call to add schemas to the includedSchemas list that will detect when
+     * a schema is added multiple times.
+     * @param includedSchemas List of includedSchemas from toExampleValueRecursive
+     * @param schema the schema to add
+     */
+    private void addSchemaToIncludedSchemaList(List<Schema> includedSchemas, Schema schema) {
+
+        // if the schema is in the list, then throw an exception.
+        // this should never happen
+        if(includedSchemas.contains(schema)) {
+            throw new RuntimeException("Attempted to add a schema to the includedSchemas list twice");
+        }
+
+        includedSchemas.add(schema);
+    }
+
     /***
      * Recursively generates string examples for schemas
      *
@@ -1329,9 +1716,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
+     * @param includedSchemas are a list of schemas that we have moved through to get here. If the new schemas that we
+     *                        are looking at is in includedSchemas then we have hit a cycle.
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine) {
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<Schema> includedSchemas) {
+        boolean couldHaveCycle = includedSchemas.size() > 0 && potentiallySelfReferencingSchema(schema);
+        // If we have seen the ContextAwareSchemaNode more than once before, we must be in a cycle.
+        boolean cycleFound = false;
+        if (couldHaveCycle) {
+            cycleFound = includedSchemas.subList(0, includedSchemas.size()-1).stream().anyMatch(s -> schema.equals(s));
+        }
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -1364,13 +1759,71 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
-        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, includedSchemas);
+        } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "None" + closeChars;
+        } else if (ModelUtils.isAnyType(schema)) {
+            /*
+             This schema may be a composed schema
+             TODO generate examples for some of these use cases in the future like
+             only oneOf without a discriminator
+             */
+            if (cycleFound) {
+                return "";
+            }
+            Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (ModelUtils.isComposedSchema(schema)) {
+                addSchemaToIncludedSchemaList(includedSchemas, schema);
+                // complex composed object type schemas not yet handled and the code returns early
+                if (hasProperties) {
+                    // what if this composed schema defined properties + allOf?
+                    // or items + properties, both a ist and a dict could be accepted as payloads
+                    return fullPrefix + "{}" + closeChars;
+                }
+                ComposedSchema cs = (ComposedSchema) schema;
+                Integer allOfExists = 0;
+                if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
+                    allOfExists = 1;
+                }
+                Integer anyOfExists = 0;
+                if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) {
+                    anyOfExists = 1;
+                }
+                Integer oneOfExists = 0;
+                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                    oneOfExists = 1;
+                }
+                if (allOfExists + anyOfExists + oneOfExists > 1) {
+                    // what if it needs one oneOf schema, one anyOf schema, and two allOf schemas?
+                    return fullPrefix + "None" + closeChars;
+                }
+                // for now only oneOf with discriminator is supported
+                if (oneOfExists == 1 && disc != null) {
+                    ;
+                } else {
+                    return fullPrefix + "None" + closeChars;
+                }
+            }
+            if (disc != null) {
+                // a discriminator means that the type must be object
+                MappedModel mm = getDiscriminatorMappedModel(disc);
+                if (mm == null) {
+                    return fullPrefix + "None" + closeChars;
+                }
+                String discPropNameValue = mm.getMappingName();
+                String chosenModelName = mm.getModelName();
+                Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
+                CodegenProperty cp = new CodegenProperty();
+                cp.setName(disc.getPropertyName());
+                cp.setExample(discPropNameValue);
+                return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            }
+            return fullPrefix + "None" + closeChars;
         } else if (ModelUtils.isBooleanSchema(schema)) {
-            if (objExample == null) {
+            if (example == null) {
                 example = "True";
             } else {
                 if ("false".equalsIgnoreCase(objExample.toString())) {
@@ -1380,60 +1833,82 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isDateSchema(schema)) {
-            if (objExample == null) {
-                example = pythonDate("1970-01-01");
-            } else {
-                example = pythonDate(objExample);
-            }
-            return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            if (objExample == null) {
-                example = pythonDateTime("1970-01-01T00:00:00.00Z");
-            } else {
-                example = pythonDateTime(objExample);
-            }
-            return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isBinarySchema(schema)) {
-            if (objExample == null) {
-                example = "/path/to/file";
-            }
-            example = "open('" + example + "', 'rb')";
-            return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isByteArraySchema(schema)) {
-            if (objExample == null) {
-                example = "'YQ=='";
-            }
-            return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
-            if (objExample == null) {
-                // a BigDecimal:
-                if ("Number".equalsIgnoreCase(schema.getFormat())) {
-                    example = "2";
-                    return fullPrefix + example + closeChars;
-                } else if (StringUtils.isNotBlank(schema.getPattern())) {
-                    String pattern = schema.getPattern();
-                    RgxGen rgxGen = new RgxGen(pattern);
-                    // this seed makes it so if we have [a-z] we pick a
-                    Random random = new Random(18);
-                    String sample = rgxGen.generate(random);
-                    // omit leading / and trailing /, omit trailing /i
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
-                    Matcher m = valueExtractor.matcher(sample);
-                    if (m.find()) {
-                        example = m.group(m.groupCount());
-                    } else {
-                        example = "";
-                    }
-                } else if (schema.getMinLength() != null) {
-                    example = "";
-                    int len = schema.getMinLength().intValue();
-                    for (int i = 0; i < len; i++) example += "a";
-                } else if (ModelUtils.isUUIDSchema(schema)) {
-                    example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+            if (example != null) {
+                return fullPrefix + ensureQuotes(processStringValue(example)) + closeChars;
+            }
+            if (ModelUtils.isDateSchema(schema)) {
+                if (objExample == null) {
+                    example = pythonDate("1970-01-01");
                 } else {
-                    example = "string_example";
+                    example = pythonDate(objExample);
                 }
+            } else if (ModelUtils.isDateTimeSchema(schema)) {
+                if (objExample == null) {
+                    example = pythonDateTime("1970-01-01T00:00:00.00Z");
+                } else {
+                    example = pythonDateTime(objExample);
+                }
+            } else if (ModelUtils.isBinarySchema(schema)) {
+                if (example == null) {
+                    example = "/path/to/file";
+                }
+                example = "open('" + example + "', 'rb')";
+                return fullPrefix + example + closeChars;
+            } else if (ModelUtils.isByteArraySchema(schema)) {
+                if (objExample == null) {
+                    example = "'YQ=='";
+                }
+            } else if ("Number".equalsIgnoreCase(schema.getFormat())) {
+                // a BigDecimal:
+                example = "2";
+            } else if (StringUtils.isNotBlank(schema.getPattern())) {
+                String pattern = schema.getPattern();
+                /*
+                RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
+                So strip off the leading / and trailing / and turn on ignore case if we have it
+                 */
+                Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                Matcher m = valueExtractor.matcher(pattern);
+                RgxGen rgxGen = null;
+                if (m.find()) {
+                    int groupCount = m.groupCount();
+                    if (groupCount == 1) {
+                        // only pattern found
+                        String isolatedPattern = m.group(1);
+                        rgxGen = new RgxGen(isolatedPattern);
+                    } else if (groupCount == 2) {
+                        // patterns and flag found
+                        String isolatedPattern = m.group(1);
+                        String flags = m.group(2);
+                        if (flags.contains("i")) {
+                            rgxGen = new RgxGen(isolatedPattern);
+                            RgxGenProperties properties = new RgxGenProperties();
+                            RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
+                            rgxGen.setProperties(properties);
+                        } else {
+                            rgxGen = new RgxGen(isolatedPattern);
+                        }
+                    }
+                } else {
+                    rgxGen = new RgxGen(pattern);
+                }
+
+                // this seed makes it so if we have [a-z] we pick a
+                Random random = new Random(18);
+                if (rgxGen != null) {
+                    example = rgxGen.generate(random);
+                } else {
+                    throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                }
+            } else if (schema.getMinLength() != null) {
+                example = "";
+                int len = schema.getMinLength().intValue();
+                for (int i = 0; i < len; i++) example += "a";
+            } else if (ModelUtils.isUUIDSchema(schema)) {
+                example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+            } else {
+                example = "string_example";
             }
             return fullPrefix + ensureQuotes(example) + closeChars;
         } else if (ModelUtils.isIntegerSchema(schema)) {
@@ -1457,21 +1932,80 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (ModelUtils.isArraySchema(schema)) {
             if (objExample instanceof Iterable) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString();
+                return fullPrefix + objExample.toString() + closeChars;
+            }
+            if (ModelUtils.isComposedSchema(schema)) {
+                // complex composed array type schemas not yet handled and the code returns early
+                return fullPrefix + "[]" + closeChars;
             }
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1) + ",\n" + closingIndentation + "]" + closeChars;
-            return example;
-        } else if (ModelUtils.isMapSchema(schema)) {
+            addSchemaToIncludedSchemaList(includedSchemas, schema);
+            String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
+            if (StringUtils.isEmpty(itemExample) || cycleFound) {
+                return fullPrefix + "[]" + closeChars;
+            } else {
+                return fullPrefix + "[" + "\n" + itemExample + "\n" + closingIndentation + "]" + closeChars;
+            }
+        } else if (ModelUtils.isTypeObjectSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "dict(";
                 closeChars = ")";
             }
+            if (cycleFound) {
+                return fullPrefix + closeChars;
+            }
+            Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (ModelUtils.isComposedSchema(schema)) {
+                // complex composed object type schemas not yet handled and the code returns early
+                if (hasProperties) {
+                    // what if this composed schema defined properties + allOf?
+                    return fullPrefix + closeChars;
+                }
+                ComposedSchema cs = (ComposedSchema) schema;
+                Integer allOfExists = 0;
+                if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
+                    allOfExists = 1;
+                }
+                Integer anyOfExists = 0;
+                if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) {
+                    anyOfExists = 1;
+                }
+                Integer oneOfExists = 0;
+                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                    oneOfExists = 1;
+                }
+                if (allOfExists + anyOfExists + oneOfExists > 1) {
+                    // what if it needs one oneOf schema, one anyOf schema, and two allOf schemas?
+                    return fullPrefix + closeChars;
+                }
+                // for now only oneOf with discriminator is supported
+                if (oneOfExists == 1 && disc != null) {
+                    ;
+                } else {
+                    return fullPrefix + closeChars;
+                }
+            }
+            if (disc != null) {
+                MappedModel mm = getDiscriminatorMappedModel(disc);
+                if (mm == null) {
+                    return fullPrefix + closeChars;
+                }
+                String discPropNameValue = mm.getMappingName();
+                String chosenModelName = mm.getModelName();
+                Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
+                CodegenProperty cp = new CodegenProperty();
+                cp.setName(disc.getPropertyName());
+                cp.setExample(discPropNameValue);
+                return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            }
             Object addPropsObj = schema.getAdditionalProperties();
-            // TODO handle true case for additionalProperties
-            if (addPropsObj instanceof Schema) {
+            if (hasProperties) {
+                return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            } else if (addPropsObj instanceof Schema) {
+                // TODO handle true case for additionalProperties
                 Schema addPropsSchema = (Schema) addPropsObj;
                 String key = "key";
                 Object addPropsExample = getObjectExample(addPropsSchema);
@@ -1484,49 +2018,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
+                addSchemaToIncludedSchemaList(includedSchemas, schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
-            return example;
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            if (modelName == null) {
-                fullPrefix += "dict(";
-                closeChars = ")";
-            }
-            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
-            if (disc != null) {
-                MappedModel mm = getDiscriminatorMappedModel(disc);
-                if (mm != null) {
-                    String discPropNameValue = mm.getMappingName();
-                    String chosenModelName = mm.getModelName();
-                    // TODO handle this case in the future, this is when the discriminated
-                    // schema allOf includes this schema, like Cat allOf includes Pet
-                    // so this is the composed schema use case
-                } else {
-                    return fullPrefix + closeChars;
-                }
-            }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
-        } else if (ModelUtils.isComposedSchema(schema)) {
-            // TODO add examples for composed schema models without discriminators
-
-            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
-            if (disc != null) {
-                MappedModel mm = getDiscriminatorMappedModel(disc);
-                if (mm != null) {
-                    String discPropNameValue = mm.getMappingName();
-                    String chosenModelName = mm.getModelName();
-                    Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
-                    CodegenProperty cp = new CodegenProperty();
-                    cp.setName(disc.getPropertyName());
-                    cp.setExample(discPropNameValue);
-                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
-                } else {
-                    return fullPrefix + closeChars;
-                }
-            }
-            return fullPrefix + closeChars;
         } else {
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
@@ -1534,13 +2030,20 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
+    private boolean potentiallySelfReferencingSchema(Schema schema) {
+        return null != schema.get$ref() || ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
+    }
+
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
         }
 
         String example = fullPrefix + "\n";
+
+        addSchemaToIncludedSchemaList(includedSchemas, schema);
+
         for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
             String propName = entry.getKey();
             Schema propSchema = entry.getValue();
@@ -1554,7 +2057,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
+
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
@@ -1714,27 +2218,19 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                // pass in the hashCode as the name to ensure that the returned property is not from the cache
-                // if we need to set indent on every one, then they need to be different
-                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
-                addPropProp.name = "";
-                addPropProp.baseName = "";
+                addPropProp = fromProperty("",  new Schema());
                 addPropProp.nameInSnakeCase = null;
                 additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty(String.valueOf(property.hashCode()),  new Schema());
-                addPropProp.name = "";
-                addPropProp.baseName = "";
+                addPropProp = fromProperty("",  new Schema());
                 addPropProp.nameInSnakeCase = null;
                 additionalPropertiesIsAnyType = true;
             }
         } else {
-            addPropProp = fromProperty(String.valueOf(property.hashCode()), (Schema) schema.getAdditionalProperties());
-            addPropProp.name = "";
-            addPropProp.baseName = "";
+            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties());
             addPropProp.nameInSnakeCase = null;
             if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;
@@ -1796,20 +2292,21 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             property.isBinary = true;
             property.isFile = true; // file = binary in OAS3
         } else if (ModelUtils.isUUIDSchema(p)) {
-            property.isUuid = true;
+            property.setIsString(false); // so the templates only see isUuid
+            property.setIsUuid(true);
         } else if (ModelUtils.isURISchema(p)) {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
-            property.setIsString(false); // for backward compatibility with 2.x
+            property.setIsString(false); // so the templates only see isDate
             property.isDate = true;
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-            property.setIsString(false); // for backward compatibility with 2.x
+            property.setIsString(false); // so the templates only see isDateTime
             property.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+            property.setIsString(false); // so the templates only see isDecimal
             property.isDecimal = true;
-            property.setIsString(false);
         }
         property.pattern = toRegularExpression(p.getPattern());
     }
@@ -1919,7 +2416,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -1931,21 +2428,23 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            int regexLength = pattern.length();
+            String regex = pattern;
             int i = pattern.lastIndexOf('/');
-
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
+            if (regexLength >= 2 && pattern.charAt(0) == '/' && i != -1) {
+                // json schema tests do not include the leading and trailing slashes
+                // so I do not think that they are required
+                regex = pattern.substring(1, i);
             }
-
-            String regex = pattern.substring(1, i).replace("'", "\\'");
+            regex = regex.replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
 
-            for (char c : pattern.substring(i).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
+            if (i != -1) {
+                for (char c : pattern.substring(i).toCharArray()) {
+                    if (regexModifiers.containsKey(c)) {
+                        String modifier = regexModifiers.get(c);
+                        modifiers.add(modifier);
+                    }
                 }
             }
 
@@ -1995,7 +2494,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separatorChar + packagePath() + File.separatorChar +  apiPackage();
+        return outputFolder + File.separatorChar + packagePath() + File.separatorChar +  apiPackage() + File.separatorChar + "tags";
     }
 
     @Override
@@ -2010,11 +2509,18 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separatorChar + testFolder;
+        return outputFolder + File.separatorChar + testFolder + File.separatorChar + "test_models";
     }
 
     public void setUseNose(String val) {
         this.useNose = Boolean.parseBoolean(val);
+    }
+
+    @Override
+    public boolean getUseInlineModelResolver() { return useInlineModelResolver; }
+
+    public void setUseInlineModelResolver(String val) {
+        this.useInlineModelResolver = Boolean.parseBoolean(val);
     }
 
     public void setPackageUrl(String packageUrl) {
@@ -2075,6 +2581,15 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                                           Operation operation,
                                           List<Server> servers) {
         CodegenOperation co = super.fromOperation(path, httpMethod, operation, servers);
+        co.httpMethod = httpMethod.toLowerCase(Locale.ROOT);
+        // smuggle the path enum variable name in operationIdLowerCase
+        co.operationIdLowerCase = toEnumVarName(co.path, "str");
+        // smuggle pathModuleName in nickname
+        String pathModuleName = toVarName(path);
+        co.nickname = pathModuleName;
+        // smuggle path Api class name ins operationIdSnakeCase
+        co.operationIdSnakeCase = toModelName(path);
+
         if (co.bodyParam == null) {
             for (CodegenParameter cp: co.allParams) {
                 if (cp.isBodyParam) {
@@ -2086,6 +2601,50 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return co;
     }
 
+    /**
+     * Custom version of this method to prevent mutation of
+     * codegenOperation.operationIdLowerCase/operationIdSnakeCase
+     * Property Usages:
+     * - operationId: endpoint method name when using tagged apis
+     * - httpMethod: endpoint method name when using path apis
+     * - operationIdCamelCase: Api class name containing single endpoint for tagged apis
+     * - operationIdLowerCase: (smuggled) path enum variable name
+     * - nickname: (smuggled) path module name for path apis
+     * - operationIdSnakeCase: (smuggled) path Api class name when using path apis
+     *
+     * @param tag          name of the tag
+     * @param resourcePath path of the resource
+     * @param operation    OAS Operation object
+     * @param co           Codegen Operation object
+     * @param operations   map of Codegen operations
+     */
+    @Override
+    @SuppressWarnings("static-method")
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        List<CodegenOperation> opList = operations.get(tag);
+        if (opList == null) {
+            opList = new ArrayList<>();
+            operations.put(tag, opList);
+        }
+        // check for operationId uniqueness
+        String uniqueName = co.operationId;
+        int counter = 0;
+        for (CodegenOperation op : opList) {
+            if (uniqueName.equals(op.operationId)) {
+                uniqueName = co.operationId + "_" + counter;
+                counter++;
+            }
+        }
+        if (!co.operationId.equals(uniqueName)) {
+            LOGGER.warn("generated unique operationId `{}`", uniqueName);
+        }
+        co.operationId = uniqueName;
+        co.operationIdCamelCase = camelize(uniqueName);
+        opList.add(co);
+        co.baseName = tag;
+    }
+
     @Override
     public String defaultTemplatingEngine() {
         return "handlebars";
@@ -2093,4 +2652,42 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String generatorLanguageVersion() { return ">=3.9"; };
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        String originalSpecVersion;
+        String xOriginalSwaggerVersion = "x-original-swagger-version";
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
+            originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
+        } else {
+            originalSpecVersion = openAPI.getOpenapi();
+        }
+        Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
+        if (specMajorVersion < 3) {
+            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. python-experimental only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
+        }
+    }
+
+    /**
+     * Note: a custom version of this function is used so the original tag value can be used
+     *
+     * @param tag Tag
+     * @return the tag to use
+     */
+    @Override
+    public String sanitizeTag(String tag) {
+        return tag;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator was written by Justin Black (https://github.com/spacether)    #");
+        System.out.println("# Please support his work directly via https://github.com/sponsors/spacether \uD83D\uDE4F#");
+        System.out.println("################################################################################");
+    }
 }

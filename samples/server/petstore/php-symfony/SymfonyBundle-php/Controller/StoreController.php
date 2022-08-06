@@ -2,7 +2,7 @@
 
 /**
  * StoreController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -89,7 +89,8 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->deleteOrder($orderId, $responseCode, $responseHeaders);
+
+            $handler->deleteOrder($orderId, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -114,7 +115,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -159,6 +160,7 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getInventory($responseCode, $responseHeaders);
 
             // Find default response message
@@ -182,7 +184,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -238,6 +240,7 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -267,7 +270,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -331,6 +334,7 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
 
             // Find default response message
@@ -357,7 +361,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }

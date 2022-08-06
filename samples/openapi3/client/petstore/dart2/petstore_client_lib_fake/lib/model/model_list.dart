@@ -37,11 +37,13 @@ class ModelList {
   String toString() => 'ModelList[n123list=$n123list]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (n123list != null) {
-      json[r'123-list'] = n123list;
+      _json[r'123-list'] = n123list;
+    } else {
+      _json[r'123-list'] = null;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [ModelList] instance and imports its values from

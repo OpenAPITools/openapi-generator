@@ -18,8 +18,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|errorObjectType|Error object type.| |null|
 |exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd></dl>|default|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|library|HTTP library template (sub-template) to use|<dl><dt>**httr2**</dt><dd>httr2 (https://httr2.r-lib.org/)</dd><dt>**httr**</dt><dd>httr (https://cran.r-project.org/web/packages/httr/index.html)</dd></dl>|httr|
+|operationIdNaming|Naming convention for operationId (function name in the API)|<dl><dt>**PascalCase**</dt><dd>Pascal case (default)</dd><dt>**snake_case**</dt><dd>Snake case</dd><dt>**camelCase**</dt><dd>Camel case</dd></dl>|null|
 |packageName|R package name (convention: lowercase).| |openapi|
 |packageVersion|R package version.| |1.0.0|
 |returnExceptionOnFailure|Throw an exception on non success response codes| |false|
@@ -51,6 +54,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>apiresponse</li>
 <li>break</li>
+<li>data_file</li>
 <li>else</li>
 <li>false</li>
 <li>for</li>
@@ -99,7 +103,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -159,6 +167,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
