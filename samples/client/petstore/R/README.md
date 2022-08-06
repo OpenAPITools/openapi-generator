@@ -114,7 +114,7 @@ Class | Method | HTTP request | Description
 
 ### BearerToken
 
-- **Type**: HTTP basic authentication
+- **Type**: Bearer authentication
 
 ### api_key
 

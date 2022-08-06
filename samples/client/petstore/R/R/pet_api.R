@@ -770,7 +770,9 @@ PetApi <- R6::R6Class(
       }
 
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list()
@@ -869,7 +871,9 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet/findByStatus"
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list("application/xml", "application/json")
@@ -981,7 +985,9 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet/findByTags"
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list("application/xml", "application/json")
@@ -1094,7 +1100,10 @@ PetApi <- R6::R6Class(
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
-      header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      # Bearer token
+      if (!is.null(self$api_client$bearer_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list("application/xml", "application/json")
@@ -1462,7 +1471,9 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet"
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list("application/xml", "application/json")
@@ -1580,7 +1591,9 @@ PetApi <- R6::R6Class(
       }
 
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list()
@@ -1687,7 +1700,9 @@ PetApi <- R6::R6Class(
       }
 
       # OAuth token
-      header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      if (!is.null(self$api_client$access_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      }
 
       # The Accept request HTTP header
       local_var_accepts = list("application/json")

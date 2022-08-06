@@ -32,8 +32,8 @@ var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 #Add a new pet to the store
 api_instance <- PetApi$new()
 # Configure HTTP basic authorization: http_auth
-api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
-api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
+api_instance$api_client$username <- Sys.getenv("USERNAME")
+api_instance$api_client$password <- Sys.getenv("PASSWORD")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$add_pet(var_pet, data_file = "result.txt"),
@@ -42,17 +42,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `add_pet`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -92,27 +91,24 @@ Deletes a pet
 library(petstore)
 
 var_pet_id <- 56 # integer | Pet id to delete
-var_api_key <- "api_key_example" # character | 
+var_api_key <- "api_key_example" # character |  (Optional)
 
 #Deletes a pet
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              api_instance$delete_pet(var_pet_id, api_key = var_api_key),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `delete_pet`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
-} else {
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
 }
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -156,7 +152,7 @@ var_status <- list("available") # array[character] | Status values that need to 
 #Finds Pets by status
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$find_pets_by_status(var_status, data_file = "result.txt"),
@@ -165,17 +161,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `find_pets_by_status`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -219,7 +214,7 @@ var_tags <- list("inner_example") # array[character] | Tags to filter by
 #Finds Pets by tags
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$find_pets_by_tags(var_tags, data_file = "result.txt"),
@@ -228,17 +223,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `find_pets_by_tags`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -282,7 +276,7 @@ var_pet_id <- 56 # integer | ID of pet to return
 #Find pet by ID
 api_instance <- PetApi$new()
 # Configure HTTP bearer authorization: BearerToken
-api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$get_pet_by_id(var_pet_id, data_file = "result.txt"),
@@ -291,17 +285,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `get_pet_by_id`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -346,7 +339,7 @@ var_pet_id <- 56 # integer | ID of pet to return
 #Find pet by ID (streaming)
 api_instance <- PetApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$get_pet_by_id_streaming(var_pet_id, data_file = "result.txt"),
@@ -357,17 +350,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `get_pet_by_id_streaming`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -412,7 +404,7 @@ var_header_test_int <- 56 # integer | header test int
 #Header test
 api_instance <- PetApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$test_header(var_header_test_int, data_file = "result.txt"),
@@ -423,17 +415,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `test_header`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -478,7 +469,7 @@ var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(
 #Update an existing pet
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$update_pet(var_pet, data_file = "result.txt"),
@@ -487,17 +478,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `update_pet`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -539,28 +529,25 @@ Updates a pet in the store with form data
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet that needs to be updated
-var_name <- "name_example" # character | Updated name of the pet
-var_status <- "status_example" # character | Updated status of the pet
+var_name <- "name_example" # character | Updated name of the pet (Optional)
+var_status <- "status_example" # character | Updated status of the pet (Optional)
 
 #Updates a pet in the store with form data
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              api_instance$update_pet_with_form(var_pet_id, name = var_name, status = var_status),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `update_pet_with_form`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
-} else {
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
 }
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -601,13 +588,13 @@ uploads an image
 library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to update
-var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server
-var_file <- File.new('/path/to/file') # data.frame | file to upload
+var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server (Optional)
+var_file <- File.new('/path/to/file') # data.frame | file to upload (Optional)
 
 #uploads an image
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$upload_file(var_pet_id, additional_metadata = var_additional_metadata, file = var_file, data_file = "result.txt"),
@@ -616,17 +603,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `upload_file`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters

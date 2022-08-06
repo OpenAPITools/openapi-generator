@@ -19,7 +19,7 @@ test data_file to ensure it's escaped correctly
 library(petstore)
 
 var_dummy <- "dummy_example" # character | dummy required parameter
-var_var_data_file <- "var_data_file_example" # character | header data file
+var_var_data_file <- "var_data_file_example" # character | header data file (Optional)
 
 #test data_file to ensure it's escaped correctly
 api_instance <- FakeApi$new()
@@ -31,17 +31,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  dput(result$ApiException)
+  print("Exception occurs when calling `fake_data_file`:")
+  dput(result$ApiException$toString())
   # error object
   dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  dput(result$content)
-  # response headers
-  dput(result$response$headers)
-  # response status code
-  dput(result$response$status_code)
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
