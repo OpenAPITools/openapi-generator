@@ -470,6 +470,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `user`."))
       }
 
+
       if (!missing(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
@@ -572,6 +573,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `user`."))
       }
+
 
       if (!missing(`user`)) {
         body.items <- paste(unlist(lapply(`user`, function(param) {
@@ -679,6 +681,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `user`."))
       }
 
+
       if (!missing(`user`)) {
         body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
@@ -785,6 +788,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `username`."))
       }
 
+
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
         local_var_url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
@@ -887,6 +891,7 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `username`."))
       }
+
 
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
@@ -1008,6 +1013,14 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `password`."))
       }
+
+      if (!str_detect(`username`, "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")) {
+        rlang::abort(message = "Invalid value for `username` when calling UserApi$login_user, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `username` when calling UserApi$login_user, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/."))
+      }
+
 
       query_params["username"] <- `username`
 
@@ -1215,6 +1228,8 @@ UserApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `user`."))
       }
+
+
 
       if (!missing(`user`)) {
         local_var_body <- `user`$toJSONString()

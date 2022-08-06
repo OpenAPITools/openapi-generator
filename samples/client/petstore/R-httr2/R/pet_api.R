@@ -640,6 +640,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet`."))
       }
 
+
       if (!missing(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
@@ -762,6 +763,8 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+
+
       header_params["api_key"] <- `api_key`
 
       local_var_url_path <- "/pet/{petId}"
@@ -866,6 +869,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `status`."))
       }
+
 
       query_params["status"] <- `status`
 
@@ -981,6 +985,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `tags`."))
       }
 
+
       query_params["tags"] <- `tags`
 
       local_var_url_path <- "/pet/findByTags"
@@ -1094,6 +1099,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `pet_id`."))
       }
+
 
       local_var_url_path <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
@@ -1216,6 +1222,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `pet_id`."))
       }
+
 
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
@@ -1344,6 +1351,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `header_test_int`."))
       }
 
+
       header_params["header_test_int"] <- `header_test_int`
 
       local_var_url_path <- "/pet_header_test"
@@ -1462,6 +1470,7 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `pet`."))
       }
+
 
       if (!missing(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -1583,6 +1592,9 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+
+
+
       form_params["name"] <- `name`
       form_params["status"] <- `status`
       local_var_url_path <- "/pet/{petId}"
@@ -1691,6 +1703,9 @@ PetApi <- R6::R6Class(
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Missing required parameter `pet_id`."))
       }
+
+
+
 
       form_params["additionalMetadata"] <- `additional_metadata`
       file_params["file"] <- curl::form_file(`file`)
