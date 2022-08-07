@@ -939,4 +939,23 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.R;
     }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        if (pattern == null) {
+            return null;
+        }
+
+        // remove leading '/'
+        if (pattern.charAt(0) == '/') {
+            pattern = pattern.substring(1);
+        }
+
+        // remove trailing '/'
+        if (pattern.charAt(pattern.length()-1) == '/') {
+            pattern = pattern.substring(0, pattern.length()-1);
+        }
+
+        return escapeText(pattern);
+    }
 }
