@@ -7148,9 +7148,9 @@ public class DefaultCodegen implements CodegenConfig {
                     } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                         cp = fromProperty(requiredPropertyName, new Schema());
                     } else {
-                        cp = fromProperty(requiredPropertyName, (Schema) schema.getAdditionalProperties());
+                        CodegenProperty addPropsProp = property.getAdditionalProperties();
+                        cp = addPropsProp;
                     }
-                    // TODO add complexType info connecting it to the existing additional properties?
                     requiredVarsMap.put(usedRequiredPropertyName, cp);
                 }
             }

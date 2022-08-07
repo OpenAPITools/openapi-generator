@@ -76,9 +76,9 @@ class Banana(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'lengthCm',
-    ))
+    _required_property_names = {
+        "lengthCm",
+    }
     lengthCm = NumberSchema
 
 

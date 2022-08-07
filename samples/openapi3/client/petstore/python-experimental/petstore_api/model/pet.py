@@ -78,10 +78,10 @@ class Pet(
 
     Pet object that needs to be added to the store
     """
-    _required_property_names = set((
-        'name',
-        'photoUrls',
-    ))
+    _required_property_names = {
+        "photoUrls",
+        "name",
+    }
     id = Int64Schema
 
     @classmethod
@@ -137,8 +137,8 @@ class Pet(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: name,
         photoUrls: photoUrls,
+        name: name,
         id: typing.Union[id, Unset] = unset,
         category: typing.Union['Category', Unset] = unset,
         tags: typing.Union[tags, Unset] = unset,
@@ -149,8 +149,8 @@ class Pet(
         return super().__new__(
             cls,
             *args,
-            name=name,
             photoUrls=photoUrls,
+            name=name,
             id=id,
             category=category,
             tags=tags,

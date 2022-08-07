@@ -76,10 +76,10 @@ class Money(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'amount',
-        'currency',
-    ))
+    _required_property_names = {
+        "amount",
+        "currency",
+    }
     amount = DecimalSchema
 
     @classmethod
