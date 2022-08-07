@@ -522,9 +522,6 @@
 #' #Updates a pet in the store with form data
 #' api.instance <- PetApi$new()
 #'
-#' # Configure OAuth2 access token for authorization: petstore_auth
-#' api.instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
-#'
 #'result <- tryCatch(
 #'             api.instance$UpdatePetWithForm(var.pet_id, name=var.name, status=var.status),
 #'             ApiException = function(ex) ex
@@ -632,6 +629,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet`)) {
         rlang::abort(message = "Missing required parameter `pet`.",
@@ -658,10 +657,10 @@ PetApi <- R6::R6Class(
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list("application/json", "application/xml", "multipart/related")
+      local_var_content_types <- list("application/json", "application/xml", "multipart/related")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "POST",
@@ -672,6 +671,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -755,6 +756,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -772,16 +775,15 @@ PetApi <- R6::R6Class(
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
-      }
+      # OAuth-related settings
+      is_oauth <- TRUE
+      oauth_scopes <- "write:pets read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list()
+      local_var_accepts <- list()
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "DELETE",
@@ -792,6 +794,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -862,6 +866,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`status`)) {
         rlang::abort(message = "Missing required parameter `status`.",
@@ -874,16 +880,15 @@ PetApi <- R6::R6Class(
       query_params["status"] <- `status`
 
       local_var_url_path <- "/pet/findByStatus"
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
-      }
+      # OAuth-related settings
+      is_oauth <- TRUE
+      oauth_scopes <- "read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -894,6 +899,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -977,6 +984,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`tags`)) {
         rlang::abort(message = "Missing required parameter `tags`.",
@@ -989,16 +998,15 @@ PetApi <- R6::R6Class(
       query_params["tags"] <- `tags`
 
       local_var_url_path <- "/pet/findByTags"
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
-      }
+      # OAuth-related settings
+      is_oauth <- TRUE
+      oauth_scopes <- "read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1009,6 +1017,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -1092,6 +1102,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1112,10 +1124,10 @@ PetApi <- R6::R6Class(
       }
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1126,6 +1138,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -1215,6 +1229,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1235,10 +1251,10 @@ PetApi <- R6::R6Class(
       }
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1249,6 +1265,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  stream_callback = stream_callback,
                                  ...)
 
@@ -1343,6 +1361,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`header_test_int`)) {
         rlang::abort(message = "Missing required parameter `header_test_int`.",
@@ -1361,10 +1381,10 @@ PetApi <- R6::R6Class(
       }
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1375,6 +1395,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  stream_callback = stream_callback,
                                  ...)
 
@@ -1463,6 +1485,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet`)) {
         rlang::abort(message = "Missing required parameter `pet`.",
@@ -1479,16 +1503,15 @@ PetApi <- R6::R6Class(
       }
 
       local_var_url_path <- "/pet"
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
-      }
+      # OAuth-related settings
+      is_oauth <- TRUE
+      oauth_scopes <- "write:pets read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list("application/json", "application/xml", "multipart/related")
+      local_var_content_types <- list("application/json", "application/xml", "multipart/related")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "PUT",
@@ -1499,6 +1522,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -1584,6 +1609,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1602,16 +1629,12 @@ PetApi <- R6::R6Class(
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
-      }
 
       # The Accept request HTTP header
-      local_var_accepts = list()
+      local_var_accepts <- list()
 
       # The Content-Type representation header
-      local_var_content_types = list("application/x-www-form-urlencoded")
+      local_var_content_types <- list("application/x-www-form-urlencoded")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "POST",
@@ -1622,6 +1645,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
@@ -1696,6 +1721,8 @@ PetApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`pet_id`)) {
         rlang::abort(message = "Missing required parameter `pet_id`.",
@@ -1714,16 +1741,15 @@ PetApi <- R6::R6Class(
         local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
-      }
+      # OAuth-related settings
+      is_oauth <- TRUE
+      oauth_scopes <- "write:pets read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/json")
+      local_var_accepts <- list("application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list("multipart/form-data")
+      local_var_content_types <- list("multipart/form-data")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "POST",
@@ -1734,6 +1760,8 @@ PetApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {

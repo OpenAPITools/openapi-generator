@@ -22,6 +22,9 @@ test_that("Test toJSONString", {
 })
 
 test_that("Test FindPetByStatus", {
+  pet_api$api_client$oauth_client_id <- "client_id_test"
+  pet_api$api_client$oauth_secret <- "secret_test"
+  
   result <- pet_api$FindPetsByStatus("available")
   expect_equal(result[[1]]$status, "available")
 })

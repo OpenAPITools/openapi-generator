@@ -534,8 +534,6 @@ var_status <- "status_example" # character | Updated status of the pet (Optional
 
 #Updates a pet in the store with form data
 api_instance <- PetApi$new()
-# Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              api_instance$update_pet_with_form(var_pet_id, name = var_name, status = var_status),
              ApiException = function(ex) ex
@@ -564,7 +562,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+No authorization required
 
 ### HTTP request headers
 

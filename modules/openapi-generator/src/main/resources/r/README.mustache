@@ -105,7 +105,15 @@ Class | Method | HTTP request | Description
 {{#isOAuth}}
 - **Type**: OAuth
 - **Flow**: {{flow}}
+{{#authorizationUrl}}
 - **Authorization URL**: {{authorizationUrl}}
+{{/authorizationUrl}}
+{{#tokenUrl}}
+- **Token URL**: {{tokenUrl}}
+{{/tokenUrl}}
+{{#refreshUrl}}
+- **Refresh URL**: {{refreshUrl}}
+{{/refreshUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}

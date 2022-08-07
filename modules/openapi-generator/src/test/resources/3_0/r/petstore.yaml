@@ -200,10 +200,10 @@ paths:
       responses:
         '405':
           description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+      #security:
+      #  - petstore_auth:
+      #      - 'write:pets'
+      #      - 'read:pets'
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -628,6 +628,24 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/regular_expression:
+    get:
+      tags:
+        - fake
+      summary: test regular expression to ensure no exception
+      description: ''
+      operationId: fake_regular-expression
+      parameters:
+        - name: reg_exp_test
+          in: header
+          description: dummy required parameter
+          required: true
+          schema:
+            type: string
+            pattern: /^[A-Za-z0-9_]{1,15}$/
+      responses:
+        '200':
+          description: successful operation
   /fake/data_file:
     get:
       tags:
