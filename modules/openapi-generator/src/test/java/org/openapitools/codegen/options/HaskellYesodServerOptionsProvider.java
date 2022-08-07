@@ -14,6 +14,7 @@ public class HaskellYesodServerOptionsProvider implements OptionsProvider {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String PROJECT_NAME_VALUE = "openapi-haskell-yesod-server";
     public static final String API_MODULE_NAME_VALUE = "API";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -32,6 +33,7 @@ public class HaskellYesodServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(HaskellYesodServerCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(HaskellYesodServerCodegen.API_MODULE_NAME, API_MODULE_NAME_VALUE)
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
 

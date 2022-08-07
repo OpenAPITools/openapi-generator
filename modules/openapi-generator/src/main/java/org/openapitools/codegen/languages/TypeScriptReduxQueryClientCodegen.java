@@ -20,6 +20,9 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -121,14 +124,13 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
 
         // process enum in models
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
@@ -160,13 +162,11 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> model : models) {
-                CodegenModel codegenModel = (CodegenModel) model.get("model");
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap model : entry.getModels()) {
+                CodegenModel codegenModel = model.getModel();
                 model.put("hasImports", codegenModel.imports.size() > 0);
             }
         }
@@ -186,15 +186,15 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
         // Add supporting file only if we plan to generate files in /apis
-        if (operations.size() > 0 && !addedApiIndex) {
+        if (!operations.isEmpty() && !addedApiIndex) {
             addedApiIndex = true;
             supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         }
 
         // Add supporting file only if we plan to generate files in /models
-        if (allModels.size() > 0 && !addedModelIndex) {
+        if (!allModels.isEmpty() && !addedModelIndex) {
             addedModelIndex = true;
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         }
@@ -205,13 +205,13 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         return operations;
     }
 
-    private void addOperationModelImportInformation(Map<String, Object> operations) {
+    private void addOperationModelImportInformation(OperationsMap operations) {
         // This method will add extra information to the operations.imports array.
         // The api template uses this information to import all the required
         // models for a given operation.
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            String[] parts = im.get("import").toString().replace(modelPackage() + ".", "").split("( [|&] )|[<>]");
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
+            String[] parts = im.get("import").replace(modelPackage() + ".", "").split("( [|&] )|[<>]");
             for (String s : parts) {
                 if (needToImport(s)) {
                     im.put("filename", im.get("import"));
@@ -221,13 +221,11 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         }
     }
 
-    private void updateOperationParameterEnumInformation(Map<String, Object> operations) {
+    private void updateOperationParameterEnumInformation(OperationsMap operations) {
         // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         boolean hasEnum = false;
-        for (CodegenOperation op : operationList) {
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnum = true;
@@ -240,13 +238,11 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         operations.put("hasEnums", hasEnum);
     }
 
-    private void addOperationObjectResponseInformation(Map<String, Object> operations) {
+    private void addOperationObjectResponseInformation(OperationsMap operations) {
         // This method will modify the information on the operations' return type.
         // The api template uses this information to know when to return a text
         // response for a given simple response operation.
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-        for (CodegenOperation op : operationList) {
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
             if("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;

@@ -16,7 +16,7 @@ OCaml 4.x
 Please run the following commands to build the package `petstore_client`:
 
 ```sh
-opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix pin ocaml-migrate-parsetree 1.3.1
+opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix ocaml-migrate-parsetree
 eval $(opam env)
 dune build
 ```
@@ -24,4 +24,3 @@ dune build
 ## Getting Started
 
 TODO
-

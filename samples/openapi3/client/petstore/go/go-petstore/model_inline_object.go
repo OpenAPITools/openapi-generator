@@ -19,7 +19,7 @@ type InlineObject struct {
 	// Updated name of the pet
 	Name *string `json:"name,omitempty"`
 	// Updated status of the pet
-	Status *string `json:"status,omitempty"`
+	Status               *string `json:"status,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -175,5 +175,3 @@ func (v *NullableInlineObject) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

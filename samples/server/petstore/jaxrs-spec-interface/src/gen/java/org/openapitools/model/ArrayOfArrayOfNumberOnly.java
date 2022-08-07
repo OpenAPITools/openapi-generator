@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfArrayOfNumberOnly  implements Serializable {
-  
-  private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ArrayOfArrayOfNumberOnly  implements Serializable {
+  private @Valid List<List<BigDecimal>> arrayArrayNumber = null;
 
   /**
    **/
@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -44,6 +42,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
+  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+    if (this.arrayArrayNumber == null) {
+      this.arrayArrayNumber = new ArrayList<>();
+    }
+
+    this.arrayArrayNumber.add(arrayArrayNumberItem);
+    return this;
+  }
+
+  public ArrayOfArrayOfNumberOnly removeArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+    if (arrayArrayNumberItem != null && this.arrayArrayNumber != null) {
+      this.arrayArrayNumber.remove(arrayArrayNumberItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

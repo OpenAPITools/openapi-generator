@@ -1,11 +1,6 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
@@ -112,4 +107,20 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     public String toModelFilename(String name) {
         return name;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // do nothing as the output is just doc
+        return input;
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // do nothing as the output is just doc
+        return input;
+    }
+
 }

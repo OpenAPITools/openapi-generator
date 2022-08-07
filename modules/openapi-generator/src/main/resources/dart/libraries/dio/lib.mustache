@@ -1,12 +1,12 @@
 {{>header}}
-export 'package:{{pubName}}/src/api.dart';
-export 'package:{{pubName}}/src/auth/api_key_auth.dart';
-export 'package:{{pubName}}/src/auth/basic_auth.dart';
-export 'package:{{pubName}}/src/auth/oauth.dart';
-{{#useBuiltValue}}export 'package:{{pubName}}/src/serializers.dart';
-{{#useDateLibCore}}export 'package:{{pubName}}/src/model/date.dart';{{/useDateLibCore}}{{/useBuiltValue}}
+export 'package:{{pubName}}/{{sourceFolder}}/api.dart';
+export 'package:{{pubName}}/{{sourceFolder}}/auth/api_key_auth.dart';
+export 'package:{{pubName}}/{{sourceFolder}}/auth/basic_auth.dart';
+export 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
+{{#useBuiltValue}}export 'package:{{pubName}}/{{sourceFolder}}/serializers.dart';
+{{#useDateLibCore}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/date.dart';{{/useDateLibCore}}{{/useBuiltValue}}
 
-{{#apiInfo}}{{#apis}}export 'package:{{pubName}}/src/api/{{classFilename}}.dart';
+{{#apiInfo}}{{#apis}}export 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
-{{#models}}{{#model}}export 'package:{{pubName}}/src/model/{{classFilename}}.dart';
+{{#models}}{{#model}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
 {{/model}}{{/models}}

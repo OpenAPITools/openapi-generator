@@ -14,13 +14,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("MapTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
   
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
- 
+  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+
 public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
@@ -53,9 +55,9 @@ public enum InnerEnum {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<String, Boolean>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
+  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private @Valid Map<String, Boolean> directMap = new HashMap<>();
+  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
 
   /**
    **/
@@ -73,10 +75,27 @@ public enum InnerEnum {
     return mapMapOfString;
   }
 
+  @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    if (this.mapMapOfString == null) {
+      this.mapMapOfString = new HashMap<>();
+    }
+
+    this.mapMapOfString.put(key, mapMapOfStringItem);
+    return this;
+  }
+
+  public MapTest removeMapMapOfStringItem(Map<String, String> mapMapOfStringItem) {
+    if (mapMapOfStringItem != null && this.mapMapOfString != null) {
+      this.mapMapOfString.remove(mapMapOfStringItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
@@ -93,10 +112,27 @@ public enum InnerEnum {
     return mapOfEnumString;
   }
 
+  @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    if (this.mapOfEnumString == null) {
+      this.mapOfEnumString = new HashMap<>();
+    }
+
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
+    return this;
+  }
+
+  public MapTest removeMapOfEnumStringItem(InnerEnum mapOfEnumStringItem) {
+    if (mapOfEnumStringItem != null && this.mapOfEnumString != null) {
+      this.mapOfEnumString.remove(mapOfEnumStringItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
@@ -113,10 +149,27 @@ public enum InnerEnum {
     return directMap;
   }
 
+  @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    if (this.directMap == null) {
+      this.directMap = new HashMap<>();
+    }
+
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+  public MapTest removeDirectMapItem(Boolean directMapItem) {
+    if (directMapItem != null && this.directMap != null) {
+      this.directMap.remove(directMapItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
@@ -133,10 +186,27 @@ public enum InnerEnum {
     return indirectMap;
   }
 
+  @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<>();
+    }
+
+    this.indirectMap.put(key, indirectMapItem);
+    return this;
+  }
+
+  public MapTest removeIndirectMapItem(Boolean indirectMapItem) {
+    if (indirectMapItem != null && this.indirectMap != null) {
+      this.indirectMap.remove(indirectMapItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

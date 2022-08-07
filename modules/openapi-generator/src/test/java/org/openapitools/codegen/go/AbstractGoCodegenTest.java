@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -90,6 +91,13 @@ public class AbstractGoCodegenTest {
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "map[string]NestedArray");
+
+        // Create object schema with additionalProperties set to true
+        schema = new ObjectSchema().additionalProperties(Boolean.TRUE);
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "map[string]interface{}");
     }
 
     private static class P_AbstractGoCodegen extends AbstractGoCodegen {

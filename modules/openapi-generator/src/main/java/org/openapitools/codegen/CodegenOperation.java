@@ -27,9 +27,11 @@ public class CodegenOperation {
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
-            isResponseBinary = false, isResponseFile = false, hasReference = false,
+            isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
+            hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
+    public CodegenProperty returnProperty;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
@@ -41,6 +43,7 @@ public class CodegenOperation {
     public List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> implicitHeadersParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
@@ -65,8 +68,12 @@ public class CodegenOperation {
      *
      * @return true if parameter exists, false otherwise
      */
-    private static boolean nonempty(List<?> params) {
-        return params != null && params.size() > 0;
+    private static boolean nonEmpty(List<?> params) {
+        return params != null && !params.isEmpty();
+    }
+
+    private static boolean nonEmpty(Map<?, ?> params) {
+        return params != null && !params.isEmpty();
     }
 
     /**
@@ -75,7 +82,7 @@ public class CodegenOperation {
      * @return true if body parameter exists, false otherwise
      */
     public boolean getHasBodyParam() {
-        return nonempty(bodyParams);
+        return nonEmpty(bodyParams);
     }
 
     /**
@@ -84,7 +91,7 @@ public class CodegenOperation {
      * @return true if query parameter exists, false otherwise
      */
     public boolean getHasQueryParams() {
-        return nonempty(queryParams);
+        return nonEmpty(queryParams);
     }
 
     /**
@@ -102,7 +109,7 @@ public class CodegenOperation {
      * @return true if header parameter exists, false otherwise
      */
     public boolean getHasHeaderParams() {
-        return nonempty(headerParams);
+        return nonEmpty(headerParams);
     }
 
     /**
@@ -111,7 +118,7 @@ public class CodegenOperation {
      * @return true if path parameter exists, false otherwise
      */
     public boolean getHasPathParams() {
-        return nonempty(pathParams);
+        return nonEmpty(pathParams);
     }
 
     /**
@@ -120,7 +127,7 @@ public class CodegenOperation {
      * @return true if any form parameter exists, false otherwise
      */
     public boolean getHasFormParams() {
-        return nonempty(formParams);
+        return nonEmpty(formParams);
     }
 
     /**
@@ -138,7 +145,7 @@ public class CodegenOperation {
      * @return true if any cookie parameter exists, false otherwise
      */
     public boolean getHasCookieParams() {
-        return nonempty(cookieParams);
+        return nonEmpty(cookieParams);
     }
 
     /**
@@ -147,7 +154,7 @@ public class CodegenOperation {
      * @return true if any optional parameter exists, false otherwise
      */
     public boolean getHasOptionalParams() {
-        return nonempty(optionalParams);
+        return nonEmpty(optionalParams);
     }
 
     /**
@@ -156,7 +163,7 @@ public class CodegenOperation {
      * @return true if any optional parameter exists, false otherwise
      */
     public boolean getHasRequiredParams() {
-        return nonempty(requiredParams);
+        return nonEmpty(requiredParams);
     }
 
     /**
@@ -165,7 +172,7 @@ public class CodegenOperation {
      * @return true if header response exists, false otherwise
      */
     public boolean getHasResponseHeaders() {
-        return nonempty(responseHeaders);
+        return nonEmpty(responseHeaders);
     }
 
     /**
@@ -174,7 +181,7 @@ public class CodegenOperation {
      * @return true if examples parameter exists, false otherwise
      */
     public boolean getHasExamples() {
-        return nonempty(examples);
+        return nonEmpty(examples);
     }
 
     /**
@@ -183,7 +190,16 @@ public class CodegenOperation {
      * @return true if responses contain a default response, false otherwise
      */
     public boolean getHasDefaultResponse() {
-        return responses.stream().filter(response -> response.isDefault).findFirst().isPresent();
+        return responses.stream().anyMatch(response -> response.isDefault);
+    }
+
+    /**
+     * Check if there's at least one vendor extension
+     *
+     * @return true if vendor extensions exists, false otherwise
+     */
+    public boolean getHasVendorExtensions() {
+        return nonEmpty(vendorExtensions);
     }
 
     /**
@@ -225,17 +241,9 @@ public class CodegenOperation {
     /**
      * Check if body param is allowed for the request method
      *
-     * @return true request method is DELETE, PUT, PATCH or POST; false otherwise
-     */
-    public boolean isBodyAllowed() {
-        return Arrays.asList("DELETE","PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
-    }
-    /**
-     * Check if the request method is PUT or PATCH or POST
-     *
      * @return true request method is PUT, PATCH or POST; false otherwise
      */
-    public boolean isMethodPutOrPatchOrPost() {
+    public boolean isBodyAllowed() {
         return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
     }
 
@@ -291,12 +299,15 @@ public class CodegenOperation {
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
         sb.append(", isMap=").append(isMap);
+        sb.append(", returnProperty=").append(returnProperty);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
+        sb.append(", isResponseFile=").append(isResponseOptional);
         sb.append(", hasReference=").append(hasReference);
         sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
+        sb.append(", hasErrorResponseObject=").append(hasErrorResponseObject);
         sb.append(", isRestfulIndex=").append(isRestfulIndex);
         sb.append(", isRestfulShow=").append(isRestfulShow);
         sb.append(", isRestfulCreate=").append(isRestfulCreate);
@@ -369,8 +380,10 @@ public class CodegenOperation {
                 isMultipart == that.isMultipart &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
+                isResponseOptional == that.isResponseOptional &&
                 hasReference == that.hasReference &&
                 hasDefaultResponse == that.hasDefaultResponse &&
+                hasErrorResponseObject == that.hasErrorResponseObject &&
                 isRestfulIndex == that.isRestfulIndex &&
                 isRestfulShow == that.isRestfulShow &&
                 isRestfulCreate == that.isRestfulCreate &&
@@ -380,6 +393,7 @@ public class CodegenOperation {
                 isDeprecated == that.isDeprecated &&
                 isCallbackRequest == that.isCallbackRequest &&
                 uniqueItems == that.uniqueItems &&
+                Objects.equals(returnProperty, that.returnProperty) &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(operationId, that.operationId) &&
@@ -428,13 +442,14 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, hasDefaultResponse, isRestfulIndex,
-                isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
-                returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
-                produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
-                headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
-                responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
-                nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase);
+                isArray, isMultipart, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
+                hasDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
+                isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
+                returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
+                discriminator, consumes, produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams,
+                pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
+                authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
+                vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
+                operationIdSnakeCase, hasErrorResponseObject);
     }
 }

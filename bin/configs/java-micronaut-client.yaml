@@ -7,3 +7,5 @@ additionalProperties:
   configureAuth: "false"
   build: "all"
   test: "spock"
+  requiredPropertiesInConstructor: "false"
+  visitable: "true"

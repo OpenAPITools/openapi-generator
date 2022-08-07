@@ -15,7 +15,7 @@ public typealias AdditionalPropertiesClass = PetstoreClientAPI.AdditionalPropert
 
 extension PetstoreClientAPI {
 
-public final class AdditionalPropertiesClass: Codable, Hashable {
+public final class AdditionalPropertiesClass: Codable, JSONEncodable, Hashable {
 
     public var mapString: [String: String]?
     public var mapMapString: [String: [String: String]]?

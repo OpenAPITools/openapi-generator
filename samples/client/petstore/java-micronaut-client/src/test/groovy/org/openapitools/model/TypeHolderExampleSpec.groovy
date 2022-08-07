@@ -1,7 +1,5 @@
 package org.openapitools.model
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.List
@@ -14,55 +12,55 @@ import jakarta.inject.Inject
  */
 @MicronautTest
 public class TypeHolderExampleSpec extends Specification {
-    private final TypeHolderExample model = new TypeHolderExample()
+    private final TypeHolderExample model = null
 
     /**
      * Model tests for TypeHolderExample
      */
-    void "TypeHolderExample test"() {
+    void 'TypeHolderExample test'() {
         // TODO: test TypeHolderExample
     }
 
     /**
      * Test the property 'stringItem'
      */
-    void "TypeHolderExample property stringItem test"() {
-        // TODO: test stringItem
+    void 'TypeHolderExample property stringItem test'() {
+        // TODO: test stringItem property of TypeHolderExample
     }
 
     /**
      * Test the property 'numberItem'
      */
-    void "TypeHolderExample property numberItem test"() {
-        // TODO: test numberItem
+    void 'TypeHolderExample property numberItem test'() {
+        // TODO: test numberItem property of TypeHolderExample
     }
 
     /**
      * Test the property 'floatItem'
      */
-    void "TypeHolderExample property floatItem test"() {
-        // TODO: test floatItem
+    void 'TypeHolderExample property floatItem test'() {
+        // TODO: test floatItem property of TypeHolderExample
     }
 
     /**
      * Test the property 'integerItem'
      */
-    void "TypeHolderExample property integerItem test"() {
-        // TODO: test integerItem
+    void 'TypeHolderExample property integerItem test'() {
+        // TODO: test integerItem property of TypeHolderExample
     }
 
     /**
      * Test the property 'boolItem'
      */
-    void "TypeHolderExample property boolItem test"() {
-        // TODO: test boolItem
+    void 'TypeHolderExample property boolItem test'() {
+        // TODO: test boolItem property of TypeHolderExample
     }
 
     /**
      * Test the property 'arrayItem'
      */
-    void "TypeHolderExample property arrayItem test"() {
-        // TODO: test arrayItem
+    void 'TypeHolderExample property arrayItem test'() {
+        // TODO: test arrayItem property of TypeHolderExample
     }
 
 }

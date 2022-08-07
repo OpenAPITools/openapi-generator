@@ -1,3 +1,5 @@
+{{>partial_header}}
+
 using Polly;
 {{#useRestSharp}}
 using RestSharp;
@@ -11,18 +13,18 @@ namespace {{packageName}}.Client
     /// <summary>
     /// Configuration class to set the polly retry policies to be applied to the requests.
     /// </summary>
-    public class RetryConfiguration
+    public static class RetryConfiguration
     {
 {{#useRestSharp}}
         /// <summary>
         /// Retry policy
         /// </summary>
-        public static Policy<IRestResponse> RetryPolicy { get; set; }
+        public static Policy<RestResponse> RetryPolicy { get; set; }
 
         /// <summary>
         /// Async retry policy
         /// </summary>
-        public static AsyncPolicy<IRestResponse> AsyncRetryPolicy { get; set; }
+        public static AsyncPolicy<RestResponse> AsyncRetryPolicy { get; set; }
 {{/useRestSharp}}
 {{#useHttpClient}}
         /// <summary>

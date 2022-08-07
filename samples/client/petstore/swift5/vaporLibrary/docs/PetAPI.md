@@ -137,7 +137,7 @@ public enum DeletePet {
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [String], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus>
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus>
 ```
 
 Finds Pets by status

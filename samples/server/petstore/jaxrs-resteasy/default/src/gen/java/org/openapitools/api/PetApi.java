@@ -61,11 +61,14 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
     }, tags={ "pet", })
+    @io.swagger.annotations.ApiImplicitParams({
+        @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
+    })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    public Response deletePet( @PathParam("petId") Long petId, @ApiParam(value = "" ) @HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
+    public Response deletePet( @PathParam("petId") Long petId,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return service.deletePet(petId,apiKey,securityContext);
+        return service.deletePet(petId,securityContext);
     }
     @GET
     @Path("/findByStatus")

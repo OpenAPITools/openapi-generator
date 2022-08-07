@@ -46,12 +46,16 @@ namespace Org.OpenAPITools.Model
         {
             this._LengthCm = lengthCm;
             this._Sweet = sweet;
+            if (this.Sweet != null)
+            {
+                this._flagSweet = true;
+            }
         }
 
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
-        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = true)]
         public decimal LengthCm
         {
             get{ return _LengthCm;}

@@ -4,7 +4,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     {{/vars}}
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property values initializing the model
+     * @param array|null $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -13,7 +13,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
 
         {{/parentSchema}}
         {{#vars}}
-        $this->{{name}} = isset($data['{{name}}']) ? $data['{{name}}'] : {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}};
+        $this->{{name}} = $data['{{name}}'] ?? null;
         {{/vars}}
     }
     {{#vars}}
@@ -21,9 +21,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     /**
      * Gets {{name}}.
      *
-     * @return {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
+     * @return {{{vendorExtensions.x-comment-type}}}
      */
-    public function {{getter}}(){{#vendorExtensions.x-parameter-type}}: {{^required}}?{{/required}}{{vendorExtensions.x-parameter-type}}{{/vendorExtensions.x-parameter-type}}
+    public function {{getter}}(){{#vendorExtensions.x-parameter-type}}: {{vendorExtensions.x-parameter-type}}{{/vendorExtensions.x-parameter-type}}
     {
         return $this->{{name}};
     }
@@ -31,11 +31,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     /**
      * Sets {{name}}.
      *
-     * @param {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{.}}}{{/description}}
+     * @param {{{vendorExtensions.x-comment-type}}} ${{name}}{{#description}}  {{{.}}}{{/description}}
      *
      * @return $this
      */
-    public function {{setter}}({{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{name}}{{^required}} = null{{/required}})
+    public function {{setter}}({{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{name}}{{^required}} = null{{/required}}): self
     {
         $this->{{name}} = ${{name}};
 

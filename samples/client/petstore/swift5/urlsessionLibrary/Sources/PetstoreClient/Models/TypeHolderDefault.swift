@@ -15,7 +15,7 @@ public typealias TypeHolderDefault = PetstoreClientAPI.TypeHolderDefault
 
 extension PetstoreClientAPI {
 
-public final class TypeHolderDefault: Codable, Hashable {
+public final class TypeHolderDefault: Codable, JSONEncodable, Hashable {
 
     public var stringItem: String = "what"
     public var numberItem: Double

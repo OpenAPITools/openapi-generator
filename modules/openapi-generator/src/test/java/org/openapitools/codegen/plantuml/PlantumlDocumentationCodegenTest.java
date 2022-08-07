@@ -6,6 +6,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.PlantumlDocumentationCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -234,11 +236,11 @@ public class PlantumlDocumentationCodegenTest {
     }
 
     private Map<String, Object> createObjectsMapFor(CodegenModel... codegenModels) {
-        List<Map<?,?>> modelsList = new ArrayList();
+        List<ModelMap> modelsList = new ArrayList<>();
 
         for (CodegenModel codegenModel: codegenModels) {
-            Map<String, Object> modelMap = new HashMap<>();
-            modelMap.put("model", codegenModel);
+            ModelMap modelMap = new ModelMap();
+            modelMap.setModel(codegenModel);
             modelsList.add(modelMap);
         }
 

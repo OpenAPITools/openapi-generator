@@ -14,26 +14,31 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Client,
+  EnumClass,
+  FileSchemaTestClass,
+  HealthCheckResult,
+  OuterComposite,
+  OuterObjectWithEnumProperty,
+  Pet,
+  User,
+} from '../models';
 import {
-    Client,
     ClientFromJSON,
     ClientToJSON,
-    FileSchemaTestClass,
+    EnumClassFromJSON,
+    EnumClassToJSON,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
-    HealthCheckResult,
     HealthCheckResultFromJSON,
     HealthCheckResultToJSON,
-    OuterComposite,
     OuterCompositeFromJSON,
     OuterCompositeToJSON,
-    OuterObjectWithEnumProperty,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
-    Pet,
     PetFromJSON,
     PetToJSON,
-    User,
     UserFromJSON,
     UserToJSON,
 } from '../models';
@@ -105,6 +110,7 @@ export interface TestEnumParametersRequest {
     enumQueryString?: TestEnumParametersEnumQueryStringEnum;
     enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
     enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
+    enumQueryModelArray?: Array<EnumClass>;
     enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
     enumFormString?: TestEnumParametersEnumFormStringEnum;
 }
@@ -145,7 +151,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Health check endpoint
      */
-    async fakeHealthGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<HealthCheckResult>> {
+    async fakeHealthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HealthCheckResult>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -163,7 +169,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Health check endpoint
      */
-    async fakeHealthGet(initOverrides?: RequestInit): Promise<HealthCheckResult> {
+    async fakeHealthGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HealthCheckResult> {
         const response = await this.fakeHealthGetRaw(initOverrides);
         return await response.value();
     }
@@ -171,7 +177,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * test http signature authentication
      */
-    async fakeHttpSignatureTestRaw(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async fakeHttpSignatureTestRaw(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.pet === null || requestParameters.pet === undefined) {
             throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling fakeHttpSignatureTest.');
         }
@@ -204,14 +210,14 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * test http signature authentication
      */
-    async fakeHttpSignatureTest(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit): Promise<void> {
+    async fakeHttpSignatureTest(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.fakeHttpSignatureTestRaw(requestParameters, initOverrides);
     }
 
     /**
      * Test serialization of outer boolean types
      */
-    async fakeOuterBooleanSerializeRaw(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<boolean>> {
+    async fakeOuterBooleanSerializeRaw(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -232,7 +238,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer boolean types
      */
-    async fakeOuterBooleanSerialize(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit): Promise<boolean> {
+    async fakeOuterBooleanSerialize(requestParameters: FakeOuterBooleanSerializeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
         const response = await this.fakeOuterBooleanSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -240,7 +246,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of object with outer number type
      */
-    async fakeOuterCompositeSerializeRaw(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OuterComposite>> {
+    async fakeOuterCompositeSerializeRaw(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterComposite>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -261,7 +267,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of object with outer number type
      */
-    async fakeOuterCompositeSerialize(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit): Promise<OuterComposite> {
+    async fakeOuterCompositeSerialize(requestParameters: FakeOuterCompositeSerializeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OuterComposite> {
         const response = await this.fakeOuterCompositeSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -269,7 +275,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer number types
      */
-    async fakeOuterNumberSerializeRaw(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<number>> {
+    async fakeOuterNumberSerializeRaw(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -290,7 +296,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer number types
      */
-    async fakeOuterNumberSerialize(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit): Promise<number> {
+    async fakeOuterNumberSerialize(requestParameters: FakeOuterNumberSerializeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
         const response = await this.fakeOuterNumberSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -298,7 +304,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer string types
      */
-    async fakeOuterStringSerializeRaw(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<string>> {
+    async fakeOuterStringSerializeRaw(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -319,7 +325,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer string types
      */
-    async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit): Promise<string> {
+    async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
         const response = await this.fakeOuterStringSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -327,7 +333,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of enum (int) properties with examples
      */
-    async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
+    async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
         if (requestParameters.outerObjectWithEnumProperty === null || requestParameters.outerObjectWithEnumProperty === undefined) {
             throw new runtime.RequiredError('outerObjectWithEnumProperty','Required parameter requestParameters.outerObjectWithEnumProperty was null or undefined when calling fakePropertyEnumIntegerSerialize.');
         }
@@ -352,7 +358,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of enum (int) properties with examples
      */
-    async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit): Promise<OuterObjectWithEnumProperty> {
+    async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OuterObjectWithEnumProperty> {
         const response = await this.fakePropertyEnumIntegerSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -360,7 +366,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * For this test, the body has to be a binary file.
      */
-    async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling testBodyWithBinary.');
         }
@@ -385,14 +391,14 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * For this test, the body has to be a binary file.
      */
-    async testBodyWithBinary(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit): Promise<void> {
+    async testBodyWithBinary(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testBodyWithBinaryRaw(requestParameters, initOverrides);
     }
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
      */
-    async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.fileSchemaTestClass === null || requestParameters.fileSchemaTestClass === undefined) {
             throw new runtime.RequiredError('fileSchemaTestClass','Required parameter requestParameters.fileSchemaTestClass was null or undefined when calling testBodyWithFileSchema.');
         }
@@ -417,13 +423,13 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * For this test, the body for this request must reference a schema named `File`.
      */
-    async testBodyWithFileSchema(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit): Promise<void> {
+    async testBodyWithFileSchema(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testBodyWithFileSchemaRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async testBodyWithQueryParamsRaw(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testBodyWithQueryParamsRaw(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.query === null || requestParameters.query === undefined) {
             throw new runtime.RequiredError('query','Required parameter requestParameters.query was null or undefined when calling testBodyWithQueryParams.');
         }
@@ -455,7 +461,7 @@ export class FakeApi extends runtime.BaseAPI {
 
     /**
      */
-    async testBodyWithQueryParams(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit): Promise<void> {
+    async testBodyWithQueryParams(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testBodyWithQueryParamsRaw(requestParameters, initOverrides);
     }
 
@@ -463,7 +469,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test \"client\" model
      * To test \"client\" model
      */
-    async testClientModelRaw(requestParameters: TestClientModelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Client>> {
+    async testClientModelRaw(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters.client === null || requestParameters.client === undefined) {
             throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling testClientModel.');
         }
@@ -489,7 +495,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test \"client\" model
      * To test \"client\" model
      */
-    async testClientModel(requestParameters: TestClientModelRequest, initOverrides?: RequestInit): Promise<Client> {
+    async testClientModel(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Client> {
         const response = await this.testClientModelRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -498,7 +504,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      */
-    async testEndpointParametersRaw(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testEndpointParametersRaw(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.number === null || requestParameters.number === undefined) {
             throw new runtime.RequiredError('number','Required parameter requestParameters.number was null or undefined when calling testEndpointParameters.');
         }
@@ -609,7 +615,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      */
-    async testEndpointParameters(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit): Promise<void> {
+    async testEndpointParameters(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testEndpointParametersRaw(requestParameters, initOverrides);
     }
 
@@ -617,7 +623,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test enum parameters
      * To test enum parameters
      */
-    async testEnumParametersRaw(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testEnumParametersRaw(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         if (requestParameters.enumQueryStringArray) {
@@ -634,6 +640,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (requestParameters.enumQueryDouble !== undefined) {
             queryParameters['enum_query_double'] = requestParameters.enumQueryDouble;
+        }
+
+        if (requestParameters.enumQueryModelArray) {
+            queryParameters['enum_query_model_array'] = requestParameters.enumQueryModelArray;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -683,7 +693,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test enum parameters
      * To test enum parameters
      */
-    async testEnumParameters(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit): Promise<void> {
+    async testEnumParameters(requestParameters: TestEnumParametersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testEnumParametersRaw(requestParameters, initOverrides);
     }
 
@@ -691,7 +701,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
      */
-    async testGroupParametersRaw(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testGroupParametersRaw(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.requiredStringGroup === null || requestParameters.requiredStringGroup === undefined) {
             throw new runtime.RequiredError('requiredStringGroup','Required parameter requestParameters.requiredStringGroup was null or undefined when calling testGroupParameters.');
         }
@@ -754,14 +764,15 @@ export class FakeApi extends runtime.BaseAPI {
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
      */
-    async testGroupParameters(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit): Promise<void> {
+    async testGroupParameters(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testGroupParametersRaw(requestParameters, initOverrides);
     }
 
     /**
+     * 
      * test inline additionalProperties
      */
-    async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
             throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testInlineAdditionalProperties.');
         }
@@ -784,16 +795,18 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test inline additionalProperties
      */
-    async testInlineAdditionalProperties(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit): Promise<void> {
+    async testInlineAdditionalProperties(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testInlineAdditionalPropertiesRaw(requestParameters, initOverrides);
     }
 
     /**
+     * 
      * test json serialization of form data
      */
-    async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.param === null || requestParameters.param === undefined) {
             throw new runtime.RequiredError('param','Required parameter requestParameters.param was null or undefined when calling testJsonFormData.');
         }
@@ -840,16 +853,17 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test json serialization of form data
      */
-    async testJsonFormData(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit): Promise<void> {
+    async testJsonFormData(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testJsonFormDataRaw(requestParameters, initOverrides);
     }
 
     /**
      * To test the collection format in query parameters
      */
-    async testQueryParameterCollectionFormatRaw(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    async testQueryParameterCollectionFormatRaw(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.pipe === null || requestParameters.pipe === undefined) {
             throw new runtime.RequiredError('pipe','Required parameter requestParameters.pipe was null or undefined when calling testQueryParameterCollectionFormat.');
         }
@@ -919,76 +933,76 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * To test the collection format in query parameters
      */
-    async testQueryParameterCollectionFormat(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit): Promise<void> {
+    async testQueryParameterCollectionFormat(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testQueryParameterCollectionFormatRaw(requestParameters, initOverrides);
     }
 
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumHeaderStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumHeaderStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryIntegerEnum {
-    NUMBER_1 = 1,
-    NUMBER_MINUS_2 = -2
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_2: -2
+} as const;
+export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryDoubleEnum {
-    NUMBER_1_DOT_1 = 1.1,
-    NUMBER_MINUS_1_DOT_2 = -1.2
-}
+ * @export
+ */
+export const TestEnumParametersEnumQueryDoubleEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
+export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumFormStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+ * @export
+ */
+export const TestEnumParametersEnumFormStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumFormStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+ * @export
+ */
+export const TestEnumParametersEnumFormStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];

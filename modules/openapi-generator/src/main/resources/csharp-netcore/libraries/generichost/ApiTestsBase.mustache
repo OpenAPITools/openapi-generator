@@ -1,0 +1,47 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using Microsoft.Extensions.Hosting;
+using {{packageName}}.Client;{{#hasImport}}
+using {{packageName}}.{{modelPackage}};{{/hasImport}}
+
+
+{{{testInstructions}}}
+
+
+namespace {{packageName}}.Test.Api
+{
+    /// <summary>
+    ///  Base class for API tests
+    /// </summary>
+    public class ApiTestsBase
+    {
+        protected readonly IHost _host;
+
+        public ApiTestsBase(string[] args)
+        {
+            _host = CreateHostBuilder(args).Build();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
+            .Configure{{apiName}}((context, options) =>
+            {
+                {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken);
+                {{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+                BearerToken bearerToken = new BearerToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(bearerToken);
+                {{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+                BasicToken basicToken = new BasicToken(context.Configuration["<username>"], context.Configuration["<password>"], timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(basicToken);
+                {{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(httpSignatureToken);
+                {{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+                OAuthToken oauthToken = new OAuthToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken);{{/hasOAuthMethods}}
+            });
+    }
+}

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct HasOnlyReadOnly: Codable, Hashable {
+public struct HasOnlyReadOnly: Codable, JSONEncodable, Hashable {
 
     public private(set) var bar: String?
     public private(set) var foo: String?

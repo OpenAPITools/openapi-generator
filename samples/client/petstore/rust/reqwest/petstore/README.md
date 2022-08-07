@@ -25,6 +25,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**test_nullable_required_param**](docs/FakeApi.md#test_nullable_required_param) | **GET** /fake/user/{username} | To test nullable required parameters
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
@@ -53,6 +54,7 @@ Class | Method | HTTP request | Description
  - [Category](docs/Category.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [PropertyTest](docs/PropertyTest.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 

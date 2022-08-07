@@ -79,7 +79,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     }
 
     @discardableResult
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -114,6 +114,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                             mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
                         case let number as NSNumber:
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        case let data as Data:
+                            mpForm.append(data, withName: k)
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
@@ -124,6 +126,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         onProgressReady(progress)
                     }
                 }
+
+                requestTask.set(request: upload)
 
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
             } else if contentType == "application/x-www-form-urlencoded" {
@@ -142,10 +146,10 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 onProgressReady(request.uploadProgress)
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
-            return request.task
+            requestTask.set(request: request)
         }
 
-        return nil
+        return requestTask
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
@@ -343,13 +347,17 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                guard let data = dataResponse.data, !data.isEmpty else {
-                    completion(.failure(ErrorResponse.error(-1, nil, dataResponse.response, DecodableRequestBuilderError.emptyDataResponse)))
+                guard let httpResponse = dataResponse.response else {
+                    completion(.failure(ErrorResponse.error(-2, nil, dataResponse.response, DecodableRequestBuilderError.nilHTTPResponse)))
                     return
                 }
 
-                guard let httpResponse = dataResponse.response else {
-                    completion(.failure(ErrorResponse.error(-2, nil, dataResponse.response, DecodableRequestBuilderError.nilHTTPResponse)))
+                guard let data = dataResponse.data, !data.isEmpty else {
+                    if T.self is ExpressibleByNilLiteral.Type {
+                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, httpResponse, DecodableRequestBuilderError.emptyDataResponse)))
+                    }
                     return
                 }
 

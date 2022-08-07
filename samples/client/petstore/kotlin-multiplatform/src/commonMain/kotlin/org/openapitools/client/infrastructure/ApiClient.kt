@@ -16,6 +16,7 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
+import kotlin.Unit
 import kotlinx.serialization.json.Json
 
 import org.openapitools.client.apis.*
@@ -25,6 +26,7 @@ import org.openapitools.client.auth.*
 open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
+        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
         private val json: Json
 ) {
 
@@ -32,11 +34,20 @@ open class ApiClient(
         KotlinxSerializer(json).ignoreOutgoingContent()
     }
 
+    private val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
+        {
+            // Hold a reference to the serializer to avoid freezing the entire ApiClient instance
+            // when the JsonFeature is configured.
+            val serializerReference = serializer
+            it.install(JsonFeature) { serializer = serializerReference }
+            httpClientConfig?.invoke(it)
+        }
+    }
+
     private val client: HttpClient by lazy {
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
-        val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
+
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf(
                 "api_key" to ApiKeyAuth("header", "api_key"), 

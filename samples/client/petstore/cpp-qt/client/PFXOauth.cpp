@@ -1,6 +1,6 @@
 #include "PFXOauth.h"
 
-namespace OpenAPI {
+namespace test_namespace {
 
 /*
  * Base class to perform oauth2 flows
@@ -327,8 +327,7 @@ void ReplyServer::read()
 
 
     QMap<QString, QString> queryParams;
-    QPair<QString, QString> tokenPair;
-    foreach (tokenPair, tokens) {
+    for (auto tokenPair : tokens) {
         QString key = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.first.trimmed().toLatin1()));
         QString value = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.second.trimmed().toLatin1()));
         queryParams.insert(key, value);
@@ -343,5 +342,4 @@ void ReplyServer::read()
     emit dataReceived(queryParams);
 }
 
-
-}
+} // namespace test_namespace

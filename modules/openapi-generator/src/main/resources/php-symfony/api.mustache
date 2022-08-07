@@ -1,7 +1,8 @@
 <?php
 /**
  * {{classname}}
- * PHP version 7.1.3
+ *
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -37,11 +38,11 @@ interface {{classname}}
     /**
      * Sets authentication method {{name}}
      *
-     * @param string $value Value of the {{name}} authentication method.
+     * @param string|null $value Value of the {{name}} authentication method.
      *
      * @return void
      */
-    public function set{{name}}($value);
+    public function set{{name}}(?string $value): void;
     {{/authMethods}}
     {{#operation}}
 
@@ -57,17 +58,18 @@ interface {{classname}}
      *
     {{/description}}
     {{#allParams}}
-     * @param  {{vendorExtensions.x-comment-type}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{vendorExtensions.x-parameter-type}}{{^required}}{{^defaultValue}}|null{{/defaultValue}}{{/required}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
     {{/allParams}}
-     * @param  \int $responseCode     The HTTP response code to return
-     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return {{{vendorExtensions.x-comment-type}}}
+     * @return {{{vendorExtensions.x-return-type}}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
+    public function {{operationId}}({{#allParams}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}, {{/allParams}}int &$responseCode, array &$responseHeaders): {{{vendorExtensions.x-return-type}}};
+
 {{/operation}}
 }
 {{/operations}}

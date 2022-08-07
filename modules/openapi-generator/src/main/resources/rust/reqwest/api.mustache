@@ -17,7 +17,7 @@ pub struct {{{operationIdCamelCase}}}Params {
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
 {{#-last}}
 }
 
@@ -101,11 +101,34 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 
     {{#queryParams}}
     {{#required}}
-    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+    {{#isArray}}
+    local_var_req_builder = match "{{collectionFormat}}" {
+        "multi" => local_var_req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
+    {{/isArray}}
+    {{^isArray}}
+    {{^isNullable}}
+    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{/isNullable}}
+    {{#isNullable}}
+    if let Some(ref local_var_str) = {{{paramName}}} {
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+    };
+    {{/isNullable}}
+    {{/isArray}}
     {{/required}}
     {{^required}}
     if let Some(ref local_var_str) = {{{paramName}}} {
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+        {{#isArray}}
+        local_var_req_builder = match "{{collectionFormat}}" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+        {{/isArray}}
+        {{^isArray}}
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{/isArray}}
     }
     {{/required}}
     {{/queryParams}}
@@ -124,6 +147,30 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isKeyInQuery}}
     {{/isApiKey}}
     {{/authMethods}}
+    {{/hasAuthMethods}}
+    {{#hasAuthMethods}}
+    {{#withAWSV4Signature}}
+    if let Some(ref local_var_aws_v4_key) = local_var_configuration.aws_v4_key {
+        let local_var_new_headers = match local_var_aws_v4_key.sign(
+	    &local_var_uri_str,
+	    "{{{httpMethod}}}",
+	    {{#hasBodyParam}}
+	    {{#bodyParams}}
+	    &serde_json::to_string(&{{{paramName}}}).expect("param should serialize to string"),
+	    {{/bodyParams}}
+	    {{/hasBodyParam}}
+	    {{^hasBodyParam}}
+	    &"",
+	    {{/hasBodyParam}}
+	    ) {
+	      Ok(new_headers) => new_headers,
+	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
+	    };
+	for (local_var_name, local_var_value) in local_var_new_headers.iter() {
+	    local_var_req_builder = local_var_req_builder.header(local_var_name.as_str(), local_var_value.as_str());
+	}
+    }
+    {{/withAWSV4Signature}}
     {{/hasAuthMethods}}
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());

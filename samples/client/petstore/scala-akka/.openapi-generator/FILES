@@ -1,5 +1,14 @@
 README.md
 build.sbt
+docs/ApiResponse.md
+docs/Category.md
+docs/Order.md
+docs/Pet.md
+docs/PetApi.md
+docs/StoreApi.md
+docs/Tag.md
+docs/User.md
+docs/UserApi.md
 project/build.properties
 src/main/resources/reference.conf
 src/main/scala/org/openapitools/client/api/EnumsSerializers.scala
