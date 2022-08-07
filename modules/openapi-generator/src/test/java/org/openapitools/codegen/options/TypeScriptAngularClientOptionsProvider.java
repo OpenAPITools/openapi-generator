@@ -92,6 +92,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(TypeScriptAngularClientCodegen.PARAM_EXPANSION_STRATEGY, "legacy")
                 .build();
     }
 

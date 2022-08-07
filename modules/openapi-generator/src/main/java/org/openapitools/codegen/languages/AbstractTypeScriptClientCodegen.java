@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,6 +47,109 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+
+    @SuppressWarnings("StringBufferField")
+    public static class ParameterExpander {
+        public enum STRATEGY {
+            legacy("Old legacy implementation that only supports the 'simple' style"
+                           + " and only calls encodeURIComponent()"
+                           + " (as opposed to encoding of all restricted characters of RFC 6570)"),
+            custom("Allows for providing a custom parameter encoding function via customization of " +
+                           "the 'api.service.mustache' template.");
+
+            public final String description;
+
+            STRATEGY(String description) {
+                this.description = description;
+            }
+        }
+
+        private final STRATEGY expansionType;
+        private final StringBuilder parameterName = new StringBuilder();
+        private final CodegenOperation op;
+        private final Function<String, String> toParameterName;
+
+        public ParameterExpander(STRATEGY expansionType, CodegenOperation op, Function<String, String> toParameterName) {
+            this.expansionType = expansionType;
+            this.op = op;
+            this.toParameterName = toParameterName;
+        }
+
+        private void reset() {
+            parameterName.setLength(0);
+        }
+
+        public void appendToParameterName(char c) {
+            parameterName.append(c);
+        }
+
+        public String buildPathEntry() {
+            CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
+
+            String result = "";
+            if (parameter != null) {
+                String generatedParameterName = toParameterName.apply(parameterName.toString());
+                result = buildPathEntry(parameter, generatedParameterName);
+            }
+
+            reset();
+            return result;
+        }
+
+        private String buildPathEntry(CodegenParameter parameter, String generatedParameterName) {
+            if (expansionType == STRATEGY.custom) {
+                return buildCustomPathEntry(parameter, generatedParameterName);
+            }
+
+            return buildLegacyPathEntry(parameter, generatedParameterName);
+        }
+
+        private String buildCustomPathEntry(CodegenParameter parameter, String localVariableName) {
+            String paramStyle = parameter.style == null
+                    ? "simple"
+                    : parameter.style;
+            String optsObject = String.format(
+                    Locale.ROOT,
+                    "{name: \"%s\", value: %s, style: \"%s\", explode: %s}",
+                    parameter.paramName,
+                    localVariableName,
+                    paramStyle,
+                    parameter.isExplode
+            );
+
+            String result = String.format(Locale.ROOT, "${this.encodePathParameter(%s)}", optsObject);
+            return result;
+        }
+
+        private String buildLegacyPathEntry(CodegenParameter parameter, String generatedParameterName) {
+            String dateTimeFormatting = parameter != null && parameter.isDateTime
+                    ? ".toISOString()"
+                    : "";
+            String typescriptParam = generatedParameterName + dateTimeFormatting;
+
+            // Add the more complicated component instead of just the brace.
+            String result = String.format(Locale.ROOT, "${encodeURIComponent(String(%s))}", typescriptParam);
+            return result;
+        }
+
+        /**
+         * Finds and returns a path parameter of an operation by its name
+         *
+         * @param operation     the operation
+         * @param parameterName the name of the parameter
+         * @return param
+         */
+        private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
+            for (CodegenParameter param : operation.pathParams) {
+                if (param.baseName.equals(parameterName)) {
+                    return param;
+                }
+            }
+            return null;
+        }
+
+    }
+
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";

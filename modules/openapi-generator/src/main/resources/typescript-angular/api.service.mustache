@@ -15,7 +15,8 @@ import { {{ classname }} } from '{{ filename }}';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { {{configurationClassName}} }                                     from '../configuration';
+import { {{configurationClassName}} }                                     from '../configuration';{{#customPathParameterStrategy}}
+import { type Parameter }                                    from '../parameter';{{/customPathParameterStrategy}}
 {{#withInterfaces}}
 import {
     {{classname}}Interface{{#useSingleRequestParameter}}{{#operations}}{{#operation}}{{#allParams.0}},
@@ -144,6 +145,18 @@ export class {{classname}} {
         }
         return httpParams;
     }
+{{#customPathParameterStrategy}}
+
+    // @ts-ignore
+    private encodePathParameter(parameter: Parameter): string {
+        // This method is intended to be redefined by your customized api.service.mustache template.
+        // This legacy/compatibility implementation only works for the "simple" style.
+        //
+        // There are 3rd party npm packages available that implement this correctly,
+        // e.g. @honoluluhenk/path-param-expander
+        return encodeURIComponent(String(parameter.value));
+    }
+{{/customPathParameterStrategy}}
 
 {{#operation}}
     /**
