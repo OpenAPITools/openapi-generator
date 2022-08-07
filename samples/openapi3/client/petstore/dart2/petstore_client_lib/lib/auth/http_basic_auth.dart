@@ -17,11 +17,7 @@ class HttpBasicAuth implements Authentication {
   String password;
 
   @override
-  Future<void> applyToParams(
-    List<String> authNames,
-    List<QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) async {
+  Future<void> applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams,) async {
     if (username.isNotEmpty && password.isNotEmpty) {
       final credentials = '$username:$password';
       headerParams['Authorization'] = 'Basic ${base64.encode(utf8.encode(credentials))}';

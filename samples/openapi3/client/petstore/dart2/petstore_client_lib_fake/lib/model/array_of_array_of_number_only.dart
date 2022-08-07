@@ -32,7 +32,7 @@ class ArrayOfArrayOfNumberOnly {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'ArrayArrayNumber'] = arrayArrayNumber;
+      json[r'ArrayArrayNumber'] = this.arrayArrayNumber;
     return json;
   }
 

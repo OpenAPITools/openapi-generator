@@ -70,21 +70,21 @@ class Pet {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
     }
-    if (category != null) {
-      json[r'category'] = category;
+    if (this.category != null) {
+      json[r'category'] = this.category;
     } else {
       json[r'category'] = null;
     }
-      json[r'name'] = name;
-      json[r'photoUrls'] = photoUrls;
-      json[r'tags'] = tags;
-    if (status != null) {
-      json[r'status'] = status;
+      json[r'name'] = this.name;
+      json[r'photoUrls'] = this.photoUrls;
+      json[r'tags'] = this.tags;
+    if (this.status != null) {
+      json[r'status'] = this.status;
     } else {
       json[r'status'] = null;
     }

@@ -37,12 +37,12 @@ class EnumArrays {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (justSymbol != null) {
-      json[r'just_symbol'] = justSymbol;
+    if (this.justSymbol != null) {
+      json[r'just_symbol'] = this.justSymbol;
     } else {
       json[r'just_symbol'] = null;
     }
-      json[r'array_enum'] = arrayEnum;
+      json[r'array_enum'] = this.arrayEnum;
     return json;
   }
 

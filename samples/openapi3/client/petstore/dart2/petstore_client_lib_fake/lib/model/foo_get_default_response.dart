@@ -38,8 +38,8 @@ class FooGetDefaultResponse {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (string != null) {
-      json[r'string'] = string;
+    if (this.string != null) {
+      json[r'string'] = this.string;
     } else {
       json[r'string'] = null;
     }

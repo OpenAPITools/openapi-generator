@@ -85,39 +85,39 @@ class EnumTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (enumString != null) {
-      json[r'enum_string'] = enumString;
+    if (this.enumString != null) {
+      json[r'enum_string'] = this.enumString;
     } else {
       json[r'enum_string'] = null;
     }
-      json[r'enum_string_required'] = enumStringRequired;
-    if (enumInteger != null) {
-      json[r'enum_integer'] = enumInteger;
+      json[r'enum_string_required'] = this.enumStringRequired;
+    if (this.enumInteger != null) {
+      json[r'enum_integer'] = this.enumInteger;
     } else {
       json[r'enum_integer'] = null;
     }
-    if (enumNumber != null) {
-      json[r'enum_number'] = enumNumber;
+    if (this.enumNumber != null) {
+      json[r'enum_number'] = this.enumNumber;
     } else {
       json[r'enum_number'] = null;
     }
-    if (outerEnum != null) {
-      json[r'outerEnum'] = outerEnum;
+    if (this.outerEnum != null) {
+      json[r'outerEnum'] = this.outerEnum;
     } else {
       json[r'outerEnum'] = null;
     }
-    if (outerEnumInteger != null) {
-      json[r'outerEnumInteger'] = outerEnumInteger;
+    if (this.outerEnumInteger != null) {
+      json[r'outerEnumInteger'] = this.outerEnumInteger;
     } else {
       json[r'outerEnumInteger'] = null;
     }
-    if (outerEnumDefaultValue != null) {
-      json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
+    if (this.outerEnumDefaultValue != null) {
+      json[r'outerEnumDefaultValue'] = this.outerEnumDefaultValue;
     } else {
       json[r'outerEnumDefaultValue'] = null;
     }
-    if (outerEnumIntegerDefaultValue != null) {
-      json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
+    if (this.outerEnumIntegerDefaultValue != null) {
+      json[r'outerEnumIntegerDefaultValue'] = this.outerEnumIntegerDefaultValue;
     } else {
       json[r'outerEnumIntegerDefaultValue'] = null;
     }

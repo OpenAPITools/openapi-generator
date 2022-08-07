@@ -42,9 +42,9 @@ class ArrayTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'array_of_string'] = arrayOfString;
-      json[r'array_array_of_integer'] = arrayArrayOfInteger;
-      json[r'array_array_of_model'] = arrayArrayOfModel;
+      json[r'array_of_string'] = this.arrayOfString;
+      json[r'array_array_of_integer'] = this.arrayArrayOfInteger;
+      json[r'array_array_of_model'] = this.arrayArrayOfModel;
     return json;
   }
 

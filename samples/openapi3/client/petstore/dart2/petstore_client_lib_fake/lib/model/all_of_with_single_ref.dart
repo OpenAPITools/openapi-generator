@@ -43,13 +43,13 @@ class AllOfWithSingleRef {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (username != null) {
-      json[r'username'] = username;
+    if (this.username != null) {
+      json[r'username'] = this.username;
     } else {
       json[r'username'] = null;
     }
-    if (singleRefType != null) {
-      json[r'SingleRefType'] = singleRefType;
+    if (this.singleRefType != null) {
+      json[r'SingleRefType'] = this.singleRefType;
     } else {
       json[r'SingleRefType'] = null;
     }

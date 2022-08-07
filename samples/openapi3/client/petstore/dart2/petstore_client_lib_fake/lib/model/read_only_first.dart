@@ -49,13 +49,13 @@ class ReadOnlyFirst {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (bar != null) {
-      json[r'bar'] = bar;
+    if (this.bar != null) {
+      json[r'bar'] = this.bar;
     } else {
       json[r'bar'] = null;
     }
-    if (baz != null) {
-      json[r'baz'] = baz;
+    if (this.baz != null) {
+      json[r'baz'] = this.baz;
     } else {
       json[r'baz'] = null;
     }

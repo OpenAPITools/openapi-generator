@@ -32,8 +32,8 @@ class HealthCheckResult {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (nullableMessage != null) {
-      json[r'NullableMessage'] = nullableMessage;
+    if (this.nullableMessage != null) {
+      json[r'NullableMessage'] = this.nullableMessage;
     } else {
       json[r'NullableMessage'] = null;
     }

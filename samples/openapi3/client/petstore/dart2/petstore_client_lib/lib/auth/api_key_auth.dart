@@ -20,11 +20,7 @@ class ApiKeyAuth implements Authentication {
   String apiKey = '';
 
   @override
-  Future<void> applyToParams(
-    List<String> authNames,
-    List<QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) async {
+  Future<void> applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams,) async {
     final paramValue = apiKeyPrefix.isEmpty ? apiKey : '$apiKeyPrefix $apiKey';
 
     if (paramValue.isNotEmpty) {
