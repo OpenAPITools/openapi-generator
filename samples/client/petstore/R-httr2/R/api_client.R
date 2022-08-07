@@ -181,25 +181,6 @@ ApiClient  <- R6::R6Class(
       resp <- self$Execute(req, method, query_params, header_params, form_params,
                            file_params, accepts, content_types, body, is_oauth = is_oauth,
                            oauth_scopes = oauth_scopes, stream_callback = stream_callback, ...)
-      #status_code <- resp %>% resp_status()
-
-      #if (is.null(self$max_retry_attempts)) {
-      #  self$req_retry(max_tries <- max_retry_attempts)
-      #}
-
-      #if (!is.null(self$retry_status_codes)) {
-      #  for (i in 1 : self$max_retry_attempts) {
-      #    if (status_code %in% self$retry_status_codes) {
-      #      Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-      #      resp <- self$Execute(req, method, query_params, header_params, body, stream_callback = stream_callback, ...)
-      #      status_code <- httr::status_code(resp)
-      #    } else {
-      #      break
-      #    }
-      #  }
-      #}
-
-      resp
     },
     #' Make an API call
     #'
