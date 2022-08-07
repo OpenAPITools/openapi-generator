@@ -10,11 +10,11 @@
 
 part of openapi.api;
 
-class ApiClient<T extends Authentication> {
+class ApiClient {
   ApiClient({this.basePath = 'http://petstore.swagger.io/v2', this.authentication,});
 
   final String basePath;
-  final T? authentication;
+  final Authentication? authentication;
 
   var _client = Client();
   final _defaultHeaderMap = <String, String>{};

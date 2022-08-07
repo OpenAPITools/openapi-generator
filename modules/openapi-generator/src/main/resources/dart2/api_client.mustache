@@ -1,10 +1,10 @@
 {{>header}}
 {{>part_of}}
-class ApiClient<T extends Authentication> {
+class ApiClient {
   ApiClient({this.basePath = '{{{basePath}}}', this.authentication,});
 
   final String basePath;
-  final T? authentication;
+  final Authentication? authentication;
 
   var _client = Client();
   final _defaultHeaderMap = <String, String>{};
