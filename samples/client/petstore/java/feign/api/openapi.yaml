@@ -98,6 +98,21 @@ paths:
     servers:
     - url: http://petstore.swagger.io/v2
     - url: http://path-server-test.petstore.local/v2
+    - description: test server with variables
+      url: "http://{server}.swagger.io:{port}/v2"
+      variables:
+        server:
+          default: petstore
+          description: target server
+          enum:
+          - petstore
+          - qa-petstore
+          - dev-petstore
+        port:
+          default: "80"
+          enum:
+          - "80"
+          - "8080"
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings

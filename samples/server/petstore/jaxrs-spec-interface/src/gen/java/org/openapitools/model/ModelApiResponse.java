@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ApiResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ModelApiResponse  implements Serializable {
-  
   private @Valid Integer code;
   private @Valid String type;
   private @Valid String message;
@@ -43,7 +42,7 @@ public class ModelApiResponse  implements Serializable {
     this.code = code;
   }
 
-/**
+  /**
    **/
   public ModelApiResponse type(String type) {
     this.type = type;
@@ -62,7 +61,7 @@ public class ModelApiResponse  implements Serializable {
     this.type = type;
   }
 
-/**
+  /**
    **/
   public ModelApiResponse message(String message) {
     this.message = message;

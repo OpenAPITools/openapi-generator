@@ -132,21 +132,25 @@ sub _to_json_primitives {
     if ( grep( /^$type$/, ('int', 'double'))) {
         # https://metacpan.org/pod/JSON#simple-scalars
         # numify it, ensuring it will be dumped as a number
+        return undef unless defined $data;
         return $data + 0;
     } elsif ($type eq 'string') {
         # https://metacpan.org/pod/JSON#simple-scalars
         # stringified
+        return undef unless defined $data;
         return $data . q();
     } elsif ($type eq 'boolean') {
         # https://metacpan.org/pod/JSON#JSON::true,-JSON::false,-JSON::null
         return $data ? \1 : \0;
     } elsif ($type eq 'DATE') {
+        return undef unless defined $data;
         if (ref($data) eq 'DateTime') {
             # https://metacpan.org/pod/DateTime#$dt-%3Eymd($optional_separator),-$dt-%3Emdy(...),-$dt-%3Edmy(...)
             return $data->ymd;
         }
         return $data .q();
     } elsif ($type eq 'DATE_TIME') {
+        return undef unless defined $data;
         # the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
         if (ref($data) eq 'DateTime') {
             # https://metacpan.org/pod/DateTime#$dt-%3Erfc3339
@@ -197,8 +201,10 @@ sub _deserialize {
     if (grep( /^$type$/ , ('DATE_TIME', 'DATE'))) {
         return DateTime->from_epoch(epoch => str2time($data));
     } elsif ( grep( /^$type$/, ('int', 'double'))) {
+        return undef unless defined $data;
         return $data + 0;
     } elsif ($type eq 'string') {
+        return undef unless defined $data;
         return $data . q();
     } elsif ($type eq 'boolean') {
         return !!$data;

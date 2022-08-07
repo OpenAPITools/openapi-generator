@@ -64,6 +64,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USE_RLANG_EXCEPTION = "useRlangExceptionHandling";
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
+    public static final String HTTR = "httr";
+    public static final String HTTR2 = "httr2";
 
     // naming convention for operationId (function names in the API)
     public static final String OPERATIONID_NAMING = "operationIdNaming";
@@ -199,6 +201,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(exceptionPackage);
 
         cliOptions.add(CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
+
+        supportedLibraries.put(HTTR2, "httr2 (https://httr2.r-lib.org/)");
+        supportedLibraries.put(HTTR, "httr (https://cran.r-project.org/web/packages/httr/index.html)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set httr as the default
+        libraryOption.setDefault(HTTR);
+        cliOptions.add(libraryOption);
+        setLibrary(HTTR);
     }
 
     @Override
@@ -273,6 +285,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
         supportingFiles.add(new SupportingFile("r-client.mustache", File.separator + ".github" + File.separator + "workflows", "r-client.yaml"));
         supportingFiles.add(new SupportingFile("lintr.mustache", "", ".lintr"));
+
+        if (HTTR.equals(getLibrary())) {
+            // for httr
+            setLibrary(HTTR);
+        } else if (HTTR2.equals(getLibrary())) {
+            // for httr2
+            setLibrary(HTTR2);
+            additionalProperties.put("isHttr2", Boolean.TRUE);
+        } else {
+            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only httr, httr2 are supported.");
+        }
 
         // add lambda for mustache templates to fix license field
         additionalProperties.put("lambdaLicense", new Mustache.Lambda() {

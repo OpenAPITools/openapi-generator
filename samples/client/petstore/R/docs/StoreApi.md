@@ -31,13 +31,12 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
-} else {
-  # response headers
-  response.headers <- result$response$headers
-  # response status code
-  response.status.code <- result$response$status_code
+  print("Exception occurs when calling `DeleteOrder`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
 }
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -80,7 +79,7 @@ library(petstore)
 #Returns pet inventories by status
 api_instance <- StoreApi$new()
 # Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$GetInventory(data_file = "result.txt"),
@@ -89,15 +88,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  print("Exception occurs when calling `GetInventory`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
-  # response headers
-  response.headers <- result$response$headers
-  # response status code
-  response.status.code <- result$response$status_code
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -144,15 +144,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  print("Exception occurs when calling `GetOrderById`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
-  # response headers
-  response.headers <- result$response$headers
-  # response status code
-  response.status.code <- result$response$status_code
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
@@ -204,15 +205,16 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
+  print("Exception occurs when calling `PlaceOrder`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
 } else {
   # deserialized response object
-  response.object <- result$content
-  # response headers
-  response.headers <- result$response$headers
-  # response status code
-  response.status.code <- result$response$status_code
+  print("The response is ...")
+  dput(result$toString())
 }
+
 ```
 
 ### Parameters
