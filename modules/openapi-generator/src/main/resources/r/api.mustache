@@ -238,6 +238,8 @@
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
@@ -435,18 +437,28 @@
       {{/isKeyInQuery}}
       {{/isApiKey}}
       {{#isOAuth}}
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      # OAuth-related settings
+      if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
+        {{#useDefaultExceptionHandling}}
+        stop("oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`."))
+        {{/useRlangExceptionHandling}}
       }
+      is_oauth <- TRUE
+      oauth_scopes <- "{{#scopes}}{{scope}}{{^-last}} {{/-last}}{{/scopes}}"
       {{/isOAuth}}
       {{/authMethods}}
 
       # The Accept request HTTP header
-      local_var_accepts = list({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})
+      local_var_accepts <- list({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})
 
       # The Content-Type representation header
-      local_var_content_types = list({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}})
+      local_var_content_types <- list({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}})
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "{{httpMethod}}",
@@ -457,6 +469,8 @@
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  {{#vendorExtensions.x-streaming}}
                                  stream_callback = stream_callback,
                                  {{/vendorExtensions.x-streaming}}

@@ -117,6 +117,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "const",
                 "constructor",
                 "continue",
+                "contract",
                 "crossinline",
                 "data",
                 "delegate",
