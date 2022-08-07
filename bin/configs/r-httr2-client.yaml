@@ -1,5 +1,5 @@
 generatorName: r
-outputDir: /Users/williamcheng/Code/wing328/r-petstore
+outputDir: samples/client/petstore/R-httr2
 inputSpec: modules/openapi-generator/src/test/resources/3_0/r/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/r
 httpUserAgent: PetstoreAgent
