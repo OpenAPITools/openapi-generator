@@ -267,7 +267,7 @@ ApiClient  <- R6::R6Class(
       req <- req %>% req_method(method)
 
       # use oauth authentication if the endpoint requires it
-      if (is_oauth) {
+      if (is_oauth && !is.null(self$oauth_client_id) && !is.null(self$oauth_secret)) {
         client <- oauth_client(
           id = self$oauth_client_id,
           secret = obfuscated(self$oauth_secret),
