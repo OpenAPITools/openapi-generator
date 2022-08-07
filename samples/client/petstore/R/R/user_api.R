@@ -1036,11 +1036,11 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `password`."))
       }
 
-      if (!str_detect(`username`, "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")) {
-        rlang::abort(message = "Invalid value for `username` when calling UserApi$LoginUser, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/.",
+      if (!str_detect(`username`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
+        rlang::abort(message = "Invalid value for `username` when calling UserApi$LoginUser, must conform to the pattern ^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "Invalid value for `username` when calling UserApi$LoginUser, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/."))
+                                                     reason = "Invalid value for `username` when calling UserApi$LoginUser, must conform to the pattern ^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$."))
       }
 
 
