@@ -438,17 +438,6 @@
       {{/isApiKey}}
       {{#isOAuth}}
       # OAuth-related settings
-      if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
-        {{#useDefaultExceptionHandling}}
-        stop("oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.")
-        {{/useDefaultExceptionHandling}}
-        {{#useRlangExceptionHandling}}
-        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.",
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(status = 0,
-                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`."))
-        {{/useRlangExceptionHandling}}
-      }
       is_oauth <- TRUE
       oauth_scopes <- "{{#scopes}}{{scope}}{{^-last}} {{/-last}}{{/scopes}}"
       {{/isOAuth}}
