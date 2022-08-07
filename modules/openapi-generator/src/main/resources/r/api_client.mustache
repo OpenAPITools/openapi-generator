@@ -46,8 +46,29 @@ ApiClient  <- R6::R6Class(
     password = NULL,
     # API keys
     api_keys = NULL,
+    {{#hasOAuthMethods}}
     # Access token
     access_token = NULL,
+    # OAuth2 client ID
+    oauth_client_id = NULL,
+    # OAuth2 secret
+    oauth_secret = NULL,
+    # OAuth2 refresh token
+    oauth_refresh_token = NULL,
+    # OAuth2
+    {{#authMethods}}
+    {{#isOAuth}}
+    # Flow type
+    oauth_flow_type = "{{flow}}",
+    # Authoriziation URL
+    oauth_authorization_url = "{{authorizationUrl}}",
+    # Token URL
+    oauth_token_url = "{{tokenUrl}}",
+    # Enable PKCE?
+    oauth_pkce = TRUE,
+    {{/isOAuth}}
+    {{/authMethods}}
+    {{/hasOAuthMethods}}
     # Bearer token
     bearer_token = NULL,
     # Time Out (seconds)

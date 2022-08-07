@@ -53,6 +53,21 @@ ApiClient  <- R6::R6Class(
     api_keys = NULL,
     # Access token
     access_token = NULL,
+    # OAuth2 client ID
+    oauth_client_id = NULL,
+    # OAuth2 secret
+    oauth_secret = NULL,
+    # OAuth2 refresh token
+    oauth_refresh_token = NULL,
+    # OAuth2
+    # Flow type
+    oauth_flow_type = "implicit",
+    # Authoriziation URL
+    oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
+    # Token URL
+    oauth_token_url = "",
+    # Enable PKCE?
+    oauth_pkce = TRUE,
     # Bearer token
     bearer_token = NULL,
     # Time Out (seconds)

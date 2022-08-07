@@ -238,6 +238,8 @@
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
@@ -403,13 +405,13 @@
       # HTTP basic auth
       if (is.null(self$api_client$username) || is.null(self$api_client$password)) {
         {{#useDefaultExceptionHandling}}
-        stop("username, password in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.")
+        stop("username, password in `api_client` must be set for authentication in the endpoint `{{{operationid}}}`.")
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.",
+        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint `{{{operationid}}}`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`."))
+                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint `{{{operationid}}}`."))
         {{/useRlangExceptionHandling}}
       }
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
@@ -435,10 +437,20 @@
       {{/isKeyInQuery}}
       {{/isApiKey}}
       {{#isOAuth}}
-      # OAuth token
-      if (!is.null(self$api_client$access_token)) {
-        header_params["Authorization"] <- paste("Bearer", self$api_client$access_token, sep = " ")
+      # OAuth-related settings
+      if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
+        {{#useDefaultExceptionHandling}}
+        stop("oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationid}}}`.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationid}}}`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `{{{operationid}}}`."))
+        {{/useRlangExceptionHandling}}
       }
+      is_oauth <- TRUE
+      oauth_scopes <- "{{#scopes}}{{scope}}{{^-last}} {{/-last}}{{/scopes}}"
       {{/isOAuth}}
       {{/authMethods}}
 
@@ -457,6 +469,8 @@
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  {{#vendorExtensions.x-streaming}}
                                  stream_callback = stream_callback,
                                  {{/vendorExtensions.x-streaming}}
