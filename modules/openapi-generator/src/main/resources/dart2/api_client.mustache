@@ -35,9 +35,8 @@ class ApiClient<T extends Authentication> {
     Map<String, String> headerParams,
     Map<String, String> formParams,
     String? contentType,
-    List<String> authNames,
   ) async {
-    await authentication?.applyToParams(authNames, queryParams, headerParams);
+    await authentication?.applyToParams(queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
