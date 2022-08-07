@@ -649,10 +649,10 @@ PetApi <- R6::R6Class(
       local_var_url_path <- "/pet"
       # HTTP basic auth
       if (is.null(self$api_client$username) || is.null(self$api_client$password)) {
-        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint ``.",
+        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint `add_pet`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint ``."))
+                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint `add_pet`."))
       }
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
@@ -777,10 +777,10 @@ PetApi <- R6::R6Class(
 
       # OAuth-related settings
       if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
-        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``.",
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `delete_pet`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``."))
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `delete_pet`."))
       }
       is_oauth <- TRUE
       oauth_scopes <- "write:pets read:pets"
@@ -888,10 +888,10 @@ PetApi <- R6::R6Class(
       local_var_url_path <- "/pet/findByStatus"
       # OAuth-related settings
       if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
-        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``.",
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `find_pets_by_status`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``."))
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `find_pets_by_status`."))
       }
       is_oauth <- TRUE
       oauth_scopes <- "read:pets"
@@ -1012,10 +1012,10 @@ PetApi <- R6::R6Class(
       local_var_url_path <- "/pet/findByTags"
       # OAuth-related settings
       if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
-        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``.",
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `find_pets_by_tags`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``."))
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `find_pets_by_tags`."))
       }
       is_oauth <- TRUE
       oauth_scopes <- "read:pets"
@@ -1523,10 +1523,10 @@ PetApi <- R6::R6Class(
       local_var_url_path <- "/pet"
       # OAuth-related settings
       if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
-        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``.",
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `update_pet`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``."))
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `update_pet`."))
       }
       is_oauth <- TRUE
       oauth_scopes <- "write:pets read:pets"
@@ -1767,10 +1767,10 @@ PetApi <- R6::R6Class(
 
       # OAuth-related settings
       if (is.null(self$api_client$oauth_client_id) || is.null(self$api_client$oauth_secret)) {
-        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``.",
+        rlang::abort(message = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `upload_file`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint ``."))
+                                                     reason = "oauth_client_id, oauth_secret in `api_client` must be set for authentication in the endpoint `upload_file`."))
       }
       is_oauth <- TRUE
       oauth_scopes <- "write:pets read:pets"
