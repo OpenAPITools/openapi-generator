@@ -200,10 +200,10 @@ paths:
       responses:
         '405':
           description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+      #security:
+      #  - petstore_auth:
+      #      - 'write:pets'
+      #      - 'read:pets'
       requestBody:
         content:
           application/x-www-form-urlencoded:

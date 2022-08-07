@@ -128,6 +128,8 @@ FakeApi <- R6::R6Class(
       form_params <- list()
       file_params <- list()
       local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       if (missing(`dummy`)) {
         rlang::abort(message = "Missing required parameter `dummy`.",
@@ -145,10 +147,10 @@ FakeApi <- R6::R6Class(
       local_var_url_path <- "/fake/data_file"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -159,6 +161,8 @@ FakeApi <- R6::R6Class(
                                  accepts = local_var_accepts,
                                  content_types = local_var_content_types,
                                  body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
                                  ...)
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {

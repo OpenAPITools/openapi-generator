@@ -112,6 +112,8 @@ test_that("update_pet_with_form", {
   result <- pet_api$add_pet(update_pet)
 
   ## update pet with form
+  pet_api$api_client$oauth_client_id <- "client_id_aaa"
+  pet_api$api_client$oauth_secret <- "secrete_bbb"
   update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
 
   # get pet
