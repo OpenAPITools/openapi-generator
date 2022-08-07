@@ -657,10 +657,10 @@ PetApi <- R6::R6Class(
       header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list("application/json", "application/xml", "multipart/related")
+      local_var_content_types <- list("application/json", "application/xml", "multipart/related")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "POST",
@@ -786,10 +786,10 @@ PetApi <- R6::R6Class(
       oauth_scopes <- "write:pets read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list()
+      local_var_accepts <- list()
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "DELETE",
@@ -897,10 +897,10 @@ PetApi <- R6::R6Class(
       oauth_scopes <- "read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1021,10 +1021,10 @@ PetApi <- R6::R6Class(
       oauth_scopes <- "read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1142,10 +1142,10 @@ PetApi <- R6::R6Class(
       }
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1269,10 +1269,10 @@ PetApi <- R6::R6Class(
       }
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1399,10 +1399,10 @@ PetApi <- R6::R6Class(
       }
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list()
+      local_var_content_types <- list()
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "GET",
@@ -1532,10 +1532,10 @@ PetApi <- R6::R6Class(
       oauth_scopes <- "write:pets read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/xml", "application/json")
+      local_var_accepts <- list("application/xml", "application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list("application/json", "application/xml", "multipart/related")
+      local_var_content_types <- list("application/json", "application/xml", "multipart/related")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "PUT",
@@ -1655,10 +1655,10 @@ PetApi <- R6::R6Class(
 
 
       # The Accept request HTTP header
-      local_var_accepts = list()
+      local_var_accepts <- list()
 
       # The Content-Type representation header
-      local_var_content_types = list("application/x-www-form-urlencoded")
+      local_var_content_types <- list("application/x-www-form-urlencoded")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "POST",
@@ -1776,10 +1776,10 @@ PetApi <- R6::R6Class(
       oauth_scopes <- "write:pets read:pets"
 
       # The Accept request HTTP header
-      local_var_accepts = list("application/json")
+      local_var_accepts <- list("application/json")
 
       # The Content-Type representation header
-      local_var_content_types = list("multipart/form-data")
+      local_var_content_types <- list("multipart/form-data")
 
       local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "POST",

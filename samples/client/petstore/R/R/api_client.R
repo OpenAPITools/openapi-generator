@@ -29,6 +29,13 @@
 #' @field password Password for HTTP basic authentication
 #' @field api_keys API keys
 #' @field access_token Access token
+#' @field oauth_client_id OAuth client ID
+#' @field oauth_secret OAuth secret
+#' @field oauth_refresh_token OAuth refresh token
+#' @field oauth_flow_type OAuth flow type
+#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_token_url Token URL
+#' @field oauth_pkce Boolean flag to enable PKCE
 #' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
 #' @field retry_status_codes vector of status codes to retry
