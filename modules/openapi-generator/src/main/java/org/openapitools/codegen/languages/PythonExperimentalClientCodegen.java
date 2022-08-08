@@ -1679,25 +1679,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return null;
     }
 
-    /**
-     * Function to isolate the call to add schemas to the includedSchemas list that will detect when
-     * a schema is added multiple times.
-     * @param includedSchemas List of includedSchemas from toExampleValueRecursive
-     * @param schema the schema to add
-     */
-    private void addSchemaToIncludedSchemaList(List<Schema> includedSchemas, Schema schema) {
-
-        if(includedSchemas.contains(schema)) {
-            String title = schema.getTitle();
-            if(title == null && schema instanceof ArraySchema) {
-                title = "Array<" + ((ArraySchema) schema).getItems().get$ref() + ">";
-            }
-            LOGGER.warn("Attempted to add a schema " + title + " to the includedSchemas list twice");
-        } else {
-            includedSchemas.add(schema);
-        }
-    }
-
     /***
      * Recursively generates string examples for schemas
      *
@@ -1778,7 +1759,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (ModelUtils.isComposedSchema(schema)) {
-                addSchemaToIncludedSchemaList(includedSchemas, schema);
+                if(includedSchemas.contains(schema)) {
+                    return "";
+                }
+                includedSchemas.add(schema);
                 // complex composed object type schemas not yet handled and the code returns early
                 if (hasProperties) {
                     // what if this composed schema defined properties + allOf?
@@ -1943,7 +1927,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            addSchemaToIncludedSchemaList(includedSchemas, schema);
+            if(includedSchemas.contains(schema)) {
+                return "";
+            }
+            includedSchemas.add(schema);
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
             if (StringUtils.isEmpty(itemExample) || cycleFound) {
                 return fullPrefix + "[]" + closeChars;
@@ -2020,7 +2007,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                addSchemaToIncludedSchemaList(includedSchemas, schema);
+                if(includedSchemas.contains(schema)) {
+                    return "";
+                }
+                includedSchemas.add(schema);
+
                 example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
@@ -2045,47 +2036,40 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         if(includedSchemas.contains(schema)) {
             return "";
-        } else {
+        }
+        includedSchemas.add(schema);
 
+        String example = fullPrefix + "\n";
 
-            String example = fullPrefix + "\n";
-
-            addSchemaToIncludedSchemaList(
-                    includedSchemas,
-                    schema);
-
-            for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
-                String propName = entry.getKey();
-                Schema propSchema = entry.getValue();
-                propName = toVarName(propName);
-                String propModelName = null;
-                Object propExample = null;
-                if (discProp != null && propName.equals(discProp.name)) {
-                    propModelName = null;
-                    propExample = discProp.example;
-                } else {
-                    propModelName = getModelName(propSchema);
-                    propExample = exampleFromStringOrArraySchema(
-                            propSchema,
-                            null,
-                            propName);
-                }
-
-                example += toExampleValueRecursive(propModelName,
-                                                   propSchema,
-                                                   propExample,
-                                                   indentationLevel + 1,
-                                                   propName + "=",
-                                                   exampleLine + 1,
-                                                   includedSchemas) + ",\n";
+        for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
+            String propName = entry.getKey();
+            Schema propSchema = entry.getValue();
+            propName = toVarName(propName);
+            String propModelName = null;
+            Object propExample = null;
+            if (discProp != null && propName.equals(discProp.name)) {
+                propModelName = null;
+                propExample = discProp.example;
+            } else {
+                propModelName = getModelName(propSchema);
+                propExample = exampleFromStringOrArraySchema(
+                        propSchema,
+                        null,
+                        propName);
             }
 
-            // TODO handle additionalProperties also
-            example += closingIndentation + closeChars;
-            return example;
-
+            example += toExampleValueRecursive(propModelName,
+                                               propSchema,
+                                               propExample,
+                                               indentationLevel + 1,
+                                               propName + "=",
+                                               exampleLine + 1,
+                                               includedSchemas) + ",\n";
         }
 
+        // TODO handle additionalProperties also
+        example += closingIndentation + closeChars;
+        return example;
 
     }
 
