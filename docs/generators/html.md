@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|allowUnsupportedV310Spec|If false (default), then generation will only continue when spec versions are &lt; 3.1.0 If true, generation will proceed if the input spec's version is &gt;= 3.1.0. Generation using 3.1.0 specs is in development and is not officially supported yet. If you would like to expedite development, please consider woking on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g|<dl><dt>**false**</dt><dd>If false (default), then generation will only continue when spec versions are &lt; 3.1.0</dd><dt>**true**</dt><dd>If true, generation will proceed if the input spec's version is &gt;= 3.1.0. Generation using 3.1.0 specs is in development and is not officially supported yet.</dd></dl>|false|
 |appDescription|description of the application| |null|
 |appName|short name of the application| |null|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |null|

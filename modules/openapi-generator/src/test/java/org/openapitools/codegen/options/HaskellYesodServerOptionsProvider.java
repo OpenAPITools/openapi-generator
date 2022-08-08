@@ -34,6 +34,7 @@ public class HaskellYesodServerOptionsProvider implements OptionsProvider {
                 .put(HaskellYesodServerCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(HaskellYesodServerCodegen.API_MODULE_NAME, API_MODULE_NAME_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC, "false")
                 .build();
     }
 

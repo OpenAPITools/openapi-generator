@@ -4245,4 +4245,23 @@ public class DefaultCodegenTest {
         Assert.assertEquals(fooOptional.vars.get(0).name, "foo");
         Assert.assertEquals(fooOptional.requiredVars.size(), 0);
     }
+
+    @Test(
+            expectedExceptions = { RuntimeException.class },
+            expectedExceptionsMessageRegExp = "Your spec version of 3.1.0 is unsupported because 3.1.0 specs are not yet supported. To use it, pass in the additional property allowUnsupportedV310Spec set to true"
+    )
+    public void testThrowsExceptionWhenLoading310Spec() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+    }
+
+    @Test
+    public void testAllows310SpecInWhenAdditionalPropertyIsSet() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setAllowUnsupportedV310Spec(true);
+        codegen.setOpenAPI(openAPI);
+        assertEquals(openAPI, codegen.openAPI);
+    }
 }

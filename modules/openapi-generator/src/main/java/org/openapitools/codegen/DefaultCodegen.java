@@ -79,6 +79,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
+import static org.openapitools.codegen.CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC_MSG;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -270,6 +271,8 @@ public class DefaultCodegen implements CodegenConfig {
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
+    protected boolean allowUnsupportedV310Spec = false;
+
     // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
     // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
     protected boolean enumUnknownDefaultCase = false;
@@ -414,6 +417,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE)) {
             this.setEnumUnknownDefaultCase(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE).toString()));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC)) {
+            this.setAllowUnsupportedV310Spec(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC).toString()));
         }
     }
 
@@ -820,6 +827,22 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public void setOpenAPI(OpenAPI openAPI) {
+        String originalSpecVersion;
+        String xOriginalSwaggerVersion = "x-original-swagger-version";
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
+            originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
+        } else {
+            originalSpecVersion = openAPI.getOpenapi();
+        }
+        Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
+        Integer specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
+        boolean specVersionGreaterThanOrEqualTo310 = (specMajorVersion == 3 && specMinorVersion >= 1);
+        if (specVersionGreaterThanOrEqualTo310 && !getallowUnsupportedV310Spec()) {
+            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is unsupported because 3.1.0 specs are not yet supported. To use it, pass in the additional property allowUnsupportedV310Spec set to true");
+        }
+        if (specVersionGreaterThanOrEqualTo310 && getallowUnsupportedV310Spec()) {
+            LOGGER.warn(ALLOW_UNSUPPORTED_V310_SPEC_MSG);
+        }
         this.openAPI = openAPI;
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
@@ -1353,6 +1376,14 @@ public class DefaultCodegen implements CodegenConfig {
         this.disallowAdditionalPropertiesIfNotPresent = val;
     }
 
+    public boolean getallowUnsupportedV310Spec() {
+        return allowUnsupportedV310Spec;
+    }
+
+    public void setAllowUnsupportedV310Spec(boolean val) {
+        this.allowUnsupportedV310Spec = val;
+    }
+
     public Boolean getEnumUnknownDefaultCase() {
         return enumUnknownDefaultCase;
     }
@@ -1696,6 +1727,19 @@ public class DefaultCodegen implements CodegenConfig {
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption allowUnsupportedV310SpecOpt = CliOption.newBoolean(
+                CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC,
+                CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC_DESC).defaultValue(Boolean.FALSE.toString());
+        Map<String, String> allowUnsupportedV310SpecOpts = new HashMap<>();
+        allowUnsupportedV310SpecOpts.put("false",
+                "If false (default), then generation will only continue when spec versions are < 3.1.0");
+        allowUnsupportedV310SpecOpts.put("true",
+                "If true, generation will proceed if the input spec's version is >= 3.1.0. Generation using 3.1.0 specs is in development and is not officially supported yet.");
+        allowUnsupportedV310SpecOpt.setEnum(allowUnsupportedV310SpecOpts);
+        cliOptions.add(allowUnsupportedV310SpecOpt);
+        this.setAllowUnsupportedV310Spec(false);
 
         CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
                 CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,

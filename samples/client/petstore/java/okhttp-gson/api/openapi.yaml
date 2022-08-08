@@ -2350,20 +2350,27 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
     ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
+      properties:
+        breed:
+          type: string
+      type: object
+    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
       properties:
         color:
           type: string
       type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
-      - $ref: '#/components/schemas/Dog_allOf'
       - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1'
   securitySchemes:
     petstore_auth:
       flows:
