@@ -456,8 +456,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toParamName(String name) {
-        // $ref appears to be all uppercase which is contrary to rustfmt practice so lowercase parameters
-        return toVarName(name.toLowerCase(Locale.ROOT));
+        return toVarName(name);
     }
 
     @Override
