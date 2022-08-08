@@ -1116,12 +1116,10 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 	requiredFileLocalVarFormFileName = "requiredFile"
 
 	requiredFileLocalVarFile := *r.requiredFile
-	if requiredFileLocalVarFile != nil {
-		fbs, _ := ioutil.ReadAll(requiredFileLocalVarFile)
+		fbs, _ := ioutil.ReadAll(&requiredFileLocalVarFile)
 		requiredFileLocalVarFileBytes = fbs
 		requiredFileLocalVarFileName = requiredFileLocalVarFile.Name()
 		requiredFileLocalVarFile.Close()
-	}
 	formFiles = append(formFiles, formFile{fileBytes: requiredFileLocalVarFileBytes, fileName: requiredFileLocalVarFileName, formFileName: requiredFileLocalVarFormFileName})
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
