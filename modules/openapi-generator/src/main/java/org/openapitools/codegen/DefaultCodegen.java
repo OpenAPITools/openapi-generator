@@ -7144,9 +7144,9 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     CodegenProperty cp;
                     if (schema.getAdditionalProperties() == null) {
-                        cp = fromProperty(usedRequiredPropertyName, new Schema());
+                        cp = fromProperty(usedRequiredPropertyName, new Schema(), true);
                     } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                        cp = fromProperty(requiredPropertyName, new Schema());
+                        cp = fromProperty(requiredPropertyName, new Schema(), true);
                     } else {
                         CodegenProperty addPropsProp = property.getAdditionalProperties();
                         cp = addPropsProp;

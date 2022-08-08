@@ -5857,6 +5857,12 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\rbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\\bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
