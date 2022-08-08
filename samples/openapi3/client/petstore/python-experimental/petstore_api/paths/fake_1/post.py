@@ -74,12 +74,12 @@ from . import path
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
-    _required_property_names = set((
-        'number',
-        'double',
-        'pattern_without_delimiter',
-        'byte',
-    ))
+    _required_property_names = {
+        "number",
+        "pattern_without_delimiter",
+        "byte",
+        "double",
+    }
     
     
     class integer(
@@ -178,9 +178,9 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         cls,
         *args: typing.Union[dict, frozendict, ],
         number: number,
-        double: double,
         pattern_without_delimiter: pattern_without_delimiter,
         byte: byte,
+        double: double,
         integer: typing.Union[integer, Unset] = unset,
         int32: typing.Union[int32, Unset] = unset,
         int64: typing.Union[int64, Unset] = unset,
@@ -197,9 +197,9 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             cls,
             *args,
             number=number,
-            double=double,
             pattern_without_delimiter=pattern_without_delimiter,
             byte=byte,
+            double=double,
             integer=integer,
             int32=int32,
             int64=int64,

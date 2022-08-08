@@ -1068,7 +1068,7 @@ class DictBase(Discriminable):
         """
         path_to_schemas = {}
         for property_name, value in arg.items():
-            if property_name in cls._required_property_names or property_name in cls._property_names:
+            if property_name in cls._property_names:
                 schema = getattr(cls, property_name)
             elif cls._additional_properties:
                 schema = cls._additional_properties
