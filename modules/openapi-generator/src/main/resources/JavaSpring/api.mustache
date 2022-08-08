@@ -96,6 +96,9 @@ import javax.annotation.Generated;
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{=<% %>=}}
+@RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
+<%={{ }}=%>
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}
