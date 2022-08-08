@@ -40,20 +40,16 @@ import * as apis from './api/apis';
 const YOUR_TOKEN = "YOUR_TOKEN"
 const STAGING_URL = "https://api.segmentapis.build"
 
-const getWorkspace =  async()=>{
-const workspace = new apis.WorkspacesApi(STAGING_URL)
-workspace.accessToken = YOUR_TOKEN;
-const result = await workspace.getWorkspaceV1({})
-console.log(result.body)
+const workspaceApis = new apis.WorkspacesApi("https://api.segmentapis.com")
+workspaceApis.accessToken = YOUR_TOKEN;
+workspaceApis.getWorkspaceAlphaLatest()
+.then((result) => {
+console.log(`Result:\n ${JSON.stringify(result.body)}`);
+})
+.catch((error) => {
+console.log("ERRO:\n" + error)
 }
-
-const testEcho =  async()=>{
-const echoApi = new apis.TestingApi()
-echoApi.accessToken = YOUR_TOKEN;
-const echoAlphaInput: EchoAlphaInput = { message: 'Hello, World!' }
-const result = await echoApi.echoV1(echoAlphaInput)
-console.log(result.body)
-}
+)
 
 ```
 
