@@ -51,6 +51,17 @@ console.log("ERRO:\n" + error)
 }
 )
 
+const testApis = new apis.TestingApi("https://api.segmentapis.com")
+testApis.accessToken = YOUR_TOKEN;
+testApis.echoAlphaLatest("Hello World")
+.then((result) => {
+console.log(`Result:\n ${JSON.stringify(result.body)}`);
+})
+.catch((error) => {
+console.log("ERRO:\n" + error)
+}
+)
+
 ```
 
 ## Documentation For Authorization
