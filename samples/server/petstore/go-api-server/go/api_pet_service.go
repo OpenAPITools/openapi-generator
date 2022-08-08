@@ -13,6 +13,7 @@ import (
 	"context"
 	"net/http"
 	"errors"
+	"os"
 )
 
 // PetApiService is a service that implements the logic for the PetApiServicer

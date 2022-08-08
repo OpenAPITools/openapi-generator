@@ -114,7 +114,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
-        
+
         // option to exclude service factories; only interfaces are rendered
         CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
         optOnlyInterfaces.setType("bool");
@@ -305,7 +305,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && ("*os.File".equals(param.dataType) || ("[]*os.File".equals(param.dataType)))) {
+                if (!addedOSImport && (OS_FILE_TYPE.equals(param.dataType) || (("[]" + OS_FILE_TYPE).equals(param.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }

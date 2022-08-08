@@ -41,7 +41,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
-    private static final String OS_FILE_TYPE = "os.File";
+    protected static final String OS_FILE_TYPE = "os.File";
 
     protected boolean withGoCodegenComment = false;
     protected boolean withAWSV4Signature = false;
