@@ -105,9 +105,10 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
             .assertTypeAnnotations()
-                .hasSize(3)
+                .hasSize(4)
                 .containsWithName("Validated")
                 .containsWithName("Generated")
+                .containsWithName("RequestMapping")
                 .containsWithNameAndAttributes("Generated", ImmutableMap.of(
                     "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
                 ))
@@ -652,6 +653,22 @@ public class SpringCodegenTest {
         assertFileContains(multipartApi.toPath(),
                "List<MultipartFile> files",
                "MultipartFile file");
+    }
+    
+    @Test
+    public void testRequestMappingAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
+
+        // Check that the @RequestMapping annotation is generated in the Api file
+        final File petApiFile = files.get("PetApi.java");
+        assertFileContains(petApiFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
+
+        // Check that the @RequestMapping annotation is not generated in the Controller file
+        final File petApiControllerFile = files.get("PetApiController.java");
+        assertFileNotContains(petApiControllerFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
     }
 
     @Test
