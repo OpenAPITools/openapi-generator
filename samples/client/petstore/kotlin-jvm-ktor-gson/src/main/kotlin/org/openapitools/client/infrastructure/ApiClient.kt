@@ -21,9 +21,8 @@ import io.ktor.http.encodeURLQueryComponent
 import io.ktor.http.encodedPath
 import io.ktor.http.takeFrom
 import io.ktor.serialization.gson.*
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import java.nio.charset.StandardCharsets
+import java.text.DateFormat
 import org.openapitools.client.auth.ApiKeyAuth
 import org.openapitools.client.auth.Authentication
 import org.openapitools.client.auth.HttpBasicAuth

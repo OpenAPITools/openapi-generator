@@ -11,15 +11,11 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
-import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
 import kotlin.Unit
 import kotlinx.serialization.json.Json
 
-import org.openapitools.client.apis.*
-import org.openapitools.client.models.*
 import org.openapitools.client.auth.*
 
 open class ApiClient(
