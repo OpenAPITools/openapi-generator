@@ -95,8 +95,8 @@ export class StoreService {
     // @ts-ignore
     private encodePathParameter(parameter: Parameter): string {
         // This method is intended to be redefined by your customized api.service.mustache template.
-        // This legacy/compatibility implementation only works for the "simple" style.
         //
+        // This here legacy/compatibility implementation only works for the "simple" style.
         // There are 3rd party npm packages available that implement this correctly,
         // e.g. @honoluluhenk/http-param-expander
         return encodeURIComponent(String(parameter.value));
