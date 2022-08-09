@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Typescript-Angular v13 Petstore Client</name>
+    <name>Typescript-Angular v14 Petstore Client</name>
     <build>
         <plugins>
 
