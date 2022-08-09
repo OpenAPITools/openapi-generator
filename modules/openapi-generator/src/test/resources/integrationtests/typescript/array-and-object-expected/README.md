@@ -201,3 +201,82 @@ import { environment } from '../environments/environment';
 })
 export class AppModule { }
 ```
+
+### Customizing parameter encoding
+Multiple steps are required to enable this feature: enable it via cli parameter and customize the api.service.mustache template.
+
+#### Enabling the feature
+Set the generator parameter `paramExpansionStrategy` to `custom` to enable this feature.
+
+Example CLI option: `-t paramExpansionStrategy=custom`.
+
+### Customizing parameter encoding
+Multiple steps are required to enable this feature: enable it via cli parameter and customize the api.service.mustache template.
+
+#### Enabling the feature
+Set the generator parameter `paramExpansionStrategy` to `custom` to enable this feature.
+
+Example CLI option: `-t paramExpansionStrategy=custom`.
+
+### Customizing parameter encoding
+Multiple steps are required to enable this feature: enable it via cli parameter and customize the api.service.mustache template.
+
+#### Enabling the feature
+Set the generator parameter `paramExpansionStrategy` to `custom` to enable this feature.
+
+Example CLI option: `-t paramExpansionStrategy=custom`.
+
+### Customizing parameter encoding
+Multiple steps are required to enable this feature: enable it via cli parameter and customize the api.service.mustache template.
+
+#### Enabling the feature
+Set the generator parameter `paramExpansionStrategy` to `custom` to enable this feature.
+
+Example CLI option: `-t paramExpansionStrategy=custom`.
+
+#### Customizing the mustache template
+General information about customizing mustache templates is found in the
+["Customization"](https://openapi-generator.tech/docs/customization) chapter of the docs.
+
+First, extract templates using the `author template` options of openapi-generator cli.
+
+Example:
+```bash
+openapi-generator-cli author template -g typescript-angular
+```
+This generates *all* mustache templates to the `out` directory.
+For this customization, we only need `api.service.mustache`.
+
+In `api.service.mustache` you will find the method `private encodePathParameter(parameter: Parameter): string`.
+
+Customize this to your liking and re-generate your code with this modified template (see "Customization" link above).
+
+There are ready-to-use libaries readily available in npm for parameter encoding (e.g.: [@honoluluhenk/http-param-expander](https://www.npmjs.com/package/@honoluluhenk/http-param-expander))
+
+Example code modification:
+```typescript
+class MyGeneratedService {
+    // all the other generated utility methods are here
+
+    // @ts-ignore
+    private encodePathParameter(parameter: Parameter): string {
+      switch(parameter.style) {
+        case 'matrix':
+          return this.myMatrixParameterEncoder(parameter);
+        default:
+          return encodeURIComponent(String(parameter.value));
+      }
+    }
+
+    // all generated service methods are here
+}
+```
+
+Example generator command line:
+```bash
+openapi-generator-cli generate \
+ -g typescript-angular \
+ -t paramExpansionStrategy=custom \
+ -t path/to/customized-templates \
+ -i petstore.yaml
+```

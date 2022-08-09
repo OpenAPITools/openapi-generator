@@ -98,7 +98,7 @@ export class UserService {
         // This legacy/compatibility implementation only works for the "simple" style.
         //
         // There are 3rd party npm packages available that implement this correctly,
-        // e.g. @honoluluhenk/path-param-expander
+        // e.g. @honoluluhenk/http-param-expander
         return encodeURIComponent(String(parameter.value));
     }
 
