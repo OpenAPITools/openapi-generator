@@ -131,6 +131,8 @@ Method | HTTP request | Description
 [**post_oneof_with_base_schema_response_body_for_content_types**](#post_oneof_with_base_schema_response_body_for_content_types) | **post** /responseBody/postOneofWithBaseSchemaResponseBodyForContentTypes | 
 [**post_oneof_with_empty_schema_request_body**](#post_oneof_with_empty_schema_request_body) | **post** /requestBody/postOneofWithEmptySchemaRequestBody | 
 [**post_oneof_with_empty_schema_response_body_for_content_types**](#post_oneof_with_empty_schema_response_body_for_content_types) | **post** /responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes | 
+[**post_oneof_with_required_request_body**](#post_oneof_with_required_request_body) | **post** /requestBody/postOneofWithRequiredRequestBody | 
+[**post_oneof_with_required_response_body_for_content_types**](#post_oneof_with_required_response_body_for_content_types) | **post** /responseBody/postOneofWithRequiredResponseBodyForContentTypes | 
 [**post_pattern_is_not_anchored_request_body**](#post_pattern_is_not_anchored_request_body) | **post** /requestBody/postPatternIsNotAnchoredRequestBody | 
 [**post_pattern_is_not_anchored_response_body_for_content_types**](#post_pattern_is_not_anchored_response_body_for_content_types) | **post** /responseBody/postPatternIsNotAnchoredResponseBodyForContentTypes | 
 [**post_pattern_validation_request_body**](#post_pattern_validation_request_body) | **post** /requestBody/postPatternValidationRequestBody | 
@@ -157,6 +159,8 @@ Method | HTTP request | Description
 [**post_required_validation_response_body_for_content_types**](#post_required_validation_response_body_for_content_types) | **post** /responseBody/postRequiredValidationResponseBodyForContentTypes | 
 [**post_required_with_empty_array_request_body**](#post_required_with_empty_array_request_body) | **post** /requestBody/postRequiredWithEmptyArrayRequestBody | 
 [**post_required_with_empty_array_response_body_for_content_types**](#post_required_with_empty_array_response_body_for_content_types) | **post** /responseBody/postRequiredWithEmptyArrayResponseBodyForContentTypes | 
+[**post_required_with_escaped_characters_request_body**](#post_required_with_escaped_characters_request_body) | **post** /requestBody/postRequiredWithEscapedCharactersRequestBody | 
+[**post_required_with_escaped_characters_response_body_for_content_types**](#post_required_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postRequiredWithEscapedCharactersResponseBodyForContentTypes | 
 [**post_simple_enum_validation_request_body**](#post_simple_enum_validation_request_body) | **post** /requestBody/postSimpleEnumValidationRequestBody | 
 [**post_simple_enum_validation_response_body_for_content_types**](#post_simple_enum_validation_response_body_for_content_types) | **post** /responseBody/postSimpleEnumValidationResponseBodyForContentTypes | 
 [**post_string_type_matches_strings_request_body**](#post_string_type_matches_strings_request_body) | **post** /requestBody/postStringTypeMatchesStringsRequestBody | 
@@ -8815,6 +8819,143 @@ No authorization required
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
+# **post_oneof_with_required_request_body**
+<a name="post_oneof_with_required_request_body"></a>
+> post_oneof_with_required_request_body(oneof_with_required)
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import content_type_json_api
+from unit_test_api.model.oneof_with_required import OneofWithRequired
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = content_type_json_api.ContentTypeJsonApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    body = OneofWithRequired()
+    try:
+        api_response = api_instance.post_oneof_with_required_request_body(
+            body=body,
+        )
+    except unit_test_api.ApiException as e:
+        print("Exception when calling ContentTypeJsonApi->post_oneof_with_required_request_body: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJson] | required |
+content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**OneofWithRequired**](OneofWithRequired.md) |  | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
+# **post_oneof_with_required_response_body_for_content_types**
+<a name="post_oneof_with_required_response_body_for_content_types"></a>
+> OneofWithRequired post_oneof_with_required_response_body_for_content_types()
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import content_type_json_api
+from unit_test_api.model.oneof_with_required import OneofWithRequired
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = content_type_json_api.ContentTypeJsonApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
+    try:
+        api_response = api_instance.post_oneof_with_required_response_body_for_content_types()
+        pprint(api_response)
+    except unit_test_api.ApiException as e:
+        print("Exception when calling ContentTypeJsonApi->post_oneof_with_required_response_body_for_content_types: %s\n" % e)
+```
+### Parameters
+This endpoint does not need any parameter.
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+#### SchemaFor200ResponseBodyApplicationJson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**OneofWithRequired**](OneofWithRequired.md) |  | 
+
+
+
+[**OneofWithRequired**](OneofWithRequired.md)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
 # **post_pattern_is_not_anchored_request_body**
 <a name="post_pattern_is_not_anchored_request_body"></a>
 > post_pattern_is_not_anchored_request_body(body)
@@ -10593,6 +10734,155 @@ Type | Description  | Notes
 
 
 [**RequiredWithEmptyArray**](RequiredWithEmptyArray.md)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
+# **post_required_with_escaped_characters_request_body**
+<a name="post_required_with_escaped_characters_request_body"></a>
+> post_required_with_escaped_characters_request_body(body)
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import content_type_json_api
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = content_type_json_api.ContentTypeJsonApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    body = None
+    try:
+        api_response = api_instance.post_required_with_escaped_characters_request_body(
+            body=body,
+        )
+    except unit_test_api.ApiException as e:
+        print("Exception when calling ContentTypeJsonApi->post_required_with_escaped_characters_request_body: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJson] | required |
+content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJson
+
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\rbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\\bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
+# **post_required_with_escaped_characters_response_body_for_content_types**
+<a name="post_required_with_escaped_characters_response_body_for_content_types"></a>
+> bool, date, datetime, dict, float, int, list, str, none_type post_required_with_escaped_characters_response_body_for_content_types()
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import content_type_json_api
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = content_type_json_api.ContentTypeJsonApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
+    try:
+        api_response = api_instance.post_required_with_escaped_characters_response_body_for_content_types()
+        pprint(api_response)
+    except unit_test_api.ApiException as e:
+        print("Exception when calling ContentTypeJsonApi->post_required_with_escaped_characters_response_body_for_content_types: %s\n" % e)
+```
+### Parameters
+This endpoint does not need any parameter.
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+#### SchemaFor200ResponseBodyApplicationJson
+
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\rbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\\bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+
+
+**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 

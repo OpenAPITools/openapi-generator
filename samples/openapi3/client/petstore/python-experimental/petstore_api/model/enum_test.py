@@ -76,9 +76,9 @@ class EnumTest(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'enum_string_required',
-    ))
+    _required_property_names = {
+        "enum_string_required",
+    }
     
     
     class enum_string(

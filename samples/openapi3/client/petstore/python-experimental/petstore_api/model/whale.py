@@ -76,9 +76,9 @@ class Whale(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'className',
-    ))
+    _required_property_names = {
+        "className",
+    }
     hasBaleen = BoolSchema
     hasTeeth = BoolSchema
     

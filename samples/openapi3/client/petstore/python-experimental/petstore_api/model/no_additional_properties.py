@@ -76,9 +76,9 @@ class NoAdditionalProperties(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'id',
-    ))
+    _required_property_names = {
+        "id",
+    }
     id = Int64Schema
     petId = Int64Schema
     _additional_properties = None
