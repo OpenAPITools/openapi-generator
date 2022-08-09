@@ -1,0 +1,9 @@
+generatorName: typescript-node
+outputDir: out/typescript-node-papi-3
+inputSpec: modules/openapi-generator/src/test/resources/3_0/papi/open-api.json
+templateDir: modules/openapi-generator/src/main/resources/typescript-node
+enablePostProcessFile: true
+packageName: papi
+
+
+
