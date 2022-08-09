@@ -32,6 +32,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "fake_classname_test", description = "the fake_classname_test API")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeClassnameTestApi {
 
     default Optional<NativeWebRequest> getRequest() {

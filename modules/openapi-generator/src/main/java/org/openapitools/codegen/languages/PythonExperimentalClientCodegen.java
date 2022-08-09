@@ -20,8 +20,11 @@ import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import com.google.common.base.CaseFormat;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 
@@ -60,8 +63,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
@@ -75,8 +80,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public static final String USE_INLINE_MODEL_RESOLVER = "useInlineModelResolver";
 
     protected String packageUrl;
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = "docs/apis/tags/";
+    protected String modelDocPath = "docs/models/";
     protected boolean useNose = false;
     protected boolean useInlineModelResolver = false;
 
@@ -92,6 +97,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     private String templateExtension;
     protected CodegenIgnoreProcessor ignoreProcessor;
     protected TemplateProcessor templateProcessor = null;
+
+    // for apis.tags imports
+    private Map<String, String> tagModuleNameToApiClassname = new LinkedHashMap<>();
+    // for apis.tags enum tag definition
+    private Map<String, String> enumToTag = new LinkedHashMap<>();
+    // for apis.tags tag api definition
+    private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
+
 
     public PythonExperimentalClientCodegen() {
         super();
@@ -142,7 +155,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         importMapping.clear();
 
         modelPackage = "model";
-        apiPackage = "api";
+        apiPackage = "apis";
         outputFolder = "generated-code" + File.separatorChar + "python";
 
         embeddedTemplateDir = templateDir = "python-experimental";
@@ -268,7 +281,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         modelTemplateFiles.put("model." + templateExtension, ".py");
         apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
-        apiTestTemplateFiles.put("api_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
         apiDocTemplateFiles.put("api_doc." + templateExtension, ".md");
 
@@ -377,7 +389,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("exceptions." + templateExtension, packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
-            supportingFiles.add(new SupportingFile("__init__test." + templateExtension, testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder, "__init__.py"));
+            supportingFiles.add(new SupportingFile("__init__." + templateExtension, testFolder + File.separator + "test_models", "__init__.py"));
         }
 
         supportingFiles.add(new SupportingFile("api_client." + templateExtension, packagePath(), "api_client.py"));
@@ -397,8 +410,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models." + templateExtension, packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model." + templateExtension, packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + "apis", "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__apis." + templateExtension, packagePath() + File.separatorChar + apiPackage, "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
                 (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
@@ -417,8 +429,16 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
-    public String endpointFilename(String templateName, String tag, String operationId) {
-        return apiFileFolder() + File.separator + toApiFilename(tag) + "_endpoints" + File.separator + operationId + ".py";
+    public String packageFilename(List<String> pathSegments) {
+        String prefix = outputFolder + File.separatorChar + packagePath() + File.separatorChar;
+        String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
+        return prefix + suffix;
+    }
+
+    public String filenameFromRoot(List<String> pathSegments) {
+        String prefix = outputFolder + File.separatorChar;
+        String suffix = pathSegments.stream().collect(Collectors.joining(File.separator));
+        return prefix + suffix;
     }
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
@@ -442,6 +462,33 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    private void generateFiles(List<List<Object>> processTemplateToFileInfos, String skippedByOption) {
+        for (List<Object> processTemplateToFileInfo: processTemplateToFileInfos) {
+            Map<String, Object> templateData = (Map<String, Object>) processTemplateToFileInfo.get(0);
+            String templateName = (String) processTemplateToFileInfo.get(1);
+            String outputFilename = (String) processTemplateToFileInfo.get(2);
+            try {
+                processTemplateToFile(templateData, templateName, outputFilename, true, skippedByOption);
+            } catch (IOException e) {
+                LOGGER.error("Error when writing template file {}", e.toString());
+            }
+        }
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        return toModelName(name) + apiNameSuffix;
+    }
+
     /*
     I made this method because endpoint parameters not contain a lot of needed metadata
     It is very verbose to write all of this info into the api template
@@ -451,42 +498,142 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (!(Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS)) {
             return;
         }
+        Paths paths = openAPI.getPaths();
+        if (paths == null) {
+            return;
+        }
+        List<List<Object>> pathsFiles = new ArrayList<>();
+        List<List<Object>> apisFiles = new ArrayList<>();
+        List<List<Object>> testFiles = new ArrayList<>();
+        String outputFilename;
+
+        // endpoint tags may not exist in the root of the spec file
+        // this is allowed per openapi
+        // because spec tags may be empty ro incomplete, tags are also accumulated from endpoints
+        List<Tag> tags = openAPI.getTags();
+        if (tags != null) {
+            for (Tag tag: tags) {
+                String tagName = tag.getName();
+                String tagModuleName = toApiFilename(tagName);
+                String apiClassname = toApiName(tagName);
+                tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+                String tagEnum = toEnumVarName(tagName, "str");
+                enumToTag.put(tagEnum, tagName);
+                tagEnumToApiClassname.put(tagEnum, apiClassname);
+            }
+        }
+
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> codegenOperations = operations.getOperation();
-        Set<String> tagsNeedingInitFiles = new HashSet<>();
+        HashMap<String, String> pathModuleToPath = new HashMap<>();
+        // paths.some_path.post.py (single endpoint definition)
         for (CodegenOperation co: codegenOperations) {
-            for (Tag tag: co.tags) {
-                String tagName = tag.getName();
-                String pythonTagName = toVarName(tagName);
-                Map<String, Object> operationMap = new HashMap<>();
-                operationMap.put("operation", co);
-                operationMap.put("imports", co.imports);
-                operationMap.put("packageName", packageName);
-
-                String templateName = "endpoint.handlebars";
-                String filename = endpointFilename(templateName, pythonTagName, co.operationId);
-                tagsNeedingInitFiles.add(pythonTagName);
-                try {
-                    processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-                } catch (IOException e) {
-                    LOGGER.error("Error when writing template file {}", e.toString());
+            if (co.tags != null) {
+                for (Tag tag: co.tags) {
+                    String tagName = tag.getName();
+                    String tagModuleName = toApiFilename(tagName);
+                    String apiClassname = toApiName(tagName);
+                    tagModuleNameToApiClassname.put(tagModuleName, apiClassname);
+                    String tagEnum = toEnumVarName(tagName, "str");
+                    enumToTag.put(tagEnum, tagName);
+                    tagEnumToApiClassname.put(tagEnum, apiClassname);
                 }
             }
-        }
-        String templateName = "__init__api_endpoints.handlebars";
-        for (String tagNeedingInitFiles: tagsNeedingInitFiles) {
-            try {
-                Map<String, Object> operationMap = new HashMap<>();
-                String apiModuleName = toApiFilename(tagNeedingInitFiles);
-                operationMap.put("packageName", packageName);
-                operationMap.put("apiModuleName", apiModuleName);
-                operationMap.put("classname", toApiName(tagNeedingInitFiles));
-                String filename = endpointFilename(templateName, tagNeedingInitFiles, "__init__");
-                processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
-            } catch (IOException e) {
-                LOGGER.error("Error when writing endpoint __init__ file {}", e.toString());
+            String path = co.path;
+            String pathModuleName = co.nickname;
+            if (!pathModuleToPath.containsKey(pathModuleName)) {
+                pathModuleToPath.put(pathModuleName, path);
             }
+            Map<String, Object> endpointMap = new HashMap<>();
+            endpointMap.put("operation", co);
+            endpointMap.put("imports", co.imports);
+            endpointMap.put("packageName", packageName);
+            outputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
+            pathsFiles.add(Arrays.asList(endpointMap, "endpoint.handlebars", outputFilename));
+
+            Map<String, Object> endpointTestMap = new HashMap<>();
+            endpointTestMap.put("operation", co);
+            endpointTestMap.put("packageName", packageName);
+            outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "test_" + co.httpMethod + ".py"));
+            testFiles.add(Arrays.asList(endpointTestMap, "api_test.handlebars", outputFilename));
+            outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "test_" + pathModuleName, "__init__.py"));
+            testFiles.add(Arrays.asList(new HashMap<>(), "__init__.handlebars", outputFilename));
         }
+        outputFilename = filenameFromRoot(Arrays.asList("test", "test_paths", "__init__.py"));
+        testFiles.add(Arrays.asList(new HashMap<>(), "__init__test_paths.handlebars", outputFilename));
+
+        Map<String, String> pathValToVar = new LinkedHashMap<>();
+        Map<String, String> pathModuleToApiClassname = new LinkedHashMap<>();
+        Map<String, String> pathEnumToApiClassname = new LinkedHashMap<>();
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String path = pathsEntry.getKey();
+            String pathEnumVar = toEnumVarName(path, "str");
+            pathValToVar.put(path, pathEnumVar);
+            String apiClassName = toModelName(path);
+            pathEnumToApiClassname.put(pathEnumVar, apiClassName);
+            pathModuleToApiClassname.put(toVarName(path), apiClassName);
+        }
+        // Note: __init__apis.handlebars is generated as a supporting file
+        // apis.tag_to_api.py
+        Map<String, Object> tagToApiMap = new HashMap<>();
+        tagToApiMap.put("packageName", packageName);
+        tagToApiMap.put("apiClassname", "Api");
+        tagToApiMap.put("tagModuleNameToApiClassname", tagModuleNameToApiClassname);
+        tagToApiMap.put("tagEnumToApiClassname", tagEnumToApiClassname);
+        outputFilename = packageFilename(Arrays.asList("apis", "tag_to_api.py"));
+        apisFiles.add(Arrays.asList(tagToApiMap, "apis_tag_to_api.handlebars", outputFilename));
+        // apis.path_to_api.py
+        Map<String, Object> allByPathsFileMap = new HashMap<>();
+        allByPathsFileMap.put("packageName", packageName);
+        allByPathsFileMap.put("apiClassname", "Api");
+        allByPathsFileMap.put("pathModuleToApiClassname", pathModuleToApiClassname);
+        allByPathsFileMap.put("pathEnumToApiClassname", pathEnumToApiClassname);
+        outputFilename = packageFilename(Arrays.asList("apis", "path_to_api.py"));
+        apisFiles.add(Arrays.asList(allByPathsFileMap, "apis_path_to_api.handlebars", outputFilename));
+        // apis.paths.__init__.py
+        Map<String, Object> initApiTagsMap = new HashMap<>();
+        initApiTagsMap.put("packageName", packageName);
+        initApiTagsMap.put("enumToTag", enumToTag);
+        outputFilename = packageFilename(Arrays.asList("apis", "tags", "__init__.py"));
+        apisFiles.add(Arrays.asList(initApiTagsMap, "__init__apis_tags.handlebars", outputFilename));
+
+        // paths.__init__.py (contains path str enum)
+        Map<String, Object> initOperationMap = new HashMap<>();
+        initOperationMap.put("packageName", packageName);
+        initOperationMap.put("apiClassname", "Api");
+        initOperationMap.put("pathValToVar", pathValToVar);
+        outputFilename = packageFilename(Arrays.asList("paths", "__init__.py"));
+        pathsFiles.add(Arrays.asList(initOperationMap, "__init__paths_enum.handlebars", outputFilename));
+        // apis.paths.__init__.py
+        outputFilename = packageFilename(Arrays.asList("apis", "paths", "__init__.py"));
+        apisFiles.add(Arrays.asList(initOperationMap, "__init__paths.handlebars", outputFilename));
+        // paths.some_path.__init__.py
+        // apis.paths.some_path.py
+        for (Map.Entry<String, String> entry: pathModuleToPath.entrySet()) {
+            String pathModule = entry.getKey();
+            String path = entry.getValue();
+            String pathVar = pathValToVar.get(path);
+            Map<String, Object> pathApiMap = new HashMap<>();
+            pathApiMap.put("packageName", packageName);
+            pathApiMap.put("pathModule", pathModule);
+            pathApiMap.put("apiClassName", "Api");
+            pathApiMap.put("pathVar", pathVar);
+            outputFilename = packageFilename(Arrays.asList("paths", pathModule, "__init__.py"));
+            pathsFiles.add(Arrays.asList(pathApiMap, "__init__paths_x.handlebars", outputFilename));
+
+            PathItem pi = openAPI.getPaths().get(path);
+            String apiClassName = pathEnumToApiClassname.get(pathVar);
+            Map<String, Object> operationMap = new HashMap<>();
+            operationMap.put("packageName", packageName);
+            operationMap.put("pathModule", pathModule);
+            operationMap.put("apiClassName", apiClassName);
+            operationMap.put("pathItem", pi);
+            outputFilename = packageFilename(Arrays.asList("apis", "paths", pathModule + ".py"));
+            apisFiles.add(Arrays.asList(operationMap, "apis_path_module.handlebars", outputFilename));
+        }
+        generateFiles(pathsFiles, CodegenConstants.APIS);
+        generateFiles(apisFiles, CodegenConstants.APIS);
+        generateFiles(testFiles, CodegenConstants.API_TESTS);
     }
 
     /*
@@ -514,6 +661,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
                 addVars(property, property.getVars(), schema.getProperties(), requiredVars);
             }
+            addRequiredVarsMap(schema, property);
             return;
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
             HashSet<String> requiredVars = new HashSet<>();
@@ -526,6 +674,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 property.setHasVars(true);
             }
         }
+        addRequiredVarsMap(schema, property);
         return;
     }
 
@@ -778,8 +927,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         boolean testFolderSet = testFolder != null;
         if (testFolderSet && anyModelContainsTestCases) {
             // delete the test folder because tests there will be autogenerated
-            String modelTestFolder = modelTestFileFolder();
-            File testDirectory = new File(modelTestFolder);
+            String testPath = outputFolder + File.separatorChar + testFolder;
+            File testDirectory = new File(testPath);
             try {
                 FileUtils.cleanDirectory(testDirectory);
             } catch (IOException e) {
@@ -850,6 +999,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }
@@ -1104,10 +1254,22 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return value;
         }
         // Replace " " with _
-        String usedValue = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
+        String usedValue = value.replaceAll("\\s+", "_");
         // strip first character if it is invalid
         usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        // Replace / with _ for path enums
+        usedValue = usedValue.replaceAll("/", "_");
+        // Replace . with _ for tag enums
+        usedValue = usedValue.replaceAll("\\.", "_");
+        // add underscore at camelCase locations
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        usedValue = usedValue.replaceAll(regex, replacement);
+        // Replace invalid characters with empty space
         usedValue = usedValue.replaceAll("[^_a-zA-Z0-9]*", "");
+        // uppercase
+        usedValue = usedValue.toUpperCase(Locale.ROOT);
+
         if (usedValue.length() == 0) {
             for (int i = 0; i < value.length(); i++){
                 Character c = value.charAt(i);
@@ -1180,42 +1342,47 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
+    protected String handleSpecialCharacters(String value) {
+        // handles escape characters and the like
+        String stringValue = value;
+        String backslash = "\\";
+        if (stringValue.contains(backslash)) {
+            stringValue = stringValue.replace(backslash, "\\\\");
+        }
+        String nullChar = "\0";
+        if (stringValue.contains(nullChar)) {
+            stringValue = stringValue.replace(nullChar, "\\x00");
+        }
+        String doubleQuoteChar = "\"";
+        if (stringValue.contains(doubleQuoteChar)) {
+            stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
+        }
+        String lineSep = System.lineSeparator();
+        if (stringValue.contains(lineSep)) {
+            stringValue = stringValue.replace(lineSep, "\\n");
+        }
+        String carriageReturn = "\r";
+        if (stringValue.contains(carriageReturn)) {
+            stringValue = stringValue.replace(carriageReturn, "\\r");
+        }
+        String tab = "\t";
+        if (stringValue.contains(tab)) {
+            stringValue = stringValue.replace(tab, "\\t");
+        }
+        String formFeed = "\f";
+        if (stringValue.contains(formFeed)) {
+            stringValue = stringValue.replace(formFeed, "\\f");
+        }
+        return stringValue;
+    }
+
     protected Object processTestExampleData(Object value) {
         if (value instanceof Integer){
             return value;
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
-            String stringValue = (String) value;
-            String backslash = "\\";
-            if (stringValue.contains(backslash)) {
-                stringValue = stringValue.replace(backslash, "\\\\");
-            }
-            String nullChar = "\0";
-            if (stringValue.contains(nullChar)) {
-                stringValue = stringValue.replace(nullChar, "\\x00");
-            }
-            String doubleQuoteChar = "\"";
-            if (stringValue.contains(doubleQuoteChar)) {
-                stringValue = stringValue.replace(doubleQuoteChar, "\\\"");
-            }
-            String lineSep = System.lineSeparator();
-            if (stringValue.contains(lineSep)) {
-                stringValue = stringValue.replace(lineSep, "\\n");
-            }
-            String carriageReturn = "\r";
-            if (stringValue.contains(carriageReturn)) {
-                stringValue = stringValue.replace(carriageReturn, "\\r");
-            }
-            String tab = "\t";
-            if (stringValue.contains(tab)) {
-                stringValue = stringValue.replace(tab, "\\t");
-            }
-            String formFeed = "\f";
-            if (stringValue.contains(formFeed)) {
-                stringValue = stringValue.replace(formFeed, "\\f");
-            }
-            return stringValue;
+            return handleSpecialCharacters((String) value);
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
             for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
@@ -1589,9 +1756,16 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
              TODO generate examples for some of these use cases in the future like
              only oneOf without a discriminator
              */
+            if (cycleFound) {
+                return "";
+            }
             Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (ModelUtils.isComposedSchema(schema)) {
+                if(includedSchemas.contains(schema)) {
+                    return "";
+                }
+                includedSchemas.add(schema);
                 // complex composed object type schemas not yet handled and the code returns early
                 if (hasProperties) {
                     // what if this composed schema defined properties + allOf?
@@ -1650,7 +1824,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (example != null) {
-                return fullPrefix + ensureQuotes(example) + closeChars;
+                return fullPrefix + ensureQuotes(handleSpecialCharacters(example)) + closeChars;
             }
             if (ModelUtils.isDateSchema(schema)) {
                 if (objExample == null) {
@@ -1756,6 +1930,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
+            if(includedSchemas.contains(schema)) {
+                return "";
+            }
             includedSchemas.add(schema);
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
             if (StringUtils.isEmpty(itemExample) || cycleFound) {
@@ -1833,7 +2010,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
+                if(includedSchemas.contains(schema)) {
+                    return "";
+                }
                 includedSchemas.add(schema);
+
                 example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
@@ -1850,12 +2031,19 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
+
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
         }
 
+        if(includedSchemas.contains(schema)) {
+            return "";
+        }
+        includedSchemas.add(schema);
+
         String example = fullPrefix + "\n";
+
         for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
             String propName = entry.getKey();
             Schema propSchema = entry.getValue();
@@ -1867,14 +2055,25 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propExample = discProp.example;
             } else {
                 propModelName = getModelName(propSchema);
-                propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
+                propExample = exampleFromStringOrArraySchema(
+                        propSchema,
+                        null,
+                        propName);
             }
-            includedSchemas.add(schema);
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
+
+            example += toExampleValueRecursive(propModelName,
+                                               propSchema,
+                                               propExample,
+                                               indentationLevel + 1,
+                                               propName + "=",
+                                               exampleLine + 1,
+                                               includedSchemas) + ",\n";
         }
+
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
         return example;
+
     }
 
     private Object exampleFromStringOrArraySchema(Schema sc, Object currentExample, String propName) {
@@ -2140,6 +2339,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
+        // custom version of this method so properties are always added with addVars
         if (schema.getProperties() != null || schema.getRequired() != null) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
@@ -2148,6 +2348,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override
@@ -2165,6 +2366,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override
@@ -2306,7 +2508,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separatorChar + packagePath() + File.separatorChar +  apiPackage();
+        return outputFolder + File.separatorChar + packagePath() + File.separatorChar +  apiPackage() + File.separatorChar + "tags";
     }
 
     @Override
@@ -2321,7 +2523,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separatorChar + testFolder;
+        return outputFolder + File.separatorChar + testFolder + File.separatorChar + "test_models";
     }
 
     public void setUseNose(String val) {
@@ -2393,6 +2595,15 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                                           Operation operation,
                                           List<Server> servers) {
         CodegenOperation co = super.fromOperation(path, httpMethod, operation, servers);
+        co.httpMethod = httpMethod.toLowerCase(Locale.ROOT);
+        // smuggle the path enum variable name in operationIdLowerCase
+        co.operationIdLowerCase = toEnumVarName(co.path, "str");
+        // smuggle pathModuleName in nickname
+        String pathModuleName = toVarName(path);
+        co.nickname = pathModuleName;
+        // smuggle path Api class name ins operationIdSnakeCase
+        co.operationIdSnakeCase = toModelName(path);
+
         if (co.bodyParam == null) {
             for (CodegenParameter cp: co.allParams) {
                 if (cp.isBodyParam) {
@@ -2402,6 +2613,50 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             }
         }
         return co;
+    }
+
+    /**
+     * Custom version of this method to prevent mutation of
+     * codegenOperation.operationIdLowerCase/operationIdSnakeCase
+     * Property Usages:
+     * - operationId: endpoint method name when using tagged apis
+     * - httpMethod: endpoint method name when using path apis
+     * - operationIdCamelCase: Api class name containing single endpoint for tagged apis
+     * - operationIdLowerCase: (smuggled) path enum variable name
+     * - nickname: (smuggled) path module name for path apis
+     * - operationIdSnakeCase: (smuggled) path Api class name when using path apis
+     *
+     * @param tag          name of the tag
+     * @param resourcePath path of the resource
+     * @param operation    OAS Operation object
+     * @param co           Codegen Operation object
+     * @param operations   map of Codegen operations
+     */
+    @Override
+    @SuppressWarnings("static-method")
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        List<CodegenOperation> opList = operations.get(tag);
+        if (opList == null) {
+            opList = new ArrayList<>();
+            operations.put(tag, opList);
+        }
+        // check for operationId uniqueness
+        String uniqueName = co.operationId;
+        int counter = 0;
+        for (CodegenOperation op : opList) {
+            if (uniqueName.equals(op.operationId)) {
+                uniqueName = co.operationId + "_" + counter;
+                counter++;
+            }
+        }
+        if (!co.operationId.equals(uniqueName)) {
+            LOGGER.warn("generated unique operationId `{}`", uniqueName);
+        }
+        co.operationId = uniqueName;
+        co.operationIdCamelCase = camelize(uniqueName);
+        opList.add(co);
+        co.baseName = tag;
     }
 
     @Override
@@ -2425,6 +2680,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (specMajorVersion < 3) {
             throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. python-experimental only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
         }
+    }
+
+    /**
+     * Note: a custom version of this function is used so the original tag value can be used
+     *
+     * @param tag Tag
+     * @return the tag to use
+     */
+    @Override
+    public String sanitizeTag(String tag) {
+        return tag;
     }
 
     @Override

@@ -1536,6 +1536,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getSymbolName(value).toUpperCase(Locale.ROOT);
         }
 
+        if (" ".equals(value)) {
+            return "SPACE";
+        }
+
         // number
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype) || "BigDecimal".equals(datatype)) {

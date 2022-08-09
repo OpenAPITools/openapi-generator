@@ -76,9 +76,9 @@ class GrandparentAnimal(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'pet_type',
-    ))
+    _required_property_names = {
+        "pet_type",
+    }
     pet_type = StrSchema
 
     @classmethod

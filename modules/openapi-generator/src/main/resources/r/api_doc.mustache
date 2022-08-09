@@ -22,7 +22,7 @@ Method | HTTP request | Description
 library({{{packageName}}})
 
 {{#allParams}}
-var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}
+var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (Optional){{/required}}
 {{/allParams}}
 
 {{#summary}}
@@ -34,21 +34,21 @@ api_instance <- {{{classname}}}$new()
 {{#isBasic}}
 {{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-api_instance$api_client$username <- 'TODO_YOUR_USERNAME';
-api_instance$api_client$password <- 'TODO_YOUR_PASSWORD';
+api_instance$api_client$username <- Sys.getenv("USERNAME")
+api_instance$api_client$password <- Sys.getenv("PASSWORD")
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 # Configure HTTP bearer authorization: {{{name}}}
-api.instance$api_client$bearer_token <- 'TODO_YOUR_BEARER_TOKEN';
+api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-api_instance$api_client$api_keys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
+api_instance$api_client$api_keys["{{{keyParamName}}}"] <- Sys.getenv("API_KEY")
 {{/isApiKey}}
 {{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
@@ -68,17 +68,22 @@ result <- tryCatch(
           )
 # In case of error, print the error object
 if (!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
-} else {
-  {{#returnType}}
+  print("Exception occurs when calling `{{{operationId}}}`:")
+  dput(result$ApiException$toString())
+  {{#errorObjectType}}
+  # error object
+  dput(result$ApiException$error_object)
+  {{/errorObjectType}}
+}{{#returnType}} else {
   # deserialized response object
-  response.object <- result$content
-  {{/returnType}}
-  # response headers
-  response.headers <- result$response$headers
-  # response status code
-  response.status.code <- result$response$status_code
+  print("The response is ...")
+  dput(result$toString())
 }
+{{/returnType}}
+
+{{^returnType}}
+# This endpoint doesn't return data
+{{/returnType}}
 {{/useRlangExceptionHandling}}
 {{/returnExceptionOnFailure}}
 {{^useRlangExceptionHandling}}

@@ -76,9 +76,9 @@ class AllofWithBaseSchema(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'bar',
-    ))
+    _required_property_names = {
+        "bar",
+    }
     bar = IntSchema
 
     @classmethod
@@ -97,9 +97,9 @@ class AllofWithBaseSchema(
         class allOf_0(
             AnyTypeSchema
         ):
-            _required_property_names = set((
-                'foo',
-            ))
+            _required_property_names = {
+                "foo",
+            }
             foo = StrSchema
         
             def __new__(
@@ -121,9 +121,9 @@ class AllofWithBaseSchema(
         class allOf_1(
             AnyTypeSchema
         ):
-            _required_property_names = set((
-                'baz',
-            ))
+            _required_property_names = {
+                "baz",
+            }
             baz = NoneSchema
         
             def __new__(

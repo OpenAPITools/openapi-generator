@@ -28,7 +28,6 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class AnotherFakeApiController implements AnotherFakeApi {
 
     private final NativeWebRequest request;

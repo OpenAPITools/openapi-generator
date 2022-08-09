@@ -53,7 +53,7 @@ public class Client {
   @SerializedName(SERIALIZED_NAME_CLIENT)
   private String client;
 
-  public Client() { 
+  public Client() {
   }
 
   public Client client(String client) {
@@ -152,7 +152,7 @@ public class Client {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Client` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("client") != null && !jsonObj.get("client").isJsonPrimitive()) {
+      if ((jsonObj.get("client") != null && !jsonObj.get("client").isJsonNull()) && !jsonObj.get("client").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `client` to be a primitive type in the JSON string but got `%s`", jsonObj.get("client").toString()));
       }
   }

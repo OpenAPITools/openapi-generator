@@ -58,7 +58,7 @@ public class BananaReq {
   @SerializedName(SERIALIZED_NAME_SWEET)
   private Boolean sweet;
 
-  public BananaReq() { 
+  public BananaReq() {
   }
 
   public BananaReq lengthCm(BigDecimal lengthCm) {

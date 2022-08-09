@@ -8,6 +8,8 @@ var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(5
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+api_instance$api_client$username <- 'username';
+api_instance$api_client$password <- 'password';
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$AddPet(var_pet, data_file = "result.txt"),
@@ -17,16 +19,18 @@ result <- tryCatch(
 
 var_pet_id <- 56 # integer | ID of pet to return
 
-#Find pet by ID (streaming)
-api_instance <- PetApi$new()
-# Configure API key authorization: api_key
-api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
-result <- tryCatch(
-             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
-             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x) { print(x) }),
-             ApiException = function(ex) ex
-          )
+result <- api_instance$FindPetsByStatus("available")
+dput(result)
+##Find pet by ID (streaming)
+#api_instance <- PetApi$new()
+## Configure API key authorization: api_key
+#api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#result <- tryCatch(
+#             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#             # api_instance$GetPetByIdStreaming(var_pet_id, data_file = "result.txt"),
+#             api_instance$GetPetByIdStreaming(var_pet_id, stream_callback = function(x) { print(x) }),
+#             ApiException = function(ex) ex
+#          )
 # In case of error, print the error object
 #if (!is.null(result$ApiException)) {
 #  cat(result$ApiException$toString())
@@ -45,27 +49,28 @@ result <- tryCatch(
 ##a <- ModelApiResponse$new()$fromJSONString(errorMsg)
 ##dput(a)
 ##
-##var_pet_id <- 1231256 # integer | ID of pet to return
-##
-###Find pet by ID
-##api_instance <- PetApi$new()
-### Configure API key authorization: api_key
-##api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
-##result <- tryCatch(
-##             api_instance$GetPetById(var_pet_id),
-##             ApiException = function(ex) ex
-##          )
-### In case of error, print the error object
-##if(!is.null(result$ApiException)) {
-##  cat(result$ApiException$toString())
-##} else {
-##  # deserialized response object
-##  response.object <- result$content
-##  # response headers
-##  response.headers <- result$response$headers
-##  # response status code
-##  response.status.code <- result$response$status_code
-##}
+
+## Test exceptions
+var_pet_id <- 1231256 # integer | ID of pet to return
+#Find pet by ID
+api_instance <- PetApi$new()
+# Configure API key authorization: api_key
+api_instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- tryCatch(
+             api_instance$GetPetById(var_pet_id),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+} else {
+  # deserialized response object
+  response.object <- result$content
+  # response headers
+  response.headers <- result$response$headers
+  # response status code
+  response.status.code <- result$response$status_code
+}
 #
 #json2 <-
 #'{"name": "pet", "photoUrls" : ["http://a.com", "http://b.com"]}'

@@ -60,6 +60,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractPhpCodegen() {
         super();
 
@@ -463,6 +465,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toModelName(String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         name = toGenericName(name);
 
         // add prefix and/or suffix only if name does not start wth \ (e.g. \DateTime)
@@ -478,7 +486,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override

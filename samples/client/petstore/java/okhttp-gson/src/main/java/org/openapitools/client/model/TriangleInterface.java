@@ -53,7 +53,7 @@ public class TriangleInterface {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public TriangleInterface() { 
+  public TriangleInterface() {
   }
 
   public TriangleInterface triangleType(String triangleType) {
@@ -189,7 +189,7 @@ public class TriangleInterface {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("triangleType") != null && !jsonObj.get("triangleType").isJsonPrimitive()) {
+      if ((jsonObj.get("triangleType") != null && !jsonObj.get("triangleType").isJsonNull()) && !jsonObj.get("triangleType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `triangleType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("triangleType").toString()));
       }
   }

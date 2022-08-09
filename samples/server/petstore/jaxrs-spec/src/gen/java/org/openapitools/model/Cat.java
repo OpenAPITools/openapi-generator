@@ -19,15 +19,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Cat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Cat extends Animal implements Serializable {
-  
   private @Valid Boolean declawed;
 
   protected Cat(CatBuilder<?, ?> b) {
-  super(b);
-  this.declawed = b.declawed;
+    super(b);
+    this.declawed = b.declawed;
   }
 
-  public Cat() { }
+  public Cat() {
+  }
 
   /**
    **/

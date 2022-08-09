@@ -29,6 +29,13 @@
 #' @field password Password for HTTP basic authentication
 #' @field api_keys API keys
 #' @field access_token Access token
+#' @field oauth_client_id OAuth client ID
+#' @field oauth_secret OAuth secret
+#' @field oauth_refresh_token OAuth refresh token
+#' @field oauth_flow_type OAuth flow type
+#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_token_url Token URL
+#' @field oauth_pkce Boolean flag to enable PKCE
 #' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
 #' @field retry_status_codes vector of status codes to retry
@@ -53,6 +60,21 @@ ApiClient  <- R6::R6Class(
     api_keys = NULL,
     # Access token
     access_token = NULL,
+    # OAuth2 client ID
+    oauth_client_id = NULL,
+    # OAuth2 secret
+    oauth_secret = NULL,
+    # OAuth2 refresh token
+    oauth_refresh_token = NULL,
+    # OAuth2
+    # Flow type
+    oauth_flow_type = "implicit",
+    # Authoriziation URL
+    oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
+    # Token URL
+    oauth_token_url = "",
+    # Enable PKCE?
+    oauth_pkce = TRUE,
     # Bearer token
     bearer_token = NULL,
     # Time Out (seconds)
@@ -138,15 +160,23 @@ ApiClient  <- R6::R6Class(
     #' @param method HTTP method.
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
+    #' @param form_params The form parameters.
+    #' @param file_params The form parameters for uploading files.
+    #' @param accepts The list of Accept headers.
+    #' @param content_types The list of Content-Type headers.
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process the data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    CallApi = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
+    CallApi = function(url, method, query_params, header_params, form_params,
+                       file_params, accepts, content_types,
+                       body, stream_callback = NULL, ...) {
 
-      resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
-      status_code <- httr::status_code(resp)
+      resp <- self$Execute(url, method, query_params, header_params,
+                           form_params, file_params,
+                           accepts, content_types,
+                           body, stream_callback = stream_callback, ...)
 
       if (is.null(self$max_retry_attempts)) {
         self$max_retry_attempts <- 3
@@ -155,10 +185,11 @@ ApiClient  <- R6::R6Class(
       if (!is.null(self$retry_status_codes)) {
 
         for (i in 1 : self$max_retry_attempts) {
-          if (status_code %in% self$retry_status_codes) {
+          if (resp$status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-            resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
-            status_code <- httr::status_code(resp)
+            resp <- self$Execute(url, method, query_params, header_params,
+                                 form_params, file_params, accepts, content_types,
+                                 body, stream_callback = stream_callback, ...)
           } else {
             break
           }
@@ -176,12 +207,19 @@ ApiClient  <- R6::R6Class(
     #' @param method HTTP method.
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
+    #' @param form_params The form parameters.
+    #' @param file_params The form parameters for uploading files.
+    #' @param accepts The list of Accept headers
+    #' @param content_types The list of Content-Type headers
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process data stream
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    Execute = function(url, method, query_params, header_params, body, stream_callback = NULL, ...) {
+    Execute = function(url, method, query_params, header_params,
+                       form_params, file_params,
+                       accepts, content_types,
+                       body, stream_callback = NULL, ...) {
       headers <- httr::add_headers(c(header_params, self$default_headers))
 
       http_timeout <- NULL
@@ -189,82 +227,99 @@ ApiClient  <- R6::R6Class(
         http_timeout <- httr::timeout(self$timeout)
       }
 
-      if (method == "GET") {
-        if (typeof(stream_callback) == "closure") {
+      # set HTTP accept header
+      accept = self$select_header(accepts)
+      if (!is.null(accept)) {
+        headers['Accept'] = accept
+      }
+
+      # set HTTP content-type header
+      content_type = self$select_header(content_types)
+      if (!is.null(content_type)) {
+        headers['Content-Type'] = content_type
+      }
+
+      if (typeof(stream_callback) == "closure") { # stream data
+        if (method == "GET") {
           httr::GET(url, query = query_params, headers, http_timeout,
                     httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-        } else {
-          httr::GET(url, query = query_params, headers, http_timeout,
-                    httr::user_agent(self$`user_agent`), ...)
-        }
-      } else if (method == "POST") {
-        if (typeof(stream_callback) == "closure") {
+        } else if (method == "POST") {
           httr::POST(url, query = query_params, headers, body = body,
                      httr::content_type("application/json"), http_timeout,
                      httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-        } else {
-          httr::POST(url, query = query_params, headers, body = body,
-                     httr::content_type("application/json"), http_timeout,
-                     httr::user_agent(self$`user_agent`), ...)
-        }
-      } else if (method == "PUT") {
-        if (typeof(stream_callback) == "closure") {
+        } else if (method == "PUT") {
           httr::PUT(url, query = query_params, headers, body = body,
                     httr::content_type("application/json"), http_timeout,
                     http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-        } else {
-          httr::PUT(url, query = query_params, headers, body = body,
-                    httr::content_type("application/json"), http_timeout,
-                    http_timeout, httr::user_agent(self$`user_agent`), ...)
-        }
-      } else if (method == "PATCH") {
-        if (typeof(stream_callback) == "closure") {
+        } else if (method == "PATCH") {
           httr::PATCH(url, query = query_params, headers, body = body,
                       httr::content_type("application/json"), http_timeout,
                       http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-        } else {
-          httr::PATCH(url, query = query_params, headers, body = body,
-                      httr::content_type("application/json"), http_timeout,
-                      http_timeout, httr::user_agent(self$`user_agent`), ...)
-        }
-      } else if (method == "HEAD") {
-        if (typeof(stream_callback) == "closure") {
+        } else if (method == "HEAD") {
           httr::HEAD(url, query = query_params, headers, http_timeout,
                      http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
-        } else {
-          httr::HEAD(url, query = query_params, headers, http_timeout,
-                     http_timeout, httr::user_agent(self$`user_agent`), ...)
-        }
-      } else if (method == "DELETE") {
-        if (typeof(stream_callback) == "closure") {
+        } else if (method == "DELETE") {
           httr::DELETE(url, query = query_params, headers, http_timeout,
                        http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
         } else {
-          httr::DELETE(url, query = query_params, headers, http_timeout,
-                       http_timeout, httr::user_agent(self$`user_agent`), ...)
+          err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
+          rlang::abort(message = err_msg,
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0, reason = err_msg))
         }
-      } else {
-        err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
-        rlang::abort(message = err_msg,
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(status = 0, reason = err_msg))
+      } else { # no streaming
+        if (method == "GET") {
+          httr_response <- httr::GET(url, query = query_params, headers, http_timeout,
+                    httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "POST") {
+          httr_response <- httr::POST(url, query = query_params, headers, body = body,
+                     httr::content_type("application/json"), http_timeout,
+                     httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "PUT") {
+          httr_response <- httr::PUT(url, query = query_params, headers, body = body,
+                    httr::content_type("application/json"), http_timeout,
+                    http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "PATCH") {
+          httr_response <- httr::PATCH(url, query = query_params, headers, body = body,
+                      httr::content_type("application/json"), http_timeout,
+                      http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "HEAD") {
+          httr_response <- httr::HEAD(url, query = query_params, headers, http_timeout,
+                     http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "DELETE") {
+          httr_response <- httr::DELETE(url, query = query_params, headers, http_timeout,
+                       http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else {
+          err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
+          rlang::abort(message = err_msg,
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0, reason = err_msg))
+        }
+
+        # return ApiResponse
+        api_response <- ApiResponse$new()
+        api_response$status_code <- httr::status_code(httr_response) 
+        api_response$status_code_desc <- httr::http_status(httr_response)$reason
+        api_response$response <- httr::content(httr_response, "text", encoding = "UTF-8")
+        api_response$headers <- httr::headers(httr_response)
+
+        api_response
       }
     },
-    #' Deserialize the content of api response to the given type.
+    #' Deserialize the content of API response to the given type.
     #'
     #' @description
-    #' Deserialize the content of api response to the given type.
+    #' Deserialize the content of API response to the given type.
     #'
-    #' @param resp Response object.
+    #' @param raw_response Raw response.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
     #' @return Deserialized object.
     #' @export
-    deserialize = function(resp, return_type, pkg_env) {
-      resp_obj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+    deserialize = function(raw_response, return_type, pkg_env) {
+      resp_obj <- jsonlite::fromJSON(raw_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
-
     #' Deserialize the response from jsonlite object based on the given type
     #'
     #' @description
@@ -323,6 +378,30 @@ ApiClient  <- R6::R6Class(
         return_obj <- obj
       }
       return_obj
+    },
+    #' Return a propery header (for accept or content-type).
+    #'
+    #' @description
+    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
+    #' return it. Otherwise, return the first one, if any.
+    #'
+    #' @param headers A list of headers
+    #' @return A header (e.g. 'application/json')
+    #' @export
+    select_header = function(headers) {
+      if (length(headers) == 0) {
+        return(invisible(NULL))
+      } else {
+        for (header in headers) {
+          if (str_detect(header, "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")) {
+            # return JSON-related MIME
+            return(header)
+          }
+        }
+
+        # not json mime type, simply return the first one
+        return(headers[1])
+      }
     }
   )
 )

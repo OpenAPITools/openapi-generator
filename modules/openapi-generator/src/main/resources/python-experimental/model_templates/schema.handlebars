@@ -7,7 +7,7 @@
     {{else}}
         {{#or isMap isArray isAnyType}}
             {{#if isMap}}
-                {{#or hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping}}
+                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping}}
 {{> model_templates/schema_dict }}
                 {{else}}
                     {{#if additionalPropertiesIsAnyType}}
@@ -25,7 +25,7 @@
                 {{/or}}
             {{/if}}
             {{#if isAnyType}}
-                {{#or isEnum hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping items}}
+                {{#or isEnum hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping items}}
 {{> model_templates/schema_composed_or_anytype }}
                 {{else}}
 {{> model_templates/var_equals_cls }}

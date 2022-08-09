@@ -1,10 +1,10 @@
 # OpenAPI\Client\AnotherFakeApi
 
-All URIs are relative to http://petstore.swagger.io:80/v2.
+All URIs are relative to http://petstore.swagger.io:80/v2, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**call123TestSpecialTags()**](AnotherFakeApi.md#call123TestSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**call123TestSpecialTags()**](AnotherFakeApi.md#call123TestSpecialTags) | **PATCH** /another-fake/dummy | To test special tags |
 
 
 ## `call123TestSpecialTags()`
@@ -42,9 +42,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model | |
 
 ### Return type
 

@@ -78,9 +78,9 @@ class ObjectWithDifficultlyNamedProps(
 
     model with properties that have invalid names for python
     """
-    _required_property_names = set((
-        '123-list',
-    ))
+    _required_property_names = {
+        "123-list",
+    }
     special_property_name = Int64Schema
     locals()["$special[property.name]"] = special_property_name
     del locals()['special_property_name']

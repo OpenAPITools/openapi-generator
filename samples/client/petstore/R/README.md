@@ -62,14 +62,16 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FakeApi* | [**FakeDataFile**](docs/FakeApi.md#FakeDataFile) | **GET** /fake/data_file | test data_file to ensure it's escaped correctly
+*FakeApi* | [**FakeRegularExpression**](docs/FakeApi.md#FakeRegularExpression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
 *PetApi* | [**AddPet**](docs/PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store
-*PetApi* | [**DeletePet**](docs/PetApi.md#DeletePet) | **DELETE** /pet/{petId}?streaming | Deletes a pet
+*PetApi* | [**DeletePet**](docs/PetApi.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**FindPetsByTags**](docs/PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**GetPetById**](docs/PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
 *PetApi* | [**GetPetByIdStreaming**](docs/PetApi.md#GetPetByIdStreaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
+*PetApi* | [**TestHeader**](docs/PetApi.md#TestHeader) | **GET** /pet_header_test | Header test
 *PetApi* | [**UpdatePet**](docs/PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
-*PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId}?streaming | Updates a pet in the store with form data
+*PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 *StoreApi* | [**DeleteOrder**](docs/StoreApi.md#DeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
 *StoreApi* | [**GetInventory**](docs/StoreApi.md#GetInventory) | **GET** /store/inventory | Returns pet inventories by status
@@ -113,7 +115,7 @@ Class | Method | HTTP request | Description
 
 ### BearerToken
 
-- **Type**: HTTP basic authentication
+- **Type**: Bearer authentication
 
 ### api_key
 

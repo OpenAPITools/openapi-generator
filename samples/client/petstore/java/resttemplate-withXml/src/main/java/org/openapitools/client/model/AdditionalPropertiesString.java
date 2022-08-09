@@ -28,6 +28,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * AdditionalPropertiesString
@@ -44,7 +46,8 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
   @XmlElement(name = "name")
   private String name;
 
-  public AdditionalPropertiesString() { 
+  public AdditionalPropertiesString() {
+
   }
 
   public AdditionalPropertiesString name(String name) {

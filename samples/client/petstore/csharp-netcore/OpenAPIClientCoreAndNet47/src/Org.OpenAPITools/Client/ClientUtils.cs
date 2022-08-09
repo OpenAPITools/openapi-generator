@@ -121,6 +121,16 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Serializes the given object when not null. Otherwise return null.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <returns>Serialized string.</returns>
+        public static string Serialize(object obj)
+        {
+            return obj != null ? Newtonsoft.Json.JsonConvert.SerializeObject(obj) : null;
+        }
+
+        /// <summary>
         /// Encode string in base64 format.
         /// </summary>
         /// <param name="text">string to be encoded.</param>

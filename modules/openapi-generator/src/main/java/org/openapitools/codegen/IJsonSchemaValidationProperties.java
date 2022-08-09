@@ -3,6 +3,7 @@ package org.openapitools.codegen;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -114,6 +115,17 @@ public interface IJsonSchemaValidationProperties {
     List<CodegenProperty> getRequiredVars();
 
     void setRequiredVars(List<CodegenProperty> requiredVars);
+
+    Map<String, CodegenProperty> getRequiredVarsMap();
+
+    // goes from required propertyName to its CodegenProperty
+    // Use Cases:
+    // 1. required property is defined in properties, value is that CodegenProperty
+    // 2. required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
+    // 3. required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
+    // 4. required property is not defined in properties, and additionalProperties is false, value is null
+    void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap);
+
 
     boolean getIsNull();
 

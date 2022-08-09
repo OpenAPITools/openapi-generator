@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import petstore_api
 from petstore_api import api_client
-from petstore_api.api.user_api import UserApi
+from petstore_api.apis.tags.user_api import UserApi
 from petstore_api.rest import RESTClientObject
 
 from . import ApiTestMixin

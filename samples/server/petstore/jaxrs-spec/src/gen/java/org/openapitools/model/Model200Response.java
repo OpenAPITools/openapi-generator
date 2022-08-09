@@ -21,15 +21,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Model200Response  implements Serializable {
-  
   private @Valid Integer name;
   private @Valid String propertyClass;
 
   protected Model200Response(Model200ResponseBuilder<?, ?> b) {
-  this.name = b.name;this.propertyClass = b.propertyClass;
+    this.name = b.name;
+    this.propertyClass = b.propertyClass;
   }
 
-  public Model200Response() { }
+  public Model200Response() {
+  }
 
   /**
    **/
@@ -50,7 +51,7 @@ public class Model200Response  implements Serializable {
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

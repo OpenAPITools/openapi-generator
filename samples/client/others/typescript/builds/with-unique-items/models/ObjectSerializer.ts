@@ -1,6 +1,6 @@
-export * from './Response';
+export * from '../models/Response';
 
-import { Response } from './Response';
+import { Response } from '../models/Response';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -214,6 +214,10 @@ export class ObjectSerializer {
     public static parse(rawData: string, mediaType: string | undefined) {
         if (mediaType === undefined) {
             throw new Error("Cannot parse content. No Content-Type defined.");
+        }
+
+        if (mediaType === "text/plain") {
+            return rawData;
         }
 
         if (mediaType === "application/json") {

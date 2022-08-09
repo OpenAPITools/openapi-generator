@@ -18,6 +18,8 @@ from {{packageName}} import api_client, exceptions
 {{> model_templates/imports_schema_types }}
 {{> model_templates/imports_schemas }}
 
+from . import path
+
 {{#with operation}}
 {{#if queryParams}}
 # query params
@@ -192,8 +194,6 @@ request_body_{{paramName}} = api_client.RequestBody(
 {{/if}}
 )
 {{/with}}
-_path = '{{{path}}}'
-_method = '{{httpMethod}}'
 {{#each authMethods}}
 {{#if @first}}
 _auth = [
@@ -367,55 +367,10 @@ _all_accept_content_types = (
 {{/each}}
 
 
-class {{operationIdCamelCase}}(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def {{operationId}}(
-        self: api_client.Api,
-    {{#if bodyParam}}
-    {{#with bodyParam}}
-        body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
-    {{/with}}
-    {{/if}}
-    {{#if queryParams}}
-        query_params: RequestQueryParams = frozendict(),
-    {{/if}}
-    {{#if headerParams}}
-        header_params: RequestHeaderParams = frozendict(),
-    {{/if}}
-    {{#if pathParams}}
-        path_params: RequestPathParams = frozendict(),
-    {{/if}}
-    {{#if cookieParams}}
-        cookie_params: RequestCookieParams = frozendict(),
-    {{/if}}
-    {{#with bodyParam}}
-    {{#each content}}
-    {{#if @first}}
-        content_type: str = '{{{@key}}}',
-    {{/if}}
-    {{/each}}
-    {{/with}}
-    {{#if produces}}
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-    {{/if}}
-    {{#if servers}}
-        host_index: typing.Optional[int] = None,
-    {{/if}}
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-    {{#each responses}}
-        {{#if isDefault}}
-        ApiResponseForDefault,
-        {{else}}
-            {{#if is2xx}}
-        ApiResponseFor{{code}},
-            {{/if}}
-        {{/if}}
-    {{/each}}
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    def _{{operationId}}(
+    {{> endpoint_args selfType="api_client.Api" }}
         """
     {{#if summary}}
         {{summary}}
@@ -436,7 +391,7 @@ class {{operationIdCamelCase}}(api_client.Api):
     {{#if cookieParams}}
         self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
     {{/if}}
-        used_path = _path
+        used_path = path.value
     {{#if pathParams}}
 
         _path_params = {}
@@ -517,7 +472,7 @@ class {{operationIdCamelCase}}(api_client.Api):
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method=_method,
+            method='{{httpMethod}}'.upper(),
     {{#or headerParams bodyParam produces}}
             headers=_headers,
     {{/or}}
@@ -556,4 +511,26 @@ class {{operationIdCamelCase}}(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class {{operationIdCamelCase}}(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def {{operationId}}(
+    {{> endpoint_args selfType="BaseApi" }}
+        return self._{{operationId}}(
+            {{> endpoint_args_passed }}
+        )
+
+
+class ApiFor{{httpMethod}}(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def {{httpMethod}}(
+    {{> endpoint_args selfType="BaseApi" }}
+        return self._{{operationId}}(
+            {{> endpoint_args_passed }}
+        )
+
+
 {{/with}}
