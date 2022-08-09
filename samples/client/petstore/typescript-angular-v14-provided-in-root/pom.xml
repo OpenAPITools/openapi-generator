@@ -59,7 +59,7 @@
 
                 <executions>
                     <execution>
-                        <id>clean-typescript-angular-v13-test-outputs</id>
+                        <id>clean-typescript-angular-v14-test-outputs</id>
                         <goals>
                             <goal>clean</goal>
                         </goals>
