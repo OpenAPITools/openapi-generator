@@ -98,7 +98,7 @@ class ComplexQuadrilateral(
             class quadrilateralType(
                 _SchemaEnumMaker(
                     enum_value_to_name={
-                        "ComplexQuadrilateral": "COMPLEXQUADRILATERAL",
+                        "ComplexQuadrilateral": "COMPLEX_QUADRILATERAL",
                     }
                 ),
                 StrSchema
@@ -106,7 +106,7 @@ class ComplexQuadrilateral(
                 
                 @classmethod
                 @property
-                def COMPLEXQUADRILATERAL(cls):
+                def COMPLEX_QUADRILATERAL(cls):
                     return cls("ComplexQuadrilateral")
         
         

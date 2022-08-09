@@ -19,7 +19,7 @@ from unittest.mock import patch
 import urllib3
 import petstore_api
 from petstore_api import api_client, schemas, exceptions
-from petstore_api.api.fake_api import FakeApi  # noqa: E501
+from petstore_api.apis.tags.fake_api import FakeApi  # noqa: E501
 from petstore_api.rest import RESTClientObject
 
 from . import ApiTestMixin

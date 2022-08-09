@@ -24,6 +24,7 @@ jobs:
           - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0-nrt
           - samples/server/petstore/aspnetcore-6.0
           - samples/server/petstore/aspnetcore-6.0-pocoModels
+          - samples/server/petstore/aspnetcore-6.0-project4Models
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v2
