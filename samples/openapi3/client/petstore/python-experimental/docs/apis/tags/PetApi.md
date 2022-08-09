@@ -1193,8 +1193,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
 **requiredFile** | **file_type** | file to upload | 
+**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params

@@ -76,10 +76,10 @@ class TriangleInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'shapeType',
-        'triangleType',
-    ))
+    _required_property_names = {
+        "shapeType",
+        "triangleType",
+    }
     
     
     class shapeType(

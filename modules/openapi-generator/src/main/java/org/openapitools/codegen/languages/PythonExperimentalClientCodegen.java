@@ -661,6 +661,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
                 addVars(property, property.getVars(), schema.getProperties(), requiredVars);
             }
+            addRequiredVarsMap(schema, property);
             return;
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
             HashSet<String> requiredVars = new HashSet<>();
@@ -673,6 +674,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 property.setHasVars(true);
             }
         }
+        addRequiredVarsMap(schema, property);
         return;
     }
 
@@ -997,6 +999,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }
@@ -1339,7 +1342,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
-    private String processStringValue(String value) {
+    protected String handleSpecialCharacters(String value) {
         // handles escape characters and the like
         String stringValue = value;
         String backslash = "\\";
@@ -1379,7 +1382,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
-            return processStringValue((String) value);
+            return handleSpecialCharacters((String) value);
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
             for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
@@ -1821,7 +1824,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (example != null) {
-                return fullPrefix + ensureQuotes(processStringValue(example)) + closeChars;
+                return fullPrefix + ensureQuotes(handleSpecialCharacters(example)) + closeChars;
             }
             if (ModelUtils.isDateSchema(schema)) {
                 if (objExample == null) {
@@ -2336,6 +2339,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
+        // custom version of this method so properties are always added with addVars
         if (schema.getProperties() != null || schema.getRequired() != null) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
@@ -2344,6 +2348,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override
@@ -2361,6 +2366,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override

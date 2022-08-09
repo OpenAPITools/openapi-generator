@@ -74,10 +74,10 @@ from . import path
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     DictSchema
 ):
-    _required_property_names = set((
-        'param',
-        'param2',
-    ))
+    _required_property_names = {
+        "param",
+        "param2",
+    }
     param = StrSchema
     param2 = StrSchema
 

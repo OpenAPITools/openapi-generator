@@ -2196,6 +2196,42 @@ paths:
       - path.post
       - contentType_json
       - oneOf
+  /requestBody/postOneofWithRequiredRequestBody:
+    post:
+      operationId: postOneofWithRequiredRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OneofWithRequired'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/OneofWithRequired'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - operation.requestBody
+      - path.post
+      - contentType_json
+      - oneOf
+  /responseBody/postOneofWithRequiredResponseBodyForContentTypes:
+    post:
+      operationId: postOneofWithRequiredResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneofWithRequired'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/OneofWithRequired'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
+      - oneOf
   /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedOneofToCheckValidationSemanticsRequestBody
@@ -2731,6 +2767,42 @@ paths:
                 $ref: '#/components/schemas/RequiredWithEmptyArray'
               x-schema-test-examples:
                 $ref: '#/components/x-schema-test-examples/RequiredWithEmptyArray'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
+      - required
+  /requestBody/postRequiredWithEscapedCharactersRequestBody:
+    post:
+      operationId: postRequiredWithEscapedCharactersRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredWithEscapedCharacters'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RequiredWithEscapedCharacters'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - operation.requestBody
+      - path.post
+      - contentType_json
+      - required
+  /responseBody/postRequiredWithEscapedCharactersResponseBodyForContentTypes:
+    post:
+      operationId: postRequiredWithEscapedCharactersResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredWithEscapedCharacters'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RequiredWithEscapedCharacters'
       tags:
       - response.content.contentType.schema
       - path.post
@@ -3316,6 +3388,15 @@ components:
       oneOf:
       - type: number
       - {}
+    OneofWithRequired:
+      type: object
+      oneOf:
+      - required:
+        - foo
+        - bar
+      - required:
+        - foo
+        - baz
     NestedOneofToCheckValidationSemantics:
       oneOf:
       - oneOf:
@@ -3382,6 +3463,16 @@ components:
       properties:
         foo: {}
       required: []
+    RequiredWithEscapedCharacters:
+      required:
+      - 'foo
+
+        bar'
+      - foo"bar
+      - foo\bar
+      - "foo\rbar"
+      - "foo\tbar"
+      - "foo\fbar"
     IntegerTypeMatchesIntegers:
       type: integer
     NumberTypeMatchesNumbers:
@@ -4438,6 +4529,31 @@ components:
         description: both valid - invalid
         data: 123
         valid: false
+    OneofWithRequired:
+      BothInvalidInvalid:
+        description: both invalid - invalid
+        data:
+          bar: 2
+        valid: false
+      FirstValidValid:
+        description: first valid - valid
+        data:
+          foo: 1
+          bar: 2
+        valid: true
+      SecondValidValid:
+        description: second valid - valid
+        data:
+          foo: 1
+          baz: 3
+        valid: true
+      BothValidInvalid:
+        description: both valid - invalid
+        data:
+          foo: 1
+          bar: 2
+          baz: 3
+        valid: false
     NestedOneofToCheckValidationSemantics:
       NullIsValid:
         description: null is valid
@@ -4658,6 +4774,29 @@ components:
         description: property not required
         data: {}
         valid: true
+    RequiredWithEscapedCharacters:
+      ObjectWithAllPropertiesPresentIsValid:
+        description: object with all properties present is valid
+        data:
+          ? 'foo
+
+            bar'
+          : 1
+          foo"bar: 1
+          foo\bar: 1
+          "foo\rbar": 1
+          "foo\tbar": 1
+          "foo\fbar": 1
+        valid: true
+      ObjectWithSomePropertiesMissingIsInvalid:
+        description: object with some properties missing is invalid
+        data:
+          ? 'foo
+
+            bar'
+          : '1'
+          foo"bar: '1'
+        valid: false
     IntegerTypeMatchesIntegers:
       AnIntegerIsAnInteger:
         description: an integer is an integer

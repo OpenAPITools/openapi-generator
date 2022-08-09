@@ -76,9 +76,9 @@ from . import path
 class SchemaForRequestBodyMultipartFormData(
     DictSchema
 ):
-    _required_property_names = set((
-        'file',
-    ))
+    _required_property_names = {
+        "file",
+    }
     additionalMetadata = StrSchema
     file = BinarySchema
 

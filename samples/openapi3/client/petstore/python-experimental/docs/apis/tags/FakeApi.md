@@ -1005,15 +1005,15 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**number** | **int, float** | None | 
+**pattern_without_delimiter** | **str** | None | 
+**byte** | **str** | None | 
+**double** | **int, float** | None | 
 **integer** | **int** | None | [optional] 
 **int32** | **int** | None | [optional] 
 **int64** | **int** | None | [optional] 
-**number** | **int, float** | None | 
 **float** | **int, float** | None | [optional] 
-**double** | **int, float** | None | 
 **string** | **str** | None | [optional] 
-**pattern_without_delimiter** | **str** | None | 
-**byte** | **str** | None | 
 **binary** | **file_type** | None | [optional] 
 **date** | **date** | None | [optional] 
 **dateTime** | **datetime** | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
@@ -3040,8 +3040,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
 **file** | **file_type** | file to upload | 
+**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
