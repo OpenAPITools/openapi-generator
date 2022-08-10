@@ -1968,6 +1968,16 @@ components:
       required:
       - dup-prop
       type: object
+    MapOfFileTest:
+      description: test map of file in a property
+      properties:
+        prop_test:
+          additionalProperties:
+            format: binary
+            type: string
+          description: a property to test map of file
+          type: object
+      type: object
     _foo_get_default_response:
       example:
         string:
