@@ -84,19 +84,19 @@ export const setOAuthToObject = async function (object: any, name: string, scope
     }
 }
 
-function setFlattenedQueryParams(urlSearchParams: Record<string, any>, parameter: any, key: string=""): void {
+function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
     if (typeof parameter === "object") {
         if (Array.isArray(parameter)) {
             (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
         } 
         else {
-            Object.keys(parameter as Record<string, any>).forEach(currentKey => 
-                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], currentKey)
+            Object.keys(parameter).forEach(currentKey => 
+                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}.${currentKey}`)
             );
         }
     } 
     else {
-        if (urlSearchParams.get(key)) {
+        if (urlSearchParams.has(key)) {
             urlSearchParams.append(key, parameter);
         } 
         else {
