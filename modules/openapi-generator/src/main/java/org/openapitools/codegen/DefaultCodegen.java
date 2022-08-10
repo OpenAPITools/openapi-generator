@@ -5415,7 +5415,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (allProperties != null) {
             Set<String> allMandatory = allRequired == null ? Collections.emptySet()
                     : new TreeSet<>(allRequired);
-            // update "vars" with parent's properties (all, required)
+            // update "allVars" with parent's properties (all, required)
             addVars(m, m.allVars, allProperties, allMandatory);
             m.allMandatory = allMandatory;
         } else { // without parent, allVars and vars are the same
@@ -5451,18 +5451,40 @@ public class DefaultCodegen implements CodegenConfig {
         if (properties == null) {
             return;
         }
+
+        HashMap<String, CodegenProperty> varsMap = new HashMap<>();
         CodegenModel cm = null;
         if (m instanceof CodegenModel) {
             cm = (CodegenModel) m;
-        }
-        for (Map.Entry<String, Schema> entry : properties.entrySet()) {
 
+            if (cm.allVars == vars) { // processing allVars
+                for (CodegenProperty var : cm.vars) {
+                    // create a map of codegen properties for lookup later
+                    varsMap.put(var.baseName, var);
+                }
+            }
+        }
+
+        for (Map.Entry<String, Schema> entry : properties.entrySet()) {
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
             if (prop == null) {
                 LOGGER.warn("Please report the issue. There shouldn't be null property for {}", key);
             } else {
-                final CodegenProperty cp = fromProperty(key, prop, mandatory.contains(key));
+                final CodegenProperty cp;
+
+                if (cm != null && cm.allVars == vars && varsMap.keySet().contains(key)) {
+                    // when updating allVars, reuse the codegen property from the child model if it's already present
+                    // the goal is to avoid issues when the property is defined in both child, parent but the
+                    // definition is not identical, e.g. required vs optional, integer vs string
+                    LOGGER.debug("The property `{}` already defined in the child model. Using the one from child.",
+                            key);
+                    cp = varsMap.get(key);
+                } else {
+                    // properties in the parent model only
+                    cp = fromProperty(key, prop, mandatory.contains(key));
+                }
+
                 vars.add(cp);
                 m.setHasVars(true);
 
