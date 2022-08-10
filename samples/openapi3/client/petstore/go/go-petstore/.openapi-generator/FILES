@@ -51,6 +51,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
 docs/Mammal.md
+docs/MapOfFileTest.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -120,6 +121,7 @@ model_has_only_read_only.go
 model_health_check_result.go
 model_list.go
 model_mammal.go
+model_map_of_file_test_.go
 model_map_test_.go
 model_mixed_properties_and_additional_properties_class.go
 model_name.go

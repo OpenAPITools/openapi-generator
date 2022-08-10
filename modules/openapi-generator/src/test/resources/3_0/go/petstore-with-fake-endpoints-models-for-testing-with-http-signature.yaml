@@ -2007,3 +2007,13 @@ components:
         'dup-prop':
           description: A discriminator value
           type: string
+    MapOfFileTest:
+      description: test map of file in a property
+      type: object
+      properties:
+        'prop_test':
+          description: a property to test map of file
+          type: object
+          additionalProperties:
+            type: string
+            format: binary
