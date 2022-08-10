@@ -317,6 +317,9 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("bundleExtensionName", bundleExtensionName);
         additionalProperties.put("bundleAlias", bundleAlias);
 
+        // add trailing slash for mustache templates
+        additionalProperties.put("relativeSrcBasePath", srcBasePath.isEmpty() ? "" : srcBasePath + "/");
+
         // make api and model src path available in mustache template
         additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
         additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
