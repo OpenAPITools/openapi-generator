@@ -81,13 +81,13 @@ function setFlattenedQueryParams(urlSearchParams: Record<string, any>, parameter
             (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
         } 
         else {
-            Object.keys(parameter as Record<string, any>).forEach(currentKey => 
-                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], currentKey)
+            Object.keys(parameter).forEach(currentKey => 
+                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}.${currentKey}`)
             );
         }
     } 
     else {
-        if (urlSearchParams.get(key)) {
+        if (urlSearchParams.has(key)) {
             urlSearchParams.append(key, parameter);
         } 
         else {
