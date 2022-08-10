@@ -295,7 +295,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = ModelUtils.unaliasSchema(this.openAPI, response, schemaMapping);
+                response = unaliasSchema(response);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response, false);
                     op.vendorExtensions.put("x-codegen-response", cm);

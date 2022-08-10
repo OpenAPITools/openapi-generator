@@ -11,5 +11,5 @@ Encoding: UTF-8
 License: {{#lambdaLicense}}{{licenseInfo}}{{/lambdaLicense}}{{^licenseInfo}}Unlicense{{/licenseInfo}}
 LazyData: true
 Suggests: testthat
-Imports: jsonlite, httr, R6, base64enc
+Imports: jsonlite, httr{{#isHttr2}}2{{/isHttr2}}, R6, base64enc, stringr
 RoxygenNote: 7.2.0

@@ -58,7 +58,7 @@ public class Category {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public Category() { 
+  public Category() {
   }
 
   public Category id(Long id) {
@@ -212,7 +212,7 @@ public class Category {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Category is not found in the empty JSON string", Category.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
   }

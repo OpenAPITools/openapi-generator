@@ -297,9 +297,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
-        super.processOpts();
         useOneOfInterfaces = true;
         legacyDiscriminatorBehavior = false;
+
+        // Please refrain from updating values of Config Options after super.ProcessOpts() is called
+        super.processOpts();
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");

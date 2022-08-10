@@ -53,7 +53,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color;
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() { 
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf() {
   }
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf color(String color) {
@@ -181,7 +181,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf is not found in the empty JSON string", ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("color") != null && !jsonObj.get("color").isJsonPrimitive()) {
+      if ((jsonObj.get("color") != null && !jsonObj.get("color").isJsonNull()) && !jsonObj.get("color").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `color` to be a primitive type in the JSON string but got `%s`", jsonObj.get("color").toString()));
       }
   }

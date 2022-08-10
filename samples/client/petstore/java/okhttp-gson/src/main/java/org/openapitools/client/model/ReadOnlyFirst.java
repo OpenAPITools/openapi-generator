@@ -57,7 +57,7 @@ public class ReadOnlyFirst {
   @SerializedName(SERIALIZED_NAME_BAZ)
   private String baz;
 
-  public ReadOnlyFirst() { 
+  public ReadOnlyFirst() {
   }
 
   
@@ -210,10 +210,10 @@ public class ReadOnlyFirst {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonPrimitive()) {
+      if ((jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonNull()) && !jsonObj.get("bar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `bar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("bar").toString()));
       }
-      if (jsonObj.get("baz") != null && !jsonObj.get("baz").isJsonPrimitive()) {
+      if ((jsonObj.get("baz") != null && !jsonObj.get("baz").isJsonNull()) && !jsonObj.get("baz").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `baz` to be a primitive type in the JSON string but got `%s`", jsonObj.get("baz").toString()));
       }
   }

@@ -7,8 +7,13 @@
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+    {{#each getRequiredVarsMap}}
+**{{{@key}}}** | {{#with this}}{{#unless complexType}}**{{dataType}}**{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#if isReadOnly}}[readonly] {{/if}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}{{/with}}
+    {{/each}}
     {{#each vars}}
+    {{#unless required}}
 **{{baseName}}** | {{#unless complexType}}**{{dataType}}**{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#unless required}}[optional] {{/unless}}{{#if isReadOnly}}[readonly] {{/if}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}
+    {{/unless}}
     {{/each}}
     {{#with additionalProperties}}
 **any string name** | **{{dataType}}** | any string name can be used but the value must be the correct type | [optional]

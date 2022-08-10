@@ -34,7 +34,7 @@ public class NumberOnly {
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 
-  public NumberOnly() { 
+  public NumberOnly() {
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {

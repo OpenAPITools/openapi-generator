@@ -17,7 +17,7 @@ namespace {{modelPackage}}
     /// {{description}}
     /// </summary>
     [DataContract]
-    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
+    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} {{#parent}}: {{{.}}}{{^pocoModels}}, {{/pocoModels}}{{/parent}}{{^pocoModels}}{{^parent}}: {{/parent}}IEquatable<{{classname}}>{{/pocoModels}}
     {
         {{#vars}}
         {{#items.isEnum}}

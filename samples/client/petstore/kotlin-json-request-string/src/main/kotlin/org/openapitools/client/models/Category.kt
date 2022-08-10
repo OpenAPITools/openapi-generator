@@ -21,7 +21,14 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -32,13 +39,13 @@ import kotlinx.parcelize.Parcelize
  * @param name 
  */
 @Parcelize
-
+@Serializable
 data class Category (
 
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "name")
+    @SerialName(value = "name")
     val name: kotlin.String? = null
 
 ) : Parcelable

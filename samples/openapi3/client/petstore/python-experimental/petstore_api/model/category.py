@@ -76,9 +76,9 @@ class Category(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'name',
-    ))
+    _required_property_names = {
+        "name",
+    }
     id = Int64Schema
     name = StrSchema
 

@@ -79,9 +79,9 @@ class Apple(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'cultivar',
-    ))
+    _required_property_names = {
+        "cultivar",
+    }
     
     
     class cultivar(

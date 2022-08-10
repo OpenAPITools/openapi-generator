@@ -2186,6 +2186,20 @@ components:
       required:
       - name
       type: object
+    EnumStringDiscriminator:
+      description: An object to test discriminator of enum string
+      discriminator:
+        propertyName: enum_str_type
+      properties:
+        enum_str_type:
+          description: enum string type
+          enum:
+          - type_a
+          - type_b
+          type: string
+      required:
+      - enum_str_type
+      type: object
     _foo_get_default_response:
       example:
         string:

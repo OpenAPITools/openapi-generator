@@ -54,7 +54,7 @@ public class Dog extends Animal {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public Dog() { 
+  public Dog() {
     this.className = this.getClass().getSimpleName();
   }
 

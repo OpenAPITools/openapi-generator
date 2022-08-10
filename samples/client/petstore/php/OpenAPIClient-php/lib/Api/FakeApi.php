@@ -367,10 +367,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -529,12 +530,15 @@ class FakeApi
      */
     public function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null)
     {
+
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pet when calling fakeHttpSignatureTest'
             );
         }
+
+
 
         $resourcePath = '/fake/http-signature-test';
         $formParams = [];
@@ -614,10 +618,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -813,6 +818,7 @@ class FakeApi
     public function fakeOuterBooleanSerializeRequest($body = null)
     {
 
+
         $resourcePath = '/fake/outer/boolean';
         $formParams = [];
         $queryParams = [];
@@ -878,10 +884,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1077,6 +1084,7 @@ class FakeApi
     public function fakeOuterCompositeSerializeRequest($outer_composite = null)
     {
 
+
         $resourcePath = '/fake/outer/composite';
         $formParams = [];
         $queryParams = [];
@@ -1142,10 +1150,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1341,6 +1350,7 @@ class FakeApi
     public function fakeOuterNumberSerializeRequest($body = null)
     {
 
+
         $resourcePath = '/fake/outer/number';
         $formParams = [];
         $queryParams = [];
@@ -1406,10 +1416,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1605,6 +1616,7 @@ class FakeApi
     public function fakeOuterStringSerializeRequest($body = null)
     {
 
+
         $resourcePath = '/fake/outer/string';
         $formParams = [];
         $queryParams = [];
@@ -1670,10 +1682,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1868,6 +1881,7 @@ class FakeApi
      */
     public function fakePropertyEnumIntegerSerializeRequest($outer_object_with_enum_property)
     {
+
         // verify the required parameter 'outer_object_with_enum_property' is set
         if ($outer_object_with_enum_property === null || (is_array($outer_object_with_enum_property) && count($outer_object_with_enum_property) === 0)) {
             throw new \InvalidArgumentException(
@@ -1940,10 +1954,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -2084,6 +2099,7 @@ class FakeApi
      */
     public function testBodyWithBinaryRequest($body)
     {
+
         // verify the required parameter 'body' is set
         if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
@@ -2156,10 +2172,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -2300,6 +2317,7 @@ class FakeApi
      */
     public function testBodyWithFileSchemaRequest($file_schema_test_class)
     {
+
         // verify the required parameter 'file_schema_test_class' is set
         if ($file_schema_test_class === null || (is_array($file_schema_test_class) && count($file_schema_test_class) === 0)) {
             throw new \InvalidArgumentException(
@@ -2372,10 +2390,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -2521,12 +2540,14 @@ class FakeApi
      */
     public function testBodyWithQueryParamsRequest($query, $user)
     {
+
         // verify the required parameter 'query' is set
         if ($query === null || (is_array($query) && count($query) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $query when calling testBodyWithQueryParams'
             );
         }
+
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
@@ -2608,10 +2629,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -2814,6 +2836,7 @@ class FakeApi
      */
     public function testClientModelRequest($client)
     {
+
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new \InvalidArgumentException(
@@ -2886,10 +2909,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PATCH',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -3103,6 +3127,7 @@ class FakeApi
      */
     public function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
+
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
             throw new \InvalidArgumentException(
@@ -3115,6 +3140,7 @@ class FakeApi
         if ($number < 32.1) {
             throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
         }
+
 
         // verify the required parameter 'double' is set
         if ($double === null || (is_array($double) && count($double) === 0)) {
@@ -3129,6 +3155,7 @@ class FakeApi
             throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
         }
 
+
         // verify the required parameter 'pattern_without_delimiter' is set
         if ($pattern_without_delimiter === null || (is_array($pattern_without_delimiter) && count($pattern_without_delimiter) === 0)) {
             throw new \InvalidArgumentException(
@@ -3139,18 +3166,21 @@ class FakeApi
             throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
         }
 
+
         // verify the required parameter 'byte' is set
         if ($byte === null || (is_array($byte) && count($byte) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $byte when calling testEndpointParameters'
             );
         }
+
         if ($integer !== null && $integer > 100) {
             throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
         }
         if ($integer !== null && $integer < 10) {
             throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
+
 
         if ($int32 !== null && $int32 > 200) {
             throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
@@ -3159,13 +3189,20 @@ class FakeApi
             throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
         }
 
+
+
         if ($float !== null && $float > 987.6) {
             throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
         }
 
+
         if ($string !== null && !preg_match("/[a-z]/i", $string)) {
             throw new \InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
         }
+
+
+
+
 
         if ($password !== null && strlen($password) > 64) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
@@ -3173,6 +3210,7 @@ class FakeApi
         if ($password !== null && strlen($password) < 10) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
+
 
 
         $resourcePath = '/fake';
@@ -3302,10 +3340,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -3495,6 +3534,15 @@ class FakeApi
     public function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_query_model_array = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
 
+
+
+
+
+
+
+
+
+
         $resourcePath = '/fake';
         $formParams = [];
         $queryParams = [];
@@ -3618,10 +3666,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -3819,18 +3868,23 @@ class FakeApi
                 'Missing the required parameter $required_string_group when calling testGroupParameters'
             );
         }
+
         // verify the required parameter 'required_boolean_group' is set
         if ($required_boolean_group === null || (is_array($required_boolean_group) && count($required_boolean_group) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $required_boolean_group when calling testGroupParameters'
             );
         }
+
         // verify the required parameter 'required_int64_group' is set
         if ($required_int64_group === null || (is_array($required_int64_group) && count($required_int64_group) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $required_int64_group when calling testGroupParameters'
             );
         }
+
+
+
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -3939,10 +3993,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'DELETE',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -4091,6 +4146,7 @@ class FakeApi
      */
     public function testInlineAdditionalPropertiesRequest($request_body)
     {
+
         // verify the required parameter 'request_body' is set
         if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
             throw new \InvalidArgumentException(
@@ -4163,10 +4219,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -4320,12 +4377,14 @@ class FakeApi
      */
     public function testJsonFormDataRequest($param, $param2)
     {
+
         // verify the required parameter 'param' is set
         if ($param === null || (is_array($param) && count($param) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $param when calling testJsonFormData'
             );
         }
+
         // verify the required parameter 'param2' is set
         if ($param2 === null || (is_array($param2) && count($param2) === 0)) {
             throw new \InvalidArgumentException(
@@ -4400,10 +4459,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -4574,42 +4634,49 @@ class FakeApi
      */
     public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
+
         // verify the required parameter 'pipe' is set
         if ($pipe === null || (is_array($pipe) && count($pipe) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pipe when calling testQueryParameterCollectionFormat'
             );
         }
+
         // verify the required parameter 'ioutil' is set
         if ($ioutil === null || (is_array($ioutil) && count($ioutil) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $ioutil when calling testQueryParameterCollectionFormat'
             );
         }
+
         // verify the required parameter 'http' is set
         if ($http === null || (is_array($http) && count($http) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $http when calling testQueryParameterCollectionFormat'
             );
         }
+
         // verify the required parameter 'url' is set
         if ($url === null || (is_array($url) && count($url) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $url when calling testQueryParameterCollectionFormat'
             );
         }
+
         // verify the required parameter 'context' is set
         if ($context === null || (is_array($context) && count($context) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $context when calling testQueryParameterCollectionFormat'
             );
         }
+
         // verify the required parameter 'allow_empty' is set
         if ($allow_empty === null || (is_array($allow_empty) && count($allow_empty) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $allow_empty when calling testQueryParameterCollectionFormat'
             );
         }
+
 
         $resourcePath = '/fake/test-query-parameters';
         $formParams = [];
@@ -4733,10 +4800,11 @@ class FakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

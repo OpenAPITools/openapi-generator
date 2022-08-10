@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * Dog
@@ -52,7 +54,8 @@ public class Dog extends Animal {
   @XmlElement(name = "breed")
   private String breed;
 
-  public Dog() { 
+  public Dog() {
+
   }
 
   public Dog breed(String breed) {
