@@ -90,7 +90,7 @@ function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: an
         } 
         else {
             Object.keys(parameter).forEach(currentKey => 
-                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}.${currentKey}`)
+                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}${key !== '' ? '.' : ''}${currentKey}`)
             );
         }
     } 
