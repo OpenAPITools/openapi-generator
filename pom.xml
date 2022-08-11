@@ -1146,6 +1146,7 @@
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-autoload</module>
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
