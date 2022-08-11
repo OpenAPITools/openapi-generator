@@ -19,7 +19,7 @@ require 'x_auth_id_alias/configuration'
 # Models
 
 # APIs
-require 'x_auth_id_alias/api/usage_api'
+XAuthIDAlias.autoload :UsageApi, 'x_auth_id_alias/api/usage_api'
 
 module XAuthIDAlias
   class << self

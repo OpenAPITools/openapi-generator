@@ -11,23 +11,14 @@ require '{{gemName}}/configuration'
 # Models
 {{#models}}
 {{#model}}
-{{^parent}}
-require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
-{{/parent}}
-{{/model}}
-{{/models}}
-{{#models}}
-{{#model}}
-{{#parent}}
-require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
-{{/parent}}
+{{moduleName}}.autoload :{{classname}}, '{{gemName}}/{{modelPackage}}/{{classFilename}}'
 {{/model}}
 {{/models}}
 
 # APIs
 {{#apiInfo}}
 {{#apis}}
-require '{{importPath}}'
+{{moduleName}}.autoload :{{classname}}, '{{importPath}}'
 {{/apis}}
 {{/apiInfo}}
 
