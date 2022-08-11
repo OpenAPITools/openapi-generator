@@ -90,6 +90,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasMultipleTypes = false;
     private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
+    private String ref;
 
     @Override
     public int hashCode() {
@@ -102,7 +103,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, responseHeaders, content,
-                requiredVarsMap);
+                requiredVarsMap, ref);
     }
 
     @Override
@@ -151,6 +152,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(content, that.getContent()) &&
                 Objects.equals(responseHeaders, that.getResponseHeaders()) &&
@@ -542,6 +544,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", responseHeaders=").append(responseHeaders);
         sb.append(", content=").append(content);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
+        sb.append(", ref=").append(ref);
         sb.append('}');
         return sb.toString();
     }
@@ -675,4 +678,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+
+    @Override
+    public String getRef() { return ref; }
+
+    @Override
+    public void setRef(String ref) { this.ref=ref; }
 }
