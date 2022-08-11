@@ -35,6 +35,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -453,6 +456,30 @@ public class PythonClientTest {
         Assert.assertEquals(property1.baseName, "datetime");
         Assert.assertEquals(property1.pattern, "/[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z/");
         Assert.assertEquals(property1.vendorExtensions.get("x-regex"), "[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z");
+
+        // ignore warnings, should be the same as in issue_11521.yaml
+        Pattern pattern = Pattern.compile("[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z");
+        Matcher matcher = pattern.matcher(property1.example);
+        Assert.assertTrue(matcher.find());
+    }
+
+    @Test(description = "tests uuid example works even if a pattern is provided")
+    public void testUuidExampleWorksEvenIfPatternIsDefined() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issues_13069.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getPaths().get("/test").getGet();
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegen.setParameterExampleValue(codegenParameter, operation.getParameters().get(0));
+
+        String modelName = "UUID";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+
+        Pattern pattern = Pattern.compile("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}");
+        Matcher matcher = pattern.matcher(codegenParameter.example);
+        Assert.assertTrue(matcher.find());
     }
 
     @Test(description = "tests RecursiveToExample")
