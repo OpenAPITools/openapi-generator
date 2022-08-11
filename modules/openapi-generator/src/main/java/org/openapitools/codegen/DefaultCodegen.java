@@ -2892,6 +2892,9 @@ public class DefaultCodegen implements CodegenConfig {
             // schema by unaliasSchema and one of the above code paths will be taken
             ;
         }
+        if (schema.get$ref() != null) {
+            m.setRef(schema.get$ref());
+        }
 
         if (schema instanceof ComposedSchema) {
             updateModelForComposedSchema(m, schema, allDefinitions);
@@ -3762,6 +3765,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (!ModelUtils.isNullType(p)) {
             // referenced model
             ;
+        }
+        if (p.get$ref() != null) {
+            property.setRef(p.get$ref());
         }
 
         boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
