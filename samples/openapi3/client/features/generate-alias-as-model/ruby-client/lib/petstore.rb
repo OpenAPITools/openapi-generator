@@ -17,11 +17,11 @@ require 'petstore/version'
 require 'petstore/configuration'
 
 # Models
-Petstore.autoload :ArrayAlias, 'petstore/models/array_alias'
-Petstore.autoload :MapAlias, 'petstore/models/map_alias'
+require 'petstore/models/map_alias'
+require 'petstore/models/array_alias'
 
 # APIs
-Petstore.autoload :UsageApi, 'petstore/api/usage_api'
+require 'petstore/api/usage_api'
 
 module Petstore
   class << self
