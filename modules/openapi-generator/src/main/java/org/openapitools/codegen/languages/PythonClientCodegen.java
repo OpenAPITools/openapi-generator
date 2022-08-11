@@ -1173,7 +1173,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     String pattern = schema.getPattern();
                     /*
                     RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
-                    So strip off the leading / and trailing / and turn on ignore case if we have it
+                    So strip off the leading /, trailing / and trailing /i, and turn on ignore case if we have it
                      */
                     Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(i?)$");
                     Matcher m = valueExtractor.matcher(pattern);
