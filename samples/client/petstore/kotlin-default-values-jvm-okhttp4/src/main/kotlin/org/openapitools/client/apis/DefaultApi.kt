@@ -40,7 +40,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath) {
+class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -223,7 +223,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
         
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/test".replace("{"+"pi0"+"}", "$pi0").replace("{"+"pi1"+"}", "$pi1").replace("{"+"pn0"+"}", "$pn0").replace("{"+"pn1"+"}", "$pn1"),
+            path = "/test".replace("{"+"pi0"+"}", pi0.toString()).replace("{"+"pi1"+"}", pi1.toString()).replace("{"+"pn0"+"}", pn0.toString()).replace("{"+"pn1"+"}", pn1.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

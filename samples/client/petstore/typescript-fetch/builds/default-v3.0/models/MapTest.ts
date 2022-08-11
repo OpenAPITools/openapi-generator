@@ -56,6 +56,15 @@ export const MapTestMapOfEnumStringEnum = {
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
 
+/**
+ * Check if a given object implements the MapTest interface.
+ */
+export function instanceOfMapTest(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function MapTestFromJSON(json: any): MapTest {
     return MapTestFromJSONTyped(json, false);
 }

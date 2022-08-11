@@ -1069,6 +1069,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              # Export data as Excel spreadsheet.
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
       security:
         - petstore_auth:
             - 'write:pets'
@@ -1697,6 +1701,8 @@ components:
             items:
               $ref: '#/components/schemas/ReadOnlyFirst'
     NumberOnly:
+      x-cls-compliant: true
+      x-com-visible: true
       type: object
       properties:
         JustNumber:

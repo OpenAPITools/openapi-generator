@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -74,9 +76,9 @@ class Category(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'name',
-    ))
+    _required_property_names = {
+        "name",
+    }
     id = Int64Schema
     name = StrSchema
 

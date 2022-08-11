@@ -1,0 +1,35 @@
+{{#if isMap}}
+{
+{{#each value}}
+{{#with @key}}
+    {{> model_templates/payload_renderer endChar=':'}}
+{{/with}}
+{{#with this}}
+        {{> model_templates/payload_renderer endChar=','}}
+{{/with}}
+{{/each}}
+}{{endChar}}
+{{/if}}
+{{#if isArray}}
+[
+{{#each value}}
+    {{> model_templates/payload_renderer endChar=','}}
+{{/each}}
+]{{endChar}}
+{{/if}}
+{{#or isNumber isUnboundedInteger}}
+{{value}}{{endChar}}
+{{/or}}
+{{#if isBoolean}}
+{{#if value}}
+True{{endChar}}
+{{else}}
+False{{endChar}}
+{{/if}}
+{{/if}}
+{{#if isNull}}
+None{{endChar}}
+{{/if}}
+{{#if isString}}
+"{{{value}}}"{{endChar}}
+{{/if}}

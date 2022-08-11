@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = true)]
         public string ClassName
         {
             get{ return _ClassName;}

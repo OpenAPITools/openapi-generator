@@ -70,6 +70,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelsCmdletVerb = "Initialize";
     protected boolean useClassNameInModelsExamples = true;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
      */
@@ -907,6 +909,18 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String toModelName(String name) {
+        // check if schema-mapping has a different model for this class, so we can use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -932,6 +946,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
+
+        schemaKeyToModelNameCache.put(origName, name);
 
         return name;
     }
@@ -1566,7 +1582,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            return "NUMBER_" + varName;
         }
 
         // remove special character

@@ -10,13 +10,14 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springfox.version>2.9.2</springfox.version>
+        <springdoc.version>1.6.8</springdoc.version>
+        <virtualan.version>2.5.2</virtualan.version>
         <swagger-ui.version>4.10.3</swagger-ui.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.14</version>
+        <version>2.7.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <build>
@@ -37,20 +38,11 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
-        <!--SpringFox dependencies -->
+          <!--SpringDoc dependencies -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>swagger-ui</artifactId>
-            <version>${swagger-ui.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator-core</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>
@@ -80,13 +72,12 @@
         <dependency>
             <groupId>io.virtualan</groupId>
             <artifactId>virtualan-plugin</artifactId>
-            <version>2.2.1</version>
+            <version>${virtualan.version}</version>
         </dependency>
         <!-- HyperSQL DB -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.0</version>
         </dependency>
     <!-- END Virtual Service API support -->
         <dependency>

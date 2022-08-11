@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ParentPet extends GrandparentAnimal {
-  public ParentPet() { 
+  public ParentPet() {
     this.petType = this.getClass().getSimpleName();
   }
   /**

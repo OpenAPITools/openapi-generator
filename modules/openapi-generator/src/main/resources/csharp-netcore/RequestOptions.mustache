@@ -60,6 +60,13 @@ namespace {{packageName}}.Client
         /// </summary>
         public Object Data { get; set; }
 
+        {{#hasOAuthMethods}}
+        /// <summary>
+        /// If request should be authenticated with OAuth.
+        /// </summary>
+        public bool OAuth { get; set; }
+
+        {{/hasOAuthMethods}}
         /// <summary>
         /// Constructs a new instance of <see cref="RequestOptions"/>
         /// </summary>

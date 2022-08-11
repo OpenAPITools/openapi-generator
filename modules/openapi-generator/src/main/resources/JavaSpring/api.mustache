@@ -50,8 +50,14 @@ import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
 
 {{#useBeanValidation}}
+{{#useJakartaEe}}
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+{{/useJakartaEe}}
 {{/useBeanValidation}}
 import java.util.List;
 import java.util.Map;
@@ -66,7 +72,12 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
+{{#useJakartaEe}}
+import jakarta.annotation.Generated;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.annotation.Generated;
+{{/useJakartaEe}}
 
 {{>generatedAnnotation}}
 {{#useBeanValidation}}
@@ -85,6 +96,9 @@ import javax.annotation.Generated;
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{=<% %>=}}
+@RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
+<%={{ }}=%>
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}
@@ -123,6 +137,9 @@ public interface {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
@@ -190,14 +207,15 @@ public interface {{classname}} {
         {{#implicitHeadersParams}}
         {{>paramDoc}}{{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
+    })
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiImplicitParams({
         {{#implicitHeadersParams}}
         {{>implicitHeader}}{{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
-    {{/swagger1AnnotationLibrary}}
     })
+    {{/swagger1AnnotationLibrary}}
     {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},

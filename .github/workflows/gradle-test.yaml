@@ -32,6 +32,7 @@ jobs:
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/jersey2-java8
           - samples/client/petstore/java/okhttp-gson
+          - samples/client/petstore/java/okhttp-gson-group-parameter
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3

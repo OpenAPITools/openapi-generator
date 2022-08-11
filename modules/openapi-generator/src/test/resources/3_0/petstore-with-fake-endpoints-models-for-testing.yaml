@@ -33,6 +33,21 @@ paths:
     servers:
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
+    - url: 'http://{server}.swagger.io:{port}/v2'
+      description: test server with variables
+      variables:
+        server:
+          description: target server
+          enum:
+            - 'petstore'
+            - 'qa-petstore'
+            - 'dev-petstore'
+          default: 'petstore'
+        port:
+          enum:
+            - 80
+            - 8080
+          default: 80
     post:
       tags:
         - pet

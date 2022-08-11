@@ -347,7 +347,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             // specification is aligned with the JSON schema specification.
             // When "items" is not specified, the elements of the array may be anything at all.
             if (inner != null) {
-                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+                inner = unaliasSchema(inner);
             }
             String typDecl;
             if (inner != null) {
@@ -361,10 +361,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            return getSchemaType(p) + "[string]" +  getTypeDeclaration(unaliasSchema(inner));
         }
-        //return super.getTypeDeclaration(p);
 
+        //return super.getTypeDeclaration(p);
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
@@ -626,13 +626,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOSImport = false;
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
-            for (CodegenProperty param : model.vars) {
-                if (!addedTimeImport
-                    && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
+            for (CodegenProperty cp : model.vars) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
+                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && OS_FILE_TYPE.equals(param.baseType)) {
+                if (!addedOSImport && (OS_FILE_TYPE.equals(cp.dataType) ||
+                        (cp.items != null && OS_FILE_TYPE.equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -793,7 +794,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
-        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
+        schema = unaliasSchema(schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {

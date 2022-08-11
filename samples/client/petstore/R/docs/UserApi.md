@@ -25,13 +25,24 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
+var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
 #Create user
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$CreateUser(var.user)
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
+result <- tryCatch(
+             api_instance$CreateUser(var_user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `CreateUser`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+}
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -69,13 +80,24 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$CreateUsersWithArrayInput(var.user)
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
+result <- tryCatch(
+             api_instance$CreateUsersWithArrayInput(var_user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `CreateUsersWithArrayInput`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+}
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -113,13 +135,24 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$CreateUsersWithListInput(var.user)
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
+result <- tryCatch(
+             api_instance$CreateUsersWithListInput(var_user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `CreateUsersWithListInput`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+}
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -157,13 +190,24 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | The name that needs to be deleted
+var_username <- "username_example" # character | The name that needs to be deleted
 
 #Delete user
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$DeleteUser(var.username)
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
+result <- tryCatch(
+             api_instance$DeleteUser(var_username),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `DeleteUser`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+}
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -202,12 +246,28 @@ Get user by user name
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
+var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 
 #Get user by user name
-api.instance <- UserApi$new()
-result <- api.instance$GetUserByName(var.username)
-dput(result)
+api_instance <- UserApi$new()
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$GetUserByName(var_username, data_file = "result.txt"),
+             api_instance$GetUserByName(var_username),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `GetUserByName`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+} else {
+  # deserialized response object
+  print("The response is ...")
+  dput(result$toString())
+}
+
 ```
 
 ### Parameters
@@ -247,13 +307,29 @@ Logs user into the system
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | The user name for login
-var.password <- 'password_example' # character | The password for login in clear text
+var_username <- "username_example" # character | The user name for login
+var_password <- "password_example" # character | The password for login in clear text
 
 #Logs user into the system
-api.instance <- UserApi$new()
-result <- api.instance$LoginUser(var.username, var.password)
-dput(result)
+api_instance <- UserApi$new()
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$LoginUser(var_username, var_password, data_file = "result.txt"),
+             api_instance$LoginUser(var_username, var_password),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `LoginUser`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+} else {
+  # deserialized response object
+  print("The response is ...")
+  dput(result$toString())
+}
+
 ```
 
 ### Parameters
@@ -295,10 +371,21 @@ library(petstore)
 
 
 #Logs out current logged in user session
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$LogoutUser()
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
+result <- tryCatch(
+             api_instance$LogoutUser(),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `LogoutUser`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+}
+# This endpoint doesn't return data
 ```
 
 ### Parameters
@@ -333,14 +420,25 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.username <- 'username_example' # character | name that need to be deleted
-var.user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
+var_username <- "username_example" # character | name that need to be deleted
+var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-api.instance$UpdateUser(var.username, var.user)
+api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
+result <- tryCatch(
+             api_instance$UpdateUser(var_username, var_user),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `UpdateUser`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object)
+}
+# This endpoint doesn't return data
 ```
 
 ### Parameters

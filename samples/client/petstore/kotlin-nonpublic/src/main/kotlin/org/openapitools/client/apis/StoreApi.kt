@@ -41,7 +41,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath) {
+internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -109,7 +109,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -246,7 +246,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

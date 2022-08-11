@@ -110,7 +110,7 @@ public class OAuth implements Authentication {
                 return service.refreshAccessToken(refreshToken);
             }
         } catch (OAuthException | InterruptedException | ExecutionException | IOException e) {
-            log.log(Level.FINE, "Refreshing the access token using the refresh token failed", e);
+            throw new ApiException("Refreshing the access token using the refresh token failed: " + e.toString());
         }
         try {
             switch (flow) {

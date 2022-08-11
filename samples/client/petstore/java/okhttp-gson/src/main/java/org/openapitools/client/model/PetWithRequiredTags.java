@@ -126,7 +126,7 @@ public class PetWithRequiredTags {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
-  public PetWithRequiredTags() { 
+  public PetWithRequiredTags() {
   }
 
   public PetWithRequiredTags id(Long id) {
@@ -405,14 +405,14 @@ public class PetWithRequiredTags {
         }
       }
       // validate the optional field `category`
-      if (jsonObj.getAsJsonObject("category") != null) {
+      if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
       }
-      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
       // ensure the json data is an array
-      if (jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonArray()) {
+      if ((jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonNull()) && !jsonObj.get("photoUrls").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
@@ -427,7 +427,7 @@ public class PetWithRequiredTags {
           Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
         };
       }
-      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonPrimitive()) {
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
   }

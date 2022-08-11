@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -96,7 +98,7 @@ class EquilateralTriangle(
             class triangleType(
                 _SchemaEnumMaker(
                     enum_value_to_name={
-                        "EquilateralTriangle": "EQUILATERALTRIANGLE",
+                        "EquilateralTriangle": "EQUILATERAL_TRIANGLE",
                     }
                 ),
                 StrSchema
@@ -104,7 +106,7 @@ class EquilateralTriangle(
                 
                 @classmethod
                 @property
-                def EQUILATERALTRIANGLE(cls):
+                def EQUILATERAL_TRIANGLE(cls):
                     return cls("EquilateralTriangle")
         
         

@@ -45,6 +45,8 @@ class FileSchemaTestClass {
     final _json = <String, dynamic>{};
     if (file != null) {
       _json[r'file'] = file;
+    } else {
+      _json[r'file'] = null;
     }
       _json[r'files'] = files;
     return _json;

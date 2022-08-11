@@ -47,7 +47,7 @@ import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -224,7 +224,7 @@ import {{packageName}}.infrastructure.toMultiValue
 
         return RequestConfig(
             method = RequestMethod.{{httpMethod}},
-            path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},
+            path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

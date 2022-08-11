@@ -1021,6 +1021,23 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineSchemaNameDefault() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        inlineSchemaNameDefaults.put("arrayItemSuffix", "_something");
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("resolveInlineArrayRequestBody_request_something");
+        assertTrue(schema.getProperties().get("street") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("city") instanceof StringSchema);
+
+        Schema nothingNew = openAPI.getComponents().getSchemas().get("arbitraryRequestBodyArrayProperty_request_something");
+        assertTrue(nothingNew.getProperties().get("arbitrary_request_body_array_property") instanceof ObjectSchema);
+    }
+
+    @Test
     public void resolveInlineRequestBodyAllOf() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);

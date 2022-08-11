@@ -45,6 +45,8 @@ class Category {
     final _json = <String, dynamic>{};
     if (id != null) {
       _json[r'id'] = id;
+    } else {
+      _json[r'id'] = null;
     }
       _json[r'name'] = name;
     return _json;

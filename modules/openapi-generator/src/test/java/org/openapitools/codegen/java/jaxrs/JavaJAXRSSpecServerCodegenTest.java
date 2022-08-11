@@ -687,4 +687,43 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                     .assertParameterAnnotations()
                     .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
     }
+
+    @Test
+    public void arrayNullableDefaultValueTests() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_13025.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated model contains correct default value for array properties (optional)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Body.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Body.java"),
+                "\nprivate @Valid List<String> arrayThatIsNull = null;\n");
+
+        //And the generated model contains correct default value for array properties (required, nullable)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequiredNullalble.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequiredNullalble.java"),
+                "\nprivate @Valid List<String> arrayThatIsNull = null;\n");
+
+        //And the generated model contains correct default value for array properties (required)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
+                "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
+
+    }
 }

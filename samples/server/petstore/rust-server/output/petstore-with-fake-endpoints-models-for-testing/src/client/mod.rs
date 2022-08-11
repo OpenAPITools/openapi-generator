@@ -90,7 +90,7 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
         }
     }
 
-    let host = uri.host().ok_or_else(|| ClientInitError::MissingHost)?;
+    let host = uri.host().ok_or(ClientInitError::MissingHost)?;
     let port = uri.port_u16().map(|x| format!(":{}", x)).unwrap_or_default();
     Ok(format!("{}://{}{}{}", scheme, host, port, uri.path().trim_end_matches('/')))
 }
@@ -229,7 +229,7 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
             "https" => {
                 let connector = connector.https()
                    .build()
-                   .map_err(|e| ClientInitError::SslError(e))?;
+                   .map_err(ClientInitError::SslError)?;
                 HyperClient::Https(hyper::client::Client::builder().build(connector))
             },
             _ => {
@@ -281,7 +281,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
         let https_connector = Connector::builder()
             .https()
             .build()
-            .map_err(|e| ClientInitError::SslError(e))?;
+            .map_err(ClientInitError::SslError)?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -302,7 +302,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
             .https()
             .pin_server_certificate(ca_certificate)
             .build()
-            .map_err(|e| ClientInitError::SslError(e))?;
+            .map_err(ClientInitError::SslError)?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -330,7 +330,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
             .pin_server_certificate(ca_certificate)
             .client_authentication(client_key, client_certificate)
             .build()
-            .map_err(|e| ClientInitError::SslError(e))?;
+            .map_err(ClientInitError::SslError)?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
@@ -462,13 +462,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -539,18 +539,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     Call123exampleResponse::Success
                 )
@@ -621,13 +620,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -711,13 +710,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -801,13 +800,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -891,13 +890,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -968,18 +967,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     FakeResponseWithNumericalDescriptionResponse::Status200
                 )
@@ -1039,18 +1037,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     HyphenParamResponse::Success
                 )
@@ -1120,18 +1117,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     TestBodyWithQueryParamsResponse::Success
                 )
@@ -1198,13 +1194,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1313,7 +1309,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -1336,18 +1332,16 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     TestEndpointParametersResponse::InvalidUsernameSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     TestEndpointParametersResponse::UserNotFound
                 )
@@ -1439,7 +1433,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -1476,18 +1470,16 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     TestEnumParametersResponse::InvalidRequest
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     TestEnumParametersResponse::NotFound
                 )
@@ -1554,18 +1546,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     TestInlineAdditionalPropertiesResponse::SuccessfulOperation
                 )
@@ -1637,18 +1628,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     TestJsonFormDataResponse::SuccessfulOperation
                 )
@@ -1723,7 +1713,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -1736,7 +1726,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1817,7 +1807,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -1840,12 +1830,11 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             405 => {
-                let body = response.into_body();
                 Ok(
                     AddPetResponse::InvalidInput
                 )
@@ -1906,7 +1895,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -1945,12 +1934,11 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     DeletePetResponse::InvalidPetValue
                 )
@@ -2011,7 +1999,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2034,7 +2022,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2054,7 +2042,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     FindPetsByStatusResponse::InvalidStatusValue
                 )
@@ -2115,7 +2102,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2138,7 +2125,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2158,7 +2145,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     FindPetsByTagsResponse::InvalidTagValue
                 )
@@ -2218,7 +2204,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2231,7 +2217,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2251,13 +2237,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     GetPetByIdResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     GetPetByIdResponse::PetNotFound
                 )
@@ -2324,7 +2308,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2347,24 +2331,21 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetResponse::PetNotFound
                 )
             }
             405 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetResponse::ValidationException
                 )
@@ -2438,7 +2419,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2461,12 +2442,11 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             405 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetWithFormResponse::InvalidInput
                 )
@@ -2583,7 +2563,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2606,7 +2586,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2679,24 +2659,22 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     DeleteOrderResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     DeleteOrderResponse::OrderNotFound
                 )
@@ -2754,7 +2732,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
@@ -2767,7 +2745,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2840,13 +2818,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2866,13 +2844,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     GetOrderByIdResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     GetOrderByIdResponse::OrderNotFound
                 )
@@ -2941,13 +2917,13 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2967,7 +2943,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     PlaceOrderResponse::InvalidOrder
                 )
@@ -3035,18 +3010,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     CreateUserResponse::SuccessfulOperation
                 )
@@ -3113,18 +3087,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     CreateUsersWithArrayInputResponse::SuccessfulOperation
                 )
@@ -3191,18 +3164,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     CreateUsersWithListInputResponse::SuccessfulOperation
                 )
@@ -3262,24 +3234,22 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     DeleteUserResponse::InvalidUsernameSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     DeleteUserResponse::UserNotFound
                 )
@@ -3339,13 +3309,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3365,13 +3335,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     GetUserByNameResponse::InvalidUsernameSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     GetUserByNameResponse::UserNotFound
                 )
@@ -3435,13 +3403,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3495,7 +3463,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     LoginUserResponse::InvalidUsername
                 )
@@ -3553,18 +3520,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     LogoutUserResponse::SuccessfulOperation
                 )
@@ -3635,24 +3601,22 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     UpdateUserResponse::InvalidUserSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     UpdateUserResponse::UserNotFound
                 )

@@ -72,7 +72,7 @@ public class TypeHolderDefault {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderDefault() { 
+  public TypeHolderDefault() {
   }
 
   public TypeHolderDefault stringItem(String stringItem) {
@@ -292,11 +292,11 @@ public class TypeHolderDefault {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("string_item") != null && !jsonObj.get("string_item").isJsonPrimitive()) {
+      if ((jsonObj.get("string_item") != null && !jsonObj.get("string_item").isJsonNull()) && !jsonObj.get("string_item").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_item` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_item").toString()));
       }
       // ensure the json data is an array
-      if (jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonArray()) {
+      if ((jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonNull()) && !jsonObj.get("array_item").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_item` to be an array in the JSON string but got `%s`", jsonObj.get("array_item").toString()));
       }
   }

@@ -28,7 +28,8 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Locale
-import com.squareup.moshi.adapter
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
@@ -105,7 +106,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
-                    Serializer.moshi.adapter(T::class.java).toJson(content)
+                    Serializer.kotlinxSerializationJson.encodeToString(content)
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
@@ -113,22 +114,25 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
-    @OptIn(ExperimentalStdlibApi::class)
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
         if(body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
-            // return tempfile
-            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // return tempFile
+            val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
             } else {
                 @Suppress("DEPRECATION")
                 createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
             }
-            f.deleteOnExit()
-            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
-            return f as T
+            tempFile.deleteOnExit()
+            body.byteStream().use { inputStream ->
+                tempFile.outputStream().use { tempFileOutputStream ->
+                    inputStream.copyTo(tempFileOutputStream)
+                }
+            }
+            return tempFile as T
         }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
@@ -136,7 +140,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         }
         return when {
             mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
-                Serializer.moshi.adapter<T>().fromJson(bodyContent)
+                Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }

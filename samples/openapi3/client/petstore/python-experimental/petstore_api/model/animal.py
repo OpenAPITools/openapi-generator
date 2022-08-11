@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -74,9 +76,9 @@ class Animal(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'className',
-    ))
+    _required_property_names = {
+        "className",
+    }
     className = StrSchema
     color = StrSchema
 

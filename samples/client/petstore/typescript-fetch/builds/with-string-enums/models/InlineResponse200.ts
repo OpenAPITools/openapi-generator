@@ -30,7 +30,7 @@ export interface InlineResponse200 {
      * @type {string}
      * @memberof InlineResponse200
      */
-    nullableStringEnum?: InlineResponse200NullableStringEnumEnum;
+    nullableStringEnum?: string | null;
     /**
      * 
      * @type {number}
@@ -42,7 +42,7 @@ export interface InlineResponse200 {
      * @type {number}
      * @memberof InlineResponse200
      */
-    nullableNumberEnum?: InlineResponse200NullableNumberEnumEnum;
+    nullableNumberEnum?: number | null;
 }
 
 /**
@@ -58,25 +58,7 @@ export enum InlineResponse200StringEnumEnum {
 * @export
 * @enum {string}
 */
-export enum InlineResponse200NullableStringEnumEnum {
-    One = 'one',
-    Two = 'two',
-    Three = 'three'
-}
-/**
-* @export
-* @enum {string}
-*/
 export enum InlineResponse200NumberEnumEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
-}
-/**
-* @export
-* @enum {string}
-*/
-export enum InlineResponse200NullableNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3

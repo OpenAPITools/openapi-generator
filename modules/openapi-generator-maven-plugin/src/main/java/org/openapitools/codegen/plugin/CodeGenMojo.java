@@ -299,10 +299,22 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> importMappings;
 
     /**
+     * A map of scheme and the new one
+     */
+    @Parameter(name = "schemaMappings", property = "openapi.generator.maven.plugin.schemaMappings")
+    private List<String> schemaMappings;
+
+    /**
      * A map of inline scheme names and the new names
      */
     @Parameter(name = "inlineSchemaNameMappings", property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
     private List<String> inlineSchemaNameMappings;
+
+    /**
+     * A map of inline scheme naming convention and the value
+     */
+    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
+    private List<String> inlineSchemaNameDefaults;
 
     /**
      * A map of swagger spec types and the generated code types to use for them
@@ -665,9 +677,21 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> schema-mappings
+                if (schemaMappings == null && configOptions.containsKey("schema-mappings")) {
+                    applySchemaMappingsKvp(configOptions.get("schema-mappings").toString(),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
-                if (importMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
+                if (inlineSchemaNameMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
                     applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
+                            configurator);
+                }
+
+                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
+                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
+                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
                             configurator);
                 }
 
@@ -709,9 +733,19 @@ public class CodeGenMojo extends AbstractMojo {
                 applyImportMappingsKvpList(importMappings, configurator);
             }
 
+            // Apply Schema Mappings
+            if (schemaMappings != null && (configOptions == null || !configOptions.containsKey("schema-mappings"))) {
+                applySchemaMappingsKvpList(schemaMappings, configurator);
+            }
+
             // Apply Inline Schema Name Mappings
             if (inlineSchemaNameMappings != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-mappings"))) {
                 applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
+            }
+
+            // Apply Inline Schema Name Defaults
+            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
+                applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
             }
 
             // Apply Type Mappings

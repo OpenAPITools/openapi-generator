@@ -44,7 +44,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath) {
+class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -184,7 +184,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -414,7 +414,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -557,7 +557,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
         
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -635,7 +635,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

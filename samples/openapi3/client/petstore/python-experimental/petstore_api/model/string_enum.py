@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -67,18 +69,16 @@ from petstore_api.schemas import (  # noqa: F401
 
 
 class StringEnum(
-    _SchemaTypeChecker(typing.Union[none_type, str, ]),
+    _SchemaTypeChecker(typing.Union[NoneClass, str, ]),
     _SchemaEnumMaker(
         enum_value_to_name={
-            None: "NONE",
+            NoneClass.NONE: "NONE",
             "placed": "PLACED",
             "approved": "APPROVED",
             "delivered": "DELIVERED",
             "single quoted": "SINGLE_QUOTED",
-            '''multiple
-lines''': "MULTIPLE_LINES",
-            '''double quote 
- with newline''': "DOUBLE_QUOTE_WITH_NEWLINE",
+            "multiple\nlines": "MULTIPLE_LINES",
+            "double quote \n with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
         }
     ),
     StrBase,
@@ -94,7 +94,7 @@ lines''': "MULTIPLE_LINES",
     @classmethod
     @property
     def NONE(cls):
-        return cls._enum_by_value[None](None)
+        return cls(None)
     
     @classmethod
     @property
@@ -119,14 +119,12 @@ lines''': "MULTIPLE_LINES",
     @classmethod
     @property
     def MULTIPLE_LINES(cls):
-        return cls('''multiple
-lines''')
+        return cls("multiple\nlines")
     
     @classmethod
     @property
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
-        return cls('''double quote 
- with newline''')
+        return cls("double quote \n with newline")
 
     def __new__(
         cls,

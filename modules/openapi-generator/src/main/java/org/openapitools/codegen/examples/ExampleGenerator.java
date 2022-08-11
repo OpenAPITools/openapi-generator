@@ -170,6 +170,9 @@ public class ExampleGenerator {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
                     }
+                } else {
+                    kv.put(EXAMPLE, "Custom MIME type example not yet supported: " + mediaType);
+                    output.add(kv);
                 }
             }
         } else {
