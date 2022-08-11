@@ -165,6 +165,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsAnyType(boolean isAnyType);
 
+    String getRef();
+
+    void setRef(String ref);
+
     CodegenComposedSchemas getComposedSchemas();
 
     void setComposedSchemas(CodegenComposedSchemas composedSchemas);
