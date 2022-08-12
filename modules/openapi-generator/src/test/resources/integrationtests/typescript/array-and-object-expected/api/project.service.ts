@@ -184,7 +184,8 @@ export class ProjectService {
             }
         }
 
-        return this.httpClient.post<ProjectEntity>(`${this.configuration.basePath}/projects`,
+        let localVarPath = `/projects`;
+        return this.httpClient.post<ProjectEntity>(`${this.configuration.basePath}${localVarPath}`,
             localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
             {
                 context: localVarHttpContext,
@@ -243,7 +244,8 @@ export class ProjectService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/projects/${encodeURIComponent(String(id))}`,
+        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false})}`;
+        return this.httpClient.delete<any>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -301,7 +303,8 @@ export class ProjectService {
             }
         }
 
-        return this.httpClient.get<ProjectEntity>(`${this.configuration.basePath}/projects/${encodeURIComponent(String(id))}`,
+        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false})}`;
+        return this.httpClient.get<ProjectEntity>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -397,7 +400,8 @@ export class ProjectService {
             }
         }
 
-        return this.httpClient.get<ProjectList>(`${this.configuration.basePath}/projects`,
+        let localVarPath = `/projects`;
+        return this.httpClient.get<ProjectList>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -498,7 +502,8 @@ export class ProjectService {
             }
         }
 
-        return this.httpClient.put<ProjectEntity>(`${this.configuration.basePath}/projects/${encodeURIComponent(String(id))}`,
+        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false})}`;
+        return this.httpClient.put<ProjectEntity>(`${this.configuration.basePath}${localVarPath}`,
             localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
             {
                 context: localVarHttpContext,

@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -68,7 +69,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
-    public static final String PARAM_EXPANSION_STRATEGY = "paramExpansionStrategy";
 
     protected String ngVersion = "13.0.1";
     protected String npmRepository = null;
@@ -83,7 +83,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
     private boolean taggedUnions = false;
-    private ParameterExpander.STRATEGY paramExpansionStrategy = ParameterExpander.STRATEGY.legacy;
 
     public TypeScriptAngularClientCodegen() {
         super();
@@ -116,7 +115,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(buildParamExpansionStrategyCliOpt());
         CliOption providedInCliOpt = new CliOption(PROVIDED_IN,
                 "Use this property to provide Injectables in wanted level.").defaultValue("root");
         Map<String, String> providedInOptions = new HashMap<>();
@@ -136,20 +134,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
-    }
-
-    private CliOption buildParamExpansionStrategyCliOpt() {
-        CliOption cliOpt = new CliOption(
-                PARAM_EXPANSION_STRATEGY,
-                "Use a custom method in the generated service for path parameter expansion" +
-                        " (i.e.: implement your own matrix params)"
-        ).defaultValue(ParameterExpander.STRATEGY.legacy.name());
-
-        Map<String, String> paramExpansionOpts = Arrays.stream(ParameterExpander.STRATEGY.values())
-                .collect(Collectors.toMap(e -> e.name(), e -> e.description));
-        cliOpt.setEnum(paramExpansionOpts);
-
-        return cliOpt;
     }
 
     @Override
@@ -180,6 +164,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
+        supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
@@ -224,12 +209,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
-        }
-
-        if (additionalProperties.containsKey(PARAM_EXPANSION_STRATEGY)) {
-            setParamExpansionStrategy(additionalProperties.get(PARAM_EXPANSION_STRATEGY).toString());
-            additionalProperties.put("customPathParameterStrategy", true);
-            supportingFiles.add(new SupportingFile("parameter.mustache", getIndexDirectory(), "parameter.ts"));
         }
 
         if (additionalProperties.containsKey(PROVIDED_IN)) {
@@ -421,15 +400,17 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         List<CodegenOperation> ops = objs.getOperation();
         boolean hasSomeFormParams = false;
+        boolean hasSomeEncodableParams = false;
         for (CodegenOperation op : ops) {
             if (op.getHasFormParams()) {
                 hasSomeFormParams = true;
             }
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
 
+
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
-            ParameterExpander paramExpander = new ParameterExpander(paramExpansionStrategy, op, this::toParamName);
+            ParameterExpander paramExpander = new ParameterExpander(op, this::toParamName);
             int insideCurly = 0;
 
             // Iterate through existing string, one character at a time.
@@ -444,6 +425,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                         insideCurly--;
 
                         pathBuffer.append(paramExpander.buildPathEntry());
+                        hasSomeEncodableParams = true;
                         break;
                     default:
                         char nextChar = op.path.charAt(i);
@@ -461,6 +443,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         operations.put("hasSomeFormParams", hasSomeFormParams);
+        operations.put("hasSomeEncodableParams", hasSomeEncodableParams);
 
         // Add additional filename information for model imports in the services
         List<Map<String, String>> imports = operations.getImports();
@@ -705,7 +688,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         try {
             queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.valueOf(format);
         } catch (IllegalArgumentException e) {
-            String values = enumValues(QUERY_PARAM_OBJECT_FORMAT_TYPE.class);
+            String values = Stream.of(QUERY_PARAM_OBJECT_FORMAT_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
 
             String msg = String.format(Locale.ROOT, "Invalid query param object format '%s'. Must be one of %s.", format, values);
             throw new IllegalArgumentException(msg);
@@ -751,7 +736,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         try {
             providedIn = PROVIDED_IN_LEVEL.valueOf(level);
         } catch (IllegalArgumentException e) {
-            String values = enumValues(PROVIDED_IN_LEVEL.class);
+            String values = Stream.of(PROVIDED_IN_LEVEL.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
 
             String msg = String.format(Locale.ROOT, "Invalid providedIn level '%s'. Must be one of %s.", level, values);
             throw new IllegalArgumentException(msg);
@@ -764,24 +751,4 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private boolean getIsProvidedInNone() {
         return PROVIDED_IN_LEVEL.none.equals(providedIn);
     }
-
-    private void setParamExpansionStrategy(String strategy) {
-        try {
-            paramExpansionStrategy = ParameterExpander.STRATEGY.valueOf(strategy);
-        } catch (IllegalArgumentException e) {
-            String values = enumValues(ParameterExpander.STRATEGY.class);
-
-            String msg = String.format(Locale.ROOT, "Invalid file naming '%s'. Must be one of: %s", strategy, values);
-            throw new IllegalArgumentException(msg);
-        }
-    }
-
-    private String enumValues(Class<? extends Enum<?>> enumClass) {
-        String values = Arrays.stream(enumClass.getEnumConstants())
-                .map(value -> "'" + value.name() + "'")
-                .collect(Collectors.joining(", "));
-
-        return values;
-    }
-
 }

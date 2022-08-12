@@ -21,12 +21,14 @@ import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypescriptAngularParamsStrategyCustomIntegrationTest extends AbstractIntegrationTest {
 
     {
@@ -47,7 +49,6 @@ public class TypescriptAngularParamsStrategyCustomIntegrationTest extends Abstra
         properties.put("npmName", "custom-path-params-integration-test");
         properties.put("npmVersion", "1.0.3");
         properties.put("snapshot", "false");
-        properties.put("paramExpansionStrategy", "custom");
 
         return properties;
     }

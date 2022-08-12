@@ -24,7 +24,6 @@ import { ComplexParams } from '../model/complexParams';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { type Parameter }                                    from '../parameter';
 
 
 
@@ -92,16 +91,6 @@ export class MatrixParamsService {
         return httpParams;
     }
 
-    // @ts-ignore
-    private encodePathParameter(parameter: Parameter): string {
-        // This method is intended to be redefined by your customized api.service.mustache template.
-        //
-        // This here legacy/compatibility implementation only works for the "simple" style.
-        // There are 3rd party npm packages available that implement this correctly,
-        // e.g. @honoluluhenk/http-param-expander
-        return encodeURIComponent(String(parameter.value));
-    }
-
     /**
      * @param matrixParamExploded 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -142,7 +131,8 @@ export class MatrixParamsService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/complexMatrixParamExploded${this.encodePathParameter({name: "matrixParamExploded", value: matrixParamExploded, style: "matrix", explode: true})}`,
+        let localVarPath = `/complexMatrixParamExploded${this.configuration.encodeParam({name: "matrixParamExploded", value: matrixParamExploded, in: "path", style: "matrix", explode: true})}`;
+        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
             null,
             {
                 context: localVarHttpContext,
@@ -195,7 +185,8 @@ export class MatrixParamsService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/complexMatrixParamFlat${this.encodePathParameter({name: "matrixParamFlat", value: matrixParamFlat, style: "matrix", explode: false})}`,
+        let localVarPath = `/complexMatrixParamFlat${this.configuration.encodeParam({name: "matrixParamFlat", value: matrixParamFlat, in: "path", style: "matrix", explode: false})}`;
+        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
             null,
             {
                 context: localVarHttpContext,
@@ -248,7 +239,8 @@ export class MatrixParamsService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/plainMatrixParamFlat${this.encodePathParameter({name: "plainParamFlat", value: plainParamFlat, style: "matrix", explode: false})}`,
+        let localVarPath = `/plainMatrixParamFlat${this.configuration.encodeParam({name: "plainParamFlat", value: plainParamFlat, in: "path", style: "matrix", explode: false})}`;
+        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
             null,
             {
                 context: localVarHttpContext,

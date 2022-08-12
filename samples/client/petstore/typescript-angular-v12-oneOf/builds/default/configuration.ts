@@ -1,4 +1,5 @@
 import { HttpParameterCodec } from '@angular/common/http';
+import { type Param } from './param';
 
 export interface ConfigurationParameters {
     /**
@@ -14,6 +15,7 @@ export interface ConfigurationParameters {
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    encodeParam?: (param: Param) => string;
     /**
      * The keys are the names in the securitySchemes section of the OpenAPI
      * document. They should map to the value used for authentication
@@ -36,6 +38,7 @@ export class Configuration {
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    encodeParam: (param: Param) => string;
     /**
      * The keys are the names in the securitySchemes section of the OpenAPI
      * document. They should map to the value used for authentication
@@ -51,6 +54,14 @@ export class Configuration {
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
         this.encoder = configurationParameters.encoder;
+        if (configurationParameters.encodeParam) {
+            this.encodeParam = configurationParameters.encodeParam;
+        }
+        else {
+            // this is the old legacy implementation for backwards compatibility
+            // it only works for param-style 'simple'
+            this.encodeParam = param => this.legacyEncodeParam(param);
+        }
         if (configurationParameters.credentials) {
             this.credentials = configurationParameters.credentials;
         }
@@ -117,5 +128,17 @@ export class Configuration {
         return typeof value === 'function'
             ? value()
             : value;
+    }
+
+    private legacyEncodeParam(param: Param): string {
+        // This legacy implementation is here for backwards compatibility only.
+        // It is only correct for param-style 'simple'.
+        if(param.style === "simple") {
+            return encodeURIComponent(String(param.value));
+        }
+
+        throw Error("Parameter-styles other than 'simple' are not encoded correctly by default and must be customized."
+            + " This is done via the Configuration object."
+            + " See README.md for more details");
     }
 }
