@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import io.swagger.v3.oas.models.media.Schema;
@@ -268,9 +269,13 @@ public interface IJsonSchemaValidationProperties {
         Set<String> imports = new HashSet<>();
         if (this.getComposedSchemas() != null) {
             CodegenComposedSchemas composed = (CodegenComposedSchemas) this.getComposedSchemas();
-            List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
-            List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
-            Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
+            Stream<CodegenProperty> allOfs =  composed.getAllOf() == null ? Stream.of() : composed.getAllOf().stream();
+            Stream<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Stream.of() : composed.getOneOf().stream();
+            Stream<CodegenProperty> anyOfs =  composed.getAnyOf() == null ? Stream.of() : composed.getAnyOf().stream();
+            Stream<CodegenProperty> innerTypes = Stream.concat(
+              Stream.concat(allOfs, oneOfs),
+              anyOfs
+            );
             innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
         } else if (includeContainerTypes || !(this.getIsArray() || this.getIsMap())) {
             // this is our base case, add imports for referenced schemas

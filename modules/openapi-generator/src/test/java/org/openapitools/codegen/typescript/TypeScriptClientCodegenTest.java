@@ -68,6 +68,51 @@ public class TypeScriptClientCodegenTest {
     }
 
     @Test
+    public void testComposedAnyOfSchemaImports() {
+      final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+      final ComposedSchema composedAnyOfSchema = new ComposedSchema();
+      final Schema<Object> schema1 = new Schema<>();
+      schema1.set$ref("Foo");
+      final Schema<Object> schema2 = new Schema<>();
+      schema2.set$ref("Bar");
+      
+      composedAnyOfSchema.addAnyOfItem(schema1);
+      composedAnyOfSchema.addAnyOfItem(schema2);
+      
+      final Schema nestedAnyOfSchema = new ObjectSchema()
+              .addProperties("id", new StringSchema())
+              .addProperties("anyFooBar", composedAnyOfSchema)
+              .description("Any Foo or Bar");
+      OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("ComposedFooBar", nestedAnyOfSchema);
+      codegen.setOpenAPI(openAPI);
+      final CodegenModel codegenModel = codegen.fromModel("ComposedFooBar", nestedAnyOfSchema);
+      Assert.assertEquals(codegenModel.imports, Sets.newHashSet("Bar", "Foo"));
+    }
+
+    @Test
+    public void testComposedOneOfSchemaImports() {
+      final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+      final ComposedSchema composedOneOfSchema = new ComposedSchema();
+        
+      final Schema<Object> schema1 = new Schema<>();
+      schema1.set$ref("Foo");
+      final Schema<Object> schema2 = new Schema<>();
+      schema2.set$ref("Bar");
+      
+      composedOneOfSchema.addOneOfItem(schema1);
+      composedOneOfSchema.addOneOfItem(schema2);
+
+      final Schema nestedOneOfSchema = new ObjectSchema()
+              .addProperties("id", new StringSchema())
+              .addProperties("oneFooBar", composedOneOfSchema)
+              .description("One Of Foo or Bar");
+      OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("ComposedFooBar", nestedOneOfSchema);
+      codegen.setOpenAPI(openAPI);
+      final CodegenModel codegenModel = codegen.fromModel("ComposedFooBar", nestedOneOfSchema);
+      Assert.assertEquals(codegenModel.imports, Sets.newHashSet("Bar", "Foo"));
+    }
+
+    @Test
     public void testArrayWithUniqueItems() {
         final Schema uniqueArray = new ArraySchema()
             .items(new StringSchema())
