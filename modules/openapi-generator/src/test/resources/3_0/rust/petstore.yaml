@@ -777,3 +777,17 @@ components:
         uuid:
           type: string
           format: uuid 
+    ActionContainer:
+      required:
+      - action
+      type: object
+      properties:
+        action:
+          allOf:
+          - $ref: '#/components/schemas/Baz'
+          - nullable: false
+    Baz:
+      enum:
+      - A
+      - B
+      type: string
