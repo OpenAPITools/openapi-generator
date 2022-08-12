@@ -415,7 +415,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return '_' + name;
+        // https://doc.rust-lang.org/book/appendix-01-keywords.html#raw-identifiers
+        return "r#" + name;
     }
 
     @Override
@@ -443,11 +444,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // snake_case, e.g. PetId => pet_id
         name = underscore(name);
 
-        // for reserved word or word starting with number, append _
+        // for reserved word, prepend r#
         if (isReservedWord(name))
             name = escapeReservedWord(name);
 
-        // for reserved word or word starting with number, append _
+        // for word starting with number, prepend var_
         if (name.matches("^\\d.*"))
             name = "var_" + name;
 
@@ -755,8 +756,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
+        // Reserved words are not possible because we have already converted to camelcase
+        if (enumName.matches("\\d.*")) { // word starts with number
+            return "Variant" + enumName;
         } else {
             return enumName;
         }
