@@ -354,6 +354,125 @@
     #' @export
     toString = function() {
       self$toJSONString()
+    },
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @description
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @return true if the values in all fields are valid.
+    #' @export
+    isValid = function() {
+      {{#allVars}}
+      {{^isNullable}}
+      {{#required}}
+      # check if the required `{{{name}}}` is null
+      if (is.null(`{{{name}}}`)) {
+        FALSE
+      }
+
+      {{/required}}
+      {{/isNullable}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      if (nchar(`{{{name}}}`) > {{maxLength}}) {
+        FALSE
+      }
+      {{/maxLength}}
+      {{#minLength}}
+      if (nchar(`{{{name}}}`) < {{minLength}}) {
+        FALSE
+      }
+      {{/minLength}}
+      {{#maximum}}
+      if (`{{{name}}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        FALSE
+      }
+      {{/maximum}}
+      {{#minimum}}
+      if (`{{{name}}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        FALSE
+      }
+      {{/minimum}}
+      {{#pattern}}
+      if (!str_detect(`{{{name}}}`, "{{{pattern}}}")) {
+        FALSE
+      }
+      {{/pattern}}
+      {{#maxItems}}
+      if (length(`{{{name}}}`) > {{maxItems}}) {
+        FALSE
+      }
+      {{/maxItems}}
+      {{#minItems}}
+      if (length(`{{{name}}}`) < {{minItems}}) {
+        FALSE
+      }
+      {{/minItems}}
+
+      {{/hasValidation}}
+      {{/allVars}}
+      TRUE
+    },
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @description
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @return A list of invalid fields (if any).
+    #' @export
+    getInvalidFields = function() {
+      invalid_fields <- list()
+      {{#allVars}}
+      {{^isNullable}}
+      {{#required}}
+      # check if the required `{{{name}}}` is null
+      if (is.null(`{{{name}}}`)) {
+        invalid_fields[`{{{name}}}`] = "Non-nullable required field `{{{name}}}` cannot be null."
+      }
+
+      {{/required}}
+      {{/isNullable}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      if (nchar(`{{{name}}}`) > {{maxLength}}) {
+        invalid_fields[`{{{name}}}`] = "Invalid length for `{{{name}}}`, must be smaller than or equal to {{maxLength}}."
+      }
+      {{/maxLength}}
+      {{#minLength}}
+      if (nchar(`{{{name}}}`) < {{minLength}}) {
+        invalid_fields[`{{{name}}}`] = "Invalid length for `{{{name}}}`, must be bigger than or equal to {{minLength}}."
+      }
+      {{/minLength}}
+      {{#maximum}}
+      if (`{{{name}}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        invalid_fields[`{{{name}}}`] = "Invalid value for `{{{name}}}`, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}."
+      }
+      {{/maximum}}
+      {{#minimum}}
+      if (`{{{name}}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        invalid_fields[`{{{name}}}`] = "Invalid value for `{{{name}}}`, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}."
+      }
+      {{/minimum}}
+      {{#pattern}}
+      if (!str_detect(`{{{name}}}`, "{{{pattern}}}")) {
+        invalid_fields[`{{{name}}}`] = "Invalid value for `{{{name}}}`, must conform to the pattern {{{pattern}}}."
+      }
+      {{/pattern}}
+      {{#maxItems}}
+      if (length(`{{{name}}}`) > {{maxItems}}) {
+        invalid_fields[`{{{name}}}`] = "Invalid length for `{{{name}}}`, number of items must be less than or equal to {{maxItems}}."
+      }
+      {{/maxItems}}
+      {{#minItems}}
+      if (length(`{{{name}}}`) < {{minItems}}) {
+        invalid_fields[`{{{name}}}`] = "Invalid length for `{{{param}}}`, number of items must be greater than or equal to {{minItems}}."
+      }
+      {{/minItems}}
+
+      {{/hasValidation}}
+      {{/allVars}}
+      invalid_fields
     }
   )
 )

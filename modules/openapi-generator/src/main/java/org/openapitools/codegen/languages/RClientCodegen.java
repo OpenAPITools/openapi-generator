@@ -607,6 +607,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         this.operationIdNaming = operationIdNaming;
     }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -952,8 +953,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // remove trailing '/'
-        if (pattern.charAt(pattern.length()-1) == '/') {
-            pattern = pattern.substring(0, pattern.length()-1);
+        if (pattern.charAt(pattern.length() - 1) == '/') {
+            pattern = pattern.substring(0, pattern.length() - 1);
         }
 
         return escapeText(pattern);
