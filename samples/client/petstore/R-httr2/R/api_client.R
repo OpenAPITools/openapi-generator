@@ -166,7 +166,7 @@ ApiClient  <- R6::R6Class(
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
     #' @param is_oauth True if the endpoints required OAuth authentication.
-    #' @param oauth_scoeps OAuth scopes.
+    #' @param oauth_scopes OAuth scopes.
     #' @param stream_callback Callback function to process the data stream.
     #' @param ... Other optional arguments.
     #' @return HTTP response
@@ -197,7 +197,7 @@ ApiClient  <- R6::R6Class(
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
     #' @param is_oauth True if the endpoints required OAuth authentication.
-    #' @param oauth_scoeps OAuth scopes.
+    #' @param oauth_scopes OAuth scopes.
     #' @param stream_callback Callback function to process data stream.
     #' @param ... Other optional arguments.
     #' @return HTTP response
