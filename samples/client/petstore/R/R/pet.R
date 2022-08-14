@@ -260,13 +260,13 @@ Pet <- R6::R6Class(
     #' @export
     isValid = function() {
       # check if the required `name` is null
-      if (is.null(`name`)) {
-        FALSE
+      if (is.null(self$`name`)) {
+        return(FALSE)
       }
 
       # check if the required `photoUrls` is null
-      if (is.null(`photoUrls`)) {
-        FALSE
+      if (is.null(self$`photoUrls`)) {
+        return(FALSE)
       }
 
       TRUE
@@ -281,16 +281,17 @@ Pet <- R6::R6Class(
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `name` is null
-      if (is.null(`name`)) {
-        invalid_fields[`name`] = "Non-nullable required field `name` cannot be null."
+      if (is.null(self$`name`)) {
+        invalid_fields["name"] = "Non-nullable required field `name` cannot be null."
       }
 
       # check if the required `photoUrls` is null
-      if (is.null(`photoUrls`)) {
-        invalid_fields[`photoUrls`] = "Non-nullable required field `photoUrls` cannot be null."
+      if (is.null(self$`photoUrls`)) {
+        invalid_fields["photoUrls"] = "Non-nullable required field `photoUrls` cannot be null."
       }
 
       invalid_fields
     }
   )
 )
+

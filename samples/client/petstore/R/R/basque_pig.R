@@ -163,13 +163,13 @@ BasquePig <- R6::R6Class(
     #' @export
     isValid = function() {
       # check if the required `className` is null
-      if (is.null(`className`)) {
-        FALSE
+      if (is.null(self$`className`)) {
+        return(FALSE)
       }
 
       # check if the required `color` is null
-      if (is.null(`color`)) {
-        FALSE
+      if (is.null(self$`color`)) {
+        return(FALSE)
       }
 
       TRUE
@@ -184,16 +184,17 @@ BasquePig <- R6::R6Class(
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `className` is null
-      if (is.null(`className`)) {
-        invalid_fields[`className`] = "Non-nullable required field `className` cannot be null."
+      if (is.null(self$`className`)) {
+        invalid_fields["className"] = "Non-nullable required field `className` cannot be null."
       }
 
       # check if the required `color` is null
-      if (is.null(`color`)) {
-        invalid_fields[`color`] = "Non-nullable required field `color` cannot be null."
+      if (is.null(self$`color`)) {
+        invalid_fields["color"] = "Non-nullable required field `color` cannot be null."
       }
 
       invalid_fields
     }
   )
 )
+

@@ -150,8 +150,8 @@ Category <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
-      if (!str_detect(`name`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
-        FALSE
+      if (!str_detect(self$`name`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
+        return(FALSE)
       }
 
       TRUE
@@ -165,11 +165,12 @@ Category <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-      if (!str_detect(`name`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
-        invalid_fields[`name`] = "Invalid value for `name`, must conform to the pattern ^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$."
+      if (!str_detect(self$`name`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
+        invalid_fields["name"] = "Invalid value for `name`, must conform to the pattern ^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$."
       }
 
       invalid_fields
     }
   )
 )
+

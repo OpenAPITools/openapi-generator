@@ -242,6 +242,24 @@ test_that("Tests special item names", {
 
 })
 
+test_that ("Tests validations", {
+  invalid_pet <- Pet$new()
+
+  expect_false(invalid_pet$isValid())
+
+  invalid_fields <- invalid_pet$getInvalidFields()
+  expect_equal(invalid_fields[["name"]], "Non-nullable required field `name` cannot be null.")
+  expect_equal(invalid_fields[["photoUrls"]], "Non-nullable required field `photoUrls` cannot be null.")
+
+  # fix invalid fields
+  invalid_pet$name <- "valid pet"
+  invalid_pet$photoUrls <- list("photo_test", "second test")
+
+  expect_true(invalid_pet$isValid())
+  expect_equal(invalid_pet$getInvalidFields(), list())
+
+})
+
 test_that("Tests oneOf", {
   basque_pig_json <-
   '{"className": "BasquePig", "color": "red"}'
