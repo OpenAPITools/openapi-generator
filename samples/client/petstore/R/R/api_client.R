@@ -30,7 +30,7 @@
 #' @field api_keys API keys
 #' @field access_token Access token
 #' @field oauth_client_id OAuth client ID
-#' @field oauth_secret OAuth secret
+#' @field oauth_client_secret OAuth secret
 #' @field oauth_refresh_token OAuth refresh token
 #' @field oauth_flow_type OAuth flow type
 #' @field oauth_authorization_url Authoriziation URL
@@ -63,7 +63,7 @@ ApiClient  <- R6::R6Class(
     # OAuth2 client ID
     oauth_client_id = NULL,
     # OAuth2 secret
-    oauth_secret = NULL,
+    oauth_client_secret = NULL,
     # OAuth2 refresh token
     oauth_refresh_token = NULL,
     # OAuth2

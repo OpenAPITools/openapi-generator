@@ -30,12 +30,13 @@
 #' @field api_keys API keys
 #' @field access_token Access token
 #' @field oauth_client_id OAuth client ID
-#' @field oauth_secret OAuth secret
+#' @field oauth_client_secret OAuth secret
 #' @field oauth_refresh_token OAuth refresh token
 #' @field oauth_flow_type OAuth flow type
 #' @field oauth_authorization_url Authoriziation URL
 #' @field oauth_token_url Token URL
 #' @field oauth_pkce Boolean flag to enable PKCE
+#' @field oauth_scopes OAuth scopes
 #' @field oauth_scopes OAuth scopes
 #' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
@@ -63,9 +64,11 @@ ApiClient  <- R6::R6Class(
     # OAuth2 client ID
     oauth_client_id = NULL,
     # OAuth2 secret
-    oauth_secret = NULL,
+    oauth_client_secret = NULL,
     # OAuth2 refresh token
     oauth_refresh_token = NULL,
+    # OAuth2 auto refresh token
+    oauth_auto_refresh_token = FALSE,
     # OAuth2
     # Flow type
     oauth_flow_type = "implicit",
@@ -180,6 +183,7 @@ ApiClient  <- R6::R6Class(
       # set the URL
       req <- request(url)
 
+      # make the call via httr, which comes with retry logic
       resp <- self$Execute(req, method, query_params, header_params, form_params,
                            file_params, accepts, content_types, body, is_oauth = is_oauth,
                            oauth_scopes = oauth_scopes, stream_callback = stream_callback, ...)
@@ -269,10 +273,10 @@ ApiClient  <- R6::R6Class(
       req <- req %>% req_method(method)
 
       # use oauth authentication if the endpoint requires it
-      if (is_oauth && !is.null(self$oauth_client_id) && !is.null(self$oauth_secret)) {
+      if (is_oauth && !is.null(self$oauth_client_id) && !is.null(self$oauth_client_secret)) {
         client <- oauth_client(
           id = self$oauth_client_id,
-          secret = obfuscated(self$oauth_secret),
+          secret = obfuscated(self$oauth_client_secret),
           token_url = self$oauth_token_url,
           name = "petstore-oauth"
         )
