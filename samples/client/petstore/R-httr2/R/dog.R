@@ -181,8 +181,8 @@ Dog <- R6::R6Class(
     #' @export
     isValid = function() {
       # check if the required `className` is null
-      if (is.null(`className`)) {
-        FALSE
+      if (is.null(self$`className`)) {
+        return(FALSE)
       }
 
       TRUE
@@ -197,11 +197,12 @@ Dog <- R6::R6Class(
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `className` is null
-      if (is.null(`className`)) {
-        invalid_fields[`className`] = "Non-nullable required field `className` cannot be null."
+      if (is.null(self$`className`)) {
+        invalid_fields["className"] = "Non-nullable required field `className` cannot be null."
       }
 
       invalid_fields
     }
   )
 )
+
