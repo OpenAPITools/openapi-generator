@@ -287,7 +287,7 @@ ApiClient  <- R6::R6Class(
         )
 
         req_oauth_scopes <- NULL
-        if (is.null(self$oauth_scopes)) {
+        if (!is.null(self$oauth_scopes)) {
           # use oauth scopes provided by the user
           req_oauth_scopes <- self$oauth_scopes
         } else {
