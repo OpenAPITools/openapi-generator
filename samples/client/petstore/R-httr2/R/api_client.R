@@ -36,11 +36,11 @@
 #' @field oauth_authorization_url Authoriziation URL
 #' @field oauth_token_url Token URL
 #' @field oauth_pkce Boolean flag to enable PKCE
+#' @field oauth_scopes OAuth scopes
 #' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
 #' @field retry_status_codes vector of status codes to retry
 #' @field max_retry_attempts maximum number of retries for the status codes
-#' @importFrom httr add_headers accept timeout content
 #' @importFrom rlang abort
 #' @export
 ApiClient  <- R6::R6Class(
@@ -75,6 +75,8 @@ ApiClient  <- R6::R6Class(
     oauth_token_url = "",
     # Enable PKCE?
     oauth_pkce = TRUE,
+    # OAuth scopes
+    oauth_scopes = NULL,
     # Bearer token
     bearer_token = NULL,
     # Time Out (seconds)
@@ -274,7 +276,17 @@ ApiClient  <- R6::R6Class(
           token_url = self$oauth_token_url,
           name = "petstore-oauth"
         )
-        req <- req %>% req_oauth_auth_code(client, scope = oauth_scopes,
+
+        req_oauth_scopes <- NULL
+        if (!is.null(self$oauth_scopes)) {
+          # use oauth scopes provided by the user
+          req_oauth_scopes <- self$oauth_scopes
+        } else {
+          # use oauth scopes defined in openapi spec
+          req_oauth_scopes <- oauth_scopes
+        }
+
+        req <- req %>% req_oauth_auth_code(client, scope = req_oauth_scopes,
                                            pkce = self$oauth_pkce,
                                            auth_url = self$oauth_authoriziation_url)
       }
