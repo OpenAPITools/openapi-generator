@@ -2246,6 +2246,12 @@ public class DefaultCodegen implements CodegenConfig {
      * @return type
      */
     private String getPrimitiveType(Schema schema) {
+        Set<String> typeList = schema.getTypes();
+        String currentType = schema.getType();
+        if (typeList != null && !typeList.isEmpty()){
+            currentType = typeList.iterator().next();
+        }
+        schema.setType(currentType);
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
