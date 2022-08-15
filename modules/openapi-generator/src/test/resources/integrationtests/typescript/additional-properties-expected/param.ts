@@ -45,6 +45,36 @@ export const ParamLocation = {
 export type ExtendedParamStyle = ParamStyle | string;
 
 /**
+ * Standard types as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
+ */
+export type StandardDataType =
+    | "integer"
+    | "number"
+    | "boolean"
+    | "string"
+    | "object"
+    | "array";
+
+export type DataType = StandardDataType | string;
+
+/**
+ * Standard formats as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
+ */
+export type StandardDataFormat =
+  | "int32"
+  | "int64"
+  | "float"
+  | "double"
+  | "byte"
+  | "binary"
+  | "date"
+  | "date-time"
+  | "password"
+    ;
+
+export type DataFormat = StandardDataFormat | string | undefined;
+
+/**
  * The parameter to encode.
  */
 export interface Param {
@@ -53,4 +83,6 @@ export interface Param {
   in: ParamLocation;
   style: ExtendedParamStyle,
   explode: boolean;
+  dataType: DataType;
+  dataFormat: DataFormat;
 }

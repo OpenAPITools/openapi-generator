@@ -80,6 +80,32 @@
           }
         }
       }
+    },
+    "/date-timeMatrixParamFlat{dateTimeParamFlat}": {
+      "parameters": [
+        {
+          "name": "dateTimeParamFlat",
+          "in": "path",
+          "style": "matrix",
+          "explode": false,
+          "required": false,
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      ],
+      "put": {
+        "tags": [
+          "MatrixParams"
+        ],
+        "operationId": "plainMatrixParamFlat",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

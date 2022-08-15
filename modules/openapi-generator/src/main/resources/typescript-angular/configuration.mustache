@@ -58,9 +58,9 @@ export class {{configurationClassName}} {
             this.encodeParam = configurationParameters.encodeParam;
         }
         else {
-            // this is the old legacy implementation for backwards compatibility
-            // it only works for param-style 'simple'
-            this.encodeParam = param => this.legacyEncodeParam(param);
+            // This is the old legacy implementation for backwards compatibility.
+            // It only works mostly correct for param-style 'simple'.
+            this.encodeParam = param => this.legacyDefaultEncodeParam(param);
         }
         if (configurationParameters.credentials) {
             this.credentials = configurationParameters.credentials;
@@ -169,11 +169,15 @@ export class {{configurationClassName}} {
             : value;
     }
 
-    private legacyEncodeParam(param: Param): string {
+    private legacyDefaultEncodeParam(param: Param): string {
         // This legacy implementation is here for backwards compatibility only.
-        // It is only correct for param-style 'simple'.
+        // It is only mostly correct for param-style 'simple'.
         if (param.style === "simple") {
-            return encodeURIComponent(String(param.value));
+            const value = param.dataFormat === 'date-time'
+                ? (param.value as Date).toISOString()
+                : param.value;
+
+            return encodeURIComponent(String(value));
         }
 
         throw Error("Parameter-styles other than 'simple' are not encoded correctly by default and must be customized."

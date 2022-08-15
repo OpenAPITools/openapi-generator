@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
@@ -41,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,13 +51,33 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
+    /**
+     * Help generating code for any kind of URL parameters (path, matrix, query).
+     * <p>
+     * Generators may use this class when substituting URL-parameter-placeholders
+     * with generated code:
+     * </p>
+     * <p>
+     * While parsing placeholders character-by-character, this class helps accumulating these characters and
+     * building the final placeholder name.
+     * </p>
+     * <p>
+     * With the placeholder name, this class tries to find the parameter in the operation.
+     * The class then uses this parameter to build code that is usable by the generator.
+     * </p>
+     */
+    // TODO: this class grew quite large and most code now is specific to TypeScriptAngularClientCodeGen.java.
+    //  => move code-generation to the concrete generator and let the generator pass this as lambda
     @SuppressWarnings("StringBufferField")
     public static class ParameterExpander {
+        private static final Pattern JS_QUOTE_PATTERN = Pattern.compile("\"");
+        private static final String JS_QUOTE_REPLACEMENT = "\\\"";
+
         enum Location {
             query((operation, param) -> operation.queryParams.contains(param), "form"),
-            header((op, param) -> op.headerParams.contains(param), "simple"),
-            path((op, param) -> op.pathParams.contains(param), "simple"),
-            cookie((op, param) -> op.cookieParams.contains(param), "form");
+            header((operation, param) -> operation.headerParams.contains(param), "simple"),
+            path((operation, param) -> operation.pathParams.contains(param), "simple"),
+            cookie((operation, param) -> operation.cookieParams.contains(param), "form");
 
             public final String defaultStyle;
             public final BiPredicate<CodegenOperation, CodegenParameter> isPresentIn;
@@ -102,7 +124,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         public String buildPathEntry() {
-            CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
+            CodegenParameter parameter = findPathParameterByName();
 
             String result = "";
             if (parameter != null) {
@@ -120,27 +142,52 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
             String optsObject = String.format(
                     Locale.ROOT,
-                    "{name: \"%s\", value: %s, in: \"%s\", style: \"%s\", explode: %s}",
-                    parameter.paramName,
+                    "{name: %s, value: %s, in: %s, style: %s, explode: %s, dataType: %s, dataFormat: %s}",
+                    quotedJSString(parameter.paramName),
                     generatedParameterName,
-                    location.name(),
-                    style,
-                    parameter.isExplode
+                    quotedJSString(location.name()),
+                    quotedJSString(style),
+                    parameter.isExplode,
+                    quotedJSString(parameter.dataType),
+                    nullableQuotedJSString(parameter.dataFormat)
             );
 
             String result = String.format(Locale.ROOT, "${this.configuration.encodeParam(%s)}", optsObject);
             return result;
         }
 
-        private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
-            for (CodegenParameter param : operation.pathParams) {
-                if (param.baseName.equals(parameterName)) {
+        private @Nullable CodegenParameter findPathParameterByName() {
+            for (CodegenParameter param : op.pathParams) {
+                if (param.baseName.equals(parameterName.toString())) {
                     return param;
                 }
             }
             return null;
         }
 
+        private static String quotedJSString(String string) {
+            String escaped = escapeForQuotedJSString(string);
+            String result = '"' + escaped + '"';
+            return result;
+        }
+
+        protected static String escapeForQuotedJSString(String string) {
+            String quoted = JS_QUOTE_PATTERN.matcher(string)
+                    .replaceAll(JS_QUOTE_REPLACEMENT);
+
+            return quoted;
+        }
+
+
+        protected String nullableQuotedJSString(@Nullable String string) {
+            if (string == null) {
+                return "undefined";
+            }
+
+            String result = quotedJSString(string);
+
+            return result;
+        }
     }
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
