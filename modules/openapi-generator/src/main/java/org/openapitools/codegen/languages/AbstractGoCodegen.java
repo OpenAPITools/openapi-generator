@@ -648,8 +648,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     addedOSImport = true;
                 }
 
-                if(!languageSpecificPrimitives.contains(param.dataType)){
-                    String _import = param.dataType;
+                if(!languageSpecificPrimitives.contains(cp.dataType)){
+                    String _import = cp.dataType;
                     if (importMapping.containsKey(_import) && !addedbaseType.contains(importMapping.get(_import))) {
                         imports.add(createMapping("import", importMapping.get(_import)));
                         addedbaseType.add(importMapping.get(_import));
