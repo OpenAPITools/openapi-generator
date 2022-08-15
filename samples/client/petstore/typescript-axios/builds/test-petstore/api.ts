@@ -14,6 +14,7 @@
 
 
 import { Configuration } from './configuration';
+import { exists, mapValues } from './runtime';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -76,6 +77,27 @@ export interface AdditionalPropertiesClass {
      */
     'map_with_undeclared_properties_string'?: { [key: string]: string; };
 }
+export function AdditionalPropertiesClassFromJSON(json: any): AdditionalPropertiesClass {
+    return AdditionalPropertiesClassFromJSONTyped(json, false);
+}
+
+export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): AdditionalPropertiesClass {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'map_property': !exists(json, 'map_property') ? undefined : json['map_property'],
+        'map_of_map_property': !exists(json, 'map_of_map_property') ? undefined : json['map_of_map_property'],
+        'anytype_1': !exists(json, 'anytype_1') ? undefined : json['anytype_1'],
+        'map_with_undeclared_properties_anytype_1': !exists(json, 'map_with_undeclared_properties_anytype_1') ? undefined : json['map_with_undeclared_properties_anytype_1'],
+        'map_with_undeclared_properties_anytype_2': !exists(json, 'map_with_undeclared_properties_anytype_2') ? undefined : json['map_with_undeclared_properties_anytype_2'],
+        'map_with_undeclared_properties_anytype_3': !exists(json, 'map_with_undeclared_properties_anytype_3') ? undefined : json['map_with_undeclared_properties_anytype_3'],
+        'empty_map': !exists(json, 'empty_map') ? undefined : json['empty_map'],
+        'map_with_undeclared_properties_string': !exists(json, 'map_with_undeclared_properties_string') ? undefined : json['map_with_undeclared_properties_string'],
+    };
+}
+
 /**
  * 
  * @export
@@ -95,6 +117,29 @@ export interface Animal {
      */
     'color'?: string;
 }
+export function AnimalFromJSON(json: any): Animal {
+    return AnimalFromJSONTyped(json, false);
+}
+
+export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Animal {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if (!ignoreDiscriminator) {
+        if (json['className'] === 'Cat') {
+            return CatFromJSONTyped(json, true);
+        }
+        if (json['className'] === 'Dog') {
+            return DogFromJSONTyped(json, true);
+        }
+    }
+    return {
+        
+        'className': json['className'],
+        'color': !exists(json, 'color') ? undefined : json['color'],
+    };
+}
+
 /**
  * 
  * @export
@@ -120,6 +165,22 @@ export interface ApiResponse {
      */
     'message'?: string;
 }
+export function ApiResponseFromJSON(json: any): ApiResponse {
+    return ApiResponseFromJSONTyped(json, false);
+}
+
+export function ApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiResponse {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'code': !exists(json, 'code') ? undefined : json['code'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
+        'message': !exists(json, 'message') ? undefined : json['message'],
+    };
+}
+
 /**
  * 
  * @export
@@ -139,6 +200,21 @@ export interface Apple {
      */
     'origin'?: string;
 }
+export function AppleFromJSON(json: any): Apple {
+    return AppleFromJSONTyped(json, false);
+}
+
+export function AppleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Apple {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'cultivar': !exists(json, 'cultivar') ? undefined : json['cultivar'],
+        'origin': !exists(json, 'origin') ? undefined : json['origin'],
+    };
+}
+
 /**
  * 
  * @export
@@ -158,6 +234,21 @@ export interface AppleReq {
      */
     'mealy'?: boolean;
 }
+export function AppleReqFromJSON(json: any): AppleReq {
+    return AppleReqFromJSONTyped(json, false);
+}
+
+export function AppleReqFromJSONTyped(json: any, ignoreDiscriminator: boolean): AppleReq {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'cultivar': json['cultivar'],
+        'mealy': !exists(json, 'mealy') ? undefined : json['mealy'],
+    };
+}
+
 /**
  * 
  * @export
@@ -171,6 +262,20 @@ export interface ArrayOfArrayOfNumberOnly {
      */
     'ArrayArrayNumber'?: Array<Array<number>>;
 }
+export function ArrayOfArrayOfNumberOnlyFromJSON(json: any): ArrayOfArrayOfNumberOnly {
+    return ArrayOfArrayOfNumberOnlyFromJSONTyped(json, false);
+}
+
+export function ArrayOfArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayOfArrayOfNumberOnly {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'ArrayArrayNumber': !exists(json, 'ArrayArrayNumber') ? undefined : json['ArrayArrayNumber'],
+    };
+}
+
 /**
  * 
  * @export
@@ -184,6 +289,20 @@ export interface ArrayOfNumberOnly {
      */
     'ArrayNumber'?: Array<number>;
 }
+export function ArrayOfNumberOnlyFromJSON(json: any): ArrayOfNumberOnly {
+    return ArrayOfNumberOnlyFromJSONTyped(json, false);
+}
+
+export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayOfNumberOnly {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'ArrayNumber': !exists(json, 'ArrayNumber') ? undefined : json['ArrayNumber'],
+    };
+}
+
 /**
  * 
  * @export
@@ -209,6 +328,22 @@ export interface ArrayTest {
      */
     'array_array_of_model'?: Array<Array<ReadOnlyFirst>>;
 }
+export function ArrayTestFromJSON(json: any): ArrayTest {
+    return ArrayTestFromJSONTyped(json, false);
+}
+
+export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayTest {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'array_of_string': !exists(json, 'array_of_string') ? undefined : json['array_of_string'],
+        'array_array_of_integer': !exists(json, 'array_array_of_integer') ? undefined : json['array_array_of_integer'],
+        'array_array_of_model': !exists(json, 'array_array_of_model') ? undefined : json['array_array_of_model'],
+    };
+}
+
 /**
  * 
  * @export
@@ -222,6 +357,20 @@ export interface Banana {
      */
     'lengthCm'?: number;
 }
+export function BananaFromJSON(json: any): Banana {
+    return BananaFromJSONTyped(json, false);
+}
+
+export function BananaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Banana {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'lengthCm': !exists(json, 'lengthCm') ? undefined : json['lengthCm'],
+    };
+}
+
 /**
  * 
  * @export
@@ -241,6 +390,21 @@ export interface BananaReq {
      */
     'sweet'?: boolean;
 }
+export function BananaReqFromJSON(json: any): BananaReq {
+    return BananaReqFromJSONTyped(json, false);
+}
+
+export function BananaReqFromJSONTyped(json: any, ignoreDiscriminator: boolean): BananaReq {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'lengthCm': json['lengthCm'],
+        'sweet': !exists(json, 'sweet') ? undefined : json['sweet'],
+    };
+}
+
 /**
  * 
  * @export
@@ -254,6 +418,20 @@ export interface BasquePig {
      */
     'className': string;
 }
+export function BasquePigFromJSON(json: any): BasquePig {
+    return BasquePigFromJSONTyped(json, false);
+}
+
+export function BasquePigFromJSONTyped(json: any, ignoreDiscriminator: boolean): BasquePig {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'className': json['className'],
+    };
+}
+
 /**
  * 
  * @export
@@ -297,6 +475,25 @@ export interface Capitalization {
      */
     'ATT_NAME'?: string;
 }
+export function CapitalizationFromJSON(json: any): Capitalization {
+    return CapitalizationFromJSONTyped(json, false);
+}
+
+export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Capitalization {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'smallCamel': !exists(json, 'smallCamel') ? undefined : json['smallCamel'],
+        'CapitalCamel': !exists(json, 'CapitalCamel') ? undefined : json['CapitalCamel'],
+        'small_Snake': !exists(json, 'small_Snake') ? undefined : json['small_Snake'],
+        'Capital_Snake': !exists(json, 'Capital_Snake') ? undefined : json['Capital_Snake'],
+        'SCA_ETH_Flow_Points': !exists(json, 'SCA_ETH_Flow_Points') ? undefined : json['SCA_ETH_Flow_Points'],
+        'ATT_NAME': !exists(json, 'ATT_NAME') ? undefined : json['ATT_NAME'],
+    };
+}
+
 /**
  * 
  * @export
@@ -310,6 +507,20 @@ export interface Cat extends Animal {
      */
     'declawed'?: boolean;
 }
+export function CatFromJSON(json: any): Cat {
+    return CatFromJSONTyped(json, false);
+}
+
+export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        ...AnimalFromJSONTyped(json, ignoreDiscriminator),
+        'declawed': !exists(json, 'declawed') ? undefined : json['declawed'],
+    };
+}
+
 /**
  * 
  * @export
@@ -323,6 +534,20 @@ export interface CatAllOf {
      */
     'declawed'?: boolean;
 }
+export function CatAllOfFromJSON(json: any): CatAllOf {
+    return CatAllOfFromJSONTyped(json, false);
+}
+
+export function CatAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CatAllOf {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'declawed': !exists(json, 'declawed') ? undefined : json['declawed'],
+    };
+}
+
 /**
  * 
  * @export
@@ -342,6 +567,21 @@ export interface Category {
      */
     'name': string;
 }
+export function CategoryFromJSON(json: any): Category {
+    return CategoryFromJSONTyped(json, false);
+}
+
+export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'name': json['name'],
+    };
+}
+
 /**
  * 
  * @export
@@ -367,6 +607,21 @@ export const ChildCatPetTypeEnum = {
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
+
+export function ChildCatFromJSON(json: any): ChildCat {
+    return ChildCatFromJSONTyped(json, false);
+}
+
+export function ChildCatFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildCat {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        ...ParentPetFromJSONTyped(json, ignoreDiscriminator),
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'pet_type': !exists(json, 'pet_type') ? undefined : json['pet_type'],
+    };
+}
 
 /**
  * 
@@ -394,6 +649,21 @@ export const ChildCatAllOfPetTypeEnum = {
 
 export type ChildCatAllOfPetTypeEnum = typeof ChildCatAllOfPetTypeEnum[keyof typeof ChildCatAllOfPetTypeEnum];
 
+export function ChildCatAllOfFromJSON(json: any): ChildCatAllOf {
+    return ChildCatAllOfFromJSONTyped(json, false);
+}
+
+export function ChildCatAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildCatAllOf {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'pet_type': !exists(json, 'pet_type') ? undefined : json['pet_type'],
+    };
+}
+
 /**
  * Model for testing model with \"_class\" property
  * @export
@@ -407,6 +677,20 @@ export interface ClassModel {
      */
     '_class'?: string;
 }
+export function ClassModelFromJSON(json: any): ClassModel {
+    return ClassModelFromJSONTyped(json, false);
+}
+
+export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClassModel {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        '_class': !exists(json, '_class') ? undefined : json['_class'],
+    };
+}
+
 /**
  * 
  * @export
@@ -420,6 +704,20 @@ export interface Client {
      */
     'client'?: string;
 }
+export function ClientFromJSON(json: any): Client {
+    return ClientFromJSONTyped(json, false);
+}
+
+export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Client {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'client': !exists(json, 'client') ? undefined : json['client'],
+    };
+}
+
 /**
  * 
  * @export
@@ -439,6 +737,21 @@ export interface ComplexQuadrilateral {
      */
     'quadrilateralType': string;
 }
+export function ComplexQuadrilateralFromJSON(json: any): ComplexQuadrilateral {
+    return ComplexQuadrilateralFromJSONTyped(json, false);
+}
+
+export function ComplexQuadrilateralFromJSONTyped(json: any, ignoreDiscriminator: boolean): ComplexQuadrilateral {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'shapeType': json['shapeType'],
+        'quadrilateralType': json['quadrilateralType'],
+    };
+}
+
 /**
  * 
  * @export
@@ -452,6 +765,20 @@ export interface DanishPig {
      */
     'className': string;
 }
+export function DanishPigFromJSON(json: any): DanishPig {
+    return DanishPigFromJSONTyped(json, false);
+}
+
+export function DanishPigFromJSONTyped(json: any, ignoreDiscriminator: boolean): DanishPig {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'className': json['className'],
+    };
+}
+
 /**
  * 
  * @export
@@ -465,6 +792,20 @@ export interface DeprecatedObject {
      */
     'name'?: string;
 }
+export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
+    return DeprecatedObjectFromJSONTyped(json, false);
+}
+
+export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeprecatedObject {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'name': !exists(json, 'name') ? undefined : json['name'],
+    };
+}
+
 /**
  * 
  * @export
@@ -478,6 +819,20 @@ export interface Dog extends Animal {
      */
     'breed'?: string;
 }
+export function DogFromJSON(json: any): Dog {
+    return DogFromJSONTyped(json, false);
+}
+
+export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        ...AnimalFromJSONTyped(json, ignoreDiscriminator),
+        'breed': !exists(json, 'breed') ? undefined : json['breed'],
+    };
+}
+
 /**
  * 
  * @export
@@ -491,6 +846,20 @@ export interface DogAllOf {
      */
     'breed'?: string;
 }
+export function DogAllOfFromJSON(json: any): DogAllOf {
+    return DogAllOfFromJSONTyped(json, false);
+}
+
+export function DogAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): DogAllOf {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'breed': !exists(json, 'breed') ? undefined : json['breed'],
+    };
+}
+
 /**
  * 
  * @export
@@ -524,6 +893,24 @@ export interface Drawing {
      */
     'shapes'?: Array<Shape>;
 }
+export function DrawingFromJSON(json: any): Drawing {
+    return DrawingFromJSONTyped(json, false);
+}
+
+export function DrawingFromJSONTyped(json: any, ignoreDiscriminator: boolean): Drawing {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+            ...json,
+        'mainShape': !exists(json, 'mainShape') ? undefined : ShapeFromJSON(json['mainShape']),
+        'shapeOrNull': !exists(json, 'shapeOrNull') ? undefined : ShapeOrNullFromJSON(json['shapeOrNull']),
+        'nullableShape': !exists(json, 'nullableShape') ? undefined : NullableShapeFromJSON(json['nullableShape']),
+        'shapes': !exists(json, 'shapes') ? undefined : ((json['shapes'] as Array<any>).map(ShapeFromJSON)),
+    };
+}
+
 /**
  * 
  * @export
@@ -556,6 +943,21 @@ export const EnumArraysArrayEnumEnum = {
 } as const;
 
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
+
+export function EnumArraysFromJSON(json: any): EnumArrays {
+    return EnumArraysFromJSONTyped(json, false);
+}
+
+export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumArrays {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'just_symbol': !exists(json, 'just_symbol') ? undefined : json['just_symbol'],
+        'array_enum': !exists(json, 'array_enum') ? undefined : json['array_enum'],
+    };
+}
 
 /**
  * 
@@ -667,6 +1069,28 @@ export const EnumTestEnumNumberEnum = {
 
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
+export function EnumTestFromJSON(json: any): EnumTest {
+    return EnumTestFromJSONTyped(json, false);
+}
+
+export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumTest {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'enum_string': !exists(json, 'enum_string') ? undefined : json['enum_string'],
+        'enum_string_required': json['enum_string_required'],
+        'enum_integer': !exists(json, 'enum_integer') ? undefined : json['enum_integer'],
+        'enum_integer_only': !exists(json, 'enum_integer_only') ? undefined : json['enum_integer_only'],
+        'enum_number': !exists(json, 'enum_number') ? undefined : json['enum_number'],
+        'outerEnum': !exists(json, 'outerEnum') ? undefined : OuterEnumFromJSON(json['outerEnum']),
+        'outerEnumInteger': !exists(json, 'outerEnumInteger') ? undefined : OuterEnumIntegerFromJSON(json['outerEnumInteger']),
+        'outerEnumDefaultValue': !exists(json, 'outerEnumDefaultValue') ? undefined : OuterEnumDefaultValueFromJSON(json['outerEnumDefaultValue']),
+        'outerEnumIntegerDefaultValue': !exists(json, 'outerEnumIntegerDefaultValue') ? undefined : OuterEnumIntegerDefaultValueFromJSON(json['outerEnumIntegerDefaultValue']),
+    };
+}
+
 /**
  * 
  * @export
@@ -686,6 +1110,21 @@ export interface EquilateralTriangle {
      */
     'triangleType': string;
 }
+export function EquilateralTriangleFromJSON(json: any): EquilateralTriangle {
+    return EquilateralTriangleFromJSONTyped(json, false);
+}
+
+export function EquilateralTriangleFromJSONTyped(json: any, ignoreDiscriminator: boolean): EquilateralTriangle {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'shapeType': json['shapeType'],
+        'triangleType': json['triangleType'],
+    };
+}
+
 /**
  * 
  * @export
@@ -705,6 +1144,21 @@ export interface FileSchemaTestClass {
      */
     'files'?: Array<any>;
 }
+export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
+    return FileSchemaTestClassFromJSONTyped(json, false);
+}
+
+export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileSchemaTestClass {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'file': !exists(json, 'file') ? undefined : json['file'],
+        'files': !exists(json, 'files') ? undefined : json['files'],
+    };
+}
+
 /**
  * 
  * @export
@@ -718,6 +1172,20 @@ export interface Foo {
      */
     'bar'?: string;
 }
+export function FooFromJSON(json: any): Foo {
+    return FooFromJSONTyped(json, false);
+}
+
+export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'bar': !exists(json, 'bar') ? undefined : json['bar'],
+    };
+}
+
 /**
  * 
  * @export
@@ -731,6 +1199,20 @@ export interface FooGetDefaultResponse {
      */
     'string'?: Foo;
 }
+export function FooGetDefaultResponseFromJSON(json: any): FooGetDefaultResponse {
+    return FooGetDefaultResponseFromJSONTyped(json, false);
+}
+
+export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FooGetDefaultResponse {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'string': !exists(json, 'string') ? undefined : FooFromJSON(json['string']),
+    };
+}
+
 /**
  * 
  * @export
@@ -834,6 +1316,35 @@ export interface FormatTest {
      */
     'pattern_with_digits_and_delimiter'?: string;
 }
+export function FormatTestFromJSON(json: any): FormatTest {
+    return FormatTestFromJSONTyped(json, false);
+}
+
+export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FormatTest {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'integer': !exists(json, 'integer') ? undefined : json['integer'],
+        'int32': !exists(json, 'int32') ? undefined : json['int32'],
+        'int64': !exists(json, 'int64') ? undefined : json['int64'],
+        'number': json['number'],
+        '_float': !exists(json, 'float') ? undefined : json['float'],
+        '_double': !exists(json, 'double') ? undefined : json['double'],
+        'decimal': !exists(json, 'decimal') ? undefined : DecimalFromJSON(json['decimal']),
+        'string': !exists(json, 'string') ? undefined : json['string'],
+        '_byte': json['byte'],
+        'binary': !exists(json, 'binary') ? undefined : json['binary'],
+        'date': (new Date(json['date'])),
+        'dateTime': !exists(json, 'dateTime') ? undefined : (new Date(json['dateTime'])),
+        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'password': json['password'],
+        'pattern_with_digits': !exists(json, 'pattern_with_digits') ? undefined : json['pattern_with_digits'],
+        'pattern_with_digits_and_delimiter': !exists(json, 'pattern_with_digits_and_delimiter') ? undefined : json['pattern_with_digits_and_delimiter'],
+    };
+}
+
 /**
  * @type Fruit
  * @export
@@ -877,6 +1388,23 @@ export interface GmFruit {
      */
     'lengthCm'?: number;
 }
+export function GmFruitFromJSON(json: any): GmFruit {
+    return GmFruitFromJSONTyped(json, false);
+}
+
+export function GmFruitFromJSONTyped(json: any, ignoreDiscriminator: boolean): GmFruit {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'color': !exists(json, 'color') ? undefined : json['color'],
+        'cultivar': !exists(json, 'cultivar') ? undefined : json['cultivar'],
+        'origin': !exists(json, 'origin') ? undefined : json['origin'],
+        'lengthCm': !exists(json, 'lengthCm') ? undefined : json['lengthCm'],
+    };
+}
+
 /**
  * 
  * @export
@@ -890,6 +1418,28 @@ export interface GrandparentAnimal {
      */
     'pet_type': string;
 }
+export function GrandparentAnimalFromJSON(json: any): GrandparentAnimal {
+    return GrandparentAnimalFromJSONTyped(json, false);
+}
+
+export function GrandparentAnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): GrandparentAnimal {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if (!ignoreDiscriminator) {
+        if (json['pet_type'] === 'ChildCat') {
+            return ChildCatFromJSONTyped(json, true);
+        }
+        if (json['pet_type'] === 'ParentPet') {
+            return ParentPetFromJSONTyped(json, true);
+        }
+    }
+    return {
+        
+        'pet_type': json['pet_type'],
+    };
+}
+
 /**
  * 
  * @export
@@ -909,6 +1459,21 @@ export interface HasOnlyReadOnly {
      */
     'foo'?: string;
 }
+export function HasOnlyReadOnlyFromJSON(json: any): HasOnlyReadOnly {
+    return HasOnlyReadOnlyFromJSONTyped(json, false);
+}
+
+export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): HasOnlyReadOnly {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'bar': !exists(json, 'bar') ? undefined : json['bar'],
+        'foo': !exists(json, 'foo') ? undefined : json['foo'],
+    };
+}
+
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  * @export
@@ -922,6 +1487,20 @@ export interface HealthCheckResult {
      */
     'NullableMessage'?: string | null;
 }
+export function HealthCheckResultFromJSON(json: any): HealthCheckResult {
+    return HealthCheckResultFromJSONTyped(json, false);
+}
+
+export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthCheckResult {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'NullableMessage': !exists(json, 'NullableMessage') ? undefined : json['NullableMessage'],
+    };
+}
+
 /**
  * 
  * @export
@@ -941,6 +1520,21 @@ export interface IsoscelesTriangle {
      */
     'triangleType': string;
 }
+export function IsoscelesTriangleFromJSON(json: any): IsoscelesTriangle {
+    return IsoscelesTriangleFromJSONTyped(json, false);
+}
+
+export function IsoscelesTriangleFromJSONTyped(json: any, ignoreDiscriminator: boolean): IsoscelesTriangle {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'shapeType': json['shapeType'],
+        'triangleType': json['triangleType'],
+    };
+}
+
 /**
  * 
  * @export
@@ -954,6 +1548,20 @@ export interface List {
      */
     '123-list'?: string;
 }
+export function ListFromJSON(json: any): List {
+    return ListFromJSONTyped(json, false);
+}
+
+export function ListFromJSONTyped(json: any, ignoreDiscriminator: boolean): List {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        '_123_list': !exists(json, '123-list') ? undefined : json['123-list'],
+    };
+}
+
 /**
  * @type Mammal
  * @export
@@ -999,6 +1607,23 @@ export const MapTestMapOfEnumStringEnum = {
 
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
+export function MapTestFromJSON(json: any): MapTest {
+    return MapTestFromJSONTyped(json, false);
+}
+
+export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): MapTest {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'map_map_of_string': !exists(json, 'map_map_of_string') ? undefined : json['map_map_of_string'],
+        'map_of_enum_string': !exists(json, 'map_of_enum_string') ? undefined : json['map_of_enum_string'],
+        'direct_map': !exists(json, 'direct_map') ? undefined : json['direct_map'],
+        'indirect_map': !exists(json, 'indirect_map') ? undefined : json['indirect_map'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1024,6 +1649,22 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
      */
     'map'?: { [key: string]: Animal; };
 }
+export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {
+    return MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json, false);
+}
+
+export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): MixedPropertiesAndAdditionalPropertiesClass {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'dateTime': !exists(json, 'dateTime') ? undefined : (new Date(json['dateTime'])),
+        'map': !exists(json, 'map') ? undefined : (mapValues(json['map'], AnimalFromJSON)),
+    };
+}
+
 /**
  * Model for testing model name starting with number
  * @export
@@ -1043,6 +1684,21 @@ export interface Model200Response {
      */
     'class'?: string;
 }
+export function Model200ResponseFromJSON(json: any): Model200Response {
+    return Model200ResponseFromJSONTyped(json, false);
+}
+
+export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model200Response {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        '_class': !exists(json, 'class') ? undefined : json['class'],
+    };
+}
+
 /**
  * Must be named `File` for test.
  * @export
@@ -1056,6 +1712,20 @@ export interface ModelFile {
      */
     'sourceURI'?: string;
 }
+export function ModelFileFromJSON(json: any): ModelFile {
+    return ModelFileFromJSONTyped(json, false);
+}
+
+export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelFile {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'sourceURI': !exists(json, 'sourceURI') ? undefined : json['sourceURI'],
+    };
+}
+
 /**
  * Model for testing model name same as property name
  * @export
@@ -1087,6 +1757,23 @@ export interface Name {
      */
     '123Number'?: number;
 }
+export function NameFromJSON(json: any): Name {
+    return NameFromJSONTyped(json, false);
+}
+
+export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'name': json['name'],
+        'snake_case': !exists(json, 'snake_case') ? undefined : json['snake_case'],
+        'property': !exists(json, 'property') ? undefined : json['property'],
+        '_123Number': !exists(json, '123Number') ? undefined : json['123Number'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1168,6 +1855,32 @@ export interface NullableClass {
      */
     'object_items_nullable'?: { [key: string]: object; };
 }
+export function NullableClassFromJSON(json: any): NullableClass {
+    return NullableClassFromJSONTyped(json, false);
+}
+
+export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): NullableClass {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+            ...json,
+        'integer_prop': !exists(json, 'integer_prop') ? undefined : json['integer_prop'],
+        'number_prop': !exists(json, 'number_prop') ? undefined : json['number_prop'],
+        'boolean_prop': !exists(json, 'boolean_prop') ? undefined : json['boolean_prop'],
+        'string_prop': !exists(json, 'string_prop') ? undefined : json['string_prop'],
+        'date_prop': !exists(json, 'date_prop') ? undefined : (json['date_prop'] === null ? null : new Date(json['date_prop'])),
+        'datetime_prop': !exists(json, 'datetime_prop') ? undefined : (json['datetime_prop'] === null ? null : new Date(json['datetime_prop'])),
+        'array_nullable_prop': !exists(json, 'array_nullable_prop') ? undefined : json['array_nullable_prop'],
+        'array_and_items_nullable_prop': !exists(json, 'array_and_items_nullable_prop') ? undefined : json['array_and_items_nullable_prop'],
+        'array_items_nullable': !exists(json, 'array_items_nullable') ? undefined : json['array_items_nullable'],
+        'object_nullable_prop': !exists(json, 'object_nullable_prop') ? undefined : json['object_nullable_prop'],
+        'object_and_items_nullable_prop': !exists(json, 'object_and_items_nullable_prop') ? undefined : json['object_and_items_nullable_prop'],
+        'object_items_nullable': !exists(json, 'object_items_nullable') ? undefined : json['object_items_nullable'],
+    };
+}
+
 /**
  * @type NullableShape
  * The value may be a shape or the \'null\' value. The \'nullable\' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1.
@@ -1188,6 +1901,20 @@ export interface NumberOnly {
      */
     'JustNumber'?: number;
 }
+export function NumberOnlyFromJSON(json: any): NumberOnly {
+    return NumberOnlyFromJSONTyped(json, false);
+}
+
+export function NumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): NumberOnly {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'JustNumber': !exists(json, 'JustNumber') ? undefined : json['JustNumber'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1222,6 +1949,23 @@ export interface ObjectWithDeprecatedFields {
      */
     'bars'?: Array<string>;
 }
+export function ObjectWithDeprecatedFieldsFromJSON(json: any): ObjectWithDeprecatedFields {
+    return ObjectWithDeprecatedFieldsFromJSONTyped(json, false);
+}
+
+export function ObjectWithDeprecatedFieldsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObjectWithDeprecatedFields {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'deprecatedRef': !exists(json, 'deprecatedRef') ? undefined : DeprecatedObjectFromJSON(json['deprecatedRef']),
+        'bars': !exists(json, 'bars') ? undefined : json['bars'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1274,6 +2018,25 @@ export const OrderStatusEnum = {
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
+export function OrderFromJSON(json: any): Order {
+    return OrderFromJSONTyped(json, false);
+}
+
+export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'petId': !exists(json, 'petId') ? undefined : json['petId'],
+        'quantity': !exists(json, 'quantity') ? undefined : json['quantity'],
+        'shipDate': !exists(json, 'shipDate') ? undefined : (new Date(json['shipDate'])),
+        'status': !exists(json, 'status') ? undefined : json['status'],
+        'complete': !exists(json, 'complete') ? undefined : json['complete'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1299,6 +2062,22 @@ export interface OuterComposite {
      */
     'my_boolean'?: boolean;
 }
+export function OuterCompositeFromJSON(json: any): OuterComposite {
+    return OuterCompositeFromJSONTyped(json, false);
+}
+
+export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterComposite {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'my_number': !exists(json, 'my_number') ? undefined : json['my_number'],
+        'my_string': !exists(json, 'my_string') ? undefined : json['my_string'],
+        'my_boolean': !exists(json, 'my_boolean') ? undefined : json['my_boolean'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1366,6 +2145,14 @@ export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[k
  */
 export interface ParentPet extends GrandparentAnimal {
 }
+export function ParentPetFromJSON(json: any): ParentPet {
+    return ParentPetFromJSONTyped(json, false);
+}
+
+export function ParentPetFromJSONTyped(json: any, ignoreDiscriminator: boolean): ParentPet {
+    return json;
+}
+
 /**
  * 
  * @export
@@ -1418,6 +2205,25 @@ export const PetStatusEnum = {
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
+export function PetFromJSON(json: any): Pet {
+    return PetFromJSONTyped(json, false);
+}
+
+export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
+        'name': json['name'],
+        'photoUrls': json['photoUrls'],
+        'tags': !exists(json, 'tags') ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
+        'status': !exists(json, 'status') ? undefined : json['status'],
+    };
+}
+
 /**
  * @type Pig
  * @export
@@ -1443,6 +2249,20 @@ export interface QuadrilateralInterface {
      */
     'quadrilateralType': string;
 }
+export function QuadrilateralInterfaceFromJSON(json: any): QuadrilateralInterface {
+    return QuadrilateralInterfaceFromJSONTyped(json, false);
+}
+
+export function QuadrilateralInterfaceFromJSONTyped(json: any, ignoreDiscriminator: boolean): QuadrilateralInterface {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'quadrilateralType': json['quadrilateralType'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1462,6 +2282,21 @@ export interface ReadOnlyFirst {
      */
     'baz'?: string;
 }
+export function ReadOnlyFirstFromJSON(json: any): ReadOnlyFirst {
+    return ReadOnlyFirstFromJSONTyped(json, false);
+}
+
+export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReadOnlyFirst {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'bar': !exists(json, 'bar') ? undefined : json['bar'],
+        'baz': !exists(json, 'baz') ? undefined : json['baz'],
+    };
+}
+
 /**
  * Model for testing reserved words
  * @export
@@ -1475,6 +2310,20 @@ export interface Return {
      */
     'return'?: number;
 }
+export function ReturnFromJSON(json: any): Return {
+    return ReturnFromJSONTyped(json, false);
+}
+
+export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Return {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        '_return': !exists(json, 'return') ? undefined : json['return'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1494,6 +2343,21 @@ export interface ScaleneTriangle {
      */
     'triangleType': string;
 }
+export function ScaleneTriangleFromJSON(json: any): ScaleneTriangle {
+    return ScaleneTriangleFromJSONTyped(json, false);
+}
+
+export function ScaleneTriangleFromJSONTyped(json: any, ignoreDiscriminator: boolean): ScaleneTriangle {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'shapeType': json['shapeType'],
+        'triangleType': json['triangleType'],
+    };
+}
+
 /**
  * @type Shape
  * @export
@@ -1513,6 +2377,20 @@ export interface ShapeInterface {
      */
     'shapeType': string;
 }
+export function ShapeInterfaceFromJSON(json: any): ShapeInterface {
+    return ShapeInterfaceFromJSONTyped(json, false);
+}
+
+export function ShapeInterfaceFromJSONTyped(json: any, ignoreDiscriminator: boolean): ShapeInterface {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'shapeType': json['shapeType'],
+    };
+}
+
 /**
  * @type ShapeOrNull
  * The value may be a shape or the \'null\' value. This is introduced in OAS schema >= 3.1.
@@ -1539,6 +2417,21 @@ export interface SimpleQuadrilateral {
      */
     'quadrilateralType': string;
 }
+export function SimpleQuadrilateralFromJSON(json: any): SimpleQuadrilateral {
+    return SimpleQuadrilateralFromJSONTyped(json, false);
+}
+
+export function SimpleQuadrilateralFromJSONTyped(json: any, ignoreDiscriminator: boolean): SimpleQuadrilateral {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'shapeType': json['shapeType'],
+        'quadrilateralType': json['quadrilateralType'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1558,6 +2451,21 @@ export interface SpecialModelName {
      */
     '_special_model.name_'?: string;
 }
+export function SpecialModelNameFromJSON(json: any): SpecialModelName {
+    return SpecialModelNameFromJSONTyped(json, false);
+}
+
+export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): SpecialModelName {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        '$special_property_name': !exists(json, '$special[property.name]') ? undefined : json['$special[property.name]'],
+        '_special_model_name_': !exists(json, '_special_model.name_') ? undefined : json['_special_model.name_'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1577,6 +2485,21 @@ export interface Tag {
      */
     'name'?: string;
 }
+export function TagFromJSON(json: any): Tag {
+    return TagFromJSONTyped(json, false);
+}
+
+export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+    };
+}
+
 /**
  * @type Triangle
  * @export
@@ -1596,6 +2519,20 @@ export interface TriangleInterface {
      */
     'triangleType': string;
 }
+export function TriangleInterfaceFromJSON(json: any): TriangleInterface {
+    return TriangleInterfaceFromJSONTyped(json, false);
+}
+
+export function TriangleInterfaceFromJSONTyped(json: any, ignoreDiscriminator: boolean): TriangleInterface {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'triangleType': json['triangleType'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1675,6 +2612,31 @@ export interface User {
      */
     'anyTypePropNullable'?: any | null;
 }
+export function UserFromJSON(json: any): User {
+    return UserFromJSONTyped(json, false);
+}
+
+export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'username': !exists(json, 'username') ? undefined : json['username'],
+        'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
+        'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
+        'email': !exists(json, 'email') ? undefined : json['email'],
+        'password': !exists(json, 'password') ? undefined : json['password'],
+        'phone': !exists(json, 'phone') ? undefined : json['phone'],
+        'userStatus': !exists(json, 'userStatus') ? undefined : json['userStatus'],
+        'objectWithNoDeclaredProps': !exists(json, 'objectWithNoDeclaredProps') ? undefined : json['objectWithNoDeclaredProps'],
+        'objectWithNoDeclaredPropsNullable': !exists(json, 'objectWithNoDeclaredPropsNullable') ? undefined : json['objectWithNoDeclaredPropsNullable'],
+        'anyTypeProp': !exists(json, 'anyTypeProp') ? undefined : json['anyTypeProp'],
+        'anyTypePropNullable': !exists(json, 'anyTypePropNullable') ? undefined : json['anyTypePropNullable'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1700,6 +2662,22 @@ export interface Whale {
      */
     'className': string;
 }
+export function WhaleFromJSON(json: any): Whale {
+    return WhaleFromJSONTyped(json, false);
+}
+
+export function WhaleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Whale {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'hasBaleen': !exists(json, 'hasBaleen') ? undefined : json['hasBaleen'],
+        'hasTeeth': !exists(json, 'hasTeeth') ? undefined : json['hasTeeth'],
+        'className': json['className'],
+    };
+}
+
 /**
  * 
  * @export
@@ -1729,6 +2707,22 @@ export const ZebraTypeEnum = {
 } as const;
 
 export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
+
+export function ZebraFromJSON(json: any): Zebra {
+    return ZebraFromJSONTyped(json, false);
+}
+
+export function ZebraFromJSONTyped(json: any, ignoreDiscriminator: boolean): Zebra {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+            ...json,
+        'type': !exists(json, 'type') ? undefined : json['type'],
+        'className': json['className'],
+    };
+}
 
 
 /**
@@ -1792,7 +2786,11 @@ export const AnotherFakeApiFp = function(configuration?: Configuration) {
          */
         async _123testSpecialTags(client: Client, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Client>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator._123testSpecialTags(client, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return ClientFromJSON(response.data);
+            };
         },
     }
 };
@@ -1890,7 +2888,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async fooGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FooGetDefaultResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fooGet(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return FooGetDefaultResponseFromJSON(response.data);
+            };
         },
     }
 };
@@ -2674,7 +3676,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async fakeHealthGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HealthCheckResult>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fakeHealthGet(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return HealthCheckResultFromJSON(response.data);
+            };
         },
         /**
          * Test serialization of outer boolean types
@@ -2684,7 +3690,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async fakeOuterBooleanSerialize(body?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterBooleanSerialize(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * Test serialization of object with outer number type
@@ -2694,7 +3704,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async fakeOuterCompositeSerialize(outerComposite?: OuterComposite, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OuterComposite>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterCompositeSerialize(outerComposite, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return OuterCompositeFromJSON(response.data);
+            };
         },
         /**
          * Test serialization of outer number types
@@ -2704,7 +3718,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async fakeOuterNumberSerialize(body?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterNumberSerialize(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * Test serialization of outer string types
@@ -2714,7 +3732,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async fakeOuterStringSerialize(body?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterStringSerialize(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * 
@@ -2724,7 +3746,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async getArrayOfEnums(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<OuterEnum>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getArrayOfEnums(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return (response.data as Array<any>).map(OuterEnumFromJSON);
+            };
         },
         /**
          * For this test, the body for this request much reference a schema named `File`.
@@ -2734,7 +3760,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testBodyWithFileSchema(fileSchemaTestClass, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -2745,7 +3775,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testBodyWithQueryParams(query: string, user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testBodyWithQueryParams(query, user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * To test \"client\" model
@@ -2756,7 +3790,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testClientModel(client: Client, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Client>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testClientModel(client, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return ClientFromJSON(response.data);
+            };
         },
         /**
          * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -2780,7 +3818,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * To test enum parameters
@@ -2798,7 +3840,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * Fake endpoint to test group parameters (optional)
@@ -2814,7 +3860,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -2825,7 +3875,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testInlineAdditionalProperties(requestBody, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -2837,7 +3891,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testJsonFormData(param: string, param2: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testJsonFormData(param, param2, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * To test the collection format in query parameters
@@ -2851,7 +3909,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
     }
 };
@@ -3313,7 +4375,11 @@ export const FakeClassnameTags123ApiFp = function(configuration?: Configuration)
          */
         async testClassname(client: Client, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Client>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testClassname(client, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return ClientFromJSON(response.data);
+            };
         },
     }
 };
@@ -3793,7 +4859,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async addPet(pet: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(pet, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -3805,7 +4875,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deletePet(petId, apiKey, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * Multiple status values can be provided with comma separated strings
@@ -3816,7 +4890,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return (response.data as Array<any>).map(PetFromJSON);
+            };
         },
         /**
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -3828,7 +4906,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByTags(tags, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return (response.data as Array<any>).map(PetFromJSON);
+            };
         },
         /**
          * Returns a single pet
@@ -3839,7 +4921,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async getPetById(petId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getPetById(petId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return PetFromJSON(response.data);
+            };
         },
         /**
          * 
@@ -3850,7 +4936,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async updatePet(pet: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePet(pet, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -3863,7 +4953,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePetWithForm(petId, name, status, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -3876,7 +4970,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return ApiResponseFromJSON(response.data);
+            };
         },
         /**
          * 
@@ -3889,7 +4987,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          */
         async uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return ApiResponseFromJSON(response.data);
+            };
         },
     }
 };
@@ -4289,7 +5391,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async deleteOrder(orderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * Returns a map of status codes to quantities
@@ -4299,7 +5405,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getInventory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -4310,7 +5420,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getOrderById(orderId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return OrderFromJSON(response.data);
+            };
         },
         /**
          * 
@@ -4321,7 +5435,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async placeOrder(order: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(order, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return OrderFromJSON(response.data);
+            };
         },
     }
 };
@@ -4746,7 +5864,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUser(user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -4757,7 +5879,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithArrayInput(user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -4768,7 +5894,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithListInput(user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * This can only be done by the logged in user.
@@ -4779,7 +5909,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async deleteUser(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -4790,7 +5924,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async getUserByName(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserByName(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return UserFromJSON(response.data);
+            };
         },
         /**
          * 
@@ -4802,7 +5940,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async loginUser(username: string, password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginUser(username, password, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * 
@@ -4812,7 +5954,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async logoutUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.logoutUser(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * This can only be done by the logged in user.
@@ -4824,7 +5970,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async updateUser(username: string, user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(username, user, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
     }
 };

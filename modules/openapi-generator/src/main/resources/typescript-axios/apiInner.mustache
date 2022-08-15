@@ -236,7 +236,44 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          */
         async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                {{#returnType}}
+                {{#isResponseFile}}
+                return new runtime.BlobApiResponse(response);
+                {{/isResponseFile}}
+                {{^isResponseFile}}
+                {{#returnTypeIsPrimitive}}
+                {{#isMap}}
+                return response.data;
+                {{/isMap}}
+                {{#isArray}}
+                return response.data;
+                {{/isArray}}
+                {{#returnSimpleType}}
+                return response.data;
+                {{/returnSimpleType}}
+                {{/returnTypeIsPrimitive}}
+                {{^returnTypeIsPrimitive}}
+                {{#isArray}}
+                return {{#uniqueItems}}new Set({{/uniqueItems}}(response.data as Array<any>).map({{returnBaseType}}FromJSON){{#uniqueItems}}){{/uniqueItems}};
+                {{/isArray}}
+                {{^isArray}}
+                {{#isMap}}
+                return runtime.mapValues(response.data, {{returnBaseType}}FromJSON);
+                {{/isMap}}
+                {{^isMap}}
+                return {{returnBaseType}}FromJSON(response.data);
+                {{/isMap}}
+                {{/isArray}}
+                {{/returnTypeIsPrimitive}}
+                {{/isResponseFile}}
+                {{/returnType}}
+                {{^returnType}}
+                return;
+                {{/returnType}}                
+            };
         },
     {{/operation}}
     }

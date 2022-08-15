@@ -18,4 +18,5 @@ model/some/levels/deep/pet.ts
 model/some/levels/deep/tag.ts
 model/some/levels/deep/user.ts
 package.json
+runtime.ts
 tsconfig.json

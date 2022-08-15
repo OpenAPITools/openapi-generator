@@ -337,7 +337,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUser(body: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -348,7 +352,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUsersWithArrayInput(body: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithArrayInput(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -359,7 +367,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async createUsersWithListInput(body: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithListInput(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * This can only be done by the logged in user.
@@ -370,7 +382,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async deleteUser(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -381,7 +397,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async getUserByName(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserByName(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return UserFromJSON(response.data);
+            };
         },
         /**
          * 
@@ -393,7 +413,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async loginUser(username: string, password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginUser(username, password, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * 
@@ -403,7 +427,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async logoutUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.logoutUser(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * This can only be done by the logged in user.
@@ -415,7 +443,11 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async updateUser(username: string, body: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(username, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
     }
 };

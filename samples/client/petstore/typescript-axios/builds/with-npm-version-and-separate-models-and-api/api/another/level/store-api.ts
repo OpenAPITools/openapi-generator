@@ -184,7 +184,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async deleteOrder(orderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * Returns a map of status codes to quantities
@@ -194,7 +198,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getInventory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return response.data;
+            };
         },
         /**
          * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -205,7 +213,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async getOrderById(orderId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return OrderFromJSON(response.data);
+            };
         },
         /**
          * 
@@ -216,7 +228,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          */
         async placeOrder(body: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return OrderFromJSON(response.data);
+            };
         },
     }
 };

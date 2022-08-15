@@ -69,4 +69,25 @@ export interface User {
      */
     'userStatus'?: number;
 }
+export function UserFromJSON(json: any): User {
+    return UserFromJSONTyped(json, false);
+}
+
+export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'username': !exists(json, 'username') ? undefined : json['username'],
+        'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
+        'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
+        'email': !exists(json, 'email') ? undefined : json['email'],
+        'password': !exists(json, 'password') ? undefined : json['password'],
+        'phone': !exists(json, 'phone') ? undefined : json['phone'],
+        'userStatus': !exists(json, 'userStatus') ? undefined : json['userStatus'],
+    };
+}
+
 
