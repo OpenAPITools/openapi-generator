@@ -1,0 +1,103 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	"context"
+	{{#pathParams}}
+	"net/url"{{/pathParams}}
+	jsoniter "github.com/json-iterator/go"
+	"fmt"
+{{#imports}}	"{{import}}"
+{{/imports}}
+)
+
+{{#generateInterfaces}}
+
+type {{classname}} interface {
+	{{#operation}}
+
+	/*
+	{{operationId}} {{{summary}}}{{^summary}}Method for {{operationId}}{{/summary}}
+	{{#notes}}
+
+	{{{unescapedNotes}}}
+	{{/notes}}
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	@param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	@return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
+	{{#isDeprecated}}
+
+	Deprecated
+	{{/isDeprecated}}
+	*/
+	{{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
+
+	// {{nickname}}Execute executes the request{{#returnType}}
+	//  @return {{{.}}}{{/returnType}}
+	{{#isDeprecated}}
+	// Deprecated
+	{{/isDeprecated}}
+	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error)
+	{{/operation}}
+}
+{{/generateInterfaces}}
+
+type {{classname}}Service struct {
+	ctx context.Context
+	client *GenerateClient
+}
+{{#operation}}
+
+type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request struct {
+{{#allParams}}
+	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+{{/allParams}}
+}
+
+
+// Execute executes the request{{#returnType}}
+//  @return {{{.}}}{{/returnType}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
+func (srv *{{{classname}}}Service) {{{nickname}}}(
+	ctx context.Context,
+	reqData {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request, 
+	ops ...RequestOption) (
+		{{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, 
+		error,
+	) {
+	var err error
+	var c = srv.client
+	
+	if err = c.validate.Struct(reqData); err!=nil{
+		return nil, err
+	}
+
+	isGetReq := {{#isGet}}true{{/isGet}}{{^isGet}}false{{/isGet}}
+	req := c.initRequest(ctx, isGetReq, ops...)
+	
+	requestUrl := c.url + "{{{path}}}"{{#pathParams}}
+	requestUrl = strings.Replace(requestUrl, "{"+"{{baseName}}"+"}", url.PathEscape(parameterToString(reqData.{{paramName}}, "{{collectionFormat}}")), -1){{/pathParams}}
+	{{#bodyParams}}
+	// body params
+	reqBody, err := jsoniter.Marshal(reqData)
+	if err != nil {
+		return nil, err
+	}
+	req.SetBody(reqBody)
+	{{/bodyParams}}
+	resp, err := req.{{httpMethod}}(requestUrl)
+	if err != nil {
+		err = fmt.Errorf("httpSend err:%v", err)
+		return nil, err
+	}
+	ret := new({{#returnType}}{{^isArray}}{{/isArray}}{{{.}}}{{/returnType}})
+	err = c.bindData(req, resp, ret)
+	{{/returnType}}
+	return {{#returnType}}ret, {{/returnType}} nil
+}
+{{/operation}}
+{{/operations}}

@@ -1,0 +1,248 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"encoding/xml"
+	"net/url"
+	"os"
+	"path/filepath"
+	"reflect"
+	"regexp"
+	"strconv"
+	"strings"
+	"time"
+
+	"golang.org/x/oauth2"
+	"github.com/AfterShip/gopkg/api"
+	jsoniter "github.com/json-iterator/go"
+
+	"github.com/AfterShip/gopkg/api/client"
+	"github.com/go-playground/validator/v10"
+	"github.com/go-resty/resty/v2"
+	"go.uber.org/zap"
+	"golang.org/x/time/rate"
+	{{#withAWSV4Signature}}
+	awsv4 "github.com/aws/aws-sdk-go/aws/signer/v4"
+	awscredentials "github.com/aws/aws-sdk-go/aws/credentials"
+	{{/withAWSV4Signature}}
+)
+
+var (
+	logger *zap.Logger
+)
+
+const (
+	// http client 发送流控
+	maxLimiterRetryCount = 1e4
+)
+
+type GenerateClient struct {
+	restyClient *client.Client
+	url         string // platform service url
+	limiter     *rate.Limiter
+	validate    *validator.Validate
+}
+
+func NewGenerateClient(restyClient *client.Client, url string, limiter *rate.Limiter, validate *validator.Validate) *GenerateClient {
+	cli := &GenerateClient{
+		restyClient: restyClient,
+		url:         url,
+		limiter:     limiter,
+		validate:    validate,
+	}
+	jsoniter.RegisterExtension(&SliceOmitEmptyExtension{})
+	return cli
+}
+
+type RequestOption func(req *resty.Request)
+
+// initRequest is under rate limiter control
+func (c *GenerateClient) initRequest(ctx context.Context, isGetReq bool, ops ...RequestOption) *resty.Request {
+	c.waitForLimiter()
+
+	req := c.restyClient.NewRequest()
+	if !isGetReq {
+		req.SetHeader("Content-Type", "application/json")
+	}
+	req.SetContext(ctx)
+
+	if len(ops) > 0 {
+		for _, v := range ops {
+			v(req)
+		}
+	}
+	return req
+}
+
+// block util rate limiter valid
+func (c *GenerateClient) waitForLimiter() {
+	for i := 0; i < maxLimiterRetryCount; i++ {
+		if c.limiter.Allow() {
+			//logger.Info("pass limiter")
+			return
+		}
+		//logger.Info("wait for limiter")
+		time.Sleep(time.Second)
+	}
+}
+
+// check req & resp nil before call this function
+func (c *GenerateClient) bindData(req *resty.Request, resp *resty.Response, ptr interface{}) error {
+	if isStatusCodeErr(resp.StatusCode()) {
+		err := fmt.Errorf("HttpSend err. response code:%v request url:%s resp body:%s req:%s resp header:%+v",
+			resp.StatusCode(), req.URL, string(resp.Body()), req.Body, resp.Header())
+		apiError := &APIError{
+			Err:          err,
+			ResponseCode: resp.StatusCode(),
+			Body:         resp.Body(),
+		}
+
+		respData := &api.Response{}
+		if iErr := jsoniter.Unmarshal(resp.Body(), &respData); iErr == nil && respData.Meta.Code != 0 {
+			apiError.MetaCode = respData.Meta.Code
+			apiError.Message = respData.Meta.Message
+		}
+		return apiError
+	}
+
+	err := json.Unmarshal(resp.Body(), ptr)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func isStatusCodeErr(statusCode int) bool {
+	if statusCode/100 > 2 {
+		return true
+	}
+	return false
+}
+
+// getUrlParams: get request param
+// can not contain embedded object
+// set 'omitempty' to struct if no need to set param when empty
+func getUrlParams(reqParams interface{}) (string, error) {
+	out, err := jsoniter.Marshal(reqParams)
+	if err != nil {
+		return "", err
+	}
+
+	paramsMap := make(map[string]interface{})
+	err = json.Unmarshal(out, &paramsMap)
+	if err != nil {
+		return "", err
+	}
+
+	urlValues := url.Values{}
+
+	for k, v := range paramsMap {
+		urlValues.Set(k, fmt.Sprintf("%v", v))
+	}
+
+	return urlValues.Encode(), nil
+}
+
+type APIError struct {
+	ResponseCode int `json:"code"`
+	MetaCode     int
+	Message      string
+	Err          error
+	Body         []byte
+}
+
+// implement as error
+func (e *APIError) Error() string {
+	if e.Err == nil {
+		return ""
+	}
+	return e.Err.Error()
+}
+
+func (e *APIError) Unwrap() error {
+	return e.Err
+}
+
+func (e *APIError) GetMainCode() int {
+	return e.MetaCode / 100
+}
+
+func (e *APIError) GetSubCode() int {
+	return e.MetaCode % 100
+}
+
+// Prevent trying to import "fmt"
+func reportError(format string, a ...interface{}) error {
+	return fmt.Errorf(format, a...)
+}
+
+// A wrapper for strict JSON decoding
+func newStrictDecoder(data []byte) *json.Decoder {
+	dec := json.NewDecoder(bytes.NewBuffer(data))
+	dec.DisallowUnknownFields()
+	return dec
+}
+
+
+// parameterToString convert interface{} parameters to string, using a delimiter if format is provided.
+func parameterToString(obj interface{}, collectionFormat string) string {
+	var delimiter string
+
+	switch collectionFormat {
+	case "pipes":
+		delimiter = "|"
+	case "ssv":
+		delimiter = " "
+	case "tsv":
+		delimiter = "\t"
+	case "csv":
+		delimiter = ","
+	}
+
+	if reflect.TypeOf(obj).Kind() == reflect.Slice {
+		return strings.Trim(strings.Replace(fmt.Sprint(obj), " ", delimiter, -1), "[]")
+	} else if t, ok := obj.(time.Time); ok {
+		return t.Format(time.RFC3339)
+	}
+
+	return fmt.Sprintf("%v", obj)
+}
+
+
+
+type SliceOmitEmptyExtension struct {
+	jsoniter.DummyExtension
+}
+
+func (extension *SliceOmitEmptyExtension) DecorateEncoder(typ reflect2.Type, encoder jsoniter.ValEncoder) jsoniter.ValEncoder {
+	if typeIn(typ, []reflect.Kind{reflect.Array, reflect.Slice}) {
+		return &sliceOmitEmptyEncoder{valEncoder: encoder, typ: typ}
+	}
+	return encoder
+}
+
+type sliceOmitEmptyEncoder struct {
+	typ        reflect2.Type
+	valEncoder jsoniter.ValEncoder
+}
+
+func (o *sliceOmitEmptyEncoder) Encode(ptr unsafe.Pointer, stream *jsoniter.Stream) {
+	o.valEncoder.Encode(ptr, stream)
+}
+
+func (o *sliceOmitEmptyEncoder) IsEmpty(ptr unsafe.Pointer) bool {
+	return o.typ.UnsafeIsNil(ptr)
+}
+
+func typeIn(typ reflect2.Type, types []reflect.Kind) bool {
+	for _, t := range types {
+		if typ.Kind() == t {
+			return true
+		}
+	}
+	return false
+}
