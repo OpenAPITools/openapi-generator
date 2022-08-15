@@ -885,6 +885,9 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
                 case "Undefined":
                     typeScriptType = "undefined";
                     break;
+                case "File":
+                    typeScriptType = "any";
+                    break;
                 default:
                     // This is expected to be the name of a model from swagger
                     typeScriptType = "Models." + typeScriptType;
