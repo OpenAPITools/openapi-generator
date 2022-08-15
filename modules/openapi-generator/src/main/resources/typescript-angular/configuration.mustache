@@ -172,7 +172,7 @@ export class {{configurationClassName}} {
     private legacyEncodeParam(param: Param): string {
         // This legacy implementation is here for backwards compatibility only.
         // It is only correct for param-style 'simple'.
-        if(param.style === "simple") {
+        if (param.style === "simple") {
             return encodeURIComponent(String(param.value));
         }
 

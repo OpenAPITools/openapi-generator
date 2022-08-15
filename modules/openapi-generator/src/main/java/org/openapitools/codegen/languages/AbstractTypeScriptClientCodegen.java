@@ -52,7 +52,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @SuppressWarnings("StringBufferField")
     public static class ParameterExpander {
         enum Location {
-            query((op, param) -> op.queryParams.contains(param), "form"),
+            query((operation, param) -> operation.queryParams.contains(param), "form"),
             header((op, param) -> op.headerParams.contains(param), "simple"),
             path((op, param) -> op.pathParams.contains(param), "simple"),
             cookie((op, param) -> op.cookieParams.contains(param), "form");
