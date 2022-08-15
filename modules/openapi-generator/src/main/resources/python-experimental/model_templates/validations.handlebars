@@ -14,9 +14,9 @@ _SchemaValidator(
 {{#if minItems}}
     min_items={{minItems}},
 {{/if}}
-{{#if maxProperties}}
+{{#neq maxProperties null }}
     max_properties={{maxProperties}},
-{{/if}}
+{{/neq}}
 {{#if minProperties}}
     min_properties={{minProperties}},
 {{/if}}
@@ -45,6 +45,6 @@ _SchemaValidator(
     }],
 {{/if}}
 {{#if multipleOf}}
-    multiple_of=[{{multipleOf}}],
+    multiple_of={{multipleOf}},
 {{/if}}
 ),

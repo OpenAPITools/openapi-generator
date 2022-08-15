@@ -99,29 +99,26 @@ class TestDrawing(unittest.TestCase):
             )
 
         """
-        we can't pass in an incorrect type for shapes
-        'shapes' items has type 'Shape', which is a oneOf [Triangle, Quadrilateral]
-        composed schema. We are not able to assign Triangle tor Quadrilateral
-        to a shapes item because those instances do not include Shape validation
-        Shape could require additional validations that Triangle + Quadrilateral do not include
+        We can pass in a Triangle instance in shapes
+        Under the hood it is converted into a dict, and that dict payload
+        does validate as a Shape, so this works
         """
         from petstore_api.model.triangle import Triangle
-        err_msg = (r"Incorrect type passed in, required type was <class 'petstore_api.model.shape.Shape'> "
-                   r"and passed type was <class 'petstore_api.schemas.DynamicSchema'> at "
-                   r"\('args\[0\]', 'shapes', 0\)")
-        with self.assertRaisesRegex(
-                petstore_api.ApiTypeError,
-                err_msg
-        ):
-            inst = Drawing(
-                mainShape=isosceles_triangle,
-                shapes=[
-                    Triangle(
-                        shapeType="Triangle",
-                        triangleType="EquilateralTriangle"
-                    )
-                ]
-            )
+        inst = Drawing(
+            mainShape=isosceles_triangle,
+            shapes=[
+                Triangle(
+                    shapeType="Triangle",
+                    triangleType="EquilateralTriangle"
+                )
+            ]
+        )
+        self.assertEqual(len(inst.shapes), 1)
+        from petstore_api.model.triangle_interface import TriangleInterface
+        assert isinstance(inst.shapes[0], shape.Shape)
+        assert isinstance(inst.shapes[0], Triangle)
+        assert isinstance(inst.shapes[0], EquilateralTriangle)
+        assert isinstance(inst.shapes[0], TriangleInterface)
 
     def test_deserialize_oneof_reference_with_null_type(self):
         """

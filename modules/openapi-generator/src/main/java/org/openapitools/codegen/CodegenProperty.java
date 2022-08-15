@@ -149,6 +149,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isArray;
     public boolean isMap;
     public boolean isEnum;
+    public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -193,6 +194,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas = null;
     private boolean hasMultipleTypes = false;
+    private Map<String, CodegenProperty> requiredVarsMap;
+    private String ref;
 
     public String getBaseName() {
         return baseName;
@@ -659,6 +662,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    @Override
+    public String getRef() {
+        return ref;
+    }
+
+    @Override
     public CodegenProperty clone() {
         try {
             CodegenProperty cp = (CodegenProperty) super.clone();
@@ -688,6 +701,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             }
             if (this.composedSchemas != null) {
                 cp.composedSchemas = this.composedSchemas;
+            }
+            if (this.requiredVarsMap != null) {
+                cp.setRequiredVarsMap(this.requiredVarsMap);
+            }
+            if (this.ref != null) {
+                cp.setRef(this.ref);
             }
 
             return cp;
@@ -867,6 +886,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
 
     @Override
+    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+
+    @Override
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');
@@ -925,6 +950,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
+        sb.append(", isInnerEnum=").append(isInnerEnum);
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -964,6 +990,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", requiredVarsMap=").append(requiredVarsMap);
+        sb.append(", ref=").append(ref);
         sb.append('}');
         return sb.toString();
     }
@@ -1004,6 +1032,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isArray == that.isArray &&
                 isMap == that.isMap &&
                 isEnum == that.isEnum &&
+                isInnerEnum == that.isInnerEnum &&
                 isAnyType == that.isAnyType &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -1021,6 +1050,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(ref, that.getRef()) &&
+                Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(openApiType, that.openApiType) &&
                 Objects.equals(baseName, that.baseName) &&
@@ -1078,12 +1109,13 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isEnum, isInnerEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes);
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
+                ref);
     }
 }

@@ -12,43 +12,23 @@ def _composed_schemas(cls):
 {{#with composedSchemas}}
 {{#each allOf}}
 {{#unless complexType}}
-{{#unless isAnyType}}
     {{> model_templates/schema }}
 {{/unless}}
-{{/unless}}
-{{#if isAnyType}}
-    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
-{{/if}}
 {{/each}}
 {{#each oneOf}}
 {{#unless complexType}}
-{{#unless isAnyType}}
     {{> model_templates/schema }}
 {{/unless}}
-{{/unless}}
-{{#if isAnyType}}
-    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
-{{/if}}
 {{/each}}
 {{#each anyOf}}
 {{#unless complexType}}
-{{#unless isAnyType}}
     {{> model_templates/schema }}
 {{/unless}}
-{{/unless}}
-{{#if isAnyType}}
-    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
-{{/if}}
 {{/each}}
 {{#with not}}
 {{#unless complexType}}
-{{#unless isAnyType}}
     {{> model_templates/schema }}
 {{/unless}}
-{{/unless}}
-{{#if isAnyType}}
-    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
-{{/if}}
 {{/with}}
 {{/with}}
     return {

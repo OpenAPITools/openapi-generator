@@ -43,6 +43,10 @@ paths:
             type: array
             items:
               $ref: '#/components/requestBodies/Pet'
+        - name: Accept
+          in: header
+          schema:
+            $ref: '#/components/schemas/MediaType'
       requestBody:
         $ref: '#/components/requestBodies/Pet'
     put:
@@ -578,6 +582,9 @@ components:
       name: api_key
       in: header
   schemas:
+    MediaType:
+        type: string
+        enum: ['application/json', 'application/xml']
     Order:
       title: Pet Order
       description: An order for a pets from the pet store

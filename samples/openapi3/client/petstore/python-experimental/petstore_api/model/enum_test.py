@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -74,9 +76,9 @@ class EnumTest(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'enum_string_required',
-    ))
+    _required_property_names = {
+        "enum_string_required",
+    }
     
     
     class enum_string(

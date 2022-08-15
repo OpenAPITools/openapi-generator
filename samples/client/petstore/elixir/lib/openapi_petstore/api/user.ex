@@ -167,8 +167,8 @@ defmodule OpenapiPetstore.Api.User do
     %{}
     |> method(:get)
     |> url("/user/login")
-    |> add_param(:query, :"username", username)
-    |> add_param(:query, :"password", password)
+    |> add_param(:query, :username, username)
+    |> add_param(:query, :password, password)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

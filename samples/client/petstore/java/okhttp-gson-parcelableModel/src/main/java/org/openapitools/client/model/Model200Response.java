@@ -60,7 +60,7 @@ public class Model200Response implements Parcelable {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
-  public Model200Response() { 
+  public Model200Response() {
   }
 
   public Model200Response name(Integer name) {
@@ -208,7 +208,7 @@ public class Model200Response implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Model200Response` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("class") != null && !jsonObj.get("class").isJsonPrimitive()) {
+      if ((jsonObj.get("class") != null && !jsonObj.get("class").isJsonNull()) && !jsonObj.get("class").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `class` to be a primitive type in the JSON string but got `%s`", jsonObj.get("class").toString()));
       }
   }

@@ -83,15 +83,37 @@ Class | Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasic}}
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
+{{#isBasicBasic}}
+- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+- **Type**: Bearer authentication
+{{#bearerFormat}}
+- **Bearer Format**: {{{.}}}
+{{/bearerFormat}}
+{{/isBasicBearer}}
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+- **Type**: OAuth
 - **Flow**: {{flow}}
+{{#authorizationUrl}}
 - **Authorization URL**: {{authorizationUrl}}
+{{/authorizationUrl}}
+{{#tokenUrl}}
+- **Token URL**: {{tokenUrl}}
+{{/tokenUrl}}
+{{#refreshUrl}}
+- **Refresh URL**: {{refreshUrl}}
+{{/refreshUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}

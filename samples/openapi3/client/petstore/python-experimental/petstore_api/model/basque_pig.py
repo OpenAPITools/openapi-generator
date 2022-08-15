@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -74,15 +76,15 @@ class BasquePig(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'className',
-    ))
+    _required_property_names = {
+        "className",
+    }
     
     
     class className(
         _SchemaEnumMaker(
             enum_value_to_name={
-                "BasquePig": "BASQUEPIG",
+                "BasquePig": "BASQUE_PIG",
             }
         ),
         StrSchema
@@ -90,7 +92,7 @@ class BasquePig(
         
         @classmethod
         @property
-        def BASQUEPIG(cls):
+        def BASQUE_PIG(cls):
             return cls("BasquePig")
 
 

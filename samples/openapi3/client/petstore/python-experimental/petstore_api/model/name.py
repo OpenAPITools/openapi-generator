@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -76,13 +78,13 @@ class Name(
 
     Model for testing model name same as property name
     """
-    _required_property_names = set((
-        'name',
-    ))
+    _required_property_names = {
+        "name",
+    }
     name = Int32Schema
     snake_case = Int32Schema
     _property = StrSchema
-    locals()['property'] = _property
+    locals()["property"] = _property
     del locals()['_property']
 
     def __new__(

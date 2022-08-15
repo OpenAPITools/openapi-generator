@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -96,7 +98,7 @@ class ComplexQuadrilateral(
             class quadrilateralType(
                 _SchemaEnumMaker(
                     enum_value_to_name={
-                        "ComplexQuadrilateral": "COMPLEXQUADRILATERAL",
+                        "ComplexQuadrilateral": "COMPLEX_QUADRILATERAL",
                     }
                 ),
                 StrSchema
@@ -104,7 +106,7 @@ class ComplexQuadrilateral(
                 
                 @classmethod
                 @property
-                def COMPLEXQUADRILATERAL(cls):
+                def COMPLEX_QUADRILATERAL(cls):
                     return cls("ComplexQuadrilateral")
         
         

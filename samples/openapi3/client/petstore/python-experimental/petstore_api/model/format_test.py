@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -74,19 +76,19 @@ class FormatTest(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'number',
-        'byte',
-        'date',
-        'password',
-    ))
+    _required_property_names = {
+        "date",
+        "number",
+        "password",
+        "byte",
+    }
     
     
     class integer(
         _SchemaValidator(
             inclusive_maximum=100,
             inclusive_minimum=10,
-            multiple_of=[2],
+            multiple_of=2,
         ),
         IntSchema
     ):
@@ -109,7 +111,7 @@ class FormatTest(
         _SchemaValidator(
             inclusive_maximum=543.2,
             inclusive_minimum=32.1,
-            multiple_of=[32.5],
+            multiple_of=32.5,
         ),
         NumberSchema
     ):
@@ -124,7 +126,7 @@ class FormatTest(
         Float32Schema
     ):
         pass
-    locals()['float'] = _float
+    locals()["float"] = _float
     del locals()['_float']
     float32 = Float32Schema
     
@@ -208,10 +210,10 @@ class FormatTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        number: number,
-        byte: byte,
         date: date,
+        number: number,
         password: password,
+        byte: byte,
         integer: typing.Union[integer, Unset] = unset,
         int32: typing.Union[int32, Unset] = unset,
         int32withValidations: typing.Union[int32withValidations, Unset] = unset,
@@ -234,10 +236,10 @@ class FormatTest(
         return super().__new__(
             cls,
             *args,
-            number=number,
-            byte=byte,
             date=date,
+            number=number,
             password=password,
+            byte=byte,
             integer=integer,
             int32=int32,
             int32withValidations=int32withValidations,

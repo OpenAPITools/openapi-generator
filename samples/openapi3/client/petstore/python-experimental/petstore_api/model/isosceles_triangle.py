@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -96,7 +98,7 @@ class IsoscelesTriangle(
             class triangleType(
                 _SchemaEnumMaker(
                     enum_value_to_name={
-                        "IsoscelesTriangle": "ISOSCELESTRIANGLE",
+                        "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
                     }
                 ),
                 StrSchema
@@ -104,7 +106,7 @@ class IsoscelesTriangle(
                 
                 @classmethod
                 @property
-                def ISOSCELESTRIANGLE(cls):
+                def ISOSCELES_TRIANGLE(cls):
                     return cls("IsoscelesTriangle")
         
         

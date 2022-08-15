@@ -71,6 +71,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--import-mappings"}, title = "import mappings", description = "displays the default import mappings (types and aliases, and what imports they will pull into the template)")
     private Boolean importMappings;
 
+    @Option(name = {"--schema-mappings"}, title = "schema mappings", description = "display the schema mappings (none)")
+    private Boolean schemaMappings;
+
     @Option(name = {"--inline-schema-name-mappings"}, title = "inline schema name mappings", description = "displays the inline schema name mappings (none)")
     private Boolean inlineSchemaNameMappings;
 
@@ -452,6 +455,18 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Imports");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(schemaMappings)) {
+            sb.append(newline).append("SCHEMA MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.schemaMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Scheme", "Mapped to");
             sb.append(newline);
         }
 

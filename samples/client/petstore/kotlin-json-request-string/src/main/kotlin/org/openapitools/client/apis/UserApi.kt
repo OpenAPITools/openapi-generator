@@ -25,7 +25,8 @@ import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.User
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse

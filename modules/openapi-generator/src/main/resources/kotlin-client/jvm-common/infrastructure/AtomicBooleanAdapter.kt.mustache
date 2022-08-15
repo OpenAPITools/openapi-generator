@@ -10,7 +10,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import java.util.concurrent.atomic.AtomicBoolean
 
 @Serializer(forClass = AtomicBoolean::class)
-object AtomicBooleanAdapter : KSerializer<AtomicBoolean> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}object AtomicBooleanAdapter : KSerializer<AtomicBoolean> {
     override fun serialize(encoder: Encoder, value: AtomicBoolean) {
         encoder.encodeBoolean(value.get())
     }

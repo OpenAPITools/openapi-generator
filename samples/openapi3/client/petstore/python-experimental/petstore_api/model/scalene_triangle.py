@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -96,7 +98,7 @@ class ScaleneTriangle(
             class triangleType(
                 _SchemaEnumMaker(
                     enum_value_to_name={
-                        "ScaleneTriangle": "SCALENETRIANGLE",
+                        "ScaleneTriangle": "SCALENE_TRIANGLE",
                     }
                 ),
                 StrSchema
@@ -104,7 +106,7 @@ class ScaleneTriangle(
                 
                 @classmethod
                 @property
-                def SCALENETRIANGLE(cls):
+                def SCALENE_TRIANGLE(cls):
                     return cls("ScaleneTriangle")
         
         

@@ -45,7 +45,7 @@ public class OuterComposite {
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private Boolean myBoolean;
 
-  public OuterComposite() { 
+  public OuterComposite() {
   }
 
   public OuterComposite myNumber(BigDecimal myNumber) {

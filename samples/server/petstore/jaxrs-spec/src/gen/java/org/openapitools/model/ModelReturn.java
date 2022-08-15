@@ -21,14 +21,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Return")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ModelReturn  implements Serializable {
-  
   private @Valid Integer _return;
 
   protected ModelReturn(ModelReturnBuilder<?, ?> b) {
-  this._return = b._return;
+    this._return = b._return;
   }
 
-  public ModelReturn() { }
+  public ModelReturn() {
+  }
 
   /**
    **/

@@ -353,8 +353,8 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
         default:
 
             guard let data = data, !data.isEmpty else {
-                if T.self is ExpressibleByNilLiteral.Type {
-                    completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T)))
+                if let E = T.self as? ExpressibleByNilLiteral.Type {
+                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T)))
                 } else {
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 }

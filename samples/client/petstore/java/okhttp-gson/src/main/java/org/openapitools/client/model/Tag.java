@@ -57,7 +57,7 @@ public class Tag {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public Tag() { 
+  public Tag() {
   }
 
   public Tag id(Long id) {
@@ -211,7 +211,7 @@ public class Tag {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Tag is not found in the empty JSON string", Tag.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
   }

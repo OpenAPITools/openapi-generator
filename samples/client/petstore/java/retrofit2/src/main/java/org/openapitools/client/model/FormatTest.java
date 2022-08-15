@@ -90,7 +90,7 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 
-  public FormatTest() { 
+  public FormatTest() {
   }
 
   public FormatTest integer(Integer integer) {

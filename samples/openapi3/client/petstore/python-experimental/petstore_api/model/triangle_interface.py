@@ -60,6 +60,8 @@ from petstore_api.schemas import (  # noqa: F401
     BoolBase,
     BinaryBase,
     Schema,
+    NoneClass,
+    BoolClass,
     _SchemaValidator,
     _SchemaTypeChecker,
     _SchemaEnumMaker
@@ -74,10 +76,10 @@ class TriangleInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'shapeType',
-        'triangleType',
-    ))
+    _required_property_names = {
+        "shapeType",
+        "triangleType",
+    }
     
     
     class shapeType(

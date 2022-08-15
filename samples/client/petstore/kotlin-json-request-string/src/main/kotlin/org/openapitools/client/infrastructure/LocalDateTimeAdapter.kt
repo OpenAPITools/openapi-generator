@@ -1,19 +1,24 @@
 package org.openapitools.client.infrastructure
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class LocalDateTimeAdapter {
-    @ToJson
-    fun toJson(value: LocalDateTime): String {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value)
+@Serializer(forClass = LocalDateTime::class)
+object LocalDateTimeAdapter : KSerializer<LocalDateTime> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: LocalDateTime) {
+        encoder.encodeString(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value))
     }
 
-    @FromJson
-    fun fromJson(value: String): LocalDateTime {
-        return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    override fun deserialize(decoder: Decoder): LocalDateTime {
+        return LocalDateTime.parse(decoder.decodeString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
-
 }

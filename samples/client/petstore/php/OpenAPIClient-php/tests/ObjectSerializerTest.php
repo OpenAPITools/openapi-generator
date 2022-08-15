@@ -2,44 +2,53 @@
 
 namespace OpenAPI\Client;
 
+use DateTime;
 use GuzzleHttp\Psr7\Utils;
+use OpenAPI\Client\Model\Pet;
+use OpenAPI\Client\Model\Tag;
 use PHPUnit\Framework\TestCase;
+use SplFileObject;
 
-// test object serializer
+/**
+ * class ObjectSerializerTest
+ *
+ * @package OpenAPI\Client
+ */
 class ObjectSerializerTest extends TestCase
 {
-    // test sanitizeFilename
-    public function testSanitizeFilename()
+    /**
+     * Test sanitizeFilename
+     *
+     * @covers ObjectSerializer::sanitizeFilename
+     */
+    public function testSanitizeFilename(): void
     {
-        // initialize the API client
-        $s = new ObjectSerializer();
-
-        $this->assertSame("sun.gif", $s->sanitizeFilename("sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("../sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("/var/tmp/sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("./sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("../sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("/var/tmp/sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("./sun.gif"));
         
-        $this->assertSame("sun", $s->sanitizeFilename("sun"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("..\sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("\var\tmp\sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("c:\var\tmp\sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename(".\sun.gif"));
+        $this->assertSame("sun", ObjectSerializer::sanitizeFilename("sun"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("..\sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("\var\tmp\sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("c:\var\tmp\sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename(".\sun.gif"));
     }
 
     /**
      * Test SplFileObject class deserialization.
      *
      * @see https://github.com/OpenAPITools/openapi-generator/pull/11184
-     * @covers ObjectSerializer::serialize
+     * @covers ObjectSerializer::deserialize
      * @dataProvider provideFileStreams
      */
     public function testDeserializeFile($stream, ?array $httpHeaders = null, ?string $expectedFilename = null): void
     {
         $s = new ObjectSerializer();
 
-        /** @var \SplFileObject */
-        $file = $s->deserialize($stream, '\SplFileObject', $httpHeaders);
-        $this->assertInstanceOf(\SplFileObject::class, $file);
+        /** @var SplFileObject $file */
+        $file = ObjectSerializer::deserialize($stream, '\SplFileObject', $httpHeaders);
+        $this->assertInstanceOf(SplFileObject::class, $file);
 
         if (is_string($expectedFilename)) {
             $this->assertEquals($expectedFilename, $file->getFilename());
@@ -48,7 +57,11 @@ class ObjectSerializerTest extends TestCase
         }
     }
 
-    public function provideFileStreams()
+    /**
+     * File Streams Provider
+     * @return array[]
+     */
+    public function provideFileStreams(): array
     {
         return [
             'File stream without headers' => [
@@ -90,9 +103,14 @@ class ObjectSerializerTest extends TestCase
     public function testDateTimeParseSecondAccuracy(string $timestamp, string $expected): void
     {
         $dateTime = ObjectSerializer::deserialize($timestamp, '\DateTime');
-        $this->assertEquals(new \DateTime($expected), $dateTime);
+        $this->assertEquals(new DateTime($expected), $dateTime);
     }
 
+    /**
+     * Timestamps provider
+     *
+     * @return string[][]
+     */
     public function provideTimestamps(): array
     {
         return [
@@ -149,6 +167,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertEquals($expected, $query);
     }
 
+    /**
+     * Query params provider
+     *
+     * @return array[]
+     */
     public function provideQueryParams(): array
     {
         $array = ['blue', 'black', 'brown'];
@@ -321,6 +344,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * Deep Objects provider
+     *
+     * @return array
+     */
     public function provideDeepObjects(): array
     {
         return [
@@ -360,6 +388,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * toString() input provider
+     *
+     * @return array
+     */
     public function provideToStringInput(): array
     {
         return [
@@ -384,11 +417,12 @@ class ObjectSerializerTest extends TestCase
                 'expected' => 'some string',
             ],
             'a date' => [
-                'input' => new \DateTime('14-04-2022'),
+                'input' => new DateTime('14-04-2022'),
                 'expected' => '2022-04-14T00:00:00+00:00',
             ],
         ];
     }
+
     /**
      * @covers ObjectSerializer::toQueryValue
      * @dataProvider provideQueryParamsWithStringBooleanFormatForQueryString
@@ -412,6 +446,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertEquals($expected, $query);
     }
 
+    /**
+     * Query Params with string boolean format provider
+     *
+     * @return array[]
+     */
     public function provideQueryParamsWithStringBooleanFormatForQueryString(): array
     {
         return [
@@ -430,5 +469,34 @@ class ObjectSerializerTest extends TestCase
                 true, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=true',
             ],
         ];
+    }
+
+    /**
+     * Test array to class deserialization.
+     *
+     * @covers ObjectSerializer::deserialize
+     *
+     * @see https://github.com/OpenAPITools/openapi-generator/pull/12849#issuecomment-1186130098
+     */
+    public function testArrayGivenAsObjectForDeserialize(): void
+    {
+        $data = [
+            'name' => 'Pet Name',
+            'status' => Pet::STATUS_AVAILABLE,
+            'tags' => [
+                ['name' => 'Tag Name'],
+            ]
+        ];
+
+        /** @var Pet $pet */
+        $pet = ObjectSerializer::deserialize($data, Pet::class);
+        $this->assertEquals('Pet Name', $pet->getName());
+        $this->assertEquals(Pet::STATUS_AVAILABLE, $pet->getStatus());
+
+        $tags = $pet->getTags();
+        $this->assertIsArray($tags);
+
+        $tag = $tags[0];
+        $this->assertInstanceOf(Tag::class, $tag);
     }
 }
