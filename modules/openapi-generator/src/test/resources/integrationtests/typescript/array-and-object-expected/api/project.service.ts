@@ -244,7 +244,7 @@ export class ProjectService {
             }
         }
 
-        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false})}`;
+        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
         return this.httpClient.delete<any>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -303,7 +303,7 @@ export class ProjectService {
             }
         }
 
-        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false})}`;
+        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
         return this.httpClient.get<ProjectEntity>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -502,7 +502,7 @@ export class ProjectService {
             }
         }
 
-        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false})}`;
+        let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
         return this.httpClient.put<ProjectEntity>(`${this.configuration.basePath}${localVarPath}`,
             localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
             {

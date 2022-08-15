@@ -1,3 +1,8 @@
+// trick: make autocomplete kinda work for LiteralType in most IDEs:
+// usually shows entries of LiteralType first in autocomplete.
+type LiteralUnion<LiteralType, BaseType extends string>
+    = LiteralType | (BaseType & Record<never, never>);
+
 /**
  * Standard parameter styles defined by OpenAPI spec
  */
@@ -42,20 +47,21 @@ export const ParamLocation = {
 /**
  * The OpenAPI standard styles may be extended by custom styles by the user.
  */
-export type ExtendedParamStyle = ParamStyle | string;
+export type ExtendedParamStyle = LiteralUnion<ParamStyle, string>;
 
 /**
  * Standard types as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
  */
 export type StandardDataType =
-    | "integer"
-    | "number"
-    | "boolean"
-    | "string"
-    | "object"
-    | "array";
+  | "integer"
+  | "number"
+  | "boolean"
+  | "string"
+  | "object"
+  | "array"
+  ;
 
-export type DataType = StandardDataType | string;
+export type DataType = LiteralUnion<StandardDataType, string>;
 
 /**
  * Standard formats as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
@@ -70,9 +76,9 @@ export type StandardDataFormat =
   | "date"
   | "date-time"
   | "password"
-    ;
+  ;
 
-export type DataFormat = StandardDataFormat | string | undefined;
+export type DataFormat = LiteralUnion<StandardDataFormat, string>;
 
 /**
  * The parameter to encode.
@@ -84,5 +90,5 @@ export interface Param {
   style: ExtendedParamStyle,
   explode: boolean;
   dataType: DataType;
-  dataFormat: DataFormat;
+  dataFormat: DataFormat | undefined;
 }
