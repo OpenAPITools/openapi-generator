@@ -335,7 +335,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getHelp() {
-        return "Generates a Rust client/server library (beta) using the openapi-generator project.";
+        return "Generates a Rust Hyper/Tower server library. Also generates a matching Hyper client library within " +
+                "the same crate that implements the same trait.";
     }
 
     @Override
