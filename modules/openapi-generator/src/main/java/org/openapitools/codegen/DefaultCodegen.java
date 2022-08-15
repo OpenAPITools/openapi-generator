@@ -4187,6 +4187,9 @@ public class DefaultCodegen implements CodegenConfig {
                 if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
                     op.isResponseFile = Boolean.TRUE;
                 }
+                if (Boolean.TRUE.equals(r.isDefault)) {
+                    op.defaultReturnType = Boolean.TRUE;
+                }
 
                 // check if any 4xx or 5xx response has an error response object defined
                 if ((Boolean.TRUE.equals(r.is4xx) || Boolean.TRUE.equals(r.is5xx)) &&

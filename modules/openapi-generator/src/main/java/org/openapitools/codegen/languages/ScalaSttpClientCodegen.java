@@ -127,10 +127,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-        importMapping.remove("Seq");
-        importMapping.remove("List");
-        importMapping.remove("Set");
-        importMapping.remove("Map");
+//        importMapping.remove("Seq");
+//        importMapping.remove("List");
+//        importMapping.remove("Set");
+//        importMapping.remove("Map");
 
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
         typeMapping = new HashMap<>();
