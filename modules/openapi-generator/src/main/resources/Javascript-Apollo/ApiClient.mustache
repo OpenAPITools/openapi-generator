@@ -53,7 +53,7 @@ export default class ApiClient extends RESTDataSource {
     }
 
     parametrizePath(path, pathParams) {
-        return url.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
+        return path.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
             var value;
             if (pathParams.hasOwnProperty(key)) {
                 value = this.paramToString(pathParams[key]);
@@ -234,7 +234,7 @@ export default class ApiClient extends RESTDataSource {
             case 'Blob':
                 return data;
             default:
-                if (type === Object) {
+                if (typeof type === "object") {
                     // generic object, return directly
                     return data;
                 } else if (typeof type.constructFromObject === 'function') {
