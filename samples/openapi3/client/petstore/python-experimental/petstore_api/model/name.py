@@ -78,9 +78,9 @@ class Name(
 
     Model for testing model name same as property name
     """
-    _required_property_names = set((
-        'name',
-    ))
+    _required_property_names = {
+        "name",
+    }
     name = Int32Schema
     snake_case = Int32Schema
     _property = StrSchema

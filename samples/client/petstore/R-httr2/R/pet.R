@@ -250,6 +250,48 @@ Pet <- R6::R6Class(
     #' @export
     toString = function() {
       self$toJSONString()
+    },
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @description
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @return true if the values in all fields are valid.
+    #' @export
+    isValid = function() {
+      # check if the required `name` is null
+      if (is.null(self$`name`)) {
+        return(FALSE)
+      }
+
+      # check if the required `photoUrls` is null
+      if (is.null(self$`photoUrls`)) {
+        return(FALSE)
+      }
+
+      TRUE
+    },
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @description
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @return A list of invalid fields (if any).
+    #' @export
+    getInvalidFields = function() {
+      invalid_fields <- list()
+      # check if the required `name` is null
+      if (is.null(self$`name`)) {
+        invalid_fields["name"] = "Non-nullable required field `name` cannot be null."
+      }
+
+      # check if the required `photoUrls` is null
+      if (is.null(self$`photoUrls`)) {
+        invalid_fields["photoUrls"] = "Non-nullable required field `photoUrls` cannot be null."
+      }
+
+      invalid_fields
     }
   )
 )
+

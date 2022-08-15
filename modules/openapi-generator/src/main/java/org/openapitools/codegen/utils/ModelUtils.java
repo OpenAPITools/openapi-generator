@@ -1626,6 +1626,10 @@ public class ModelUtils {
      * @return boolean
      */
     public static boolean isAnyType(Schema schema) {
+        // $ref is not a type, it is a keyword
+        // TODO remove the ref check here, or pass in the spec version
+        // openapi 3.1.0 specs allow ref to be adjacent to any keyword
+        // openapi 3.0.3 and earlier do not allow adjacent keywords to refs
         return (schema.get$ref() == null && schema.getType() == null);
     }
 

@@ -29,11 +29,18 @@
 #' @field password Password for HTTP basic authentication
 #' @field api_keys API keys
 #' @field access_token Access token
+#' @field oauth_client_id OAuth client ID
+#' @field oauth_secret OAuth secret
+#' @field oauth_refresh_token OAuth refresh token
+#' @field oauth_flow_type OAuth flow type
+#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_token_url Token URL
+#' @field oauth_pkce Boolean flag to enable PKCE
+#' @field oauth_scopes OAuth scopes
 #' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
 #' @field retry_status_codes vector of status codes to retry
 #' @field max_retry_attempts maximum number of retries for the status codes
-#' @importFrom httr add_headers accept timeout content
 #' @importFrom rlang abort
 #' @export
 ApiClient  <- R6::R6Class(
@@ -53,6 +60,23 @@ ApiClient  <- R6::R6Class(
     api_keys = NULL,
     # Access token
     access_token = NULL,
+    # OAuth2 client ID
+    oauth_client_id = NULL,
+    # OAuth2 secret
+    oauth_secret = NULL,
+    # OAuth2 refresh token
+    oauth_refresh_token = NULL,
+    # OAuth2
+    # Flow type
+    oauth_flow_type = "implicit",
+    # Authoriziation URL
+    oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
+    # Token URL
+    oauth_token_url = "",
+    # Enable PKCE?
+    oauth_pkce = TRUE,
+    # OAuth scopes
+    oauth_scopes = NULL,
     # Bearer token
     bearer_token = NULL,
     # Time Out (seconds)
@@ -139,47 +163,33 @@ ApiClient  <- R6::R6Class(
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
-    #' @param file_params The form parameters to upload files
+    #' @param file_params The form parameters to upload files.
     #' @param accepts The HTTP accpet headers.
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
-    #' @param stream_callback Callback function to process the data stream
+    #' @param is_oauth True if the endpoints required OAuth authentication.
+    #' @param oauth_scopes OAuth scopes.
+    #' @param stream_callback Callback function to process the data stream.
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    CallApi = function(url, method, query_params, header_params, form_params, file_params,
-                       accepts, content_types, body, stream_callback = NULL, ...) {
+    CallApi = function(url, method, query_params, header_params, form_params,
+                       file_params, accepts, content_types, body,
+                       is_oauth = FALSE, oauth_scopes = NULL, stream_callback = NULL, ...) {
 
-      resp <- self$Execute(url, method, query_params, header_params, form_params,
-                           file_params, accepts, content_types,
-                           body, stream_callback = stream_callback, ...)
-      #status_code <- httr::status_code(resp)
+      # set the URL
+      req <- request(url)
 
-      #if (is.null(self$max_retry_attempts)) {
-      #  self$req_retry(max_tries <- max_retry_attempts)
-      #}
-
-      #if (!is.null(self$retry_status_codes)) {
-
-      #  for (i in 1 : self$max_retry_attempts) {
-      #    if (status_code %in% self$retry_status_codes) {
-      #      Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-      #      resp <- self$Execute(url, method, query_params, header_params, body, stream_callback = stream_callback, ...)
-      #      status_code <- httr::status_code(resp)
-      #    } else {
-      #      break
-      #    }
-      #  }
-      #}
-
-      resp
+      resp <- self$Execute(req, method, query_params, header_params, form_params,
+                           file_params, accepts, content_types, body, is_oauth = is_oauth,
+                           oauth_scopes = oauth_scopes, stream_callback = stream_callback, ...)
     },
     #' Make an API call
     #'
     #' @description
     #' Make an API call
     #'
-    #' @param url URL.
+    #' @param req httr2 request.
     #' @param method HTTP method.
     #' @param query_params The query parameters.
     #' @param header_params The header parameters.
@@ -188,14 +198,15 @@ ApiClient  <- R6::R6Class(
     #' @param accepts The HTTP accpet headers.
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
-    #' @param stream_callback Callback function to process data stream
+    #' @param is_oauth True if the endpoints required OAuth authentication.
+    #' @param oauth_scopes OAuth scopes.
+    #' @param stream_callback Callback function to process data stream.
     #' @param ... Other optional arguments.
     #' @return HTTP response
     #' @export
-    Execute = function(url, method, query_params, header_params, form_params, file_params,
-                       accepts, content_types, body, stream_callback = NULL, ...) {
-      # set the URL
-      req <- request(url)
+    Execute = function(req, method, query_params, header_params, form_params,
+                       file_params, accepts, content_types, body,
+                       is_oauth = FALSE, oauth_scopes = NULL, stream_callback = NULL, ...) {
 
       ## add headers
       req <- req %>% req_headers(!!!header_params)
@@ -257,6 +268,29 @@ ApiClient  <- R6::R6Class(
       # set HTTP verb
       req <- req %>% req_method(method)
 
+      # use oauth authentication if the endpoint requires it
+      if (is_oauth && !is.null(self$oauth_client_id) && !is.null(self$oauth_secret)) {
+        client <- oauth_client(
+          id = self$oauth_client_id,
+          secret = obfuscated(self$oauth_secret),
+          token_url = self$oauth_token_url,
+          name = "petstore-oauth"
+        )
+
+        req_oauth_scopes <- NULL
+        if (!is.null(self$oauth_scopes)) {
+          # use oauth scopes provided by the user
+          req_oauth_scopes <- self$oauth_scopes
+        } else {
+          # use oauth scopes defined in openapi spec
+          req_oauth_scopes <- oauth_scopes
+        }
+
+        req <- req %>% req_oauth_auth_code(client, scope = req_oauth_scopes,
+                                           pkce = self$oauth_pkce,
+                                           auth_url = self$oauth_authoriziation_url)
+      }
+
       # stream data
       if (typeof(stream_callback) == "closure") {
         req %>% req_stream(stream_callback)
@@ -290,12 +324,12 @@ ApiClient  <- R6::R6Class(
       resp_obj <- jsonlite::fromJSON(raw_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
-    #' Deserialize the response from jsonlite object based on the given type
+    #' Deserialize the response from jsonlite object based on the given type.
     #'
     #' @description
-    #' Deserialize the response from jsonlite object based on the given type
+    #' Deserialize the response from jsonlite object based on the given type.
     #' by handling complex and nested types by iterating recursively
-    #' Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
+    #' Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.
     #'
     #' @param obj Response object.
     #' @param return_type R return type.
@@ -349,8 +383,7 @@ ApiClient  <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
-    #' return it. Otherwise, return the first one, if any.
+    #' Return a propery header (for accept or content-type).
     #'
     #' @description
     #' Return a propery header (for accept or content-type). If JSON-related MIME is found,

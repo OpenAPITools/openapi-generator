@@ -279,7 +279,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
-        //supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.R"));
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
@@ -608,6 +607,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         this.operationIdNaming = operationIdNaming;
     }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -939,5 +939,24 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.R;
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        if (pattern == null) {
+            return null;
+        }
+
+        // remove leading '/'
+        if (pattern.charAt(0) == '/') {
+            pattern = pattern.substring(1);
+        }
+
+        // remove trailing '/'
+        if (pattern.charAt(pattern.length() - 1) == '/') {
+            pattern = pattern.substring(0, pattern.length() - 1);
+        }
+
+        return escapeText(pattern);
     }
 }

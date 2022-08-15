@@ -76,9 +76,9 @@ class RequiredValidation(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'foo',
-    ))
+    _required_property_names = {
+        "foo",
+    }
     foo = AnyTypeSchema
     bar = AnyTypeSchema
 

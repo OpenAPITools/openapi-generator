@@ -1,5 +1,5 @@
 // TODO: better import syntax?
-import {BaseAPIRequestFactory, RequiredError} from './baseapi.ts';
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi.ts';
 import {Configuration} from '../configuration.ts';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';

@@ -2,7 +2,9 @@
 .travis.yml
 Cargo.toml
 README.md
+docs/ActionContainer.md
 docs/ApiResponse.md
+docs/Baz.md
 docs/Category.md
 docs/FakeApi.md
 docs/Order.md
@@ -23,7 +25,9 @@ src/apis/request.rs
 src/apis/store_api.rs
 src/apis/user_api.rs
 src/lib.rs
+src/models/action_container.rs
 src/models/api_response.rs
+src/models/baz.rs
 src/models/category.rs
 src/models/mod.rs
 src/models/order.rs

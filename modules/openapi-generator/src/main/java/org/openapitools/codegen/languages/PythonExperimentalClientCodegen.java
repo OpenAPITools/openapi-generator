@@ -661,6 +661,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
                 addVars(property, property.getVars(), schema.getProperties(), requiredVars);
             }
+            addRequiredVarsMap(schema, property);
             return;
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
             HashSet<String> requiredVars = new HashSet<>();
@@ -673,6 +674,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 property.setHasVars(true);
             }
         }
+        addRequiredVarsMap(schema, property);
         return;
     }
 
@@ -997,6 +999,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty cp = super.fromProperty(name, p, required);
+
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
         }
@@ -1339,7 +1342,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, specTestCaseName);
     }
 
-    private String processStringValue(String value) {
+    protected String handleSpecialCharacters(String value) {
         // handles escape characters and the like
         String stringValue = value;
         String backslash = "\\";
@@ -1379,7 +1382,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (value instanceof Double || value instanceof Float || value instanceof Boolean){
             return value;
         } else if (value instanceof String) {
-            return processStringValue((String) value);
+            return handleSpecialCharacters((String) value);
         } else if (value instanceof LinkedHashMap) {
             LinkedHashMap<String, Object> fixedValues = new LinkedHashMap();
             for (Map.Entry entry: ((LinkedHashMap<String, Object>) value).entrySet()) {
@@ -1679,23 +1682,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return null;
     }
 
-    /**
-     * Function to isolate the call to add schemas to the includedSchemas list that will detect when
-     * a schema is added multiple times.
-     * @param includedSchemas List of includedSchemas from toExampleValueRecursive
-     * @param schema the schema to add
-     */
-    private void addSchemaToIncludedSchemaList(List<Schema> includedSchemas, Schema schema) {
-
-        // if the schema is in the list, then throw an exception.
-        // this should never happen
-        if(includedSchemas.contains(schema)) {
-            throw new RuntimeException("Attempted to add a schema to the includedSchemas list twice");
-        }
-
-        includedSchemas.add(schema);
-    }
-
     /***
      * Recursively generates string examples for schemas
      *
@@ -1776,7 +1762,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (ModelUtils.isComposedSchema(schema)) {
-                addSchemaToIncludedSchemaList(includedSchemas, schema);
+                if(includedSchemas.contains(schema)) {
+                    return "";
+                }
+                includedSchemas.add(schema);
                 // complex composed object type schemas not yet handled and the code returns early
                 if (hasProperties) {
                     // what if this composed schema defined properties + allOf?
@@ -1835,7 +1824,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (example != null) {
-                return fullPrefix + ensureQuotes(processStringValue(example)) + closeChars;
+                return fullPrefix + ensureQuotes(handleSpecialCharacters(example)) + closeChars;
             }
             if (ModelUtils.isDateSchema(schema)) {
                 if (objExample == null) {
@@ -1941,7 +1930,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            addSchemaToIncludedSchemaList(includedSchemas, schema);
+            if(includedSchemas.contains(schema)) {
+                return "";
+            }
+            includedSchemas.add(schema);
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
             if (StringUtils.isEmpty(itemExample) || cycleFound) {
                 return fullPrefix + "[]" + closeChars;
@@ -2018,7 +2010,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                addSchemaToIncludedSchemaList(includedSchemas, schema);
+                if(includedSchemas.contains(schema)) {
+                    return "";
+                }
+                includedSchemas.add(schema);
+
                 example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
@@ -2035,14 +2031,18 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
+
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
         }
 
-        String example = fullPrefix + "\n";
+        if(includedSchemas.contains(schema)) {
+            return "";
+        }
+        includedSchemas.add(schema);
 
-        addSchemaToIncludedSchemaList(includedSchemas, schema);
+        String example = fullPrefix + "\n";
 
         for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
             String propName = entry.getKey();
@@ -2055,14 +2055,25 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propExample = discProp.example;
             } else {
                 propModelName = getModelName(propSchema);
-                propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
+                propExample = exampleFromStringOrArraySchema(
+                        propSchema,
+                        null,
+                        propName);
             }
 
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
+            example += toExampleValueRecursive(propModelName,
+                                               propSchema,
+                                               propExample,
+                                               indentationLevel + 1,
+                                               propName + "=",
+                                               exampleLine + 1,
+                                               includedSchemas) + ",\n";
         }
+
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
         return example;
+
     }
 
     private Object exampleFromStringOrArraySchema(Schema sc, Object currentExample, String propName) {
@@ -2328,6 +2339,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
+        // custom version of this method so properties are always added with addVars
         if (schema.getProperties() != null || schema.getRequired() != null) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
@@ -2336,6 +2348,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override
@@ -2353,6 +2366,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addAdditionPropertiesToCodeGenModel(m, schema);
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     @Override

@@ -102,9 +102,9 @@ request_path_pet_id = api_client.PathParameter(
 class SchemaForRequestBodyMultipartFormData(
     DictSchema
 ):
-    _required_property_names = set((
-        'requiredFile',
-    ))
+    _required_property_names = {
+        "requiredFile",
+    }
     additionalMetadata = StrSchema
     requiredFile = BinarySchema
 

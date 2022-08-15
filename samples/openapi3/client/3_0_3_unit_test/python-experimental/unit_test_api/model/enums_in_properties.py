@@ -76,9 +76,9 @@ class EnumsInProperties(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'bar',
-    ))
+    _required_property_names = {
+        "bar",
+    }
     
     
     class foo(

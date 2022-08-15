@@ -2692,6 +2692,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     protected void updateModelForAnyType(CodegenModel m, Schema schema) {
@@ -2712,6 +2713,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+        addRequiredVarsMap(schema, m);
     }
 
     protected String toTestCaseName(String specTestCaseName) {
@@ -2889,6 +2891,9 @@ public class DefaultCodegen implements CodegenConfig {
             // if a component references a schema which is not a generated model, the refed schema will be loaded into
             // schema by unaliasSchema and one of the above code paths will be taken
             ;
+        }
+        if (schema.get$ref() != null) {
+            m.setRef(schema.get$ref());
         }
 
         if (schema instanceof ComposedSchema) {
@@ -3760,6 +3765,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (!ModelUtils.isNullType(p)) {
             // referenced model
             ;
+        }
+        if (p.get$ref() != null) {
+            property.setRef(p.get$ref());
         }
 
         boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
@@ -5413,7 +5421,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (allProperties != null) {
             Set<String> allMandatory = allRequired == null ? Collections.emptySet()
                     : new TreeSet<>(allRequired);
-            // update "vars" with parent's properties (all, required)
+            // update "allVars" with parent's properties (all, required)
             addVars(m, m.allVars, allProperties, allMandatory);
             m.allMandatory = allMandatory;
         } else { // without parent, allVars and vars are the same
@@ -5449,18 +5457,40 @@ public class DefaultCodegen implements CodegenConfig {
         if (properties == null) {
             return;
         }
+
+        HashMap<String, CodegenProperty> varsMap = new HashMap<>();
         CodegenModel cm = null;
         if (m instanceof CodegenModel) {
             cm = (CodegenModel) m;
-        }
-        for (Map.Entry<String, Schema> entry : properties.entrySet()) {
 
+            if (cm.allVars == vars) { // processing allVars
+                for (CodegenProperty var : cm.vars) {
+                    // create a map of codegen properties for lookup later
+                    varsMap.put(var.baseName, var);
+                }
+            }
+        }
+
+        for (Map.Entry<String, Schema> entry : properties.entrySet()) {
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
             if (prop == null) {
                 LOGGER.warn("Please report the issue. There shouldn't be null property for {}", key);
             } else {
-                final CodegenProperty cp = fromProperty(key, prop, mandatory.contains(key));
+                final CodegenProperty cp;
+
+                if (cm != null && cm.allVars == vars && varsMap.keySet().contains(key)) {
+                    // when updating allVars, reuse the codegen property from the child model if it's already present
+                    // the goal is to avoid issues when the property is defined in both child, parent but the
+                    // definition is not identical, e.g. required vs optional, integer vs string
+                    LOGGER.debug("The property `{}` already defined in the child model. Using the one from child.",
+                            key);
+                    cp = varsMap.get(key);
+                } else {
+                    // properties in the parent model only
+                    cp = fromProperty(key, prop, mandatory.contains(key));
+                }
+
                 vars.add(cp);
                 m.setHasVars(true);
 
@@ -7100,11 +7130,70 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
+    protected void addRequiredVarsMap(Schema schema, IJsonSchemaValidationProperties property) {
+        /*
+        this should be called after vars and additionalProperties are set
+        Features added by storing codegenProperty values:
+        - complexType stores reference to additionalProperties definition
+        - baseName stores original name (can be invalid in a programming language)
+        - nameInSnakeCase can store valid name for a programming language
+         */
+        Map<String, Schema> properties = schema.getProperties();
+        Map<String, CodegenProperty> requiredVarsMap = new HashMap<>();
+        List<String> requiredPropertyNames = schema.getRequired();
+        if (requiredPropertyNames == null) {
+            return;
+        }
+        for (String requiredPropertyName: requiredPropertyNames) {
+            // required property is defined in properties, value is that CodegenProperty
+            String usedRequiredPropertyName = handleSpecialCharacters(requiredPropertyName);
+            if (properties != null && properties.containsKey(requiredPropertyName)) {
+                // get cp from property
+                boolean found = false;
+                for (CodegenProperty cp: property.getVars()) {
+                    if (cp.baseName.equals(requiredPropertyName)) {
+                        found = true;
+                        requiredVarsMap.put(requiredPropertyName, cp);
+                    }
+                }
+                if (found == false) {
+                    throw new RuntimeException("Property " + requiredPropertyName + " is missing from getVars");
+                }
+            } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+                // TODO add processing for requiredPropertyName
+                // required property is not defined in properties, and additionalProperties is false, value is null
+                requiredVarsMap.put(usedRequiredPropertyName, null);
+            } else {
+                // required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
+                // required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
+                if (supportsAdditionalPropertiesWithComposedSchema && !disallowAdditionalPropertiesIfNotPresent) {
+                    if (property.getAdditionalProperties() == null) {
+                        throw new RuntimeException("additionalProperties is unset and should be set in" + schema.toString());
+                    }
+                    CodegenProperty cp;
+                    if (schema.getAdditionalProperties() == null) {
+                        cp = fromProperty(usedRequiredPropertyName, new Schema(), true);
+                    } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                        cp = fromProperty(requiredPropertyName, new Schema(), true);
+                    } else {
+                        CodegenProperty addPropsProp = property.getAdditionalProperties();
+                        cp = addPropsProp;
+                    }
+                    requiredVarsMap.put(usedRequiredPropertyName, cp);
+                }
+            }
+        }
+        if (!requiredVarsMap.isEmpty()) {
+            property.setRequiredVarsMap(requiredVarsMap);
+        }
+    }
+
     protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property) {
         setAddProps(schema, property);
         Set<String> mandatory = schema.getRequired() == null ? Collections.emptySet()
                 : new TreeSet<>(schema.getRequired());
         addVars(property, property.getVars(), schema.getProperties(), mandatory);
+        addRequiredVarsMap(schema, property);
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
@@ -7666,4 +7755,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseInlineModelResolver() { return true; }
+
+    /*
+    A function to convert yaml or json ingested strings like property names
+    And convert special characters like newline, tab, carriage return
+    Into strings that can be rendered in the language that the generator will output to
+    */
+    protected String handleSpecialCharacters(String name) { return name; }
 }

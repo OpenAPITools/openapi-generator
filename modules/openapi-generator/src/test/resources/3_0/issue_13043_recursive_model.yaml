@@ -26,6 +26,26 @@ paths:
             schema:
               $ref: '#/components/schemas/GeoJsonGeometry'
       parameters: []
+  /geojson_geometry_collection:
+    post:
+      summary: Add a GeoJson GeometryCollection Object
+      operationId: post-geojson-geometry-collection
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: string
+                description: GeoJson ID
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeometryCollection'
+      parameters: []
 components:
   schemas:
     GeoJsonGeometry:
