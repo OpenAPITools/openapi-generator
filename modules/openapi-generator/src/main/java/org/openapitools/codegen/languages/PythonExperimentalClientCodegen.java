@@ -105,9 +105,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // for apis.tags tag api definition
     private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
 
-    protected boolean importBaseType = false;
-
-
     public PythonExperimentalClientCodegen() {
         super();
         loadDeepObjectIntoItems = false;
