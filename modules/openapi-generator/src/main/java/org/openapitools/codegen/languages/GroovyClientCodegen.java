@@ -64,11 +64,13 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         );
 
         // avoid importing the following as models
+        // they are already imported by Groovy's import java.util.*
         languageSpecificPrimitives.add("Date");
         languageSpecificPrimitives.add("ArrayList");
         languageSpecificPrimitives.add("File");
         languageSpecificPrimitives.add("Map");
         languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("HashMap");
 
         // this must not be OS-specific
         sourceFolder = projectFolder + "/groovy";
