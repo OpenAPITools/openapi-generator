@@ -14,5 +14,7 @@ pub mod property_test;
 pub use self::property_test::PropertyTest;
 pub mod tag;
 pub use self::tag::Tag;
+pub mod type_testing;
+pub use self::type_testing::TypeTesting;
 pub mod user;
 pub use self::user::User;
