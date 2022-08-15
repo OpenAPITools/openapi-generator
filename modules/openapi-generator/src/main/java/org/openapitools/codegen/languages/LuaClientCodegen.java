@@ -118,7 +118,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
-                        "array")
+                        "array",
+                        "object")
         );
 
         languageSpecificPrimitives = new HashSet<>(
@@ -152,7 +153,6 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
-        typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
         importMapping = new HashMap<>();
         importMapping.put("time.Time", "time");

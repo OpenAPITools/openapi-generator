@@ -334,8 +334,9 @@ public interface IJsonSchemaValidationProperties {
             use-case:
             Adding List/Map etc, Java uses this
              */
-            if (includeBaseType) {
-                imports.add(this.getBaseType());
+            String baseType = this.getBaseType();
+            if (includeBaseType && baseType != null) {
+                imports.add(baseType);
             }
         } else {
             // referenced or inline schemas
