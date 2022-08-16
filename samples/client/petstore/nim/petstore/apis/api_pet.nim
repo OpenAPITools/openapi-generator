@@ -22,7 +22,6 @@ import ../models/model_api_response
 import ../models/model_category
 import ../models/model_pet
 import ../models/model_tag
-import ../models/model_object
 
 const basepath = "http://petstore.swagger.io/v2"
 
