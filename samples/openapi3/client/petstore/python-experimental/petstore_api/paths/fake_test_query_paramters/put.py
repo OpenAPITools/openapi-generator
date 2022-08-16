@@ -65,8 +65,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.string_with_validation import StringWithValidation
-
 from . import path
 
 # query params

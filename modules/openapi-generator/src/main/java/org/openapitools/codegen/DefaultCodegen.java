@@ -286,6 +286,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected boolean hoistParameterArrayItemBaseTypeHigher = true;
 
+    // if True codegenParameter and codegenResponse imports will come
+    // from deeper schema defined locations
+    protected boolean parametersAndResponsesImportFromV3SpecLocations = false;
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -4186,14 +4190,16 @@ public class DefaultCodegen implements CodegenConfig {
                 String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
-                if (r.baseType != null &&
-                        !defaultIncludes.contains(r.baseType) &&
-                        !languageSpecificPrimitives.contains(r.baseType)) {
-                    imports.add(r.baseType);
-                }
-                if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
-                    op.uniqueItems = true;
-                    imports.add(typeMapping.get(r.containerType));
+                if (!parametersAndResponsesImportFromV3SpecLocations) {
+                    if (r.baseType != null &&
+                            !defaultIncludes.contains(r.baseType) &&
+                            !languageSpecificPrimitives.contains(r.baseType)) {
+                        imports.add(r.baseType);
+                    }
+                    if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
+                        op.uniqueItems = true;
+                        imports.add(typeMapping.get(r.containerType));
+                    }
                 }
 
                 op.responses.add(r);
@@ -4303,7 +4309,6 @@ public class DefaultCodegen implements CodegenConfig {
 
                 CodegenParameter p = fromParameter(param, imports);
                 p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
-
                 // ensure unique params
                 if (ensureUniqueParams) {
                     while (!isParameterNameUnique(p, allParams)) {
@@ -4986,7 +4991,9 @@ public class DefaultCodegen implements CodegenConfig {
             includeContainerTypes = true;
             includeBaseTypes = false;
         }
-        addImports(imports, codegenParameter.getImports(includeContainerTypes, includeBaseTypes, instantiationTypes, typeMapping));
+        if (!parametersAndResponsesImportFromV3SpecLocations) {
+            addImports(imports, codegenParameter.getImports(includeContainerTypes, includeBaseTypes, instantiationTypes, typeMapping));
+        }
         return codegenParameter;
     }
 
@@ -6724,6 +6731,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                // TODO move this splitting logic to the generator that needs it only
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                 imports.addAll(parts);
                 String codegenModelName = codegenProperty.getComplexType();
@@ -7008,7 +7016,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
             cmtContent.put(contentType, codegenMt);
-            if (schemaProp != null) {
+            if (schemaProp != null && parametersAndResponsesImportFromV3SpecLocations) {
                 addImports(imports, schemaProp.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
             }
         }

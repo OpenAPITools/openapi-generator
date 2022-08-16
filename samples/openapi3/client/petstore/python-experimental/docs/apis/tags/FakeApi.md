@@ -2474,7 +2474,6 @@ To test the collection format in query parameters
 ```python
 import petstore_api
 from petstore_api.apis.tags import fake_api
-from petstore_api.model.string_with_validation import StringWithValidation
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -2605,7 +2604,6 @@ user list
 ```python
 import petstore_api
 from petstore_api.apis.tags import fake_api
-from petstore_api.model.foo import Foo
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
