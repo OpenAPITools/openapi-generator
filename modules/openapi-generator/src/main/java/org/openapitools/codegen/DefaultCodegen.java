@@ -6701,7 +6701,9 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
-        addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+        if (!parametersAndResponsesImportFromV3SpecLocations) {
+            addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+        }
 
         return codegenParameter;
     }
@@ -7051,61 +7053,61 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema unaliasedSchema = unaliasSchema(schema);
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
         ModelUtils.syncValidationProperties(unaliasedSchema, codegenParameter);
         codegenParameter.setTypeProperties(unaliasedSchema);
         codegenParameter.setComposedSchemas(getComposedSchemas(unaliasedSchema));
         // TODO in the future switch al the below schema usages to unaliasedSchema
         // because it keeps models as refs and will not get their referenced schemas
-        if (ModelUtils.isArraySchema(schema)) {
-            updateRequestBodyForArray(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (ModelUtils.isTypeObjectSchema(schema)) {
-            updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        if (ModelUtils.isArraySchema(referencedSchema)) {
+            updateRequestBodyForArray(codegenParameter, referencedSchema, name, imports, bodyParameterName);
+        } else if (ModelUtils.isTypeObjectSchema(referencedSchema)) {
+            updateRequestBodyForObject(codegenParameter, referencedSchema, name, imports, bodyParameterName);
+        } else if (ModelUtils.isIntegerSchema(referencedSchema)) { // integer type
+            updateRequestBodyForPrimitiveType(codegenParameter, referencedSchema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(schema)) { // int64/long format
+            if (ModelUtils.isLongSchema(referencedSchema)) { // int64/long format
                 codegenParameter.isLong = Boolean.TRUE;
             } else {
                 codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(schema)) { // int32
+                if (ModelUtils.isShortSchema(referencedSchema)) { // int32
                     codegenParameter.setIsShort(Boolean.TRUE);
                 }
             }
-        } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
+        } else if (ModelUtils.isBooleanSchema(referencedSchema)) { // boolean type
+            updateRequestBodyForPrimitiveType(codegenParameter, referencedSchema, bodyParameterName, imports);
+        } else if (ModelUtils.isFileSchema(referencedSchema) && !ModelUtils.isStringSchema(referencedSchema)) {
             // swagger v2 only, type file
             codegenParameter.isFile = true;
-        } else if (ModelUtils.isStringSchema(schema)) {
-            updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        } else if (ModelUtils.isStringSchema(referencedSchema)) {
+            updateRequestBodyForString(codegenParameter, referencedSchema, imports, bodyParameterName);
+        } else if (ModelUtils.isNumberSchema(referencedSchema)) {
+            updateRequestBodyForPrimitiveType(codegenParameter, referencedSchema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(schema)) { // float
+            if (ModelUtils.isFloatSchema(referencedSchema)) { // float
                 codegenParameter.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(schema)) { // double
+            } else if (ModelUtils.isDoubleSchema(referencedSchema)) { // double
                 codegenParameter.isDouble = Boolean.TRUE;
             }
-        } else if (ModelUtils.isNullType(schema)) {
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        } else if (ModelUtils.isAnyType(schema)) {
-            if (ModelUtils.isMapSchema(schema)) {
+        } else if (ModelUtils.isNullType(referencedSchema)) {
+            updateRequestBodyForPrimitiveType(codegenParameter, referencedSchema, bodyParameterName, imports);
+        } else if (ModelUtils.isAnyType(referencedSchema)) {
+            if (ModelUtils.isMapSchema(referencedSchema)) {
                 // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-                updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
-            } else if (ModelUtils.isComposedSchema(schema)) {
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-            } else if (ModelUtils.isObjectSchema(schema)) {
+                updateRequestBodyForMap(codegenParameter, referencedSchema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isComposedSchema(referencedSchema)) {
+                this.addBodyModelSchema(codegenParameter, name, referencedSchema, imports, bodyParameterName, false);
+            } else if (ModelUtils.isObjectSchema(referencedSchema)) {
                 // object type schema OR (AnyType schema with properties defined)
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                this.addBodyModelSchema(codegenParameter, name, referencedSchema, imports, bodyParameterName, false);
             } else {
-                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+                updateRequestBodyForPrimitiveType(codegenParameter, referencedSchema, bodyParameterName, imports);
             }
-            addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
+            addVarsRequiredVarsAdditionalProps(referencedSchema, codegenParameter);
         } else {
             // referenced schemas
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            updateRequestBodyForPrimitiveType(codegenParameter, referencedSchema, bodyParameterName, imports);
         }
 
         CodegenProperty cp = fromProperty(bodyParameterName, schema, false);
@@ -7120,7 +7122,9 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
-        addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+        if (!parametersAndResponsesImportFromV3SpecLocations) {
+            addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+        }
 
         return codegenParameter;
     }
