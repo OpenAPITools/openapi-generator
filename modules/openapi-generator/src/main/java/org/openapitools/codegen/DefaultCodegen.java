@@ -2965,7 +2965,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (m.isArray || m.isMap) {
             includeContainerTypes = true;
         }
-        addImports(m.imports, m.getImports(includeContainerTypes, this.importBaseType, instantiationTypes, typeMapping));
+        addImports(m.imports, m.getImports(includeContainerTypes, this.importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
         return m;
     }
 
@@ -4191,7 +4191,12 @@ public class DefaultCodegen implements CodegenConfig {
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
                 if (!parametersAndResponsesImportFromV3SpecLocations) {
-                    addImports(imports, r.getImports(true, importBaseType, instantiationTypes, typeMapping));
+                    addImports(
+                            imports,
+                            r.getImports(
+                                    true, importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()
+                            )
+                    );
                     if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
                         op.uniqueItems = true;
                     }
@@ -4987,7 +4992,7 @@ public class DefaultCodegen implements CodegenConfig {
             includeBaseTypes = false;
         }
         if (!parametersAndResponsesImportFromV3SpecLocations) {
-            addImports(imports, codegenParameter.getImports(includeContainerTypes, includeBaseTypes, instantiationTypes, typeMapping));
+            addImports(imports, codegenParameter.getImports(includeContainerTypes, includeBaseTypes, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
         }
         return codegenParameter;
     }
@@ -5353,7 +5358,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
-        addImports(importsToBeAddedTo, type.getImports(true, this.importBaseType, instantiationTypes, typeMapping));
+        addImports(importsToBeAddedTo, type.getImports(true, this.importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
     }
 
     protected void addImports(Set<String> importsToBeAddedTo, Set<String> importsToAdd) {
@@ -6697,7 +6702,7 @@ public class DefaultCodegen implements CodegenConfig {
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
         if (!parametersAndResponsesImportFromV3SpecLocations) {
-            addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+            addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
         }
 
         return codegenParameter;
@@ -7014,7 +7019,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null && parametersAndResponsesImportFromV3SpecLocations) {
-                addImports(imports, schemaProp.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+                addImports(imports, schemaProp.getImports(false, this.importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
             }
         }
         return cmtContent;
@@ -7118,7 +7123,7 @@ public class DefaultCodegen implements CodegenConfig {
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
         if (!parametersAndResponsesImportFromV3SpecLocations) {
-            addImports(imports, codegenParameter.getImports(true, this.importBaseType, instantiationTypes, typeMapping));
+            addImports(imports, codegenParameter.getImports(true, this.importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
         }
 
         return codegenParameter;

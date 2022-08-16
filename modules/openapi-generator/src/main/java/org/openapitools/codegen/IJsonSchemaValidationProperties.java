@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 public interface IJsonSchemaValidationProperties {
@@ -266,30 +268,42 @@ public interface IJsonSchemaValidationProperties {
      * @param includeBaseType whether or not to include the base types in the returned imports.
      * @return all of the imports
      */
-    default Set<String> getImports(boolean includeContainerTypes, boolean includeBaseType, Map<String, String> instantiationTypes, Map<String, String> typeMapping) {
+    default Set<String> getImports(boolean includeContainerTypes, boolean includeBaseType, Map<String, String> instantiationTypes, Map<String, String> typeMapping, FeatureSet featureSet) {
         Set<String> imports = new HashSet<>();
         if (this.getComposedSchemas() != null) {
             CodegenComposedSchemas composed = this.getComposedSchemas();
-            List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
-            List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
-            List<CodegenProperty> anyOfs =  composed.getAnyOf() == null ? Collections.emptyList() : composed.getAnyOf();
-            List<CodegenProperty> nots =  composed.getNot() == null ? Collections.emptyList() : Arrays.asList(composed.getNot());
+            List<CodegenProperty> allOfs = Collections.emptyList();
+            List<CodegenProperty> oneOfs = Collections.emptyList();
+            List<CodegenProperty> anyOfs = Collections.emptyList();
+            List<CodegenProperty> nots = Collections.emptyList();
+            if (composed.getAllOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.allOf)) {
+                allOfs = composed.getAllOf();
+            }
+            if (composed.getOneOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.oneOf)) {
+                oneOfs = composed.getOneOf();
+            }
+            if (composed.getAnyOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.anyOf)) {
+                anyOfs = composed.getAnyOf();
+            }
+            if (composed.getNot() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.not)) {
+                nots = Arrays.asList(composed.getNot());
+            }
             Stream<CodegenProperty> innerTypes = Stream.of(
                             allOfs.stream(), anyOfs.stream(), oneOfs.stream(), nots.stream())
                     .flatMap(i -> i);
-            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping).stream()).forEach(s -> imports.add(s));
+            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet).stream()).forEach(s -> imports.add(s));
         }
         // items can exist for AnyType and type array
         if (this.getItems() != null && this.getIsArray()) {
-            imports.addAll(this.getItems().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping));
+            imports.addAll(this.getItems().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet));
         }
         // additionalProperties can exist for AnyType and type object
         if (this.getAdditionalProperties() != null) {
-            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping));
+            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet));
         }
         // vars can exist for AnyType and type object
         if (this.getVars() != null && !this.getVars().isEmpty()) {
-            this.getVars().stream().flatMap(v -> v.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping).stream()).forEach(s -> imports.add(s));
+            this.getVars().stream().flatMap(v -> v.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet).stream()).forEach(s -> imports.add(s));
         }
         if (this.getIsArray() || this.getIsMap()) {
             /*
