@@ -240,7 +240,7 @@ export class PetService {
             }
         }
 
-        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false})}`;
+        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
         return this.httpClient.delete<any>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -456,7 +456,7 @@ export class PetService {
             }
         }
 
-        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false})}`;
+        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
         return this.httpClient.get<Pet>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -623,7 +623,7 @@ export class PetService {
             }
         }
 
-        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false})}`;
+        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
         return this.httpClient.post<any>(`${this.configuration.basePath}${localVarPath}`,
             localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
             {
@@ -717,7 +717,7 @@ export class PetService {
             }
         }
 
-        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false})}/uploadImage`;
+        let localVarPath = `/pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/uploadImage`;
         return this.httpClient.post<ApiResponse>(`${this.configuration.basePath}${localVarPath}`,
             localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
             {

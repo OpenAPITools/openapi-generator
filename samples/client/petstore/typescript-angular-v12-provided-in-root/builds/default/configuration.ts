@@ -14,7 +14,17 @@ export interface ConfigurationParameters {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
+    /**
+     * Takes care of encoding query- and form-parameters.
+     */
     encoder?: HttpParameterCodec;
+    /**
+     * Override the default method for encoding path parameters in various
+     * <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values">styles</a>.
+     * <p>
+     * See {@link README.md} for more details
+     * </p>
+     */
     encodeParam?: (param: Param) => string;
     /**
      * The keys are the names in the securitySchemes section of the OpenAPI
@@ -37,7 +47,17 @@ export class Configuration {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
+    /**
+     * Takes care of encoding query- and form-parameters.
+     */
     encoder?: HttpParameterCodec;
+    /**
+     * Encoding of various path parameter
+     * <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values">styles</a>.
+     * <p>
+     * See {@link README.md} for more details
+     * </p>
+     */
     encodeParam: (param: Param) => string;
     /**
      * The keys are the names in the securitySchemes section of the OpenAPI
@@ -58,9 +78,7 @@ export class Configuration {
             this.encodeParam = configurationParameters.encodeParam;
         }
         else {
-            // this is the old legacy implementation for backwards compatibility
-            // it only works for param-style 'simple'
-            this.encodeParam = param => this.legacyEncodeParam(param);
+            this.encodeParam = param => this.defaultEncodeParam(param);
         }
         if (configurationParameters.credentials) {
             this.credentials = configurationParameters.credentials;
@@ -150,15 +168,19 @@ export class Configuration {
             : value;
     }
 
-    private legacyEncodeParam(param: Param): string {
-        // This legacy implementation is here for backwards compatibility only.
-        // It is only correct for param-style 'simple'.
-        if(param.style === "simple") {
-            return encodeURIComponent(String(param.value));
-        }
+    private defaultEncodeParam(param: Param): string {
+        // This implementation exists as fallback for missing configuration
+        // and for backwards compatibility to older typescript-angular generator versions.
+        // It only works for the 'simple' parameter style.
+        // Date-handling only works for the 'date-time' format.
+        // All other styles and Date-formats are probably handled incorrectly.
+        //
+        // But: if that's all you need (i.e.: the most common use-case): no need for customization!
 
-        throw Error("Parameter-styles other than 'simple' are not encoded correctly by default and must be customized."
-            + " This is done via the Configuration object."
-            + " See README.md for more details");
+        const value = param.dataFormat === 'date-time'
+            ? (param.value as Date).toISOString()
+            : param.value;
+
+        return encodeURIComponent(String(value));
     }
 }
