@@ -118,7 +118,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
-        '{{baseName}}': {{#isDateType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDateType}}{{#isDateTimeType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTimeType}}{{^isDateType}}{{^isDateTimeType}}value.{{name}}{{/isDateTimeType}}{{/isDateType}},
+        '{{baseName}}': {{#isDateType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDateType}}{{#isDateTimeType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTimeType}}{{#isArray}}{{#uniqueItems}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}{{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}Array.from(value.{{name}} as Set<any>){{/uniqueItems}}{{^uniqueItems}}value.{{name}}{{/uniqueItems}}{{/isArray}}{{^isDateType}}{{^isDateTimeType}}{{^isArray}}value.{{name}}{{/isArray}}{{/isDateTimeType}}{{/isDateType}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
