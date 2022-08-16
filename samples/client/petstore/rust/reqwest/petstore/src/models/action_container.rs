@@ -14,13 +14,13 @@
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct ActionContainer {
     #[serde(rename = "action")]
-    pub action: Option<Box<crate::models::Baz>>,
+    pub action: Box<crate::models::Baz>,
 }
 
 impl ActionContainer {
-    pub fn new(action: Option<crate::models::Baz>) -> ActionContainer {
+    pub fn new(action: crate::models::Baz) -> ActionContainer {
         ActionContainer {
-            action: if let Some(x) = action {Some(Box::new(x))} else {None},
+            action: Box::new(action),
         }
     }
 }
