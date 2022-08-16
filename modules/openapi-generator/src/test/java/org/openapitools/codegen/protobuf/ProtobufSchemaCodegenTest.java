@@ -64,6 +64,9 @@ public class ProtobufSchemaCodegenTest {
         List<File> files = generator.opts(clientOptInput).generate();
 
         TestUtils.ensureContainsFile(files, output, "models/pet.proto");
+        TestUtils.ensureContainsFile(files, output, "models/cat_all_of.proto");
+        TestUtils.ensureContainsFile(files, output, "models/dog_all_of.proto");
+        TestUtils.ensureContainsFile(files, output, "models/lizard_all_of.proto");
         Path path = Paths.get(output + "/models/pet.proto");
 
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/pet.proto"));
