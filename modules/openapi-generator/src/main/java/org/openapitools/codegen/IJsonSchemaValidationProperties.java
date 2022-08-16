@@ -300,34 +300,33 @@ public interface IJsonSchemaValidationProperties {
             String complexType = this.getComplexType();
             if (complexType != null) {
                 imports.add(complexType);
-            } else {
-                if (includeContainerTypes) {
-                    String containerType;
-                    if (this.getIsArray()) {
-                        if (this.getUniqueItems()) {
-                            containerType = "set";
-                        } else {
-                            containerType = "array";
-                        }
+            }
+            if (includeContainerTypes) {
+                String containerType;
+                if (this.getIsArray()) {
+                    if (this.getUniqueItems()) {
+                        containerType = "set";
                     } else {
-                        containerType = "map";
+                        containerType = "array";
                     }
-                    /*
-                     use case:
-                     generator has instantiationType for array/map/set
-                     */
-                    final String instantiationType = instantiationTypes.get(containerType);
-                    if (instantiationType != null) {
-                        imports.add(instantiationType);
-                    }
-                    /*
-                     use case:
-                     generator has typeMapping for array/map/set
-                     */
-                    final String mappedType = typeMapping.get(containerType);
-                    if (mappedType != null) {
-                        imports.add(mappedType);
-                    }
+                } else {
+                    containerType = "map";
+                }
+                /*
+                 use case:
+                 generator has instantiationType for array/map/set
+                 */
+                final String instantiationType = instantiationTypes.get(containerType);
+                if (instantiationType != null) {
+                    imports.add(instantiationType);
+                }
+                /*
+                 use case:
+                 generator has typeMapping for array/map/set
+                 */
+                final String mappedType = typeMapping.get(containerType);
+                if (mappedType != null) {
+                    imports.add(mappedType);
                 }
             }
             /*

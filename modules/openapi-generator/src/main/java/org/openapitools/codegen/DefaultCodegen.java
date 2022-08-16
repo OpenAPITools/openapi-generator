@@ -4191,14 +4191,9 @@ public class DefaultCodegen implements CodegenConfig {
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
                 if (!parametersAndResponsesImportFromV3SpecLocations) {
-                    if (r.baseType != null &&
-                            !defaultIncludes.contains(r.baseType) &&
-                            !languageSpecificPrimitives.contains(r.baseType)) {
-                        imports.add(r.baseType);
-                    }
+                    addImports(imports, r.getImports(false, importBaseType, instantiationTypes, typeMapping));
                     if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
                         op.uniqueItems = true;
-                        imports.add(typeMapping.get(r.containerType));
                     }
                 }
 
@@ -7123,7 +7118,7 @@ public class DefaultCodegen implements CodegenConfig {
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
         if (!parametersAndResponsesImportFromV3SpecLocations) {
-            addImports(imports, codegenParameter.getImports(false, this.importBaseType, instantiationTypes, typeMapping));
+            addImports(imports, codegenParameter.getImports(true, this.importBaseType, instantiationTypes, typeMapping));
         }
 
         return codegenParameter;
