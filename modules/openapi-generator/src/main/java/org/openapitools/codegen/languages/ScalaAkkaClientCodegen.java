@@ -60,7 +60,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     public ScalaAkkaClientCodegen() {
         super();
-        importContainerType = true;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -153,6 +152,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+        importContainerType = true;
+
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }

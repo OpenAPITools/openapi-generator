@@ -281,6 +281,7 @@ public class ScalaAkkaClientCodegenTest {
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -303,6 +304,7 @@ public class ScalaAkkaClientCodegenTest {
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -323,6 +325,7 @@ public class ScalaAkkaClientCodegenTest {
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
