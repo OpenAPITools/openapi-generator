@@ -412,8 +412,9 @@ public class GoAfterShipClientCodegen extends AbstractGoCodegen {
                     // will be not nullable if contains types.
                     param.isNullable = false;
                     param.isFreeFormObject = true;
-                    String newType = "types.Make"+param.dataType.substring(("types.").length());
-                    param.vendorExtensions.put("x-type-declare", newType);
+
+                    String typeDec = param.dataType.substring(("types.").length());
+                    param.vendorExtensions.put("x-type-declare", typeDec);
                 }
                 if (!param.isNullable || param.isContainer || param.isFreeFormObject
                         || (param.isAnyType && !param.isModel)) {
