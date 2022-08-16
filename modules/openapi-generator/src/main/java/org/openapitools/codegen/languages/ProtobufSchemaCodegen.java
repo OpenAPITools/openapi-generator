@@ -79,6 +79,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public ProtobufSchemaCodegen() {
         super();
 
+        importBaseType = false;
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
@@ -101,7 +102,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
-                        "array")
+                        "array",
+                        "Object",
+                        "object")
         );
 
         languageSpecificPrimitives = new HashSet<>(
@@ -126,7 +129,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         );
 
         instantiationTypes.clear();
-        instantiationTypes.put("array", "repeat");
 
         // ref: https://developers.google.com/protocol-buffers/docs/proto
         typeMapping.clear();
@@ -148,7 +150,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "string");
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "bytes");
-        typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
         importMapping.clear();
 
