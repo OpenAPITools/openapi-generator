@@ -52,6 +52,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         super();
 
         hoistParameterArrayItemBaseTypeHigher = false;
+        importContainerType = true;
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 

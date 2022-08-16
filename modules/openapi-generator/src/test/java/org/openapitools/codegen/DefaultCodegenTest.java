@@ -2087,6 +2087,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/mapArgs.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
 
         RequestBody requestBody = openAPI.getPaths().get("/api/instruments").getPost().getRequestBody();
 

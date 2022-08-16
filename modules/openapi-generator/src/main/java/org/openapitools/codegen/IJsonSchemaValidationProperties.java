@@ -264,11 +264,11 @@ public interface IJsonSchemaValidationProperties {
     /**
      * Recursively collect all necessary imports to include so that the type may be resolved.
      *
-     * @param includeContainerTypes whether or not to include the container types in the returned imports.
-     * @param includeBaseType whether or not to include the base types in the returned imports.
+     * @param importContainerType whether or not to include the container types in the returned imports.
+     * @param importBaseType whether or not to include the base types in the returned imports.
      * @return all of the imports
      */
-    default Set<String> getImports(boolean includeContainerTypes, boolean includeBaseType, Map<String, String> instantiationTypes, Map<String, String> typeMapping, FeatureSet featureSet) {
+    default Set<String> getImports(boolean importContainerType, boolean importBaseType, Map<String, String> instantiationTypes, Map<String, String> typeMapping, FeatureSet featureSet) {
         Set<String> imports = new HashSet<>();
         if (this.getComposedSchemas() != null) {
             CodegenComposedSchemas composed = this.getComposedSchemas();
@@ -291,19 +291,19 @@ public interface IJsonSchemaValidationProperties {
             Stream<CodegenProperty> innerTypes = Stream.of(
                             allOfs.stream(), anyOfs.stream(), oneOfs.stream(), nots.stream())
                     .flatMap(i -> i);
-            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet).stream()).forEach(s -> imports.add(s));
+            innerTypes.flatMap(cp -> cp.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, featureSet).stream()).forEach(s -> imports.add(s));
         }
         // items can exist for AnyType and type array
         if (this.getItems() != null && this.getIsArray()) {
-            imports.addAll(this.getItems().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet));
+            imports.addAll(this.getItems().getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, featureSet));
         }
         // additionalProperties can exist for AnyType and type object
         if (this.getAdditionalProperties() != null) {
-            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet));
+            imports.addAll(this.getAdditionalProperties().getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, featureSet));
         }
         // vars can exist for AnyType and type object
         if (this.getVars() != null && !this.getVars().isEmpty()) {
-            this.getVars().stream().flatMap(v -> v.getImports(includeContainerTypes, includeBaseType, instantiationTypes, typeMapping, featureSet).stream()).forEach(s -> imports.add(s));
+            this.getVars().stream().flatMap(v -> v.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, featureSet).stream()).forEach(s -> imports.add(s));
         }
         if (this.getIsArray() || this.getIsMap()) {
             /*
@@ -315,7 +315,7 @@ public interface IJsonSchemaValidationProperties {
             if (complexType != null) {
                 imports.add(complexType);
             }
-            if (includeContainerTypes) {
+            if (importContainerType) {
                 String containerType;
                 if (this.getIsArray()) {
                     if (this.getUniqueItems()) {
@@ -348,7 +348,7 @@ public interface IJsonSchemaValidationProperties {
             Adding List/Map etc, Java uses this
              */
             String baseType = this.getBaseType();
-            if (includeBaseType && baseType != null) {
+            if (importBaseType && baseType != null) {
                 imports.add(baseType);
             }
         } else {

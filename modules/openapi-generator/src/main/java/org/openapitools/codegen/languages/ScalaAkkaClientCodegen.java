@@ -60,6 +60,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     public ScalaAkkaClientCodegen() {
         super();
+        importContainerType = true;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
