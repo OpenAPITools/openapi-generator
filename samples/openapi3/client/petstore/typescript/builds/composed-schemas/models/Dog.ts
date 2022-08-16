@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { DogAllOf } from '../models/DogAllOf';
 import { HttpFile } from '../http/http';
 
 export class Dog {

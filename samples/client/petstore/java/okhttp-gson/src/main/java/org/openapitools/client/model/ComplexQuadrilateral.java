@@ -23,8 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.QuadrilateralInterface;
-import org.openapitools.client.model.ShapeInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
