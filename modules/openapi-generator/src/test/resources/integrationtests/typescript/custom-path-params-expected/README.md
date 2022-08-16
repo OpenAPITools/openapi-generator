@@ -204,10 +204,10 @@ export class AppModule { }
 
 ### Customizing path parameter encoding
 
-Without further customization, only [path-parameters][parameter-locations-url] of style 'simple'
+Without further customization, only [path-parameters][parameter-locations-url] of [style][style-values-url] 'simple'
 and Dates for format 'date-time' are encoded correctly.
 
-[Other styles][style-values-url] (e.g. "matrix") are not that easy to encode
+Other styles (e.g. "matrix") are not that easy to encode
 and thus are best delegated to other libraries (e.g.: [@honoluluhenk/http-param-expander]).
 
 To implement your own parameter encoding (or call another library),
