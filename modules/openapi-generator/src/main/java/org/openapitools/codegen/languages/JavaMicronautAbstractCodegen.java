@@ -191,6 +191,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     public void processOpts() {
         super.processOpts();
+        importContainerType = false;
 
         // Get properties
         if (additionalProperties.containsKey(OPT_TITLE)) {
