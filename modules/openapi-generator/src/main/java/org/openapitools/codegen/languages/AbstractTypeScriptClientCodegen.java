@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -73,25 +74,51 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         private static final Pattern JS_QUOTE_PATTERN = Pattern.compile("\"");
         private static final String JS_QUOTE_REPLACEMENT = "\\\"";
 
-        enum Location {
-            query((operation, param) -> operation.queryParams.contains(param), "form"),
-            header((operation, param) -> operation.headerParams.contains(param), "simple"),
-            path((operation, param) -> operation.pathParams.contains(param), "simple"),
-            cookie((operation, param) -> operation.cookieParams.contains(param), "form");
+        /**
+         * How the parameter is formatted/converted/encoded in the actual request.
+         * <p>
+         * See e.g. OpenAPI 3.1 spec: <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values">Style Values</a>.
+         * </p>
+         */
+        public enum ParamStyle {
+            matrix,
+            label,
+            form,
+            simple,
+            spaceDelimited,
+            pipeDelimited,
+            deepObject;
 
-            public final String defaultStyle;
+            public String asString() {
+                return name();
+            }
+        }
+
+        /**
+         * Where the parameter is located in the request.
+         * <p>
+         * See e.g. OpenAPI 3.1 spec: <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations">Parameter Locations</a>
+         * </p>
+         */
+        public enum Location {
+            query((operation, param) -> operation.queryParams.contains(param), form),
+            header((operation, param) -> operation.headerParams.contains(param), simple),
+            path((operation, param) -> operation.pathParams.contains(param), simple),
+            cookie((operation, param) -> operation.cookieParams.contains(param), form);
+
+            public final ParamStyle defaultStyle;
             public final BiPredicate<CodegenOperation, CodegenParameter> isPresentIn;
 
-            Location(BiPredicate<CodegenOperation, CodegenParameter> isPresentIn, String defaultStyle) {
+            Location(BiPredicate<CodegenOperation, CodegenParameter> isPresentIn, ParamStyle defaultStyle) {
                 this.defaultStyle = defaultStyle;
                 this.isPresentIn = isPresentIn;
             }
 
-            public String defaultStyle(String style) {
+            public String defaultStyle(@Nullable String style) {
                 if (style != null && !style.trim().isEmpty()) {
                     return style;
                 }
-                return defaultStyle;
+                return defaultStyle.asString();
             }
 
             public static Location fromParam(CodegenOperation op, CodegenParameter param) {
@@ -100,8 +127,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                         .findAny()
                         .orElseThrow(() -> new IllegalArgumentException(String.format(
                                 Locale.ROOT,
-                                "Cannot parse 'in' property of operation %s, param: %s",
-                                op.operationId, param
+                                "Cannot find param ' %s' in operation '%s'",
+                                param, op.operationId
                         )));
             }
         }
