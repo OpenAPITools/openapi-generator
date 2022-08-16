@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import io.vertx.core.file.AsyncFile;
 import org.openapitools.client.model.Category;
+import java.util.LinkedHashSet;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;

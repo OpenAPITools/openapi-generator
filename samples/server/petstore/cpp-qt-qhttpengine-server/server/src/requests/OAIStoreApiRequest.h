@@ -19,7 +19,6 @@
 #include <QSharedPointer>
 
 #include <qhttpengine/socket.h>
-#include "OAIObject.h"
 #include "OAIOrder.h"
 #include <QMap>
 #include <QString>

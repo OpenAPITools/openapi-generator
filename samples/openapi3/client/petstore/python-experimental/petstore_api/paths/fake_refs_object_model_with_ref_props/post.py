@@ -66,7 +66,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 
 from . import path

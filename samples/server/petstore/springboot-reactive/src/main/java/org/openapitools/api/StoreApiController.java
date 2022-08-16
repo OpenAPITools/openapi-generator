@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
+import java.util.HashMap;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.model.Order;

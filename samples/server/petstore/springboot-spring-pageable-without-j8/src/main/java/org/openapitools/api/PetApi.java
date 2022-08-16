@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
+import java.util.ArrayList;
 import org.openapitools.model.Category;
 import java.util.List;
 import org.openapitools.model.ModelApiResponse;

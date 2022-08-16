@@ -21,7 +21,6 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
 from petstore_api.model.client import Client
 from petstore_api.model.file import File

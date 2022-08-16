@@ -4191,7 +4191,7 @@ public class DefaultCodegen implements CodegenConfig {
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
                 if (!parametersAndResponsesImportFromV3SpecLocations) {
-                    addImports(imports, r.getImports(false, importBaseType, instantiationTypes, typeMapping));
+                    addImports(imports, r.getImports(true, importBaseType, instantiationTypes, typeMapping));
                     if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
                         op.uniqueItems = true;
                     }

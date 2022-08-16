@@ -1,5 +1,6 @@
 package org.openapitools.virtualan.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.User;

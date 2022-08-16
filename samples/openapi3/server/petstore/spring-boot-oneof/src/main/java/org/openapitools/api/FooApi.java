@@ -5,7 +5,7 @@
  */
 package org.openapitools.api;
 
-import org.openapitools.model.Entity;
+import java.util.ArrayList;
 import org.openapitools.model.Foo;
 import org.openapitools.model.FooRefOrValue;
 import java.util.List;

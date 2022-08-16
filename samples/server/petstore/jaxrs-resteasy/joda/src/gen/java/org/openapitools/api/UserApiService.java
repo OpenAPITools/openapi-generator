@@ -4,6 +4,7 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 
 
+import java.util.ArrayList;
 import org.joda.time.DateTime;
 import java.util.List;
 import org.openapitools.model.User;

@@ -1,7 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
 import apimodels.Category;
 import java.io.InputStream;
+import java.util.LinkedHashSet;
 import java.util.List;
 import apimodels.ModelApiResponse;
 import apimodels.Pet;

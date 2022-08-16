@@ -19,6 +19,7 @@ import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Category;
 import java.io.File;
+import java.util.LinkedHashSet;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;

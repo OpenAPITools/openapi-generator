@@ -66,7 +66,6 @@ from unit_test_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from unit_test_api.model.ref_in_property import RefInProperty
 
 from . import path

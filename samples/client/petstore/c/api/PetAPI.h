@@ -7,7 +7,6 @@
 #include "../include/binary.h"
 #include "../model/api_response.h"
 #include "../model/category.h"
-#include "../model/object.h"
 #include "../model/pet.h"
 #include "../model/tag.h"
 

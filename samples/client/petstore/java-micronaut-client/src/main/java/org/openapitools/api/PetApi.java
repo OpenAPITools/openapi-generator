@@ -19,6 +19,7 @@ import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import org.openapitools.model.Category;
 import java.io.File;
+import java.util.LinkedHashSet;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;

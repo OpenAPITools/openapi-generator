@@ -4,6 +4,7 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.model.Order;
 

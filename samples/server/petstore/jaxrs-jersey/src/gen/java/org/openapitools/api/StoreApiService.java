@@ -6,6 +6,7 @@ import org.openapitools.model.*;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.model.Order;
 

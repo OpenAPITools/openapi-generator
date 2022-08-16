@@ -5,6 +5,8 @@
  */
 package org.openapitools.api;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import org.openapitools.model.ObjectWithUniqueItems;
 import java.time.OffsetDateTime;

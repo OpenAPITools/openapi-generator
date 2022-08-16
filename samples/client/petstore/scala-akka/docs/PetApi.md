@@ -38,6 +38,7 @@ Add a new pet to the store
 import 
 import 
 import 
+import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
 import org.openapitools.client.core.ApiKeyLocations._
@@ -200,6 +201,7 @@ Multiple status values can be provided with comma separated strings
 ```scala
 // Import classes:
 import 
+import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
 import org.openapitools.client.core.ApiKeyLocations._
@@ -280,6 +282,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ```scala
 // Import classes:
+import 
 import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
@@ -446,6 +449,7 @@ Update an existing pet
 
 ```scala
 // Import classes:
+import 
 import 
 import 
 import 

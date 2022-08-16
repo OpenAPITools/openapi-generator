@@ -7,6 +7,7 @@ import org.openapitools.api.factories.FakeApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.model.Category;
 import org.openapitools.model.Client;
@@ -16,6 +17,7 @@ import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.util.HashMap;
 import org.openapitools.model.HealthCheckResult;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;

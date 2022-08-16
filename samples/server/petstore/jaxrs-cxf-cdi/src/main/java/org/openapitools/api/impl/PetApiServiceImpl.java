@@ -5,6 +5,7 @@ import org.openapitools.model.*;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
+import java.util.ArrayList;
 import org.openapitools.model.Category;
 import java.io.File;
 import java.util.List;

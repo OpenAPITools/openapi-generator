@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.model.Order;

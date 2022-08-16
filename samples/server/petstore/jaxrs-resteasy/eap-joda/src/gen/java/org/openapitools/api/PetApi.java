@@ -5,6 +5,7 @@ import org.openapitools.model.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import java.util.ArrayList;
 import org.openapitools.model.Category;
 import java.io.File;
 import java.util.List;

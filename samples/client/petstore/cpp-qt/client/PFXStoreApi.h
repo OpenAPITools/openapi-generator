@@ -17,7 +17,6 @@
 #include "PFXServerConfiguration.h"
 #include "PFXOauth.h"
 
-#include "PFXObject.h"
 #include "PFXOrder.h"
 #include <QMap>
 #include <QString>

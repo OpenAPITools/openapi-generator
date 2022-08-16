@@ -11,6 +11,7 @@
  */
 package org.openapitools.client.api
 
+import scala.collection.mutable.ListBuffer
 import java.time.OffsetDateTime
 import org.openapitools.client.model.User
 import org.openapitools.client.core._

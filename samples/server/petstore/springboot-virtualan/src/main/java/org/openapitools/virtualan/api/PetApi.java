@@ -5,7 +5,9 @@
  */
 package org.openapitools.virtualan.api;
 
+import java.util.ArrayList;
 import org.openapitools.virtualan.model.Category;
+import java.util.LinkedHashSet;
 import java.util.List;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;

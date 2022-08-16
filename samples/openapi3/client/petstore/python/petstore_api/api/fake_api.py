@@ -22,7 +22,6 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_and_convert_types
 )
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
-from petstore_api.model.animal import Animal
 from petstore_api.model.animal_farm import AnimalFarm
 from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.array_of_enums import ArrayOfEnums

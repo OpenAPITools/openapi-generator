@@ -3,10 +3,12 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
+import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;

@@ -6,11 +6,13 @@ import org.openapitools.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
+import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;

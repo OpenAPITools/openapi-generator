@@ -66,7 +66,6 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
-from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 
 from . import path

@@ -1,10 +1,12 @@
 package org.openapitools.api;
 
+import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;

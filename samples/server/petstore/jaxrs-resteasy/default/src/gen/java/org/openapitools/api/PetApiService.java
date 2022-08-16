@@ -5,6 +5,7 @@ import org.openapitools.model.*;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 
+import java.util.ArrayList;
 import org.openapitools.model.Category;
 import java.io.File;
 import java.util.List;

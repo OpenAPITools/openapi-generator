@@ -8,11 +8,7 @@ import {canConsumeForm, isCodeInRange} from '../util';
 import {SecurityAuthentication} from '../auth/auth';
 
 
-import { Cat } from '../models/Cat';
-import { Dog } from '../models/Dog';
 import { FilePostRequest } from '../models/FilePostRequest';
-import { PetByAge } from '../models/PetByAge';
-import { PetByType } from '../models/PetByType';
 import { PetsFilteredPatchRequest } from '../models/PetsFilteredPatchRequest';
 import { PetsPatchRequest } from '../models/PetsPatchRequest';
 

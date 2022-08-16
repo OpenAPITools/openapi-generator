@@ -7,10 +7,12 @@ import org.openapitools.api.factories.FakeApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;

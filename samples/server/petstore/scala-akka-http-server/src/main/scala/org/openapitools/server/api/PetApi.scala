@@ -14,6 +14,7 @@ import org.openapitools.server.PartsAndFiles
 import org.openapitools.server.model.ApiResponse
 import org.openapitools.server.model.Category
 import java.io.File
+import scala.collection.mutable.ListBuffer
 import org.openapitools.server.model.Pet
 import org.openapitools.server.model.Tag
 import scala.util.Try

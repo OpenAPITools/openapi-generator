@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import java.util.ArrayList;
 import org.openapitools.model.Category;
 import java.io.File;
 import java.util.List;

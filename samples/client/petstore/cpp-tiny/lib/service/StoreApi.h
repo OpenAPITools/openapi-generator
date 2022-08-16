@@ -9,7 +9,6 @@
 #include <list>
 
 #include <map>
-#include "Object.h"
 #include "Order.h"
 
 namespace Tiny {
