@@ -1,6 +1,6 @@
-extern crate petstore_reqwest_async;
+extern crate petstore_reqwest;
 
-use petstore_reqwest_async::models::TypeTesting;
+use petstore_reqwest::models::TypeTesting;
 
 #[test]
 fn test_types() {
