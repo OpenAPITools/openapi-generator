@@ -79,21 +79,81 @@ class PropertiesWithEscapedCharacters(
     foobar = NumberSchema
     locals()["foo\nbar"] = foobar
     del locals()['foobar']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     foobar = NumberSchema
     locals()["foo\"bar"] = foobar
     del locals()['foobar']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     foo_bar = NumberSchema
     locals()["foo\\bar"] = foo_bar
     del locals()['foo_bar']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     foobar = NumberSchema
     locals()["foo\rbar"] = foobar
     del locals()['foobar']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     foobar = NumberSchema
     locals()["foo\tbar"] = foobar
     del locals()['foobar']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     foobar = NumberSchema
     locals()["foo\fbar"] = foobar
     del locals()['foobar']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
 
     def __new__(
         cls,
