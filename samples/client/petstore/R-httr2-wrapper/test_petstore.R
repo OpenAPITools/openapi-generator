@@ -12,26 +12,30 @@ api_wrapper <- petstore_api$new(api_client)
 cat(api_wrapper$pet_api$api_client$username)
 cat(api_wrapper$pet_api$api_client$password)
 
+#cat(address(api_client))
+#cat(address(api_wrapper$pet_api$api_client)
+#cat(address(api_wrapper$api_client$api_client)
+
 print("DONE")
 
-#var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(56, "name_example"), list(Tag$new(56, "name_example")), "available") # Pet | Pet object that needs to be added to the store
-#
-##Add a new pet to the store
-#api_instance <- PetApi$new()
-## Configure OAuth2 access token for authorization: petstore_auth
-#api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
-#result <- tryCatch(
-#             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-#             # api_instance$AddPet(var_pet, data_file = "result.txt"),
-#             api_instance$add_pet(var_pet),
-#             ApiException = function(ex) ex
-#          )
-#
-#var_pet_id <- 56 # integer | ID of pet to return
-#
-#pet_response <- api_instance$get_pet_by_id(var_pet_id, data_file = "get_pet_by_id.json")
-#response <- read_json("get_pet_by_id.json")
-#dput(response)
+var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(56, "name_example"), list(Tag$new(56, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+
+#Add a new pet to the store
+api_instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api_instance$api_client$access_token <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$AddPet(var_pet, data_file = "result.txt"),
+             api_instance$add_pet(var_pet),
+             ApiException = function(ex) ex
+          )
+
+var_pet_id <- 56 # integer | ID of pet to return
+
+pet_response <- api_instance$get_pet_by_id(var_pet_id, data_file = "get_pet_by_id.json")
+response <- read_json("get_pet_by_id.json")
+dput(response)
 #
 ## test streaming
 #api_instance$get_pet_by_id_streaming(var_pet_id, stream_callback = function(x) { print(x) })

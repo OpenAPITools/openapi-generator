@@ -100,33 +100,33 @@ test_that("get_pet_by_id", {
   )
 })
 
-#test_that("get_pet_by_id via wrapper", {
-#  api_wrapper <- petstore_api$new(api_client)
-#  # test api_client in pet_api of the wrapper
-#  expect_equal(api_wrapper$pet_api$api_client$username, "username999") 
-#  expect_equal(api_wrapper$pet_api$api_client$password, "password888") 
-#
-#  # test api_client in user_api of the wrapper
-#  expect_equal(api_wrapper$user_api$api_client$username, "username999") 
-#  expect_equal(api_wrapper$user_api$api_client$password, "password888") 
-#
-#  pet_api_wrapper <- api_wrapper$pet_api
-#  response <- pet_api_wrapper$get_pet_by_id(pet_id)
-#  expect_equal(response$id, pet_id)
-#  expect_equal(response$name, "name_test")
-#  expect_equal(
-#    response$photoUrls,
-#    list("photo_test", "second test")
-#  )
-#  expect_equal(response$status, "available")
-#  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
-#
-#  expect_equal(pet$tags, response$tags)
-#  expect_equal(
-#    response$tags,
-#    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
-#  )
-#})
+test_that("get_pet_by_id via wrapper", {
+  api_wrapper <- petstore_api$new(api_client)
+  # test api_client in pet_api of the wrapper
+  expect_false(is.null(api_wrapper$pet_api$api_client))
+  expect_equal(api_wrapper$pet_api$api_client$username, "username999")
+  expect_equal(api_wrapper$pet_api$api_client$password, "password888")
+
+  # test api_client in user_api of the wrapper
+  expect_equal(api_wrapper$user_api$api_client$username, "username999")
+  expect_equal(api_wrapper$user_api$api_client$password, "password888")
+
+  response <- api_wrapper$pet_api$get_pet_by_id(pet_id)
+  expect_equal(response$id, pet_id)
+  expect_equal(response$name, "name_test")
+  expect_equal(
+    response$photoUrls,
+    list("photo_test", "second test")
+  )
+  expect_equal(response$status, "available")
+  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
+
+  expect_equal(pet$tags, response$tags)
+  expect_equal(
+    response$tags,
+    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
+  )
+})
 
 test_that("update_pet_with_form", {
   ## add pet

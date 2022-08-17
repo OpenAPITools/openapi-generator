@@ -61,7 +61,7 @@
       {{#operations}}
       {{#operation}}
       {{#-first}}
-      {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}} <- {{{classname}}}$new(self$api_client)
+      self${{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}} <- {{{classname}}}$new(self$api_client)
 
       {{/-first}}
       {{/operation}}
