@@ -33,7 +33,7 @@ object schema properties as classes
 5. All validated class instances are immutable except for ones based on io.File
     - This is because if properties were changed after validation, that validation would no longer apply
     - So no changing values or property values after a class has been instantiated
-6. String types with formats
+6. String + Number types with formats
     - String type data is stored as a string and if you need to access types based on its format like date,
     date-time, uuid, number etc then you will need to use accessor functions on the instance
     - type string + format: See .as_date, .as_datetime, .as_decimal, .as_uuid
