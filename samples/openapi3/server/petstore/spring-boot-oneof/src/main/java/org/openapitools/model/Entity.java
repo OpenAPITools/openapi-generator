@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import java.util.HashMap;
-import java.util.Map;
 import org.openapitools.model.Bar;
 import org.openapitools.model.BarCreate;
 import org.openapitools.model.Foo;

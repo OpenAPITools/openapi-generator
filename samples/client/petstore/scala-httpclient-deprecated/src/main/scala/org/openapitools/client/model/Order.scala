@@ -13,7 +13,6 @@
 package org.openapitools.client.model
 
 import java.util.Date
-import java.util.HashMap
 
 case class Order (
   id: Option[Long] = None,

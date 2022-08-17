@@ -27,7 +27,6 @@
 #include "PFXCategory.h"
 #include "PFXTag.h"
 #include <QList>
-#include <QMap>
 
 #include "PFXEnum.h"
 #include "PFXObject.h"

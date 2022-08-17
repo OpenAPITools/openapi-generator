@@ -20,7 +20,6 @@
 
 #include <QJsonObject>
 
-#include <QMap>
 
 #include "OAIEnum.h"
 #include "OAIObject.h"

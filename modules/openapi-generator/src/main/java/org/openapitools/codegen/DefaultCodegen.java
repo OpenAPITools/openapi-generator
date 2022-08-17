@@ -2967,7 +2967,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        addImports(m.imports, m.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
+        if (parametersAndResponsesImportFromV3SpecLocations) {
+            addImports(m.imports, m.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
+        }
         return m;
     }
 
@@ -6776,9 +6778,11 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
-                // TODO move this splitting logic to the generator that needs it only
-                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
-                imports.addAll(parts);
+                if (!parametersAndResponsesImportFromV3SpecLocations) {
+                    // TODO move this splitting logic to the generator that needs it only
+                    List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                    imports.addAll(parts);
+                }
                 String codegenModelName = codegenProperty.getComplexType();
                 codegenParameter.baseName = codegenModelName;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);

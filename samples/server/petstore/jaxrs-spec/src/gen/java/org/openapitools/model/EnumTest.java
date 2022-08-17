@@ -3,8 +3,6 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
 import org.openapitools.model.OuterEnum;
 import java.io.Serializable;
 import javax.validation.constraints.*;

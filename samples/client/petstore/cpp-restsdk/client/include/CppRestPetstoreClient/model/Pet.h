@@ -24,7 +24,6 @@
 #include "CppRestPetstoreClient/model/Tag.h"
 #include "CppRestPetstoreClient/model/Category.h"
 #include <cpprest/details/basic_types.h>
-#include <map>
 #include <vector>
 
 namespace org {

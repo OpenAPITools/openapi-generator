@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model
 
-import java.util.HashMap
 
 case class Category (
   id: Option[Long] = None,

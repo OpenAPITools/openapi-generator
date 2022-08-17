@@ -22,7 +22,6 @@
 #include "CppRestPetstoreClient/ModelBase.h"
 
 #include <cpprest/details/basic_types.h>
-#include <map>
 
 namespace org {
 namespace openapitools {

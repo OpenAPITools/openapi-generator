@@ -13,9 +13,7 @@
 package org.openapitools.client.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 

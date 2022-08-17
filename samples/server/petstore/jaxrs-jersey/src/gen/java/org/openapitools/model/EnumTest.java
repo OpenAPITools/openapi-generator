@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
 import org.openapitools.model.OuterEnum;
 import org.openapitools.model.OuterEnumDefaultValue;
 import org.openapitools.model.OuterEnumInteger;
