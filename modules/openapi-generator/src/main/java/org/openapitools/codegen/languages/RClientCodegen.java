@@ -62,6 +62,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
     public static final String USE_RLANG_EXCEPTION = "useRlangExceptionHandling";
+    public static final String GENERATE_WRAPPER = "generateWrapper";
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
     public static final String HTTR = "httr";
@@ -74,6 +75,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
     protected String operationIdNaming;
+    protected boolean generateWrapper;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -211,6 +213,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         libraryOption.setDefault(HTTR);
         cliOptions.add(libraryOption);
         setLibrary(HTTR);
+
+        cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
     }
 
     @Override
@@ -254,6 +258,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
+        if (additionalProperties.containsKey(GENERATE_WRAPPER)) {
+            this.setGenerateWrapper(Boolean.parseBoolean(
+                    additionalProperties.get(GENERATE_WRAPPER).toString()));
+        } else {
+            this.setGenerateWrapper(false);
+        }
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
@@ -292,6 +303,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             // for httr2
             setLibrary(HTTR2);
             additionalProperties.put("isHttr2", Boolean.TRUE);
+            if (generateWrapper) { // generateWrapper option only supports in httr2 library
+                supportingFiles.add(new SupportingFile("api_wrapper.mustache", "R", packageName.toLowerCase(Locale.ROOT) + "_api.R"));
+            }
         } else {
             throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only httr, httr2 are supported.");
         }
@@ -590,6 +604,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
+    }
+
+    public void setGenerateWrapper(final boolean generateWrapper) {
+        this.generateWrapper = generateWrapper;
     }
 
     public void setOperationIdNaming(final String operationIdNaming) {
