@@ -2074,8 +2074,8 @@ public class DefaultCodegenTest {
         // TODO: This must be updated to work with flattened inline models
         Assert.assertEquals(parameter.dataType, "ListPageQueryParameter");
         // TODO fix this
-        Assert.assertEquals(imports.size(), 2);
-        Assert.assertEquals(imports, Arrays.asList("Map", "ListPageQueryParameter"));
+        Assert.assertEquals(imports.size(), 1);
+        Assert.assertEquals(imports, Arrays.asList("ListPageQueryParameter"));
 
         Assert.assertNotNull(parameter.getSchema());
         Assert.assertEquals(parameter.getSchema().dataType, "Object");
@@ -2094,7 +2094,7 @@ public class DefaultCodegenTest {
         HashSet<String> imports = new HashSet<>();
         codegen.fromRequestBody(requestBody, imports, "");
 
-        HashSet<String> expected = Sets.newHashSet("InstrumentDefinition", "Map");
+        HashSet<String> expected = Sets.newHashSet("InstrumentDefinition", "map");
 
         Assert.assertEquals(imports, expected);
     }
