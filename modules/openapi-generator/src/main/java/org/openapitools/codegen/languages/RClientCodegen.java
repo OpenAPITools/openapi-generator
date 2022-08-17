@@ -214,7 +214,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(libraryOption);
         setLibrary(HTTR);
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
     }
 
     @Override
@@ -303,7 +303,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             // for httr2
             setLibrary(HTTR2);
             additionalProperties.put("isHttr2", Boolean.TRUE);
-            if (generateWrapper) {
+            if (generateWrapper) { // generateWrapper option only supports in httr2 library
                 supportingFiles.add(new SupportingFile("api_wrapper.mustache", "R", packageName.toLowerCase(Locale.ROOT) + "_api.R"));
             }
         } else {

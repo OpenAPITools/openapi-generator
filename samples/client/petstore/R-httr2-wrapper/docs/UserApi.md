@@ -28,11 +28,11 @@ library(petstore)
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
 #Create user
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
-             api_instance$create_user(var_user),
+             api_instance$user_api$create_user(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -83,11 +83,11 @@ library(petstore)
 var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
-             api_instance$create_users_with_array_input(var_user),
+             api_instance$user_api$create_users_with_array_input(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -138,11 +138,11 @@ library(petstore)
 var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
-             api_instance$create_users_with_list_input(var_user),
+             api_instance$user_api$create_users_with_list_input(var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -193,11 +193,11 @@ library(petstore)
 var_username <- "username_example" # character | The name that needs to be deleted
 
 #Delete user
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
-             api_instance$delete_user(var_username),
+             api_instance$user_api$delete_user(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -249,11 +249,11 @@ library(petstore)
 var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 
 #Get user by user name
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$get_user_by_name(var_username, data_file = "result.txt"),
-             api_instance$get_user_by_name(var_username),
+             api_instance$user_api$get_user_by_name(var_username),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -311,11 +311,11 @@ var_username <- "username_example" # character | The user name for login
 var_password <- "password_example" # character | The password for login in clear text
 
 #Logs user into the system
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$login_user(var_username, var_password, data_file = "result.txt"),
-             api_instance$login_user(var_username, var_password),
+             api_instance$user_api$login_user(var_username, var_password),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -371,11 +371,11 @@ library(petstore)
 
 
 #Logs out current logged in user session
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
-             api_instance$logout_user(),
+             api_instance$user_api$logout_user(),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -424,11 +424,11 @@ var_username <- "username_example" # character | name that need to be deleted
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
-api_instance <- UserApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
-             api_instance$update_user(var_username, var_user),
+             api_instance$user_api$update_user(var_username, var_user),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object

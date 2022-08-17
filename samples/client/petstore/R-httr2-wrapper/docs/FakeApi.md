@@ -23,11 +23,11 @@ var_dummy <- "dummy_example" # character | dummy required parameter
 var_var_data_file <- "var_data_file_example" # character | header data file (Optional)
 
 #test data_file to ensure it's escaped correctly
-api_instance <- FakeApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$fake_data_file(var_dummy, var_data_file = var_var_data_file, data_file = "result.txt"),
-             api_instance$fake_data_file(var_dummy, var_data_file = var_var_data_file),
+             api_instance$fake_api$fake_data_file(var_dummy, var_data_file = var_var_data_file),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -83,9 +83,9 @@ library(petstore)
 var_reg_exp_test <- "reg_exp_test_example" # character | dummy required parameter
 
 #test regular expression to ensure no exception
-api_instance <- FakeApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
-             api_instance$fake_regular_expression(var_reg_exp_test),
+             api_instance$fake_api$fake_regular_expression(var_reg_exp_test),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object

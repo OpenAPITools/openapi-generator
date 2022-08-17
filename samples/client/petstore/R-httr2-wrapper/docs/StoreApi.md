@@ -24,9 +24,9 @@ library(petstore)
 var_order_id <- "order_id_example" # character | ID of the order that needs to be deleted
 
 #Delete purchase order by ID
-api_instance <- StoreApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
-             api_instance$delete_order(var_order_id),
+             api_instance$store_api$delete_order(var_order_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -77,13 +77,13 @@ library(petstore)
 
 
 #Returns pet inventories by status
-api_instance <- StoreApi$new()
+api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$get_inventory(data_file = "result.txt"),
-             api_instance$get_inventory(),
+             api_instance$store_api$get_inventory(),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -135,11 +135,11 @@ library(petstore)
 var_order_id <- 56 # integer | ID of pet that needs to be fetched
 
 #Find purchase order by ID
-api_instance <- StoreApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$get_order_by_id(var_order_id, data_file = "result.txt"),
-             api_instance$get_order_by_id(var_order_id),
+             api_instance$store_api$get_order_by_id(var_order_id),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -196,11 +196,11 @@ library(petstore)
 var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 
 #Place an order for a pet
-api_instance <- StoreApi$new()
+api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$place_order(var_order, data_file = "result.txt"),
-             api_instance$place_order(var_order),
+             api_instance$store_api$place_order(var_order),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
