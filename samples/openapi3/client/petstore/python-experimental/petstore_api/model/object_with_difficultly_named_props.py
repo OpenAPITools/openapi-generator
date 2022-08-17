@@ -84,12 +84,42 @@ class ObjectWithDifficultlyNamedProps(
     special_property_name = Int64Schema
     locals()["$special[property.name]"] = special_property_name
     del locals()['special_property_name']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     _123_list = StrSchema
     locals()["123-list"] = _123_list
     del locals()['_123_list']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     _123_number = IntSchema
     locals()["123Number"] = _123_number
     del locals()['_123_number']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
 
 
     def __new__(
