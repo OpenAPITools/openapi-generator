@@ -288,7 +288,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
-        supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile(".travis.yml.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
@@ -316,6 +316,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
                 String content = fragment.execute();
                 content = content.trim().replace("Apache-2.0", "Apache License 2.0");
+                writer.write(content);
+            }
+        });
+
+        // add lambda for mustache templates to escape %
+        additionalProperties.put("lambdaRdocEscape", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("%", "\\%");
                 writer.write(content);
             }
         });

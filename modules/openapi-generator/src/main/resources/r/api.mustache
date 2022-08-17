@@ -10,9 +10,9 @@
 {{! Adding the below changes for generating documentation for the api methods. }}
 #' \describe{
 {{#operation}}
-#' \strong{ {{operationId}} } \emph{ {{summary}} }
+#' \strong{ {{operationId}} } \emph{ {{#lambdaRdocEscape}}{{summary}}{{/lambdaRdocEscape}} }
 {{#notes}}
-#' {{{.}}}
+#' {{#lambdaRdocEscape}}{{{.}}}{{/lambdaRdocEscape}}
 {{/notes}}
 #'
 #' \itemize{

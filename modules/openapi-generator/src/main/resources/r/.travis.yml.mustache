@@ -5,7 +5,12 @@ cache:
   - /home/travis/R/Library
 r_packages:
 - jsonlite
+{{^isHttr2}}
 - httr
+{{/isHttr2}}
+{{#isHttr2}}
+- httr2
+{{/isHttr2}}
 - testthat
 # uncomment below to install deps with devtools
 #install:

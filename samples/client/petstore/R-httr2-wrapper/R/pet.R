@@ -281,12 +281,12 @@ Pet <- R6::R6Class(
       invalid_fields <- list()
       # check if the required `name` is null
       if (is.null(self$`name`)) {
-        invalid_fields["name"] = "Non-nullable required field `name` cannot be null."
+        invalid_fields["name"] <- "Non-nullable required field `name` cannot be null."
       }
 
       # check if the required `photoUrls` is null
       if (is.null(self$`photoUrls`)) {
-        invalid_fields["photoUrls"] = "Non-nullable required field `photoUrls` cannot be null."
+        invalid_fields["photoUrls"] <- "Non-nullable required field `photoUrls` cannot be null."
       }
 
       invalid_fields
