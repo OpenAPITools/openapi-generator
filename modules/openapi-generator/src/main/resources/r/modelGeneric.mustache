@@ -23,10 +23,10 @@
     #' Initialize a new {{{classname}}} class.
     #'
     {{#requiredVars}}
-    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}
+    #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}
     {{/requiredVars}}
     {{#optionalVars}}
-    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
+    #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
     {{/optionalVars}}
     #' @param ... Other optional arguments.
     #' @export

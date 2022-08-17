@@ -5,7 +5,7 @@ cache:
   - /home/travis/R/Library
 r_packages:
 - jsonlite
-- httr
+- httr2
 - testthat
 # uncomment below to install deps with devtools
 #install:
