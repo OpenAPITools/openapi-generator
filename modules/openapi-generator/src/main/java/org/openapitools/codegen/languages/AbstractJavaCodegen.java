@@ -77,9 +77,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
     public static final String JACKSON = "jackson";
+    public static final String USE_JACKSON_ANNOTATIONS = "useJacksonAnnotations";
+    protected boolean useJackson = true;
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
+
 
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
@@ -646,6 +649,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
+        }
+        
+        // check if value has not been set by a sub class before setting the default value
+        if (!additionalProperties.containsKey(USE_JACKSON_ANNOTATIONS))
+        {
+        	additionalProperties.put(USE_JACKSON_ANNOTATIONS, "true");
         }
 
         if (additionalProperties.containsKey(TEST_OUTPUT)) {
@@ -1324,8 +1333,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 model.imports.add("LinkedHashSet");
                 boolean canNotBeWrappedToNullable = !openApiNullable || !property.isNullable;
                 if (canNotBeWrappedToNullable) {
-                    model.imports.add("JsonDeserialize");
-                    property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
+                    if (useJackson) {
+                        model.imports.add("JsonDeserialize");
+                        property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
+                    }
                 }
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");

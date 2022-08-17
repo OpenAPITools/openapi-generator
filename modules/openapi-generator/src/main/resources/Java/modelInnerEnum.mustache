@@ -46,6 +46,7 @@
       return String.valueOf(value);
     }
 
+{{#useJacksonAnnotations}}
 {{#jackson}}
     @JsonCreator
 {{/jackson}}
@@ -57,6 +58,7 @@
       }
       {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
     }
+{{/useJacksonAnnotations}}
 {{#gson}}
 
     public static class Adapter extends TypeAdapter<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}> {

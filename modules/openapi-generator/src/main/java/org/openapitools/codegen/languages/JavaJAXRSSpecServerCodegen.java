@@ -31,8 +31,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
+    public static final String ADD_JAVAX_ANNOTATIONS_DEPENDENCE = "addJavaxAnnotationsDependence";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_BUILDERS = "generateBuilders";
+    public static final String ADD_JUNIT_DEPENDENCE = "addJunitDependence";
+    public static final String ADD_JAKARTA_WS_RS_DEPENDENCE = "addJakartaWsRsDependence";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -45,7 +48,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean generatePom = true;
     private boolean generateBuilders = false;
     private boolean useSwaggerAnnotations = true;
-    private boolean useJackson = false;
+    private boolean useJacksonAnnotations = true;
+    private boolean addJavaxAnnotationsDependence = false;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
     public JavaJAXRSSpecServerCodegen() {
@@ -101,6 +105,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newBoolean(ADD_JAVAX_ANNOTATIONS_DEPENDENCE, "Whether to add javax annotations dependence in maven (required since java 11).", addJavaxAnnotationsDependence));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_ANNOTATIONS, "Whether to generate Jackson annotations.", useJacksonAnnotations).defaultValue(String.valueOf(useJacksonAnnotations)));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
     }
@@ -157,14 +163,32 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
 
-        useJackson = convertPropertyToBoolean(JACKSON);
-
         if (interfaceOnly) {
             // Change default artifactId if generating interfaces only, before command line options are applied in base class.
             artifactId = "openapi-jaxrs-client";
         }
 
+        if (additionalProperties.containsKey(USE_JACKSON_ANNOTATIONS)) {
+            useJacksonAnnotations = Boolean.valueOf(additionalProperties.get(USE_JACKSON_ANNOTATIONS).toString()).booleanValue();
+        }
+        writePropertyBack(USE_JACKSON_ANNOTATIONS, useJacksonAnnotations);
+
         super.processOpts();
+
+        if (useJacksonAnnotations == true)
+        {
+        	useJackson = convertPropertyToBoolean(JACKSON);
+        }
+        else
+        {
+        	// force jackson use to false
+        	useJackson = false;
+        }
+        writePropertyBack(JACKSON, useJackson);
+
+        if (additionalProperties.containsKey(ADD_JAVAX_ANNOTATIONS_DEPENDENCE)) {
+            addJavaxAnnotationsDependence = Boolean.valueOf(additionalProperties.get(ADD_JAVAX_ANNOTATIONS_DEPENDENCE).toString()).booleanValue();
+        }
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
@@ -252,9 +276,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         if (!useJackson) {
             codegenModel.imports.remove("JsonSerialize");
+            codegenModel.imports.remove("JsonDeserialize");
             codegenModel.imports.remove("ToStringSerializer");
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+            codegenModel.imports.remove("JsonSubTypes");
+            codegenModel.imports.remove("JsonTypeInfo");
         }
         return codegenModel;
     }
