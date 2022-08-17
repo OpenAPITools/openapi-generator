@@ -27,7 +27,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     @BuiltValueField(wireName: r'{{baseName}}')
     {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
     {{#allowableValues}}
-    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
+    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{#.}}{{{.}}}{{/.}}{{^.}}null{{/.}}, {{/values}} };{{/min}}
     {{/allowableValues}}
 
 {{/vars}}

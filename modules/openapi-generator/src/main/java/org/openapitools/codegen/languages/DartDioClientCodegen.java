@@ -264,6 +264,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureDateLibrary(String srcFolder) {
+        languageSpecificPrimitives.add("date");
+        languageSpecificPrimitives.add("Date");
+        languageSpecificPrimitives.add("DateTime");
+        
         switch (dateLibrary) {
             case DATE_LIBRARY_TIME_MACHINE:
                 additionalProperties.put("useDateLibTimeMachine", "true");
@@ -474,6 +478,19 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
         return resultImports;
     }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        final CodegenProperty property = super.fromProperty(name, p, required);
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+        
+        //Catch types that are models and maps (i.e. additionalProperties: true) and render them the same as a model
+        if (ModelUtils.isModel(referencedSchema) && ModelUtils.isMapSchema(referencedSchema)) {
+            property.isModel = true;
+        }
+        return property;
+    }
+    
 
     static class BuiltValueSerializer {
 
