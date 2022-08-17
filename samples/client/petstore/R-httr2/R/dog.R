@@ -197,7 +197,7 @@ Dog <- R6::R6Class(
       invalid_fields <- list()
       # check if the required `className` is null
       if (is.null(self$`className`)) {
-        invalid_fields["className"] = "Non-nullable required field `className` cannot be null."
+        invalid_fields["className"] <- "Non-nullable required field `className` cannot be null."
       }
 
       invalid_fields
