@@ -13,7 +13,11 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
 import { AbstractUserDto } from './abstract-user-dto';
+// May contain unused imports in some cases
+// @ts-ignore
 import { BranchDto } from './branch-dto';
 
 /**
