@@ -203,9 +203,9 @@ export default class ApiClient extends RESTDataSource {
         var httpMethodFn = httpMethod.toLowerCase();
 
         if (httpMethodFn == 'get' || httpMethodFn == 'delete') {
-            response = await this[httpMethodFn](parameterizedPath, fetchOptions);
+            response = await this[httpMethodFn](parameterizedPath, [], requestInit);
         } else {
-            response = await this[httpMethodFn](parameterizedPath, body, fetchOptions)
+            response = await this[httpMethodFn](parameterizedPath, body, requestInit)
         }
 
         var convertedResponse = ApiClient.convertToType(response, returnType);
