@@ -1,14 +1,9 @@
 package controllers;
 
-import java.util.ArrayList;
-import apimodels.Category;
 import java.io.InputStream;
-import java.util.LinkedHashSet;
-import java.util.List;
 import apimodels.ModelApiResponse;
 import apimodels.Pet;
 import java.util.Set;
-import apimodels.Tag;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;

@@ -21,9 +21,7 @@ import { Headers } from '../Headers';
 import HttpResponse from '../HttpResponse';
 
 import { ApiResponse } from '../model/apiResponse';
-import { Category } from '../model/category';
 import { Pet } from '../model/pet';
-import { Tag } from '../model/tag';
 
 import { COLLECTION_FORMATS }  from '../variables';
 

@@ -22,7 +22,6 @@ import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import org.openapitools.model.ModelClient;
-import org.openapitools.model.ModelFile;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;

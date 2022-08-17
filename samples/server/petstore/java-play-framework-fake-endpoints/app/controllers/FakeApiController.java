@@ -1,15 +1,11 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.math.BigDecimal;
 import apimodels.Client;
 import apimodels.FileSchemaTestClass;
-import java.util.HashMap;
 import java.io.InputStream;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import apimodels.ModelFile;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
 import apimodels.User;

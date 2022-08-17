@@ -8,11 +8,9 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import org.openapitools.client.model.Category;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;

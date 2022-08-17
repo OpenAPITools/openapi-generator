@@ -5,8 +5,6 @@ import org.openapitools.model.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.model.Order;
 

@@ -1,12 +1,9 @@
 package org.openapitools.client.api.rxjava;
 
 import io.vertx.core.file.AsyncFile;
-import org.openapitools.client.model.Category;
-import java.util.LinkedHashSet;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
-import org.openapitools.client.model.Tag;
 import org.openapitools.client.ApiClient;
 
 import java.util.*;

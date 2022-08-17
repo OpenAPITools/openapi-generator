@@ -15,11 +15,8 @@ package org.openapitools.example.api
 import java.text.SimpleDateFormat
 
 import org.openapitools.client.model.ApiResponse
-import org.openapitools.client.model.Category
 import java.io.File
-import scala.collection.mutable.ListBuffer
 import org.openapitools.client.model.Pet
-import org.openapitools.client.model.Tag
 import org.openapitools.example.invoker.{ApiInvoker, ApiException}
 
 import collection.mutable

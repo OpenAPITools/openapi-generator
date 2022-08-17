@@ -11,7 +11,6 @@
  */
 package org.openapitools.client.api
 
-import java.time.OffsetDateTime
 import org.openapitools.client.model.Order
 import org.openapitools.client.core.JsonSupport._
 import sttp.client3._

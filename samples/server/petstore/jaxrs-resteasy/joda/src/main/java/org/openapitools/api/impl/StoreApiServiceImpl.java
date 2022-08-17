@@ -4,8 +4,6 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 
 
-import org.joda.time.DateTime;
-import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.model.Order;
 

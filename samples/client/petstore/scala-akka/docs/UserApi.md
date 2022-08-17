@@ -118,7 +118,6 @@ Creates list of users with given input array
 ```scala
 // Import classes:
 import 
-import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
 import org.openapitools.client.core.ApiKeyLocations._
@@ -200,7 +199,6 @@ Creates list of users with given input array
 
 ```scala
 // Import classes:
-import 
 import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._

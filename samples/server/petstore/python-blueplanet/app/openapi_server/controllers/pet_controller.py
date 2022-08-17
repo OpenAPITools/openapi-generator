@@ -2,9 +2,7 @@ import connexion
 import six
 
 from app.openapi_server.models.api_response import ApiResponse  # noqa: E501
-from app.openapi_server.models.category import Category  # noqa: E501
 from app.openapi_server.models.pet import Pet  # noqa: E501
-from app.openapi_server.models.tag import Tag  # noqa: E501
 from openapi_server import util
 
 

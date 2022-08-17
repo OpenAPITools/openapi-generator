@@ -6,15 +6,10 @@ import org.openapitools.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import java.util.ArrayList;
-import org.openapitools.model.Category;
 import java.io.File;
-import java.util.LinkedHashSet;
-import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
-import org.openapitools.model.Tag;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;

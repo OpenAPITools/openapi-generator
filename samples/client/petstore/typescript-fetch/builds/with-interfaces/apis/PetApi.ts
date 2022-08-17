@@ -15,20 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  Category,
   ModelApiResponse,
   Pet,
-  Tag,
 } from '../models';
 import {
-    CategoryFromJSON,
-    CategoryToJSON,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
     PetFromJSON,
     PetToJSON,
-    TagFromJSON,
-    TagToJSON,
 } from '../models';
 
 export interface AddPetRequest {

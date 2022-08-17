@@ -31,9 +31,7 @@ namespace OpenAPI\Server\Api;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use OpenAPI\Server\Model\ApiResponse;
-use OpenAPI\Server\Model\Category;
 use OpenAPI\Server\Model\Pet;
-use OpenAPI\Server\Model\Tag;
 
 /**
  * PetApiInterface Interface Doc Comment

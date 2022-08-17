@@ -1,13 +1,8 @@
 package org.openapitools.api;
 
-import java.util.ArrayList;
-import org.openapitools.model.Category;
-import java.util.LinkedHashSet;
-import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
-import org.openapitools.model.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -5,9 +5,7 @@
  */
 package org.openapitools.api;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.time.OffsetDateTime;
 import org.openapitools.model.Order;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;

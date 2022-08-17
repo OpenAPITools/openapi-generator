@@ -5,7 +5,6 @@ import org.openapitools.model.*;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
-import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.model.Order;
 

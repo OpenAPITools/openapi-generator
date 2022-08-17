@@ -20,10 +20,8 @@
 
 package org.openapitools.client.apis
 
-import org.openapitools.client.models.Category
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
-import org.openapitools.client.models.Tag
 
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.HttpClientConfig

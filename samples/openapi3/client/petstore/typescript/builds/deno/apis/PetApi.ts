@@ -9,9 +9,7 @@ import {SecurityAuthentication} from '../auth/auth.ts';
 
 
 import { ApiResponse } from '../models/ApiResponse.ts';
-import { Category } from '../models/Category.ts';
 import { Pet } from '../models/Pet.ts';
-import { Tag } from '../models/Tag.ts';
 
 /**
  * no description

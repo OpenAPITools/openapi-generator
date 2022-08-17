@@ -5,10 +5,8 @@
  */
 package org.openapitools.api;
 
-import java.util.ArrayList;
 import org.openapitools.model.Foo;
 import org.openapitools.model.FooRefOrValue;
-import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

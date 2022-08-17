@@ -23,9 +23,6 @@ import {
     Category,
     CategoryRecord,
     categoryRecordUtils,
-    DeploymentRequestStatus,
-    DeploymentRequestStatusRecord,
-    deploymentRequestStatusRecordUtils,
     FindPetsByStatusResponse,
     FindPetsByStatusResponseRecord,
     findPetsByStatusResponseRecordUtils,
@@ -41,12 +38,6 @@ import {
     PetRegionsResponse,
     PetRegionsResponseRecord,
     petRegionsResponseRecordUtils,
-    Tag,
-    TagRecord,
-    tagRecordUtils,
-    WarningCode,
-    WarningCodeRecord,
-    warningCodeRecordUtils,
     UserRecord,
 } from '../models';
 

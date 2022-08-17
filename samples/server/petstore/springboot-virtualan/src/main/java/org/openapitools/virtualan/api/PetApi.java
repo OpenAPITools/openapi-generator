@@ -5,14 +5,9 @@
  */
 package org.openapitools.virtualan.api;
 
-import java.util.ArrayList;
-import org.openapitools.virtualan.model.Category;
-import java.util.LinkedHashSet;
-import java.util.List;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
 import java.util.Set;
-import org.openapitools.virtualan.model.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

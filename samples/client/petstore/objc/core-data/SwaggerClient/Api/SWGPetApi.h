@@ -1,7 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "SWGCategory.h"
 #import "SWGPet.h"
-#import "SWGTag.h"
 #import "SWGApi.h"
 
 /**

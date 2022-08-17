@@ -23,11 +23,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { ApiResponse } from '../../../model/some/levels/deep';
 // @ts-ignore
-import { Category } from '../../../model/some/levels/deep';
-// @ts-ignore
 import { Pet } from '../../../model/some/levels/deep';
-// @ts-ignore
-import { Tag } from '../../../model/some/levels/deep';
 /**
  * PetApi - axios parameter creator
  * @export

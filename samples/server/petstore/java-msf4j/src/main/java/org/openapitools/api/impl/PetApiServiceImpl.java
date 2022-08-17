@@ -3,15 +3,10 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
-import java.util.ArrayList;
-import org.openapitools.model.Category;
 import java.io.File;
-import java.util.LinkedHashSet;
-import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
-import org.openapitools.model.Tag;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;

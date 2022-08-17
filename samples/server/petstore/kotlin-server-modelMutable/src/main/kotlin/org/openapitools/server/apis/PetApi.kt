@@ -20,10 +20,8 @@ import org.openapitools.server.Paths
 import io.ktor.locations.*
 import io.ktor.routing.*
 import org.openapitools.server.infrastructure.ApiPrincipal
-import org.openapitools.server.models.Category
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
-import org.openapitools.server.models.Tag
 
 @KtorExperimentalLocationsAPI
 fun Route.PetApi() {

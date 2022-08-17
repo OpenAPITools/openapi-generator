@@ -7,9 +7,7 @@ import org.openapitools.api.factories.StoreApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.time.OffsetDateTime;
 import org.openapitools.model.Order;
 
 import java.util.Map;

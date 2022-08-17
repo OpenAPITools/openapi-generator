@@ -6,8 +6,6 @@ import org.openapitools.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.model.Order;
 

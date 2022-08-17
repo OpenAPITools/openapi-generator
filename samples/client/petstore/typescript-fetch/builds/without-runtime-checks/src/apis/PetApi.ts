@@ -15,10 +15,8 @@
 
 import * as runtime from '../runtime';
 import type {
-  Category,
   ModelApiResponse,
   Pet,
-  Tag,
 } from '../models';
 
 export interface AddPetRequest {

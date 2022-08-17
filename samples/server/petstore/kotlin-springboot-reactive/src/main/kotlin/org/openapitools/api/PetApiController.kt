@@ -1,9 +1,7 @@
 package org.openapitools.api
 
-import org.openapitools.model.Category
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
-import org.openapitools.model.Tag
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*

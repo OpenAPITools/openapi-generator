@@ -5,17 +5,13 @@ import org.openapitools.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import java.util.ArrayList;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
-import java.util.HashMap;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.ModelFile;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;

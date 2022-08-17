@@ -3,22 +3,16 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
-import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
-import java.util.LinkedHashSet;
 import java.time.LocalDate;
-import org.openapitools.client.model.ModelFile;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
-import org.openapitools.client.model.OuterEnumInteger;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
-import org.openapitools.client.model.Tag;
 import org.openapitools.client.model.User;
 
 import java.util.HashMap;

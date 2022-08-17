@@ -6,10 +6,8 @@ import okhttp3.RequestBody
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.Completable
 
-import org.openapitools.client.models.Category
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
-import org.openapitools.client.models.Tag
 
 import okhttp3.MultipartBody
 

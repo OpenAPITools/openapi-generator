@@ -266,7 +266,6 @@ Place an order for a pet
 ```scala
 // Import classes:
 import 
-import 
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
 import org.openapitools.client.core.ApiKeyLocations._

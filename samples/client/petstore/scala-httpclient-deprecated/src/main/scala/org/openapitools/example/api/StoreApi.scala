@@ -14,8 +14,6 @@ package org.openapitools.example.api
 
 import java.text.SimpleDateFormat
 
-import java.util.Date
-import java.util.HashMap
 import org.openapitools.client.model.Order
 import org.openapitools.example.invoker.{ApiInvoker, ApiException}
 

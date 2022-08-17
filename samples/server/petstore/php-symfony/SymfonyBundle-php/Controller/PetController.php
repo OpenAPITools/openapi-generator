@@ -37,9 +37,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use OpenAPI\Server\Api\PetApiInterface;
 use OpenAPI\Server\Model\ApiResponse;
-use OpenAPI\Server\Model\Category;
 use OpenAPI\Server\Model\Pet;
-use OpenAPI\Server\Model\Tag;
 
 /**
  * PetController Class Doc Comment

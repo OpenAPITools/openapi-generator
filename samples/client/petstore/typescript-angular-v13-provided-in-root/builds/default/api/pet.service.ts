@@ -21,11 +21,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { ApiResponse } from '../model/apiResponse';
 // @ts-ignore
-import { Category } from '../model/category';
-// @ts-ignore
 import { Pet } from '../model/pet';
-// @ts-ignore
-import { Tag } from '../model/tag';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';

@@ -18,9 +18,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.api_response import ApiResponse
-from openapi_server.models.category import Category
 from openapi_server.models.pet import Pet
-from openapi_server.models.tag import Tag
 from openapi_server.security_api import get_token_petstore_auth, get_token_api_key
 
 router = APIRouter()

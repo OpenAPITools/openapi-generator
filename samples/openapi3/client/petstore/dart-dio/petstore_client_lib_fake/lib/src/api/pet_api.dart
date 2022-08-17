@@ -10,9 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/api_response.dart';
-import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/pet.dart';
-import 'package:openapi/src/model/tag.dart';
 
 class PetApi {
 

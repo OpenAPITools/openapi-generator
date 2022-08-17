@@ -15,18 +15,12 @@
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
 import {
-    Category,
-    CategoryFromJSON,
-    CategoryToJSON,
     ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
     Pet,
     PetFromJSON,
     PetToJSON,
-    Tag,
-    TagFromJSON,
-    TagToJSON,
 } from '../models';
 
 export interface AddPetRequest {

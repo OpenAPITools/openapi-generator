@@ -16,9 +16,7 @@ import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../model/apiResponse';
-import { Category } from '../model/category';
 import { Pet } from '../model/pet';
-import { Tag } from '../model/tag';
 import { Configuration } from '../configuration';
 
 

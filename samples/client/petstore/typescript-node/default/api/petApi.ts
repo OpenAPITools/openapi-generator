@@ -16,9 +16,7 @@ import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 import { ApiResponse } from '../model/apiResponse';
-import { Category } from '../model/category';
 import { Pet } from '../model/pet';
-import { Tag } from '../model/tag';
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
 import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';

@@ -20,11 +20,8 @@
 
 #include <qhttpengine/socket.h>
 #include "OAIApiResponse.h"
-#include "OAICategory.h"
 #include "OAIHttpFileElement.h"
 #include "OAIPet.h"
-#include "OAITag.h"
-#include <QList>
 #include <QString>
 #include "OAIPetApiHandler.h"
 

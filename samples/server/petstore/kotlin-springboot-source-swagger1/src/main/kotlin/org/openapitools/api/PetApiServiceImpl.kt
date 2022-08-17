@@ -1,9 +1,7 @@
 package org.openapitools.api
 
-import org.openapitools.model.Category
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
-import org.openapitools.model.Tag
 import org.springframework.stereotype.Service
 @Service
 class PetApiServiceImpl : PetApiService {

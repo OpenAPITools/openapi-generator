@@ -5,12 +5,7 @@
  */
 package org.openapitools.api;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
 import org.openapitools.model.ObjectWithUniqueItems;
-import java.time.OffsetDateTime;
-import java.util.Set;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

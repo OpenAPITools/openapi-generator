@@ -5,27 +5,18 @@ import org.openapitools.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import java.util.ArrayList;
 import java.math.BigDecimal;
-import org.openapitools.model.Category;
 import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
-import java.util.HashMap;
 import org.openapitools.model.HealthCheckResult;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.ModelFile;
 import org.openapitools.model.OuterComposite;
-import org.openapitools.model.OuterEnumInteger;
 import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
-import java.util.Set;
-import org.openapitools.model.Tag;
 import org.openapitools.model.User;
 
 import java.util.List;

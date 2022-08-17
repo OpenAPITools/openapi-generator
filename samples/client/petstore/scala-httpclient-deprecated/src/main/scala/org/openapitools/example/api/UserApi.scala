@@ -15,7 +15,6 @@ package org.openapitools.example.api
 import java.text.SimpleDateFormat
 
 import java.util.Date
-import scala.collection.mutable.ListBuffer
 import org.openapitools.client.model.User
 import org.openapitools.example.invoker.{ApiInvoker, ApiException}
 

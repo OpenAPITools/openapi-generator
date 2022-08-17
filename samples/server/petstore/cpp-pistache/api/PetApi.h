@@ -27,11 +27,8 @@
 #include <utility>
 
 #include "ApiResponse.h"
-#include "Category.h"
 #include "Pet.h"
-#include "Tag.h"
 #include <string>
-#include <vector>
 
 namespace org::openapitools::server::api
 {

@@ -14,9 +14,7 @@
 
 import ApiClient from "../ApiClient";
 import ApiResponse from '../model/ApiResponse';
-import Category from '../model/Category';
 import Pet from '../model/Pet';
-import Tag from '../model/Tag';
 
 /**
 * Pet service.

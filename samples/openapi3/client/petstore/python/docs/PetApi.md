@@ -29,8 +29,6 @@ import time
 import petstore_api
 from petstore_api.api import pet_api
 from petstore_api.model.pet import Pet
-from petstore_api.model.category import Category
-from petstore_api.model.tag import Tag
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -631,8 +629,6 @@ import time
 import petstore_api
 from petstore_api.api import pet_api
 from petstore_api.model.pet import Pet
-from petstore_api.model.category import Category
-from petstore_api.model.tag import Tag
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

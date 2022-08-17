@@ -1,8 +1,6 @@
 package org.openapitools.api;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.time.OffsetDateTime;
 import org.openapitools.model.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

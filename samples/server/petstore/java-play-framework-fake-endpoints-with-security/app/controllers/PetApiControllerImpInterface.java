@@ -1,10 +1,6 @@
 package controllers;
 
-import java.util.ArrayList;
-import apimodels.Category;
-import java.util.List;
 import apimodels.Pet;
-import apimodels.Tag;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;

@@ -16,20 +16,15 @@
 import * as runtime from '../runtime';
 import type {
   Category,
-  DeploymentRequestStatus,
   FindPetsByStatusResponse,
   FindPetsByUserResponse,
   ModelApiResponse,
   Pet,
   PetRegionsResponse,
-  Tag,
-  WarningCode,
 } from '../models';
 import {
     CategoryFromJSON,
     CategoryToJSON,
-    DeploymentRequestStatusFromJSON,
-    DeploymentRequestStatusToJSON,
     FindPetsByStatusResponseFromJSON,
     FindPetsByStatusResponseToJSON,
     FindPetsByUserResponseFromJSON,
@@ -40,10 +35,6 @@ import {
     PetToJSON,
     PetRegionsResponseFromJSON,
     PetRegionsResponseToJSON,
-    TagFromJSON,
-    TagToJSON,
-    WarningCodeFromJSON,
-    WarningCodeToJSON,
 } from '../models';
 
 export interface AddPetRequest {

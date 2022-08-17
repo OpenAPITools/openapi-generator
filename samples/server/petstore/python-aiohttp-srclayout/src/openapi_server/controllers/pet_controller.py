@@ -2,9 +2,7 @@ from typing import List, Dict
 from aiohttp import web
 
 from openapi_server.models.api_response import ApiResponse
-from openapi_server.models.category import Category
 from openapi_server.models.pet import Pet
-from openapi_server.models.tag import Tag
 from openapi_server import util
 
 

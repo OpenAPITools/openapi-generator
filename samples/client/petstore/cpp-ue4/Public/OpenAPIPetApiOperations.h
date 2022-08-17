@@ -17,9 +17,7 @@
 
 #include "OpenAPIHelpers.h"
 #include "OpenAPIApiResponse.h"
-#include "OpenAPICategory.h"
 #include "OpenAPIPet.h"
-#include "OpenAPITag.h"
 
 namespace OpenAPI
 {

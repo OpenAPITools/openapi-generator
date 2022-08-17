@@ -1,9 +1,7 @@
 package org.openapitools.server.apis;
 
-import org.openapitools.server.models.Category
 import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
-import org.openapitools.server.models.Tag
 
 import javax.ws.rs.*
 import javax.ws.rs.core.Response

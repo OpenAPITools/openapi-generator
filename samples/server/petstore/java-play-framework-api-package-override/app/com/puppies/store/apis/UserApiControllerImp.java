@@ -1,6 +1,5 @@
 package com.puppies.store.apis;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.time.OffsetDateTime;
 import apimodels.User;
