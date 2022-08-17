@@ -1,8 +1,10 @@
 {{#jackson}}
+{{#useJacksonAnnotations}}
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{{discriminator.propertyBaseName}}}", visible = true)
 @JsonSubTypes({
   {{#discriminator.mappedModels}}
   @JsonSubTypes.Type(value = {{modelName}}.class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"),
   {{/discriminator.mappedModels}}
 })
+{{/useJacksonAnnotations}}
 {{/jackson}}
