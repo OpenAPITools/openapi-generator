@@ -114,7 +114,7 @@ public class SomeObj {
   @SerializedName(SERIALIZED_NAME_TYPE)
   private String type;
 
-  public SomeObj() { 
+  public SomeObj() {
   }
 
   public SomeObj $type(TypeEnum $type) {
@@ -317,13 +317,13 @@ public class SomeObj {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `SomeObj` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonPrimitive()) {
+      if ((jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) && !jsonObj.get("$_type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `$_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("$_type").toString()));
       }
-      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      if (jsonObj.get("type") != null && !jsonObj.get("type").isJsonPrimitive()) {
+      if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
       }
   }

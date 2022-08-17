@@ -215,7 +215,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     }
 
     @Override
-    public Schema unaliasSchema(Schema schema, Map<String, String> schemaMappings) {
+    public Schema unaliasSchema(Schema schema) {
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -225,8 +225,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
-            if (schemaMappings.containsKey(simpleRef)) {
-                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMappings.get(simpleRef));
+            if (schemaMapping.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMapping.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -240,8 +240,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 if (ModelUtils.isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            schemaMappings);
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (ModelUtils.isComposedSchema(ref)) {
                 return schema;
@@ -253,8 +252,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
-                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                schemaMappings);
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                     }
                 }
             } else if (ModelUtils.isObjectSchema(ref)) { // model
@@ -267,8 +265,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     } else if (!getAllOfDescendants(simpleRef, openAPI).isEmpty()) {
                         return schema;
                     } else {
-                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                schemaMappings);
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                     }
                 }
             } else if (ModelUtils.hasValidation(ref)) {
@@ -279,7 +276,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 // - use those validations when we use this schema in composed oneOf schemas
                 return schema;
             } else {
-                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
+                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
         }
         return schema;
@@ -407,7 +404,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         for (String schemaName : allDefinitions.keySet()) {
             Schema refSchema = new Schema().$ref("#/components/schemas/" + schemaName);
-            Schema unaliasedSchema = unaliasSchema(refSchema, schemaMapping);
+            Schema unaliasedSchema = unaliasSchema(refSchema);
             String modelName = toModelName(schemaName);
             if (unaliasedSchema.get$ref() == null) {
                 modelsToRemove.add(modelName);
@@ -517,7 +514,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (schema.get$ref() == null) {
             return cp;
         }
-        Schema unaliasedSchema = unaliasSchema(schema, schemaMapping);
+        Schema unaliasedSchema = unaliasSchema(schema);
         CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema, false);
         Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
         Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
@@ -547,7 +544,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     protected void addBodyModelSchema(CodegenParameter codegenParameter, String name, Schema schema, Set<String> imports, String bodyParameterName, boolean forceSimpleRef) {
         if (name != null) {
             Schema bodySchema = new Schema().$ref("#/components/schemas/" + name);
-            Schema unaliased = unaliasSchema(bodySchema, schemaMapping);
+            Schema unaliased = unaliasSchema(bodySchema);
             if (unaliased.get$ref() != null) {
                 forceSimpleRef = true;
             }
@@ -758,7 +755,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = unaliasSchema(sc, schemaMapping);
+            Schema unaliasedSchema = unaliasSchema(sc);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
@@ -851,7 +848,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (StringUtils.isNotEmpty(p.get$ref())) {
             // The input schema is a reference. If the resolved schema is
             // a composed schema, convert the name to a Python class.
-            Schema unaliasedSchema = unaliasSchema(p, schemaMapping);
+            Schema unaliasedSchema = unaliasSchema(p);
             if (unaliasedSchema.get$ref() != null) {
                 String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
@@ -1176,9 +1173,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     String pattern = schema.getPattern();
                     /*
                     RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
-                    So strip off the leading / and trailing / and turn on ignore case if we have it
+                    So strip off the leading /, trailing / and trailing /i, and turn on ignore case if we have it
                      */
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(i?)$");
                     Matcher m = valueExtractor.matcher(pattern);
                     RgxGen rgxGen = null;
                     if (m.find()) {

@@ -379,15 +379,18 @@ class Singleton:
     _instances = {}
 
     def __new__(cls, arg: typing.Any, **kwargs):
-        key = (cls, arg)
+        """
+        cls base classes: BoolClass, NoneClass, str, decimal.Decimal
+        The 3rd key is used in the tuple below for a corner case where an enum contains integer 1
+        However 1.0  can also be ingested into that enum schema because 1.0 == 1 and
+        Decimal('1.0') == Decimal('1')
+        But if we omitted the 3rd value in the key, then Decimal('1.0') would be stored as Decimal('1')
+        and json serializing that instance would be '1' rather than the expected '1.0'
+        Adding the 3rd value, the str of arg ensures that 1.0 -> Decimal('1.0') which is serialized as 1.0
+        """
+        key = (cls, arg, str(arg))
         if key not in cls._instances:
-            if arg in {None, True, False}:
-                inst = super().__new__(cls)
-                cls._instances[key] = inst
-            elif isinstance(arg, BoolClass):
-                inst = super().__new__(cls)
-                cls._instances[key] = inst
-            elif isinstance(arg, NoneClass):
+            if isinstance(arg, (none_type, bool, BoolClass, NoneClass)):
                 inst = super().__new__(cls)
                 cls._instances[key] = inst
             else:
@@ -1065,7 +1068,7 @@ class DictBase(Discriminable):
         """
         path_to_schemas = {}
         for property_name, value in arg.items():
-            if property_name in cls._required_property_names or property_name in cls._property_names:
+            if property_name in cls._property_names:
                 schema = getattr(cls, property_name)
             elif cls._additional_properties:
                 schema = cls._additional_properties
@@ -1106,9 +1109,6 @@ class DictBase(Discriminable):
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        if isinstance(arg, cls):
-            # an instance of the correct type was passed in
-            return {}
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
         if not isinstance(arg, frozendict):
             return _path_to_schemas
@@ -1364,7 +1364,6 @@ class Schema:
     ):
         # We have a Dynamic class and we are making an instance of it
         if issubclass(cls, frozendict):
-            print(cls.__bases__)
             properties = cls._get_properties(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
         elif issubclass(cls, tuple):
@@ -1659,18 +1658,6 @@ class ComposedBase(Discriminable):
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        if isinstance(arg, Schema) and validation_metadata.from_server is False:
-            if isinstance(arg, cls):
-                # an instance of the correct type was passed in
-                return {}
-            raise ApiTypeError(
-                'Incorrect type passed in, required type was {} and passed type was {} at {}'.format(
-                    cls,
-                    type(arg),
-                    validation_metadata.path_to_item
-                )
-            )
-
         # validation checking on types, validations, and enums
         path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
 
@@ -2100,43 +2087,6 @@ class DictSchema(
 
 
 schema_type_classes = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
-
-
-def deserialize_file(response_data, configuration, content_disposition=None):
-    """Deserializes body to file
-
-    Saves response body into a file in a temporary folder,
-    using the filename from the `Content-Disposition` header if provided.
-
-    Args:
-        param response_data (str):  the file data to write
-        configuration (Configuration): the instance to use to convert files
-
-    Keyword Args:
-        content_disposition (str):  the value of the Content-Disposition
-            header
-
-    Returns:
-        (file_type): the deserialized file which is open
-            The user is responsible for closing and reading the file
-    """
-    fd, path = tempfile.mkstemp(dir=configuration.temp_folder_path)
-    os.close(fd)
-    os.remove(path)
-
-    if content_disposition:
-        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
-                             content_disposition).group(1)
-        path = os.path.join(os.path.dirname(path), filename)
-
-    with open(path, "wb") as f:
-        if isinstance(response_data, str):
-            # change str to bytes so we can write it
-            response_data = response_data.encode('utf-8')
-        f.write(response_data)
-
-    f = open(path, "rb")
-    return f
 
 
 @functools.cache

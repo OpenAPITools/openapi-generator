@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * NumberOnly
@@ -43,7 +45,7 @@ public class NumberOnly {
   @XmlElement(name = "JustNumber")
   private BigDecimal justNumber;
 
-  public NumberOnly() { 
+  public NumberOnly() {
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {

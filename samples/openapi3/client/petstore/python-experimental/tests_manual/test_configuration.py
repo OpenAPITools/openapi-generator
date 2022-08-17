@@ -17,7 +17,7 @@ from urllib3._collections import HTTPHeaderDict
 
 import petstore_api
 from petstore_api.api_client import ApiClient
-from petstore_api.api import pet_api
+from petstore_api.apis.tags import pet_api
 
 
 class ConfigurationTests(unittest.TestCase):
@@ -34,7 +34,7 @@ class ConfigurationTests(unittest.TestCase):
 
     def test_servers(self):
         config = petstore_api.Configuration(server_index=1, server_variables={'version': 'v1'})
-        client = pet_api.ApiClient(configuration=config)
+        client = ApiClient(configuration=config)
         api = pet_api.PetApi(client)
 
         with patch.object(ApiClient, 'request') as mock_request:
@@ -48,7 +48,7 @@ class ConfigurationTests(unittest.TestCase):
                     'User-Agent': 'OpenAPI-Generator/1.0.0/python'
                 }),
                 fields=None,
-                body=b'{"name":"pet","photoUrls":[]}',
+                body=b'{"photoUrls":[],"name":"pet"}',
                 stream=False,
                 timeout=None,
             )

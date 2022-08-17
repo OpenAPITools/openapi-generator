@@ -31,6 +31,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * FormatTest
@@ -99,6 +101,7 @@ public class FormatTest {
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @XmlElement(name = "dateTime")
+  @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
@@ -113,7 +116,7 @@ public class FormatTest {
   @XmlElement(name = "BigDecimal")
   private BigDecimal bigDecimal;
 
-  public FormatTest() { 
+  public FormatTest() {
   }
 
   public FormatTest integer(Integer integer) {

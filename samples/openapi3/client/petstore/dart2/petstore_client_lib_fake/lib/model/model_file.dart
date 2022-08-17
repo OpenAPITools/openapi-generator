@@ -38,13 +38,13 @@ class ModelFile {
   String toString() => 'ModelFile[sourceURI=$sourceURI]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (sourceURI != null) {
-      _json[r'sourceURI'] = sourceURI;
+    final json = <String, dynamic>{};
+    if (this.sourceURI != null) {
+      json[r'sourceURI'] = this.sourceURI;
     } else {
-      _json[r'sourceURI'] = null;
+      json[r'sourceURI'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [ModelFile] instance and imports its values from

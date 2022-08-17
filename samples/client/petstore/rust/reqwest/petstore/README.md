@@ -50,10 +50,13 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [ActionContainer](docs/ActionContainer.md)
  - [ApiResponse](docs/ApiResponse.md)
+ - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [PropertyTest](docs/PropertyTest.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 

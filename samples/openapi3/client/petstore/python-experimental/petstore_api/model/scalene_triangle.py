@@ -98,7 +98,7 @@ class ScaleneTriangle(
             class triangleType(
                 _SchemaEnumMaker(
                     enum_value_to_name={
-                        "ScaleneTriangle": "SCALENETRIANGLE",
+                        "ScaleneTriangle": "SCALENE_TRIANGLE",
                     }
                 ),
                 StrSchema
@@ -106,7 +106,7 @@ class ScaleneTriangle(
                 
                 @classmethod
                 @property
-                def SCALENETRIANGLE(cls):
+                def SCALENE_TRIANGLE(cls):
                     return cls("ScaleneTriangle")
         
         

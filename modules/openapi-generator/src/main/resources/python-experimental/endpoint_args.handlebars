@@ -1,0 +1,46 @@
+    self: {{selfType}},
+{{#if bodyParam}}
+{{#with bodyParam}}
+    body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
+{{/with}}
+{{/if}}
+{{#if queryParams}}
+    query_params: RequestQueryParams = frozendict(),
+{{/if}}
+{{#if headerParams}}
+    header_params: RequestHeaderParams = frozendict(),
+{{/if}}
+{{#if pathParams}}
+    path_params: RequestPathParams = frozendict(),
+{{/if}}
+{{#if cookieParams}}
+    cookie_params: RequestCookieParams = frozendict(),
+{{/if}}
+{{#with bodyParam}}
+{{#each content}}
+{{#if @first}}
+    content_type: str = '{{{@key}}}',
+{{/if}}
+{{/each}}
+{{/with}}
+{{#if produces}}
+    accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+{{/if}}
+{{#if servers}}
+    host_index: typing.Optional[int] = None,
+{{/if}}
+    stream: bool = False,
+    timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    skip_deserialization: bool = False,
+) -> typing.Union[
+{{#each responses}}
+    {{#if isDefault}}
+    ApiResponseForDefault,
+    {{else}}
+        {{#if is2xx}}
+    ApiResponseFor{{code}},
+        {{/if}}
+    {{/if}}
+{{/each}}
+    api_client.ApiResponseWithoutDeserialization
+]:

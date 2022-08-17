@@ -66,7 +66,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @SerializedName(SERIALIZED_NAME_MAP)
   private Map<String, Animal> map = null;
 
-  public MixedPropertiesAndAdditionalPropertiesClass() { 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
@@ -254,7 +254,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
           throw new IllegalArgumentException(String.format("The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonPrimitive()) {
+      if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
   }

@@ -52,7 +52,7 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
             result
                 ..add(r'SingleRefType')
                 ..add(serializers.serialize(object.singleRefType,
-                    specifiedType: const FullType.nullable(SingleRefType)));
+                    specifiedType: const FullType(SingleRefType)));
         }
         return result;
     }
@@ -76,8 +76,7 @@ class _$AllOfWithSingleRefSerializer implements StructuredSerializer<AllOfWithSi
                     break;
                 case r'SingleRefType':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(SingleRefType)) as SingleRefType?;
-                    if (valueDes == null) continue;
+                        specifiedType: const FullType(SingleRefType)) as SingleRefType;
                     result.singleRefType = valueDes;
                     break;
             }

@@ -84,7 +84,7 @@ public class AdditionalPropertiesClass {
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   private Map<String, String> mapWithUndeclaredPropertiesString = null;
 
-  public AdditionalPropertiesClass() { 
+  public AdditionalPropertiesClass() {
   }
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {

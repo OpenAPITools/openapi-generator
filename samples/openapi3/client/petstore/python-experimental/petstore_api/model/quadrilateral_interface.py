@@ -76,10 +76,10 @@ class QuadrilateralInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = set((
-        'shapeType',
-        'quadrilateralType',
-    ))
+    _required_property_names = {
+        "shapeType",
+        "quadrilateralType",
+    }
     
     
     class shapeType(

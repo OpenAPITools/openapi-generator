@@ -1,4 +1,5 @@
 .gitignore
+.swiftformat
 Package.swift
 README.md
 Sources/PetstoreClient/APIs.swift

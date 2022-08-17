@@ -865,7 +865,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = fake_api.FakeApi(api_client)
     number = 32.1 # float | None
     double = 67.8 # float | None
-    pattern_without_delimiter = "Aj" # str | None
+    pattern_without_delimiter = "AUR,rZ#UM/?R,Fp^l6$ARjbhJk C>" # str | None
     byte = 'YQ==' # str | None
     integer = 10 # int | None (optional)
     int32 = 20 # int | None (optional)

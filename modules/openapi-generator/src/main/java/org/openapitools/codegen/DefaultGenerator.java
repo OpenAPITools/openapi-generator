@@ -254,6 +254,15 @@ public class DefaultGenerator implements Generator {
         }
 
         config.processOpts();
+
+        // resolve inline models
+        if (config.getUseInlineModelResolver()) {
+            InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.flatten(openAPI);
+        }
+
         config.preprocessOpenAPI(openAPI);
 
         // set OpenAPI to make these available to all methods
@@ -477,7 +486,7 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.schemaMapping());
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema);
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
@@ -887,14 +896,6 @@ public class DefaultGenerator implements Generator {
             } else {
                 LOGGER.info(stabilityMessage);
             }
-        }
-
-        // resolve inline models
-        if (config.getUseInlineModelResolver()) {
-            InlineModelResolver inlineModelResolver = new InlineModelResolver();
-            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-            inlineModelResolver.flatten(openAPI);
         }
 
         configureGeneratorProperties();

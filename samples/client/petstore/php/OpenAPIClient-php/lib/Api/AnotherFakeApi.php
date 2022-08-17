@@ -312,6 +312,7 @@ class AnotherFakeApi
      */
     public function call123TestSpecialTagsRequest($client)
     {
+
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new \InvalidArgumentException(
@@ -384,10 +385,11 @@ class AnotherFakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PATCH',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

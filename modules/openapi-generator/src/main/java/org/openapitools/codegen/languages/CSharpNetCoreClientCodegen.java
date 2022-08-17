@@ -84,6 +84,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
+    protected String authFolder = "Auth";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -119,6 +120,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey
                 ))
@@ -759,6 +761,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         String packageFolder = sourceFolder + File.separator + packageName;
         String clientPackageDir = packageFolder + File.separator + clientPackage;
         String modelPackageDir = packageFolder + File.separator + modelPackage;
+        String authPackageDir = clientPackageDir + File.separator + authFolder;
         String testPackageFolder = testFolder + File.separator + testPackageName;
 
         additionalProperties.put("testPackageName", testPackageName);
@@ -782,17 +785,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
             typeMapping.put("file", "FileParameter");
-            addRestSharpSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
         } else if (GENERICHOST.equals(getLibrary())) {
             addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
             additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
-        } else {
-            addRestSharpSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+        } else { //restsharp
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
+
+            if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
+                supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
+                supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
+            }
         }
 
         addTestInstructions();
@@ -848,8 +857,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    public void addRestSharpSupportingFiles(final String clientPackageDir, final String packageFolder,
-                                            final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir) {
+    public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
+                                   final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));

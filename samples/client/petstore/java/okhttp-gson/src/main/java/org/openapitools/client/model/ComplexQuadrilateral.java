@@ -57,7 +57,7 @@ public class ComplexQuadrilateral {
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
   private String quadrilateralType;
 
-  public ComplexQuadrilateral() { 
+  public ComplexQuadrilateral() {
   }
 
   public ComplexQuadrilateral shapeType(String shapeType) {
@@ -220,10 +220,10 @@ public class ComplexQuadrilateral {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("shapeType") != null && !jsonObj.get("shapeType").isJsonPrimitive()) {
+      if ((jsonObj.get("shapeType") != null && !jsonObj.get("shapeType").isJsonNull()) && !jsonObj.get("shapeType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
       }
-      if (jsonObj.get("quadrilateralType") != null && !jsonObj.get("quadrilateralType").isJsonPrimitive()) {
+      if ((jsonObj.get("quadrilateralType") != null && !jsonObj.get("quadrilateralType").isJsonNull()) && !jsonObj.get("quadrilateralType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `quadrilateralType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quadrilateralType").toString()));
       }
   }

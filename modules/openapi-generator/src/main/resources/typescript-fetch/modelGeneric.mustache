@@ -59,17 +59,17 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{/additionalPropertiesType}}
         {{#vars}}
         {{#isPrimitiveType}}
-        {{#isDate}}
+        {{#isDateType}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}new Date(json['{{baseName}}'])),
-        {{/isDate}}
-        {{#isDateTime}}
+        {{/isDateType}}
+        {{#isDateTimeType}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}({{#isNullable}}json['{{baseName}}'] === null ? null : {{/isNullable}}new Date(json['{{baseName}}'])),
-        {{/isDateTime}}
-        {{^isDate}}
-        {{^isDateTime}}
+        {{/isDateTimeType}}
+        {{^isDateType}}
+        {{^isDateTimeType}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
-        {{/isDateTime}}
-        {{/isDate}}
+        {{/isDateTimeType}}
+        {{/isDateType}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
@@ -118,7 +118,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
-        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        '{{baseName}}': {{#isDateType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString().substr(0,10)){{/isDateType}}{{#isDateTimeType}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}value.{{name}}.toISOString()){{/isDateTimeType}}{{^isDateType}}{{^isDateTimeType}}value.{{name}}{{/isDateTimeType}}{{/isDateType}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
