@@ -303,9 +303,6 @@ public class DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         importContainerType = true;
 
-        languageSpecificPrimitives.add("integer");
-        languageSpecificPrimitives.add("string");
-
         if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
             this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
         }
