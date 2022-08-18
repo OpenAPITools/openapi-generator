@@ -4912,6 +4912,13 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenProperty.baseType;
             }
             codegenParameter.isContainer = true;
+            if (!parametersAndResponsesImportFromV3SpecLocations) {
+                // recursively add import
+                while (itemsProperty != null) {
+                    imports.add(itemsProperty.baseType);
+                    itemsProperty = itemsProperty.items;
+                }
+            }
         } else {
             // referenced schemas
             ;
