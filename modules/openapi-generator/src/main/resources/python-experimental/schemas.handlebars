@@ -1571,7 +1571,6 @@ class ComposedBase(Discriminable):
         arg,
         discriminated_cls,
         validation_metadata: ValidationMetadata,
-        path_to_schemas: typing.Dict[typing.Tuple, typing.Set[typing.Type[Schema]]]
     ):
         oneof_classes = []
         path_to_schemas = defaultdict(set)
@@ -1689,8 +1688,7 @@ class ComposedBase(Discriminable):
             other_path_to_schemas = cls.__get_oneof_class(
                 arg,
                 discriminated_cls=discriminated_cls,
-                validation_metadata=updated_vm,
-                path_to_schemas=path_to_schemas
+                validation_metadata=updated_vm
             )
             update(path_to_schemas, other_path_to_schemas)
         if cls._composed_schemas['anyOf']:
