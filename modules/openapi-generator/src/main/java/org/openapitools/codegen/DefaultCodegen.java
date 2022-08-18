@@ -2968,7 +2968,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (parametersAndResponsesImportFromV3SpecLocations) {
-            addImports(m.imports, m.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
+            addImports(m.imports, m.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
         }
         return m;
     }
@@ -5386,7 +5386,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
-        addImports(importsToBeAddedTo, type.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
+        addImports(importsToBeAddedTo, type.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
     }
 
     protected void addImports(Set<String> importsToBeAddedTo, Set<String> importsToAdd) {
@@ -7104,7 +7104,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null && parametersAndResponsesImportFromV3SpecLocations) {
-                addImports(imports, schemaProp.getImports(importContainerType, importBaseType, instantiationTypes, typeMapping, generatorMetadata.getFeatureSet()));
+                addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
             }
         }
         return cmtContent;

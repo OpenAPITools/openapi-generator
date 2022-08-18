@@ -868,7 +868,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         OperationMap val = objs.getOperations();
         List<CodegenOperation> operations = val.getOperation();
-        List<Map<String, String>> imports = objs.getImports();
         for (CodegenOperation operation : operations) {
             if (operation.imports.size() == 0) {
                 continue;
