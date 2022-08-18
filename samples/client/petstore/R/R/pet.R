@@ -12,8 +12,8 @@
 #' @field id  integer [optional]
 #' @field category  \link{Category} [optional]
 #' @field name  character
-#' @field photoUrls  list( character )
-#' @field tags  list( \link{Tag} ) [optional]
+#' @field photoUrls  list(character)
+#' @field tags  list(\link{Tag}) [optional]
 #' @field status  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON

@@ -556,6 +556,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
                     var.baseName = "empty_string";
                 }
+
+                // create extension x-r-doc-type to store the data type in r doc format
+                var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
         }
 
@@ -874,11 +877,30 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * Return the R doc type (e.g. list(\link{Media}), character)
+     *
+     * @param codegenProperty Codegen property
+     * @return R doc type
+     */
+    public String constructRdocType(CodegenProperty codegenProperty) {
+        if (codegenProperty.isArray) {
+            return "list(" + constructRdocType(codegenProperty.items) + ")";
+        } else if (codegenProperty.isMap) {
+            return "named list(" + constructRdocType(codegenProperty.items) + ")";
+        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) {
+            // primitive type
+            return codegenProperty.dataType;
+        } else { // model
+            return "\\link{" + codegenProperty.dataType + "}";
+        }
+    }
+
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
             return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
-        } else if (codegenParameter.isMap) { // TODO: map
-            return "TODO";
+        } else if (codegenParameter.isMap) { // map
+            return "list(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
@@ -898,8 +920,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (codegenProperty.isArray) { // array
             return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
-        } else if (codegenProperty.isMap) { // TODO: map
-            return "TODO";
+        } else if (codegenProperty.isMap) { // map
+            return "list(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
