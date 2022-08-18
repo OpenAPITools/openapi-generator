@@ -161,9 +161,7 @@ class ParameterSerializerBase:
         named_parameter_expansion: bool
     ) -> str:
         item_value = cls.__ref6570_item_value(in_data, percent_encode)
-        if item_value is None:
-            return next(prefix_separator_iterator) + var_name_piece
-        elif item_value == '' and prefix_separator_iterator.separator == ';':
+        if item_value is None or (item_value == '' and prefix_separator_iterator.separator == ';'):
             return next(prefix_separator_iterator) + var_name_piece
         value_pair_equals = '=' if named_parameter_expansion else ''
         return next(prefix_separator_iterator) + var_name_piece + value_pair_equals + item_value
