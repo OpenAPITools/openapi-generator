@@ -23,6 +23,7 @@
 #include "PFXCategory.h"
 #include "PFXTag.h"
 #include <QList>
+#include <QString>
 
 #include "PFXEnum.h"
 #include "PFXObject.h"

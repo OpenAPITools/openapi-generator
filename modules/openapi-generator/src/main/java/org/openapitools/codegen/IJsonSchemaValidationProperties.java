@@ -305,7 +305,7 @@ public interface IJsonSchemaValidationProperties {
         if (this.getVars() != null && !this.getVars().isEmpty()) {
             this.getVars().stream().flatMap(v -> v.getImports(importContainerType, importBaseType, featureSet).stream()).forEach(s -> imports.add(s));
         }
-        if (this.getIsArray() || this.getIsMap()) {
+        if ((this.getIsArray() || this.getIsMap()) && importContainerType) {
             /*
             use-case for this complexType block:
             DefaultCodegenTest.objectQueryParamIdentifyAsObject
@@ -326,18 +326,12 @@ public interface IJsonSchemaValidationProperties {
         } else {
             // referenced or inline schemas
             String complexType = this.getComplexType();
-            if (this.getRef() != null && complexType != null) {
-                /*
-                use case:
-                referenced components store the model name in complexType
-                 */
+            if (complexType != null) {
                 imports.add(complexType);
-            } else if (complexType != null) {
-                 /*
-                 use-case:
-                 c, c++, java, + others primitive type imports
-                  */
-                imports.add(complexType);
+            }
+            String baseType = this.getBaseType();
+            if (importBaseType && baseType != null) {
+                imports.add(baseType);
             }
             return imports;
         }

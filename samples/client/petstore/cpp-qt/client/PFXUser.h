@@ -20,6 +20,7 @@
 
 #include <QJsonObject>
 
+#include <QString>
 
 #include "PFXEnum.h"
 #include "PFXObject.h"

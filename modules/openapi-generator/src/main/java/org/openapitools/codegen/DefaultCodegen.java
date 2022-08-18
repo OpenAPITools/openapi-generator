@@ -286,7 +286,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean importBaseType = true;
 
     // if true then container types will be imported
-    protected boolean importContainerType = false;
+    protected boolean importContainerType = true;
 
     protected boolean hoistParameterArrayItemBaseTypeHigher = true;
 
@@ -301,7 +301,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public void processOpts() {
-        importContainerType = true;
 
         if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
             this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
