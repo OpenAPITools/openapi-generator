@@ -33,7 +33,6 @@ impl std::string::ToString for AdditionalPropertiesClass {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping map_property in query parameter serialization
-        // Skipping map_property in query parameter serialization
 
         // Skipping map_of_map_property in query parameter serialization
         // Skipping map_of_map_property in query parameter serialization
@@ -844,13 +843,21 @@ impl ArrayTest {
 impl std::string::ToString for ArrayTest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
-        // Skipping array_of_string in query parameter serialization
+
+        if let Some(ref array_of_string) = self.array_of_string {
+            params.push("array_of_string".to_string());
+            params.push(array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+        }
 
         // Skipping array_array_of_integer in query parameter serialization
 
         // Skipping array_array_of_model in query parameter serialization
 
-        // Skipping array_of_enum in query parameter serialization
+
+        if let Some(ref array_of_enum) = self.array_of_enum {
+            params.push("array_of_enum".to_string());
+            params.push(array_of_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+        }
 
         params.join(",").to_string()
     }
@@ -2127,7 +2134,11 @@ impl std::string::ToString for EnumArrays {
             params.push(just_symbol.to_string());
         }
 
-        // Skipping array_enum in query parameter serialization
+
+        if let Some(ref array_enum) = self.array_enum {
+            params.push("array_enum".to_string());
+            params.push(array_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+        }
 
         // Skipping array_array_enum in query parameter serialization
 
@@ -3026,7 +3037,6 @@ impl std::string::ToString for MapTest {
         // Skipping map_map_of_enum in query parameter serialization
         // Skipping map_map_of_enum in query parameter serialization
 
-        // Skipping map_of_enum_string in query parameter serialization
         // Skipping map_of_enum_string in query parameter serialization
 
         params.join(",").to_string()
@@ -4589,7 +4599,9 @@ impl std::string::ToString for Pet {
         params.push("name".to_string());
         params.push(self.name.to_string());
 
-        // Skipping photoUrls in query parameter serialization
+
+        params.push("photoUrls".to_string());
+        params.push(self.photo_urls.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
 
         // Skipping tags in query parameter serialization
 

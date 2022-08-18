@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**std::collections::HashMap<String, i32>**
+[**std::collections::HashMap<String, i32>**](integer.md)
 
 ### Authorization
 

@@ -164,7 +164,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**String**
+[**String**](string.md)
 
 ### Authorization
 

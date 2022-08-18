@@ -167,7 +167,11 @@ impl std::string::ToString for MultipartRequestObjectField {
         params.push("field_a".to_string());
         params.push(self.field_a.to_string());
 
-        // Skipping field_b in query parameter serialization
+
+        if let Some(ref field_b) = self.field_b {
+            params.push("field_b".to_string());
+            params.push(field_b.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+        }
 
         params.join(",").to_string()
     }
