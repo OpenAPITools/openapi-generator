@@ -4938,10 +4938,6 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenProperty.baseType);
             }
         }
-        if (codegenProperty.complexType != null) {
-            // because codegenParameter's getComplexType uses baseType
-            codegenParameter.complexType = codegenProperty.complexType;
-        }
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired().booleanValue();
@@ -6713,9 +6709,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.TRUE.equals(codegenProperty.isModel)) {
             codegenParameter.isModel = true;
         }
-        if (cp.complexType != null) {
-            codegenParameter.complexType = cp.complexType;
-        }
         if (ps.get$ref() != null) {
             codegenParameter.setRef(ps.get$ref());
         }
@@ -7196,9 +7189,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenProperty cp = fromProperty(bodyParameterName, schema, false);
-        if (cp.complexType != null) {
-            codegenParameter.complexType = cp.complexType;
-        }
         if (schema.get$ref() != null) {
             codegenParameter.setRef(schema.get$ref());
         }
