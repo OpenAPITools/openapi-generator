@@ -108,7 +108,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public PythonExperimentalClientCodegen() {
         super();
         loadDeepObjectIntoItems = false;
-        hoistParameterArrayItemBaseTypeHigher = false;
         importBaseType = false;
         parametersAndResponsesImportFromV3SpecLocations = true;
 

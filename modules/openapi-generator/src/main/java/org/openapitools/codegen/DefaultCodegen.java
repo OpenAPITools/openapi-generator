@@ -288,8 +288,6 @@ public class DefaultCodegen implements CodegenConfig {
     // if true then container types will be imported
     protected boolean importContainerType = true;
 
-    protected boolean hoistParameterArrayItemBaseTypeHigher = true;
-
     // if True codegenParameter and codegenResponse imports will come
     // from deeper schema defined locations
     protected boolean parametersAndResponsesImportFromV3SpecLocations = false;
@@ -4902,11 +4900,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty itemsProperty = fromProperty("inner", inner, false);
             codegenParameter.items = itemsProperty;
             codegenParameter.mostInnerItems = itemsProperty.mostInnerItems;
-            if (hoistParameterArrayItemBaseTypeHigher) {
-                codegenParameter.baseType = itemsProperty.baseType;
-            } else {
-                codegenParameter.baseType = codegenProperty.baseType;
-            }
+            codegenParameter.baseType = itemsProperty.baseType;
             codegenParameter.isContainer = true;
             if (!parametersAndResponsesImportFromV3SpecLocations) {
                 // recursively add import
@@ -6671,11 +6665,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
             codegenParameter.isPrimitiveType = false;
             codegenParameter.isContainer = true;
-            if (hoistParameterArrayItemBaseTypeHigher) {
-                codegenParameter.baseType = arrayInnerProperty.dataType;
-            } else {
-                codegenParameter.baseType = cp.baseType;
-            }
+            codegenParameter.baseType = arrayInnerProperty.dataType;
             codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
             if (codegenParameter.items.isFile) {
                 codegenParameter.isFile = true;
@@ -6969,11 +6959,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
-            if (hoistParameterArrayItemBaseTypeHigher) {
-                codegenParameter.baseType = getSchemaType(inner);
-            } else {
-                codegenParameter.baseType = codegenProperty.baseType;
-            }
+            codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
 
