@@ -40,7 +40,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `CreateUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -95,7 +95,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `CreateUsersWithArrayInput`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -150,7 +150,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `CreateUsersWithListInput`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -205,7 +205,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `DeleteUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -261,7 +261,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `GetUserByName`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -323,7 +323,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `LoginUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -383,7 +383,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `LogoutUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -436,7 +436,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `UpdateUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```

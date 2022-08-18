@@ -49,6 +49,18 @@ Pig <- R6::R6Class(
     #'
     #' @description
     #' Deserialize JSON string into an instance of Pig.
+    #' An alias to the method `fromJSON` .
+    #'
+    #' @param input The input JSON.
+    #' @return An instance of Pig.
+    #' @export
+    fromJSONString = function(input) {
+      self$fromJSON(input)
+    },
+    #' Deserialize JSON string into an instance of Pig.
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of Pig.
     #'
     #' @param input The input JSON.
     #' @return An instance of Pig.

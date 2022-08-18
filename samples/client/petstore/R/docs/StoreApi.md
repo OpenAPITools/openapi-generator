@@ -34,7 +34,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `DeleteOrder`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -91,7 +91,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `GetInventory`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -147,7 +147,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `GetOrderById`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -208,7 +208,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `PlaceOrder`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")

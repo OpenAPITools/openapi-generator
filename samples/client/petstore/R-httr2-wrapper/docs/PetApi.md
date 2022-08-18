@@ -45,7 +45,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `add_pet`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -106,7 +106,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `delete_pet`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -164,7 +164,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `find_pets_by_status`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -226,7 +226,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `find_pets_by_tags`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -288,7 +288,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `get_pet_by_id`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -353,7 +353,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `get_pet_by_id_streaming`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -418,7 +418,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `test_header`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -481,7 +481,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `update_pet`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -543,7 +543,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `update_pet_with_form`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -604,7 +604,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `upload_file`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")

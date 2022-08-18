@@ -77,7 +77,7 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$toString())
   {{#errorObjectType}}
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
   {{/errorObjectType}}
 }{{#returnType}} else {
   # deserialized response object
