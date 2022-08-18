@@ -35,7 +35,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `fake_data_file`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -93,7 +93,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `fake_regular_expression`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
