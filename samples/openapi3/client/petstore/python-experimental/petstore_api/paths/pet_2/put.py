@@ -90,11 +90,11 @@ _auth = [
 ]
 _servers = (
     {
-        'url': "http://petstore.swagger.io/v2",
+        'url': "https://petstore.swagger.io/v2",
         'description': "No description provided",
     },
     {
-        'url': "http://path-server-test.petstore.local/v2",
+        'url': "https://path-server-test.petstore.local/v2",
         'description': "No description provided",
     },
 )
