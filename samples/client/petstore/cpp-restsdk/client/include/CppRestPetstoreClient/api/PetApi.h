@@ -25,7 +25,6 @@
 #include "CppRestPetstoreClient/model/ApiResponse.h"
 #include "CppRestPetstoreClient/HttpContent.h"
 #include "CppRestPetstoreClient/model/Pet.h"
-#include <vector>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

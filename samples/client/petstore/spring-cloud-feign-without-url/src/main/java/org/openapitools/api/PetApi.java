@@ -5,7 +5,6 @@
  */
 package org.openapitools.api;
 
-import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import io.swagger.annotations.*;

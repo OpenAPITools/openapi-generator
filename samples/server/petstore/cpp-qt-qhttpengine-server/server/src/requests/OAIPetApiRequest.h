@@ -22,7 +22,6 @@
 #include "OAIApiResponse.h"
 #include "OAIHttpFileElement.h"
 #include "OAIPet.h"
-#include <QList>
 #include <QString>
 #include "OAIPetApiHandler.h"
 

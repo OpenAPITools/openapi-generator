@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.List;
 import apimodels.Pet;
 
 import com.typesafe.config.Config;

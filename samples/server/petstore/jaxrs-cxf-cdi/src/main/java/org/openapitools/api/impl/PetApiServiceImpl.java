@@ -6,7 +6,6 @@ import org.openapitools.model.*;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 import java.io.File;
-import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 

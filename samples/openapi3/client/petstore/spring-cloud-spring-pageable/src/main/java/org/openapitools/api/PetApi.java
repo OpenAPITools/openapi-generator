@@ -5,7 +5,6 @@
  */
 package org.openapitools.api;
 
-import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.data.domain.Pageable;
 import org.springdoc.api.annotations.ParameterObject;

@@ -17,7 +17,6 @@
 #include "OAIApiResponse.h"
 #include "OAIHttpFileElement.h"
 #include "OAIPet.h"
-#include <QList>
 #include <QString>
 
 namespace OpenAPI {

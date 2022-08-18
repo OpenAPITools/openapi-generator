@@ -10,7 +10,6 @@
 
 #include "ApiResponse.h"
 #include "Pet.h"
-#include <list>
 
 namespace Tiny {
 
