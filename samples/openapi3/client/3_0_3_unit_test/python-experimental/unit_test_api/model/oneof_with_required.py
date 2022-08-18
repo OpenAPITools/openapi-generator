@@ -91,7 +91,7 @@ class OneofWithRequired(
         # loading
         
         
-        class oneOf_0(
+        class one_of_0(
             AnyTypeSchema
         ):
             _required_property_names = {
@@ -104,7 +104,7 @@ class OneofWithRequired(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'oneOf_0':
+            ) -> 'one_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -113,7 +113,7 @@ class OneofWithRequired(
                 )
         
         
-        class oneOf_1(
+        class one_of_1(
             AnyTypeSchema
         ):
             _required_property_names = {
@@ -126,7 +126,7 @@ class OneofWithRequired(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'oneOf_1':
+            ) -> 'one_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -137,8 +137,8 @@ class OneofWithRequired(
             'allOf': [
             ],
             'oneOf': [
-                oneOf_0,
-                oneOf_1,
+                one_of_0,
+                one_of_1,
             ],
             'anyOf': [
             ],

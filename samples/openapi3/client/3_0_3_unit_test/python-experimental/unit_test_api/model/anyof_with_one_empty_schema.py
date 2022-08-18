@@ -88,16 +88,16 @@ class AnyofWithOneEmptySchema(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        anyOf_0 = NumberSchema
-        anyOf_1 = AnyTypeSchema
+        any_of_0 = NumberSchema
+        any_of_1 = AnyTypeSchema
         return {
             'allOf': [
             ],
             'oneOf': [
             ],
             'anyOf': [
-                anyOf_0,
-                anyOf_1,
+                any_of_0,
+                any_of_1,
             ],
             'not':
                 None

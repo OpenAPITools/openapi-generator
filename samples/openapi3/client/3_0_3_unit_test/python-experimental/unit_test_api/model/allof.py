@@ -90,7 +90,7 @@ class Allof(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             AnyTypeSchema
         ):
             _required_property_names = {
@@ -104,7 +104,7 @@ class Allof(
                 bar: bar,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_0':
+            ) -> 'all_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -114,7 +114,7 @@ class Allof(
                 )
         
         
-        class allOf_1(
+        class all_of_1(
             AnyTypeSchema
         ):
             _required_property_names = {
@@ -128,7 +128,7 @@ class Allof(
                 foo: foo,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_1':
+            ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -138,8 +138,8 @@ class Allof(
                 )
         return {
             'allOf': [
-                allOf_0,
-                allOf_1,
+                all_of_0,
+                all_of_1,
             ],
             'oneOf': [
             ],

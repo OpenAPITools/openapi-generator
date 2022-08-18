@@ -90,7 +90,7 @@ class AllofSimpleTypes(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             _SchemaValidator(
                 inclusive_maximum=30,
             ),
@@ -102,7 +102,7 @@ class AllofSimpleTypes(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_0':
+            ) -> 'all_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -111,7 +111,7 @@ class AllofSimpleTypes(
                 )
         
         
-        class allOf_1(
+        class all_of_1(
             _SchemaValidator(
                 inclusive_minimum=20,
             ),
@@ -123,7 +123,7 @@ class AllofSimpleTypes(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_1':
+            ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -132,8 +132,8 @@ class AllofSimpleTypes(
                 )
         return {
             'allOf': [
-                allOf_0,
-                allOf_1,
+                all_of_0,
+                all_of_1,
             ],
             'oneOf': [
             ],

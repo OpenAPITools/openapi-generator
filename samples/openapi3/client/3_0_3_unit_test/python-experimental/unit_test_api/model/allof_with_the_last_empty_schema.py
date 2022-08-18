@@ -88,12 +88,12 @@ class AllofWithTheLastEmptySchema(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        allOf_0 = NumberSchema
-        allOf_1 = AnyTypeSchema
+        all_of_0 = NumberSchema
+        all_of_1 = AnyTypeSchema
         return {
             'allOf': [
-                allOf_0,
-                allOf_1,
+                all_of_0,
+                all_of_1,
             ],
             'oneOf': [
             ],

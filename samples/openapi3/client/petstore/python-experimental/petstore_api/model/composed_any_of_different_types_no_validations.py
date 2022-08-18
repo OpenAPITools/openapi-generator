@@ -88,49 +88,49 @@ class ComposedAnyOfDifferentTypesNoValidations(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        anyOf_0 = DictSchema
-        anyOf_1 = DateSchema
-        anyOf_2 = DateTimeSchema
-        anyOf_3 = BinarySchema
-        anyOf_4 = StrSchema
-        anyOf_5 = StrSchema
-        anyOf_6 = DictSchema
-        anyOf_7 = BoolSchema
-        anyOf_8 = NoneSchema
+        any_of_0 = DictSchema
+        any_of_1 = DateSchema
+        any_of_2 = DateTimeSchema
+        any_of_3 = BinarySchema
+        any_of_4 = StrSchema
+        any_of_5 = StrSchema
+        any_of_6 = DictSchema
+        any_of_7 = BoolSchema
+        any_of_8 = NoneSchema
         
         
-        class anyOf_9(
+        class any_of_9(
             ListSchema
         ):
             _items = AnyTypeSchema
-        anyOf_10 = NumberSchema
-        anyOf_11 = Float32Schema
-        anyOf_12 = Float64Schema
-        anyOf_13 = IntSchema
-        anyOf_14 = Int32Schema
-        anyOf_15 = Int64Schema
+        any_of_10 = NumberSchema
+        any_of_11 = Float32Schema
+        any_of_12 = Float64Schema
+        any_of_13 = IntSchema
+        any_of_14 = Int32Schema
+        any_of_15 = Int64Schema
         return {
             'allOf': [
             ],
             'oneOf': [
             ],
             'anyOf': [
-                anyOf_0,
-                anyOf_1,
-                anyOf_2,
-                anyOf_3,
-                anyOf_4,
-                anyOf_5,
-                anyOf_6,
-                anyOf_7,
-                anyOf_8,
-                anyOf_9,
-                anyOf_10,
-                anyOf_11,
-                anyOf_12,
-                anyOf_13,
-                anyOf_14,
-                anyOf_15,
+                any_of_0,
+                any_of_1,
+                any_of_2,
+                any_of_3,
+                any_of_4,
+                any_of_5,
+                any_of_6,
+                any_of_7,
+                any_of_8,
+                any_of_9,
+                any_of_10,
+                any_of_11,
+                any_of_12,
+                any_of_13,
+                any_of_14,
+                any_of_15,
             ],
             'not':
                 None

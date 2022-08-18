@@ -88,7 +88,7 @@ class SchemaForRequestBodyApplicationJson(
         # loading
         
         
-        class NotSchema(
+        class not_schema(
             DictSchema
         ):
             foo = StrSchema
@@ -100,7 +100,7 @@ class SchemaForRequestBodyApplicationJson(
                 foo: typing.Union[foo, Unset] = unset,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'NotSchema':
+            ) -> 'not_schema':
                 return super().__new__(
                     cls,
                     *args,
@@ -116,7 +116,7 @@ class SchemaForRequestBodyApplicationJson(
             'anyOf': [
             ],
             'not':
-                NotSchema
+                not_schema
         }
 
     def __new__(

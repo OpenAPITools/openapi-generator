@@ -90,14 +90,14 @@ class NullableShape(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        oneOf_2 = NoneSchema
+        one_of_2 = NoneSchema
         return {
             'allOf': [
             ],
             'oneOf': [
                 Triangle,
                 Quadrilateral,
-                oneOf_2,
+                one_of_2,
             ],
             'anyOf': [
             ],

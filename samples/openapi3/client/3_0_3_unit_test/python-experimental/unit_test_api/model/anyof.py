@@ -88,10 +88,10 @@ class Anyof(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        anyOf_0 = IntSchema
+        any_of_0 = IntSchema
         
         
-        class anyOf_1(
+        class any_of_1(
             _SchemaValidator(
                 inclusive_minimum=2,
             ),
@@ -103,7 +103,7 @@ class Anyof(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_1':
+            ) -> 'any_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -116,8 +116,8 @@ class Anyof(
             'oneOf': [
             ],
             'anyOf': [
-                anyOf_0,
-                anyOf_1,
+                any_of_0,
+                any_of_1,
             ],
             'not':
                 None

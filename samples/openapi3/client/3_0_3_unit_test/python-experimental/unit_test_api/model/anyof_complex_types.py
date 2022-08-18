@@ -90,7 +90,7 @@ class AnyofComplexTypes(
         # loading
         
         
-        class anyOf_0(
+        class any_of_0(
             AnyTypeSchema
         ):
             _required_property_names = {
@@ -104,7 +104,7 @@ class AnyofComplexTypes(
                 bar: bar,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_0':
+            ) -> 'any_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -114,7 +114,7 @@ class AnyofComplexTypes(
                 )
         
         
-        class anyOf_1(
+        class any_of_1(
             AnyTypeSchema
         ):
             _required_property_names = {
@@ -128,7 +128,7 @@ class AnyofComplexTypes(
                 foo: foo,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_1':
+            ) -> 'any_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -142,8 +142,8 @@ class AnyofComplexTypes(
             'oneOf': [
             ],
             'anyOf': [
-                anyOf_0,
-                anyOf_1,
+                any_of_0,
+                any_of_1,
             ],
             'not':
                 None

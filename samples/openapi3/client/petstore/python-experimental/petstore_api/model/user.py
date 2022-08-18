@@ -124,7 +124,7 @@ class User(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            NotSchema = NoneSchema
+            not_schema = NoneSchema
             return {
                 'allOf': [
                 ],
@@ -133,7 +133,7 @@ class User(
                 'anyOf': [
                 ],
                 'not':
-                    NotSchema
+                    not_schema
             }
     
         def __new__(

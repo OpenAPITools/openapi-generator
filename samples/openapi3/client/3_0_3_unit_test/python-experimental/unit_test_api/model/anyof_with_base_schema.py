@@ -91,7 +91,7 @@ class AnyofWithBaseSchema(
         # loading
         
         
-        class anyOf_0(
+        class any_of_0(
             _SchemaValidator(
                 max_length=2,
             ),
@@ -103,7 +103,7 @@ class AnyofWithBaseSchema(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_0':
+            ) -> 'any_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -112,7 +112,7 @@ class AnyofWithBaseSchema(
                 )
         
         
-        class anyOf_1(
+        class any_of_1(
             _SchemaValidator(
                 min_length=4,
             ),
@@ -124,7 +124,7 @@ class AnyofWithBaseSchema(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_1':
+            ) -> 'any_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -137,8 +137,8 @@ class AnyofWithBaseSchema(
             'oneOf': [
             ],
             'anyOf': [
-                anyOf_0,
-                anyOf_1,
+                any_of_0,
+                any_of_1,
             ],
             'not':
                 None

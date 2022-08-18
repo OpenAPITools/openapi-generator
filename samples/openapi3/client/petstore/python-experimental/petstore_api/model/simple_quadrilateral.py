@@ -90,7 +90,7 @@ class SimpleQuadrilateral(
         # loading
         
         
-        class allOf_1(
+        class all_of_1(
             DictSchema
         ):
             
@@ -116,7 +116,7 @@ class SimpleQuadrilateral(
                 quadrilateralType: typing.Union[quadrilateralType, Unset] = unset,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_1':
+            ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -127,7 +127,7 @@ class SimpleQuadrilateral(
         return {
             'allOf': [
                 QuadrilateralInterface,
-                allOf_1,
+                all_of_1,
             ],
             'oneOf': [
             ],

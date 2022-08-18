@@ -88,7 +88,7 @@ class AnyTypeNotString(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        NotSchema = StrSchema
+        not_schema = StrSchema
         return {
             'allOf': [
             ],
@@ -97,7 +97,7 @@ class AnyTypeNotString(
             'anyOf': [
             ],
             'not':
-                NotSchema
+                not_schema
         }
 
     def __new__(

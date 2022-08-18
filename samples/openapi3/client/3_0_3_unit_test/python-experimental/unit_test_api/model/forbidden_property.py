@@ -93,7 +93,7 @@ class ForbiddenProperty(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            NotSchema = AnyTypeSchema
+            not_schema = AnyTypeSchema
             return {
                 'allOf': [
                 ],
@@ -102,7 +102,7 @@ class ForbiddenProperty(
                 'anyOf': [
                 ],
                 'not':
-                    NotSchema
+                    not_schema
             }
     
         def __new__(

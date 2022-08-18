@@ -88,7 +88,7 @@ class CompositionAtRootSchema(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             _SchemaValidator(
                 min_length=1,
             ),
@@ -97,7 +97,7 @@ class CompositionAtRootSchema(
             pass
         return {
             'allOf': [
-                allOf_0,
+                all_of_0,
             ],
             'oneOf': [
             ],
@@ -143,7 +143,7 @@ class CompositionInPropertySchema(
             # loading
             
             
-            class allOf_0(
+            class all_of_0(
                 _SchemaValidator(
                     min_length=1,
                 ),
@@ -152,7 +152,7 @@ class CompositionInPropertySchema(
                 pass
             return {
                 'allOf': [
-                    allOf_0,
+                    all_of_0,
                 ],
                 'oneOf': [
                 ],
@@ -241,7 +241,7 @@ class SchemaForRequestBodyApplicationJson(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             _SchemaValidator(
                 min_length=1,
             ),
@@ -250,7 +250,7 @@ class SchemaForRequestBodyApplicationJson(
             pass
         return {
             'allOf': [
-                allOf_0,
+                all_of_0,
             ],
             'oneOf': [
             ],
@@ -296,7 +296,7 @@ class SchemaForRequestBodyMultipartFormData(
             # loading
             
             
-            class allOf_0(
+            class all_of_0(
                 _SchemaValidator(
                     min_length=1,
                 ),
@@ -305,7 +305,7 @@ class SchemaForRequestBodyMultipartFormData(
                 pass
             return {
                 'allOf': [
-                    allOf_0,
+                    all_of_0,
                 ],
                 'oneOf': [
                 ],
@@ -372,7 +372,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             _SchemaValidator(
                 min_length=1,
             ),
@@ -381,7 +381,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             pass
         return {
             'allOf': [
-                allOf_0,
+                all_of_0,
             ],
             'oneOf': [
             ],
@@ -427,7 +427,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
             # loading
             
             
-            class allOf_0(
+            class all_of_0(
                 _SchemaValidator(
                     min_length=1,
                 ),
@@ -436,7 +436,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
                 pass
             return {
                 'allOf': [
-                    allOf_0,
+                    all_of_0,
                 ],
                 'oneOf': [
                 ],

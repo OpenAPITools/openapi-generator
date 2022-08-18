@@ -88,7 +88,7 @@ class ModelNot(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        NotSchema = IntSchema
+        not_schema = IntSchema
         return {
             'allOf': [
             ],
@@ -97,7 +97,7 @@ class ModelNot(
             'anyOf': [
             ],
             'not':
-                NotSchema
+                not_schema
         }
 
     def __new__(
