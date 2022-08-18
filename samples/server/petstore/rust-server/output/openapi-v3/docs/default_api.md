@@ -45,7 +45,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **any_of** | [**AnyOfObject**](AnyOfObject.md)| list of any of objects | 
+ **any_of** | [**models::AnyOfObject**](models::AnyOfObject.md)| list of any of objects | 
 
 ### Return type
 
@@ -102,7 +102,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **list_of_strings** | [**string**](string.md)|  | 
+ **list_of_strings** | [**String**](String.md)|  | 
 
 ### Return type
 
@@ -159,7 +159,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **list_of_strings** | [**string**](string.md)|  | 
+ **list_of_strings** | [**String**](String.md)|  | 
 
 ### Return type
 

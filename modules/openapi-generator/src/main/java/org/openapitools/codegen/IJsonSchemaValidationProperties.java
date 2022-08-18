@@ -305,23 +305,25 @@ public interface IJsonSchemaValidationProperties {
         if (this.getVars() != null && !this.getVars().isEmpty()) {
             this.getVars().stream().flatMap(v -> v.getImports(importContainerType, importBaseType, featureSet).stream()).forEach(s -> imports.add(s));
         }
-        if ((this.getIsArray() || this.getIsMap()) && importContainerType) {
-            /*
-            use-case for this complexType block:
-            DefaultCodegenTest.objectQueryParamIdentifyAsObject
-            DefaultCodegenTest.mapParamImportInnerObject
-            */
-            String complexType = this.getComplexType();
-            if (complexType != null) {
-                imports.add(complexType);
-            }
-            /*
-            use-case:
-            Adding List/Map etc, Java uses this
-             */
-            String baseType = this.getBaseType();
-            if (importBaseType && baseType != null) {
-                imports.add(baseType);
+        if (this.getIsArray() || this.getIsMap()) {
+            if (importContainerType) {
+                /*
+                use-case for this complexType block:
+                DefaultCodegenTest.objectQueryParamIdentifyAsObject
+                DefaultCodegenTest.mapParamImportInnerObject
+                */
+                String complexType = this.getComplexType();
+                if (complexType != null) {
+                    imports.add(complexType);
+                }
+                /*
+                use-case:
+                Adding List/Map etc, Java uses this
+                 */
+                String baseType = this.getBaseType();
+                if (importBaseType && baseType != null) {
+                    imports.add(baseType);
+                }
             }
         } else {
             // referenced or inline schemas

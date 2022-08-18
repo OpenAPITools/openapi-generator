@@ -160,7 +160,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**NSArray&lt;NSString*&gt;***](NSString.md)| Status values that need to be considered for filter | [optional] 
+ **status** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Status values that need to be considered for filter | [optional] 
 
 ### Return type
 
@@ -215,7 +215,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**NSArray&lt;NSString*&gt;***](NSString.md)| Tags to filter by | [optional] 
+ **tags** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Tags to filter by | [optional] 
 
 ### Return type
 

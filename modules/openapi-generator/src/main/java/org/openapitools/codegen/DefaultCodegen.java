@@ -4900,7 +4900,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty itemsProperty = fromProperty("inner", inner, false);
             codegenParameter.items = itemsProperty;
             codegenParameter.mostInnerItems = itemsProperty.mostInnerItems;
-            codegenParameter.baseType = itemsProperty.baseType;
+            codegenParameter.baseType = itemsProperty.dataType;
             codegenParameter.isContainer = true;
             if (!parametersAndResponsesImportFromV3SpecLocations) {
                 // recursively add import
@@ -7086,11 +7086,8 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
-                if (parametersAndResponsesImportFromV3SpecLocations) {
-                    addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
-                } else {
-                    addImports(imports, schemaProp.getImports(false, importBaseType, generatorMetadata.getFeatureSet()));
-                }
+                // whether or not parametersAndResponsesImportFromV3SpecLocations is set
+                addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
             }
         }
         return cmtContent;
