@@ -20,6 +20,7 @@
 #include "PFXApiResponse.h"
 #include "PFXHttpFileElement.h"
 #include "PFXPet.h"
+#include <QList>
 #include <QSet>
 #include <QString>
 

@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.data.domain.Pageable;
 import org.openapitools.model.Pet;
