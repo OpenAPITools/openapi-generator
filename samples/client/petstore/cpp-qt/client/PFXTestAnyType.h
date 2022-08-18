@@ -19,10 +19,6 @@
 #define PFXTestAnyType_H
 
 #include <QJsonObject>
-#include <QDateTime>
-#include <QString>
-#include <QByteArray>
-#include <QDate>
 
 
 #include "PFXEnum.h"

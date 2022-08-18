@@ -19,10 +19,6 @@
 #define PFXPet_H
 
 #include <QJsonObject>
-#include <QDateTime>
-#include <QString>
-#include <QByteArray>
-#include <QDate>
 
 #include "PFXCategory.h"
 #include "PFXTag.h"
