@@ -49,7 +49,6 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
     public ScalaHttpClientCodegen() {
         super();
-        importContainerType = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.DEPRECATED)

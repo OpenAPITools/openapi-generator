@@ -60,7 +60,6 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public NimClientCodegen() {
         super();
 
-        importBaseType = false;
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
@@ -124,9 +123,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "array",
-                        "object",
-                        "map"
+                        "array"
                 )
         );
 
@@ -149,10 +146,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "char",
                         "string",
                         "cstring",
-                        "pointer",
-                        "long",
-                        "boolean",
-                        "DateTime")
+                        "pointer")
         );
 
         typeMapping.clear();

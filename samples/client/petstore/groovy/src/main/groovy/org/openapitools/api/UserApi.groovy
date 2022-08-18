@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import org.openapitools.api.ApiUtils
+import java.util.List
 import org.openapitools.model.User
 
 class UserApi {
