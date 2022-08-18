@@ -90,7 +90,7 @@ class AllofCombinedWithAnyofOneof(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             _SchemaValidator(
                 multiple_of=2,
             ),
@@ -102,7 +102,7 @@ class AllofCombinedWithAnyofOneof(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_0':
+            ) -> 'all_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -111,7 +111,7 @@ class AllofCombinedWithAnyofOneof(
                 )
         
         
-        class oneOf_0(
+        class one_of_0(
             _SchemaValidator(
                 multiple_of=5,
             ),
@@ -123,7 +123,7 @@ class AllofCombinedWithAnyofOneof(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'oneOf_0':
+            ) -> 'one_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -132,7 +132,7 @@ class AllofCombinedWithAnyofOneof(
                 )
         
         
-        class anyOf_0(
+        class any_of_0(
             _SchemaValidator(
                 multiple_of=3,
             ),
@@ -144,7 +144,7 @@ class AllofCombinedWithAnyofOneof(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'anyOf_0':
+            ) -> 'any_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -153,13 +153,13 @@ class AllofCombinedWithAnyofOneof(
                 )
         return {
             'allOf': [
-                allOf_0,
+                all_of_0,
             ],
             'oneOf': [
-                oneOf_0,
+                one_of_0,
             ],
             'anyOf': [
-                anyOf_0,
+                any_of_0,
             ],
             'not':
                 None

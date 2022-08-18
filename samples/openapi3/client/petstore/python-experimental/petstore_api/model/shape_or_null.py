@@ -100,12 +100,12 @@ class ShapeOrNull(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        oneOf_0 = NoneSchema
+        one_of_0 = NoneSchema
         return {
             'allOf': [
             ],
             'oneOf': [
-                oneOf_0,
+                one_of_0,
                 Triangle,
                 Quadrilateral,
             ],

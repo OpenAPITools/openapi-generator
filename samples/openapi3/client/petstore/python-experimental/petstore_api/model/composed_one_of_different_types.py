@@ -90,11 +90,11 @@ class ComposedOneOfDifferentTypes(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        oneOf_2 = NoneSchema
-        oneOf_3 = DateSchema
+        one_of_2 = NoneSchema
+        one_of_3 = DateSchema
         
         
-        class oneOf_4(
+        class one_of_4(
             _SchemaValidator(
                 max_properties=4,
                 min_properties=4,
@@ -108,7 +108,7 @@ class ComposedOneOfDifferentTypes(
                 *args: typing.Union[dict, frozendict, ],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'oneOf_4':
+            ) -> 'one_of_4':
                 return super().__new__(
                     cls,
                     *args,
@@ -117,7 +117,7 @@ class ComposedOneOfDifferentTypes(
                 )
         
         
-        class oneOf_5(
+        class one_of_5(
             _SchemaValidator(
                 max_items=4,
                 min_items=4,
@@ -127,7 +127,7 @@ class ComposedOneOfDifferentTypes(
             _items = AnyTypeSchema
         
         
-        class oneOf_6(
+        class one_of_6(
             _SchemaValidator(
                 regex=[{
                     'pattern': r'^2020.*',  # noqa: E501
@@ -142,11 +142,11 @@ class ComposedOneOfDifferentTypes(
             'oneOf': [
                 NumberWithValidations,
                 Animal,
-                oneOf_2,
-                oneOf_3,
-                oneOf_4,
-                oneOf_5,
-                oneOf_6,
+                one_of_2,
+                one_of_3,
+                one_of_4,
+                one_of_5,
+                one_of_6,
             ],
             'anyOf': [
             ],

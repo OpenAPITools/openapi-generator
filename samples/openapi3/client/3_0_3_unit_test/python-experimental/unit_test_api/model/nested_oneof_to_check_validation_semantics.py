@@ -90,7 +90,7 @@ class NestedOneofToCheckValidationSemantics(
         # loading
         
         
-        class oneOf_0(
+        class one_of_0(
             ComposedSchema
         ):
         
@@ -105,12 +105,12 @@ class NestedOneofToCheckValidationSemantics(
                 # code would be run when this module is imported, and these composed
                 # classes don't exist yet because their module has not finished
                 # loading
-                oneOf_0 = NoneSchema
+                one_of_0 = NoneSchema
                 return {
                     'allOf': [
                     ],
                     'oneOf': [
-                        oneOf_0,
+                        one_of_0,
                     ],
                     'anyOf': [
                     ],
@@ -123,7 +123,7 @@ class NestedOneofToCheckValidationSemantics(
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'oneOf_0':
+            ) -> 'one_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -134,7 +134,7 @@ class NestedOneofToCheckValidationSemantics(
             'allOf': [
             ],
             'oneOf': [
-                oneOf_0,
+                one_of_0,
             ],
             'anyOf': [
             ],

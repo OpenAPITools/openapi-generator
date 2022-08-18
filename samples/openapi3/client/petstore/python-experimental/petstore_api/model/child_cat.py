@@ -90,7 +90,7 @@ class ChildCat(
         # loading
         
         
-        class allOf_1(
+        class all_of_1(
             DictSchema
         ):
             name = StrSchema
@@ -102,7 +102,7 @@ class ChildCat(
                 name: typing.Union[name, Unset] = unset,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_1':
+            ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
@@ -113,7 +113,7 @@ class ChildCat(
         return {
             'allOf': [
                 ParentPet,
-                allOf_1,
+                all_of_1,
             ],
             'oneOf': [
             ],

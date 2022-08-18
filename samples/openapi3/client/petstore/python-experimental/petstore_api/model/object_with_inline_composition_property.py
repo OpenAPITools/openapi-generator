@@ -95,7 +95,7 @@ class ObjectWithInlineCompositionProperty(
             # loading
             
             
-            class allOf_0(
+            class all_of_0(
                 _SchemaValidator(
                     min_length=1,
                 ),
@@ -104,7 +104,7 @@ class ObjectWithInlineCompositionProperty(
                 pass
             return {
                 'allOf': [
-                    allOf_0,
+                    all_of_0,
                 ],
                 'oneOf': [
                 ],

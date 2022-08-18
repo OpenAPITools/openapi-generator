@@ -91,7 +91,7 @@ class AdditionalpropertiesShouldNotLookInApplicators(
         # loading
         
         
-        class allOf_0(
+        class all_of_0(
             AnyTypeSchema
         ):
             foo = AnyTypeSchema
@@ -102,7 +102,7 @@ class AdditionalpropertiesShouldNotLookInApplicators(
                 foo: typing.Union[foo, Unset] = unset,
                 _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
-            ) -> 'allOf_0':
+            ) -> 'all_of_0':
                 return super().__new__(
                     cls,
                     *args,
@@ -112,7 +112,7 @@ class AdditionalpropertiesShouldNotLookInApplicators(
                 )
         return {
             'allOf': [
-                allOf_0,
+                all_of_0,
             ],
             'oneOf': [
             ],
