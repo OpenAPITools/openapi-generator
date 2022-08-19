@@ -137,8 +137,3 @@ Class | Method | HTTP request | Description
   - read:pets: read your pets
 
 
-
-## Author
-
-
-

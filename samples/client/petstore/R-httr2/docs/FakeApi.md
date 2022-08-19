@@ -22,7 +22,7 @@ library(petstore)
 var_dummy <- "dummy_example" # character | dummy required parameter
 var_var_data_file <- "var_data_file_example" # character | header data file (Optional)
 
-#test data_file to ensure it's escaped correctly
+# test data_file to ensure it's escaped correctly
 api_instance <- FakeApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -82,7 +82,7 @@ library(petstore)
 
 var_reg_exp_test <- "reg_exp_test_example" # character | dummy required parameter
 
-#test regular expression to ensure no exception
+# test regular expression to ensure no exception
 api_instance <- FakeApi$new()
 result <- tryCatch(
              api_instance$fake_regular_expression(var_reg_exp_test),

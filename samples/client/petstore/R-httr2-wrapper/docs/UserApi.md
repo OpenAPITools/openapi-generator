@@ -27,7 +27,7 @@ library(petstore)
 
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
-#Create user
+# Create user
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -82,7 +82,7 @@ library(petstore)
 
 var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
-#Creates list of users with given input array
+# Creates list of users with given input array
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -137,7 +137,7 @@ library(petstore)
 
 var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
-#Creates list of users with given input array
+# Creates list of users with given input array
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -192,7 +192,7 @@ library(petstore)
 
 var_username <- "username_example" # character | The name that needs to be deleted
 
-#Delete user
+# Delete user
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -248,11 +248,11 @@ library(petstore)
 
 var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 
-#Get user by user name
+# Get user by user name
 api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$get_user_by_name(var_username, data_file = "result.txt"),
+             # api_instance$user_api$get_user_by_name(var_username, data_file = "result.txt"),
              api_instance$user_api$get_user_by_name(var_username),
              ApiException = function(ex) ex
           )
@@ -310,11 +310,11 @@ library(petstore)
 var_username <- "username_example" # character | The user name for login
 var_password <- "password_example" # character | The password for login in clear text
 
-#Logs user into the system
+# Logs user into the system
 api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$login_user(var_username, var_password, data_file = "result.txt"),
+             # api_instance$user_api$login_user(var_username, var_password, data_file = "result.txt"),
              api_instance$user_api$login_user(var_username, var_password),
              ApiException = function(ex) ex
           )
@@ -370,7 +370,7 @@ Logs out current logged in user session
 library(petstore)
 
 
-#Logs out current logged in user session
+# Logs out current logged in user session
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -423,7 +423,7 @@ library(petstore)
 var_username <- "username_example" # character | name that need to be deleted
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
-#Updated user
+# Updated user
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")

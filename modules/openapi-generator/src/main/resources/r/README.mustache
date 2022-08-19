@@ -121,8 +121,14 @@ Class | Method | HTTP request | Description
 
 {{/authMethods}}
 
-
+{{#apiInfo}}
+{{#apis}}
+{{#-last}}
+{{#infoEmail}}
 ## Author
 
-{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
-{{/-last}}{{/apis}}{{/apiInfo}}
+{{{infoEmail}}}
+{{/infoEmail}}
+{{/-last}}
+{{/apis}}
+{{/apiInfo}}
