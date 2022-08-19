@@ -109,7 +109,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         super();
         loadDeepObjectIntoItems = false;
         importBaseType = false;
-        parametersAndResponsesImportFromV3SpecLocations = true;
+        importFromV3SpecLocations = true;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(

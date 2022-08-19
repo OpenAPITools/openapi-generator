@@ -290,7 +290,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // if True codegenParameter and codegenResponse imports will come
     // from deeper schema defined locations
-    protected boolean parametersAndResponsesImportFromV3SpecLocations = false;
+    protected boolean importFromV3SpecLocations = false;
 
     @Override
     public List<CliOption> cliOptions() {
@@ -2961,7 +2961,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (parametersAndResponsesImportFromV3SpecLocations) {
+        if (importFromV3SpecLocations) {
             addImports(m.imports, m.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
         }
         return m;
@@ -4188,7 +4188,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
-                if (!parametersAndResponsesImportFromV3SpecLocations) {
+                if (!importFromV3SpecLocations) {
                     if (r.baseType != null &&
                             !defaultIncludes.contains(r.baseType) &&
                             !languageSpecificPrimitives.contains(r.baseType)) {
@@ -4686,7 +4686,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isContainer = true;
         codegenParameter.isMap = true;
 
-        if (!parametersAndResponsesImportFromV3SpecLocations) {
+        if (!importFromV3SpecLocations) {
             // recursively add import
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
@@ -4776,7 +4776,7 @@ public class DefaultCodegen implements CodegenConfig {
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
             }
             codegenParameter.setSchema(prop);
-            if (parametersAndResponsesImportFromV3SpecLocations) {
+            if (importFromV3SpecLocations) {
                 addImports(imports, prop.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
             }
         } else if (parameter.getContent() != null) {
@@ -4905,7 +4905,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.mostInnerItems = itemsProperty.mostInnerItems;
             codegenParameter.baseType = itemsProperty.dataType;
             codegenParameter.isContainer = true;
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 // recursively add import
                 while (itemsProperty != null) {
                     imports.add(itemsProperty.baseType);
@@ -4933,7 +4933,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             codegenParameter.dataType = codegenProperty.dataType;
         }
-        if (!parametersAndResponsesImportFromV3SpecLocations) {
+        if (!importFromV3SpecLocations) {
             if (ModelUtils.isSet(parameterSchema)) {
                 imports.add(codegenProperty.baseType);
             }
@@ -4966,7 +4966,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isCollectionFormatMulti = true;
         }
         codegenParameter.paramName = toParamName(parameter.getName());
-        if (!parametersAndResponsesImportFromV3SpecLocations) {
+        if (!importFromV3SpecLocations) {
             // import
             if (codegenProperty.complexType != null) {
                 imports.add(codegenProperty.complexType);
@@ -5341,7 +5341,7 @@ public class DefaultCodegen implements CodegenConfig {
         final CodegenProperty property = fromProperty(name, schema, false);
         addImport(model, property.complexType);
         model.parent = toInstantiationType(schema);
-        if (!parametersAndResponsesImportFromV3SpecLocations) {
+        if (!importFromV3SpecLocations) {
             final String containerType = property.containerType;
             final String instantiationType = instantiationTypes.get(containerType);
             if (instantiationType != null) {
@@ -5551,7 +5551,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (!Boolean.TRUE.equals(cp.isReadOnly)) {
                     cm.hasOnlyReadOnly = false;
                 }
-                if (!parametersAndResponsesImportFromV3SpecLocations) {
+                if (!importFromV3SpecLocations) {
                     addImportsForPropertyType(cm, cp);
                 }
 
@@ -6690,7 +6690,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
             codegenParameter.isCollectionFormatMulti = "multi".equals(collectionFormat);
 
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 // recursively add import
                 while (arrayInnerProperty != null) {
                     imports.add(arrayInnerProperty.baseType);
@@ -6726,7 +6726,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.enumName = codegenProperty.enumName;
         }
 
-        if (!parametersAndResponsesImportFromV3SpecLocations) {
+        if (!importFromV3SpecLocations) {
             // import
             if (codegenProperty.complexType != null) {
                 imports.add(codegenProperty.complexType);
@@ -6760,14 +6760,14 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
             codegenParameter.isNullable = codegenModel.isNullable;
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 imports.add(codegenParameter.baseType);
             }
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
-                if (!parametersAndResponsesImportFromV3SpecLocations) {
+                if (!importFromV3SpecLocations) {
                     // TODO move this splitting logic to the generator that needs it only
                     List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                     imports.addAll(parts);
@@ -6809,7 +6809,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.baseType = codegenModelName;
                     codegenParameter.dataType = getTypeDeclaration(codegenModelName);
                     codegenParameter.description = codegenModelDescription;
-                    if (!parametersAndResponsesImportFromV3SpecLocations) {
+                    if (!importFromV3SpecLocations) {
                         imports.add(codegenParameter.baseType);
 
                         if (codegenProperty.complexType != null) {
@@ -6836,7 +6836,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 imports.add(codegenProperty.baseType);
                 CodegenProperty innerCp = codegenProperty;
                 while (innerCp != null) {
@@ -6882,7 +6882,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.pattern = codegenProperty.pattern;
             codegenParameter.isNullable = codegenProperty.isNullable;
 
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 if (codegenProperty.complexType != null) {
                     imports.add(codegenProperty.complexType);
                 }
@@ -6932,7 +6932,7 @@ public class DefaultCodegen implements CodegenConfig {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 imports.add(codegenProperty.baseType);
             }
             CodegenProperty innerCp = codegenProperty;
@@ -6940,7 +6940,7 @@ public class DefaultCodegen implements CodegenConfig {
             // loop through multidimensional array to add proper import
             // also find the most inner item
             while (innerCp != null) {
-                if (!parametersAndResponsesImportFromV3SpecLocations) {
+                if (!importFromV3SpecLocations) {
                     if (innerCp.complexType != null) {
                         imports.add(innerCp.complexType);
                     }
@@ -6969,7 +6969,7 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
 
-            if (!parametersAndResponsesImportFromV3SpecLocations) {
+            if (!importFromV3SpecLocations) {
                 while (codegenProperty != null) {
                     imports.add(codegenProperty.baseType);
                     codegenProperty = codegenProperty.items;
@@ -7089,7 +7089,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
-                if (parametersAndResponsesImportFromV3SpecLocations) {
+                if (importFromV3SpecLocations) {
                     addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
                 } else {
                     addImports(imports, schemaProp.getImports(false, importBaseType, generatorMetadata.getFeatureSet()));
