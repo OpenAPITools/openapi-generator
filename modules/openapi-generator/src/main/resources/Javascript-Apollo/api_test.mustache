@@ -1,13 +1,15 @@
 {{>licenseInfo}}
 // CommonJS-like environments that support module.exports, like Node.
-factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'));
+//factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'));
 
 'use strict';
+
+const {{classname}} = require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index').{{classname}}
 
 var instance;
 
 beforeEach(function() {
-  instance = new {{moduleName}}.{{classname}}();
+  instance = new {{classname}}()
 });
 
 var getProperty = function(object, getter, property) {
