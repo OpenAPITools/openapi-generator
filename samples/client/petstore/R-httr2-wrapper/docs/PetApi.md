@@ -29,14 +29,14 @@ library(petstore)
 
 var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
-#Add a new pet to the store
+# Add a new pet to the store
 api_instance <- petstore_api$new()
 # Configure HTTP basic authorization: http_auth
 api_instance$api_client$username <- Sys.getenv("USERNAME")
 api_instance$api_client$password <- Sys.getenv("PASSWORD")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$add_pet(var_pet, data_file = "result.txt"),
+             # api_instance$pet_api$add_pet(var_pet, data_file = "result.txt"),
              api_instance$pet_api$add_pet(var_pet),
              ApiException = function(ex) ex
           )
@@ -93,7 +93,7 @@ library(petstore)
 var_pet_id <- 56 # integer | Pet id to delete
 var_api_key <- "api_key_example" # character |  (Optional)
 
-#Deletes a pet
+# Deletes a pet
 api_instance <- petstore_api$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
@@ -149,13 +149,13 @@ library(petstore)
 
 var_status <- list("available") # array[character] | Status values that need to be considered for filter
 
-#Finds Pets by status
+# Finds Pets by status
 api_instance <- petstore_api$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$find_pets_by_status(var_status, data_file = "result.txt"),
+             # api_instance$pet_api$find_pets_by_status(var_status, data_file = "result.txt"),
              api_instance$pet_api$find_pets_by_status(var_status),
              ApiException = function(ex) ex
           )
@@ -211,13 +211,13 @@ library(petstore)
 
 var_tags <- list("inner_example") # array[character] | Tags to filter by
 
-#Finds Pets by tags
+# Finds Pets by tags
 api_instance <- petstore_api$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$find_pets_by_tags(var_tags, data_file = "result.txt"),
+             # api_instance$pet_api$find_pets_by_tags(var_tags, data_file = "result.txt"),
              api_instance$pet_api$find_pets_by_tags(var_tags),
              ApiException = function(ex) ex
           )
@@ -273,13 +273,13 @@ library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to return
 
-#Find pet by ID
+# Find pet by ID
 api_instance <- petstore_api$new()
 # Configure HTTP bearer authorization: BearerToken
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$get_pet_by_id(var_pet_id, data_file = "result.txt"),
+             # api_instance$pet_api$get_pet_by_id(var_pet_id, data_file = "result.txt"),
              api_instance$pet_api$get_pet_by_id(var_pet_id),
              ApiException = function(ex) ex
           )
@@ -336,15 +336,15 @@ library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to return
 
-#Find pet by ID (streaming)
+# Find pet by ID (streaming)
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$get_pet_by_id_streaming(var_pet_id, data_file = "result.txt"),
+             # api_instance$pet_api$get_pet_by_id_streaming(var_pet_id, data_file = "result.txt"),
              # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
-             # api_instance$get_pet_by_id_streaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
+             # api_instance$pet_api$get_pet_by_id_streaming(var_pet_id, stream_callback = function(x){ print(length(x)) }),
              api_instance$pet_api$get_pet_by_id_streaming(var_pet_id),
              ApiException = function(ex) ex
           )
@@ -401,15 +401,15 @@ library(petstore)
 
 var_header_test_int <- 56 # integer | header test int
 
-#Header test
+# Header test
 api_instance <- petstore_api$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$test_header(var_header_test_int, data_file = "result.txt"),
+             # api_instance$pet_api$test_header(var_header_test_int, data_file = "result.txt"),
              # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
-             # api_instance$test_header(var_header_test_int, stream_callback = function(x){ print(length(x)) }),
+             # api_instance$pet_api$test_header(var_header_test_int, stream_callback = function(x){ print(length(x)) }),
              api_instance$pet_api$test_header(var_header_test_int),
              ApiException = function(ex) ex
           )
@@ -466,13 +466,13 @@ library(petstore)
 
 var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
-#Update an existing pet
+# Update an existing pet
 api_instance <- petstore_api$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$update_pet(var_pet, data_file = "result.txt"),
+             # api_instance$pet_api$update_pet(var_pet, data_file = "result.txt"),
              api_instance$pet_api$update_pet(var_pet),
              ApiException = function(ex) ex
           )
@@ -532,7 +532,7 @@ var_pet_id <- 56 # integer | ID of pet that needs to be updated
 var_name <- "name_example" # character | Updated name of the pet (Optional)
 var_status <- "status_example" # character | Updated status of the pet (Optional)
 
-#Updates a pet in the store with form data
+# Updates a pet in the store with form data
 api_instance <- petstore_api$new()
 result <- tryCatch(
              api_instance$pet_api$update_pet_with_form(var_pet_id, name = var_name, status = var_status),
@@ -589,13 +589,13 @@ var_pet_id <- 56 # integer | ID of pet to update
 var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server (Optional)
 var_file <- File.new('/path/to/file') # data.frame | file to upload (Optional)
 
-#uploads an image
+# uploads an image
 api_instance <- petstore_api$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance$upload_file(var_pet_id, additional_metadata = var_additional_metadata, file = var_file, data_file = "result.txt"),
+             # api_instance$pet_api$upload_file(var_pet_id, additional_metadata = var_additional_metadata, file = var_file, data_file = "result.txt"),
              api_instance$pet_api$upload_file(var_pet_id, additional_metadata = var_additional_metadata, file = var_file),
              ApiException = function(ex) ex
           )

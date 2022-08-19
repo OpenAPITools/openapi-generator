@@ -29,7 +29,7 @@ library(petstore)
 
 var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
-#Add a new pet to the store
+# Add a new pet to the store
 api_instance <- PetApi$new()
 # Configure HTTP basic authorization: http_auth
 api_instance$api_client$username <- Sys.getenv("USERNAME")
@@ -93,7 +93,7 @@ library(petstore)
 var_pet_id <- 56 # integer | Pet id to delete
 var_api_key <- "api_key_example" # character |  (Optional)
 
-#Deletes a pet
+# Deletes a pet
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
@@ -149,7 +149,7 @@ library(petstore)
 
 var_status <- list("available") # array[character] | Status values that need to be considered for filter
 
-#Finds Pets by status
+# Finds Pets by status
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
@@ -211,7 +211,7 @@ library(petstore)
 
 var_tags <- list("inner_example") # array[character] | Tags to filter by
 
-#Finds Pets by tags
+# Finds Pets by tags
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
@@ -273,7 +273,7 @@ library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to return
 
-#Find pet by ID
+# Find pet by ID
 api_instance <- PetApi$new()
 # Configure HTTP bearer authorization: BearerToken
 api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
@@ -336,7 +336,7 @@ library(petstore)
 
 var_pet_id <- 56 # integer | ID of pet to return
 
-#Find pet by ID (streaming)
+# Find pet by ID (streaming)
 api_instance <- PetApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -401,7 +401,7 @@ library(petstore)
 
 var_header_test_int <- 56 # integer | header test int
 
-#Header test
+# Header test
 api_instance <- PetApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -466,7 +466,7 @@ library(petstore)
 
 var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
-#Update an existing pet
+# Update an existing pet
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
@@ -532,7 +532,7 @@ var_pet_id <- 56 # integer | ID of pet that needs to be updated
 var_name <- "name_example" # character | Updated name of the pet (Optional)
 var_status <- "status_example" # character | Updated status of the pet (Optional)
 
-#Updates a pet in the store with form data
+# Updates a pet in the store with form data
 api_instance <- PetApi$new()
 result <- tryCatch(
              api_instance$UpdatePetWithForm(var_pet_id, name = var_name, status = var_status),
@@ -589,7 +589,7 @@ var_pet_id <- 56 # integer | ID of pet to update
 var_additional_metadata <- "additional_metadata_example" # character | Additional data to pass to server (Optional)
 var_file <- File.new('/path/to/file') # data.frame | file to upload (Optional)
 
-#uploads an image
+# uploads an image
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
