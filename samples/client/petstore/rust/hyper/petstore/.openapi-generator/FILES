@@ -13,6 +13,8 @@ docs/PetApi.md
 docs/PropertyTest.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestingApi.md
+docs/TypeTesting.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -23,6 +25,7 @@ src/apis/mod.rs
 src/apis/pet_api.rs
 src/apis/request.rs
 src/apis/store_api.rs
+src/apis/testing_api.rs
 src/apis/user_api.rs
 src/lib.rs
 src/models/action_container.rs
@@ -34,4 +37,5 @@ src/models/order.rs
 src/models/pet.rs
 src/models/property_test.rs
 src/models/tag.rs
+src/models/type_testing.rs
 src/models/user.rs
