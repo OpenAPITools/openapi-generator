@@ -139,6 +139,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
+                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob", "Set")
         );
         defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
@@ -166,6 +167,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         typeMapping.put("ByteArray", "Blob");
         typeMapping.put("binary", "File");
         typeMapping.put("file", "File");
+        typeMapping.put("Set", "Set");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
 
