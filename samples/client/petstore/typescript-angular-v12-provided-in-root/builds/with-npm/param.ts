@@ -1,12 +1,7 @@
-// trick: make autocomplete kinda work for LiteralType in most IDEs:
-// usually shows entries of LiteralType first in autocomplete.
-type LiteralUnion<LiteralType, BaseType extends string>
-    = LiteralType | (BaseType & Record<never, never>);
-
 /**
  * Standard parameter styles defined by OpenAPI spec
  */
-export type ParamStyle =
+export type StandardParamStyle =
   | 'matrix'
   | 'label'
   | 'form'
@@ -17,37 +12,14 @@ export type ParamStyle =
   ;
 
 /**
- * Convenience: simulate ParameterStyle enum
+ * The OpenAPI standard {@link StandardParamStyle}s may be extended by custom styles by the user.
  */
-export const ParamStyle = {
-  matrix: 'matrix' as ParamStyle,
-  label: 'label' as ParamStyle,
-  form: 'form' as ParamStyle,
-  simple: 'simple' as ParamStyle,
-  spaceDelimited: 'spaceDelimited' as ParamStyle,
-  pipeDelimited: 'pipeDelimited' as ParamStyle,
-  deepObject: 'deepObject' as ParamStyle,
-} as const;
+export type ParamStyle = StandardParamStyle | string;
 
 /**
  * Standard parameter locations defined by OpenAPI spec
  */
 export type ParamLocation = 'query' | 'header' | 'path' | 'cookie';
-
-/**
- * Convenience: simulate ParameterLocation enum
- */
-export const ParamLocation = {
-  query: 'query' as ParamLocation,
-  header: 'header' as ParamLocation,
-  path: 'path' as ParamLocation,
-  cookie: 'cookie' as ParamLocation,
-} as const;
-
-/**
- * The OpenAPI standard styles may be extended by custom styles by the user.
- */
-export type ExtendedParamStyle = LiteralUnion<ParamStyle, string>;
 
 /**
  * Standard types as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
@@ -61,7 +33,10 @@ export type StandardDataType =
   | "array"
   ;
 
-export type DataType = LiteralUnion<StandardDataType, string>;
+/**
+ * Standard {@link DataType}s plus your own types/classes.
+ */
+export type DataType = StandardDataType | string;
 
 /**
  * Standard formats as defined in <a href="https://swagger.io/specification/#data-types">OpenAPI Specification: Data Types</a>
@@ -78,7 +53,7 @@ export type StandardDataFormat =
   | "password"
   ;
 
-export type DataFormat = LiteralUnion<StandardDataFormat, string>;
+export type DataFormat = StandardDataFormat | string;
 
 /**
  * The parameter to encode.
@@ -87,7 +62,7 @@ export interface Param {
   name: string;
   value: unknown;
   in: ParamLocation;
-  style: ExtendedParamStyle,
+  style: ParamStyle,
   explode: boolean;
   dataType: DataType;
   dataFormat: DataFormat | undefined;
