@@ -101,6 +101,7 @@ docs/models/RefInAdditionalproperties.md
 docs/models/RefInAllof.md
 docs/models/RefInAnyof.md
 docs/models/RefInItems.md
+docs/models/RefInNot.md
 docs/models/RefInOneof.md
 docs/models/RefInProperty.md
 docs/models/RequiredDefaultValidation.md
@@ -193,6 +194,7 @@ test/test_models/test_ref_in_additionalproperties.py
 test/test_models/test_ref_in_allof.py
 test/test_models/test_ref_in_anyof.py
 test/test_models/test_ref_in_items.py
+test/test_models/test_ref_in_not.py
 test/test_models/test_ref_in_oneof.py
 test/test_models/test_ref_in_property.py
 test/test_models/test_required_default_validation.py
@@ -313,6 +315,7 @@ unit_test_api/model/ref_in_additionalproperties.py
 unit_test_api/model/ref_in_allof.py
 unit_test_api/model/ref_in_anyof.py
 unit_test_api/model/ref_in_items.py
+unit_test_api/model/ref_in_not.py
 unit_test_api/model/ref_in_oneof.py
 unit_test_api/model/ref_in_property.py
 unit_test_api/model/required_default_validation.py

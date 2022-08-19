@@ -105,10 +105,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // for apis.tags tag api definition
     private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
 
-
     public PythonExperimentalClientCodegen() {
         super();
         loadDeepObjectIntoItems = false;
+        importBaseType = false;
+        addSchemaImportsFromV3SpecLocations = true;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
@@ -321,10 +322,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         if (generateSourceCodeOnly) {
-            // tests in <package>/test
+            // tests in test
             testFolder = packagePath() + File.separatorChar + testFolder;
-            // api/model docs in <package>/docs
+            // api docs in <package>/docs/apis/tags/
             apiDocPath = packagePath() + File.separatorChar + apiDocPath;
+            // model docs in <package>/docs/models/
             modelDocPath = packagePath() + File.separatorChar + modelDocPath;
         }
         // make api and model doc path available in templates
@@ -866,7 +868,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         OperationMap val = objs.getOperations();
         List<CodegenOperation> operations = val.getOperation();
-        List<Map<String, String>> imports = objs.getImports();
         for (CodegenOperation operation : operations) {
             if (operation.imports.size() == 0) {
                 continue;
@@ -901,12 +902,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         boolean anyModelContainsTestCases = false;
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         for (String schemaName : allDefinitions.keySet()) {
-            Schema refSchema = new Schema().$ref("#/components/schemas/" + schemaName);
-            Schema unaliasedSchema = unaliasSchema(refSchema);
             String modelName = toModelName(schemaName);
-            if (unaliasedSchema.get$ref() == null) {
-                continue;
-            }
             ModelsMap objModel = objs.get(modelName);
             if (objModel == null) {
                 // to avoid form parameter's models that are not generated (skipFormModel=true)

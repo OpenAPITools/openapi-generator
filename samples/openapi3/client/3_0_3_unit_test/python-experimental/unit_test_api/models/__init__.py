@@ -82,6 +82,7 @@ from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalprope
 from unit_test_api.model.ref_in_allof import RefInAllof
 from unit_test_api.model.ref_in_anyof import RefInAnyof
 from unit_test_api.model.ref_in_items import RefInItems
+from unit_test_api.model.ref_in_not import RefInNot
 from unit_test_api.model.ref_in_oneof import RefInOneof
 from unit_test_api.model.ref_in_property import RefInProperty
 from unit_test_api.model.required_default_validation import RequiredDefaultValidation

@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 public interface IJsonSchemaValidationProperties {
@@ -261,32 +264,79 @@ public interface IJsonSchemaValidationProperties {
     /**
      * Recursively collect all necessary imports to include so that the type may be resolved.
      *
-     * @param includeContainerTypes whether or not to include the container types in the returned imports.
+     * @param importContainerType whether or not to include the container types in the returned imports.
+     * @param importBaseType whether or not to include the base types in the returned imports.
+     * @param featureSet the generator feature set, used to determine if composed schemas should be added
      * @return all of the imports
      */
-    default Set<String> getImports(boolean includeContainerTypes) {
+    default Set<String> getImports(boolean importContainerType, boolean importBaseType, FeatureSet featureSet) {
         Set<String> imports = new HashSet<>();
         if (this.getComposedSchemas() != null) {
-            CodegenComposedSchemas composed = (CodegenComposedSchemas) this.getComposedSchemas();
-            List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
-            List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
-            Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
-            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
-        } else if (includeContainerTypes || !(this.getIsArray() || this.getIsMap())) {
-            // this is our base case, add imports for referenced schemas
-            // this can't be broken out as a separate if block because Typescript only generates union types as A | B
-            // and would need to handle this differently
-            imports.add(this.getComplexType());
-            imports.add(this.getBaseType());
+            CodegenComposedSchemas composed = this.getComposedSchemas();
+            List<CodegenProperty> allOfs = Collections.emptyList();
+            List<CodegenProperty> oneOfs = Collections.emptyList();
+            List<CodegenProperty> anyOfs = Collections.emptyList();
+            List<CodegenProperty> nots = Collections.emptyList();
+            if (composed.getAllOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.allOf)) {
+                allOfs = composed.getAllOf();
+            }
+            if (composed.getOneOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.oneOf)) {
+                oneOfs = composed.getOneOf();
+            }
+            if (composed.getAnyOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.anyOf)) {
+                anyOfs = composed.getAnyOf();
+            }
+            if (composed.getNot() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.not)) {
+                nots = Arrays.asList(composed.getNot());
+            }
+            Stream<CodegenProperty> innerTypes = Stream.of(
+                            allOfs.stream(), anyOfs.stream(), oneOfs.stream(), nots.stream())
+                    .flatMap(i -> i);
+            innerTypes.flatMap(cp -> cp.getImports(importContainerType, importBaseType, featureSet).stream()).forEach(s -> imports.add(s));
         }
-        if (this.getItems() !=null && this.getIsArray()) {
-            imports.addAll(this.getItems().getImports(includeContainerTypes));
+        // items can exist for AnyType and type array
+        if (this.getItems() != null && this.getIsArray()) {
+            imports.addAll(this.getItems().getImports(importContainerType, importBaseType, featureSet));
         }
+        // additionalProperties can exist for AnyType and type object
         if (this.getAdditionalProperties() != null) {
-            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes));
+            imports.addAll(this.getAdditionalProperties().getImports(importContainerType, importBaseType, featureSet));
         }
+        // vars can exist for AnyType and type object
         if (this.getVars() != null && !this.getVars().isEmpty()) {
-            this.getVars().stream().flatMap(v -> v.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
+            this.getVars().stream().flatMap(v -> v.getImports(importContainerType, importBaseType, featureSet).stream()).forEach(s -> imports.add(s));
+        }
+        if (this.getIsArray() || this.getIsMap()) {
+            if (importContainerType) {
+                /*
+                use-case for this complexType block:
+                DefaultCodegenTest.objectQueryParamIdentifyAsObject
+                DefaultCodegenTest.mapParamImportInnerObject
+                */
+                String complexType = this.getComplexType();
+                if (complexType != null) {
+                    imports.add(complexType);
+                }
+                /*
+                use-case:
+                Adding List/Map etc, Java uses this
+                 */
+                String baseType = this.getBaseType();
+                if (importBaseType && baseType != null) {
+                    imports.add(baseType);
+                }
+            }
+        } else {
+            // referenced or inline schemas
+            String complexType = this.getComplexType();
+            if (complexType != null) {
+                imports.add(complexType);
+            }
+            String baseType = this.getBaseType();
+            if (importBaseType && baseType != null) {
+                imports.add(baseType);
+            }
+            return imports;
         }
         return imports;
     }
