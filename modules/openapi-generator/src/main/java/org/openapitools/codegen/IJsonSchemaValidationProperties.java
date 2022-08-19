@@ -266,6 +266,7 @@ public interface IJsonSchemaValidationProperties {
      *
      * @param importContainerType whether or not to include the container types in the returned imports.
      * @param importBaseType whether or not to include the base types in the returned imports.
+     * @param featureSet the generator feature set, used to determine if composed schemas should be added
      * @return all of the imports
      */
     default Set<String> getImports(boolean importContainerType, boolean importBaseType, FeatureSet featureSet) {
