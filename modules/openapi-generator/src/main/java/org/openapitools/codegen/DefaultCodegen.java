@@ -4849,7 +4849,6 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
         // https://swagger.io/docs/specification/serialization/
         String collectionFormat = null;
-        CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema, false);
 
         if (ModelUtils.isFileSchema(parameterSchema) && !ModelUtils.isStringSchema(parameterSchema)) {
             // swagger v2 only, type file
@@ -4917,10 +4916,7 @@ public class DefaultCodegen implements CodegenConfig {
             ;
         }
 
-        if (parameterSchema.get$ref() != null) {
-            codegenParameter.setRef(parameterSchema.get$ref());
-        }
-
+        CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema, false);
         if (Boolean.TRUE.equals(codegenProperty.isModel)) {
             codegenParameter.isModel = true;
         }
@@ -6597,7 +6593,6 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isEnum = codegenProperty.isEnum;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
-        CodegenProperty cp = fromProperty(name, ps, false);
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -6668,6 +6663,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
             codegenParameter.isPrimitiveType = false;
             codegenParameter.isContainer = true;
+            // hoist items data into the array property
+            // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
             codegenParameter.baseType = arrayInnerProperty.dataType;
             codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
             if (codegenParameter.items.isFile) {
@@ -6704,9 +6701,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (Boolean.TRUE.equals(codegenProperty.isModel)) {
             codegenParameter.isModel = true;
-        }
-        if (ps.get$ref() != null) {
-            codegenParameter.setRef(ps.get$ref());
         }
 
         codegenParameter.isFormParam = Boolean.TRUE;
@@ -7184,10 +7178,7 @@ public class DefaultCodegen implements CodegenConfig {
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         }
 
-        CodegenProperty cp = fromProperty(bodyParameterName, schema, false);
-        if (schema.get$ref() != null) {
-            codegenParameter.setRef(schema.get$ref());
-        }
+
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
         // set the parameter's example value
