@@ -322,10 +322,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         if (generateSourceCodeOnly) {
-            // tests in <package>/test
+            // tests in test
             testFolder = packagePath() + File.separatorChar + testFolder;
-            // api/model docs in <package>/docs
+            // api docs in <package>/docs/apis/tags/
             apiDocPath = packagePath() + File.separatorChar + apiDocPath;
+            // model docs in <package>/docs/models/
             modelDocPath = packagePath() + File.separatorChar + modelDocPath;
         }
         // make api and model doc path available in templates
