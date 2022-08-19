@@ -60,7 +60,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"}
+            new String[]{"travis.yml", ".travis.yml"},
+            new String[]{".babelrc.mustache", ".babelrc"}
     };
 
     final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = {
