@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class MaximumValidationWithUnsignedInteger(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         inclusive_maximum=300,
     ),
     schemas.AnyTypeSchema

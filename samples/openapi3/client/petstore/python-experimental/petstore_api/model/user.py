@@ -43,7 +43,7 @@ class User(
     
     
     class objectWithNoDeclaredPropsNullable(
-        schemas._SchemaTypeChecker(typing.Union[frozendict, schemas.NoneClass, ]),
+        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
         schemas.DictBase,
         schemas.NoneBase,
         schemas.Schema

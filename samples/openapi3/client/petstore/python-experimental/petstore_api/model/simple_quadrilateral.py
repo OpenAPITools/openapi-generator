@@ -51,7 +51,7 @@ class SimpleQuadrilateral(
             
             
             class quadrilateralType(
-                schemas._SchemaEnumMaker(
+                schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
                         "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
                     }

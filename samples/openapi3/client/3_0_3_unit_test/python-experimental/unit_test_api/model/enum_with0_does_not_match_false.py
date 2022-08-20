@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class EnumWith0DoesNotMatchFalse(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             0: "POSITIVE_0",
         }

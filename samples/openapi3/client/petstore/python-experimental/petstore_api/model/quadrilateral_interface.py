@@ -38,7 +38,7 @@ class QuadrilateralInterface(
     
     
     class shapeType(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "Quadrilateral": "QUADRILATERAL",
             }

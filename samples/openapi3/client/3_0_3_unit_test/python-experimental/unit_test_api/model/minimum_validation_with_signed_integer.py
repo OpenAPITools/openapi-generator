@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class MinimumValidationWithSignedInteger(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         inclusive_minimum=-2,
     ),
     schemas.AnyTypeSchema

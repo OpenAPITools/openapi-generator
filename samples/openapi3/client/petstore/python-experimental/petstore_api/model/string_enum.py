@@ -24,8 +24,8 @@ from petstore_api import schemas  # noqa: F401
 
 
 class StringEnum(
-    schemas._SchemaTypeChecker(typing.Union[schemas.NoneClass, str, ]),
-    schemas._SchemaEnumMaker(
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             schemas.NoneClass.NONE: "NONE",
             "placed": "PLACED",

@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class BooleanEnum(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             schemas.BoolClass.TRUE: "TRUE",
         }

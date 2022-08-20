@@ -78,7 +78,7 @@ class MapTest(
         
         
         class _additional_properties(
-            schemas._SchemaEnumMaker(
+            schemas.SchemaEnumMakerClsFactory(
                 enum_value_to_name={
                     "UPPER": "UPPER",
                     "lower": "LOWER",

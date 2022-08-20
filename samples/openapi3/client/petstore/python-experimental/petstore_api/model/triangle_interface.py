@@ -38,7 +38,7 @@ class TriangleInterface(
     
     
     class shapeType(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "Triangle": "TRIANGLE",
             }

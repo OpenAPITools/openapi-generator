@@ -40,7 +40,7 @@ class FormatTest(
     
     
     class integer(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=100,
             inclusive_minimum=10,
             multiple_of=2,
@@ -52,7 +52,7 @@ class FormatTest(
     
     
     class int32withValidations(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=200,
             inclusive_minimum=20,
         ),
@@ -63,7 +63,7 @@ class FormatTest(
     
     
     class number(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=543.2,
             inclusive_minimum=32.1,
             multiple_of=32.5,
@@ -74,7 +74,7 @@ class FormatTest(
     
     
     class _float(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=987.6,
             inclusive_minimum=54.3,
         ),
@@ -97,7 +97,7 @@ class FormatTest(
     
     
     class double(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=123.4,
             inclusive_minimum=67.8,
         ),
@@ -108,7 +108,7 @@ class FormatTest(
     
     
     class arrayWithUniqueItems(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             unique_items=True,
         ),
         schemas.ListSchema
@@ -117,7 +117,7 @@ class FormatTest(
     
     
     class string(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'[a-z]',  # noqa: E501
                 'flags': (
@@ -137,7 +137,7 @@ class FormatTest(
     
     
     class password(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             max_length=64,
             min_length=10,
         ),
@@ -147,7 +147,7 @@ class FormatTest(
     
     
     class pattern_with_digits(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'^\d{10}$',  # noqa: E501
             }],
@@ -158,7 +158,7 @@ class FormatTest(
     
     
     class pattern_with_digits_and_delimiter(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'^image_\d{1,3}$',  # noqa: E501
                 'flags': (

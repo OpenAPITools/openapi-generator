@@ -32,7 +32,7 @@ class EnumQueryStringArraySchema(
     
     
     class _items(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 ">": "GREATER_THAN",
                 "$": "DOLLAR",
@@ -53,7 +53,7 @@ class EnumQueryStringArraySchema(
 
 
 class EnumQueryStringSchema(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "_abc": "_ABC",
             "-efg": "EFG",
@@ -80,7 +80,7 @@ class EnumQueryStringSchema(
 
 
 class EnumQueryIntegerSchema(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1: "POSITIVE_1",
             -2: "NEGATIVE_2",
@@ -101,7 +101,7 @@ class EnumQueryIntegerSchema(
 
 
 class EnumQueryDoubleSchema(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1.1: "POSITIVE_1_PT_1",
             -1.2: "NEGATIVE_1_PT_2",
@@ -173,7 +173,7 @@ class EnumHeaderStringArraySchema(
     
     
     class _items(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 ">": "GREATER_THAN",
                 "$": "DOLLAR",
@@ -194,7 +194,7 @@ class EnumHeaderStringArraySchema(
 
 
 class EnumHeaderStringSchema(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "_abc": "_ABC",
             "-efg": "EFG",
@@ -261,7 +261,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         
         
         class _items(
-            schemas._SchemaEnumMaker(
+            schemas.SchemaEnumMakerClsFactory(
                 enum_value_to_name={
                     ">": "GREATER_THAN",
                     "$": "DOLLAR",
@@ -282,7 +282,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class enum_form_string(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "_abc": "_ABC",
                 "-efg": "EFG",

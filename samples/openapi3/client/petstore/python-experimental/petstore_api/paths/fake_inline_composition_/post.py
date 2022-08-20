@@ -44,7 +44,7 @@ class CompositionAtRootSchema(
         
         
         class all_of_0(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 min_length=1,
             ),
             schemas.StrSchema
@@ -99,7 +99,7 @@ class CompositionInPropertySchema(
             
             
             class all_of_0(
-                schemas._SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
                 schemas.StrSchema
@@ -197,7 +197,7 @@ class SchemaForRequestBodyApplicationJson(
         
         
         class all_of_0(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 min_length=1,
             ),
             schemas.StrSchema
@@ -252,7 +252,7 @@ class SchemaForRequestBodyMultipartFormData(
             
             
             class all_of_0(
-                schemas._SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
                 schemas.StrSchema
@@ -328,7 +328,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         
         
         class all_of_0(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 min_length=1,
             ),
             schemas.StrSchema
@@ -383,7 +383,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
             
             
             class all_of_0(
-                schemas._SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
                 schemas.StrSchema

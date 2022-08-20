@@ -37,7 +37,7 @@ class DanishPig(
     
     
     class className(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "DanishPig": "DANISH_PIG",
             }

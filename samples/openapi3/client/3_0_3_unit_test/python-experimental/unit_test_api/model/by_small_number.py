@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class BySmallNumber(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         multiple_of=0.00010,
     ),
     schemas.AnyTypeSchema

@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class NumberWithValidations(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         inclusive_maximum=20,
         inclusive_minimum=10,
     ),

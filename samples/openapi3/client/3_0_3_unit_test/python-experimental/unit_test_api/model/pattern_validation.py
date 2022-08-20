@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class PatternValidation(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         regex=[{
             'pattern': r'^a*$',  # noqa: E501
         }],

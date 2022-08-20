@@ -51,7 +51,7 @@ class IsoscelesTriangle(
             
             
             class triangleType(
-                schemas._SchemaEnumMaker(
+                schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
                         "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
                     }

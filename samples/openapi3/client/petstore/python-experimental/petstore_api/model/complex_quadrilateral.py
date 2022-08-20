@@ -51,7 +51,7 @@ class ComplexQuadrilateral(
             
             
             class quadrilateralType(
-                schemas._SchemaEnumMaker(
+                schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
                         "ComplexQuadrilateral": "COMPLEX_QUADRILATERAL",
                     }

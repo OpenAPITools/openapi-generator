@@ -51,7 +51,7 @@ class ObjectWithInlineCompositionProperty(
             
             
             class all_of_0(
-                schemas._SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
                 schemas.StrSchema

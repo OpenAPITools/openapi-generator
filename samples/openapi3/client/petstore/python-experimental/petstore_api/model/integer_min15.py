@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class IntegerMin15(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         inclusive_minimum=15,
     ),
     schemas.Int64Schema

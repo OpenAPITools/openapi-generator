@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class Apple(
-    schemas._SchemaTypeChecker(typing.Union[frozendict, schemas.NoneClass, ]),
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
     schemas.DictBase,
     schemas.NoneBase,
     schemas.Schema
@@ -40,7 +40,7 @@ class Apple(
     
     
     class cultivar(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
             }],
@@ -51,7 +51,7 @@ class Apple(
     
     
     class origin(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'^[A-Z\s]*$',  # noqa: E501
                 'flags': (

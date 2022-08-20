@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class Maxproperties0MeansTheObjectIsEmpty(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         max_properties=0,
     ),
     schemas.AnyTypeSchema

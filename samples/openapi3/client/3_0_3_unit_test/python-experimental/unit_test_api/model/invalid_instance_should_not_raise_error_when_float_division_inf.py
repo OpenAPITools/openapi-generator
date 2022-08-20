@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         multiple_of=0.123456789,
     ),
     schemas.IntSchema

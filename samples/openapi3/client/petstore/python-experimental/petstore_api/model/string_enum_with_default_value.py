@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class StringEnumWithDefaultValue(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "placed": "PLACED",
             "approved": "APPROVED",

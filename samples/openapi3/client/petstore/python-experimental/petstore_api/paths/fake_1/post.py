@@ -38,7 +38,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class integer(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=100,
             inclusive_minimum=10,
         ),
@@ -48,7 +48,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class int32(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=200,
             inclusive_minimum=20,
         ),
@@ -59,7 +59,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class number(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=543.2,
             inclusive_minimum=32.1,
         ),
@@ -69,7 +69,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class _float(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=987.6,
         ),
         schemas.Float32Schema
@@ -90,7 +90,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class double(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=123.4,
             inclusive_minimum=67.8,
         ),
@@ -100,7 +100,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class string(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'[a-z]',  # noqa: E501
                 'flags': (
@@ -114,7 +114,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class pattern_without_delimiter(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             regex=[{
                 'pattern': r'^[A-Z].*',  # noqa: E501
             }],
@@ -129,7 +129,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class password(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             max_length=64,
             min_length=10,
         ),

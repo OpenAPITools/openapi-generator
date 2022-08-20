@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class Currency(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "eur": "EUR",
             "usd": "USD",

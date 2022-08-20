@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class DateTimeWithValidations(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         regex=[{
             'pattern': r'^2020.*',  # noqa: E501
         }],

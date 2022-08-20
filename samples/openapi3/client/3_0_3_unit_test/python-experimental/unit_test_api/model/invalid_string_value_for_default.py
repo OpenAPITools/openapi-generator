@@ -34,7 +34,7 @@ class InvalidStringValueForDefault(
     
     
     class bar(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             min_length=4,
         ),
         schemas.StrSchema

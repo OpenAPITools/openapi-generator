@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class MinitemsValidation(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         min_items=1,
     ),
     schemas.AnyTypeSchema

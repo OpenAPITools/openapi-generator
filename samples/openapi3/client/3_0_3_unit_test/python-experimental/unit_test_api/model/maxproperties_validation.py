@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class MaxpropertiesValidation(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         max_properties=2,
     ),
     schemas.AnyTypeSchema

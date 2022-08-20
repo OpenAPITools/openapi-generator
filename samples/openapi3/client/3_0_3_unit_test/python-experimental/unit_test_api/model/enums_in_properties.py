@@ -37,7 +37,7 @@ class EnumsInProperties(
     
     
     class foo(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "foo": "FOO",
             }
@@ -52,7 +52,7 @@ class EnumsInProperties(
     
     
     class bar(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "bar": "BAR",
             }

@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class SimpleEnumValidation(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1: "POSITIVE_1",
             2: "POSITIVE_2",

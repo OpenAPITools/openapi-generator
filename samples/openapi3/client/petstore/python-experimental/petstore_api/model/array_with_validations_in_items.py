@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class ArrayWithValidationsInItems(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         max_items=2,
     ),
     schemas.ListSchema
@@ -37,7 +37,7 @@ class ArrayWithValidationsInItems(
     
     
     class _items(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=7,
         ),
         schemas.Int64Schema

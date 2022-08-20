@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class UniqueitemsValidation(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         unique_items=True,
     ),
     schemas.AnyTypeSchema

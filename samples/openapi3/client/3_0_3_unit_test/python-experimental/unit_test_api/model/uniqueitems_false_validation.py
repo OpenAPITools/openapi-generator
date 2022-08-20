@@ -24,7 +24,7 @@ from unit_test_api import schemas  # noqa: F401
 
 
 class UniqueitemsFalseValidation(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
     ),
     schemas.AnyTypeSchema
 ):

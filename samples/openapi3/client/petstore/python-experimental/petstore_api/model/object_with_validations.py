@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class ObjectWithValidations(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         min_properties=2,
     ),
     schemas.DictSchema

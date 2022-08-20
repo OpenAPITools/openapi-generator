@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class IntegerEnumBig(
-    schemas._SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             10: "POSITIVE_10",
             11: "POSITIVE_11",

@@ -24,7 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class NullableString(
-    schemas._SchemaTypeChecker(typing.Union[schemas.NoneClass, str, ]),
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
     schemas.StrBase,
     schemas.NoneBase,
     schemas.Schema

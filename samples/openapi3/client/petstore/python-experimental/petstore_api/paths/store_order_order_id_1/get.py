@@ -29,7 +29,7 @@ from . import path
 
 
 class OrderIdSchema(
-    schemas._SchemaValidator(
+    schemas.SchemaValidatorClsFactory(
         inclusive_maximum=5,
         inclusive_minimum=1,
     ),

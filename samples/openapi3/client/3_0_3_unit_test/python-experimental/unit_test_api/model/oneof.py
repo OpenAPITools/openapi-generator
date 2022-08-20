@@ -47,7 +47,7 @@ class Oneof(
         
         
         class one_of_1(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 inclusive_minimum=2,
             ),
             schemas.AnyTypeSchema

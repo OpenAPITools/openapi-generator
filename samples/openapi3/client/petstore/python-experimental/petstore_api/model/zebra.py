@@ -37,7 +37,7 @@ class Zebra(
     
     
     class type(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "plains": "PLAINS",
                 "mountain": "MOUNTAIN",
@@ -64,7 +64,7 @@ class Zebra(
     
     
     class className(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "zebra": "ZEBRA",
             }

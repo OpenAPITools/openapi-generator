@@ -38,7 +38,7 @@ class Order(
     
     
     class status(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "placed": "PLACED",
                 "approved": "APPROVED",

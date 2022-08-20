@@ -34,7 +34,7 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
     
     
     class alpha(
-        schemas._SchemaValidator(
+        schemas.SchemaValidatorClsFactory(
             inclusive_maximum=3,
         ),
         schemas.NumberSchema

@@ -50,7 +50,7 @@ class ComposedOneOfDifferentTypes(
         
         
         class one_of_4(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 max_properties=4,
                 min_properties=4,
             ),
@@ -73,7 +73,7 @@ class ComposedOneOfDifferentTypes(
         
         
         class one_of_5(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 max_items=4,
                 min_items=4,
             ),
@@ -83,7 +83,7 @@ class ComposedOneOfDifferentTypes(
         
         
         class one_of_6(
-            schemas._SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 regex=[{
                     'pattern': r'^2020.*',  # noqa: E501
                 }],

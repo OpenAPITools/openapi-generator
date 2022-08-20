@@ -63,7 +63,7 @@ class Pet(
     
     
     class status(
-        schemas._SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "available": "AVAILABLE",
                 "pending": "PENDING",
