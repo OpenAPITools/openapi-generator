@@ -14,9 +14,7 @@ from datetime import date, datetime, timedelta  # noqa: F401
 import functools
 import decimal
 import io
-import os
 import re
-import tempfile
 import typing
 import uuid
 
@@ -446,7 +444,7 @@ class Validator(typing.Protocol):
         pass
 
 
-def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
+def SchemaValidatorClsFactory(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
     class SchemaValidator(ValidatorBase):
         @classmethod
         def _validate(
@@ -464,7 +462,7 @@ def _SchemaValidator(**validations: typing.Union[str, bool, None, int, float, li
     return SchemaValidator
 
 
-def _SchemaTypeChecker(union_type_cls: typing.Union[typing.Any]) -> Validator:
+def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Validator:
     if typing.get_origin(union_type_cls) is typing.Union:
         union_classes = typing.get_args(union_type_cls)
     else:
@@ -563,7 +561,7 @@ class EnumMakerInterface(Validator):
         pass
 
 
-def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
+def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
     class SchemaEnumMaker(EnumMakerBase):
         @classmethod
         @property
@@ -1733,7 +1731,7 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    _SchemaTypeChecker(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict]),
+    SchemaTypeCheckerClsFactory(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict]),
     ComposedBase,
     DictBase,
     ListBase,
@@ -1757,7 +1755,7 @@ class ComposedSchema(
 
 
 class ListSchema(
-    _SchemaTypeChecker(typing.Union[tuple]),
+    SchemaTypeCheckerClsFactory(typing.Union[tuple]),
     ListBase,
     Schema
 ):
@@ -1771,7 +1769,7 @@ class ListSchema(
 
 
 class NoneSchema(
-    _SchemaTypeChecker(typing.Union[NoneClass]),
+    SchemaTypeCheckerClsFactory(typing.Union[NoneClass]),
     NoneBase,
     Schema
 ):
@@ -1785,7 +1783,7 @@ class NoneSchema(
 
 
 class NumberSchema(
-    _SchemaTypeChecker(typing.Union[decimal.Decimal]),
+    SchemaTypeCheckerClsFactory(typing.Union[decimal.Decimal]),
     NumberBase,
     Schema
 ):
@@ -1846,7 +1844,7 @@ class IntSchema(IntBase, NumberSchema):
 
 
 class Int32Base(
-    _SchemaValidator(
+    SchemaValidatorClsFactory(
         inclusive_minimum=decimal.Decimal(-2147483648),
         inclusive_maximum=decimal.Decimal(2147483647)
     ),
@@ -1862,7 +1860,7 @@ class Int32Schema(
 
 
 class Int64Base(
-    _SchemaValidator(
+    SchemaValidatorClsFactory(
         inclusive_minimum=decimal.Decimal(-9223372036854775808),
         inclusive_maximum=decimal.Decimal(9223372036854775807)
     ),
@@ -1878,7 +1876,7 @@ class Int64Schema(
 
 
 class Float32Base(
-    _SchemaValidator(
+    SchemaValidatorClsFactory(
         inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
         inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
     ),
@@ -1898,7 +1896,7 @@ class Float32Schema(
 
 
 class Float64Base(
-    _SchemaValidator(
+    SchemaValidatorClsFactory(
         inclusive_minimum=decimal.Decimal(-1.7976931348623157E+308),
         inclusive_maximum=decimal.Decimal(1.7976931348623157E+308)
     ),
@@ -1918,7 +1916,7 @@ class Float64Schema(
 
 
 class StrSchema(
-    _SchemaTypeChecker(typing.Union[str]),
+    SchemaTypeCheckerClsFactory(typing.Union[str]),
     StrBase,
     Schema
 ):
@@ -1970,7 +1968,7 @@ class DecimalSchema(DecimalBase, StrSchema):
 
 
 class BytesSchema(
-    _SchemaTypeChecker(typing.Union[bytes]),
+    SchemaTypeCheckerClsFactory(typing.Union[bytes]),
     Schema,
 ):
     """
@@ -1981,7 +1979,7 @@ class BytesSchema(
 
 
 class FileSchema(
-    _SchemaTypeChecker(typing.Union[FileIO]),
+    SchemaTypeCheckerClsFactory(typing.Union[FileIO]),
     Schema,
 ):
     """
@@ -2010,7 +2008,7 @@ class BinaryBase:
 
 
 class BinarySchema(
-    _SchemaTypeChecker(typing.Union[bytes, FileIO]),
+    SchemaTypeCheckerClsFactory(typing.Union[bytes, FileIO]),
     ComposedBase,
     BinaryBase,
     Schema,
@@ -2042,7 +2040,7 @@ class BinarySchema(
 
 
 class BoolSchema(
-    _SchemaTypeChecker(typing.Union[BoolClass]),
+    SchemaTypeCheckerClsFactory(typing.Union[BoolClass]),
     BoolBase,
     Schema
 ):
@@ -2056,7 +2054,7 @@ class BoolSchema(
 
 
 class AnyTypeSchema(
-    _SchemaTypeChecker(
+    SchemaTypeCheckerClsFactory(
         typing.Union[frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
     ),
     DictBase,
@@ -2071,7 +2069,7 @@ class AnyTypeSchema(
 
 
 class DictSchema(
-    _SchemaTypeChecker(typing.Union[frozendict]),
+    SchemaTypeCheckerClsFactory(typing.Union[frozendict]),
     DictBase,
     Schema
 ):

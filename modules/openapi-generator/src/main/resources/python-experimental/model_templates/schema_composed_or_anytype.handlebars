@@ -6,16 +6,16 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
 {{#if getIsAnyType}}
     {{#if composedSchemas}}
-    ComposedSchema
+    schemas.ComposedSchema
     {{else}}
-    AnyTypeSchema
+    schemas.AnyTypeSchema
     {{/if}}
 {{else}}
     {{#if getHasMultipleTypes}}
-    _SchemaTypeChecker(typing.Union[{{#if isArray}}tuple, {{/if}}{{#if isMap}}frozendict, {{/if}}{{#if isNull}}NoneClass, {{/if}}{{#if isString}}str, {{/if}}{{#if isByteArray}}str, {{/if}}{{#if isUnboundedInteger}}decimal.Decimal, {{/if}}{{#if isShort}}decimal.Decimal, {{/if}}{{#if isLong}}decimal.Decimal, {{/if}}{{#if isFloat}}decimal.Decimal, {{/if}}{{#if isDouble}}decimal.Decimal, {{/if}}{{#if isNumber}}decimal.Decimal, {{/if}}{{#if isDate}}str, {{/if}}{{#if isDateTime}}str, {{/if}}{{#if isDecimal}}str, {{/if}}{{#if isBoolean}}BoolClass, {{/if}}]),
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isArray}}tuple, {{/if}}{{#if isMap}}frozendict, {{/if}}{{#if isNull}}schemas.NoneClass, {{/if}}{{#if isString}}str, {{/if}}{{#if isByteArray}}str, {{/if}}{{#if isUnboundedInteger}}decimal.Decimal, {{/if}}{{#if isShort}}decimal.Decimal, {{/if}}{{#if isLong}}decimal.Decimal, {{/if}}{{#if isFloat}}decimal.Decimal, {{/if}}{{#if isDouble}}decimal.Decimal, {{/if}}{{#if isNumber}}decimal.Decimal, {{/if}}{{#if isDate}}str, {{/if}}{{#if isDateTime}}str, {{/if}}{{#if isDecimal}}str, {{/if}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
     {{/if}}
     {{#if composedSchemas}}
-    ComposedBase,
+    schemas.ComposedBase,
     {{/if}}
     {{#if isEnum}}
     {{> model_templates/enum_value_to_name }}

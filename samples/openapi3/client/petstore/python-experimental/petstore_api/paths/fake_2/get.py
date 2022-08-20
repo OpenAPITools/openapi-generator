@@ -19,52 +19,7 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,18 +27,18 @@ from . import path
 
 
 class EnumQueryStringArraySchema(
-    ListSchema
+    schemas.ListSchema
 ):
     
     
     class _items(
-        _SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 ">": "GREATER_THAN",
                 "$": "DOLLAR",
             }
         ),
-        StrSchema
+        schemas.StrSchema
     ):
         
         @classmethod
@@ -98,14 +53,14 @@ class EnumQueryStringArraySchema(
 
 
 class EnumQueryStringSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
         }
     ),
-    StrSchema
+    schemas.StrSchema
 ):
     
     @classmethod
@@ -125,13 +80,13 @@ class EnumQueryStringSchema(
 
 
 class EnumQueryIntegerSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1: "POSITIVE_1",
             -2: "NEGATIVE_2",
         }
     ),
-    Int32Schema
+    schemas.Int32Schema
 ):
     
     @classmethod
@@ -146,13 +101,13 @@ class EnumQueryIntegerSchema(
 
 
 class EnumQueryDoubleSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1.1: "POSITIVE_1_PT_1",
             -1.2: "NEGATIVE_1_PT_2",
         }
     ),
-    Float64Schema
+    schemas.Float64Schema
 ):
     
     @classmethod
@@ -213,18 +168,18 @@ request_query_enum_query_double = api_client.QueryParameter(
 
 
 class EnumHeaderStringArraySchema(
-    ListSchema
+    schemas.ListSchema
 ):
     
     
     class _items(
-        _SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 ">": "GREATER_THAN",
                 "$": "DOLLAR",
             }
         ),
-        StrSchema
+        schemas.StrSchema
     ):
         
         @classmethod
@@ -239,14 +194,14 @@ class EnumHeaderStringArraySchema(
 
 
 class EnumHeaderStringSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
         }
     ),
-    StrSchema
+    schemas.StrSchema
 ):
     
     @classmethod
@@ -296,23 +251,23 @@ request_header_enum_header_string = api_client.HeaderParameter(
 
 
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
-    DictSchema
+    schemas.DictSchema
 ):
     
     
     class enum_form_string_array(
-        ListSchema
+        schemas.ListSchema
     ):
         
         
         class _items(
-            _SchemaEnumMaker(
+            schemas.SchemaEnumMakerClsFactory(
                 enum_value_to_name={
                     ">": "GREATER_THAN",
                     "$": "DOLLAR",
                 }
             ),
-            StrSchema
+            schemas.StrSchema
         ):
             
             @classmethod
@@ -327,14 +282,14 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class enum_form_string(
-        _SchemaEnumMaker(
+        schemas.SchemaEnumMakerClsFactory(
             enum_value_to_name={
                 "_abc": "_ABC",
                 "-efg": "EFG",
                 "(xyz)": "XYZ",
             }
         ),
-        StrSchema
+        schemas.StrSchema
     ):
         
         @classmethod
@@ -356,10 +311,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        enum_form_string_array: typing.Union[enum_form_string_array, Unset] = unset,
-        enum_form_string: typing.Union[enum_form_string, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        enum_form_string_array: typing.Union[enum_form_string_array, schemas.Unset] = schemas.unset,
+        enum_form_string: typing.Union[enum_form_string, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -382,8 +337,8 @@ request_body_body = api_client.RequestBody(
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -394,8 +349,8 @@ _response_for_400 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_404 = api_client.OpenApiResponse(
@@ -411,7 +366,7 @@ class BaseApi(api_client.Api):
 
     def _enum_parameters(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
@@ -438,8 +393,8 @@ class BaseApi(api_client.Api):
             request_query_enum_query_integer,
             request_query_enum_query_double,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -452,8 +407,8 @@ class BaseApi(api_client.Api):
             request_header_enum_header_string_array,
             request_header_enum_header_string,
         ):
-            parameter_data = header_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
@@ -461,7 +416,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -498,7 +453,7 @@ class EnumParameters(BaseApi):
 
     def enum_parameters(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
@@ -524,7 +479,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',

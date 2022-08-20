@@ -19,52 +19,7 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,7 +27,7 @@ from . import path
 
 
 class CompositionAtRootSchema(
-    ComposedSchema
+    schemas.ComposedSchema
 ):
 
     @classmethod
@@ -89,10 +44,10 @@ class CompositionAtRootSchema(
         
         
         class all_of_0(
-            _SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 min_length=1,
             ),
-            StrSchema
+            schemas.StrSchema
         ):
             pass
         return {
@@ -110,8 +65,8 @@ class CompositionAtRootSchema(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'CompositionAtRootSchema':
         return super().__new__(
             cls,
@@ -122,12 +77,12 @@ class CompositionAtRootSchema(
 
 
 class CompositionInPropertySchema(
-    DictSchema
+    schemas.DictSchema
 ):
     
     
     class someProp(
-        ComposedSchema
+        schemas.ComposedSchema
     ):
     
         @classmethod
@@ -144,10 +99,10 @@ class CompositionInPropertySchema(
             
             
             class all_of_0(
-                _SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
-                StrSchema
+                schemas.StrSchema
             ):
                 pass
             return {
@@ -165,8 +120,8 @@ class CompositionInPropertySchema(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
         ) -> 'someProp':
             return super().__new__(
                 cls,
@@ -179,9 +134,9 @@ class CompositionInPropertySchema(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        someProp: typing.Union[someProp, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'CompositionInPropertySchema':
         return super().__new__(
             cls,
@@ -225,7 +180,7 @@ request_query_composition_in_property = api_client.QueryParameter(
 
 
 class SchemaForRequestBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema
 ):
 
     @classmethod
@@ -242,10 +197,10 @@ class SchemaForRequestBodyApplicationJson(
         
         
         class all_of_0(
-            _SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 min_length=1,
             ),
-            StrSchema
+            schemas.StrSchema
         ):
             pass
         return {
@@ -263,8 +218,8 @@ class SchemaForRequestBodyApplicationJson(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -275,12 +230,12 @@ class SchemaForRequestBodyApplicationJson(
 
 
 class SchemaForRequestBodyMultipartFormData(
-    DictSchema
+    schemas.DictSchema
 ):
     
     
     class someProp(
-        ComposedSchema
+        schemas.ComposedSchema
     ):
     
         @classmethod
@@ -297,10 +252,10 @@ class SchemaForRequestBodyMultipartFormData(
             
             
             class all_of_0(
-                _SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
-                StrSchema
+                schemas.StrSchema
             ):
                 pass
             return {
@@ -318,8 +273,8 @@ class SchemaForRequestBodyMultipartFormData(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
         ) -> 'someProp':
             return super().__new__(
                 cls,
@@ -332,9 +287,9 @@ class SchemaForRequestBodyMultipartFormData(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        someProp: typing.Union[someProp, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -356,7 +311,7 @@ request_body_any_type = api_client.RequestBody(
 
 
 class SchemaFor200ResponseBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema
 ):
 
     @classmethod
@@ -373,10 +328,10 @@ class SchemaFor200ResponseBodyApplicationJson(
         
         
         class all_of_0(
-            _SchemaValidator(
+            schemas.SchemaValidatorClsFactory(
                 min_length=1,
             ),
-            StrSchema
+            schemas.StrSchema
         ):
             pass
         return {
@@ -394,8 +349,8 @@ class SchemaFor200ResponseBodyApplicationJson(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -406,12 +361,12 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
 class SchemaFor200ResponseBodyMultipartFormData(
-    DictSchema
+    schemas.DictSchema
 ):
     
     
     class someProp(
-        ComposedSchema
+        schemas.ComposedSchema
     ):
     
         @classmethod
@@ -428,10 +383,10 @@ class SchemaFor200ResponseBodyMultipartFormData(
             
             
             class all_of_0(
-                _SchemaValidator(
+                schemas.SchemaValidatorClsFactory(
                     min_length=1,
                 ),
-                StrSchema
+                schemas.StrSchema
             ):
                 pass
             return {
@@ -449,8 +404,8 @@ class SchemaFor200ResponseBodyMultipartFormData(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
         ) -> 'someProp':
             return super().__new__(
                 cls,
@@ -463,9 +418,9 @@ class SchemaFor200ResponseBodyMultipartFormData(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        someProp: typing.Union[someProp, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaFor200ResponseBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -483,7 +438,7 @@ class ApiResponseFor200(api_client.ApiResponse):
         SchemaFor200ResponseBodyApplicationJson,
         SchemaFor200ResponseBodyMultipartFormData,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -508,7 +463,7 @@ class BaseApi(api_client.Api):
 
     def _inline_composition(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -533,8 +488,8 @@ class BaseApi(api_client.Api):
             request_query_composition_at_root,
             request_query_composition_in_property,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -550,7 +505,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_any_type.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -587,7 +542,7 @@ class InlineComposition(BaseApi):
 
     def inline_composition(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -614,7 +569,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
