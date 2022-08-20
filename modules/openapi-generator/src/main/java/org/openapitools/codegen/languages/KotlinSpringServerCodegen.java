@@ -677,14 +677,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.example = null;
         }
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if(hasInlineEnums(model)) {
                 model.imports.add("JsonValue");
             }
         } else {
-            //Needed imports for Jackson's JsonCreator
+            // Needed imports for Jackson's JsonCreator
             if (additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonCreator");
             }
@@ -695,11 +695,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
+    private boolean hasInlineEnums(CodegenModel model) {
+        return Boolean.TRUE.equals(model.hasEnums) && model.vars.stream().anyMatch(property -> property.isInlineEnum);
+    }
+
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
 
         objs.getModels().stream()

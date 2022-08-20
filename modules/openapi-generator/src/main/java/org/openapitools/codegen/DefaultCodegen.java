@@ -3676,7 +3676,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        //Inline enum case:
+        // Inline enum case:
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             List<Object> _enum = p.getEnum();
             property._enum = new ArrayList<>();
@@ -3685,25 +3685,24 @@ public class DefaultCodegen implements CodegenConfig {
             }
             property.isEnum = true;
             property.isInnerEnum = true;
+            property.isInlineEnum = true;
 
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
+            property.allowableValues = allowableValues;
         }
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
-        //Referenced enum case:
+        // Referenced enum case:
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
+            property.isEnum = true;
+
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
+            property.allowableValues = allowableValues;
         }
 
         if (referencedSchema.getNullable() != null) {
@@ -3834,6 +3833,7 @@ public class DefaultCodegen implements CodegenConfig {
             // or the inner type of an array/map is an enum
             property.isEnum = true;
             property.isInnerEnum = true;
+            property.isInlineEnum = isPropertyInnerMostEnumDefinedAsInline(property);
             // update datatypeWithEnum and default value for array
             // e.g. List<string> => List<StatusEnum>
             updateDataTypeWithEnumForArray(property);
@@ -3871,6 +3871,7 @@ public class DefaultCodegen implements CodegenConfig {
             // or the inner type of an array/map is an enum
             property.isEnum = true;
             property.isInnerEnum = true;
+            property.isInlineEnum = isPropertyInnerMostEnumDefinedAsInline(property);
             // update datatypeWithEnum and default value for map
             // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
             updateDataTypeWithEnumForMap(property);
@@ -3890,6 +3891,18 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty currentProperty = getMostInnerItems(property);
 
         return currentProperty != null && currentProperty.isEnum;
+    }
+
+    /**
+     * Is inner most enum defined as inline.
+     *
+     * @param property Codegen property
+     * @return True if the inner most type is enum and defined as enum
+     */
+    protected boolean isPropertyInnerMostEnumDefinedAsInline(CodegenProperty property) {
+        CodegenProperty currentProperty = getMostInnerItems(property);
+
+        return currentProperty != null && currentProperty.isEnum && currentProperty.isInlineEnum;
     }
 
     protected CodegenProperty getMostInnerItems(CodegenProperty property) {

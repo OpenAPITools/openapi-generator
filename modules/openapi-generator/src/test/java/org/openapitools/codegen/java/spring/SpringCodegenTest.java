@@ -312,7 +312,7 @@ public class SpringCodegenTest {
         codegen.processOpts();
 
         // jdk8 tag has been removed
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), null);
+        Assert.assertNull(codegen.additionalProperties().get("jdk8"));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -435,7 +435,7 @@ public class SpringCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
@@ -538,7 +538,7 @@ public class SpringCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
@@ -684,7 +684,7 @@ public class SpringCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
@@ -695,7 +695,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
         Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.isUnhandledException(), true);
+        Assert.assertTrue(codegen.isUnhandledException());
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
     }
 
@@ -1498,5 +1498,30 @@ public class SpringCodegenTest {
                              "  @JsonSubTypes.Type(value = Cat.class, name = \"cat\")" +
                              "})";
         assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/model/Pet.java"), jsonTypeInfo, jsonSubType);
+    }
+
+    @Test
+    public void whenInlineEnumInMultipartRequest_thenAnnotatedWithRequestParam_issue5676() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/issue-5676-enums.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        String multipartFormDataEnumParameters = "default ResponseEntity<EnumPatternObject> fakeRequestMultipartWithReferencedEnum(\n" +
+            "        @Parameter(name = \"id\", description = \"\") @Valid @RequestParam(value = \"id\", required = false) BigDecimal id,\n" +
+            "        @Parameter(name = \"enumType\", description = \"\") @Valid @RequestParam(value = \"enumType\", required = false) StringEnum enumType\n" +
+            "    ) ";
+        assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/api/FakeApi.java"), multipartFormDataEnumParameters);
     }
 }

@@ -56,6 +56,8 @@ import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class DefaultCodegenTest {
 
@@ -4244,5 +4246,145 @@ public class DefaultCodegenTest {
         Assert.assertFalse(fooOptional.vars.get(0).required);
         Assert.assertEquals(fooOptional.vars.get(0).name, "foo");
         Assert.assertEquals(fooOptional.requiredVars.size(), 0);
+    }
+
+    @Test
+    public void testReferencedEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestObjectWithReferencedEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty referencedEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        assertThat(schemaWithReferencedEnum).isNotNull();
+        assertThat(modelWithReferencedSchema.hasEnums).isTrue();
+        assertThat(referencedEnumSchemaProperty.getName()).isEqualTo("enumType");
+        assertThat(referencedEnumSchemaProperty.isEnum).isTrue();
+        assertThat(referencedEnumSchemaProperty.isInnerEnum).isFalse();
+        assertThat(referencedEnumSchemaProperty.isInlineEnum).isFalse();
+        assertThat(referencedEnumSchemaProperty.isString).isFalse();
+        assertThat(referencedEnumSchemaProperty.isContainer).isFalse();
+        assertThat(referencedEnumSchemaProperty.isPrimitiveType).isFalse();
+    }
+
+    @Test
+    public void testInlineEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestObjectWithInlineEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty inlineEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        assertThat(schemaWithReferencedEnum).isNotNull();
+        assertThat(modelWithReferencedSchema.hasEnums).isTrue();
+        assertThat(inlineEnumSchemaProperty.getName()).isEqualTo("enumType");
+        assertThat(inlineEnumSchemaProperty.isEnum).isTrue();
+        assertThat(inlineEnumSchemaProperty.isInnerEnum).isTrue();
+        assertThat(inlineEnumSchemaProperty.isInlineEnum).isTrue();
+        assertThat(inlineEnumSchemaProperty.isString).isTrue();
+        assertThat(inlineEnumSchemaProperty.isContainer).isFalse();
+        assertThat(inlineEnumSchemaProperty.isPrimitiveType).isFalse();
+    }
+
+    @Test
+    public void testArrayOfInlineEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestArrayWithInlineEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty arrayInlineEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        assertThat(schemaWithReferencedEnum).isNotNull();
+        assertThat(modelWithReferencedSchema.hasEnums).isTrue();
+        assertThat(arrayInlineEnumSchemaProperty.getName()).isEqualTo("enumTypes");
+        assertThat(arrayInlineEnumSchemaProperty.isEnum).isTrue();
+        assertThat(arrayInlineEnumSchemaProperty.isInnerEnum).isTrue();
+        assertThat(arrayInlineEnumSchemaProperty.isInlineEnum).isTrue();
+        assertThat(arrayInlineEnumSchemaProperty.isString).isFalse();
+        assertThat(arrayInlineEnumSchemaProperty.isContainer).isTrue();
+        assertThat(arrayInlineEnumSchemaProperty.isArray).isTrue();
+        assertThat(arrayInlineEnumSchemaProperty.isMap).isFalse();
+        assertThat(arrayInlineEnumSchemaProperty.isPrimitiveType).isFalse();
+    }
+
+    @Test
+    public void testArrayOfReferencedEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestArrayWithReferencedEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty arrayReferencedEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        assertThat(schemaWithReferencedEnum).isNotNull();
+        assertThat(modelWithReferencedSchema.hasEnums).isTrue();
+        assertThat(arrayReferencedEnumSchemaProperty.getName()).isEqualTo("enumTypes");
+        assertThat(arrayReferencedEnumSchemaProperty.isEnum).isTrue();
+        assertThat(arrayReferencedEnumSchemaProperty.isInnerEnum).isTrue();
+        assertThat(arrayReferencedEnumSchemaProperty.isInlineEnum).isFalse();
+        assertThat(arrayReferencedEnumSchemaProperty.isString).isFalse();
+        assertThat(arrayReferencedEnumSchemaProperty.isContainer).isTrue();
+        assertThat(arrayReferencedEnumSchemaProperty.isArray).isTrue();
+        assertThat(arrayReferencedEnumSchemaProperty.isMap).isFalse();
+        assertThat(arrayReferencedEnumSchemaProperty.isPrimitiveType).isFalse();
+    }
+
+    @Test
+    public void testMapOfInlineEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestMapWithInlineEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty mapInlineEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        assertThat(schemaWithReferencedEnum).isNotNull();
+        assertThat(modelWithReferencedSchema.hasEnums).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.getName()).isEqualTo("enumTypes");
+        assertThat(mapInlineEnumSchemaProperty.isEnum).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isInnerEnum).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isInlineEnum).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isString).isFalse();
+        assertThat(mapInlineEnumSchemaProperty.isContainer).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isArray).isFalse();
+        assertThat(mapInlineEnumSchemaProperty.isMap).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isPrimitiveType).isFalse();
+    }
+
+    @Test
+    public void testMapOfReferencedEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestMapWithReferencedEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty mapInlineEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        assertThat(schemaWithReferencedEnum).isNotNull();
+        assertThat(modelWithReferencedSchema.hasEnums).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.getName()).isEqualTo("enumTypes");
+        assertThat(mapInlineEnumSchemaProperty.isEnum).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isInnerEnum).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isInlineEnum).isFalse();
+        assertThat(mapInlineEnumSchemaProperty.isString).isFalse();
+        assertThat(mapInlineEnumSchemaProperty.isContainer).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isArray).isFalse();
+        assertThat(mapInlineEnumSchemaProperty.isMap).isTrue();
+        assertThat(mapInlineEnumSchemaProperty.isPrimitiveType).isFalse();
     }
 }

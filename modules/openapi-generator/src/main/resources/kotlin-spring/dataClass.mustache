@@ -20,7 +20,7 @@
         {{>interfaceOptVar}}
     {{/optionalVars}}
 {{/discriminator}}
-{{#hasEnums}}{{#vars}}{{#isEnum}}
+{{#hasEnums}}{{#vars}}{{#isEnum}}{{#isInlineEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -29,5 +29,5 @@
 {{#allowableValues}}{{#enumVars}}
         @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     }
-{{/isEnum}}{{/vars}}{{/hasEnums}}
+{{!isInlineEnum}}{{/isInlineEnum}}{{/isEnum}}{{/vars}}{{/hasEnums}}
 }
