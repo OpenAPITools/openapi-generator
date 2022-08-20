@@ -15,7 +15,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractRustCodegen.class);
 
     protected List<String> charactersToAllow = Collections.singletonList("_");
     protected Set<String> keywordsThatDoNotSupportRawIdentifiers = new HashSet<>(

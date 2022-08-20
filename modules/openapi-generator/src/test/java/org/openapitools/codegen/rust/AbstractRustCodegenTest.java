@@ -113,6 +113,8 @@ public class AbstractRustCodegenTest {
     public void testToEnumVarName() {
         // Should be converted to camel case
         Assert.assertEquals(fakeRustCodegen.toEnumVarName("pending", null), "Pending");
+        // Enums are often represented in SCREAMING_SNAKE_CASE, check these are also converted to Rust enum camel case
+        Assert.assertEquals(fakeRustCodegen.toEnumVarName("SCREAMING_SNAKE_CASE", null), "ScreamingSnakeCase");
         // Prefix is added when starting with a number
         Assert.assertEquals(fakeRustCodegen.toEnumVarName("1_pending", null), "Variant1Pending");
     }
@@ -126,7 +128,6 @@ public class AbstractRustCodegenTest {
         };
         // Should be converted to camel case
         Assert.assertEquals(toEnumName.apply("pet_status"), "PetStatusWithSuffix");
-        Assert.assertEquals(toEnumName.apply("SCREAMING_SNAKE_CASE"), "ScreamingSnakeCaseWithSuffix");
         // Prefix is added when starting with a number
         Assert.assertEquals(toEnumName.apply("1_pet_status"), "Enum1PetStatusWithSuffix");
     }
