@@ -746,7 +746,7 @@ public class ModelUtils {
 
         if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
                 (schema.getAdditionalProperties() == null || // no additionalProperties is set
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean)schema.getAdditionalProperties()))) {
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()))) {
             return true;
         }
         return false;
@@ -1088,11 +1088,11 @@ public class ModelUtils {
      * Has self reference?
      *
      * @param openAPI OpenAPI spec.
-     * @param schema Schema
+     * @param schema  Schema
      * @return boolean true if it has at least one self reference
      */
     public static boolean hasSelfReference(OpenAPI openAPI,
-                                       Schema schema) {
+                                           Schema schema) {
         return hasSelfReference(openAPI, schema, null);
     }
 
@@ -1100,13 +1100,13 @@ public class ModelUtils {
      * Has self reference?
      *
      * @param openAPI OpenAPI spec.
-     * @param schema Schema
+     * @param schema  Schema
      * @param visitedSchemaNames A set of visited schema names
      * @return boolean true if it has at least one self reference
      */
     public static boolean hasSelfReference(OpenAPI openAPI,
-                                          Schema schema,
-                                          Set<String> visitedSchemaNames) {
+                                           Schema schema,
+                                           Set<String> visitedSchemaNames) {
         if (visitedSchemaNames == null) {
             visitedSchemaNames = new HashSet<String>();
         }
@@ -1165,7 +1165,7 @@ public class ModelUtils {
             return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             // go through properties to see if there's any self-reference
-            for (Schema property : ((Map<String, Schema>)schema.getProperties()).values()) {
+            for (Schema property : ((Map<String, Schema>) schema.getProperties()).values()) {
                 if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
                     return true;
                 }
@@ -1240,14 +1240,10 @@ public class ModelUtils {
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
-                    if (hasSelfReference(openAPI, ref)) {
-                        // it's self referencing so returning itself instead
-                        return schema;
-                    } else {
-                        // TODO we may revise below to return `ref` instead of schema
-                        // which is the last reference to the actual model/object
-                        return schema;
-                    }
+                    // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
+                    // TODO we may also need to revise below to return `ref` instead of schema
+                    // which is the last reference to the actual model/object
+                    return schema;
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             schemaMappings);
@@ -1352,7 +1348,7 @@ public class ModelUtils {
 
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
                 .filter(entry -> isComposedSchema(entry.getValue()))
-                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)!=null)
+                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas) != null)
                 .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
@@ -1451,7 +1447,7 @@ public class ModelUtils {
             // allOf with a single $ref (no discriminator)
             // TODO to be removed in 5.x or 6.x release
             LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
-                    " in the 5.x release. Composed schema name: {}. Title: {}",
+                            " in the 5.x release. Composed schema name: {}. Title: {}",
                     composedSchema.getName(), composedSchema.getTitle());
         }
 
@@ -1507,8 +1503,7 @@ public class ModelUtils {
     private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
         if (schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName())) {
             return true;
-        }
-        else if (StringUtils.isNotEmpty(schema.get$ref())) {
+        } else if (StringUtils.isNotEmpty(schema.get$ref())) {
             String parentName = getSimpleRef(schema.get$ref());
             Schema s = allSchemas.get(parentName);
             if (s != null) {
@@ -1717,7 +1712,7 @@ public class ModelUtils {
 
     private static ObjectMapper getRightMapper(String data) {
         ObjectMapper mapper;
-        if(data.trim().startsWith("{")) {
+        if  (data.trim().startsWith("{")) {
             mapper = JSON_MAPPER;
         } else {
             mapper = YAML_MAPPER;
@@ -1737,7 +1732,7 @@ public class ModelUtils {
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
         String data;
-        location = location.replaceAll("\\\\","/");
+        location = location.replaceAll("\\\\", "/");
         if (location.toLowerCase(Locale.ROOT).startsWith("http")) {
             data = RemoteUrl.urlToString(location, auths);
         } else {
