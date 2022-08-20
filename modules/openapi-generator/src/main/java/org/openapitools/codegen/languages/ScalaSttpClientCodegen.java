@@ -115,7 +115,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
 
-        String jsonValueClass = jsonLibrary == "circe" ? "io.circe.Json" : "org.json4s.JValue"; 
+        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
