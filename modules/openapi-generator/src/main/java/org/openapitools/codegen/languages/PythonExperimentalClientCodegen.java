@@ -1304,9 +1304,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             return value;
         } else if ("bool".equals(datatype)) {
             if (value.equals("true")) {
-                return "BoolClass.TRUE";
+                return "schemas.BoolClass.TRUE";
             }
-            return "BoolClass.FALSE";
+            return "schemas.BoolClass.FALSE";
         } else {
             String fixedValue = (String) processTestExampleData(value);
             return ensureQuotes(fixedValue);

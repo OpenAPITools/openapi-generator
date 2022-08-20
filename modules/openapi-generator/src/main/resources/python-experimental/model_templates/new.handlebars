@@ -26,7 +26,7 @@ def __new__(
 {{/each}}
     _configuration: typing.Optional[Configuration] = None,
 {{#with additionalProperties}}
-    **kwargs: typing.Type[Schema],
+    **kwargs: typing.Type[schemas.Schema],
 {{/with}}
 ) -> '{{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}':
     return super().__new__(
