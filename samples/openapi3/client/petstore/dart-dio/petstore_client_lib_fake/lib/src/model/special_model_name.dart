@@ -56,23 +56,23 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required SpecialModelNameBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'$special[property.name]':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required SpecialModelNameBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'$special[property.name]':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     SpecialModelName deserialize(Serializers serializers, Object serialized,

@@ -57,23 +57,23 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayO
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ArrayOfArrayOfNumberOnlyBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'ArrayArrayNumber':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])])) as BuiltList<BuiltList<num>>;
-                    result.arrayArrayNumber.replace(valueDes);
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ArrayOfArrayOfNumberOnlyBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'ArrayArrayNumber':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])])) as BuiltList<BuiltList<num>>;
+                result.arrayArrayNumber.replace(valueDes);
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     ArrayOfArrayOfNumberOnly deserialize(Serializers serializers, Object serialized,

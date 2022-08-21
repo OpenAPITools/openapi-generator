@@ -77,8 +77,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     }
 
     {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
-    {{>serialization/built_value/deserialize_properties}}    
-    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{>serialization/built_value/deserialize_properties}}{{/vendorExtensions.x-has-self-and-ancestor-only-props}}
     
     @override
     {{classname}} deserialize(Serializers serializers, Object serialized,

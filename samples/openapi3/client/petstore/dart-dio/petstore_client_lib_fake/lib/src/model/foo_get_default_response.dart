@@ -57,23 +57,23 @@ class _$FooGetDefaultResponseSerializer implements PrimitiveSerializer<FooGetDef
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required FooGetDefaultResponseBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'string':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(Foo)) as Foo;
-                    result.string.replace(valueDes);
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required FooGetDefaultResponseBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'string':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(Foo)) as Foo;
+                result.string.replace(valueDes);
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     FooGetDefaultResponse deserialize(Serializers serializers, Object serialized,

@@ -70,33 +70,33 @@ class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ExtensibleBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'@schemaLocation':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atSchemaLocation = valueDes;
-                    break;
-                 case r'@baseType':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atBaseType = valueDes;
-                    break;
-                 case r'@type':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atType = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ExtensibleBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'@schemaLocation':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atSchemaLocation = valueDes;
+                break;
+                case r'@baseType':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atBaseType = valueDes;
+                break;
+                case r'@type':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atType = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     Extensible deserialize(Serializers serializers, Object serialized,
@@ -134,33 +134,34 @@ class _$$ExtensibleSerializer implements PrimitiveSerializer<$Extensible> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required $ExtensibleBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'@schemaLocation':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atSchemaLocation = valueDes;
-                    break;
-                 case r'@baseType':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atBaseType = valueDes;
-                    break;
-                 case r'@type':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atType = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ExtensibleBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'@schemaLocation':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atSchemaLocation = valueDes;
+                break;
+                case r'@baseType':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atBaseType = valueDes;
+                break;
+                case r'@type':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atType = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
+    
     @override
     $Extensible deserialize(Serializers serializers, Object serialized,
         {FullType specifiedType = FullType.unspecified}) {

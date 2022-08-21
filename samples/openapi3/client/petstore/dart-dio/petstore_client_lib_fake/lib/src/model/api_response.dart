@@ -72,33 +72,33 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ApiResponseBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'code':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.code = valueDes;
-                    break;
-                 case r'type':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.type = valueDes;
-                    break;
-                 case r'message':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.message = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ApiResponseBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'code':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.code = valueDes;
+                break;
+                case r'type':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.type = valueDes;
+                break;
+                case r'message':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.message = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     ApiResponse deserialize(Serializers serializers, Object serialized,

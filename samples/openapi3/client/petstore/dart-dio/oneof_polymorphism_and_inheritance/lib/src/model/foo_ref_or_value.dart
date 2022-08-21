@@ -64,6 +64,7 @@ class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
         return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
     }
 
+
     
     @override
     FooRefOrValue deserialize(Serializers serializers, Object serialized,

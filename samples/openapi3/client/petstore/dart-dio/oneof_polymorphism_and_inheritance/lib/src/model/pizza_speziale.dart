@@ -91,53 +91,53 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required PizzaSpezialeBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'@schemaLocation':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atSchemaLocation = valueDes;
-                    break;
-                 case r'pizzaSize':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(num)) as num;
-                    result.pizzaSize = valueDes;
-                    break;
-                 case r'toppings':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.toppings = valueDes;
-                    break;
-                 case r'@baseType':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atBaseType = valueDes;
-                    break;
-                 case r'href':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.href = valueDes;
-                    break;
-                 case r'id':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.id = valueDes;
-                    break;
-                 case r'@type':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atType = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required PizzaSpezialeBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'@schemaLocation':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atSchemaLocation = valueDes;
+                break;
+                case r'pizzaSize':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(num)) as num;
+                result.pizzaSize = valueDes;
+                break;
+                case r'toppings':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.toppings = valueDes;
+                break;
+                case r'@baseType':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atBaseType = valueDes;
+                break;
+                case r'href':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.href = valueDes;
+                break;
+                case r'id':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.id = valueDes;
+                break;
+                case r'@type':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atType = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     PizzaSpeziale deserialize(Serializers serializers, Object serialized,

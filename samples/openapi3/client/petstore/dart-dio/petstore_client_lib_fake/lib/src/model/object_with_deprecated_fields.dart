@@ -82,38 +82,38 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ObjectWithDeprecatedFieldsBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'uuid':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.uuid = valueDes;
-                    break;
-                 case r'id':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(num)) as num;
-                    result.id = valueDes;
-                    break;
-                 case r'deprecatedRef':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(DeprecatedObject)) as DeprecatedObject;
-                    result.deprecatedRef.replace(valueDes);
-                    break;
-                 case r'bars':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
-                    result.bars.replace(valueDes);
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ObjectWithDeprecatedFieldsBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'uuid':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.uuid = valueDes;
+                break;
+                case r'id':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(num)) as num;
+                result.id = valueDes;
+                break;
+                case r'deprecatedRef':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(DeprecatedObject)) as DeprecatedObject;
+                result.deprecatedRef.replace(valueDes);
+                break;
+                case r'bars':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
+                result.bars.replace(valueDes);
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     ObjectWithDeprecatedFields deserialize(Serializers serializers, Object serialized,

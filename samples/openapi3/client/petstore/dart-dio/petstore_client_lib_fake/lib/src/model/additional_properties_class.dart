@@ -65,28 +65,28 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required AdditionalPropertiesClassBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'map_property':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])) as BuiltMap<String, String>;
-                    result.mapProperty.replace(valueDes);
-                    break;
-                 case r'map_of_map_property':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>;
-                    result.mapOfMapProperty.replace(valueDes);
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required AdditionalPropertiesClassBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'map_property':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])) as BuiltMap<String, String>;
+                result.mapProperty.replace(valueDes);
+                break;
+                case r'map_of_map_property':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>;
+                result.mapOfMapProperty.replace(valueDes);
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     AdditionalPropertiesClass deserialize(Serializers serializers, Object serialized,

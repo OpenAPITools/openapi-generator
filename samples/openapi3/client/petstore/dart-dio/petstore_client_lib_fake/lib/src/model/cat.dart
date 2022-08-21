@@ -68,33 +68,33 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required CatBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'className':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.className = valueDes;
-                    break;
-                 case r'color':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.color = valueDes;
-                    break;
-                 case r'declawed':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
-                    result.declawed = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required CatBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'className':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.className = valueDes;
+                break;
+                case r'color':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.color = valueDes;
+                break;
+                case r'declawed':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(bool)) as bool;
+                result.declawed = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     Cat deserialize(Serializers serializers, Object serialized,

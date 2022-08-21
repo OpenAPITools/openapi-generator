@@ -72,33 +72,33 @@ class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> 
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OuterCompositeBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'my_number':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(num)) as num;
-                    result.myNumber = valueDes;
-                    break;
-                 case r'my_string':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.myString = valueDes;
-                    break;
-                 case r'my_boolean':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
-                    result.myBoolean = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OuterCompositeBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'my_number':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(num)) as num;
+                result.myNumber = valueDes;
+                break;
+                case r'my_string':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.myString = valueDes;
+                break;
+                case r'my_boolean':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(bool)) as bool;
+                result.myBoolean = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     OuterComposite deserialize(Serializers serializers, Object serialized,

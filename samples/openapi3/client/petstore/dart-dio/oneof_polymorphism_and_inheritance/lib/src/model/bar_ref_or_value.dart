@@ -64,6 +64,7 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
         return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
     }
 
+
     
     @override
     BarRefOrValue deserialize(Serializers serializers, Object serialized,

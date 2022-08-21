@@ -56,23 +56,23 @@ class _$OuterObjectWithEnumPropertySerializer implements PrimitiveSerializer<Out
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OuterObjectWithEnumPropertyBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'value':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(OuterEnumInteger)) as OuterEnumInteger;
-                    result.value = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OuterObjectWithEnumPropertyBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'value':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(OuterEnumInteger)) as OuterEnumInteger;
+                result.value = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     OuterObjectWithEnumProperty deserialize(Serializers serializers, Object serialized,

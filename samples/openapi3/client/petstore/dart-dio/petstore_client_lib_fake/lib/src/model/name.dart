@@ -78,38 +78,38 @@ class _$NameSerializer implements PrimitiveSerializer<Name> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required NameBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'name':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.name = valueDes;
-                    break;
-                 case r'snake_case':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.snakeCase = valueDes;
-                    break;
-                 case r'property':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.property = valueDes;
-                    break;
-                 case r'123Number':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.n123number = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required NameBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'name':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.name = valueDes;
+                break;
+                case r'snake_case':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.snakeCase = valueDes;
+                break;
+                case r'property':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.property = valueDes;
+                break;
+                case r'123Number':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.n123number = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     Name deserialize(Serializers serializers, Object serialized,

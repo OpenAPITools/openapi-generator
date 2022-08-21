@@ -97,48 +97,48 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required CapitalizationBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'smallCamel':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.smallCamel = valueDes;
-                    break;
-                 case r'CapitalCamel':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.capitalCamel = valueDes;
-                    break;
-                 case r'small_Snake':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.smallSnake = valueDes;
-                    break;
-                 case r'Capital_Snake':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.capitalSnake = valueDes;
-                    break;
-                 case r'SCA_ETH_Flow_Points':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.sCAETHFlowPoints = valueDes;
-                    break;
-                 case r'ATT_NAME':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.ATT_NAME = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required CapitalizationBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'smallCamel':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.smallCamel = valueDes;
+                break;
+                case r'CapitalCamel':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.capitalCamel = valueDes;
+                break;
+                case r'small_Snake':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.smallSnake = valueDes;
+                break;
+                case r'Capital_Snake':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.capitalSnake = valueDes;
+                break;
+                case r'SCA_ETH_Flow_Points':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.sCAETHFlowPoints = valueDes;
+                break;
+                case r'ATT_NAME':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.ATT_NAME = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     Capitalization deserialize(Serializers serializers, Object serialized,

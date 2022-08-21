@@ -100,48 +100,48 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OrderBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'id':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.id = valueDes;
-                    break;
-                 case r'petId':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.petId = valueDes;
-                    break;
-                 case r'quantity':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.quantity = valueDes;
-                    break;
-                 case r'shipDate':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(DateTime)) as DateTime;
-                    result.shipDate = valueDes;
-                    break;
-                 case r'status':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(OrderStatusEnum)) as OrderStatusEnum;
-                    result.status = valueDes;
-                    break;
-                 case r'complete':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
-                    result.complete = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required OrderBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'id':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.id = valueDes;
+                break;
+                case r'petId':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.petId = valueDes;
+                break;
+                case r'quantity':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.quantity = valueDes;
+                break;
+                case r'shipDate':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(DateTime)) as DateTime;
+                result.shipDate = valueDes;
+                break;
+                case r'status':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(OrderStatusEnum)) as OrderStatusEnum;
+                result.status = valueDes;
+                break;
+                case r'complete':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(bool)) as bool;
+                result.complete = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     Order deserialize(Serializers serializers, Object serialized,

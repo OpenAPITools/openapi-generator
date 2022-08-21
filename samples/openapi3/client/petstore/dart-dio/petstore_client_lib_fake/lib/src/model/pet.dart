@@ -97,48 +97,48 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required PetBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'id':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.id = valueDes;
-                    break;
-                 case r'category':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(Category)) as Category;
-                    result.category.replace(valueDes);
-                    break;
-                 case r'name':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.name = valueDes;
-                    break;
-                 case r'photoUrls':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltSet, [FullType(String)])) as BuiltSet<String>;
-                    result.photoUrls.replace(valueDes);
-                    break;
-                 case r'tags':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(Tag)])) as BuiltList<Tag>;
-                    result.tags.replace(valueDes);
-                    break;
-                 case r'status':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(PetStatusEnum)) as PetStatusEnum;
-                    result.status = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required PetBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'id':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(int)) as int;
+                result.id = valueDes;
+                break;
+                case r'category':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(Category)) as Category;
+                result.category.replace(valueDes);
+                break;
+                case r'name':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.name = valueDes;
+                break;
+                case r'photoUrls':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltSet, [FullType(String)])) as BuiltSet<String>;
+                result.photoUrls.replace(valueDes);
+                break;
+                case r'tags':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltList, [FullType(Tag)])) as BuiltList<Tag>;
+                result.tags.replace(valueDes);
+                break;
+                case r'status':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(PetStatusEnum)) as PetStatusEnum;
+                result.status = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     Pet deserialize(Serializers serializers, Object serialized,

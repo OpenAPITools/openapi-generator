@@ -74,33 +74,33 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ArrayTestBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'array_of_string':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
-                    result.arrayOfString.replace(valueDes);
-                    break;
-                 case r'array_array_of_integer':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])])) as BuiltList<BuiltList<int>>;
-                    result.arrayArrayOfInteger.replace(valueDes);
-                    break;
-                 case r'array_array_of_model':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])])) as BuiltList<BuiltList<ReadOnlyFirst>>;
-                    result.arrayArrayOfModel.replace(valueDes);
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required ArrayTestBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'array_of_string':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
+                result.arrayOfString.replace(valueDes);
+                break;
+                case r'array_array_of_integer':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])])) as BuiltList<BuiltList<int>>;
+                result.arrayArrayOfInteger.replace(valueDes);
+                break;
+                case r'array_array_of_model':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])])) as BuiltList<BuiltList<ReadOnlyFirst>>;
+                result.arrayArrayOfModel.replace(valueDes);
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     ArrayTest deserialize(Serializers serializers, Object serialized,

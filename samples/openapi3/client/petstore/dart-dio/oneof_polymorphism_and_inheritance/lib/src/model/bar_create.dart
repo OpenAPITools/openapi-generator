@@ -103,58 +103,58 @@ class _$BarCreateSerializer implements PrimitiveSerializer<BarCreate> {
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required BarCreateBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'@schemaLocation':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atSchemaLocation = valueDes;
-                    break;
-                 case r'foo':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(FooRefOrValue)) as FooRefOrValue;
-                    result.foo.replace(valueDes);
-                    break;
-                 case r'@baseType':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atBaseType = valueDes;
-                    break;
-                 case r'fooPropB':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.fooPropB = valueDes;
-                    break;
-                 case r'href':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.href = valueDes;
-                    break;
-                 case r'id':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.id = valueDes;
-                    break;
-                 case r'@type':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.atType = valueDes;
-                    break;
-                 case r'barPropA':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.barPropA = valueDes;
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required BarCreateBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'@schemaLocation':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atSchemaLocation = valueDes;
+                break;
+                case r'foo':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(FooRefOrValue)) as FooRefOrValue;
+                result.foo.replace(valueDes);
+                break;
+                case r'@baseType':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atBaseType = valueDes;
+                break;
+                case r'fooPropB':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.fooPropB = valueDes;
+                break;
+                case r'href':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.href = valueDes;
+                break;
+                case r'id':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.id = valueDes;
+                break;
+                case r'@type':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.atType = valueDes;
+                break;
+                case r'barPropA':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.barPropA = valueDes;
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     BarCreate deserialize(Serializers serializers, Object serialized,

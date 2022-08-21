@@ -54,6 +54,7 @@ class _$ExampleSerializer implements PrimitiveSerializer<Example> {
         return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
     }
 
+
     
     @override
     Example deserialize(Serializers serializers, Object serialized,

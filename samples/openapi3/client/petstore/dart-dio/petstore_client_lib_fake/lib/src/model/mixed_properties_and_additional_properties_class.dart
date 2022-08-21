@@ -74,33 +74,33 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
     }
 
     void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required MixedPropertiesAndAdditionalPropertiesClassBuilder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                 case r'uuid':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.uuid = valueDes;
-                    break;
-                 case r'dateTime':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(DateTime)) as DateTime;
-                    result.dateTime = valueDes;
-                    break;
-                 case r'map':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>;
-                    result.map.replace(valueDes);
-                    break;
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
+    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required MixedPropertiesAndAdditionalPropertiesClassBuilder result, required List<Object?> unhandled}) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+        final key = serializedList[i] as String;
+        final value = serializedList[i + 1];
+        switch (key) {
+                case r'uuid':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(String)) as String;
+                result.uuid = valueDes;
+                break;
+                case r'dateTime':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(DateTime)) as DateTime;
+                result.dateTime = valueDes;
+                break;
+                case r'map':
+                final valueDes = serializers.deserialize(value,
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>;
+                result.map.replace(valueDes);
+                break;
+            default:
+                unhandled.add(key);
+                unhandled.add(value);
+                break;
         }
     }
+}
     
     @override
     MixedPropertiesAndAdditionalPropertiesClass deserialize(Serializers serializers, Object serialized,
