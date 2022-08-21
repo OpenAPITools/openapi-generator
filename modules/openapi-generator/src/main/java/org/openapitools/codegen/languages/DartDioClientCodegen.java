@@ -249,6 +249,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
+
+        //reserved words specific to built_value
+        reservedWords.add("update");
     }
 
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {

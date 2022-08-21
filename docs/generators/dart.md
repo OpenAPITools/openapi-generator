@@ -126,7 +126,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>true</li>
 <li>try</li>
 <li>typedef</li>
-<li>update</li>
 <li>var</li>
 <li>void</li>
 <li>while</li>
