@@ -13,6 +13,70 @@ Python &gt;&#x3D;3.9
 v3.9 is needed so one can combine classmethod and property decorators to define
 object schema properties as classes
 
+## Migration from other generators like python and python-experimental
+
+### Changes
+1. This generator uses spec case for all (object) property names and parameter names.
+    - So if the spec has a property name like camelCase, it will use camelCase rather than camel_case
+    - So you will need to update how you input and read properties to use spec case
+2. Endpoint parameters are stored in dictionaries to prevent collisions (explanation below)
+    - So you will need to update how you pass data in to endpoints
+3. Endpoint responses now include the original response, the deserialized response body, and (todo)the deserialized headers
+    - So you will need to update your code to use response.body to access deserialized data
+4. All validated data is instantiated in an instance that subclasses all validated Schema classes and Decimal/str/list/tuple/frozendict/NoneClass/BoolClass/bytes/io.FileIO
+    - This means that you can use isinstance to check if a payload validated against a schema class
+    - This means that no data will be of type None/True/False
+        - ingested None will subclass NoneClass
+        - ingested True will subclass BoolClass
+        - ingested False will subclass BoolClass
+        - So if you need to check is True/False/None, instead use instance.is_true()/.is_false()/.is_none()
+5. All validated class instances are immutable except for ones based on io.File
+    - This is because if properties were changed after validation, that validation would no longer apply
+    - So no changing values or property values after a class has been instantiated
+6. String + Number types with formats
+    - String type data is stored as a string and if you need to access types based on its format like date,
+    date-time, uuid, number etc then you will need to use accessor functions on the instance
+    - type string + format: See .as_date, .as_datetime, .as_decimal, .as_uuid
+    - type number + format: See .as_float, .as_int
+    - this was done because openapi/json-schema defines constraints. string data may be type string with no format
+    keyword in one schema, and include a format constraint in another schema
+    - So if you need to access a string format based type, use as_date/as_datetime/as_decimal/as_uuid/
+    - So if you need to access a number format based type, use as_int/as_float
+
+### Object property spec case
+This was done because when payloads are ingested, they can be validated against N number of schemas.
+If the input signature used a different property name then that has mutated the payload.
+So SchemaA and SchemaB must both see the camelCase spec named variable.
+Also it is possible to send in two properties, named camelCase and camel_case in the same payload.
+That use case should be support so spec case is used.
+
+### Parameter spec case
+Parameters can be included in different locations including:
+- query
+- path
+- header
+- cookie
+
+Any of those parameters could use the same parameter names, so if every parameter
+was included as an endpoint parameter in a function signature, they would collide.
+For that reason, each of those inputs have been separated out into separate typed dictionaries:
+- query_params
+- path_params
+- header_params
+- cookie_params
+
+So when updating your code, you will need to pass endpoint parameters in using those
+dictionaries.
+
+### Endpoint responses
+Endpoint responses have been enriched to now include more information.
+Any response reom an endpoint will now include the following properties:
+response: urllib3.HTTPResponse
+body: typing.Union[Unset, Schema]
+headers: typing.Union[Unset, TODO]
+Note: response header deserialization has not yet been added
+
+
 ## Installation & Usage
 ### pip install
 
@@ -94,6 +158,8 @@ Class | Method | HTTP request | Description
 *RefApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_items_request_body**](docs/apis/tags/RefApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *RefApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*RefApi* | [**post_ref_in_not_request_body**](docs/apis/tags/RefApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
+*RefApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/RefApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *RefApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_property_request_body**](docs/apis/tags/RefApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -278,6 +344,8 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_items_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*ContentTypeJsonApi* | [**post_ref_in_not_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
+*ContentTypeJsonApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_property_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -466,6 +534,7 @@ Class | Method | HTTP request | Description
 *OperationRequestBodyApi* | [**post_ref_in_allof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_anyof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_items_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
+*OperationRequestBodyApi* | [**post_ref_in_not_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_property_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
 *OperationRequestBodyApi* | [**post_required_default_validation_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
@@ -624,6 +693,8 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_items_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *PathPostApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*PathPostApi* | [**post_ref_in_not_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
+*PathPostApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 *PathPostApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_property_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
@@ -740,6 +811,7 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+*ResponseContentContentTypeSchemaApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_required_default_validation_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
@@ -846,6 +918,7 @@ Class | Method | HTTP request | Description
  - [RefInAllof](docs/models/RefInAllof.md)
  - [RefInAnyof](docs/models/RefInAnyof.md)
  - [RefInItems](docs/models/RefInItems.md)
+ - [RefInNot](docs/models/RefInNot.md)
  - [RefInOneof](docs/models/RefInOneof.md)
  - [RefInProperty](docs/models/RefInProperty.md)
  - [RequiredDefaultValidation](docs/models/RequiredDefaultValidation.md)

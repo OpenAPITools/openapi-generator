@@ -19,60 +19,15 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
 # query params
-RequiredStringGroupSchema = IntSchema
-RequiredInt64GroupSchema = Int64Schema
-StringGroupSchema = IntSchema
-Int64GroupSchema = Int64Schema
+RequiredStringGroupSchema = schemas.IntSchema
+RequiredInt64GroupSchema = schemas.Int64Schema
+StringGroupSchema = schemas.IntSchema
+Int64GroupSchema = schemas.Int64Schema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -121,8 +76,8 @@ request_query_int64_group = api_client.QueryParameter(
     explode=True,
 )
 # header params
-RequiredBooleanGroupSchema = BoolSchema
-BooleanGroupSchema = BoolSchema
+RequiredBooleanGroupSchema = schemas.BoolSchema
+BooleanGroupSchema = schemas.BoolSchema
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -161,8 +116,8 @@ _auth = [
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -202,8 +157,8 @@ class BaseApi(api_client.Api):
             request_query_string_group,
             request_query_int64_group,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -216,8 +171,8 @@ class BaseApi(api_client.Api):
             request_header_required_boolean_group,
             request_header_boolean_group,
         ):
-            parameter_data = header_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)

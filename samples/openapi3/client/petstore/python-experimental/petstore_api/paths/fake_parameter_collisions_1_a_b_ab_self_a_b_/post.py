@@ -19,61 +19,16 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
 # query params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-AbSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+AbSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -127,10 +82,10 @@ request_query_a_b2 = api_client.QueryParameter(
     explode=True,
 )
 # header params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -173,11 +128,11 @@ request_header_a_b4 = api_client.HeaderParameter(
     schema=ABSchema,
 )
 # path params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-AbSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+AbSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
@@ -231,11 +186,11 @@ request_path_a_b6 = api_client.PathParameter(
     required=True,
 )
 # cookie params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-AbSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+AbSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
     {
@@ -289,7 +244,7 @@ request_cookie_a_b8 = api_client.CookieParameter(
     explode=True,
 )
 # body param
-SchemaForRequestBodyApplicationJson = AnyTypeSchema
+SchemaForRequestBodyApplicationJson = schemas.AnyTypeSchema
 
 
 request_body_body = api_client.RequestBody(
@@ -298,7 +253,7 @@ request_body_body = api_client.RequestBody(
             schema=SchemaForRequestBodyApplicationJson),
     },
 )
-SchemaFor200ResponseBodyApplicationJson = AnyTypeSchema
+SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema
 
 
 @dataclass
@@ -307,7 +262,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -329,7 +284,7 @@ class BaseApi(api_client.Api):
 
     def _parameter_collisions(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),
@@ -363,8 +318,8 @@ class BaseApi(api_client.Api):
             request_path__self3,
             request_path_a_b6,
         ):
-            parameter_data = path_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = path_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _path_params.update(serialized_data)
@@ -380,8 +335,8 @@ class BaseApi(api_client.Api):
             request_query__self,
             request_query_a_b2,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -396,8 +351,8 @@ class BaseApi(api_client.Api):
             request_header__self2,
             request_header_a_b4,
         ):
-            parameter_data = header_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
@@ -408,7 +363,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -445,7 +400,7 @@ class ParameterCollisions(BaseApi):
 
     def parameter_collisions(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),
@@ -478,7 +433,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),

@@ -26,9 +26,14 @@ var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{
 {{/allParams}}
 
 {{#summary}}
-#{{{.}}}
+# {{{.}}}
 {{/summary}}
+{{#generateWrapper}}
+api_instance <- {{#lambda.lowercase}}{{{packageName}}}{{/lambda.lowercase}}_api$new()
+{{/generateWrapper}}
+{{^generateWrapper}}
 api_instance <- {{{classname}}}$new()
+{{/generateWrapper}}
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
@@ -57,13 +62,13 @@ api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              {{#returnType}}
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-             # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}data_file = "result.txt"),
+             # api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}data_file = "result.txt"),
              {{#vendorExtensions.x-streaming}}
              # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
-             # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) }),
+             # api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) }),
              {{/vendorExtensions.x-streaming}}
              {{/returnType}}
-             api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
+             api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -72,7 +77,7 @@ if (!is.null(result$ApiException)) {
   dput(result$ApiException$toString())
   {{#errorObjectType}}
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
   {{/errorObjectType}}
 }{{#returnType}} else {
   # deserialized response object
@@ -95,7 +100,7 @@ if (!is.null(result$ApiException)) {
 # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
 # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) })
 {{/vendorExtensions.x-streaming}}
-{{#returnType}}result <- {{/returnType}}api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+{{#returnType}}result <- {{/returnType}}api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
 {{/returnType}}

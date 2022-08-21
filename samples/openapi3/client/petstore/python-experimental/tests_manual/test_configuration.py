@@ -24,7 +24,7 @@ class ConfigurationTests(unittest.TestCase):
 
     def test_configuration(self):
         config = petstore_api.Configuration()
-        config.host = 'http://localhost/'
+        config.host = 'https://localhost/'
 
         config.disabled_client_side_validations = ("multipleOf,maximum,exclusiveMaximum,minimum,exclusiveMinimum,"
             "maxLength,minLength,pattern,maxItems,minItems")
@@ -42,7 +42,7 @@ class ConfigurationTests(unittest.TestCase):
             api.add_pet({'name': 'pet', 'photoUrls': []})
             mock_request.assert_called_with(
                 'POST',
-                'http://path-server-test.petstore.local/v2/pet',
+                'https://path-server-test.petstore.local/v2/pet',
                 headers=HTTPHeaderDict({
                     'Content-Type': 'application/json',
                     'User-Agent': 'OpenAPI-Generator/1.0.0/python'

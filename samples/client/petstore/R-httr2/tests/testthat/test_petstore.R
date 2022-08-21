@@ -114,6 +114,7 @@ test_that("update_pet_with_form", {
   ## update pet with form
   pet_api$api_client$oauth_client_id <- "client_id_aaa"
   pet_api$api_client$oauth_secret <- "secrete_bbb"
+  pet_api$api_client$oauth_scopes <- "write:pets read:pets"
   update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
 
   # get pet
@@ -238,6 +239,24 @@ test_that("Tests special item names", {
   s1 <- Special$new()$fromJSONString(special_json)
   s2 <- Special$new()$fromJSONString(s1$toJSONString())
   expect_equal(s1, s2)
+
+})
+
+test_that ("Tests validations", {
+  invalid_pet <- Pet$new()
+
+  expect_false(invalid_pet$isValid())
+
+  invalid_fields <- invalid_pet$getInvalidFields()
+  expect_equal(invalid_fields[["name"]], "Non-nullable required field `name` cannot be null.")
+  expect_equal(invalid_fields[["photoUrls"]], "Non-nullable required field `photoUrls` cannot be null.")
+
+  # fix invalid fields
+  invalid_pet$name <- "valid pet"
+  invalid_pet$photoUrls <- list("photo_test", "second test")
+
+  expect_true(invalid_pet$isValid())
+  expect_equal(invalid_pet$getInvalidFields(), list())
 
 })
 

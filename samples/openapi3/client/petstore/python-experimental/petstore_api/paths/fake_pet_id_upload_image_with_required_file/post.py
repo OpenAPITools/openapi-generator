@@ -19,59 +19,14 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.api_response import ApiResponse
 
 from . import path
 
 # path params
-PetIdSchema = Int64Schema
+PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
@@ -100,22 +55,22 @@ request_path_pet_id = api_client.PathParameter(
 
 
 class SchemaForRequestBodyMultipartFormData(
-    DictSchema
+    schemas.DictSchema
 ):
     _required_property_names = {
         "requiredFile",
     }
-    additionalMetadata = StrSchema
-    requiredFile = BinarySchema
+    additionalMetadata = schemas.StrSchema
+    requiredFile = schemas.BinarySchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         requiredFile: requiredFile,
-        additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        additionalMetadata: typing.Union[additionalMetadata, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -145,7 +100,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -167,7 +122,7 @@ class BaseApi(api_client.Api):
 
     def _upload_file_with_required_file(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -191,8 +146,8 @@ class BaseApi(api_client.Api):
         for parameter in (
             request_path_pet_id,
         ):
-            parameter_data = path_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = path_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _path_params.update(serialized_data)
@@ -208,7 +163,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -246,7 +201,7 @@ class UploadFileWithRequiredFile(BaseApi):
 
     def upload_file_with_required_file(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -273,7 +228,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,

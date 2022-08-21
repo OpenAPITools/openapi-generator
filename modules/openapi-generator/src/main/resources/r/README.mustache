@@ -115,14 +115,20 @@ Class | Method | HTTP request | Description
 - **Refresh URL**: {{refreshUrl}}
 {{/refreshUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
-{{#scopes}}  - {{scope}}: {{description}}
+{{#scopes}}  - `{{scope}}`: {{description}}
 {{/scopes}}
 {{/isOAuth}}
 
 {{/authMethods}}
 
-
+{{#apiInfo}}
+{{#apis}}
+{{#-last}}
+{{#infoEmail}}
 ## Author
 
-{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
-{{/-last}}{{/apis}}{{/apiInfo}}
+{{{infoEmail}}}
+{{/infoEmail}}
+{{/-last}}
+{{/apis}}
+{{/apiInfo}}

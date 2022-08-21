@@ -19,6 +19,8 @@ from unit_test_api.paths.request_body_post_ref_in_anyof_request_body.post import
 from unit_test_api.paths.response_body_post_ref_in_anyof_response_body_for_content_types.post import PostRefInAnyofResponseBodyForContentTypes
 from unit_test_api.paths.request_body_post_ref_in_items_request_body.post import PostRefInItemsRequestBody
 from unit_test_api.paths.response_body_post_ref_in_items_response_body_for_content_types.post import PostRefInItemsResponseBodyForContentTypes
+from unit_test_api.paths.request_body_post_ref_in_not_request_body.post import PostRefInNotRequestBody
+from unit_test_api.paths.response_body_post_ref_in_not_response_body_for_content_types.post import PostRefInNotResponseBodyForContentTypes
 from unit_test_api.paths.request_body_post_ref_in_oneof_request_body.post import PostRefInOneofRequestBody
 from unit_test_api.paths.response_body_post_ref_in_oneof_response_body_for_content_types.post import PostRefInOneofResponseBodyForContentTypes
 from unit_test_api.paths.request_body_post_ref_in_property_request_body.post import PostRefInPropertyRequestBody
@@ -36,6 +38,8 @@ class RefApi(
     PostRefInAnyofResponseBodyForContentTypes,
     PostRefInItemsRequestBody,
     PostRefInItemsResponseBodyForContentTypes,
+    PostRefInNotRequestBody,
+    PostRefInNotResponseBodyForContentTypes,
     PostRefInOneofRequestBody,
     PostRefInOneofResponseBodyForContentTypes,
     PostRefInPropertyRequestBody,

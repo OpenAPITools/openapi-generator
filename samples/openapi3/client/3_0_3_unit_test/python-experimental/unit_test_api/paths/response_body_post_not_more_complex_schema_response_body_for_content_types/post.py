@@ -19,59 +19,14 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from unit_test_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from unit_test_api import schemas  # noqa: F401
 
 from . import path
 
 
 
 class SchemaFor200ResponseBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema
 ):
 
     @classmethod
@@ -87,19 +42,19 @@ class SchemaFor200ResponseBodyApplicationJson(
         # loading
         
         
-        class NotSchema(
-            DictSchema
+        class not_schema(
+            schemas.DictSchema
         ):
-            foo = StrSchema
+            foo = schemas.StrSchema
         
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                foo: typing.Union[foo, Unset] = unset,
-                _configuration: typing.Optional[Configuration] = None,
-                **kwargs: typing.Type[Schema],
-            ) -> 'NotSchema':
+                foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Type[schemas.Schema],
+            ) -> 'not_schema':
                 return super().__new__(
                     cls,
                     *args,
@@ -115,14 +70,14 @@ class SchemaFor200ResponseBodyApplicationJson(
             'anyOf': [
             ],
             'not':
-                NotSchema
+                not_schema
         }
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -138,7 +93,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(

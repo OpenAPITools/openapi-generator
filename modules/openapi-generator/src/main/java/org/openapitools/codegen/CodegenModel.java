@@ -165,6 +165,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean isAnyType;
     private boolean isUuid;
     private Map<String, CodegenProperty> requiredVarsMap;
+    private String ref;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -172,6 +173,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    @Override
+    public String getRef() {
+        return ref;
+    }
+
+    @Override
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
     public Set<String> getAllMandatory() {
@@ -929,6 +940,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(parent, that.parent) &&
@@ -1002,7 +1014,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref);
     }
 
     @Override
@@ -1100,6 +1112,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isUUID=").append(isUuid);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
+        sb.append(", ref=").append(ref);
         sb.append('}');
         return sb.toString();
     }

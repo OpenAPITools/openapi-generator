@@ -45,6 +45,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
     public static final String FARADAY = "faraday";
     public static final String TYPHOEUS = "typhoeus";
+    public static final String USE_AUTOLOAD = "useAutoload";
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
@@ -62,6 +63,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean useAutoload = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -165,6 +167,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(CliOption.newBoolean(USE_AUTOLOAD, "Use autoload instead of require to load modules.").
+                defaultValue(Boolean.FALSE.toString()));
+
         supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
@@ -234,6 +239,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(USE_AUTOLOAD)) {
+            setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
+        }
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -297,7 +306,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby module name from the gem name, e.g. use "OpenAPIClient" for "openapi_client".
      *
      * @param gemName Ruby gem name
-     *
      * @return Ruby module name
      */
     @SuppressWarnings("static-method")
@@ -309,7 +317,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
      * @param moduleName Ruby module name
-     *
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -581,6 +588,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+    public void setUseAutoload(boolean useAutoload) {
+        this.useAutoload = useAutoload;
     }
 
     @Override
