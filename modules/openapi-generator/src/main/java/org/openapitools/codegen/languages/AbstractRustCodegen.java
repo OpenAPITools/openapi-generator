@@ -174,17 +174,17 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String toEnumVarName(String name, String datatype) {
         // Rust Enum variants should be camel cased
-        return sanitizeIdentifier(addModelNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "variant", "enum variant", true);
+        return sanitizeIdentifier(name, CasingType.CAMEL_CASE, "variant", "enum variant", true);
     }
 
     @Override
     public String toEnumName(CodegenProperty property) {
         // Note: Strangely this function is only used for inline enums, schema enums go through the toModelName function
-        String name = sanitizeIdentifier(property.name, CasingType.CAMEL_CASE, "enum", "enum", false);
+        String name = property.name;
         if (!Strings.isNullOrEmpty(enumSuffix)) {
-            name = name + enumSuffix;
+            name = name + "_" + enumSuffix;
         }
-        return name;
+        return sanitizeIdentifier(name, CasingType.CAMEL_CASE, "enum", "enum", false);
     }
 
     @Override
