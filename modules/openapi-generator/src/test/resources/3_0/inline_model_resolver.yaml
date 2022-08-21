@@ -7,6 +7,14 @@ info:
 servers:
   - url: http://api.example.xyz/v1
 paths:
+  /resolve_request_body_invalid_ref:
+    post:
+      requestBody:
+        $ref: '#/components/schemas/Invalid'
+      operationId: resolveRequestBodyInvalidRef
+      responses:
+        '200':
+          description: OK
   /resolve_inline_request_body:
     post:
       requestBody:
@@ -348,6 +356,7 @@ paths:
                         data:
                           type: string
 components:
+  requestBodies: {}
   schemas:
     Users:
       type: array

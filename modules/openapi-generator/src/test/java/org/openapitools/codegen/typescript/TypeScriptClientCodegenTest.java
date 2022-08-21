@@ -15,6 +15,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class TypeScriptClientCodegenTest {
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
-        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse");
+        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse".replace("/", File.separator));
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
 

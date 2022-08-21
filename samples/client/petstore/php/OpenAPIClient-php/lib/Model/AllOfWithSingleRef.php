@@ -80,7 +80,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
       */
     protected static array $openAPINullables = [
         'username' => false,
-		'single_ref_type' => true
+		'single_ref_type' => false
     ];
 
     /**
@@ -336,14 +336,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     {
 
         if (is_null($single_ref_type)) {
-            array_push($this->openAPINullablesSetToNull, 'single_ref_type');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('single_ref_type', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable single_ref_type cannot be null');
         }
 
         $this->container['single_ref_type'] = $single_ref_type;

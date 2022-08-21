@@ -183,38 +183,6 @@ paths:
           description: Pet not found
       security:
         - BearerToken: []
-  '/pet/{petId}?streaming':
-    get:
-      tags:
-        - pet
-      summary: Find pet by ID (streaming)
-      description: Returns a single pet
-      operationId: getPetByIdStreaming
-      x-streaming: true
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - api_key: []
     post:
       tags:
         - pet
@@ -232,10 +200,10 @@ paths:
       responses:
         '405':
           description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+      #security:
+      #  - petstore_auth:
+      #      - 'write:pets'
+      #      - 'read:pets'
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -274,6 +242,70 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  '/pet_header_test':
+    get:
+      tags:
+        - pet
+      summary: Header test
+      description: Header test
+      operationId: test_header
+      x-streaming: true
+      parameters:
+        - name: header_test_int
+          in: header
+          description: header test int
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
+  '/pet/{petId}?streaming':
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID (streaming)
+      description: Returns a single pet
+      operationId: getPetByIdStreaming
+      x-streaming: true
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
   '/pet/{petId}/uploadImage':
     post:
       tags:
@@ -596,6 +628,24 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/regular_expression:
+    get:
+      tags:
+        - fake
+      summary: test regular expression to ensure no exception
+      description: ''
+      operationId: fake_regular-expression
+      parameters:
+        - name: reg_exp_test
+          in: header
+          description: dummy required parameter
+          required: true
+          schema:
+            type: string
+            pattern: /^[A-Za-z0-9_]{1,15}$/
+      responses:
+        '200':
+          description: successful operation
   /fake/data_file:
     get:
       tags:

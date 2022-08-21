@@ -39,6 +39,18 @@
     #'
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}.
+    #' An alias to the method `fromJSON`.
+    #'
+    #' @param input The input JSON.
+    #' @return An instance of {{{classname}}}.
+    #' @export
+    fromJSONString = function(input) {
+      self$fromJSON(input)
+    },
+    #' Deserialize JSON string into an instance of {{{classname}}}.
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}.
     #'
     #' @param input The input JSON.
     #' @return An instance of {{{classname}}}.

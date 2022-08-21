@@ -115,7 +115,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
 
-        String jsonValueClass = jsonLibrary == "circe" ? "io.circe.Json" : "org.json4s.JValue"; 
+        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -127,10 +127,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-        importMapping.remove("Seq");
-        importMapping.remove("List");
-        importMapping.remove("Set");
-        importMapping.remove("Map");
+//        importMapping.remove("Seq");
+//        importMapping.remove("List");
+//        importMapping.remove("Set");
+//        importMapping.remove("Map");
 
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
         typeMapping = new HashMap<>();

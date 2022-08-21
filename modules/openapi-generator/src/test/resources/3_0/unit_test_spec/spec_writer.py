@@ -100,9 +100,7 @@ class ExclusionReason:
     swagger_parser_anytype_bug = 'Swagger parser sets type incorrectly for this anyType schema https://github.com/swagger-api/swagger-parser/issues/1603'
     component_ref_component_bug = 'A component refing another component does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12730'
     not_running_the_localhost_server = 'the openapo-generator is not running the localhost server needed to serve remoteRef files'
-    required_vars_missing_for_anytype_schema_bug = 'fails because of a bug where required vars are forgotten, see issue https://github.com/OpenAPITools/openapi-generator/issues/8906'
     v303_requires_that_the_default_value_is_an_allowed_type = 'v3.0.3 requires that the default value is an allowed type per the schema'
-    not_ref_import_missing = 'this test fails because of this open issue https://github.com/OpenAPITools/openapi-generator/issues/12756'
 
 json_schema_test_draft = 'draft6'
 openapi_additions = 'openapi_additions'
@@ -149,7 +147,6 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'oneOf with boolean schemas, one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'oneOf with boolean schemas, more than one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'oneOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
-        'oneOf with required': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
     },
     (json_schema_test_draft, 'properties.json'): {
         'properties, patternProperties, additionalProperties interaction': ExclusionReason.v303_does_not_support_patternProperties,
@@ -181,7 +178,6 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'property refs adjacent property': ExclusionReason.ref_to_adjacent_property_bug,
         'property refs containing component schema': ExclusionReason.swagger_parser_anytype_bug,
         'component refs another component': ExclusionReason.component_ref_component_bug,
-        'ref in not': ExclusionReason.not_ref_import_missing
     },
     (json_schema_test_draft, 'refRemote.json'): {
         'base URI change - change folder': ExclusionReason.v303_does_not_support_id,
@@ -192,9 +188,6 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'remote ref': ExclusionReason.not_running_the_localhost_server,
         'fragment within remote ref': ExclusionReason.not_running_the_localhost_server,
         'ref within remote ref': ExclusionReason.not_running_the_localhost_server,
-    },
-    (json_schema_test_draft, 'required.json'): {
-        'required with escaped characters': ExclusionReason.required_vars_missing_for_anytype_schema_bug,
     },
     (json_schema_test_draft, 'type.json'): {
         'multiple types can be specified in an array': ExclusionReason.v303_does_not_support_array_of_types,
@@ -264,6 +257,13 @@ JSON_SCHEMA_TEST_FILE_TO_FOLDERS = {
     'type.json': (json_schema_test_draft, openapi_additions),
     'uniqueItems.json': (json_schema_test_draft,),
     'unknownKeyword.json': (json_schema_test_draft,),
+}
+
+file_name_to_tag_name = {
+    'ref': '$ref',
+    'id': '$id',
+    'refRemote': '$ref',
+    'unknownKeyword': None
 }
 
 def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[JsonSchemaTestSchema]:
@@ -497,12 +497,20 @@ def write_openapi_spec():
     post_tag = OpenApiTag(name='path.post')
     json_tag = OpenApiTag(name='contentType_json')
     response_content_tag = OpenApiTag(name='response.content.contentType.schema')
-    openapi.tags.extend([request_body_tag, post_tag, json_tag])
+    openapi.tags.extend([request_body_tag, post_tag, json_tag, response_content_tag])
     # write component schemas and tests
     for json_schema_test_file, folders in JSON_SCHEMA_TEST_FILE_TO_FOLDERS.items():
         component_schemas, component_name_to_test_examples = (
             get_component_schemas_and_test_examples(json_schema_test_file, folders)
         )
+        if not component_schemas and not component_name_to_test_examples:
+            continue
+        json_schema_test_file_name = json_schema_test_file.split('.')[0]
+        json_schema_tag_name = file_name_to_tag_name.get(json_schema_test_file_name, json_schema_test_file_name)
+        json_schema_tag = None
+        if json_schema_tag_name is not None:
+            json_schema_tag = OpenApiTag(name=json_schema_tag_name)
+            openapi.tags.append(json_schema_tag)
         for component_name, schema in component_schemas.items():
             if component_name in openapi.components['schemas']:
                 raise ValueError('A component schema with that name is already defined!')
@@ -512,13 +520,20 @@ def write_openapi_spec():
                 raise ValueError('A component schema test example map with that name is already defined!')
             openapi.components['x-schema-test-examples'][component_name] = test_examples
 
-            operation = generate_post_operation_with_request_body(component_name, [request_body_tag, post_tag, json_tag])
+            request_body_tag_list = [request_body_tag, post_tag, json_tag]
+            if json_schema_tag is not None:
+                request_body_tag_list.append(json_schema_tag)
+
+            operation = generate_post_operation_with_request_body(component_name, request_body_tag_list)
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/requestBody/{operation["operationId"]}'] = path_item
 
             # todo add put and patch with paths requestBody/someIdentifier
 
-            operation = generate_post_operation_with_response_content_schema(component_name, [response_content_tag, post_tag, json_tag])
+            response_body_tag_list = [response_content_tag, post_tag, json_tag]
+            if json_schema_tag is not None:
+                response_body_tag_list.append(json_schema_tag)
+            operation = generate_post_operation_with_response_content_schema(component_name, response_body_tag_list)
             path_item = OpenApiPathItem(post=operation)
             openapi.paths[f'/responseBody/{operation["operationId"]}'] = path_item
     print(

@@ -297,9 +297,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
-        super.processOpts();
         useOneOfInterfaces = true;
         legacyDiscriminatorBehavior = false;
+
+        // Please refrain from updating values of Config Options after super.ProcessOpts() is called
+        super.processOpts();
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
@@ -967,7 +969,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             parentVar.isInherited = true;
                             LOGGER.info("adding parent variable {}", property.name);
                             codegenModel.parentVars.add(parentVar);
-                            Set<String> imports = parentVar.getImports(true).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
                             for (String imp: imports) {
                                 // Avoid dupes
                                 if (!codegenModel.getImports().contains(imp)) {

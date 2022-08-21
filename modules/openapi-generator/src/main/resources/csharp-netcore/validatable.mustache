@@ -29,7 +29,7 @@
             {{#parent}}
             {{^isArray}}
             {{^isMap}}
-            foreach (var x in BaseValidate(validationContext))
+            foreach (var x in {{#discriminator}}base.{{/discriminator}}BaseValidate(validationContext))
             {
                 yield return x;
             }

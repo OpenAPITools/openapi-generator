@@ -11,7 +11,7 @@ title: Documentation for the rust-server Generator
 | generator type | SERVER | |
 | generator language | Rust | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Rust client/server library (beta) using the openapi-generator project. | |
+| helpTxt | Generates a Rust Hyper/Tower server library. Also generates a matching Hyper client library within the same crate that implements the same trait. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

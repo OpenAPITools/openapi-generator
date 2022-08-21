@@ -19,9 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("BigCat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class BigCat extends Cat implements Serializable {
-  
-
-public enum KindEnum {
+  public enum KindEnum {
 
     LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
 
@@ -71,11 +69,12 @@ public enum KindEnum {
   private @Valid KindEnum kind;
 
   protected BigCat(BigCatBuilder<?, ?> b) {
-  super(b);
-  this.kind = b.kind;
+    super(b);
+    this.kind = b.kind;
   }
 
-  public BigCat() { }
+  public BigCat() {
+  }
 
   /**
    **/

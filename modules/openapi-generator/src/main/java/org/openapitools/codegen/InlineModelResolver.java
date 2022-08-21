@@ -167,7 +167,7 @@ public class InlineModelResolver {
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
      *
-     * @param schema target schema
+     * @param schema         target schema
      * @param visitedSchemas Visited schemas
      */
     private boolean isModelNeeded(Schema schema, Set<Schema> visitedSchemas) {
@@ -429,6 +429,10 @@ public class InlineModelResolver {
         if (requestBody.get$ref() != null) {
             String ref = ModelUtils.getSimpleRef(requestBody.get$ref());
             requestBody = openAPI.getComponents().getRequestBodies().get(ref);
+
+            if (requestBody == null) {
+                return;
+            }
         }
 
         flattenContent(requestBody.getContent(),

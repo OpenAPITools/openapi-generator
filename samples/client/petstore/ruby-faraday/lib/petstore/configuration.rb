@@ -315,6 +315,29 @@ module Petstore
           {
           url: "http://path-server-test.petstore.local/v2",
           description: "No description provided",
+          },
+          {
+          url: "http://{server}.swagger.io:{port}/v2",
+          description: "test server with variables",
+          variables: {
+            server: {
+                description: "target server",
+                default_value: "petstore",
+                enum_values: [
+                  "petstore",
+                  "qa-petstore",
+                  "dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "80",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
           }
         ],
         "PetApi.update_pet": [
@@ -325,6 +348,29 @@ module Petstore
           {
           url: "http://path-server-test.petstore.local/v2",
           description: "No description provided",
+          },
+          {
+          url: "http://{server}.swagger.io:{port}/v2",
+          description: "test server with variables",
+          variables: {
+            server: {
+                description: "target server",
+                default_value: "petstore",
+                enum_values: [
+                  "petstore",
+                  "qa-petstore",
+                  "dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "80",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
           }
         ],
       }

@@ -164,6 +164,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private boolean isAnyType;
     private boolean isUuid;
+    private Map<String, CodegenProperty> requiredVarsMap;
+    private String ref;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -171,6 +173,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    @Override
+    public String getRef() {
+        return ref;
+    }
+
+    @Override
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
     public Set<String> getAllMandatory() {
@@ -928,6 +940,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(ref, that.getRef()) &&
+                Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(parent, that.parent) &&
                 Objects.equals(parentSchema, that.parentSchema) &&
@@ -1000,7 +1014,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref);
     }
 
     @Override
@@ -1097,6 +1111,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isUUID=").append(isUuid);
+        sb.append(", requiredVarsMap=").append(requiredVarsMap);
+        sb.append(", ref=").append(ref);
         sb.append('}');
         return sb.toString();
     }
@@ -1123,6 +1139,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean getHasItems() {
         return this.items != null;
     }
+
+    @Override
+    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+
+    @Override
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
 
     /**
      * Remove duplicated properties in all variable list

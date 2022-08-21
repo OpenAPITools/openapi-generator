@@ -28,6 +28,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "another-fake", description = "the another-fake API")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface AnotherFakeApi {
 
     default AnotherFakeApiDelegate getDelegate() {

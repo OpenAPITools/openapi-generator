@@ -62,8 +62,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
     public static final String USE_RLANG_EXCEPTION = "useRlangExceptionHandling";
+    public static final String GENERATE_WRAPPER = "generateWrapper";
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
+    public static final String HTTR = "httr";
+    public static final String HTTR2 = "httr2";
 
     // naming convention for operationId (function names in the API)
     public static final String OPERATIONID_NAMING = "operationIdNaming";
@@ -72,6 +75,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
     protected String operationIdNaming;
+    protected boolean generateWrapper;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -199,6 +203,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(exceptionPackage);
 
         cliOptions.add(CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
+
+        supportedLibraries.put(HTTR2, "httr2 (https://httr2.r-lib.org/)");
+        supportedLibraries.put(HTTR, "httr (https://cran.r-project.org/web/packages/httr/index.html)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set httr as the default
+        libraryOption.setDefault(HTTR);
+        cliOptions.add(libraryOption);
+        setLibrary(HTTR);
+
+        cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
     }
 
     @Override
@@ -242,6 +258,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
+        if (additionalProperties.containsKey(GENERATE_WRAPPER)) {
+            this.setGenerateWrapper(Boolean.parseBoolean(
+                    additionalProperties.get(GENERATE_WRAPPER).toString()));
+        } else {
+            this.setGenerateWrapper(false);
+        }
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
@@ -265,14 +288,27 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
-        supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile(".travis.yml.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
-        //supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.R"));
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
         supportingFiles.add(new SupportingFile("r-client.mustache", File.separator + ".github" + File.separator + "workflows", "r-client.yaml"));
         supportingFiles.add(new SupportingFile("lintr.mustache", "", ".lintr"));
+
+        if (HTTR.equals(getLibrary())) {
+            // for httr
+            setLibrary(HTTR);
+        } else if (HTTR2.equals(getLibrary())) {
+            // for httr2
+            setLibrary(HTTR2);
+            additionalProperties.put("isHttr2", Boolean.TRUE);
+            if (generateWrapper) { // generateWrapper option only supports in httr2 library
+                supportingFiles.add(new SupportingFile("api_wrapper.mustache", "R", packageName.toLowerCase(Locale.ROOT) + "_api.R"));
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only httr, httr2 are supported.");
+        }
 
         // add lambda for mustache templates to fix license field
         additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
@@ -280,6 +316,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
                 String content = fragment.execute();
                 content = content.trim().replace("Apache-2.0", "Apache License 2.0");
+                writer.write(content);
+            }
+        });
+
+        // add lambda for mustache templates to escape %
+        additionalProperties.put("lambdaRdocEscape", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("%", "\\%");
                 writer.write(content);
             }
         });
@@ -510,6 +556,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
                     var.baseName = "empty_string";
                 }
+
+                // create extension x-r-doc-type to store the data type in r doc format
+                var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
         }
 
@@ -570,6 +619,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.errorObjectType = errorObjectType;
     }
 
+    public void setGenerateWrapper(final boolean generateWrapper) {
+        this.generateWrapper = generateWrapper;
+    }
+
     public void setOperationIdNaming(final String operationIdNaming) {
         if (!("PascalCase".equals(operationIdNaming) || "camelCase".equals(operationIdNaming) ||
                 "snake_case".equals(operationIdNaming))) {
@@ -585,6 +638,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         this.operationIdNaming = operationIdNaming;
     }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -823,11 +877,30 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * Return the R doc type (e.g. list(\link{Media}), character)
+     *
+     * @param codegenProperty Codegen property
+     * @return R doc type
+     */
+    public String constructRdocType(CodegenProperty codegenProperty) {
+        if (codegenProperty.isArray) {
+            return "list(" + constructRdocType(codegenProperty.items) + ")";
+        } else if (codegenProperty.isMap) {
+            return "named list(" + constructRdocType(codegenProperty.items) + ")";
+        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) {
+            // primitive type
+            return codegenProperty.dataType;
+        } else { // model
+            return "\\link{" + codegenProperty.dataType + "}";
+        }
+    }
+
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
             return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
-        } else if (codegenParameter.isMap) { // TODO: map
-            return "TODO";
+        } else if (codegenParameter.isMap) { // map
+            return "list(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
@@ -847,8 +920,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (codegenProperty.isArray) { // array
             return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
-        } else if (codegenProperty.isMap) { // TODO: map
-            return "TODO";
+        } else if (codegenProperty.isMap) { // map
+            return "list(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
@@ -916,5 +989,24 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.R;
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        if (pattern == null) {
+            return null;
+        }
+
+        // remove leading '/'
+        if (pattern.charAt(0) == '/') {
+            pattern = pattern.substring(1);
+        }
+
+        // remove trailing '/'
+        if (pattern.charAt(pattern.length() - 1) == '/') {
+            pattern = pattern.substring(0, pattern.length() - 1);
+        }
+
+        return escapeText(pattern);
     }
 }

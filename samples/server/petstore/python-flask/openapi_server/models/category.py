@@ -33,8 +33,8 @@ class Category(Model):
             'name': 'name'
         }
 
-        self._id = id
-        self._name = name
+        self.id = id
+        self.name = name
 
     @classmethod
     def from_dict(cls, dikt) -> 'Category':
