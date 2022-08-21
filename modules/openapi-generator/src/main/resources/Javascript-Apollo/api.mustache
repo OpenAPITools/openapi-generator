@@ -19,9 +19,8 @@ export default class <&classname> extends ApiClient {
     * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
     * @class
     */</emitJSDoc>
-    constructor() {
-      super();
-      this.baseURL = <#servers.0>basePath</servers.0><^servers.0>null</servers.0>;
+    constructor(baseURL = '{{{basePath}}}') {
+      super(baseURL);
     }
 
 <#operations><#operation><#emitJSDoc>

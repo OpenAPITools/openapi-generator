@@ -14,8 +14,15 @@ import { RESTDataSource } from 'apollo-datasource-rest';
 * @class
 */{{/emitJSDoc}}
 export default class ApiClient extends RESTDataSource {
-    constructor() {
+    constructor(baseURL = '{{{basePath}}}') {
         super()
+
+        {{#emitJSDoc}}/**
+         * The base URL against which to resolve every API call's (relative) path.
+         * @type {String}
+         * @default {{{basePath}}}
+         */{{/emitJSDoc}}
+        this.baseURL = baseURL.replace(/\/+$/, '');
 
         {{#emitJSDoc}}/**
          * The authentication methods to be included for all API calls.
