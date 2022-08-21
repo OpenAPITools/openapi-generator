@@ -14,6 +14,7 @@
 
 
 import { Configuration } from './configuration';
+import { exists, mapValues } from './runtime';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -40,6 +41,21 @@ export interface Cat {
      */
     'age'?: number;
 }
+export function CatFromJSON(json: any): Cat {
+    return CatFromJSONTyped(json, false);
+}
+
+export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'hunts': !exists(json, 'hunts') ? undefined : json['hunts'],
+        'age': !exists(json, 'age') ? undefined : json['age'],
+    };
+}
+
 /**
  * 
  * @export
@@ -59,6 +75,21 @@ export interface CatAllOf {
      */
     'age'?: number;
 }
+export function CatAllOfFromJSON(json: any): CatAllOf {
+    return CatAllOfFromJSONTyped(json, false);
+}
+
+export function CatAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CatAllOf {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'hunts': !exists(json, 'hunts') ? undefined : json['hunts'],
+        'age': !exists(json, 'age') ? undefined : json['age'],
+    };
+}
+
 /**
  * 
  * @export
@@ -87,6 +118,21 @@ export const DogBreedEnum = {
 } as const;
 
 export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
+
+export function DogFromJSON(json: any): Dog {
+    return DogFromJSONTyped(json, false);
+}
+
+export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'bark': !exists(json, 'bark') ? undefined : json['bark'],
+        'breed': !exists(json, 'breed') ? undefined : json['breed'],
+    };
+}
 
 /**
  * 
@@ -117,6 +163,21 @@ export const DogAllOfBreedEnum = {
 
 export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBreedEnum];
 
+export function DogAllOfFromJSON(json: any): DogAllOf {
+    return DogAllOfFromJSONTyped(json, false);
+}
+
+export function DogAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): DogAllOf {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'bark': !exists(json, 'bark') ? undefined : json['bark'],
+        'breed': !exists(json, 'breed') ? undefined : json['breed'],
+    };
+}
+
 /**
  * 
  * @export
@@ -130,6 +191,20 @@ export interface FilePostRequest {
      */
     'file'?: any;
 }
+export function FilePostRequestFromJSON(json: any): FilePostRequest {
+    return FilePostRequestFromJSONTyped(json, false);
+}
+
+export function FilePostRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FilePostRequest {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'file': !exists(json, 'file') ? undefined : json['file'],
+    };
+}
+
 /**
  * 
  * @export
@@ -149,6 +224,21 @@ export interface PetByAge {
      */
     'nickname'?: string;
 }
+export function PetByAgeFromJSON(json: any): PetByAge {
+    return PetByAgeFromJSONTyped(json, false);
+}
+
+export function PetByAgeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetByAge {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'age': json['age'],
+        'nickname': !exists(json, 'nickname') ? undefined : json['nickname'],
+    };
+}
+
 /**
  * 
  * @export
@@ -175,6 +265,21 @@ export const PetByTypePetTypeEnum = {
 } as const;
 
 export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetByTypePetTypeEnum];
+
+export function PetByTypeFromJSON(json: any): PetByType {
+    return PetByTypeFromJSONTyped(json, false);
+}
+
+export function PetByTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetByType {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'pet_type': json['pet_type'],
+        'hunts': !exists(json, 'hunts') ? undefined : json['hunts'],
+    };
+}
 
 /**
  * 
@@ -214,6 +319,23 @@ export const PetsFilteredPatchRequestPetTypeEnum = {
 } as const;
 
 export type PetsFilteredPatchRequestPetTypeEnum = typeof PetsFilteredPatchRequestPetTypeEnum[keyof typeof PetsFilteredPatchRequestPetTypeEnum];
+
+export function PetsFilteredPatchRequestFromJSON(json: any): PetsFilteredPatchRequest {
+    return PetsFilteredPatchRequestFromJSONTyped(json, false);
+}
+
+export function PetsFilteredPatchRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetsFilteredPatchRequest {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'age': json['age'],
+        'nickname': !exists(json, 'nickname') ? undefined : json['nickname'],
+        'pet_type': json['pet_type'],
+        'hunts': !exists(json, 'hunts') ? undefined : json['hunts'],
+    };
+}
 
 /**
  * @type PetsPatchRequest
@@ -345,7 +467,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async filePost(filePostRequest?: FilePostRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(filePostRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -355,7 +481,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsFilteredPatch(petsFilteredPatchRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
         /**
          * 
@@ -365,7 +495,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsPatch(petsPatchRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const response = createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, basePath);
+
+                return;
+            };
         },
     }
 };

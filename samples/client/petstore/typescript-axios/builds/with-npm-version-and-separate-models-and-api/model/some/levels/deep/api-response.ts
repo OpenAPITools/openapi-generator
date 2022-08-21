@@ -39,4 +39,20 @@ export interface ApiResponse {
      */
     'message'?: string;
 }
+export function ApiResponseFromJSON(json: any): ApiResponse {
+    return ApiResponseFromJSONTyped(json, false);
+}
+
+export function ApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiResponse {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'code': !exists(json, 'code') ? undefined : json['code'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
+        'message': !exists(json, 'message') ? undefined : json['message'],
+    };
+}
+
 

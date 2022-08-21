@@ -33,4 +33,19 @@ export interface Tag {
      */
     'name'?: string;
 }
+export function TagFromJSON(json: any): Tag {
+    return TagFromJSONTyped(json, false);
+}
+
+export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+    };
+}
+
 

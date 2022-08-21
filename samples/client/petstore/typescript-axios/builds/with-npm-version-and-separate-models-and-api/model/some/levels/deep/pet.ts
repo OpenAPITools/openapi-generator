@@ -72,4 +72,23 @@ export const PetStatusEnum = {
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
+export function PetFromJSON(json: any): Pet {
+    return PetFromJSONTyped(json, false);
+}
+
+export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
+        'name': json['name'],
+        'photoUrls': json['photoUrls'],
+        'tags': !exists(json, 'tags') ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
+        'status': !exists(json, 'status') ? undefined : json['status'],
+    };
+}
+
 

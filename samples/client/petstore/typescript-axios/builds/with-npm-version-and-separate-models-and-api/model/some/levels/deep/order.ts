@@ -66,4 +66,23 @@ export const OrderStatusEnum = {
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
+export function OrderFromJSON(json: any): Order {
+    return OrderFromJSONTyped(json, false);
+}
+
+export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'petId': !exists(json, 'petId') ? undefined : json['petId'],
+        'quantity': !exists(json, 'quantity') ? undefined : json['quantity'],
+        'shipDate': !exists(json, 'shipDate') ? undefined : (new Date(json['shipDate'])),
+        'status': !exists(json, 'status') ? undefined : json['status'],
+        'complete': !exists(json, 'complete') ? undefined : json['complete'],
+    };
+}
+
 

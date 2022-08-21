@@ -4,6 +4,7 @@
 
 {{^withSeparateModelsAndApi}}
 import { Configuration } from './configuration';
+import { exists, mapValues } from './runtime';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
