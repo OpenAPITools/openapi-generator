@@ -1,34 +1,38 @@
 {{>licenseInfo}}
-// CommonJS-like environments that support module.exports, like Node.
-//factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'));
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD.
+    define(['expect.js', process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    factory(require('expect.js'), require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'));
+  }
+}(this, function(expect, {{moduleName}}) {
+  'use strict';
 
-'use strict';
+  var instance;
 
-const {{classname}} = require(process.cwd()+'/src/{{#invokerPackage}}{{.}}/{{/invokerPackage}}index').{{classname}}
+  beforeEach(function() {
+    instance = new {{moduleName}}.{{classname}}();
+  });
 
-var instance;
+  var getProperty = function(object, getter, property) {
+    // Use getter method if present; otherwise, get the property directly.
+    if (typeof object[getter] === 'function')
+      return object[getter]();
+    else
+      return object[property];
+  }
 
-beforeEach(function() {
-  instance = new {{classname}}()
-});
+  var setProperty = function(object, setter, property, value) {
+    // Use setter method if present; otherwise, set the property directly.
+    if (typeof object[setter] === 'function')
+      object[setter](value);
+    else
+      object[property] = value;
+  }
 
-var getProperty = function(object, getter, property) {
-  // Use getter method if present; otherwise, get the property directly.
-  if (typeof object[getter] === 'function')
-    return object[getter]();
-  else
-    return object[property];
-}
-
-var setProperty = function(object, setter, property, value) {
-  // Use setter method if present; otherwise, set the property directly.
-  if (typeof object[setter] === 'function')
-    object[setter](value);
-  else
-    object[property] = value;
-}
-
-describe('{{classname}}', function() {
+  describe('{{classname}}', function() {
 {{#operations}}
 {{#operation}}
     describe('{{operationId}}', function() {
@@ -43,4 +47,6 @@ describe('{{classname}}', function() {
     });
 {{/operation}}
 {{/operations}}
-});
+  });
+
+}));
