@@ -678,6 +678,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {
         Set<String> resultImports = Sets.newHashSet();
         for (String modelImport : originalImports) {
+            if (modelImport.startsWith("BuiltList", 0)) {
+                modelImport = "BuiltList";
+            } else if (modelImport.startsWith("BuiltSet", 0)) {
+                modelImport = "BuiltSet";
+            } else if (modelImport.startsWith("BuiltMap", 0)) {
+                modelImport = "BuiltMap";
+            }
+
             if (imports.containsKey(modelImport)) {
                 String i = imports.get(modelImport);
                 if (Objects.equals(i, DIO_IMPORT) && !isModel) {
