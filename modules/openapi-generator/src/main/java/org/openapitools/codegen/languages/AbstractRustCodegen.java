@@ -204,6 +204,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     //// API naming ////
 
     protected String addApiNamePrefixAndSuffix(String name) {
+        if (Strings.isNullOrEmpty(name)) {
+            name = "default";
+        }
         if (!Strings.isNullOrEmpty(apiNamePrefix)) {
             name = apiNamePrefix + "_" + name;
         }
@@ -215,17 +218,11 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toApiName(String name) {
-        if (Strings.isNullOrEmpty(name)) {
-            name = "default";
-        }
         return sanitizeIdentifier(addApiNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "api", "API", false);
     }
 
     @Override
     public String toApiFilename(String name) {
-        if (Strings.isNullOrEmpty(name)) {
-            name = "default";
-        }
         return sanitizeIdentifier(addApiNamePrefixAndSuffix(name), CasingType.SNAKE_CASE, "api", "API file", false);
     }
 
