@@ -313,7 +313,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             projectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(moduleName)) {
-            moduleName = camelize(underscore(projectName));
+            moduleName = camelize(underscore(sanitizeName(projectName)));
         }
         if (StringUtils.isBlank(projectVersion)) {
             projectVersion = "1.0.0";
