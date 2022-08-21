@@ -359,6 +359,47 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
     }
 
+    private void syncRootTypesWithInnerVars(Map<String, ModelsMap> objs) {
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (ModelsMap modelsEntries : objs.values()) {
+            for (ModelMap modelsMap : modelsEntries.getModels()) {
+                CodegenModel model = modelsMap.getModel();
+                allModels.put(model.getClassname(), model);
+            }
+        }
+
+        for (CodegenModel model : allModels.values()) {            
+            syncRootTypesWithInnerVars(allModels, model);
+        }
+    }
+    private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
+        List<CodegenProperty> allVars = new ArrayList<>();        
+        allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
+        allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfOnlyProps)));
+        allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kAncestorOnlyProps)));
+
+        for (CodegenProperty prop : allVars) {
+            //check if type exists in parent map
+            String type = prop.openApiType;
+            if (objs.containsKey(type)) {
+                //get the type
+                CodegenModel relatedModel = objs.get(type);
+                //fill the property's VendorExtensions with the type's VendorExtensions
+                prop.getVendorExtensions().put(kIsParent, relatedModel.getVendorExtensions().get(kIsParent));
+                
+            }            
+        }
+    }
+    private final String kIsChild = "x-is-child";
+    private final String kIsParent = "x-is-parent";
+    private final String kIsPure = "x-is-pure";
+    private final String kSelfOnlyProps = "x-self-only-props";
+    private final String kHasSelfOnlyProps = "x-has-self-only-props";
+    private final String kAncestorOnlyProps = "x-ancestor-only-props";
+    private final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
+    private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
+    private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+    
     // adapts codegen models and property to dart rules of inheritance
     private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
         // get all models
@@ -386,15 +427,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             allAncestorsForAllModelsFlat.addAll(allAncestors);
         }
 
-        final String kIsChild = "x-is-child";
-        final String kIsParent = "x-is-parent";
-        final String kIsPure = "x-is-pure";
-        final String kSelfOnlyProps = "x-self-only-props";
-        final String kHasSelfOnlyProps = "x-has-self-only-props";
-        final String kAncestorOnlyProps = "x-ancestor-only-props";
-        final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
-        final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
-        final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+        
 
         Set<String> allPureClasses = new HashSet<>();
         // set isChild,isParent,isPure
@@ -419,11 +452,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
             // ancestorOnlyProps = empty
             if (isPure) {
-                cm.vendorExtensions.put(kSelfOnlyProps, cm.getVars());
+                cm.vendorExtensions.put(kSelfOnlyProps, new ArrayList<>(cm.getVars()));
                 cm.vendorExtensions.put(kHasSelfOnlyProps, !cm.getVars().isEmpty());
                 cm.vendorExtensions.put(kAncestorOnlyProps, new ArrayList<CodegenProperty>());
                 cm.vendorExtensions.put(kHasAncestorOnlyProps, false);
-                cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, cm.getVars());
+                cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, new ArrayList<>(cm.getVars()));
                 cm.vendorExtensions.put(kHasSelfAndAncestorOnlyProps, !cm.getVars().isEmpty());
 
                 allPureClasses.add(key);
@@ -492,11 +525,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             selfAndAncestorOnlyProperties.putAll(selfOnlyProperties);
             selfAndAncestorOnlyProperties.putAll(ancestorOnlyProperties);
 
-            cm.vendorExtensions.put(kSelfOnlyProps, selfOnlyProperties.values());
+            cm.vendorExtensions.put(kSelfOnlyProps, new ArrayList<>(selfOnlyProperties.values()));
             cm.vendorExtensions.put(kHasSelfOnlyProps, !selfOnlyProperties.isEmpty());
-            cm.vendorExtensions.put(kAncestorOnlyProps, ancestorOnlyProperties.values());
+            cm.vendorExtensions.put(kAncestorOnlyProps, new ArrayList<>(ancestorOnlyProperties.values()));
             cm.vendorExtensions.put(kHasAncestorOnlyProps, !ancestorOnlyProperties.isEmpty());
-            cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, selfAndAncestorOnlyProperties.values());
+            cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, new ArrayList<>(selfAndAncestorOnlyProperties.values()));
             cm.vendorExtensions.put(kHasSelfAndAncestorOnlyProps, !selfAndAncestorOnlyProperties.isEmpty());
             // fixes missing imports
             Set<String> interfaceImports = new HashSet<String>();
@@ -512,6 +545,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessAllModels(objs);
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
             adaptToDartInheritance(objs);
+            syncRootTypesWithInnerVars(objs);
         }
         return objs;
     }

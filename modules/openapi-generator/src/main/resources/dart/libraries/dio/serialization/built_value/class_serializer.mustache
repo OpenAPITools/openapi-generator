@@ -77,50 +77,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     }
 
     {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
-    void _deserializeProperties(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required {{classname}}Builder result, required List<Object?> unhandled}) {
-        for (var i = 0; i < serializedList.length; i += 2) {
-            final key = serializedList[i] as String;
-            final value = serializedList[i + 1];
-            switch (key) {
-                {{#vendorExtensions.x-self-and-ancestor-only-props}}
-                 case r'{{baseName}}':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const {{>serialization/built_value/variable_serializer_type}}) as {{>serialization/built_value/variable_type}};
-                    {{#isNullable}}
-                    if (valueDes == null) continue;
-                    {{/isNullable}}
-                    {{#isContainer}}
-                    result.{{{name}}}.replace(valueDes);
-                    {{/isContainer}}
-                    {{^isContainer}}
-                    {{#isEnum}}
-                    result.{{{name}}} = valueDes;
-                    {{/isEnum}}
-                    {{^isEnum}}
-                    {{#isModel}}
-                    {{#isPrimitiveType}}
-                    {{! These are models that have been manually marked as primitive via generator param. }}
-                    result.{{{name}}} = valueDes;
-                    {{/isPrimitiveType}}
-                    {{^isPrimitiveType}}
-                    result.{{{name}}}.replace(valueDes);
-                    {{/isPrimitiveType}}
-                    {{/isModel}}
-                    {{^isModel}}
-                    result.{{{name}}} = valueDes;
-                    {{/isModel}}
-                    {{/isEnum}}
-                    {{/isContainer}}
-                    break;
-                {{/vendorExtensions.x-self-and-ancestor-only-props}}
-                default:
-                  unhandled.add(key);
-                  unhandled.add(value);
-                  break;
-            }
-        }
-    }
+    {{>serialization/built_value/deserialize_properties}}    
     {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
     
     @override
