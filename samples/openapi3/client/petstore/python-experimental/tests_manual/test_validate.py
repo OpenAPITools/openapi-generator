@@ -176,7 +176,7 @@ class TestValidateCalls(unittest.TestCase):
                 ),
                 call(
                     Decimal("7"),
-                    ValidationMetadata(path_to_item=("args[0]", 0))
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", 0))
                 )
             ]
             mock_validate.assert_has_calls(
@@ -211,7 +211,7 @@ class TestValidateCalls(unittest.TestCase):
                 ),
                 call(
                     Decimal("7"),
-                    ValidationMetadata(path_to_item=("args[0]", 0), from_server=True)
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", 0), from_server=True)
                 )
             ]
             mock_validate.assert_has_calls(
@@ -232,7 +232,7 @@ class TestValidateCalls(unittest.TestCase):
                 ),
                 call(
                     "a",
-                    ValidationMetadata(path_to_item=("args[0]", "bar")),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", "bar")),
                 ),
             ]
             mock_validate.assert_has_calls(
@@ -269,7 +269,7 @@ class TestValidateCalls(unittest.TestCase):
                 ),
                 call(
                     "a",
-                    ValidationMetadata(path_to_item=("args[0]", "bar"), from_server=True),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", "bar"), from_server=True),
                 ),
             ]
             mock_validate.assert_has_calls(

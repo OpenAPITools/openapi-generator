@@ -330,7 +330,7 @@ def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Val
             """
             arg_type = type(arg)
             if arg_type in union_classes:
-                return super()._validate(arg, validation_metadata)
+                return super()._validate(arg, validation_metadata=validation_metadata)
             raise cls._get_type_error(
                 arg,
                 validation_metadata.path_to_item,
@@ -383,7 +383,7 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
                 cls._enum_value_to_name[arg]
             except KeyError:
                 raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
-            return super()._validate(arg, validation_metadata)
+            return super()._validate(arg, validation_metadata=validation_metadata)
 
     return SchemaEnumMaker
 
@@ -466,12 +466,11 @@ class StrBase(ValidatorBase):
                 path_to_item=validation_metadata.path_to_item
             )
 
-        checked_value = input_values
         if (cls.is_json_validation_enabled_oapg('pattern', validation_metadata.configuration) and
                 hasattr(cls, '_regex')):
             for regex_dict in cls._regex:
                 flags = regex_dict.get('flags', 0)
-                if not re.search(regex_dict['pattern'], checked_value, flags=flags):
+                if not re.search(regex_dict['pattern'], arg, flags=flags):
                     if flags != 0:
                         # Don't print the regex flags if the flags are not
                         # specified in the OAS document.
@@ -501,7 +500,7 @@ class StrBase(ValidatorBase):
         """
         if isinstance(arg, str):
             cls.__check_str_validations(arg, validation_metadata)
-        return super()._validate(arg, validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
 
 
 class UUIDBase(StrBase):
@@ -669,7 +668,7 @@ class DecimalBase(StrBase):
         return super()._validate(arg, validation_metadata=validation_metadata)
 
 
-class NumberBase:
+class NumberBase(ValidatorBase):
     @property
     def as_int(self) -> int:
         try:
@@ -709,7 +708,7 @@ class NumberBase:
         if cls.is_json_validation_enabled_oapg('multipleOf',
                                       validation_metadata.configuration) and hasattr(cls, '_multiple_of'):
             multiple_of_value = cls._multiple_of
-            if (not (float(input_values) / multiple_of_value).is_integer()):
+            if (not (float(arg) / multiple_of_value).is_integer()):
                 # Note 'multipleOf' will be as good as the floating point arithmetic.
                 cls.raise_validation_error_message_oapg(
                     value=arg,
@@ -769,6 +768,7 @@ class NumberBase:
                 path_to_item=validation_metadata.path_to_item
             )
 
+    @classmethod
     def _validate(
         cls,
         arg,
@@ -780,10 +780,10 @@ class NumberBase:
         """
         if isinstance(arg, decimal.Decimal):
             cls.__check_numeric_validations(arg, validation_metadata)
-        return super()._validate(arg, validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
 
 
-class ListBase:
+class ListBase(ValidatorBase):
     @classmethod
     def _validate_items(cls, list_items, validation_metadata: ValidationMetadata):
         """
@@ -843,8 +843,8 @@ class ListBase:
             )
 
         if (cls.is_json_validation_enabled_oapg('uniqueItems', validation_metadata.configuration) and
-                hasattr(cls, '_unique_items') and cls._unique_items and input_values):
-            unique_items = set(input_values)
+                hasattr(cls, '_unique_items') and cls._unique_items and arg):
+            unique_items = set(arg)
             if len(arg) > len(unique_items):
                 cls.raise_validation_error_message_oapg(
                     value=arg,
@@ -970,7 +970,7 @@ class Discriminable:
         return None
 
 
-class DictBase(Discriminable):
+class DictBase(Discriminable, ValidatorBase):
     # subclass properties
     _required_property_names = set()
 
