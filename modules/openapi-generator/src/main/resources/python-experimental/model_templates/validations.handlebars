@@ -2,31 +2,31 @@ schemas.SchemaValidatorClsFactory(
 {{#if getUniqueItems}}
     unique_items=True,
 {{/if}}
-{{#if maxLength}}
+{{#neq maxLength null}}
     max_length={{maxLength}},
-{{/if}}
-{{#if minLength}}
+{{/neq}}
+{{#neq minLength null}}
     min_length={{minLength}},
-{{/if}}
-{{#if maxItems}}
+{{/neq}}
+{{#neq maxItems null}}
     max_items={{maxItems}},
-{{/if}}
-{{#if minItems}}
+{{/neq}}
+{{#neq minItems null}}
     min_items={{minItems}},
-{{/if}}
+{{/neq}}
 {{#neq maxProperties null }}
     max_properties={{maxProperties}},
 {{/neq}}
-{{#if minProperties}}
+{{#neq minProperties null}}
     min_properties={{minProperties}},
-{{/if}}
-{{#if maximum}}
+{{/neq}}
+{{#neq maximum null}}
     {{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}},
-{{/if}}
-{{#if minimum}}
+{{/neq}}
+{{#neq minimum null}}
     {{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}},
-{{/if}}
-{{#if pattern}}
+{{/neq}}
+{{#neq pattern null}}
     regex=[{
 {{#if vendorExtensions.x-regex}}
         'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
@@ -43,8 +43,8 @@ schemas.SchemaValidatorClsFactory(
 {{/if}}
 {{/each}}
     }],
-{{/if}}
-{{#if multipleOf}}
+{{/neq}}
+{{#neq multipleOf null}}
     multiple_of={{multipleOf}},
-{{/if}}
+{{/neq}}
 ),
