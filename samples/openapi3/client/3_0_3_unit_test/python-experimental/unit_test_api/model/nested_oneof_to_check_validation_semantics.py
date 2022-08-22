@@ -32,10 +32,46 @@ class NestedOneofToCheckValidationSemantics(
     Do not edit the class manually.
     """
 
+    
+    
+    class one_of_0(
+        schemas.ComposedSchema,
+    ):
+    
+        one_of_0 = schemas.NoneSchema
+        
+        @classmethod
+        @property
+        @functools.cache
+        def _one_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.one_of_0,
+            ]
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
+        ) -> 'one_of_0':
+            return super().__new__(
+                cls,
+                *args,
+                _configuration=_configuration,
+                **kwargs,
+            )
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _one_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,59 +79,9 @@ class NestedOneofToCheckValidationSemantics(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class one_of_0(
-            schemas.ComposedSchema,
-        ):
-        
-            @classmethod
-            @property
-            @functools.cache
-            def _composed_schemas(cls):
-                # we need this here to make our import statements work
-                # we must store _composed_schemas in here so the code is only run
-                # when we invoke this method. If we kept this at the class
-                # level we would get an error because the class level
-                # code would be run when this module is imported, and these composed
-                # classes don't exist yet because their module has not finished
-                # loading
-                one_of_0 = schemas.NoneSchema
-                return {
-                    'allOf': [
-                    ],
-                    'oneOf': [
-                        one_of_0,
-                    ],
-                    'anyOf': [
-                    ],
-                    'not':
-                        None
-                }
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> 'one_of_0':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-                one_of_0,
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.one_of_0,
+        ]
 
     def __new__(
         cls,
