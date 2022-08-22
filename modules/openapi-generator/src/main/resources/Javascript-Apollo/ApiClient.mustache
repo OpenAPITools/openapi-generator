@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 
-import RESTDataSource from 'apollo-datasource-rest';
+import { RESTDataSource } from 'apollo-datasource-rest';
 
 {{#emitJSDoc}}/**
 * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient
@@ -14,8 +14,15 @@ import RESTDataSource from 'apollo-datasource-rest';
 * @class
 */{{/emitJSDoc}}
 export default class ApiClient extends RESTDataSource {
-    constructor() {
+    constructor(baseURL = '{{{basePath}}}') {
         super()
+
+        {{#emitJSDoc}}/**
+         * The base URL against which to resolve every API call's (relative) path.
+         * @type {String}
+         * @default {{{basePath}}}
+         */{{/emitJSDoc}}
+        this.baseURL = baseURL.replace(/\/+$/, '');
 
         {{#emitJSDoc}}/**
          * The authentication methods to be included for all API calls.
@@ -53,7 +60,7 @@ export default class ApiClient extends RESTDataSource {
     }
 
     parametrizePath(path, pathParams) {
-        return url.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
+        return path.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
             var value;
             if (pathParams.hasOwnProperty(key)) {
                 value = this.paramToString(pathParams[key]);
@@ -176,7 +183,7 @@ export default class ApiClient extends RESTDataSource {
 
     async callApi(path, httpMethod, pathParams,
         queryParams, headerParams, formParams, bodyParam, authNames,
-        returnType) {
+        contentTypes, accepts, returnType, requestInit) {
 
         var parameterizedPath = this.parametrizePath(path, pathParams);
         var fetchOptions = {
@@ -203,9 +210,9 @@ export default class ApiClient extends RESTDataSource {
         var httpMethodFn = httpMethod.toLowerCase();
 
         if (httpMethodFn == 'get' || httpMethodFn == 'delete') {
-            response = await this[httpMethodFn](parameterizedPath, fetchOptions);
+            response = await this[httpMethodFn](parameterizedPath, [], requestInit);
         } else {
-            response = await this[httpMethodFn](parameterizedPath, body, fetchOptions)
+            response = await this[httpMethodFn](parameterizedPath, body, requestInit)
         }
 
         var convertedResponse = ApiClient.convertToType(response, returnType);
@@ -234,7 +241,7 @@ export default class ApiClient extends RESTDataSource {
             case 'Blob':
                 return data;
             default:
-                if (type === Object) {
+                if (typeof type === "object") {
                     // generic object, return directly
                     return data;
                 } else if (typeof type.constructFromObject === 'function') {
