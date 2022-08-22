@@ -1,11 +1,14 @@
 
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
+{{#if hasValidation}}
+    schemas.SchemaValidator,
+{{/if}}
 {{#if getIsAnyType}}
     {{#if composedSchemas}}
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
     {{else}}
-    schemas.AnyTypeSchema
+    schemas.AnyTypeSchema,
     {{/if}}
 {{else}}
     {{#if getHasMultipleTypes}}

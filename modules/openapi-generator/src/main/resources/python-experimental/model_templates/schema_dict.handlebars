@@ -1,6 +1,9 @@
 
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
+{{#if hasValidation}}
+    schemas.SchemaValidator,
+{{/if}}
     schemas.DictSchema
 ):
 {{#if this.classname}}
