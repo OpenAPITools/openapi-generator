@@ -1,50 +1,48 @@
-schemas.SchemaValidatorClsFactory(
 {{#if getUniqueItems}}
-    unique_items=True,
+_unique_items=True
 {{/if}}
 {{#neq maxLength null}}
-    max_length={{maxLength}},
+_max_length={{maxLength}}
 {{/neq}}
 {{#neq minLength null}}
-    min_length={{minLength}},
+_min_length={{minLength}}
 {{/neq}}
 {{#neq maxItems null}}
-    max_items={{maxItems}},
+_max_items={{maxItems}}
 {{/neq}}
 {{#neq minItems null}}
-    min_items={{minItems}},
+_min_items={{minItems}}
 {{/neq}}
 {{#neq maxProperties null }}
-    max_properties={{maxProperties}},
+_max_properties={{maxProperties}}
 {{/neq}}
 {{#neq minProperties null}}
-    min_properties={{minProperties}},
+_min_properties={{minProperties}}
 {{/neq}}
 {{#neq maximum null}}
-    {{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}},
+_{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}}
 {{/neq}}
 {{#neq minimum null}}
-    {{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}},
+_{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}}
 {{/neq}}
 {{#neq pattern null}}
-    regex=[{
+regex=[{
 {{#if vendorExtensions.x-regex}}
-        'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
+    'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
 {{else}}
-        'pattern': r'{{{pattern}}}',  # noqa: E501
+    'pattern': r'{{{pattern}}}',  # noqa: E501
 {{/if}}
 {{#each vendorExtensions.x-modifiers}}
 {{#if @first}}
-        'flags': (
+    'flags': (
 {{/if}}
-            {{#unless @first}}| {{/unless}}re.{{.}}
+        {{#unless @first}}| {{/unless}}re.{{.}}
 {{#if @last}}
-        )
+    )
 {{/if}}
 {{/each}}
-    }],
+}]
 {{/neq}}
 {{#neq multipleOf null}}
-    multiple_of={{multipleOf}},
+_multiple_of={{multipleOf}}
 {{/neq}}
-),
