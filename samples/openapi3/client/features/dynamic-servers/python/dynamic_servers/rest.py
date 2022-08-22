@@ -214,19 +214,25 @@ class RESTClientObject(object):
             logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
+            exception_kwargs = {
+                    "http_resp": r,
+                    "request_method": method,
+                    "request_url": url,
+                    "request_headers": headers,
+                }
             if r.status == 401:
-                raise UnauthorizedException(http_resp=r)
+                raise UnauthorizedException(**exception_kwargs)
 
             if r.status == 403:
-                raise ForbiddenException(http_resp=r)
+                raise ForbiddenException(**exception_kwargs)
 
             if r.status == 404:
-                raise NotFoundException(http_resp=r)
+                raise NotFoundException(**exception_kwargs)
 
             if 500 <= r.status <= 599:
-                raise ServiceException(http_resp=r)
+                raise ServiceException(**exception_kwargs)
 
-            raise ApiException(http_resp=r)
+            raise ApiException(**exception_kwargs)
 
         return r
 
