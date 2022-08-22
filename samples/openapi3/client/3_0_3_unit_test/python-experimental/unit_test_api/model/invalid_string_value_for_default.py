@@ -34,11 +34,9 @@ class InvalidStringValueForDefault(
     
     
     class bar(
-        schemas.SchemaValidatorClsFactory(
-            min_length=4,
-        ),
         schemas.StrSchema
     ):
+        _min_length=4
         pass
 
     def __new__(

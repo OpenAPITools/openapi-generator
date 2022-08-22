@@ -46,11 +46,9 @@ class AllofCombinedWithAnyofOneof(
         
         
         class all_of_0(
-            schemas.SchemaValidatorClsFactory(
-                multiple_of=2,
-            ),
             schemas.AnyTypeSchema
         ):
+            _multiple_of=2
         
             def __new__(
                 cls,
@@ -67,11 +65,9 @@ class AllofCombinedWithAnyofOneof(
         
         
         class one_of_0(
-            schemas.SchemaValidatorClsFactory(
-                multiple_of=5,
-            ),
             schemas.AnyTypeSchema
         ):
+            _multiple_of=5
         
             def __new__(
                 cls,
@@ -88,11 +84,9 @@ class AllofCombinedWithAnyofOneof(
         
         
         class any_of_0(
-            schemas.SchemaValidatorClsFactory(
-                multiple_of=3,
-            ),
             schemas.AnyTypeSchema
         ):
+            _multiple_of=3
         
             def __new__(
                 cls,

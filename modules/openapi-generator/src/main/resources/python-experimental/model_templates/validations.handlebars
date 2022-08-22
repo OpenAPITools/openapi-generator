@@ -26,7 +26,7 @@ _{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless excl
 _{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}}
 {{/neq}}
 {{#neq pattern null}}
-regex=[{
+_regex=[{
 {{#if vendorExtensions.x-regex}}
     'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
 {{else}}

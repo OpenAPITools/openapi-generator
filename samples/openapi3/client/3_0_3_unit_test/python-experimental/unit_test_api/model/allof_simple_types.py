@@ -46,11 +46,9 @@ class AllofSimpleTypes(
         
         
         class all_of_0(
-            schemas.SchemaValidatorClsFactory(
-                inclusive_maximum=30,
-            ),
             schemas.AnyTypeSchema
         ):
+            _inclusive_maximum=30
         
             def __new__(
                 cls,
@@ -67,11 +65,9 @@ class AllofSimpleTypes(
         
         
         class all_of_1(
-            schemas.SchemaValidatorClsFactory(
-                inclusive_minimum=20,
-            ),
             schemas.AnyTypeSchema
         ):
+            _inclusive_minimum=20
         
             def __new__(
                 cls,

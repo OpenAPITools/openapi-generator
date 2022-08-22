@@ -47,11 +47,9 @@ class Oneof(
         
         
         class one_of_1(
-            schemas.SchemaValidatorClsFactory(
-                inclusive_minimum=2,
-            ),
             schemas.AnyTypeSchema
         ):
+            _inclusive_minimum=2
         
             def __new__(
                 cls,
