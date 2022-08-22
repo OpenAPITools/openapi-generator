@@ -942,20 +942,20 @@ class Discriminable:
         discriminated_cls = disc[disc_property_name].get(disc_payload_value)
         if discriminated_cls is not None:
             return discriminated_cls
-        elif not hasattr(cls, '_composed_schemas'):
+        elif not (hasattr(cls, '_all_of') or hasattr(cls, '_one_of') or hasattr(cls, '_any_of')):
             return None
         # TODO stop traveling if a cycle is hit
-        for allof_cls in cls._composed_schemas['allOf']:
+        for allof_cls in getattr(cls, '_all_of', []):
             discriminated_cls = allof_cls._get_discriminated_class(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
-        for oneof_cls in cls._composed_schemas['oneOf']:
+        for oneof_cls in getattr(cls, '_one_of', []):
             discriminated_cls = oneof_cls._get_discriminated_class(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
-        for anyof_cls in cls._composed_schemas['anyOf']:
+        for anyof_cls in getattr(cls, '_any_of', []):
             discriminated_cls = anyof_cls._get_discriminated_class(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
@@ -1560,7 +1560,7 @@ class ComposedBase(Discriminable):
     @classmethod
     def __get_allof_classes(cls, arg, validation_metadata: ValidationMetadata):
         path_to_schemas = defaultdict(set)
-        for allof_cls in cls._composed_schemas['allOf']:
+        for allof_cls in cls._all_of:
             if validation_metadata.validation_ran_earlier(allof_cls):
                 continue
             other_path_to_schemas = allof_cls._validate(arg, validation_metadata=validation_metadata)
@@ -1576,7 +1576,7 @@ class ComposedBase(Discriminable):
     ):
         oneof_classes = []
         path_to_schemas = defaultdict(set)
-        for oneof_cls in cls._composed_schemas['oneOf']:
+        for oneof_cls in cls._one_of:
             if oneof_cls in path_to_schemas[validation_metadata.path_to_item]:
                 oneof_classes.append(oneof_cls)
                 continue
@@ -1611,7 +1611,7 @@ class ComposedBase(Discriminable):
     ):
         anyof_classes = []
         path_to_schemas = defaultdict(set)
-        for anyof_cls in cls._composed_schemas['anyOf']:
+        for anyof_cls in cls._any_of:
             if validation_metadata.validation_ran_earlier(anyof_cls):
                 anyof_classes.append(anyof_cls)
                 continue
@@ -1683,24 +1683,24 @@ class ComposedBase(Discriminable):
                     )
                 )
 
-        if cls._composed_schemas['allOf']:
+        if hasattr(cls, '_all_of'):
             other_path_to_schemas = cls.__get_allof_classes(arg, validation_metadata=updated_vm)
             update(path_to_schemas, other_path_to_schemas)
-        if cls._composed_schemas['oneOf']:
+        if hasattr(cls, '_one_of'):
             other_path_to_schemas = cls.__get_oneof_class(
                 arg,
                 discriminated_cls=discriminated_cls,
                 validation_metadata=updated_vm
             )
             update(path_to_schemas, other_path_to_schemas)
-        if cls._composed_schemas['anyOf']:
+        if hasattr(cls, '_any_of'):
             other_path_to_schemas = cls.__get_anyof_classes(
                 arg,
                 discriminated_cls=discriminated_cls,
                 validation_metadata=updated_vm
             )
             update(path_to_schemas, other_path_to_schemas)
-        not_cls = cls._composed_schemas['not']
+        not_cls = getattr(cls, '_not', None)
         if not_cls:
             other_path_to_schemas = None
             not_exception = ApiValueError(
@@ -1994,27 +1994,10 @@ class BinarySchema(
     BinaryBase,
     Schema,
 ):
-
-    @classmethod
-    @property
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
-        return {
-            'allOf': [],
-            'oneOf': [
-                BytesSchema,
-                FileSchema,
-            ],
-            'anyOf': [
-            ],
-            'not': None
-        }
+    _one_of = [
+        BytesSchema,
+        FileSchema,
+    ]
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: typing.Union[ValidationMetadata]):
         return super().__new__(cls, arg)

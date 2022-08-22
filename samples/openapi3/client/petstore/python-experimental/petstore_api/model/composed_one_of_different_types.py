@@ -34,10 +34,51 @@ class ComposedOneOfDifferentTypes(
     this is a model that allows payloads of type object or number
     """
 
+    one_of_2 = schemas.NoneSchema
+    one_of_3 = schemas.DateSchema
+    
+    
+    class one_of_4(
+        schemas.DictSchema
+    ):
+        _max_properties=4
+        _min_properties=4
+    
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, ],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
+        ) -> 'one_of_4':
+            return super().__new__(
+                cls,
+                *args,
+                _configuration=_configuration,
+                **kwargs,
+            )
+    
+    
+    class one_of_5(
+        schemas.ListSchema
+    ):
+        _max_items=4
+        _min_items=4
+        _items = schemas.AnyTypeSchema
+    
+    
+    class one_of_6(
+        schemas.DateTimeSchema
+    ):
+        _regex=[{
+            'pattern': r'^2020.*',  # noqa: E501
+        }]
+        pass
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _one_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -45,63 +86,15 @@ class ComposedOneOfDifferentTypes(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        one_of_2 = schemas.NoneSchema
-        one_of_3 = schemas.DateSchema
-        
-        
-        class one_of_4(
-            schemas.DictSchema
-        ):
-            _max_properties=4
-            _min_properties=4
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, ],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> 'one_of_4':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        
-        
-        class one_of_5(
-            schemas.ListSchema
-        ):
-            _max_items=4
-            _min_items=4
-            _items = schemas.AnyTypeSchema
-        
-        
-        class one_of_6(
-            schemas.DateTimeSchema
-        ):
-            _regex=[{
-                'pattern': r'^2020.*',  # noqa: E501
-            }]
-            pass
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-                NumberWithValidations,
-                Animal,
-                one_of_2,
-                one_of_3,
-                one_of_4,
-                one_of_5,
-                one_of_6,
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            NumberWithValidations,
+            Animal,
+            cls.one_of_2,
+            cls.one_of_3,
+            cls.one_of_4,
+            cls.one_of_5,
+            cls.one_of_6,
+        ]
 
     def __new__(
         cls,

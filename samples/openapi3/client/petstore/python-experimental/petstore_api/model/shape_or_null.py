@@ -44,10 +44,12 @@ class ShapeOrNull(
             }
         }
 
+    one_of_0 = schemas.NoneSchema
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _one_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -55,20 +57,11 @@ class ShapeOrNull(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        one_of_0 = schemas.NoneSchema
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-                one_of_0,
-                Triangle,
-                Quadrilateral,
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.one_of_0,
+            Triangle,
+            Quadrilateral,
+        ]
 
     def __new__(
         cls,
