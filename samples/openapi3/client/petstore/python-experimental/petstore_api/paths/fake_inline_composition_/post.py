@@ -30,10 +30,18 @@ class CompositionAtRootSchema(
     schemas.ComposedSchema,
 ):
 
+    
+    
+    class all_of_0(
+        schemas.StrSchema
+    ):
+        _min_length=1
+        pass
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -41,24 +49,9 @@ class CompositionAtRootSchema(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class all_of_0(
-            schemas.StrSchema
-        ):
-            _min_length=1
-            pass
-        return {
-            'allOf': [
-                all_of_0,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.all_of_0,
+        ]
 
     def __new__(
         cls,
@@ -83,10 +76,18 @@ class CompositionInPropertySchema(
         schemas.ComposedSchema,
     ):
     
+        
+        
+        class all_of_0(
+            schemas.StrSchema
+        ):
+            _min_length=1
+            pass
+        
         @classmethod
         @property
         @functools.cache
-        def _composed_schemas(cls):
+        def _all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
             # when we invoke this method. If we kept this at the class
@@ -94,24 +95,9 @@ class CompositionInPropertySchema(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            
-            
-            class all_of_0(
-                schemas.StrSchema
-            ):
-                _min_length=1
-                pass
-            return {
-                'allOf': [
-                    all_of_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
-            }
+            return [
+                cls.all_of_0,
+            ]
     
         def __new__(
             cls,
@@ -179,10 +165,18 @@ class SchemaForRequestBodyApplicationJson(
     schemas.ComposedSchema,
 ):
 
+    
+    
+    class all_of_0(
+        schemas.StrSchema
+    ):
+        _min_length=1
+        pass
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -190,24 +184,9 @@ class SchemaForRequestBodyApplicationJson(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class all_of_0(
-            schemas.StrSchema
-        ):
-            _min_length=1
-            pass
-        return {
-            'allOf': [
-                all_of_0,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.all_of_0,
+        ]
 
     def __new__(
         cls,
@@ -232,10 +211,18 @@ class SchemaForRequestBodyMultipartFormData(
         schemas.ComposedSchema,
     ):
     
+        
+        
+        class all_of_0(
+            schemas.StrSchema
+        ):
+            _min_length=1
+            pass
+        
         @classmethod
         @property
         @functools.cache
-        def _composed_schemas(cls):
+        def _all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
             # when we invoke this method. If we kept this at the class
@@ -243,24 +230,9 @@ class SchemaForRequestBodyMultipartFormData(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            
-            
-            class all_of_0(
-                schemas.StrSchema
-            ):
-                _min_length=1
-                pass
-            return {
-                'allOf': [
-                    all_of_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
-            }
+            return [
+                cls.all_of_0,
+            ]
     
         def __new__(
             cls,
@@ -306,10 +278,18 @@ class SchemaFor200ResponseBodyApplicationJson(
     schemas.ComposedSchema,
 ):
 
+    
+    
+    class all_of_0(
+        schemas.StrSchema
+    ):
+        _min_length=1
+        pass
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -317,24 +297,9 @@ class SchemaFor200ResponseBodyApplicationJson(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class all_of_0(
-            schemas.StrSchema
-        ):
-            _min_length=1
-            pass
-        return {
-            'allOf': [
-                all_of_0,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.all_of_0,
+        ]
 
     def __new__(
         cls,
@@ -359,10 +324,18 @@ class SchemaFor200ResponseBodyMultipartFormData(
         schemas.ComposedSchema,
     ):
     
+        
+        
+        class all_of_0(
+            schemas.StrSchema
+        ):
+            _min_length=1
+            pass
+        
         @classmethod
         @property
         @functools.cache
-        def _composed_schemas(cls):
+        def _all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
             # when we invoke this method. If we kept this at the class
@@ -370,24 +343,9 @@ class SchemaFor200ResponseBodyMultipartFormData(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            
-            
-            class all_of_0(
-                schemas.StrSchema
-            ):
-                _min_length=1
-                pass
-            return {
-                'allOf': [
-                    all_of_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
-            }
+            return [
+                cls.all_of_0,
+            ]
     
         def __new__(
             cls,

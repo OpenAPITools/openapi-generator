@@ -32,10 +32,33 @@ class ChildCat(
     Do not edit the class manually.
     """
 
+    
+    
+    class all_of_1(
+        schemas.DictSchema
+    ):
+        name = schemas.StrSchema
+    
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, ],
+            name: typing.Union[name, schemas.Unset] = schemas.unset,
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
+        ) -> 'all_of_1':
+            return super().__new__(
+                cls,
+                *args,
+                name=name,
+                _configuration=_configuration,
+                **kwargs,
+            )
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,40 +66,10 @@ class ChildCat(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class all_of_1(
-            schemas.DictSchema
-        ):
-            name = schemas.StrSchema
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, ],
-                name: typing.Union[name, schemas.Unset] = schemas.unset,
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> 'all_of_1':
-                return super().__new__(
-                    cls,
-                    *args,
-                    name=name,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        return {
-            'allOf': [
-                ParentPet,
-                all_of_1,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            ParentPet,
+            cls.all_of_1,
+        ]
 
     def __new__(
         cls,

@@ -32,10 +32,47 @@ class SimpleQuadrilateral(
     Do not edit the class manually.
     """
 
+    
+    
+    class all_of_1(
+        schemas.DictSchema
+    ):
+        
+        
+        class quadrilateralType(
+            schemas.SchemaEnumMakerClsFactory(
+                enum_value_to_name={
+                    "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
+                }
+            ),
+            schemas.StrSchema
+        ):
+            
+            @classmethod
+            @property
+            def SIMPLE_QUADRILATERAL(cls):
+                return cls("SimpleQuadrilateral")
+    
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, ],
+            quadrilateralType: typing.Union[quadrilateralType, schemas.Unset] = schemas.unset,
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
+        ) -> 'all_of_1':
+            return super().__new__(
+                cls,
+                *args,
+                quadrilateralType=quadrilateralType,
+                _configuration=_configuration,
+                **kwargs,
+            )
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,54 +80,10 @@ class SimpleQuadrilateral(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class all_of_1(
-            schemas.DictSchema
-        ):
-            
-            
-            class quadrilateralType(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def SIMPLE_QUADRILATERAL(cls):
-                    return cls("SimpleQuadrilateral")
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, ],
-                quadrilateralType: typing.Union[quadrilateralType, schemas.Unset] = schemas.unset,
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> 'all_of_1':
-                return super().__new__(
-                    cls,
-                    *args,
-                    quadrilateralType=quadrilateralType,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        return {
-            'allOf': [
-                QuadrilateralInterface,
-                all_of_1,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            QuadrilateralInterface,
+            cls.all_of_1,
+        ]
 
     def __new__(
         cls,

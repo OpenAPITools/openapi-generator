@@ -43,10 +43,11 @@ class Triangle(
             }
         }
 
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _one_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -54,19 +55,11 @@ class Triangle(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-                EquilateralTriangle,
-                IsoscelesTriangle,
-                ScaleneTriangle,
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            EquilateralTriangle,
+            IsoscelesTriangle,
+            ScaleneTriangle,
+        ]
 
     def __new__(
         cls,

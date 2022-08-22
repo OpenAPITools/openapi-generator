@@ -66,16 +66,11 @@ class TestGmFruit(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas,
-            {
-                'anyOf': [
-                    apple.Apple,
-                    banana.Banana,
-                ],
-                'allOf': [],
-                'oneOf': [],
-                'not': None
-            }
+            fruit._any_of,
+            [
+                apple.Apple,
+                banana.Banana,
+            ],
         )
 
         # including extra parameters works

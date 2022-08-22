@@ -38,20 +38,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDictSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        DictSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                DictSchema,
+            ]
 
         m = Model(a=1, b='hi')
         assert isinstance(m, Model)
@@ -63,20 +53,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testListSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        ListSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                ListSchema,
+            ]
 
         m = Model([1, 'hi'])
         assert isinstance(m, Model)
@@ -88,20 +68,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testStrSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        StrSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                StrSchema,
+            ]
 
         m = Model('hi')
         assert isinstance(m, Model)
@@ -113,20 +83,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testNumberSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        NumberSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                NumberSchema,
+            ]
 
         m = Model(1)
         assert isinstance(m, Model)
@@ -145,20 +105,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testIntSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        IntSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                IntSchema,
+            ]
 
         m = Model(1)
         assert isinstance(m, Model)
@@ -174,20 +124,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testBoolSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        BoolSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                BoolSchema,
+            ]
 
         m = Model(True)
         assert isinstance(m, Model)
@@ -206,20 +146,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testNoneSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        NoneSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                NoneSchema,
+            ]
 
         m = Model(None)
         assert isinstance(m, Model)
@@ -231,20 +161,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDateSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        DateSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                DateSchema,
+            ]
 
         m = Model('1970-01-01')
         assert isinstance(m, Model)
@@ -256,20 +176,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDateTimeSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        DateTimeSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                DateTimeSchema,
+            ]
 
         m = Model('2020-01-01T00:00:00')
         assert isinstance(m, Model)
@@ -281,20 +191,10 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDecimalSchema(self):
         class Model(ComposedSchema):
 
-            @classmethod
-            @property
-            def _composed_schemas(cls):
-                return {
-                    'allOf': [
-                        AnyTypeSchema,
-                        DecimalSchema,
-                    ],
-                    'oneOf': [
-                    ],
-                    'anyOf': [
-                    ],
-                    'not': None
-                }
+            _all_of = [
+                AnyTypeSchema,
+                DecimalSchema,
+            ]
 
         m = Model('12.34')
         assert isinstance(m, Model)

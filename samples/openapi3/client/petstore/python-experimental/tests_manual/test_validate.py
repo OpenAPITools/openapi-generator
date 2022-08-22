@@ -100,7 +100,7 @@ class TestValidateResults(unittest.TestCase):
             frozendict(className="Dog", color="black"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Animal, Dog, Dog._composed_schemas['allOf'][1], frozendict]),
+            ("args[0]",): set([Animal, Dog, Dog._all_of[1], frozendict]),
             ("args[0]", "className"): set([StrSchema, AnyTypeSchema, str]),
             ("args[0]", "color"): set([StrSchema, AnyTypeSchema, str]),
         }

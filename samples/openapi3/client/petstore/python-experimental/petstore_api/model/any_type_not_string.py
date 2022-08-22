@@ -32,10 +32,12 @@ class AnyTypeNotString(
     Do not edit the class manually.
     """
 
+    not_schema = schemas.StrSchema
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _not(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,17 +45,9 @@ class AnyTypeNotString(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        not_schema = schemas.StrSchema
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                not_schema
-        }
+        return (
+            cls.not_schema
+        )
 
     def __new__(
         cls,

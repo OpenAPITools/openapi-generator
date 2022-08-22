@@ -32,10 +32,11 @@ class RefInNot(
     Do not edit the class manually.
     """
 
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _not(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,16 +44,9 @@ class RefInNot(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                PropertyNamedRefThatIsNotAReference
-        }
+        return (
+            PropertyNamedRefThatIsNotAReference
+        )
 
     def __new__(
         cls,

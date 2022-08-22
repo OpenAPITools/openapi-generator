@@ -32,10 +32,49 @@ class AllofSimpleTypes(
     Do not edit the class manually.
     """
 
+    
+    
+    class all_of_0(
+        schemas.AnyTypeSchema,
+    ):
+        _inclusive_maximum=30
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
+        ) -> 'all_of_0':
+            return super().__new__(
+                cls,
+                *args,
+                _configuration=_configuration,
+                **kwargs,
+            )
+    
+    
+    class all_of_1(
+        schemas.AnyTypeSchema,
+    ):
+        _inclusive_minimum=20
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _configuration: typing.Optional[schemas.Configuration] = None,
+            **kwargs: typing.Type[schemas.Schema],
+        ) -> 'all_of_1':
+            return super().__new__(
+                cls,
+                *args,
+                _configuration=_configuration,
+                **kwargs,
+            )
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,56 +82,10 @@ class AllofSimpleTypes(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        
-        
-        class all_of_0(
-            schemas.AnyTypeSchema,
-        ):
-            _inclusive_maximum=30
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> 'all_of_0':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        
-        
-        class all_of_1(
-            schemas.AnyTypeSchema,
-        ):
-            _inclusive_minimum=20
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> 'all_of_1':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-        return {
-            'allOf': [
-                all_of_0,
-                all_of_1,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.all_of_0,
+            cls.all_of_1,
+        ]
 
     def __new__(
         cls,

@@ -32,10 +32,13 @@ class AnyofWithOneEmptySchema(
     Do not edit the class manually.
     """
 
+    any_of_0 = schemas.NumberSchema
+    any_of_1 = schemas.AnyTypeSchema
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _any_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,20 +46,10 @@ class AnyofWithOneEmptySchema(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        any_of_0 = schemas.NumberSchema
-        any_of_1 = schemas.AnyTypeSchema
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-                any_of_0,
-                any_of_1,
-            ],
-            'not':
-                None
-        }
+        return [
+            cls.any_of_0,
+            cls.any_of_1,
+        ]
 
     def __new__(
         cls,

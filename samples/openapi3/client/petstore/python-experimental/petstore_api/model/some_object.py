@@ -32,10 +32,11 @@ class SomeObject(
     Do not edit the class manually.
     """
 
+    
     @classmethod
     @property
     @functools.cache
-    def _composed_schemas(cls):
+    def _all_of(cls):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -43,17 +44,9 @@ class SomeObject(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        return {
-            'allOf': [
-                ObjectInterface,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        return [
+            ObjectInterface,
+        ]
 
     def __new__(
         cls,
