@@ -47,11 +47,9 @@ class OneofWithBaseSchema(
         
         
         class one_of_0(
-            schemas.SchemaValidatorClsFactory(
-                min_length=2,
-            ),
-            schemas.AnyTypeSchema
+            schemas.AnyTypeSchema,
         ):
+            _min_length=2
         
             def __new__(
                 cls,
@@ -68,11 +66,9 @@ class OneofWithBaseSchema(
         
         
         class one_of_1(
-            schemas.SchemaValidatorClsFactory(
-                max_length=4,
-            ),
-            schemas.AnyTypeSchema
+            schemas.AnyTypeSchema,
         ):
+            _max_length=4
         
             def __new__(
                 cls,

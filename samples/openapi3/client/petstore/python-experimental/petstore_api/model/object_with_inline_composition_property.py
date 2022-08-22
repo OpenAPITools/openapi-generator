@@ -34,7 +34,7 @@ class ObjectWithInlineCompositionProperty(
     
     
     class someProp(
-        schemas.ComposedSchema
+        schemas.ComposedSchema,
     ):
     
         @classmethod
@@ -51,11 +51,9 @@ class ObjectWithInlineCompositionProperty(
             
             
             class all_of_0(
-                schemas.SchemaValidatorClsFactory(
-                    min_length=1,
-                ),
                 schemas.StrSchema
             ):
+                _min_length=1
                 pass
             return {
                 'allOf': [

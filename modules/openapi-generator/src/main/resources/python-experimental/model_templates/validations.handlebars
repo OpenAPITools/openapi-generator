@@ -1,50 +1,48 @@
-schemas.SchemaValidatorClsFactory(
 {{#if getUniqueItems}}
-    unique_items=True,
+_unique_items=True
 {{/if}}
-{{#if maxLength}}
-    max_length={{maxLength}},
-{{/if}}
-{{#if minLength}}
-    min_length={{minLength}},
-{{/if}}
-{{#if maxItems}}
-    max_items={{maxItems}},
-{{/if}}
-{{#if minItems}}
-    min_items={{minItems}},
-{{/if}}
-{{#neq maxProperties null }}
-    max_properties={{maxProperties}},
+{{#neq maxLength null}}
+_max_length={{maxLength}}
 {{/neq}}
-{{#if minProperties}}
-    min_properties={{minProperties}},
-{{/if}}
-{{#if maximum}}
-    {{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}},
-{{/if}}
-{{#if minimum}}
-    {{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}},
-{{/if}}
-{{#if pattern}}
-    regex=[{
+{{#neq minLength null}}
+_min_length={{minLength}}
+{{/neq}}
+{{#neq maxItems null}}
+_max_items={{maxItems}}
+{{/neq}}
+{{#neq minItems null}}
+_min_items={{minItems}}
+{{/neq}}
+{{#neq maxProperties null }}
+_max_properties={{maxProperties}}
+{{/neq}}
+{{#neq minProperties null}}
+_min_properties={{minProperties}}
+{{/neq}}
+{{#neq maximum null}}
+_{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}}
+{{/neq}}
+{{#neq minimum null}}
+_{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}}
+{{/neq}}
+{{#neq pattern null}}
+_regex=[{
 {{#if vendorExtensions.x-regex}}
-        'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
+    'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
 {{else}}
-        'pattern': r'{{{pattern}}}',  # noqa: E501
+    'pattern': r'{{{pattern}}}',  # noqa: E501
 {{/if}}
 {{#each vendorExtensions.x-modifiers}}
 {{#if @first}}
-        'flags': (
+    'flags': (
 {{/if}}
-            {{#unless @first}}| {{/unless}}re.{{.}}
+        {{#unless @first}}| {{/unless}}re.{{.}}
 {{#if @last}}
-        )
+    )
 {{/if}}
 {{/each}}
-    }],
-{{/if}}
-{{#if multipleOf}}
-    multiple_of={{multipleOf}},
-{{/if}}
-),
+}]
+{{/neq}}
+{{#neq multipleOf null}}
+_multiple_of={{multipleOf}}
+{{/neq}}

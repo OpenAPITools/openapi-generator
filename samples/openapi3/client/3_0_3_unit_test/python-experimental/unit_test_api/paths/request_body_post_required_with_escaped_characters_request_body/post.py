@@ -27,7 +27,7 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationJson(
-    schemas.AnyTypeSchema
+    schemas.AnyTypeSchema,
 ):
     _required_property_names = {
         "foo\"bar",

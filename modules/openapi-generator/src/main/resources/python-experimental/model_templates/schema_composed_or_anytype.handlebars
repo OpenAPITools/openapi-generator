@@ -1,14 +1,11 @@
 
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
-{{#if hasValidation}}
-    {{> model_templates/validations }}
-{{/if}}
 {{#if getIsAnyType}}
     {{#if composedSchemas}}
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
     {{else}}
-    schemas.AnyTypeSchema
+    schemas.AnyTypeSchema,
     {{/if}}
 {{else}}
     {{#if getHasMultipleTypes}}
@@ -33,6 +30,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{{unescapedDescription}}}
 {{/if}}
     """
+{{/if}}
+{{#if hasValidation}}
+    {{> model_templates/validations }}
 {{/if}}
 {{#or isMap isAnyType}}
 {{> model_templates/dict_partial }}

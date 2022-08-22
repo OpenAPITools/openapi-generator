@@ -40,27 +40,23 @@ class Apple(
     
     
     class cultivar(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
-            }],
-        ),
         schemas.StrSchema
     ):
+        _regex=[{
+            'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+        }]
         pass
     
     
     class origin(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'^[A-Z\s]*$',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }],
-        ),
         schemas.StrSchema
     ):
+        _regex=[{
+            'pattern': r'^[A-Z\s]*$',  # noqa: E501
+            'flags': (
+                re.IGNORECASE
+            )
+        }]
         pass
 
     def __new__(

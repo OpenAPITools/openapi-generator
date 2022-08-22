@@ -149,226 +149,6 @@ class ValidationMetadata(frozendict):
         return self.get('validated_path_to_schemas')
 
 
-class ValidatorBase:
-    @staticmethod
-    def __is_json_validation_enabled(schema_keyword, configuration=None):
-        """Returns true if JSON schema validation is enabled for the specified
-        validation keyword. This can be used to skip JSON schema structural validation
-        as requested in the configuration.
-
-        Args:
-            schema_keyword (string): the name of a JSON schema validation keyword.
-            configuration (Configuration): the configuration class.
-        """
-
-        return (configuration is None or
-            not hasattr(configuration, '_disabled_client_side_validations') or
-            schema_keyword not in configuration._disabled_client_side_validations)
-
-    @staticmethod
-    def __raise_validation_error_message(value, constraint_msg, constraint_value, path_to_item, additional_txt=""):
-        raise ApiValueError(
-            "Invalid value `{value}`, {constraint_msg} `{constraint_value}`{additional_txt} at {path_to_item}".format(
-                value=value,
-                constraint_msg=constraint_msg,
-                constraint_value=constraint_value,
-                additional_txt=additional_txt,
-                path_to_item=path_to_item,
-            )
-        )
-
-    @classmethod
-    def __check_str_validations(cls,
-            validations, input_values,
-            validation_metadata: ValidationMetadata):
-
-        if (cls.__is_json_validation_enabled('maxLength', validation_metadata.configuration) and
-                'max_length' in validations and
-                len(input_values) > validations['max_length']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="length must be less than or equal to",
-                constraint_value=validations['max_length'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('minLength', validation_metadata.configuration) and
-                'min_length' in validations and
-                len(input_values) < validations['min_length']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="length must be greater than or equal to",
-                constraint_value=validations['min_length'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        checked_value = input_values
-        if (cls.__is_json_validation_enabled('pattern', validation_metadata.configuration) and
-                'regex' in validations):
-            for regex_dict in validations['regex']:
-                flags = regex_dict.get('flags', 0)
-                if not re.search(regex_dict['pattern'], checked_value, flags=flags):
-                    if flags != 0:
-                        # Don't print the regex flags if the flags are not
-                        # specified in the OAS document.
-                        cls.__raise_validation_error_message(
-                            value=input_values,
-                            constraint_msg="must match regular expression",
-                            constraint_value=regex_dict['pattern'],
-                            path_to_item=validation_metadata.path_to_item,
-                            additional_txt=" with flags=`{}`".format(flags)
-                        )
-                    cls.__raise_validation_error_message(
-                        value=input_values,
-                        constraint_msg="must match regular expression",
-                        constraint_value=regex_dict['pattern'],
-                        path_to_item=validation_metadata.path_to_item
-                    )
-
-    @classmethod
-    def __check_tuple_validations(
-            cls, validations, input_values,
-            validation_metadata: ValidationMetadata):
-
-        if (cls.__is_json_validation_enabled('maxItems', validation_metadata.configuration) and
-                'max_items' in validations and
-                len(input_values) > validations['max_items']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="number of items must be less than or equal to",
-                constraint_value=validations['max_items'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('minItems', validation_metadata.configuration) and
-                'min_items' in validations and
-                len(input_values) < validations['min_items']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="number of items must be greater than or equal to",
-                constraint_value=validations['min_items'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('uniqueItems', validation_metadata.configuration) and
-                'unique_items' in validations and validations['unique_items'] and input_values):
-            unique_items = set(input_values)
-            if len(input_values) > len(unique_items):
-                cls.__raise_validation_error_message(
-                    value=input_values,
-                    constraint_msg="duplicate items were found, and the tuple must not contain duplicates because",
-                    constraint_value='unique_items==True',
-                    path_to_item=validation_metadata.path_to_item
-                )
-
-    @classmethod
-    def __check_dict_validations(
-            cls, validations, input_values,
-            validation_metadata: ValidationMetadata):
-
-        if (cls.__is_json_validation_enabled('maxProperties', validation_metadata.configuration) and
-                'max_properties' in validations and
-                len(input_values) > validations['max_properties']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="number of properties must be less than or equal to",
-                constraint_value=validations['max_properties'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('minProperties', validation_metadata.configuration) and
-                'min_properties' in validations and
-                len(input_values) < validations['min_properties']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="number of properties must be greater than or equal to",
-                constraint_value=validations['min_properties'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-    @classmethod
-    def __check_numeric_validations(
-            cls, validations, input_values,
-            validation_metadata: ValidationMetadata):
-
-        if cls.__is_json_validation_enabled('multipleOf',
-                                      validation_metadata.configuration) and 'multiple_of' in validations:
-            multiple_of_value = validations['multiple_of']
-            if (isinstance(input_values, decimal.Decimal) and
-                    not (float(input_values) / multiple_of_value).is_integer()
-            ):
-                # Note 'multipleOf' will be as good as the floating point arithmetic.
-                cls.__raise_validation_error_message(
-                    value=input_values,
-                    constraint_msg="value must be a multiple of",
-                    constraint_value=multiple_of_value,
-                    path_to_item=validation_metadata.path_to_item
-                )
-
-        checking_max_or_min_values = {'exclusive_maximum', 'inclusive_maximum', 'exclusive_minimum',
-                                      'inclusive_minimum'}.isdisjoint(validations) is False
-        if not checking_max_or_min_values:
-            return
-        max_val = input_values
-        min_val = input_values
-
-        if (cls.__is_json_validation_enabled('exclusiveMaximum', validation_metadata.configuration) and
-                'exclusive_maximum' in validations and
-                max_val >= validations['exclusive_maximum']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="must be a value less than",
-                constraint_value=validations['exclusive_maximum'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('maximum', validation_metadata.configuration) and
-                'inclusive_maximum' in validations and
-                max_val > validations['inclusive_maximum']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="must be a value less than or equal to",
-                constraint_value=validations['inclusive_maximum'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('exclusiveMinimum', validation_metadata.configuration) and
-                'exclusive_minimum' in validations and
-                min_val <= validations['exclusive_minimum']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="must be a value greater than",
-                constraint_value=validations['exclusive_maximum'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-        if (cls.__is_json_validation_enabled('minimum', validation_metadata.configuration) and
-                'inclusive_minimum' in validations and
-                min_val < validations['inclusive_minimum']):
-            cls.__raise_validation_error_message(
-                value=input_values,
-                constraint_msg="must be a value greater than or equal to",
-                constraint_value=validations['inclusive_minimum'],
-                path_to_item=validation_metadata.path_to_item
-            )
-
-    @classmethod
-    def _check_validations_for_types(
-            cls,
-            validations,
-            input_values,
-            validation_metadata: ValidationMetadata
-    ):
-        if isinstance(input_values, str):
-            cls.__check_str_validations(validations, input_values, validation_metadata)
-        elif isinstance(input_values, tuple):
-            cls.__check_tuple_validations(validations, input_values, validation_metadata)
-        elif isinstance(input_values, frozendict):
-            cls.__check_dict_validations(validations, input_values, validation_metadata)
-        elif isinstance(input_values, decimal.Decimal):
-            cls.__check_numeric_validations(validations, input_values, validation_metadata)
-
-
 class Singleton:
     """
     Enums and singletons are the same
@@ -434,6 +214,37 @@ class BoolClass(Singleton):
         raise ValueError('Unable to find the boolean value of this instance')
 
 
+class ValidatorBase:
+    @staticmethod
+    def is_json_validation_enabled_oapg(schema_keyword, configuration=None):
+        """Returns true if JSON schema validation is enabled for the specified
+        validation keyword. This can be used to skip JSON schema structural validation
+        as requested in the configuration.
+        Note: the suffix _oapg stands for openapi python (experimental) generator and
+        it has been added to prevent collisions with other methods and properties
+
+        Args:
+            schema_keyword (string): the name of a JSON schema validation keyword.
+            configuration (Configuration): the configuration class.
+        """
+
+        return (configuration is None or
+            not hasattr(configuration, '_disabled_client_side_validations') or
+            schema_keyword not in configuration._disabled_client_side_validations)
+
+    @staticmethod
+    def raise_validation_error_message_oapg(value, constraint_msg, constraint_value, path_to_item, additional_txt=""):
+        raise ApiValueError(
+            "Invalid value `{value}`, {constraint_msg} `{constraint_value}`{additional_txt} at {path_to_item}".format(
+                value=value,
+                constraint_msg=constraint_msg,
+                constraint_value=constraint_value,
+                additional_txt=additional_txt,
+                path_to_item=path_to_item,
+            )
+        )
+
+
 class Validator(typing.Protocol):
     @classmethod
     def _validate(
@@ -442,24 +253,6 @@ class Validator(typing.Protocol):
         validation_metadata: ValidationMetadata,
     ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
         pass
-
-
-def SchemaValidatorClsFactory(**validations: typing.Union[str, bool, None, int, float, list[dict[str, typing.Union[str, int, float]]]]) -> Validator:
-    class SchemaValidator(ValidatorBase):
-        @classmethod
-        def _validate(
-            cls,
-            arg,
-            validation_metadata: ValidationMetadata,
-        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
-            """
-            SchemaValidator _validate
-            Validates that validations pass
-            """
-            cls._check_validations_for_types(validations, arg, validation_metadata)
-            return super()._validate(arg, validation_metadata)
-
-    return SchemaValidator
 
 
 def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Validator:
@@ -537,7 +330,7 @@ def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Val
             """
             arg_type = type(arg)
             if arg_type in union_classes:
-                return super()._validate(arg, validation_metadata)
+                return super()._validate(arg, validation_metadata=validation_metadata)
             raise cls._get_type_error(
                 arg,
                 validation_metadata.path_to_item,
@@ -590,7 +383,7 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
                 cls._enum_value_to_name[arg]
             except KeyError:
                 raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
-            return super()._validate(arg, validation_metadata)
+            return super()._validate(arg, validation_metadata=validation_metadata)
 
     return SchemaEnumMaker
 
@@ -626,7 +419,7 @@ class NoneBase:
         return False
 
 
-class StrBase:
+class StrBase(ValidatorBase):
     @property
     def as_str(self) -> str:
         return self
@@ -646,6 +439,68 @@ class StrBase:
     @property
     def as_uuid(self) -> uuid.UUID:
         raise Exception('not implemented')
+
+    @classmethod
+    def __check_str_validations(
+        cls,
+        arg: str,
+        validation_metadata: ValidationMetadata
+    ):
+        if (cls.is_json_validation_enabled_oapg('maxLength', validation_metadata.configuration) and
+                hasattr(cls, '_max_length') and
+                len(arg) > cls._max_length):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="length must be less than or equal to",
+                constraint_value=cls._max_length,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('minLength', validation_metadata.configuration) and
+                hasattr(cls, '_min_length') and
+                len(arg) < cls._min_length):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="length must be greater than or equal to",
+                constraint_value=cls._min_length,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('pattern', validation_metadata.configuration) and
+                hasattr(cls, '_regex')):
+            for regex_dict in cls._regex:
+                flags = regex_dict.get('flags', 0)
+                if not re.search(regex_dict['pattern'], arg, flags=flags):
+                    if flags != 0:
+                        # Don't print the regex flags if the flags are not
+                        # specified in the OAS document.
+                        cls.raise_validation_error_message_oapg(
+                            value=arg,
+                            constraint_msg="must match regular expression",
+                            constraint_value=regex_dict['pattern'],
+                            path_to_item=validation_metadata.path_to_item,
+                            additional_txt=" with flags=`{}`".format(flags)
+                        )
+                    cls.raise_validation_error_message_oapg(
+                        value=arg,
+                        constraint_msg="must match regular expression",
+                        constraint_value=regex_dict['pattern'],
+                        path_to_item=validation_metadata.path_to_item
+                    )
+
+    @classmethod
+    def _validate(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        """
+        StrBase _validate
+        Validates that validations pass
+        """
+        if isinstance(arg, str):
+            cls.__check_str_validations(arg, validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
 
 
 class UUIDBase(StrBase):
@@ -813,7 +668,7 @@ class DecimalBase(StrBase):
         return super()._validate(arg, validation_metadata=validation_metadata)
 
 
-class NumberBase:
+class NumberBase(ValidatorBase):
     @property
     def as_int(self) -> int:
         try:
@@ -844,8 +699,91 @@ class NumberBase:
             self._as_float = float(self)
             return self._as_float
 
+    @classmethod
+    def __check_numeric_validations(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata
+    ):
+        if cls.is_json_validation_enabled_oapg('multipleOf',
+                                      validation_metadata.configuration) and hasattr(cls, '_multiple_of'):
+            multiple_of_value = cls._multiple_of
+            if (not (float(arg) / multiple_of_value).is_integer()):
+                # Note 'multipleOf' will be as good as the floating point arithmetic.
+                cls.raise_validation_error_message_oapg(
+                    value=arg,
+                    constraint_msg="value must be a multiple of",
+                    constraint_value=multiple_of_value,
+                    path_to_item=validation_metadata.path_to_item
+                )
 
-class ListBase:
+        checking_max_or_min_values = any(
+            hasattr(cls, validation_key) for validation_key in {
+                '_exclusive_maximum',
+                '_inclusive_maximum',
+                '_exclusive_minimum',
+                '_inclusive_minimum',
+            }
+        )
+        if not checking_max_or_min_values:
+            return
+
+        if (cls.is_json_validation_enabled_oapg('exclusiveMaximum', validation_metadata.configuration) and
+                hasattr(cls, '_exclusive_maximum') and
+                arg >= cls._exclusive_maximum):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="must be a value less than",
+                constraint_value=cls._exclusive_maximum,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('maximum', validation_metadata.configuration) and
+                hasattr(cls, '_inclusive_maximum') and
+                arg > cls._inclusive_maximum):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="must be a value less than or equal to",
+                constraint_value=cls._inclusive_maximum,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('exclusiveMinimum', validation_metadata.configuration) and
+                hasattr(cls, '_exclusive_minimum') and
+                arg <= cls._exclusive_minimum):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="must be a value greater than",
+                constraint_value=cls._exclusive_maximum,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('minimum', validation_metadata.configuration) and
+                hasattr(cls, '_inclusive_minimum') and
+                arg < cls._inclusive_minimum):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="must be a value greater than or equal to",
+                constraint_value=cls._inclusive_minimum,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+    @classmethod
+    def _validate(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        """
+        NumberBase _validate
+        Validates that validations pass
+        """
+        if isinstance(arg, decimal.Decimal):
+            cls.__check_numeric_validations(arg, validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
+
+
+class ListBase(ValidatorBase):
     @classmethod
     def _validate_items(cls, list_items, validation_metadata: ValidationMetadata):
         """
@@ -880,6 +818,42 @@ class ListBase:
         return path_to_schemas
 
     @classmethod
+    def __check_tuple_validations(
+            cls, arg,
+            validation_metadata: ValidationMetadata):
+
+        if (cls.is_json_validation_enabled_oapg('maxItems', validation_metadata.configuration) and
+                hasattr(cls, '_max_items') and
+                len(arg) > cls._max_items):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="number of items must be less than or equal to",
+                constraint_value=cls._max_items,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('minItems', validation_metadata.configuration) and
+                hasattr(cls, '_min_items') and
+                len(arg) < cls._min_items):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="number of items must be greater than or equal to",
+                constraint_value=cls._min_items,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('uniqueItems', validation_metadata.configuration) and
+                hasattr(cls, '_unique_items') and cls._unique_items and arg):
+            unique_items = set(arg)
+            if len(arg) > len(unique_items):
+                cls.raise_validation_error_message_oapg(
+                    value=arg,
+                    constraint_msg="duplicate items were found, and the tuple must not contain duplicates because",
+                    constraint_value='unique_items==True',
+                    path_to_item=validation_metadata.path_to_item
+                )
+
+    @classmethod
     def _validate(
         cls,
         arg,
@@ -900,6 +874,8 @@ class ListBase:
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
+        if isinstance(arg, tuple):
+            cls.__check_tuple_validations(arg, validation_metadata)
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
         if not isinstance(arg, tuple):
             return _path_to_schemas
@@ -994,7 +970,7 @@ class Discriminable:
         return None
 
 
-class DictBase(Discriminable):
+class DictBase(Discriminable, ValidatorBase):
     # subclass properties
     _required_property_names = set()
 
@@ -1087,6 +1063,32 @@ class DictBase(Discriminable):
         return path_to_schemas
 
     @classmethod
+    def __check_dict_validations(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata
+    ):
+        if (cls.is_json_validation_enabled_oapg('maxProperties', validation_metadata.configuration) and
+                hasattr(cls, '_max_properties') and
+                len(arg) > cls._max_properties):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="number of properties must be less than or equal to",
+                constraint_value=cls._max_properties,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+        if (cls.is_json_validation_enabled_oapg('minProperties', validation_metadata.configuration) and
+                hasattr(cls, '_min_properties') and
+                len(arg) < cls._min_properties):
+            cls.raise_validation_error_message_oapg(
+                value=arg,
+                constraint_msg="number of properties must be greater than or equal to",
+                constraint_value=cls._min_properties,
+                path_to_item=validation_metadata.path_to_item
+            )
+
+    @classmethod
     def _validate(
         cls,
         arg,
@@ -1107,6 +1109,8 @@ class DictBase(Discriminable):
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
+        if isinstance(arg, frozendict):
+            cls.__check_dict_validations(arg, validation_metadata)
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
         if not isinstance(arg, frozendict):
             return _path_to_schemas
@@ -1843,13 +1847,9 @@ class IntSchema(IntBase, NumberSchema):
         return super().__new__(cls, arg, **kwargs)
 
 
-class Int32Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-2147483648),
-        inclusive_maximum=decimal.Decimal(2147483647)
-    ),
-):
-    pass
+class Int32Base:
+    _inclusive_minimum = decimal.Decimal(-2147483648)
+    _inclusive_maximum = decimal.Decimal(2147483647)
 
 
 class Int32Schema(
@@ -1859,13 +1859,9 @@ class Int32Schema(
     pass
 
 
-class Int64Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-9223372036854775808),
-        inclusive_maximum=decimal.Decimal(9223372036854775807)
-    ),
-):
-    pass
+class Int64Base:
+    _inclusive_minimum = decimal.Decimal(-9223372036854775808)
+    _inclusive_maximum = decimal.Decimal(9223372036854775807)
 
 
 class Int64Schema(
@@ -1875,13 +1871,9 @@ class Int64Schema(
     pass
 
 
-class Float32Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
-        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
-    ),
-):
-    pass
+class Float32Base:
+    _inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
+    _inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
 
 
 class Float32Schema(
@@ -1895,13 +1887,9 @@ class Float32Schema(
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
 
-class Float64Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-1.7976931348623157E+308),
-        inclusive_maximum=decimal.Decimal(1.7976931348623157E+308)
-    ),
-):
-    pass
+class Float64Base:
+    _inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
+    _inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
 
 
 class Float64Schema(

@@ -65,7 +65,7 @@ class User(
     
     
     class anyTypeExceptNullProp(
-        schemas.ComposedSchema
+        schemas.ComposedSchema,
     ):
     
         @classmethod

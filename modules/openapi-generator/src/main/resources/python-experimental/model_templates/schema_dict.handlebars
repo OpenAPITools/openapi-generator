@@ -1,9 +1,6 @@
 
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
-{{#if hasValidation}}
-    {{> model_templates/validations }}
-{{/if}}
     schemas.DictSchema
 ):
 {{#if this.classname}}
@@ -16,6 +13,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{{unescapedDescription}}}
 {{/if}}
     """
+{{/if}}
+{{#if hasValidation}}
+    {{> model_templates/validations }}
 {{/if}}
 {{> model_templates/dict_partial }}
 
