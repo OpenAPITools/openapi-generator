@@ -27,7 +27,7 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationJson(
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
 ):
 
     @classmethod

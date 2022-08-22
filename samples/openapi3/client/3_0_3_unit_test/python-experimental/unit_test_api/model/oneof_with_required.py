@@ -47,7 +47,7 @@ class OneofWithRequired(
         
         
         class one_of_0(
-            schemas.AnyTypeSchema
+            schemas.AnyTypeSchema,
         ):
             _required_property_names = {
                 "bar",
@@ -69,7 +69,7 @@ class OneofWithRequired(
         
         
         class one_of_1(
-            schemas.AnyTypeSchema
+            schemas.AnyTypeSchema,
         ):
             _required_property_names = {
                 "foo",

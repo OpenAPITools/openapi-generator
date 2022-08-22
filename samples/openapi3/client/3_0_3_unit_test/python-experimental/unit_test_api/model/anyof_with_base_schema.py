@@ -47,7 +47,8 @@ class AnyofWithBaseSchema(
         
         
         class any_of_0(
-            schemas.AnyTypeSchema
+            schemas.SchemaValidator,
+            schemas.AnyTypeSchema,
         ):
             _max_length=2
         
@@ -66,7 +67,8 @@ class AnyofWithBaseSchema(
         
         
         class any_of_1(
-            schemas.AnyTypeSchema
+            schemas.SchemaValidator,
+            schemas.AnyTypeSchema,
         ):
             _min_length=4
         
