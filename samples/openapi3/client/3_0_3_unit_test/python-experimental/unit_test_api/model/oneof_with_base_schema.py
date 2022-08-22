@@ -47,7 +47,6 @@ class OneofWithBaseSchema(
         
         
         class one_of_0(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _min_length=2
@@ -67,7 +66,6 @@ class OneofWithBaseSchema(
         
         
         class one_of_1(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _max_length=4

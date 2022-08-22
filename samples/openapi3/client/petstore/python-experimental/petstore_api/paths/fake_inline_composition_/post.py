@@ -27,7 +27,7 @@ from . import path
 
 
 class CompositionAtRootSchema(
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
 ):
 
     @classmethod
@@ -44,11 +44,9 @@ class CompositionAtRootSchema(
         
         
         class all_of_0(
-            schemas.SchemaValidatorClsFactory(
-                min_length=1,
-            ),
             schemas.StrSchema
         ):
+            _min_length=1
             pass
         return {
             'allOf': [
@@ -82,7 +80,7 @@ class CompositionInPropertySchema(
     
     
     class someProp(
-        schemas.ComposedSchema
+        schemas.ComposedSchema,
     ):
     
         @classmethod
@@ -99,11 +97,9 @@ class CompositionInPropertySchema(
             
             
             class all_of_0(
-                schemas.SchemaValidatorClsFactory(
-                    min_length=1,
-                ),
                 schemas.StrSchema
             ):
+                _min_length=1
                 pass
             return {
                 'allOf': [
@@ -180,7 +176,7 @@ request_query_composition_in_property = api_client.QueryParameter(
 
 
 class SchemaForRequestBodyApplicationJson(
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
 ):
 
     @classmethod
@@ -197,11 +193,9 @@ class SchemaForRequestBodyApplicationJson(
         
         
         class all_of_0(
-            schemas.SchemaValidatorClsFactory(
-                min_length=1,
-            ),
             schemas.StrSchema
         ):
+            _min_length=1
             pass
         return {
             'allOf': [
@@ -235,7 +229,7 @@ class SchemaForRequestBodyMultipartFormData(
     
     
     class someProp(
-        schemas.ComposedSchema
+        schemas.ComposedSchema,
     ):
     
         @classmethod
@@ -252,11 +246,9 @@ class SchemaForRequestBodyMultipartFormData(
             
             
             class all_of_0(
-                schemas.SchemaValidatorClsFactory(
-                    min_length=1,
-                ),
                 schemas.StrSchema
             ):
+                _min_length=1
                 pass
             return {
                 'allOf': [
@@ -311,7 +303,7 @@ request_body_any_type = api_client.RequestBody(
 
 
 class SchemaFor200ResponseBodyApplicationJson(
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
 ):
 
     @classmethod
@@ -328,11 +320,9 @@ class SchemaFor200ResponseBodyApplicationJson(
         
         
         class all_of_0(
-            schemas.SchemaValidatorClsFactory(
-                min_length=1,
-            ),
             schemas.StrSchema
         ):
+            _min_length=1
             pass
         return {
             'allOf': [
@@ -366,7 +356,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
     
     
     class someProp(
-        schemas.ComposedSchema
+        schemas.ComposedSchema,
     ):
     
         @classmethod
@@ -383,11 +373,9 @@ class SchemaFor200ResponseBodyMultipartFormData(
             
             
             class all_of_0(
-                schemas.SchemaValidatorClsFactory(
-                    min_length=1,
-                ),
                 schemas.StrSchema
             ):
+                _min_length=1
                 pass
             return {
                 'allOf': [

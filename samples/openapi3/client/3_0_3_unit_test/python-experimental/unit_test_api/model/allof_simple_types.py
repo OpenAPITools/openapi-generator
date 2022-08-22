@@ -46,7 +46,6 @@ class AllofSimpleTypes(
         
         
         class all_of_0(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _inclusive_maximum=30
@@ -66,7 +65,6 @@ class AllofSimpleTypes(
         
         
         class all_of_1(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _inclusive_minimum=20

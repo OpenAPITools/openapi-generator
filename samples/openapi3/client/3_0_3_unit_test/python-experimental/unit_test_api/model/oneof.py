@@ -47,7 +47,6 @@ class Oneof(
         
         
         class one_of_1(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _inclusive_minimum=2

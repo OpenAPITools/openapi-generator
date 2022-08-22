@@ -40,46 +40,38 @@ class FormatTest(
     
     
     class integer(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=100,
-            inclusive_minimum=10,
-            multiple_of=2,
-        ),
         schemas.IntSchema
     ):
+        _inclusive_maximum=100
+        _inclusive_minimum=10
+        _multiple_of=2
         pass
     int32 = schemas.Int32Schema
     
     
     class int32withValidations(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=200,
-            inclusive_minimum=20,
-        ),
         schemas.Int32Schema
     ):
+        _inclusive_maximum=200
+        _inclusive_minimum=20
         pass
     int64 = schemas.Int64Schema
     
     
     class number(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=543.2,
-            inclusive_minimum=32.1,
-            multiple_of=32.5,
-        ),
         schemas.NumberSchema
     ):
+        _inclusive_maximum=543.2
+        _inclusive_minimum=32.1
+        _multiple_of=32.5
         pass
     
     
     class _float(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=987.6,
-            inclusive_minimum=54.3,
-        ),
         schemas.Float32Schema
     ):
+        _inclusive_maximum=987.6
+        _inclusive_minimum=54.3
         pass
     locals()["float"] = _float
     del locals()['_float']
@@ -97,36 +89,30 @@ class FormatTest(
     
     
     class double(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=123.4,
-            inclusive_minimum=67.8,
-        ),
         schemas.Float64Schema
     ):
+        _inclusive_maximum=123.4
+        _inclusive_minimum=67.8
         pass
     float64 = schemas.Float64Schema
     
     
     class arrayWithUniqueItems(
-        schemas.SchemaValidatorClsFactory(
-            unique_items=True,
-        ),
         schemas.ListSchema
     ):
+        _unique_items=True
         _items = schemas.NumberSchema
     
     
     class string(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'[a-z]',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }],
-        ),
         schemas.StrSchema
     ):
+        _regex=[{
+            'pattern': r'[a-z]',  # noqa: E501
+            'flags': (
+                re.IGNORECASE
+            )
+        }]
         pass
     byte = schemas.StrSchema
     binary = schemas.BinarySchema
@@ -137,37 +123,31 @@ class FormatTest(
     
     
     class password(
-        schemas.SchemaValidatorClsFactory(
-            max_length=64,
-            min_length=10,
-        ),
         schemas.StrSchema
     ):
+        _max_length=64
+        _min_length=10
         pass
     
     
     class pattern_with_digits(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'^\d{10}$',  # noqa: E501
-            }],
-        ),
         schemas.StrSchema
     ):
+        _regex=[{
+            'pattern': r'^\d{10}$',  # noqa: E501
+        }]
         pass
     
     
     class pattern_with_digits_and_delimiter(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'^image_\d{1,3}$',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }],
-        ),
         schemas.StrSchema
     ):
+        _regex=[{
+            'pattern': r'^image_\d{1,3}$',  # noqa: E501
+            'flags': (
+                re.IGNORECASE
+            )
+        }]
         pass
     noneProp = schemas.NoneSchema
 

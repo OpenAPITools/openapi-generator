@@ -46,7 +46,6 @@ class AllofCombinedWithAnyofOneof(
         
         
         class all_of_0(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _multiple_of=2
@@ -66,7 +65,6 @@ class AllofCombinedWithAnyofOneof(
         
         
         class one_of_0(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _multiple_of=5
@@ -86,7 +84,6 @@ class AllofCombinedWithAnyofOneof(
         
         
         class any_of_0(
-            schemas.SchemaValidator,
             schemas.AnyTypeSchema,
         ):
             _multiple_of=3
