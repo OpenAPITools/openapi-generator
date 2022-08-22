@@ -330,7 +330,7 @@ def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Val
             """
             arg_type = type(arg)
             if arg_type in union_classes:
-                return super()._validate(arg, validation_metadata)
+                return super()._validate(arg, validation_metadata=validation_metadata)
             raise cls._get_type_error(
                 arg,
                 validation_metadata.path_to_item,
@@ -383,7 +383,7 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
                 cls._enum_value_to_name[arg]
             except KeyError:
                 raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
-            return super()._validate(arg, validation_metadata)
+            return super()._validate(arg, validation_metadata=validation_metadata)
 
     return SchemaEnumMaker
 
@@ -500,7 +500,7 @@ class StrBase(ValidatorBase):
         """
         if isinstance(arg, str):
             cls.__check_str_validations(arg, validation_metadata)
-        return super()._validate(arg, validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
 
 
 class UUIDBase(StrBase):
@@ -768,6 +768,7 @@ class NumberBase(ValidatorBase):
                 path_to_item=validation_metadata.path_to_item
             )
 
+    @classmethod
     def _validate(
         cls,
         arg,
@@ -779,7 +780,7 @@ class NumberBase(ValidatorBase):
         """
         if isinstance(arg, decimal.Decimal):
             cls.__check_numeric_validations(arg, validation_metadata)
-        return super()._validate(arg, validation_metadata)
+        return super()._validate(arg, validation_metadata=validation_metadata)
 
 
 class ListBase(ValidatorBase):
