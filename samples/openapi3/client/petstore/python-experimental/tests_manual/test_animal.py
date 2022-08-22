@@ -42,7 +42,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Cat)
-        assert isinstance(animal, Cat._composed_schemas['allOf'][1])
+        assert isinstance(animal, Cat._all_of[1])
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Cat'
         assert animal.color == 'black'
@@ -54,7 +54,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Cat)
-        assert isinstance(animal, Cat._composed_schemas['allOf'][1])
+        assert isinstance(animal, Cat._all_of[1])
         assert set(animal.keys()) == {'className', 'color', 'declawed'}
         assert animal.className == 'Cat'
         assert animal.color == 'black'
@@ -68,7 +68,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog._composed_schemas['allOf'][1])
+        assert isinstance(animal, Dog._all_of[1])
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'
@@ -80,7 +80,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog._composed_schemas['allOf'][1])
+        assert isinstance(animal, Dog._all_of[1])
         assert set(animal.keys()) == {'className', 'color', 'breed'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'

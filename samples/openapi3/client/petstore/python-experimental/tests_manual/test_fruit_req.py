@@ -69,17 +69,12 @@ class TestFruitReq(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas,
-            {
-                'anyOf': [],
-                'allOf': [],
-                'oneOf': [
-                    NoneSchema,
-                    apple_req.AppleReq,
-                    banana_req.BananaReq,
-                ],
-                'not': None
-            }
+            fruit._one_of,
+            [
+                NoneSchema,
+                apple_req.AppleReq,
+                banana_req.BananaReq,
+            ],
         )
 
         # including extra parameters raises an exception

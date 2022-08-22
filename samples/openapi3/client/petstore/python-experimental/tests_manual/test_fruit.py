@@ -84,16 +84,11 @@ class TestFruit(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas,
-            {
-                'anyOf': [],
-                'allOf': [],
-                'oneOf': [
-                    apple.Apple,
-                    banana.Banana,
-                ],
-                'not': None
-            }
+            fruit._one_of,
+            [
+                apple.Apple,
+                banana.Banana,
+            ],
         )
 
         """
