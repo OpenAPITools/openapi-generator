@@ -149,6 +149,71 @@ class ValidationMetadata(frozendict):
         return self.get('validated_path_to_schemas')
 
 
+class Singleton:
+    """
+    Enums and singletons are the same
+    The same instance is returned for a given key of (cls, arg)
+    """
+    _instances = {}
+
+    def __new__(cls, arg: typing.Any, **kwargs):
+        """
+        cls base classes: BoolClass, NoneClass, str, decimal.Decimal
+        The 3rd key is used in the tuple below for a corner case where an enum contains integer 1
+        However 1.0  can also be ingested into that enum schema because 1.0 == 1 and
+        Decimal('1.0') == Decimal('1')
+        But if we omitted the 3rd value in the key, then Decimal('1.0') would be stored as Decimal('1')
+        and json serializing that instance would be '1' rather than the expected '1.0'
+        Adding the 3rd value, the str of arg ensures that 1.0 -> Decimal('1.0') which is serialized as 1.0
+        """
+        key = (cls, arg, str(arg))
+        if key not in cls._instances:
+            if isinstance(arg, (none_type, bool, BoolClass, NoneClass)):
+                inst = super().__new__(cls)
+                cls._instances[key] = inst
+            else:
+                cls._instances[key] = super().__new__(cls, arg)
+        return cls._instances[key]
+
+    def __repr__(self):
+        if isinstance(self, NoneClass):
+            return f'<{self.__class__.__name__}: None>'
+        elif isinstance(self, BoolClass):
+            if bool(self):
+                return f'<{self.__class__.__name__}: True>'
+            return f'<{self.__class__.__name__}: False>'
+        return f'<{self.__class__.__name__}: {super().__repr__()}>'
+
+
+class NoneClass(Singleton):
+    @classmethod
+    @property
+    def NONE(cls):
+        return cls(None)
+
+    def __bool__(self) -> bool:
+        return False
+
+
+class BoolClass(Singleton):
+    @classmethod
+    @property
+    def TRUE(cls):
+        return cls(True)
+
+    @classmethod
+    @property
+    def FALSE(cls):
+        return cls(False)
+
+    @functools.cache
+    def __bool__(self) -> bool:
+        for key, instance in self._instances.items():
+            if self is instance:
+                return bool(key[1])
+        raise ValueError('Unable to find the boolean value of this instance')
+
+
 class ValidatorBase:
     @staticmethod
     def is_json_validation_enabled_oapg(schema_keyword, configuration=None):
@@ -206,7 +271,7 @@ class ValidatorBase:
 
         checked_value = input_values
         if (cls.is_json_validation_enabled_oapg('pattern', validation_metadata.configuration) and
-                hasattr(cls, '_regex'):
+                hasattr(cls, '_regex')):
             for regex_dict in cls._regex:
                 flags = regex_dict.get('flags', 0)
                 if not re.search(regex_dict['pattern'], checked_value, flags=flags):
@@ -307,8 +372,8 @@ class ValidatorBase:
                     path_to_item=validation_metadata.path_to_item
                 )
 
-        checking_max_or_min_values = (
-            any hasattr(cls, validation_key for validation_key in {
+        checking_max_or_min_values = any(
+            hasattr(cls, validation_key) for validation_key in {
                 '_exclusive_maximum',
                 '_inclusive_maximum',
                 '_exclusive_minimum',
@@ -389,71 +454,6 @@ class SchemaValidator(ValidatorBase):
         """
         cls.check_validations_for_types_oapg(arg, validation_metadata)
         return super()._validate(arg, validation_metadata)
-
-
-class Singleton:
-    """
-    Enums and singletons are the same
-    The same instance is returned for a given key of (cls, arg)
-    """
-    _instances = {}
-
-    def __new__(cls, arg: typing.Any, **kwargs):
-        """
-        cls base classes: BoolClass, NoneClass, str, decimal.Decimal
-        The 3rd key is used in the tuple below for a corner case where an enum contains integer 1
-        However 1.0  can also be ingested into that enum schema because 1.0 == 1 and
-        Decimal('1.0') == Decimal('1')
-        But if we omitted the 3rd value in the key, then Decimal('1.0') would be stored as Decimal('1')
-        and json serializing that instance would be '1' rather than the expected '1.0'
-        Adding the 3rd value, the str of arg ensures that 1.0 -> Decimal('1.0') which is serialized as 1.0
-        """
-        key = (cls, arg, str(arg))
-        if key not in cls._instances:
-            if isinstance(arg, (none_type, bool, BoolClass, NoneClass)):
-                inst = super().__new__(cls)
-                cls._instances[key] = inst
-            else:
-                cls._instances[key] = super().__new__(cls, arg)
-        return cls._instances[key]
-
-    def __repr__(self):
-        if isinstance(self, NoneClass):
-            return f'<{self.__class__.__name__}: None>'
-        elif isinstance(self, BoolClass):
-            if bool(self):
-                return f'<{self.__class__.__name__}: True>'
-            return f'<{self.__class__.__name__}: False>'
-        return f'<{self.__class__.__name__}: {super().__repr__()}>'
-
-
-class NoneClass(Singleton):
-    @classmethod
-    @property
-    def NONE(cls):
-        return cls(None)
-
-    def __bool__(self) -> bool:
-        return False
-
-
-class BoolClass(Singleton):
-    @classmethod
-    @property
-    def TRUE(cls):
-        return cls(True)
-
-    @classmethod
-    @property
-    def FALSE(cls):
-        return cls(False)
-
-    @functools.cache
-    def __bool__(self) -> bool:
-        for key, instance in self._instances.items():
-            if self is instance:
-                return bool(key[1])
-        raise ValueError('Unable to find the boolean value of this instance')
 
 
 class Validator(typing.Protocol):
@@ -1848,12 +1848,10 @@ class IntSchema(IntBase, NumberSchema):
 
 
 class Int32Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-2147483648),
-        inclusive_maximum=decimal.Decimal(2147483647)
-    ),
+    SchemaValidator
 ):
-    pass
+    _inclusive_minimum = decimal.Decimal(-2147483648)
+    _inclusive_maximum = decimal.Decimal(2147483647)
 
 
 class Int32Schema(
@@ -1864,12 +1862,10 @@ class Int32Schema(
 
 
 class Int64Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-9223372036854775808),
-        inclusive_maximum=decimal.Decimal(9223372036854775807)
-    ),
+    SchemaValidator
 ):
-    pass
+    _inclusive_minimum = decimal.Decimal(-9223372036854775808)
+    _inclusive_maximum = decimal.Decimal(9223372036854775807)
 
 
 class Int64Schema(
@@ -1880,12 +1876,10 @@ class Int64Schema(
 
 
 class Float32Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
-        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
-    ),
+    SchemaValidator
 ):
-    pass
+    _inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
+    _inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
 
 
 class Float32Schema(
@@ -1900,12 +1894,10 @@ class Float32Schema(
 
 
 class Float64Base(
-    SchemaValidatorClsFactory(
-        inclusive_minimum=decimal.Decimal(-1.7976931348623157E+308),
-        inclusive_maximum=decimal.Decimal(1.7976931348623157E+308)
-    ),
+    SchemaValidator
 ):
-    pass
+    _inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
+    _inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
 
 
 class Float64Schema(
