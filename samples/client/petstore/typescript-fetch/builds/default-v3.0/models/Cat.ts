@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -54,8 +55,10 @@ export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
         'declawed': !exists(json, 'declawed') ? undefined : json['declawed'],
     };
 }
-
 export function CatToJSON(value?: Cat | null): any {
+    return CatToJSONTyped(false, value);
+}
+export function CatToJSONTyped(ignoreDiscriminator: boolean, value?: Cat | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -63,7 +66,7 @@ export function CatToJSON(value?: Cat | null): any {
         return null;
     }
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSONTyped(ignoreDiscriminator, value),
         'declawed': value['declawed'],
     };
 }

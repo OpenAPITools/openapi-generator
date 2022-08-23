@@ -112,8 +112,10 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'subUser2': UserFromJSON(json['subUser2']),
     };
 }
-
 export function UserToJSON(value?: User | null): any {
+    return UserToJSONTyped(false, value);
+}
+export function UserToJSONTyped(ignoreDiscriminator: boolean, value?: User | null): any {
     if (value === undefined) {
         return undefined;
     }

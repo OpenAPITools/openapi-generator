@@ -83,8 +83,10 @@ export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: bool
         'aTTNAME': !exists(json, 'ATT_NAME') ? undefined : json['ATT_NAME'],
     };
 }
-
 export function CapitalizationToJSON(value?: Capitalization | null): any {
+    return CapitalizationToJSONTyped(false, value);
+}
+export function CapitalizationToJSONTyped(ignoreDiscriminator: boolean, value?: Capitalization | null): any {
     if (value === undefined) {
         return undefined;
     }

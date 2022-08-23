@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -68,8 +69,10 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
         'map': !exists(json, 'map') ? undefined : (mapValues(json['map'], AnimalFromJSON)),
     };
 }
-
 export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedPropertiesAndAdditionalPropertiesClass | null): any {
+    return MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(false, value);
+}
+export function MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(ignoreDiscriminator: boolean, value?: MixedPropertiesAndAdditionalPropertiesClass | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -54,8 +55,10 @@ export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
         'breed': !exists(json, 'breed') ? undefined : json['breed'],
     };
 }
-
 export function DogToJSON(value?: Dog | null): any {
+    return DogToJSONTyped(false, value);
+}
+export function DogToJSONTyped(ignoreDiscriminator: boolean, value?: Dog | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -63,7 +66,7 @@ export function DogToJSON(value?: Dog | null): any {
         return null;
     }
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSONTyped(ignoreDiscriminator, value),
         'breed': value['breed'],
     };
 }

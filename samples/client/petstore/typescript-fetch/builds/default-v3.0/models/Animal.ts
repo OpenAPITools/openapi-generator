@@ -68,13 +68,23 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         'color': !exists(json, 'color') ? undefined : json['color'],
     };
 }
-
 export function AnimalToJSON(value?: Animal | null): any {
+    return AnimalToJSONTyped(false, value);
+}
+export function AnimalToJSONTyped(ignoreDiscriminator: boolean, value?: Animal | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
+    }
+    if (!ignoreDiscriminator) {
+        if (json['className'] === 'Cat') {
+            return CatFromJSONTyped(value, true);
+        }
+        if (json['className'] === 'Dog') {
+            return DogFromJSONTyped(value, true);
+        }
     }
     return {
         

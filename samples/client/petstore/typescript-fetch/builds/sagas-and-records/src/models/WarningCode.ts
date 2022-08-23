@@ -36,4 +36,7 @@ export function WarningCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean
 export function WarningCodeToJSON(value?: WarningCode | null): any {
     return value as any;
 }
+export function WarningCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): WarningCode {
+    return value as WarningCode;
+}
 

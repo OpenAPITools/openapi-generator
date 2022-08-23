@@ -18,6 +18,7 @@ import {
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
+    ItemIdToJSONTyped,
 } from './ItemId';
 
 /**
@@ -76,8 +77,10 @@ export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'exception': !exists(json, 'exception') ? undefined : json['exception'],
     };
 }
-
 export function ModelErrorToJSON(value?: ModelError | null): any {
+    return ModelErrorToJSONTyped(false, value);
+}
+export function ModelErrorToJSONTyped(ignoreDiscriminator: boolean, value?: ModelError | null): any {
     if (value === undefined) {
         return undefined;
     }

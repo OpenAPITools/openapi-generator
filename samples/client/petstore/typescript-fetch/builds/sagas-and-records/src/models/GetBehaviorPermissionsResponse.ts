@@ -18,6 +18,7 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -62,8 +63,10 @@ export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDis
         'data': !exists(json, 'data') ? undefined : json['data'],
     };
 }
-
 export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissionsResponse | null): any {
+    return GetBehaviorPermissionsResponseToJSONTyped(false, value);
+}
+export function GetBehaviorPermissionsResponseToJSONTyped(ignoreDiscriminator: boolean, value?: GetBehaviorPermissionsResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

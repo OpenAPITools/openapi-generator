@@ -18,12 +18,14 @@ import {
     BehaviorTypeFromJSON,
     BehaviorTypeFromJSONTyped,
     BehaviorTypeToJSON,
+    BehaviorTypeToJSONTyped,
 } from './BehaviorType';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -68,8 +70,10 @@ export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
         'data': !exists(json, 'data') ? undefined : BehaviorTypeFromJSON(json['data']),
     };
 }
-
 export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null): any {
+    return GetBehaviorTypeResponseToJSONTyped(false, value);
+}
+export function GetBehaviorTypeResponseToJSONTyped(ignoreDiscriminator: boolean, value?: GetBehaviorTypeResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
