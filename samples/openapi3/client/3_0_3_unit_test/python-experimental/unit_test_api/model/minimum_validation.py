@@ -34,6 +34,7 @@ class MinimumValidation(
 
 
     class MetaOapg:
+        unique_items = False
         inclusive_minimum = 1.1
 
     def __new__(

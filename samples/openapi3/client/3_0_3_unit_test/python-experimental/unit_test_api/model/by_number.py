@@ -34,6 +34,7 @@ class ByNumber(
 
 
     class MetaOapg:
+        unique_items = False
         multiple_of = 1.5
 
     def __new__(

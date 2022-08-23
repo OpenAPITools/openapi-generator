@@ -98,7 +98,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     /**
      * See http://json-schema.org/latest/json-schema-validation.html#anchor49
      */
-    public boolean uniqueItems;
+    public Boolean uniqueItems;
     /**
      * See http://json-schema.org/latest/json-schema-validation.html#anchor14
      */
@@ -522,12 +522,12 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getUniqueItems() {
+    public Boolean getUniqueItems() {
         return uniqueItems;
     }
 
     @Override
-    public void setUniqueItems(boolean uniqueItems) {
+    public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
 

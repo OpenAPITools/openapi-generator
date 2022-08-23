@@ -42,6 +42,7 @@ class AllofCombinedWithAnyofOneof(
         
         
             class MetaOapg:
+                unique_items = False
                 multiple_of = 2
         
             def __new__(
@@ -64,6 +65,7 @@ class AllofCombinedWithAnyofOneof(
         
         
             class MetaOapg:
+                unique_items = False
                 multiple_of = 5
         
             def __new__(
@@ -86,6 +88,7 @@ class AllofCombinedWithAnyofOneof(
         
         
             class MetaOapg:
+                unique_items = False
                 multiple_of = 3
         
             def __new__(

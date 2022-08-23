@@ -34,6 +34,7 @@ class MaxpropertiesValidation(
 
 
     class MetaOapg:
+        unique_items = False
         max_properties = 2
 
     def __new__(

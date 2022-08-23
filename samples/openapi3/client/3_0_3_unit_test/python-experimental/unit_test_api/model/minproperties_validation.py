@@ -34,6 +34,7 @@ class MinpropertiesValidation(
 
 
     class MetaOapg:
+        unique_items = False
         min_properties = 1
 
     def __new__(

@@ -34,6 +34,7 @@ class MaxlengthValidation(
 
 
     class MetaOapg:
+        unique_items = False
         max_length = 2
 
     def __new__(

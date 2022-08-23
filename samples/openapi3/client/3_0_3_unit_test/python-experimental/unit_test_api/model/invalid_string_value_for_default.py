@@ -39,6 +39,7 @@ class InvalidStringValueForDefault(
     
     
         class MetaOapg:
+            unique_items = False
             min_length = 4
 
     def __new__(

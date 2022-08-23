@@ -43,6 +43,7 @@ class OneofWithBaseSchema(
         
         
             class MetaOapg:
+                unique_items = False
                 min_length = 2
         
             def __new__(
@@ -65,6 +66,7 @@ class OneofWithBaseSchema(
         
         
             class MetaOapg:
+                unique_items = False
                 max_length = 4
         
             def __new__(

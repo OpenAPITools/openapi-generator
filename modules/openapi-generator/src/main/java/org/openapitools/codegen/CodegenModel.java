@@ -146,7 +146,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     private Integer maxProperties;
     private Integer minProperties;
-    private boolean uniqueItems;
+    private Boolean uniqueItems;
     private Integer maxItems;
     private Integer minItems;
     private Integer maxLength;
@@ -549,12 +549,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getUniqueItems() {
+    public Boolean getUniqueItems() {
         return uniqueItems;
     }
 
     @Override
-    public void setUniqueItems(boolean uniqueItems) {
+    public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
 

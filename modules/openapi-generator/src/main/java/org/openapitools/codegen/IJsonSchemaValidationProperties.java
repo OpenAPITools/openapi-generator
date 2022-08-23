@@ -50,9 +50,9 @@ public interface IJsonSchemaValidationProperties {
 
     void setMaxItems(Integer maxItems);
 
-    boolean getUniqueItems();
+    Boolean getUniqueItems();
 
-    void setUniqueItems(boolean uniqueItems);
+    void setUniqueItems(Boolean uniqueItems);
 
     Integer getMinProperties();
 

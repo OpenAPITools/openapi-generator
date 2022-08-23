@@ -1,6 +1,6 @@
-{{#if getUniqueItems}}
-unique_items = True
-{{/if}}
+{{#neq getUniqueItems null}}
+unique_items = {{#if getUniqueItems}}True{{else}}False{{/if}}
+{{/neq}}
 {{#neq maxLength null}}
 max_length = {{maxLength}}
 {{/neq}}

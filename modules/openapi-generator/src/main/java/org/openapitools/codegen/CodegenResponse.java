@@ -66,7 +66,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     private Integer maxProperties;
     private Integer minProperties;
-    private boolean uniqueItems;
+    private Boolean uniqueItems;
     private Integer maxItems;
     private Integer minItems;
     private Integer maxLength;
@@ -292,12 +292,12 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getUniqueItems() {
+    public Boolean getUniqueItems() {
         return uniqueItems;
     }
 
     @Override
-    public void setUniqueItems(boolean uniqueItems) {
+    public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
 

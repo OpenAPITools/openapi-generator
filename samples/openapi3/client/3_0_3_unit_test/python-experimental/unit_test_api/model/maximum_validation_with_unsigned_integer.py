@@ -34,6 +34,7 @@ class MaximumValidationWithUnsignedInteger(
 
 
     class MetaOapg:
+        unique_items = False
         inclusive_maximum = 300
 
     def __new__(

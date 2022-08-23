@@ -34,6 +34,7 @@ class MinlengthValidation(
 
 
     class MetaOapg:
+        unique_items = False
         min_length = 2
 
     def __new__(
