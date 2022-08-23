@@ -35,4 +35,3 @@ class UUIDString(
 
     class MetaOapg:
         min_length=1
-    pass

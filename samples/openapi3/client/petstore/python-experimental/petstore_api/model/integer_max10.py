@@ -35,4 +35,3 @@ class IntegerMax10(
 
     class MetaOapg:
         inclusive_maximum=10
-    pass

@@ -40,7 +40,6 @@ class ArrayWithValidationsInItems(
     
         class MetaOapg:
             inclusive_maximum=7
-        pass
 
 
     class MetaOapg:

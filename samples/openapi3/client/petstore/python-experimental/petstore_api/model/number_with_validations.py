@@ -36,4 +36,3 @@ class NumberWithValidations(
     class MetaOapg:
         inclusive_maximum=20
         inclusive_minimum=10
-    pass

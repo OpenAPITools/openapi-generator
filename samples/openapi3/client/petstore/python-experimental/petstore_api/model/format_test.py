@@ -48,7 +48,6 @@ class FormatTest(
             inclusive_maximum=100
             inclusive_minimum=10
             multiple_of=2
-        pass
     int32 = schemas.Int32Schema
     
     
@@ -60,7 +59,6 @@ class FormatTest(
         class MetaOapg:
             inclusive_maximum=200
             inclusive_minimum=20
-        pass
     int64 = schemas.Int64Schema
     
     
@@ -73,7 +71,6 @@ class FormatTest(
             inclusive_maximum=543.2
             inclusive_minimum=32.1
             multiple_of=32.5
-        pass
     
     
     class _float(
@@ -84,7 +81,6 @@ class FormatTest(
         class MetaOapg:
             inclusive_maximum=987.6
             inclusive_minimum=54.3
-        pass
     locals()["float"] = _float
     del locals()['_float']
     """
@@ -108,7 +104,6 @@ class FormatTest(
         class MetaOapg:
             inclusive_maximum=123.4
             inclusive_minimum=67.8
-        pass
     float64 = schemas.Float64Schema
     
     
@@ -134,7 +129,6 @@ class FormatTest(
                     re.IGNORECASE
                 )
             }]
-        pass
     byte = schemas.StrSchema
     binary = schemas.BinarySchema
     date = schemas.DateSchema
@@ -151,7 +145,6 @@ class FormatTest(
         class MetaOapg:
             max_length=64
             min_length=10
-        pass
     
     
     class pattern_with_digits(
@@ -163,7 +156,6 @@ class FormatTest(
             regex=[{
                 'pattern': r'^\d{10}$',  # noqa: E501
             }]
-        pass
     
     
     class pattern_with_digits_and_delimiter(
@@ -178,7 +170,6 @@ class FormatTest(
                     re.IGNORECASE
                 )
             }]
-        pass
     noneProp = schemas.NoneSchema
 
 

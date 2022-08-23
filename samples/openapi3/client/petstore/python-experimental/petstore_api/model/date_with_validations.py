@@ -37,4 +37,3 @@ class DateWithValidations(
         regex=[{
             'pattern': r'^2020.*',  # noqa: E501
         }]
-    pass

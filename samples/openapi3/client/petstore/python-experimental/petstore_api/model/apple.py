@@ -48,7 +48,6 @@ class Apple(
             regex=[{
                 'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
             }]
-        pass
     
     
     class origin(
@@ -63,7 +62,6 @@ class Apple(
                     re.IGNORECASE
                 )
             }]
-        pass
 
     def __new__(
         cls,
