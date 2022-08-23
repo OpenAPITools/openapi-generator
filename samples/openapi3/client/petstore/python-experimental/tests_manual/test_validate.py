@@ -1,12 +1,9 @@
 # coding: utf-8
 
-from collections import defaultdict
 from decimal import Decimal
-import typing
 from unittest.mock import patch, call
 import unittest
 
-import petstore_api
 from petstore_api.model.string_with_validation import StringWithValidation
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.number_with_validations import NumberWithValidations
@@ -42,14 +39,14 @@ class TestValidateResults(unittest.TestCase):
         path_to_schemas = StringWithValidation._validate(
             "abcdefg", validation_metadata=vm
         )
-        assert path_to_schemas == {("args[0]",): set([StringWithValidation, str])}
+        assert path_to_schemas == {("args[0]",): {StringWithValidation, str}}
 
     def test_number_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = NumberWithValidations._validate(
             Decimal(11), validation_metadata=vm
         )
-        assert path_to_schemas == {("args[0]",): set([NumberWithValidations, Decimal])}
+        assert path_to_schemas == {("args[0]",): {NumberWithValidations, Decimal}}
 
     def test_str_enum_validate(self):
         vm = ValidationMetadata()
@@ -64,7 +61,7 @@ class TestValidateResults(unittest.TestCase):
     def test_empty_list_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = ArrayHoldingAnyType._validate((), validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([ArrayHoldingAnyType, tuple])}
+        assert path_to_schemas == {("args[0]",): {ArrayHoldingAnyType, tuple}}
 
     def test_list_validate(self):
         vm = ValidationMetadata()
@@ -72,15 +69,15 @@ class TestValidateResults(unittest.TestCase):
             (Decimal(1), "a"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([ArrayHoldingAnyType, tuple]),
-            ("args[0]", 0): set([AnyTypeSchema, Decimal]),
-            ("args[0]", 1): set([AnyTypeSchema, str]),
+            ("args[0]",): {ArrayHoldingAnyType, tuple},
+            ("args[0]", 0): {AnyTypeSchema, Decimal},
+            ("args[0]", 1): {AnyTypeSchema, str},
         }
 
     def test_empty_dict_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Foo._validate(frozendict({}), validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([Foo, frozendict])}
+        assert path_to_schemas == {("args[0]",): {Foo, frozendict}}
 
     def test_dict_validate(self):
         vm = ValidationMetadata()
@@ -89,9 +86,9 @@ class TestValidateResults(unittest.TestCase):
             validation_metadata=vm,
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Foo, frozendict]),
-            ("args[0]", "bar"): set([StrSchema, str]),
-            ("args[0]", "additional"): set([AnyTypeSchema, Decimal]),
+            ("args[0]",): {Foo, frozendict},
+            ("args[0]", "bar"): {StrSchema, str},
+            ("args[0]", "additional"): {AnyTypeSchema, Decimal},
         }
 
     def test_discriminated_dict_validate(self):
@@ -100,9 +97,9 @@ class TestValidateResults(unittest.TestCase):
             frozendict(className="Dog", color="black"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Animal, Dog, Dog._all_of[1], frozendict]),
-            ("args[0]", "className"): set([StrSchema, AnyTypeSchema, str]),
-            ("args[0]", "color"): set([StrSchema, AnyTypeSchema, str]),
+            ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of[1], frozendict},
+            ("args[0]", "className"): {StrSchema, AnyTypeSchema, str},
+            ("args[0]", "color"): {StrSchema, AnyTypeSchema, str},
         }
 
     def test_bool_enum_validate(self):
@@ -116,8 +113,8 @@ class TestValidateResults(unittest.TestCase):
             frozendict(className="DanishPig"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Pig, DanishPig, frozendict]),
-            ("args[0]", "className"): set([DanishPig.className, AnyTypeSchema, str]),
+            ("args[0]",): {Pig, DanishPig, frozendict},
+            ("args[0]", "className"): {DanishPig.className, AnyTypeSchema, str},
         }
 
     def test_anyof_composition_gm_fruit_validate(self):
@@ -127,15 +124,15 @@ class TestValidateResults(unittest.TestCase):
             validation_metadata=vm,
         )
         assert path_to_schemas == {
-            ("args[0]",): set([GmFruit, Apple, Banana, frozendict]),
-            ("args[0]", "cultivar"): set([Apple.cultivar, AnyTypeSchema, str]),
-            ("args[0]", "lengthCm"): set([AnyTypeSchema, NumberSchema, Decimal]),
+            ("args[0]",): {GmFruit, Apple, Banana, frozendict},
+            ("args[0]", "cultivar"): {Apple.cultivar, AnyTypeSchema, str},
+            ("args[0]", "lengthCm"): {AnyTypeSchema, NumberSchema, Decimal},
         }
 
 
 class TestValidateCalls(unittest.TestCase):
     def test_empty_list_validate(self):
-        return_value = {("args[0]",): set([ArrayHoldingAnyType, tuple])}
+        return_value = {("args[0]",): {ArrayHoldingAnyType, tuple}}
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:
@@ -149,7 +146,7 @@ class TestValidateCalls(unittest.TestCase):
             assert mock_validate.call_count == 1
 
     def test_empty_dict_validate(self):
-        return_value = {("args[0]",): set([Foo, frozendict])}
+        return_value = {("args[0]",): {Foo, frozendict}}
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:

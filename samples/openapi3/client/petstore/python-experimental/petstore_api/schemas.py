@@ -1863,8 +1863,10 @@ class IntSchema(IntBase, NumberSchema):
 
 
 class Int32Base:
-    _inclusive_minimum = decimal.Decimal(-2147483648)
-    _inclusive_maximum = decimal.Decimal(2147483647)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-2147483648)
+        inclusive_maximum = decimal.Decimal(2147483647)
 
 
 class Int32Schema(
@@ -1875,8 +1877,10 @@ class Int32Schema(
 
 
 class Int64Base:
-    _inclusive_minimum = decimal.Decimal(-9223372036854775808)
-    _inclusive_maximum = decimal.Decimal(9223372036854775807)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-9223372036854775808)
+        inclusive_maximum = decimal.Decimal(9223372036854775807)
 
 
 class Int64Schema(
@@ -1887,8 +1891,10 @@ class Int64Schema(
 
 
 class Float32Base:
-    _inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
-    _inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
+        inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
 
 
 class Float32Schema(
@@ -1903,8 +1909,10 @@ class Float32Schema(
 
 
 class Float64Base:
-    _inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
-    _inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
+        inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
 
 
 class Float64Schema(
@@ -2016,10 +2024,11 @@ class BinarySchema(
     BinaryBase,
     Schema,
 ):
-    one_of = [
-        BytesSchema,
-        FileSchema,
-    ]
+    class MetaOapg:
+        one_of = [
+            BytesSchema,
+            FileSchema,
+        ]
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: typing.Union[ValidationMetadata]):
         return super().__new__(cls, arg)
