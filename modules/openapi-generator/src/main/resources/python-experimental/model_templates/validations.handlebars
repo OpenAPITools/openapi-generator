@@ -1,29 +1,29 @@
 {{#if getUniqueItems}}
-unique_items=True
+unique_items = True
 {{/if}}
 {{#neq maxLength null}}
-max_length={{maxLength}}
+max_length = {{maxLength}}
 {{/neq}}
 {{#neq minLength null}}
-min_length={{minLength}}
+min_length = {{minLength}}
 {{/neq}}
 {{#neq maxItems null}}
-max_items={{maxItems}}
+max_items = {{maxItems}}
 {{/neq}}
 {{#neq minItems null}}
-min_items={{minItems}}
+min_items = {{minItems}}
 {{/neq}}
 {{#neq maxProperties null }}
-max_properties={{maxProperties}}
+max_properties = {{maxProperties}}
 {{/neq}}
 {{#neq minProperties null}}
-min_properties={{minProperties}}
+min_properties = {{minProperties}}
 {{/neq}}
 {{#neq maximum null}}
-{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}}
+{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}} = {{maximum}}
 {{/neq}}
 {{#neq minimum null}}
-{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}}
+{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}} = {{minimum}}
 {{/neq}}
 {{#neq pattern null}}
 regex=[{
@@ -44,5 +44,5 @@ regex=[{
 }]
 {{/neq}}
 {{#neq multipleOf null}}
-multiple_of={{multipleOf}}
+multiple_of = {{multipleOf}}
 {{/neq}}

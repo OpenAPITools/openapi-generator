@@ -45,9 +45,9 @@ class FormatTest(
     
     
         class MetaOapg:
-            inclusive_maximum=100
-            inclusive_minimum=10
-            multiple_of=2
+            inclusive_maximum = 100
+            inclusive_minimum = 10
+            multiple_of = 2
     int32 = schemas.Int32Schema
     
     
@@ -57,8 +57,8 @@ class FormatTest(
     
     
         class MetaOapg:
-            inclusive_maximum=200
-            inclusive_minimum=20
+            inclusive_maximum = 200
+            inclusive_minimum = 20
     int64 = schemas.Int64Schema
     
     
@@ -68,9 +68,9 @@ class FormatTest(
     
     
         class MetaOapg:
-            inclusive_maximum=543.2
-            inclusive_minimum=32.1
-            multiple_of=32.5
+            inclusive_maximum = 543.2
+            inclusive_minimum = 32.1
+            multiple_of = 32.5
     
     
     class _float(
@@ -79,8 +79,8 @@ class FormatTest(
     
     
         class MetaOapg:
-            inclusive_maximum=987.6
-            inclusive_minimum=54.3
+            inclusive_maximum = 987.6
+            inclusive_minimum = 54.3
     locals()["float"] = _float
     del locals()['_float']
     """
@@ -102,8 +102,8 @@ class FormatTest(
     
     
         class MetaOapg:
-            inclusive_maximum=123.4
-            inclusive_minimum=67.8
+            inclusive_maximum = 123.4
+            inclusive_minimum = 67.8
     float64 = schemas.Float64Schema
     
     
@@ -114,7 +114,7 @@ class FormatTest(
     
     
         class MetaOapg:
-            unique_items=True
+            unique_items = True
     
     
     class string(
@@ -143,8 +143,8 @@ class FormatTest(
     
     
         class MetaOapg:
-            max_length=64
-            min_length=10
+            max_length = 64
+            min_length = 10
     
     
     class pattern_with_digits(

@@ -39,7 +39,7 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
     
     
         class MetaOapg:
-            inclusive_maximum=3
+            inclusive_maximum = 3
 
 
     def __new__(

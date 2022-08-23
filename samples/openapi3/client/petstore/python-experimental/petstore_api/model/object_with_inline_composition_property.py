@@ -47,7 +47,7 @@ class ObjectWithInlineCompositionProperty(
             
             
                 class MetaOapg:
-                    min_length=1
+                    min_length = 1
             
             @classmethod
             @property

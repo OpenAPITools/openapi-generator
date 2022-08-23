@@ -34,7 +34,7 @@ class MinitemsValidation(
 
 
     class MetaOapg:
-        min_items=1
+        min_items = 1
 
     def __new__(
         cls,

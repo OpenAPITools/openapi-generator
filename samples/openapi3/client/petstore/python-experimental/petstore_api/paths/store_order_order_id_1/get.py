@@ -34,8 +34,8 @@ class OrderIdSchema(
 
 
     class MetaOapg:
-        inclusive_maximum=5
-        inclusive_minimum=1
+        inclusive_maximum = 5
+        inclusive_minimum = 1
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {

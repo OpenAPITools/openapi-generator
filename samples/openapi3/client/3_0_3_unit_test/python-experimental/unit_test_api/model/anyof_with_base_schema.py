@@ -43,7 +43,7 @@ class AnyofWithBaseSchema(
         
         
             class MetaOapg:
-                max_length=2
+                max_length = 2
         
             def __new__(
                 cls,
@@ -65,7 +65,7 @@ class AnyofWithBaseSchema(
         
         
             class MetaOapg:
-                min_length=4
+                min_length = 4
         
             def __new__(
                 cls,

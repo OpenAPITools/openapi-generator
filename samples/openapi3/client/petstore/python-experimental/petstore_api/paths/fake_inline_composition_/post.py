@@ -40,7 +40,7 @@ class CompositionAtRootSchema(
         
         
             class MetaOapg:
-                min_length=1
+                min_length = 1
         
         @classmethod
         @property
@@ -90,7 +90,7 @@ class CompositionInPropertySchema(
             
             
                 class MetaOapg:
-                    min_length=1
+                    min_length = 1
             
             @classmethod
             @property
@@ -183,7 +183,7 @@ class SchemaForRequestBodyApplicationJson(
         
         
             class MetaOapg:
-                min_length=1
+                min_length = 1
         
         @classmethod
         @property
@@ -233,7 +233,7 @@ class SchemaForRequestBodyMultipartFormData(
             
             
                 class MetaOapg:
-                    min_length=1
+                    min_length = 1
             
             @classmethod
             @property
@@ -304,7 +304,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         
         
             class MetaOapg:
-                min_length=1
+                min_length = 1
         
         @classmethod
         @property
@@ -354,7 +354,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
             
             
                 class MetaOapg:
-                    min_length=1
+                    min_length = 1
             
             @classmethod
             @property

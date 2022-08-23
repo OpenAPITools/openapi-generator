@@ -39,8 +39,8 @@ class ArrayWithValidationsInItems(
     
     
         class MetaOapg:
-            inclusive_maximum=7
+            inclusive_maximum = 7
 
 
     class MetaOapg:
-        max_items=2
+        max_items = 2

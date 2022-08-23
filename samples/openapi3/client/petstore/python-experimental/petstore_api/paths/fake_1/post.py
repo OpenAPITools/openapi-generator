@@ -43,8 +43,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
         class MetaOapg:
-            inclusive_maximum=100
-            inclusive_minimum=10
+            inclusive_maximum = 100
+            inclusive_minimum = 10
     
     
     class int32(
@@ -53,8 +53,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
         class MetaOapg:
-            inclusive_maximum=200
-            inclusive_minimum=20
+            inclusive_maximum = 200
+            inclusive_minimum = 20
     int64 = schemas.Int64Schema
     
     
@@ -64,8 +64,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
         class MetaOapg:
-            inclusive_maximum=543.2
-            inclusive_minimum=32.1
+            inclusive_maximum = 543.2
+            inclusive_minimum = 32.1
     
     
     class _float(
@@ -74,7 +74,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
         class MetaOapg:
-            inclusive_maximum=987.6
+            inclusive_maximum = 987.6
     locals()["float"] = _float
     del locals()['_float']
     """
@@ -95,8 +95,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
         class MetaOapg:
-            inclusive_maximum=123.4
-            inclusive_minimum=67.8
+            inclusive_maximum = 123.4
+            inclusive_minimum = 67.8
     
     
     class string(
@@ -134,8 +134,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
         class MetaOapg:
-            max_length=64
-            min_length=10
+            max_length = 64
+            min_length = 10
     callback = schemas.StrSchema
 
 

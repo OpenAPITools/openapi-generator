@@ -34,7 +34,7 @@ class ObjectWithValidations(
 
 
     class MetaOapg:
-        min_properties=2
+        min_properties = 2
 
 
     def __new__(

@@ -34,7 +34,7 @@ class MinlengthValidation(
 
 
     class MetaOapg:
-        min_length=2
+        min_length = 2
 
     def __new__(
         cls,

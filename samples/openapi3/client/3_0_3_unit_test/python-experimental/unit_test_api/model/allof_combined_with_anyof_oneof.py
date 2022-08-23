@@ -42,7 +42,7 @@ class AllofCombinedWithAnyofOneof(
         
         
             class MetaOapg:
-                multiple_of=2
+                multiple_of = 2
         
             def __new__(
                 cls,
@@ -64,7 +64,7 @@ class AllofCombinedWithAnyofOneof(
         
         
             class MetaOapg:
-                multiple_of=5
+                multiple_of = 5
         
             def __new__(
                 cls,
@@ -86,7 +86,7 @@ class AllofCombinedWithAnyofOneof(
         
         
             class MetaOapg:
-                multiple_of=3
+                multiple_of = 3
         
             def __new__(
                 cls,

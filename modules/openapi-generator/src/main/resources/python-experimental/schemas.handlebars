@@ -1715,7 +1715,7 @@ class ComposedBase(Discriminable):
             update(path_to_schemas, other_path_to_schemas)
         not_cls = None
         if hasattr(cls, 'MetaOapg'):
-            not_cls = getattr(cls.MetaOapg, 'the_not_schema', None)
+            not_cls = getattr(cls.MetaOapg, 'not_schema', None)
         if not_cls:
             other_path_to_schemas = None
             not_exception = ApiValueError(

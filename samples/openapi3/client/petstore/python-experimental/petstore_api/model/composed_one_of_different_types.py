@@ -46,8 +46,8 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                max_properties=4
-                min_properties=4
+                max_properties = 4
+                min_properties = 4
         
         
             def __new__(
@@ -71,8 +71,8 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                max_items=4
-                min_items=4
+                max_items = 4
+                min_items = 4
         
         
         class one_of_6(

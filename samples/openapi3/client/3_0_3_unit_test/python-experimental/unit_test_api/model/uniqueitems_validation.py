@@ -34,7 +34,7 @@ class UniqueitemsValidation(
 
 
     class MetaOapg:
-        unique_items=True
+        unique_items = True
 
     def __new__(
         cls,

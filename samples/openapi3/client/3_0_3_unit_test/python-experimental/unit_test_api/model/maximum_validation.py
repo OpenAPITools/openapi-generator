@@ -34,7 +34,7 @@ class MaximumValidation(
 
 
     class MetaOapg:
-        inclusive_maximum=3.0
+        inclusive_maximum = 3.0
 
     def __new__(
         cls,

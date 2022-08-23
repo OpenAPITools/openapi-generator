@@ -34,7 +34,7 @@ class MaxlengthValidation(
 
 
     class MetaOapg:
-        max_length=2
+        max_length = 2
 
     def __new__(
         cls,

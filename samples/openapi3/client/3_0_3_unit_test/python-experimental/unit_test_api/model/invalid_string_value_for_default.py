@@ -39,7 +39,7 @@ class InvalidStringValueForDefault(
     
     
         class MetaOapg:
-            min_length=4
+            min_length = 4
 
     def __new__(
         cls,

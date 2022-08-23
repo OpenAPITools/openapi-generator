@@ -34,7 +34,7 @@ class ByNumber(
 
 
     class MetaOapg:
-        multiple_of=1.5
+        multiple_of = 1.5
 
     def __new__(
         cls,
