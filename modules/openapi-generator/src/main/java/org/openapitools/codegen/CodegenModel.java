@@ -561,12 +561,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     @Override
     public Boolean getUniqueItemsBoolean() {
-        return uniqueItems;
+        return uniqueItemsBoolean;
     }
 
     @Override
-    public void setUniqueItemsBoolean(Boolean uniqueItems) {
-        this.uniqueItems = uniqueItems;
+    public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
+        this.uniqueItemsBoolean = uniqueItemsBoolean;
     }
 
     @Override
