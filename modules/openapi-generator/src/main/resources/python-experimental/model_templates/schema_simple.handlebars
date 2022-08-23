@@ -18,7 +18,10 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     """
 {{/if}}
 {{#if hasValidation}}
-    {{> model_templates/validations }}
+
+
+    class MetaOapg:
+        {{> model_templates/validations }}
 {{/if}}
 {{#if isEnum}}
     {{> model_templates/enums }}

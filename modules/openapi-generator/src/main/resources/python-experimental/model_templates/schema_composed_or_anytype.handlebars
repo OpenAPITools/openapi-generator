@@ -31,16 +31,20 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#if hasValidation}}
-    {{> model_templates/validations }}
-{{/if}}
 {{#or isMap isAnyType}}
 {{> model_templates/dict_partial }}
 {{/or}}
-{{#if composedSchemas}}
+{{#or hasValidation composedSchemas}}
 
-    {{> model_templates/composed_schemas }}
+
+    class MetaOapg:
+{{#if hasValidation}}
+        {{> model_templates/validations }}
 {{/if}}
+{{#if composedSchemas}}
+        {{> model_templates/composed_schemas }}
+{{/if}}
+{{/or}}
 {{#if isEnum}}
     {{> model_templates/enums }}
 {{/if}}

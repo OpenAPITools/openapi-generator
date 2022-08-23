@@ -42,9 +42,12 @@ class FormatTest(
     class integer(
         schemas.IntSchema
     ):
-        _inclusive_maximum=100
-        _inclusive_minimum=10
-        _multiple_of=2
+    
+    
+        class MetaOapg:
+            inclusive_maximum=100
+            inclusive_minimum=10
+            multiple_of=2
         pass
     int32 = schemas.Int32Schema
     
@@ -52,8 +55,11 @@ class FormatTest(
     class int32withValidations(
         schemas.Int32Schema
     ):
-        _inclusive_maximum=200
-        _inclusive_minimum=20
+    
+    
+        class MetaOapg:
+            inclusive_maximum=200
+            inclusive_minimum=20
         pass
     int64 = schemas.Int64Schema
     
@@ -61,17 +67,23 @@ class FormatTest(
     class number(
         schemas.NumberSchema
     ):
-        _inclusive_maximum=543.2
-        _inclusive_minimum=32.1
-        _multiple_of=32.5
+    
+    
+        class MetaOapg:
+            inclusive_maximum=543.2
+            inclusive_minimum=32.1
+            multiple_of=32.5
         pass
     
     
     class _float(
         schemas.Float32Schema
     ):
-        _inclusive_maximum=987.6
-        _inclusive_minimum=54.3
+    
+    
+        class MetaOapg:
+            inclusive_maximum=987.6
+            inclusive_minimum=54.3
         pass
     locals()["float"] = _float
     del locals()['_float']
@@ -91,8 +103,11 @@ class FormatTest(
     class double(
         schemas.Float64Schema
     ):
-        _inclusive_maximum=123.4
-        _inclusive_minimum=67.8
+    
+    
+        class MetaOapg:
+            inclusive_maximum=123.4
+            inclusive_minimum=67.8
         pass
     float64 = schemas.Float64Schema
     
@@ -100,19 +115,25 @@ class FormatTest(
     class arrayWithUniqueItems(
         schemas.ListSchema
     ):
-        _unique_items=True
         _items = schemas.NumberSchema
+    
+    
+        class MetaOapg:
+            unique_items=True
     
     
     class string(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'[a-z]',  # noqa: E501
-            'flags': (
-                re.IGNORECASE
-            )
-        }]
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'[a-z]',  # noqa: E501
+                'flags': (
+                    re.IGNORECASE
+                )
+            }]
         pass
     byte = schemas.StrSchema
     binary = schemas.BinarySchema
@@ -125,29 +146,38 @@ class FormatTest(
     class password(
         schemas.StrSchema
     ):
-        _max_length=64
-        _min_length=10
+    
+    
+        class MetaOapg:
+            max_length=64
+            min_length=10
         pass
     
     
     class pattern_with_digits(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'^\d{10}$',  # noqa: E501
-        }]
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'^\d{10}$',  # noqa: E501
+            }]
         pass
     
     
     class pattern_with_digits_and_delimiter(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'^image_\d{1,3}$',  # noqa: E501
-            'flags': (
-                re.IGNORECASE
-            )
-        }]
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'^image_\d{1,3}$',  # noqa: E501
+                'flags': (
+                    re.IGNORECASE
+                )
+            }]
         pass
     noneProp = schemas.NoneSchema
 

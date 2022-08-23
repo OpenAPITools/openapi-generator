@@ -40,16 +40,22 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     class integer(
         schemas.IntSchema
     ):
-        _inclusive_maximum=100
-        _inclusive_minimum=10
+    
+    
+        class MetaOapg:
+            inclusive_maximum=100
+            inclusive_minimum=10
         pass
     
     
     class int32(
         schemas.Int32Schema
     ):
-        _inclusive_maximum=200
-        _inclusive_minimum=20
+    
+    
+        class MetaOapg:
+            inclusive_maximum=200
+            inclusive_minimum=20
         pass
     int64 = schemas.Int64Schema
     
@@ -57,15 +63,21 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     class number(
         schemas.NumberSchema
     ):
-        _inclusive_maximum=543.2
-        _inclusive_minimum=32.1
+    
+    
+        class MetaOapg:
+            inclusive_maximum=543.2
+            inclusive_minimum=32.1
         pass
     
     
     class _float(
         schemas.Float32Schema
     ):
-        _inclusive_maximum=987.6
+    
+    
+        class MetaOapg:
+            inclusive_maximum=987.6
         pass
     locals()["float"] = _float
     del locals()['_float']
@@ -84,29 +96,38 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     class double(
         schemas.Float64Schema
     ):
-        _inclusive_maximum=123.4
-        _inclusive_minimum=67.8
+    
+    
+        class MetaOapg:
+            inclusive_maximum=123.4
+            inclusive_minimum=67.8
         pass
     
     
     class string(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'[a-z]',  # noqa: E501
-            'flags': (
-                re.IGNORECASE
-            )
-        }]
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'[a-z]',  # noqa: E501
+                'flags': (
+                    re.IGNORECASE
+                )
+            }]
         pass
     
     
     class pattern_without_delimiter(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'^[A-Z].*',  # noqa: E501
-        }]
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'^[A-Z].*',  # noqa: E501
+            }]
         pass
     byte = schemas.StrSchema
     binary = schemas.BinarySchema
@@ -117,8 +138,11 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     class password(
         schemas.StrSchema
     ):
-        _max_length=64
-        _min_length=10
+    
+    
+        class MetaOapg:
+            max_length=64
+            min_length=10
         pass
     callback = schemas.StrSchema
 

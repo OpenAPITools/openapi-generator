@@ -14,9 +14,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#if hasValidation}}
-    {{> model_templates/validations }}
-{{/if}}
 {{#with items}}
 {{#if complexType}}
 
@@ -28,3 +25,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{> model_templates/schema }}
 {{/if}}
 {{/with}}
+{{#if hasValidation}}
+
+
+    class MetaOapg:
+        {{> model_templates/validations }}
+{{/if}}

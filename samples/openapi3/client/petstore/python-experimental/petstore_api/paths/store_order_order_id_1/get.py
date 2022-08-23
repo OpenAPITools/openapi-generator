@@ -31,8 +31,11 @@ from . import path
 class OrderIdSchema(
     schemas.Int64Schema
 ):
-    _inclusive_maximum=5
-    _inclusive_minimum=1
+
+
+    class MetaOapg:
+        inclusive_maximum=5
+        inclusive_minimum=1
     pass
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',

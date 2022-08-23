@@ -34,24 +34,26 @@ class NullableShape(
     The value may be a shape or the 'null' value. For a composed schema to validate a null payload, one of its chosen oneOf schemas must be type null or nullable (introduced in OAS schema >= 3.0)
     """
 
-    one_of_2 = schemas.NoneSchema
-    
-    @classmethod
-    @property
-    @functools.cache
-    def _one_of(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
-        return [
-            Triangle,
-            Quadrilateral,
-            cls.one_of_2,
-        ]
+
+    class MetaOapg:
+        one_of_2 = schemas.NoneSchema
+        
+        @classmethod
+        @property
+        @functools.cache
+        def one_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                Triangle,
+                Quadrilateral,
+                cls.one_of_2,
+            ]
 
     def __new__(
         cls,
