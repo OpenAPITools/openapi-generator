@@ -80,7 +80,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog._all_of[1])
+        assert isinstance(animal, Dog.MetaOapg.all_of[1])
         assert set(animal.keys()) == {'className', 'color', 'breed'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'
