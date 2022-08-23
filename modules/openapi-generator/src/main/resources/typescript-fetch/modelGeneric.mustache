@@ -111,15 +111,15 @@ export function {{classname}}ToJSONTyped(ignoreDiscriminator: boolean, value?: {
     if (value === null) {
         return null;
     }
-    {{#discriminator}}
-        if (!ignoreDiscriminator) {
-    {{#discriminator.mappedModels}}
-            if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
-                return {{modelName}}FromJSONTyped(value, true);
-            }
-    {{/discriminator.mappedModels}}
+{{#discriminator}}
+    if (!ignoreDiscriminator) {
+{{#discriminator.mappedModels}}
+        if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
+            return {{modelName}}FromJSONTyped(value, true);
         }
-    {{/discriminator}}
+{{/discriminator.mappedModels}}
+    }
+{{/discriminator}}
     return {
         {{#parent}}...{{{.}}}ToJSONTyped(ignoreDiscriminator, value),{{/parent}}
         {{#additionalPropertiesType}}
