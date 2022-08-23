@@ -6,14 +6,19 @@ import {
     {{classname}}FromJSON,
     {{classname}}FromJSONTyped,
     {{classname}}ToJSON,
+    {{classname}}ToJSONTyped,
 } from './{{filename}}{{importFileExtension}}';
 {{/tsImports}}
 
 {{/hasImports}}
 {{#discriminator}}
 {{#discriminator.mappedModels}}
-import { {{modelName}}FromJSONTyped } from './{{modelName}}{{importFileExtension}}';
+import {
+  {{modelName}},
+  {{modelName}}ToJSONTyped,
+  {{modelName}}FromJSONTyped} from './{{modelName}}{{importFileExtension}}';
 {{/discriminator.mappedModels}}
+
 {{/discriminator}}
 {{>modelGenericInterfaces}}
 
@@ -96,14 +101,32 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     return json;
     {{/hasVars}}
 }
-
+{{#discriminator}}
+{{#discriminator.mappedModels}}
+function is{{modelName}}(value: {{classname}}):value is {{modelName}}{
+    return value['{{discriminator.propertyName}}'] === '{{mappingName}}';
+}
+{{/discriminator.mappedModels}}
+{{/discriminator}}
 export function {{classname}}ToJSON(value?: {{#hasReadOnly}}Omit<{{classname}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{classname}}{{/hasReadOnly}} | null): any {
+    return {{classname}}ToJSONTyped(value);
+}
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator = false): any {
     {{#hasVars}}
     if (value == null) {
         return value;
     }
+{{#discriminator}}
+    if (!ignoreDiscriminator) {
+{{#discriminator.mappedModels}}
+        if (is{{modelName}}(value)) {
+            return {{modelName}}ToJSONTyped(value, true);
+        }
+{{/discriminator.mappedModels}}
+    }
+{{/discriminator}}
     return {
-        {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSONTyped(value, ignoreDiscriminator),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
