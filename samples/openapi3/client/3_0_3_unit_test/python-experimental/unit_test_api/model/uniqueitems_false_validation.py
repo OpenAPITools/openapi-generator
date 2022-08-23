@@ -32,6 +32,9 @@ class UniqueitemsFalseValidation(
     Do not edit the class manually.
     """
 
+
+    class MetaOapg:
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],

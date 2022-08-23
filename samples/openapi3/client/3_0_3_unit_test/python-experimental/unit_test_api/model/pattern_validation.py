@@ -31,9 +31,12 @@ class PatternValidation(
 
     Do not edit the class manually.
     """
-    _regex=[{
-        'pattern': r'^a*$',  # noqa: E501
-    }]
+
+
+    class MetaOapg:
+        regex=[{
+            'pattern': r'^a*$',  # noqa: E501
+        }]
 
     def __new__(
         cls,
