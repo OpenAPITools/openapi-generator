@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of List&lt;string&gt;</returns>
-        public List<string> GetListString()
+        public List<string> GetListstring()
         {
             return (List<string>)this.ActualInstance;
         }
