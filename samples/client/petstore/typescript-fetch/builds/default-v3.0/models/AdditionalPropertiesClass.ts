@@ -54,8 +54,10 @@ export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscrimi
         'mapOfMapProperty': json['map_of_map_property'] == null ? undefined : json['map_of_map_property'],
     };
 }
-
 export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClass | null): any {
+    return AdditionalPropertiesClassToJSONTyped(value);
+}
+export function AdditionalPropertiesClassToJSONTyped(value?: AdditionalPropertiesClass | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

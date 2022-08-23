@@ -47,8 +47,10 @@ export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'sourceURI': json['sourceURI'] == null ? undefined : json['sourceURI'],
     };
 }
-
 export function ModelFileToJSON(value?: ModelFile | null): any {
+    return ModelFileToJSONTyped(value);
+}
+export function ModelFileToJSONTyped(value?: ModelFile | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

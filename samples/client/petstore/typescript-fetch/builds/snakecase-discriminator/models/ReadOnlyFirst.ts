@@ -54,8 +54,10 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
         'baz': json['baz'] == null ? undefined : json['baz'],
     };
 }
-
 export function ReadOnlyFirstToJSON(value?: Omit<ReadOnlyFirst, 'bar'> | null): any {
+    return ReadOnlyFirstToJSONTyped(value);
+}
+export function ReadOnlyFirstToJSONTyped(value?: ReadOnlyFirst | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

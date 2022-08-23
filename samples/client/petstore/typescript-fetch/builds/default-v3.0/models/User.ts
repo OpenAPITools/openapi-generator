@@ -96,8 +96,10 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'userStatus': json['userStatus'] == null ? undefined : json['userStatus'],
     };
 }
-
 export function UserToJSON(value?: User | null): any {
+    return UserToJSONTyped(value);
+}
+export function UserToJSONTyped(value?: User | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

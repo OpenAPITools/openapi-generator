@@ -46,4 +46,7 @@ export function NumberEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 export function NumberEnumToJSON(value?: NumberEnum | null): any {
     return value as any;
 }
+export function NumberEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): NumberEnum {
+    return value as NumberEnum;
+}
 

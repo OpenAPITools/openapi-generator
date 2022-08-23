@@ -18,13 +18,16 @@ import {
     BranchDtoFromJSON,
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
+    BranchDtoToJSONTyped,
 } from './BranchDto';
 import type { AbstractUserDto } from './AbstractUserDto';
 import {
     AbstractUserDtoFromJSON,
     AbstractUserDtoFromJSONTyped,
     AbstractUserDtoToJSON,
+    AbstractUserDtoToJSONTyped,
 } from './AbstractUserDto';
+
 
 /**
  * 
@@ -48,8 +51,10 @@ export function RemoteAuthenticatedUserDtoFromJSON(json: any): RemoteAuthenticat
 export function RemoteAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): RemoteAuthenticatedUserDto {
     return json;
 }
-
 export function RemoteAuthenticatedUserDtoToJSON(value?: RemoteAuthenticatedUserDto | null): any {
+    return RemoteAuthenticatedUserDtoToJSONTyped(value);
+}
+export function RemoteAuthenticatedUserDtoToJSONTyped(value?: RemoteAuthenticatedUserDto | null, ignoreDiscriminator = false): any {
     return value;
 }
 

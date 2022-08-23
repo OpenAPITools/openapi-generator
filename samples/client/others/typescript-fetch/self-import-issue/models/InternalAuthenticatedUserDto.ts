@@ -18,13 +18,16 @@ import {
     BranchDtoFromJSON,
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
+    BranchDtoToJSONTyped,
 } from './BranchDto';
 import type { AbstractUserDto } from './AbstractUserDto';
 import {
     AbstractUserDtoFromJSON,
     AbstractUserDtoFromJSONTyped,
     AbstractUserDtoToJSON,
+    AbstractUserDtoToJSONTyped,
 } from './AbstractUserDto';
+
 
 /**
  * 
@@ -48,8 +51,10 @@ export function InternalAuthenticatedUserDtoFromJSON(json: any): InternalAuthent
 export function InternalAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): InternalAuthenticatedUserDto {
     return json;
 }
-
 export function InternalAuthenticatedUserDtoToJSON(value?: InternalAuthenticatedUserDto | null): any {
+    return InternalAuthenticatedUserDtoToJSONTyped(value);
+}
+export function InternalAuthenticatedUserDtoToJSONTyped(value?: InternalAuthenticatedUserDto | null, ignoreDiscriminator = false): any {
     return value;
 }
 

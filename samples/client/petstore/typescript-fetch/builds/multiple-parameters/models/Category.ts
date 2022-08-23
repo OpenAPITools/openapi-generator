@@ -54,8 +54,10 @@ export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'name': json['name'] == null ? undefined : json['name'],
     };
 }
-
 export function CategoryToJSON(value?: Category | null): any {
+    return CategoryToJSONTyped(value);
+}
+export function CategoryToJSONTyped(value?: Category | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

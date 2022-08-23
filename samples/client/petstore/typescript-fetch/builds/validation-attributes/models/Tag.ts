@@ -54,8 +54,10 @@ export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
         'name': json['name'] == null ? undefined : json['name'],
     };
 }
-
 export function TagToJSON(value?: Tag | null): any {
+    return TagToJSONTyped(value);
+}
+export function TagToJSONTyped(value?: Tag | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

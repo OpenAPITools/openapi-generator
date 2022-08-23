@@ -47,4 +47,7 @@ export function OuterEnumIntegerFromJSONTyped(json: any, ignoreDiscriminator: bo
 export function OuterEnumIntegerToJSON(value?: OuterEnumInteger | null): any {
     return value as any;
 }
+export function OuterEnumIntegerToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnumInteger {
+    return value as OuterEnumInteger;
+}
 

@@ -13,7 +13,11 @@
  */
 
 import { mapValues } from '../runtime';
-import { ChildWithNullableFromJSONTyped } from './ChildWithNullable';
+import {
+  ChildWithNullable,
+  ChildWithNullableToJSONTyped,
+  ChildWithNullableFromJSONTyped} from './ChildWithNullable';
+
 /**
  * 
  * @export
@@ -70,10 +74,20 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
         'nullableProperty': json['nullableProperty'] == null ? undefined : json['nullableProperty'],
     };
 }
-
+function isChildWithNullable(value: ParentWithNullable):value is ChildWithNullable{
+    return value['type'] === 'ChildWithNullable';
+}
 export function ParentWithNullableToJSON(value?: ParentWithNullable | null): any {
+    return ParentWithNullableToJSONTyped(value);
+}
+export function ParentWithNullableToJSONTyped(value?: ParentWithNullable | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
+    }
+    if (!ignoreDiscriminator) {
+        if (isChildWithNullable(value)) {
+            return ChildWithNullableToJSONTyped(value, true);
+        }
     }
     return {
         

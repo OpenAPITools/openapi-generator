@@ -49,8 +49,10 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json:
         'someProperty': json['someProperty'] == null ? undefined : json['someProperty'],
     };
 }
-
 export function TestInlineFreeformAdditionalPropertiesRequestToJSON(value?: TestInlineFreeformAdditionalPropertiesRequest | null): any {
+    return TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(value);
+}
+export function TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(value?: TestInlineFreeformAdditionalPropertiesRequest | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

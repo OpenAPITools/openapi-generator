@@ -61,8 +61,10 @@ export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: bool
         'myBoolean': json['my_boolean'] == null ? undefined : json['my_boolean'],
     };
 }
-
 export function OuterCompositeToJSON(value?: OuterComposite | null): any {
+    return OuterCompositeToJSONTyped(value);
+}
+export function OuterCompositeToJSONTyped(value?: OuterComposite | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

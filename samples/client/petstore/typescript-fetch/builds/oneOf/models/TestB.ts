@@ -48,8 +48,10 @@ export function TestBFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tes
         'bar': json['bar'],
     };
 }
-
 export function TestBToJSON(value?: TestB | null): any {
+    return TestBToJSONTyped(value);
+}
+export function TestBToJSONTyped(value?: TestB | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

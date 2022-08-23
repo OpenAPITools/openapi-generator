@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -54,13 +55,15 @@ export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
         'breed': json['breed'] == null ? undefined : json['breed'],
     };
 }
-
 export function DogToJSON(value?: Dog | null): any {
+    return DogToJSONTyped(value);
+}
+export function DogToJSONTyped(value?: Dog | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSONTyped(value, ignoreDiscriminator),
         'breed': value['breed'],
     };
 }

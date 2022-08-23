@@ -18,12 +18,14 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 
 /**
@@ -109,8 +111,10 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'status': json['status'] == null ? undefined : json['status'],
     };
 }
-
 export function PetToJSON(value?: Pet | null): any {
+    return PetToJSONTyped(value);
+}
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

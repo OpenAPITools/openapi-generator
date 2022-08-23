@@ -47,8 +47,10 @@ export function NumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'justNumber': json['JustNumber'] == null ? undefined : json['JustNumber'],
     };
 }
-
 export function NumberOnlyToJSON(value?: NumberOnly | null): any {
+    return NumberOnlyToJSONTyped(value);
+}
+export function NumberOnlyToJSONTyped(value?: NumberOnly | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

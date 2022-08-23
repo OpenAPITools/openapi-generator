@@ -18,6 +18,7 @@ import {
     TestAFromJSON,
     TestAFromJSONTyped,
     TestAToJSON,
+    TestAToJSONTyped,
 } from './TestA';
 import type { TestB } from './TestB';
 import {
@@ -25,6 +26,7 @@ import {
     TestBFromJSON,
     TestBFromJSONTyped,
     TestBToJSON,
+    TestBToJSONTyped,
 } from './TestB';
 
 /**

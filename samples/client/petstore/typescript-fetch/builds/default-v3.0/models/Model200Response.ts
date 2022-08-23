@@ -54,8 +54,10 @@ export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
         '_class': json['class'] == null ? undefined : json['class'],
     };
 }
-
 export function Model200ResponseToJSON(value?: Model200Response | null): any {
+    return Model200ResponseToJSONTyped(value);
+}
+export function Model200ResponseToJSONTyped(value?: Model200Response | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

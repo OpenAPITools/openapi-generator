@@ -47,8 +47,10 @@ export function BranchDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'name': json['name'] == null ? undefined : json['name'],
     };
 }
-
 export function BranchDtoToJSON(value?: BranchDto | null): any {
+    return BranchDtoToJSONTyped(value);
+}
+export function BranchDtoToJSONTyped(value?: BranchDto | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

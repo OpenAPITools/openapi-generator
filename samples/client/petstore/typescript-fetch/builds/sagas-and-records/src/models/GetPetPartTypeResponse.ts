@@ -18,12 +18,14 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 import type { PetPartType } from './PetPartType';
 import {
     PetPartTypeFromJSON,
     PetPartTypeFromJSONTyped,
     PetPartTypeToJSON,
+    PetPartTypeToJSONTyped,
 } from './PetPartType';
 
 /**
@@ -70,8 +72,10 @@ export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminat
         'data': json['data'] == null ? undefined : PetPartTypeFromJSON(json['data']),
     };
 }
-
 export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null): any {
+    return GetPetPartTypeResponseToJSONTyped(value);
+}
+export function GetPetPartTypeResponseToJSONTyped(value?: GetPetPartTypeResponse | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

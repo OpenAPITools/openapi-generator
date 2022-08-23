@@ -18,24 +18,28 @@ import {
     OuterEnumFromJSON,
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
+    OuterEnumToJSONTyped,
 } from './OuterEnum';
 import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
 import {
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
+    OuterEnumIntegerDefaultValueToJSONTyped,
 } from './OuterEnumIntegerDefaultValue';
 import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
+    OuterEnumIntegerToJSONTyped,
 } from './OuterEnumInteger';
 import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
 import {
     OuterEnumDefaultValueFromJSON,
     OuterEnumDefaultValueFromJSONTyped,
     OuterEnumDefaultValueToJSON,
+    OuterEnumDefaultValueToJSONTyped,
 } from './OuterEnumDefaultValue';
 
 /**
@@ -162,8 +166,10 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'outerEnumIntegerDefaultValue': json['outerEnumIntegerDefaultValue'] == null ? undefined : OuterEnumIntegerDefaultValueFromJSON(json['outerEnumIntegerDefaultValue']),
     };
 }
-
 export function EnumTestToJSON(value?: EnumTest | null): any {
+    return EnumTestToJSONTyped(value);
+}
+export function EnumTestToJSONTyped(value?: EnumTest | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

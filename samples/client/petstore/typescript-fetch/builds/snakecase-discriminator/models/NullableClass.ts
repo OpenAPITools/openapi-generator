@@ -126,8 +126,10 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
         'objectItemsNullable': json['object_items_nullable'] == null ? undefined : json['object_items_nullable'],
     };
 }
-
 export function NullableClassToJSON(value?: NullableClass | null): any {
+    return NullableClassToJSONTyped(value);
+}
+export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

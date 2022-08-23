@@ -18,24 +18,28 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
 import {
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
+    DeploymentRequestStatusToJSONTyped,
 } from './DeploymentRequestStatus';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 import type { WarningCode } from './WarningCode';
 import {
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
+    WarningCodeToJSONTyped,
 } from './WarningCode';
 
 /**
@@ -238,8 +242,10 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'regions': json['regions'] == null ? undefined : json['regions'],
     };
 }
-
 export function PetToJSON(value?: Pet | null): any {
+    return PetToJSONTyped(value);
+}
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

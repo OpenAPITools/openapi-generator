@@ -47,8 +47,10 @@ export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Own
         'name': json['name'] == null ? undefined : json['name'],
     };
 }
-
 export function OwnerToJSON(value?: Owner | null): any {
+    return OwnerToJSONTyped(value);
+}
+export function OwnerToJSONTyped(value?: Owner | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

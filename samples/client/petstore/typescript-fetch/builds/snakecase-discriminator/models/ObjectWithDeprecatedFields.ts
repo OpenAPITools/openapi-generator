@@ -18,6 +18,7 @@ import {
     DeprecatedObjectFromJSON,
     DeprecatedObjectFromJSONTyped,
     DeprecatedObjectToJSON,
+    DeprecatedObjectToJSONTyped,
 } from './DeprecatedObject';
 
 /**
@@ -78,8 +79,10 @@ export function ObjectWithDeprecatedFieldsFromJSONTyped(json: any, ignoreDiscrim
         'bars': json['bars'] == null ? undefined : json['bars'],
     };
 }
-
 export function ObjectWithDeprecatedFieldsToJSON(value?: ObjectWithDeprecatedFields | null): any {
+    return ObjectWithDeprecatedFieldsToJSONTyped(value);
+}
+export function ObjectWithDeprecatedFieldsToJSONTyped(value?: ObjectWithDeprecatedFields | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

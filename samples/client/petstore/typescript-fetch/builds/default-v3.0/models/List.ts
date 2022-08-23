@@ -47,8 +47,10 @@ export function ListFromJSONTyped(json: any, ignoreDiscriminator: boolean): List
         '_123list': json['123-list'] == null ? undefined : json['123-list'],
     };
 }
-
 export function ListToJSON(value?: List | null): any {
+    return ListToJSONTyped(value);
+}
+export function ListToJSONTyped(value?: List | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

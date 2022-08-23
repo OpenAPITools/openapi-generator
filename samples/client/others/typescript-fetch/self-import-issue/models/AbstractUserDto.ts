@@ -18,10 +18,18 @@ import {
     BranchDtoFromJSON,
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
+    BranchDtoToJSONTyped,
 } from './BranchDto';
 
-import { InternalAuthenticatedUserDtoFromJSONTyped } from './InternalAuthenticatedUserDto';
-import { RemoteAuthenticatedUserDtoFromJSONTyped } from './RemoteAuthenticatedUserDto';
+import {
+  InternalAuthenticatedUserDto,
+  InternalAuthenticatedUserDtoToJSONTyped,
+  InternalAuthenticatedUserDtoFromJSONTyped} from './InternalAuthenticatedUserDto';
+import {
+  RemoteAuthenticatedUserDto,
+  RemoteAuthenticatedUserDtoToJSONTyped,
+  RemoteAuthenticatedUserDtoFromJSONTyped} from './RemoteAuthenticatedUserDto';
+
 /**
  * 
  * @export
@@ -78,10 +86,26 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         'type': json['type'] == null ? undefined : json['type'],
     };
 }
-
+function isInternalAuthenticatedUserDto(value: AbstractUserDto):value is InternalAuthenticatedUserDto{
+    return value['type'] === 'internal-authenticated';
+}
+function isRemoteAuthenticatedUserDto(value: AbstractUserDto):value is RemoteAuthenticatedUserDto{
+    return value['type'] === 'remote-authenticated';
+}
 export function AbstractUserDtoToJSON(value?: AbstractUserDto | null): any {
+    return AbstractUserDtoToJSONTyped(value);
+}
+export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
+    }
+    if (!ignoreDiscriminator) {
+        if (isInternalAuthenticatedUserDto(value)) {
+            return InternalAuthenticatedUserDtoToJSONTyped(value, true);
+        }
+        if (isRemoteAuthenticatedUserDto(value)) {
+            return RemoteAuthenticatedUserDtoToJSONTyped(value, true);
+        }
     }
     return {
         

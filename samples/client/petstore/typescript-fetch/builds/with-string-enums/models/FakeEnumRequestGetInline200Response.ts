@@ -106,8 +106,10 @@ export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, igno
         'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : json['nullable-number-enum'],
     };
 }
-
 export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumRequestGetInline200Response | null): any {
+    return FakeEnumRequestGetInline200ResponseToJSONTyped(value);
+}
+export function FakeEnumRequestGetInline200ResponseToJSONTyped(value?: FakeEnumRequestGetInline200Response | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

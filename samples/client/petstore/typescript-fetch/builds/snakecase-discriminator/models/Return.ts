@@ -47,8 +47,10 @@ export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
         '_return': json['return'] == null ? undefined : json['return'],
     };
 }
-
 export function ReturnToJSON(value?: Return | null): any {
+    return ReturnToJSONTyped(value);
+}
+export function ReturnToJSONTyped(value?: Return | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

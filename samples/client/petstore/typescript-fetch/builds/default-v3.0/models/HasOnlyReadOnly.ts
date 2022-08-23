@@ -54,8 +54,10 @@ export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boo
         'foo': json['foo'] == null ? undefined : json['foo'],
     };
 }
-
 export function HasOnlyReadOnlyToJSON(value?: Omit<HasOnlyReadOnly, 'bar'|'foo'> | null): any {
+    return HasOnlyReadOnlyToJSONTyped(value);
+}
+export function HasOnlyReadOnlyToJSONTyped(value?: HasOnlyReadOnly | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

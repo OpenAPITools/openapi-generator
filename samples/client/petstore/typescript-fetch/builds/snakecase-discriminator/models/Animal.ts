@@ -13,8 +13,15 @@
  */
 
 import { mapValues } from '../runtime';
-import { CatFromJSONTyped } from './Cat';
-import { DogFromJSONTyped } from './Dog';
+import {
+  Cat,
+  CatToJSONTyped,
+  CatFromJSONTyped} from './Cat';
+import {
+  Dog,
+  DogToJSONTyped,
+  DogFromJSONTyped} from './Dog';
+
 /**
  * 
  * @export
@@ -65,10 +72,26 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         'color': json['color'] == null ? undefined : json['color'],
     };
 }
-
+function isCat(value: Animal):value is Cat{
+    return value['className'] === 'CAT';
+}
+function isDog(value: Animal):value is Dog{
+    return value['className'] === 'DOG';
+}
 export function AnimalToJSON(value?: Animal | null): any {
+    return AnimalToJSONTyped(value);
+}
+export function AnimalToJSONTyped(value?: Animal | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
+    }
+    if (!ignoreDiscriminator) {
+        if (isCat(value)) {
+            return CatToJSONTyped(value, true);
+        }
+        if (isDog(value)) {
+            return DogToJSONTyped(value, true);
+        }
     }
     return {
         

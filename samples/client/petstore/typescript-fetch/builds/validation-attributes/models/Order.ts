@@ -96,8 +96,10 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'complete': json['complete'] == null ? undefined : json['complete'],
     };
 }
-
 export function OrderToJSON(value?: Order | null): any {
+    return OrderToJSONTyped(value);
+}
+export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

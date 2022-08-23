@@ -47,8 +47,10 @@ export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
         'bar': json['bar'] == null ? undefined : json['bar'],
     };
 }
-
 export function FooToJSON(value?: Foo | null): any {
+    return FooToJSONTyped(value);
+}
+export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

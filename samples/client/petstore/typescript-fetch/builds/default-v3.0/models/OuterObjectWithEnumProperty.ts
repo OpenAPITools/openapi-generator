@@ -18,6 +18,7 @@ import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
+    OuterEnumIntegerToJSONTyped,
 } from './OuterEnumInteger';
 
 /**
@@ -57,8 +58,10 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
         'value': OuterEnumIntegerFromJSON(json['value']),
     };
 }
-
 export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null): any {
+    return OuterObjectWithEnumPropertyToJSONTyped(value);
+}
+export function OuterObjectWithEnumPropertyToJSONTyped(value?: OuterObjectWithEnumProperty | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

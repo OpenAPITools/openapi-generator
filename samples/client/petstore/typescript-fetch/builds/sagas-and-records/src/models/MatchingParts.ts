@@ -18,6 +18,7 @@ import {
     PartFromJSON,
     PartFromJSONTyped,
     PartToJSON,
+    PartToJSONTyped,
 } from './Part';
 
 /**
@@ -63,8 +64,10 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'related': ((json['related'] as Array<any>).map(PartFromJSON)),
     };
 }
-
 export function MatchingPartsToJSON(value?: MatchingParts | null): any {
+    return MatchingPartsToJSONTyped(value);
+}
+export function MatchingPartsToJSONTyped(value?: MatchingParts | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

@@ -18,6 +18,7 @@ import {
     OwnerFromJSON,
     OwnerFromJSONTyped,
     OwnerToJSON,
+    OwnerToJSONTyped,
 } from './Owner';
 
 /**
@@ -54,8 +55,10 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
         'owner': json['owner'] == null ? undefined : OwnerFromJSON(json['owner']),
     };
 }
-
 export function ClubToJSON(value?: Club | null): any {
+    return ClubToJSONTyped(value);
+}
+export function ClubToJSONTyped(value?: Club | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

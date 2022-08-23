@@ -69,8 +69,10 @@ export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name
         '_123number': json['123Number'] == null ? undefined : json['123Number'],
     };
 }
-
 export function NameToJSON(value?: Omit<Name, 'snake_case'|'123Number'> | null): any {
+    return NameToJSONTyped(value);
+}
+export function NameToJSONTyped(value?: Name | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

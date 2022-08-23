@@ -54,8 +54,10 @@ export function FakeBigDecimalMap200ResponseFromJSONTyped(json: any, ignoreDiscr
         'someMap': json['someMap'] == null ? undefined : json['someMap'],
     };
 }
-
 export function FakeBigDecimalMap200ResponseToJSON(value?: FakeBigDecimalMap200Response | null): any {
+    return FakeBigDecimalMap200ResponseToJSONTyped(value);
+}
+export function FakeBigDecimalMap200ResponseToJSONTyped(value?: FakeBigDecimalMap200Response | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

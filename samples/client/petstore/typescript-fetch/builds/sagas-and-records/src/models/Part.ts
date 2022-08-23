@@ -56,8 +56,10 @@ export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part
         'name': json['name'],
     };
 }
-
 export function PartToJSON(value?: Part | null): any {
+    return PartToJSONTyped(value);
+}
+export function PartToJSONTyped(value?: Part | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

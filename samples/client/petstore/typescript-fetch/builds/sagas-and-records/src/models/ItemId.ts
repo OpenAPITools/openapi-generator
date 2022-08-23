@@ -56,8 +56,10 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
         'type': json['type'],
     };
 }
-
 export function ItemIdToJSON(value?: ItemId | null): any {
+    return ItemIdToJSONTyped(value);
+}
+export function ItemIdToJSONTyped(value?: ItemId | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

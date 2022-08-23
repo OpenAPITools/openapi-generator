@@ -47,8 +47,10 @@ export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: bo
         '$specialPropertyName': json['$special[property.name]'] == null ? undefined : json['$special[property.name]'],
     };
 }
-
 export function SpecialModelNameToJSON(value?: SpecialModelName | null): any {
+    return SpecialModelNameToJSONTyped(value);
+}
+export function SpecialModelNameToJSONTyped(value?: SpecialModelName | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

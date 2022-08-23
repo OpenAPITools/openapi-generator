@@ -74,8 +74,10 @@ export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'arrayEnum': json['array_enum'] == null ? undefined : json['array_enum'],
     };
 }
-
 export function EnumArraysToJSON(value?: EnumArrays | null): any {
+    return EnumArraysToJSONTyped(value);
+}
+export function EnumArraysToJSONTyped(value?: EnumArrays | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

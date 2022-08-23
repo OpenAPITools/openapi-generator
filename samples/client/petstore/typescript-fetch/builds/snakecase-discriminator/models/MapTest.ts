@@ -79,8 +79,10 @@ export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): M
         'indirectMap': json['indirect_map'] == null ? undefined : json['indirect_map'],
     };
 }
-
 export function MapTestToJSON(value?: MapTest | null): any {
+    return MapTestToJSONTyped(value);
+}
+export function MapTestToJSONTyped(value?: MapTest | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

@@ -18,6 +18,7 @@ import {
     SingleRefTypeFromJSON,
     SingleRefTypeFromJSONTyped,
     SingleRefTypeToJSON,
+    SingleRefTypeToJSONTyped,
 } from './SingleRefType';
 
 /**
@@ -63,8 +64,10 @@ export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: 
         'singleRefType': json['SingleRefType'] == null ? undefined : SingleRefTypeFromJSON(json['SingleRefType']),
     };
 }
-
 export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null): any {
+    return AllOfWithSingleRefToJSONTyped(value);
+}
+export function AllOfWithSingleRefToJSONTyped(value?: AllOfWithSingleRef | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

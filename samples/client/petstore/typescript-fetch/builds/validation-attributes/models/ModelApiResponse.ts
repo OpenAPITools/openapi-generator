@@ -61,8 +61,10 @@ export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': json['message'] == null ? undefined : json['message'],
     };
 }
-
 export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
+    return ModelApiResponseToJSONTyped(value);
+}
+export function ModelApiResponseToJSONTyped(value?: ModelApiResponse | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

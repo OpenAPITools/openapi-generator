@@ -18,6 +18,7 @@ import {
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
+    ErrorCodeToJSONTyped,
 } from './ErrorCode';
 
 /**
@@ -122,8 +123,10 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'errors': json['errors'] == null ? undefined : json['errors'],
     };
 }
-
 export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
+    return ResponseMetaToJSONTyped(value);
+}
+export function ResponseMetaToJSONTyped(value?: ResponseMeta | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

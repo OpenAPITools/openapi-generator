@@ -18,12 +18,14 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 import type { MatchingParts } from './MatchingParts';
 import {
     MatchingPartsFromJSON,
     MatchingPartsFromJSONTyped,
     MatchingPartsToJSON,
+    MatchingPartsToJSONTyped,
 } from './MatchingParts';
 
 /**
@@ -68,8 +70,10 @@ export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscrimin
         'data': json['data'] == null ? undefined : MatchingPartsFromJSON(json['data']),
     };
 }
-
 export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null): any {
+    return GetMatchingPartsResponseToJSONTyped(value);
+}
+export function GetMatchingPartsResponseToJSONTyped(value?: GetMatchingPartsResponse | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }

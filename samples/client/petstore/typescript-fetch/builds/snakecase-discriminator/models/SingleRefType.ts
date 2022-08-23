@@ -46,4 +46,7 @@ export function SingleRefTypeFromJSONTyped(json: any, ignoreDiscriminator: boole
 export function SingleRefTypeToJSON(value?: SingleRefType | null): any {
     return value as any;
 }
+export function SingleRefTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): SingleRefType {
+    return value as SingleRefType;
+}
 

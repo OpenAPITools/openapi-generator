@@ -18,6 +18,7 @@ import {
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,
+    ReadOnlyFirstToJSONTyped,
 } from './ReadOnlyFirst';
 
 /**
@@ -68,8 +69,10 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'arrayArrayOfModel': json['array_array_of_model'] == null ? undefined : json['array_array_of_model'],
     };
 }
-
 export function ArrayTestToJSON(value?: ArrayTest | null): any {
+    return ArrayTestToJSONTyped(value);
+}
+export function ArrayTestToJSONTyped(value?: ArrayTest | null, ignoreDiscriminator = false): any {
     if (value == null) {
         return value;
     }
