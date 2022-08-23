@@ -34,7 +34,6 @@ class BySmallNumber(
 
 
     class MetaOapg:
-        unique_items = False
         multiple_of = 0.00010
 
     def __new__(

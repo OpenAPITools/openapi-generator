@@ -34,7 +34,6 @@ class PatternIsNotAnchored(
 
 
     class MetaOapg:
-        unique_items = False
         regex=[{
             'pattern': r'a+',  # noqa: E501
         }]

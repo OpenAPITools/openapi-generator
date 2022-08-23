@@ -34,5 +34,4 @@ class InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(
 
 
     class MetaOapg:
-        unique_items = False
         multiple_of = 0.123456789

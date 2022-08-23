@@ -34,7 +34,6 @@ class MaxitemsValidation(
 
 
     class MetaOapg:
-        unique_items = False
         max_items = 2
 
     def __new__(

@@ -43,7 +43,6 @@ class Anyof(
         
         
             class MetaOapg:
-                unique_items = False
                 inclusive_minimum = 2
         
             def __new__(

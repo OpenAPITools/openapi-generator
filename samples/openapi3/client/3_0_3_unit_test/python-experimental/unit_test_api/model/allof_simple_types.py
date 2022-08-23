@@ -42,7 +42,6 @@ class AllofSimpleTypes(
         
         
             class MetaOapg:
-                unique_items = False
                 inclusive_maximum = 30
         
             def __new__(
@@ -65,7 +64,6 @@ class AllofSimpleTypes(
         
         
             class MetaOapg:
-                unique_items = False
                 inclusive_minimum = 20
         
             def __new__(

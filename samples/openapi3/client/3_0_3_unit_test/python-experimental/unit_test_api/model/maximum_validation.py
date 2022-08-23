@@ -34,7 +34,6 @@ class MaximumValidation(
 
 
     class MetaOapg:
-        unique_items = False
         inclusive_maximum = 3.0
 
     def __new__(

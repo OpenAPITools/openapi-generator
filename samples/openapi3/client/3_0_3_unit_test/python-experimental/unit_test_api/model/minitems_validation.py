@@ -34,7 +34,6 @@ class MinitemsValidation(
 
 
     class MetaOapg:
-        unique_items = False
         min_items = 1
 
     def __new__(

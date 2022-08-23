@@ -39,7 +39,6 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
     
     
         class MetaOapg:
-            unique_items = False
             inclusive_maximum = 3
 
 
