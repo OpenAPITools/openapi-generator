@@ -6,6 +6,7 @@ import {
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
+    {{.}}ToJSONTyped,
 } from './{{.}}{{importFileExtension}}';
 {{/imports}}
 
@@ -99,8 +100,10 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     return json;
     {{/hasVars}}
 }
-
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    return {{classname}}ToJSONTyped(false, value);
+}
+export function {{classname}}ToJSONTyped(ignoreDiscriminator: boolean, value?: {{classname}} | null): any {
     {{#hasVars}}
     if (value === undefined) {
         return undefined;
@@ -108,8 +111,17 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     if (value === null) {
         return null;
     }
+    {{#discriminator}}
+        if (!ignoreDiscriminator) {
+    {{#discriminator.mappedModels}}
+            if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
+                return {{modelName}}FromJSONTyped(value, true);
+            }
+    {{/discriminator.mappedModels}}
+        }
+    {{/discriminator}}
     return {
-        {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSONTyped(ignoreDiscriminator, value),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
