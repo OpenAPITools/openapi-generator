@@ -101,9 +101,9 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
-    return {{classname}}ToJSONTyped(false, value);
+git    return {{classname}}ToJSONTyped(value);
 }
-export function {{classname}}ToJSONTyped(ignoreDiscriminator: boolean, value?: {{classname}} | null): any {
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator=false): any {
     {{#hasVars}}
     if (value === undefined) {
         return undefined;
@@ -121,7 +121,7 @@ export function {{classname}}ToJSONTyped(ignoreDiscriminator: boolean, value?: {
     }
 {{/discriminator}}
     return {
-        {{#parent}}...{{{.}}}ToJSONTyped(ignoreDiscriminator, value),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSONTyped(value, ignoreDiscriminator),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
