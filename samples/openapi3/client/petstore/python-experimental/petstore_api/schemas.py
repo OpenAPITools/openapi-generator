@@ -698,6 +698,8 @@ class NoneBase:
 
 
 class StrBase(ValidatorBase):
+    MetaOapg: MetaOapgTyped
+
     @property
     def as_str(self) -> str:
         return self
@@ -949,6 +951,8 @@ class DecimalBase(StrBase):
 
 
 class NumberBase(ValidatorBase):
+    MetaOapg: MetaOapgTyped
+
     @property
     def as_int(self) -> int:
         try:
@@ -1066,6 +1070,8 @@ class NumberBase(ValidatorBase):
 
 
 class ListBase(ValidatorBase):
+    MetaOapg: MetaOapgTyped
+
     @classmethod
     def _validate_items(cls, list_items, validation_metadata: ValidationMetadata):
         """
@@ -1210,6 +1216,8 @@ class ListBase(ValidatorBase):
 
 
 class Discriminable:
+    MetaOapg: MetaOapgTyped
+
     @classmethod
     def _ensure_discriminator_value_present(cls, disc_property_name: str, validation_metadata: ValidationMetadata, *args):
         if not args or args and disc_property_name not in args[0]:
