@@ -484,12 +484,10 @@ class Schema:
         """
         pass
 
-"""
 if typing.TYPE_CHECKING:
-    pass
+    StrMixin = str
 else:
-    # pass
-"""
+    StrMixin = object
 
 
 class ValidatorBase:
@@ -1963,7 +1961,8 @@ class Float64Schema(
 class StrSchema(
     SchemaTypeCheckerClsFactory(typing.Union[str]),
     StrBase,
-    Schema
+    Schema,
+    StrMixin
 ):
     """
     date + datetime string types must inherit from this class
