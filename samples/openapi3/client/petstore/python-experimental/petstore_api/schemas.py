@@ -487,9 +487,11 @@ class Schema:
 if typing.TYPE_CHECKING:
     StrMixin = str
     DecimalMixin = decimal.Decimal
+    BoolMixin = BoolClass
 else:
     StrMixin = object
     DecimalMixin = object
+    BoolMixin = object
 
 
 class ValidatorBase:
@@ -2073,7 +2075,8 @@ class BinarySchema(
 class BoolSchema(
     SchemaTypeCheckerClsFactory(typing.Union[BoolClass]),
     BoolBase,
-    Schema
+    Schema,
+    BoolMixin
 ):
 
     @classmethod
