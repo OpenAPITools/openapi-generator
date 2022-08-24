@@ -32,12 +32,15 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     """
 {{/if}}
 {{#or isMap isAnyType}}
-{{> model_templates/dict_partial }}
+    # TODO typ hint
 {{/or}}
-{{#or hasValidation composedSchemas}}
+{{#or hasValidation composedSchemas isMap isAnyType}}
 
 
     class MetaOapg:
+{{#or isMap isAnyType}}
+        {{> model_templates/dict_partial }}
+{{/or}}
 {{#if hasValidation}}
         {{> model_templates/validations }}
 {{/if}}
