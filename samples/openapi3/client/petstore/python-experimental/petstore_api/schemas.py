@@ -489,11 +489,13 @@ if typing.TYPE_CHECKING:
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
     NoneMixin = NoneClass
+    TupleMixin = tuple
 else:
     StrMixin = object
     DecimalMixin = object
     BoolMixin = object
     NoneMixin = object
+    TupleMixin = object
 
 
 class ValidatorBase:
@@ -1814,7 +1816,8 @@ class ComposedSchema(
 class ListSchema(
     SchemaTypeCheckerClsFactory(typing.Union[tuple]),
     ListBase,
-    Schema
+    Schema,
+    TupleMixin
 ):
 
     @classmethod
