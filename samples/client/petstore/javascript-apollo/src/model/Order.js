@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -40,8 +40,8 @@ class Order {
      */
     shipDate;
     /**
-     * @member {Order.StatusEnum} status
-     * @type {Order.StatusEnum}
+     * @member {module:model/Order.StatusEnum} status
+     * @type {module:model/Order.StatusEnum}
      */
     status;
     /**
@@ -55,7 +55,6 @@ class Order {
 
     /**
      * Constructs a new <code>Order</code>.
-     * An order for a pets from the pet store
      * @alias module:model/Order
      */
     constructor() { 

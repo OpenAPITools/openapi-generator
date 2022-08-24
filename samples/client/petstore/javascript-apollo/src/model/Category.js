@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -27,19 +27,20 @@ class Category {
     /**
      * @member {String} name
      * @type {String}
+     * @default 'default-name'
      */
-    name;
+    name = 'default-name';
 
     
 
     /**
      * Constructs a new <code>Category</code>.
-     * A category for a pet
      * @alias module:model/Category
+     * @param name {String} 
      */
-    constructor() { 
+    constructor(name) { 
         
-        Category.initialize(this);
+        Category.initialize(this, name);
     }
 
     /**
@@ -47,7 +48,8 @@ class Category {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
+    static initialize(obj, name) { 
+        obj['name'] = name;
     }
 
     /**
