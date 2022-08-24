@@ -6926,6 +6926,10 @@ public class DefaultCodegen implements CodegenConfig {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
+            if (codegenProperty == null) {
+               throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
+            }
+
             if (!addSchemaImportsFromV3SpecLocations) {
                 imports.add(codegenProperty.baseType);
             }
@@ -6941,6 +6945,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 mostInnerItem = innerCp;
                 innerCp = innerCp.items;
+            }
+
+            if (mostInnerItem == null) {
+                throw new RuntimeException("mostInnerItem (codegen property of array item) cannot be null. " + arraySchema);
             }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
