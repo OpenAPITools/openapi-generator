@@ -34,7 +34,7 @@ class GrandparentAnimal(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "pet_type",
         }
         

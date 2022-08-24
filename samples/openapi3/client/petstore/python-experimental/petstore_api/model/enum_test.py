@@ -34,7 +34,7 @@ class EnumTest(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "enum_string_required",
         }
         class properties:

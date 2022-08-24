@@ -34,7 +34,7 @@ class Animal(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "className",
         }
         

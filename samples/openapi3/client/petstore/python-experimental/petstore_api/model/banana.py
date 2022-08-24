@@ -34,7 +34,7 @@ class Banana(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "lengthCm",
         }
         class properties:

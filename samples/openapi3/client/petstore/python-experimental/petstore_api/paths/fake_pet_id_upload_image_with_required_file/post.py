@@ -60,7 +60,7 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "requiredFile",
         }
         class properties:

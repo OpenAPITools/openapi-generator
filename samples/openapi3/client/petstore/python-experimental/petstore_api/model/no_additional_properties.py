@@ -34,7 +34,7 @@ class NoAdditionalProperties(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "id",
         }
         class properties:

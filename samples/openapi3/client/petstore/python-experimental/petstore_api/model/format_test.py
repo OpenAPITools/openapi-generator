@@ -34,7 +34,7 @@ class FormatTest(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "date",
             "number",
             "password",

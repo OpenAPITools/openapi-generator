@@ -36,7 +36,7 @@ class ObjectWithDifficultlyNamedProps(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "123-list",
         }
         class properties:

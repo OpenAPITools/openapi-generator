@@ -32,7 +32,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "number",
             "pattern_without_delimiter",
             "byte",

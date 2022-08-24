@@ -34,7 +34,7 @@ class Money(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "amount",
             "currency",
         }

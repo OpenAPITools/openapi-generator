@@ -36,7 +36,7 @@ class Name(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "name",
         }
         class properties:

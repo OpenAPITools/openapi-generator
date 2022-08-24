@@ -34,7 +34,7 @@ class QuadrilateralInterface(
 
 
     class MetaOapg:
-        _required_property_names = {
+        required = {
             "shapeType",
             "quadrilateralType",
         }

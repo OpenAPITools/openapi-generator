@@ -1004,7 +1004,7 @@ class DictBase(Discriminable, ValidatorBase):
         """
         seen_required_properties = set()
         invalid_arguments = []
-        required_property_names = getattr(cls.MetaOapg, '_required_property_names', set())
+        required_property_names = getattr(cls.MetaOapg, 'required', set())
         additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
         for property_name in arg:
             if property_name in required_property_names:
