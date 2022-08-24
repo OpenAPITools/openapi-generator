@@ -42,22 +42,26 @@ class Apple(
     class cultivar(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
-        }]
-        pass
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+            }]
     
     
     class origin(
         schemas.StrSchema
     ):
-        _regex=[{
-            'pattern': r'^[A-Z\s]*$',  # noqa: E501
-            'flags': (
-                re.IGNORECASE
-            )
-        }]
-        pass
+    
+    
+        class MetaOapg:
+            regex=[{
+                'pattern': r'^[A-Z\s]*$',  # noqa: E501
+                'flags': (
+                    re.IGNORECASE
+                )
+            }]
 
     def __new__(
         cls,

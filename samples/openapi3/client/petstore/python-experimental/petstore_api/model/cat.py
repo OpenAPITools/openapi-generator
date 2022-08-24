@@ -32,44 +32,46 @@ class Cat(
     Do not edit the class manually.
     """
 
-    
-    
-    class all_of_1(
-        schemas.DictSchema
-    ):
-        declawed = schemas.BoolSchema
-    
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, ],
-            declawed: typing.Union[declawed, schemas.Unset] = schemas.unset,
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'all_of_1':
-            return super().__new__(
+
+    class MetaOapg:
+        
+        
+        class all_of_1(
+            schemas.DictSchema
+        ):
+            declawed = schemas.BoolSchema
+        
+        
+            def __new__(
                 cls,
-                *args,
-                declawed=declawed,
-                _configuration=_configuration,
-                **kwargs,
-            )
-    
-    @classmethod
-    @property
-    @functools.cache
-    def _all_of(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
-        return [
-            Animal,
-            cls.all_of_1,
-        ]
+                *args: typing.Union[dict, frozendict, ],
+                declawed: typing.Union[declawed, schemas.Unset] = schemas.unset,
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Type[schemas.Schema],
+            ) -> 'all_of_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    declawed=declawed,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
+        
+        @classmethod
+        @property
+        @functools.cache
+        def all_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                Animal,
+                cls.all_of_1,
+            ]
 
     def __new__(
         cls,

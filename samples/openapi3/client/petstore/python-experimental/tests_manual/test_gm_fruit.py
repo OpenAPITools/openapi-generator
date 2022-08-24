@@ -37,10 +37,10 @@ class TestGmFruit(unittest.TestCase):
         color = 'yellow'
         cultivar = 'banaple'
         fruit = GmFruit(lengthCm=length_cm, color=color, cultivar=cultivar)
-        assert isinstance(fruit, GmFruit)
         assert isinstance(fruit, banana.Banana)
         assert isinstance(fruit, apple.Apple)
         assert isinstance(fruit, frozendict)
+        assert isinstance(fruit, GmFruit)
         # check its properties
         self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
@@ -66,7 +66,7 @@ class TestGmFruit(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._any_of,
+            fruit.MetaOapg.any_of,
             [
                 apple.Apple,
                 banana.Banana,

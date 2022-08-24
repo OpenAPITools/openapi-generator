@@ -31,7 +31,10 @@ class MaxpropertiesValidation(
 
     Do not edit the class manually.
     """
-    _max_properties=2
+
+
+    class MetaOapg:
+        max_properties = 2
 
     def __new__(
         cls,

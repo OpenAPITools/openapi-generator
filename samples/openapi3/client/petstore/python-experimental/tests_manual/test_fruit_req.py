@@ -10,7 +10,6 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
@@ -58,7 +57,7 @@ class TestFruitReq(unittest.TestCase):
         # getting a value that doesn't exist raises an exception
         # with a key
         with self.assertRaises(KeyError):
-            invalid_variable = fruit['cultivar']
+            fruit['cultivar']
 
         # with getattr
         self.assertEqual(getattr(fruit, 'cultivar', 'some value'), 'some value')
@@ -69,7 +68,7 @@ class TestFruitReq(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._one_of,
+            fruit.MetaOapg.one_of,
             [
                 NoneSchema,
                 apple_req.AppleReq,
@@ -79,14 +78,14 @@ class TestFruitReq(unittest.TestCase):
 
         # including extra parameters raises an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            fruit = FruitReq(
+            FruitReq(
                 length_cm=length_cm,
                 unknown_property='some value'
             )
 
         # including input parameters for two oneOf instances raise an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            fruit = FruitReq(
+            FruitReq(
                 length_cm=length_cm,
                 cultivar='granny smith'
             )
@@ -113,6 +112,7 @@ class TestFruitReq(unittest.TestCase):
         assert isinstance(fruit, FruitReq)
         assert isinstance(fruit, NoneSchema)
         assert fruit.is_none() is True
+
 
 if __name__ == '__main__':
     unittest.main()

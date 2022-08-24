@@ -30,43 +30,30 @@ class SchemaForRequestBodyApplicationJson(
     schemas.ComposedSchema,
 ):
 
-    
-    
-    class not_schema(
-        schemas.DictSchema
-    ):
-        foo = schemas.StrSchema
-    
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, ],
-            foo: typing.Union[foo, schemas.Unset] = schemas.unset,
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'not_schema':
-            return super().__new__(
+
+    class MetaOapg:
+        
+        
+        class not_schema(
+            schemas.DictSchema
+        ):
+            foo = schemas.StrSchema
+        
+        
+            def __new__(
                 cls,
-                *args,
-                foo=foo,
-                _configuration=_configuration,
-                **kwargs,
-            )
-    
-    @classmethod
-    @property
-    @functools.cache
-    def _not(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
-        return (
-            cls.not_schema
-        )
+                *args: typing.Union[dict, frozendict, ],
+                foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Type[schemas.Schema],
+            ) -> 'not_schema':
+                return super().__new__(
+                    cls,
+                    *args,
+                    foo=foo,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
 
     def __new__(
         cls,

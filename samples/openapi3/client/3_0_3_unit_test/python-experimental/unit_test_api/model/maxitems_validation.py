@@ -31,7 +31,10 @@ class MaxitemsValidation(
 
     Do not edit the class manually.
     """
-    _max_items=2
+
+
+    class MetaOapg:
+        max_items = 2
 
     def __new__(
         cls,

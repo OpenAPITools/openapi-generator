@@ -31,7 +31,10 @@ class UniqueitemsValidation(
 
     Do not edit the class manually.
     """
-    _unique_items=True
+
+
+    class MetaOapg:
+        unique_items = True
 
     def __new__(
         cls,

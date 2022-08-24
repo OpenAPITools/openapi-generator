@@ -147,6 +147,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private Integer maxProperties;
     private Integer minProperties;
     private boolean uniqueItems;
+    private Boolean uniqueItemsBoolean;
     private Integer maxItems;
     private Integer minItems;
     private Integer maxLength;
@@ -559,6 +560,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public Boolean getUniqueItemsBoolean() {
+        return uniqueItemsBoolean;
+    }
+
+    @Override
+    public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
+        this.uniqueItemsBoolean = uniqueItemsBoolean;
+    }
+
+    @Override
     public Integer getMinProperties() {
         return minProperties;
     }
@@ -940,6 +951,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(composedSchemas, that.composedSchemas) &&
@@ -1014,7 +1026,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
+                uniqueItemsBoolean);
     }
 
     @Override
@@ -1089,6 +1102,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", uniqueItemsBoolean=").append(uniqueItemsBoolean);
         sb.append(", maxItems=").append(maxItems);
         sb.append(", minItems=").append(minItems);
         sb.append(", maxLength=").append(maxLength);

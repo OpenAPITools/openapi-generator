@@ -31,7 +31,10 @@ class MinimumValidationWithSignedInteger(
 
     Do not edit the class manually.
     """
-    _inclusive_minimum=-2
+
+
+    class MetaOapg:
+        inclusive_minimum = -2
 
     def __new__(
         cls,

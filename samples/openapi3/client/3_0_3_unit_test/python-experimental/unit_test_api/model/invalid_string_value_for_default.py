@@ -36,8 +36,10 @@ class InvalidStringValueForDefault(
     class bar(
         schemas.StrSchema
     ):
-        _min_length=4
-        pass
+    
+    
+        class MetaOapg:
+            min_length = 4
 
     def __new__(
         cls,

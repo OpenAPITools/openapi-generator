@@ -37,28 +37,32 @@ class ObjectWithInlineCompositionProperty(
         schemas.ComposedSchema,
     ):
     
-        
-        
-        class all_of_0(
-            schemas.StrSchema
-        ):
-            _min_length=1
-            pass
-        
-        @classmethod
-        @property
-        @functools.cache
-        def _all_of(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
-            return [
-                cls.all_of_0,
-            ]
+    
+        class MetaOapg:
+            
+            
+            class all_of_0(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    min_length = 1
+            
+            @classmethod
+            @property
+            @functools.cache
+            def all_of(cls):
+                # we need this here to make our import statements work
+                # we must store _composed_schemas in here so the code is only run
+                # when we invoke this method. If we kept this at the class
+                # level we would get an error because the class level
+                # code would be run when this module is imported, and these composed
+                # classes don't exist yet because their module has not finished
+                # loading
+                return [
+                    cls.all_of_0,
+                ]
     
         def __new__(
             cls,

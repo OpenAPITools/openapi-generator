@@ -439,29 +439,31 @@ class StrBase(ValidatorBase):
         arg: str,
         validation_metadata: ValidationMetadata
     ):
+        if not hasattr(cls, 'MetaOapg'):
+            return
         if (cls.is_json_validation_enabled_oapg('maxLength', validation_metadata.configuration) and
-                hasattr(cls, '_max_length') and
-                len(arg) > cls._max_length):
+                hasattr(cls.MetaOapg, 'max_length') and
+                len(arg) > cls.MetaOapg.max_length):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="length must be less than or equal to",
-                constraint_value=cls._max_length,
+                constraint_value=cls.MetaOapg.max_length,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('minLength', validation_metadata.configuration) and
-                hasattr(cls, '_min_length') and
-                len(arg) < cls._min_length):
+                hasattr(cls.MetaOapg, 'min_length') and
+                len(arg) < cls.MetaOapg.min_length):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="length must be greater than or equal to",
-                constraint_value=cls._min_length,
+                constraint_value=cls.MetaOapg.min_length,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('pattern', validation_metadata.configuration) and
-                hasattr(cls, '_regex')):
-            for regex_dict in cls._regex:
+                hasattr(cls.MetaOapg, 'regex')):
+            for regex_dict in cls.MetaOapg.regex:
                 flags = regex_dict.get('flags', 0)
                 if not re.search(regex_dict['pattern'], arg, flags=flags):
                     if flags != 0:
@@ -698,9 +700,11 @@ class NumberBase(ValidatorBase):
         arg,
         validation_metadata: ValidationMetadata
     ):
+        if not hasattr(cls, 'MetaOapg'):
+            return
         if cls.is_json_validation_enabled_oapg('multipleOf',
-                                      validation_metadata.configuration) and hasattr(cls, '_multiple_of'):
-            multiple_of_value = cls._multiple_of
+                                      validation_metadata.configuration) and hasattr(cls.MetaOapg, 'multiple_of'):
+            multiple_of_value = cls.MetaOapg.multiple_of
             if (not (float(arg) / multiple_of_value).is_integer()):
                 # Note 'multipleOf' will be as good as the floating point arithmetic.
                 cls.raise_validation_error_message_oapg(
@@ -711,53 +715,53 @@ class NumberBase(ValidatorBase):
                 )
 
         checking_max_or_min_values = any(
-            hasattr(cls, validation_key) for validation_key in {
-                '_exclusive_maximum',
-                '_inclusive_maximum',
-                '_exclusive_minimum',
-                '_inclusive_minimum',
+            hasattr(cls.MetaOapg, validation_key) for validation_key in {
+                'exclusive_maximum',
+                'inclusive_maximum',
+                'exclusive_minimum',
+                'inclusive_minimum',
             }
         )
         if not checking_max_or_min_values:
             return
 
         if (cls.is_json_validation_enabled_oapg('exclusiveMaximum', validation_metadata.configuration) and
-                hasattr(cls, '_exclusive_maximum') and
-                arg >= cls._exclusive_maximum):
+                hasattr(cls.MetaOapg, 'exclusive_maximum') and
+                arg >= cls.MetaOapg.exclusive_maximum):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value less than",
-                constraint_value=cls._exclusive_maximum,
+                constraint_value=cls.MetaOapg.exclusive_maximum,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('maximum', validation_metadata.configuration) and
-                hasattr(cls, '_inclusive_maximum') and
-                arg > cls._inclusive_maximum):
+                hasattr(cls.MetaOapg, 'inclusive_maximum') and
+                arg > cls.MetaOapg.inclusive_maximum):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value less than or equal to",
-                constraint_value=cls._inclusive_maximum,
+                constraint_value=cls.MetaOapg.inclusive_maximum,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('exclusiveMinimum', validation_metadata.configuration) and
-                hasattr(cls, '_exclusive_minimum') and
-                arg <= cls._exclusive_minimum):
+                hasattr(cls.MetaOapg, 'exclusive_minimum') and
+                arg <= cls.MetaOapg.exclusive_minimum):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value greater than",
-                constraint_value=cls._exclusive_maximum,
+                constraint_value=cls.MetaOapg.exclusive_maximum,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('minimum', validation_metadata.configuration) and
-                hasattr(cls, '_inclusive_minimum') and
-                arg < cls._inclusive_minimum):
+                hasattr(cls.MetaOapg, 'inclusive_minimum') and
+                arg < cls.MetaOapg.inclusive_minimum):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="must be a value greater than or equal to",
-                constraint_value=cls._inclusive_minimum,
+                constraint_value=cls.MetaOapg.inclusive_minimum,
                 path_to_item=validation_metadata.path_to_item
             )
 
@@ -814,29 +818,30 @@ class ListBase(ValidatorBase):
     def __check_tuple_validations(
             cls, arg,
             validation_metadata: ValidationMetadata):
-
+        if not hasattr(cls, 'MetaOapg'):
+            return
         if (cls.is_json_validation_enabled_oapg('maxItems', validation_metadata.configuration) and
-                hasattr(cls, '_max_items') and
-                len(arg) > cls._max_items):
+                hasattr(cls.MetaOapg, 'max_items') and
+                len(arg) > cls.MetaOapg.max_items):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of items must be less than or equal to",
-                constraint_value=cls._max_items,
+                constraint_value=cls.MetaOapg.max_items,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('minItems', validation_metadata.configuration) and
-                hasattr(cls, '_min_items') and
-                len(arg) < cls._min_items):
+                hasattr(cls.MetaOapg, 'min_items') and
+                len(arg) < cls.MetaOapg.min_items):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of items must be greater than or equal to",
-                constraint_value=cls._min_items,
+                constraint_value=cls.MetaOapg.min_items,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('uniqueItems', validation_metadata.configuration) and
-                hasattr(cls, '_unique_items') and cls._unique_items and arg):
+                hasattr(cls.MetaOapg, 'unique_items') and cls.MetaOapg.unique_items and arg):
             unique_items = set(arg)
             if len(arg) > len(unique_items):
                 cls.raise_validation_error_message_oapg(
@@ -942,20 +947,26 @@ class Discriminable:
         discriminated_cls = disc[disc_property_name].get(disc_payload_value)
         if discriminated_cls is not None:
             return discriminated_cls
-        elif not (hasattr(cls, '_all_of') or hasattr(cls, '_one_of') or hasattr(cls, '_any_of')):
+        if not hasattr(cls, 'MetaOapg'):
+            return None
+        elif not (
+            hasattr(cls.MetaOapg, 'all_of') or
+            hasattr(cls.MetaOapg, 'one_of') or
+            hasattr(cls.MetaOapg, 'any_of')
+        ):
             return None
         # TODO stop traveling if a cycle is hit
-        for allof_cls in getattr(cls, '_all_of', []):
+        for allof_cls in getattr(cls.MetaOapg, 'all_of', []):
             discriminated_cls = allof_cls._get_discriminated_class(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
-        for oneof_cls in getattr(cls, '_one_of', []):
+        for oneof_cls in getattr(cls.MetaOapg, 'one_of', []):
             discriminated_cls = oneof_cls._get_discriminated_class(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
-        for anyof_cls in getattr(cls, '_any_of', []):
+        for anyof_cls in getattr(cls.MetaOapg, 'any_of', []):
             discriminated_cls = anyof_cls._get_discriminated_class(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
@@ -1061,23 +1072,25 @@ class DictBase(Discriminable, ValidatorBase):
         arg,
         validation_metadata: ValidationMetadata
     ):
+        if not hasattr(cls, 'MetaOapg'):
+            return
         if (cls.is_json_validation_enabled_oapg('maxProperties', validation_metadata.configuration) and
-                hasattr(cls, '_max_properties') and
-                len(arg) > cls._max_properties):
+                hasattr(cls.MetaOapg, 'max_properties') and
+                len(arg) > cls.MetaOapg.max_properties):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of properties must be less than or equal to",
-                constraint_value=cls._max_properties,
+                constraint_value=cls.MetaOapg.max_properties,
                 path_to_item=validation_metadata.path_to_item
             )
 
         if (cls.is_json_validation_enabled_oapg('minProperties', validation_metadata.configuration) and
-                hasattr(cls, '_min_properties') and
-                len(arg) < cls._min_properties):
+                hasattr(cls.MetaOapg, 'min_properties') and
+                len(arg) < cls.MetaOapg.min_properties):
             cls.raise_validation_error_message_oapg(
                 value=arg,
                 constraint_msg="number of properties must be greater than or equal to",
-                constraint_value=cls._min_properties,
+                constraint_value=cls.MetaOapg.min_properties,
                 path_to_item=validation_metadata.path_to_item
             )
 
@@ -1560,7 +1573,7 @@ class ComposedBase(Discriminable):
     @classmethod
     def __get_allof_classes(cls, arg, validation_metadata: ValidationMetadata):
         path_to_schemas = defaultdict(set)
-        for allof_cls in cls._all_of:
+        for allof_cls in cls.MetaOapg.all_of:
             if validation_metadata.validation_ran_earlier(allof_cls):
                 continue
             other_path_to_schemas = allof_cls._validate(arg, validation_metadata=validation_metadata)
@@ -1576,7 +1589,7 @@ class ComposedBase(Discriminable):
     ):
         oneof_classes = []
         path_to_schemas = defaultdict(set)
-        for oneof_cls in cls._one_of:
+        for oneof_cls in cls.MetaOapg.one_of:
             if oneof_cls in path_to_schemas[validation_metadata.path_to_item]:
                 oneof_classes.append(oneof_cls)
                 continue
@@ -1611,7 +1624,7 @@ class ComposedBase(Discriminable):
     ):
         anyof_classes = []
         path_to_schemas = defaultdict(set)
-        for anyof_cls in cls._any_of:
+        for anyof_cls in cls.MetaOapg.any_of:
             if validation_metadata.validation_ran_earlier(anyof_cls):
                 anyof_classes.append(anyof_cls)
                 continue
@@ -1683,24 +1696,26 @@ class ComposedBase(Discriminable):
                     )
                 )
 
-        if hasattr(cls, '_all_of'):
+        if hasattr(cls, 'MetaOapg') and hasattr(cls.MetaOapg, 'all_of'):
             other_path_to_schemas = cls.__get_allof_classes(arg, validation_metadata=updated_vm)
             update(path_to_schemas, other_path_to_schemas)
-        if hasattr(cls, '_one_of'):
+        if hasattr(cls, 'MetaOapg') and hasattr(cls.MetaOapg, 'one_of'):
             other_path_to_schemas = cls.__get_oneof_class(
                 arg,
                 discriminated_cls=discriminated_cls,
                 validation_metadata=updated_vm
             )
             update(path_to_schemas, other_path_to_schemas)
-        if hasattr(cls, '_any_of'):
+        if hasattr(cls, 'MetaOapg') and hasattr(cls.MetaOapg, 'any_of'):
             other_path_to_schemas = cls.__get_anyof_classes(
                 arg,
                 discriminated_cls=discriminated_cls,
                 validation_metadata=updated_vm
             )
             update(path_to_schemas, other_path_to_schemas)
-        not_cls = getattr(cls, '_not', None)
+        not_cls = None
+        if hasattr(cls, 'MetaOapg'):
+            not_cls = getattr(cls.MetaOapg, 'not_schema', None)
         if not_cls:
             other_path_to_schemas = None
             not_exception = ApiValueError(
@@ -1841,8 +1856,10 @@ class IntSchema(IntBase, NumberSchema):
 
 
 class Int32Base:
-    _inclusive_minimum = decimal.Decimal(-2147483648)
-    _inclusive_maximum = decimal.Decimal(2147483647)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-2147483648)
+        inclusive_maximum = decimal.Decimal(2147483647)
 
 
 class Int32Schema(
@@ -1853,8 +1870,10 @@ class Int32Schema(
 
 
 class Int64Base:
-    _inclusive_minimum = decimal.Decimal(-9223372036854775808)
-    _inclusive_maximum = decimal.Decimal(9223372036854775807)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-9223372036854775808)
+        inclusive_maximum = decimal.Decimal(9223372036854775807)
 
 
 class Int64Schema(
@@ -1865,8 +1884,10 @@ class Int64Schema(
 
 
 class Float32Base:
-    _inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
-    _inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
+        inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
 
 
 class Float32Schema(
@@ -1881,8 +1902,10 @@ class Float32Schema(
 
 
 class Float64Base:
-    _inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
-    _inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
+    # TODO make this run even if the inheriting class defines these
+    class MetaOapg:
+        inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
+        inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
 
 
 class Float64Schema(
@@ -1994,10 +2017,11 @@ class BinarySchema(
     BinaryBase,
     Schema,
 ):
-    _one_of = [
-        BytesSchema,
-        FileSchema,
-    ]
+    class MetaOapg:
+        one_of = [
+            BytesSchema,
+            FileSchema,
+        ]
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: typing.Union[ValidationMetadata]):
         return super().__new__(cls, arg)

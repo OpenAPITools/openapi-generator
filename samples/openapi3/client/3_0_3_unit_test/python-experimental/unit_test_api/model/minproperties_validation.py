@@ -31,7 +31,10 @@ class MinpropertiesValidation(
 
     Do not edit the class manually.
     """
-    _min_properties=1
+
+
+    class MetaOapg:
+        min_properties = 1
 
     def __new__(
         cls,

@@ -31,11 +31,16 @@ class ArrayWithValidationsInItems(
 
     Do not edit the class manually.
     """
-    _max_items=2
     
     
     class _items(
         schemas.Int64Schema
     ):
-        _inclusive_maximum=7
-        pass
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 7
+
+
+    class MetaOapg:
+        max_items = 2

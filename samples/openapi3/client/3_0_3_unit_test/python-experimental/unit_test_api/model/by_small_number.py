@@ -31,7 +31,10 @@ class BySmallNumber(
 
     Do not edit the class manually.
     """
-    _multiple_of=0.00010
+
+
+    class MetaOapg:
+        multiple_of = 0.00010
 
     def __new__(
         cls,

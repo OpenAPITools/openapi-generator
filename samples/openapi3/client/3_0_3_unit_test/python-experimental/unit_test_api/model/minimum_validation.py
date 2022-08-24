@@ -31,7 +31,10 @@ class MinimumValidation(
 
     Do not edit the class manually.
     """
-    _inclusive_minimum=1.1
+
+
+    class MetaOapg:
+        inclusive_minimum = 1.1
 
     def __new__(
         cls,

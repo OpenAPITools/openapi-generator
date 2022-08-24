@@ -1,32 +1,32 @@
-{{#if getUniqueItems}}
-_unique_items=True
-{{/if}}
+{{#neq getUniqueItemsBoolean null}}
+unique_items = {{#if getUniqueItemsBoolean}}True{{else}}False{{/if}}
+{{/neq}}
 {{#neq maxLength null}}
-_max_length={{maxLength}}
+max_length = {{maxLength}}
 {{/neq}}
 {{#neq minLength null}}
-_min_length={{minLength}}
+min_length = {{minLength}}
 {{/neq}}
 {{#neq maxItems null}}
-_max_items={{maxItems}}
+max_items = {{maxItems}}
 {{/neq}}
 {{#neq minItems null}}
-_min_items={{minItems}}
+min_items = {{minItems}}
 {{/neq}}
 {{#neq maxProperties null }}
-_max_properties={{maxProperties}}
+max_properties = {{maxProperties}}
 {{/neq}}
 {{#neq minProperties null}}
-_min_properties={{minProperties}}
+min_properties = {{minProperties}}
 {{/neq}}
 {{#neq maximum null}}
-_{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}}
+{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}} = {{maximum}}
 {{/neq}}
 {{#neq minimum null}}
-_{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}}
+{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}} = {{minimum}}
 {{/neq}}
 {{#neq pattern null}}
-_regex=[{
+regex=[{
 {{#if vendorExtensions.x-regex}}
     'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
 {{else}}
@@ -44,5 +44,5 @@ _regex=[{
 }]
 {{/neq}}
 {{#neq multipleOf null}}
-_multiple_of={{multipleOf}}
+multiple_of = {{multipleOf}}
 {{/neq}}

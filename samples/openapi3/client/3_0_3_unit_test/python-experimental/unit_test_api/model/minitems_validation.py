@@ -31,7 +31,10 @@ class MinitemsValidation(
 
     Do not edit the class manually.
     """
-    _min_items=1
+
+
+    class MetaOapg:
+        min_items = 1
 
     def __new__(
         cls,

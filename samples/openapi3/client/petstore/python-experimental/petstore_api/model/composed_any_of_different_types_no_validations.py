@@ -32,57 +32,59 @@ class ComposedAnyOfDifferentTypesNoValidations(
     Do not edit the class manually.
     """
 
-    any_of_0 = schemas.DictSchema
-    any_of_1 = schemas.DateSchema
-    any_of_2 = schemas.DateTimeSchema
-    any_of_3 = schemas.BinarySchema
-    any_of_4 = schemas.StrSchema
-    any_of_5 = schemas.StrSchema
-    any_of_6 = schemas.DictSchema
-    any_of_7 = schemas.BoolSchema
-    any_of_8 = schemas.NoneSchema
-    
-    
-    class any_of_9(
-        schemas.ListSchema
-    ):
-        _items = schemas.AnyTypeSchema
-    any_of_10 = schemas.NumberSchema
-    any_of_11 = schemas.Float32Schema
-    any_of_12 = schemas.Float64Schema
-    any_of_13 = schemas.IntSchema
-    any_of_14 = schemas.Int32Schema
-    any_of_15 = schemas.Int64Schema
-    
-    @classmethod
-    @property
-    @functools.cache
-    def _any_of(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
-        return [
-            cls.any_of_0,
-            cls.any_of_1,
-            cls.any_of_2,
-            cls.any_of_3,
-            cls.any_of_4,
-            cls.any_of_5,
-            cls.any_of_6,
-            cls.any_of_7,
-            cls.any_of_8,
-            cls.any_of_9,
-            cls.any_of_10,
-            cls.any_of_11,
-            cls.any_of_12,
-            cls.any_of_13,
-            cls.any_of_14,
-            cls.any_of_15,
-        ]
+
+    class MetaOapg:
+        any_of_0 = schemas.DictSchema
+        any_of_1 = schemas.DateSchema
+        any_of_2 = schemas.DateTimeSchema
+        any_of_3 = schemas.BinarySchema
+        any_of_4 = schemas.StrSchema
+        any_of_5 = schemas.StrSchema
+        any_of_6 = schemas.DictSchema
+        any_of_7 = schemas.BoolSchema
+        any_of_8 = schemas.NoneSchema
+        
+        
+        class any_of_9(
+            schemas.ListSchema
+        ):
+            _items = schemas.AnyTypeSchema
+        any_of_10 = schemas.NumberSchema
+        any_of_11 = schemas.Float32Schema
+        any_of_12 = schemas.Float64Schema
+        any_of_13 = schemas.IntSchema
+        any_of_14 = schemas.Int32Schema
+        any_of_15 = schemas.Int64Schema
+        
+        @classmethod
+        @property
+        @functools.cache
+        def any_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.any_of_0,
+                cls.any_of_1,
+                cls.any_of_2,
+                cls.any_of_3,
+                cls.any_of_4,
+                cls.any_of_5,
+                cls.any_of_6,
+                cls.any_of_7,
+                cls.any_of_8,
+                cls.any_of_9,
+                cls.any_of_10,
+                cls.any_of_11,
+                cls.any_of_12,
+                cls.any_of_13,
+                cls.any_of_14,
+                cls.any_of_15,
+            ]
 
     def __new__(
         cls,

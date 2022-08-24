@@ -36,8 +36,10 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
     class alpha(
         schemas.NumberSchema
     ):
-        _inclusive_maximum=3
-        pass
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 3
 
 
     def __new__(

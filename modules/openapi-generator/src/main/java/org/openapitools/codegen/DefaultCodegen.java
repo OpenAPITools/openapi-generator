@@ -5582,7 +5582,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
         if (property.isArray) {
-            if (property.getUniqueItems()) { // set
+            if (Boolean.TRUE.equals(property.getUniqueItemsBoolean())) { // set
                 addImport(model.imports, typeMapping.get("set"));
             } else { // array
                 addImport(model.imports, typeMapping.get("array"));
