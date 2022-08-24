@@ -490,12 +490,14 @@ if typing.TYPE_CHECKING:
     BoolMixin = BoolClass
     NoneMixin = NoneClass
     TupleMixin = tuple
+    FrozenDictMixin = frozendict.frozendict
 else:
     StrMixin = object
     DecimalMixin = object
     BoolMixin = object
     NoneMixin = object
     TupleMixin = object
+    FrozenDictMixin = object
 
 
 class ValidatorBase:
@@ -2111,7 +2113,8 @@ class AnyTypeSchema(
 class DictSchema(
     SchemaTypeCheckerClsFactory(typing.Union[frozendict]),
     DictBase,
-    Schema
+    Schema,
+    FrozenDictMixin
 ):
     @classmethod
     def _from_openapi_data(cls, arg: typing.Dict[str, typing.Any], _configuration: typing.Optional[Configuration] = None):
