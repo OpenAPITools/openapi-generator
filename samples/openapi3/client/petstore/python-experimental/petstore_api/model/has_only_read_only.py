@@ -37,7 +37,7 @@ class HasOnlyReadOnly(
         class properties:
             bar = schemas.StrSchema
             foo = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     bar: MetaOapg.properties.bar
     foo: MetaOapg.properties.foo
@@ -48,7 +48,7 @@ class HasOnlyReadOnly(
         bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
         foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'HasOnlyReadOnly':
         return super().__new__(
             cls,

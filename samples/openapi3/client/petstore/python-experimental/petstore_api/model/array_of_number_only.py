@@ -41,7 +41,7 @@ class ArrayOfNumberOnly(
                 schemas.ListSchema
             ):
                 _items = schemas.NumberSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     ArrayNumber: MetaOapg.properties.ArrayNumber
 
@@ -50,7 +50,7 @@ class ArrayOfNumberOnly(
         *args: typing.Union[dict, frozendict, ],
         ArrayNumber: typing.Union['MetaOapg.properties.ArrayNumber', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,

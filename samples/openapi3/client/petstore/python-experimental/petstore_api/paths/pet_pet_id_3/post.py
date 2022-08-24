@@ -61,7 +61,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         class properties:
             name = schemas.StrSchema
             status = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     name: MetaOapg.properties.name
     status: MetaOapg.properties.status
@@ -72,7 +72,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

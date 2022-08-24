@@ -50,7 +50,7 @@ class FileSchemaTestClass(
                 @property
                 def _items(cls) -> typing.Type['File']:
                     return File
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     file: 'MetaOapg.properties.file'
     files: MetaOapg.properties.files
@@ -61,7 +61,7 @@ class FileSchemaTestClass(
         file: typing.Union['File', schemas.Unset] = schemas.unset,
         files: typing.Union['MetaOapg.properties.files', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,

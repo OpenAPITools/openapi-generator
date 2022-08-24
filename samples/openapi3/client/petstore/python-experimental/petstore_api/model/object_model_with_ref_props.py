@@ -44,7 +44,7 @@ class ObjectModelWithRefProps(
                 return NumberWithValidations
             myString = schemas.StrSchema
             myBoolean = schemas.BoolSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     myNumber: 'MetaOapg.properties.myNumber'
     myString: MetaOapg.properties.myString
@@ -57,7 +57,7 @@ class ObjectModelWithRefProps(
         myString: typing.Union['MetaOapg.properties.myString', schemas.Unset] = schemas.unset,
         myBoolean: typing.Union['MetaOapg.properties.myBoolean', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ObjectModelWithRefProps':
         return super().__new__(
             cls,

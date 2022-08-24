@@ -49,7 +49,7 @@ class GrandparentAnimal(
             }
         class properties:
             pet_type = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     pet_type: MetaOapg.properties.pet_type
 
@@ -58,7 +58,7 @@ class GrandparentAnimal(
         *args: typing.Union[dict, frozendict, ],
         pet_type: 'MetaOapg.properties.pet_type',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,

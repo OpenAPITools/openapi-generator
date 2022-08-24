@@ -1030,7 +1030,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     private void setAdditionalPropsAndItemsVarNames(IJsonSchemaValidationProperties item) {
         if (item.getAdditionalProperties() != null) {
-            item.getAdditionalProperties().setBaseName("_additional_properties");
+            item.getAdditionalProperties().setBaseName("additional_properties");
         }
         if (item.getItems() != null) {
             item.getItems().setBaseName("_items");

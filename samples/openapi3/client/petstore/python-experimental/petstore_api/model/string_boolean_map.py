@@ -34,13 +34,13 @@ class StringBooleanMap(
 
 
     class MetaOapg:
-        _additional_properties = schemas.BoolSchema
+        additional_properties = schemas.BoolSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'StringBooleanMap':
         return super().__new__(
             cls,

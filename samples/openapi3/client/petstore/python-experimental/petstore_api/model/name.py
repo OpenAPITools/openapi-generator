@@ -55,7 +55,7 @@ class Name(
             - _from_openapi_data these are passed in in a dict in the first positional argument *arg
             If the property is required and was not passed in, an exception will be thrown
             """
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     name: MetaOapg.properties.name
     snake_case: MetaOapg.properties.snake_case
@@ -66,7 +66,7 @@ class Name(
         name: 'MetaOapg.properties.name',
         snake_case: typing.Union['MetaOapg.properties.snake_case', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Name':
         return super().__new__(
             cls,

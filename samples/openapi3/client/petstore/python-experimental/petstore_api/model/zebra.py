@@ -80,7 +80,7 @@ class Zebra(
                 @property
                 def ZEBRA(cls):
                     return cls("zebra")
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     type: MetaOapg.properties.type
     className: MetaOapg.properties.className
@@ -91,7 +91,7 @@ class Zebra(
         className: 'MetaOapg.properties.className',
         type: typing.Union['MetaOapg.properties.type', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Zebra':
         return super().__new__(
             cls,

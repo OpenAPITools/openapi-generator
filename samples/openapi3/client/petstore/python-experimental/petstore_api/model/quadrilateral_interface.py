@@ -55,7 +55,7 @@ class QuadrilateralInterface(
                 def QUADRILATERAL(cls):
                     return cls("Quadrilateral")
             quadrilateralType = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     shapeType: MetaOapg.properties.shapeType
     quadrilateralType: MetaOapg.properties.quadrilateralType
@@ -66,7 +66,7 @@ class QuadrilateralInterface(
         shapeType: 'MetaOapg.properties.shapeType',
         quadrilateralType: 'MetaOapg.properties.quadrilateralType',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,

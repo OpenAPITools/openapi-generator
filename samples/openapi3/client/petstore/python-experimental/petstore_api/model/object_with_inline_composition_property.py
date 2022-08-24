@@ -43,7 +43,7 @@ class ObjectWithInlineCompositionProperty(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.AnyTypeSchema
+                    additional_properties = schemas.AnyTypeSchema
                     
                     
                     class all_of_0(
@@ -73,7 +73,7 @@ class ObjectWithInlineCompositionProperty(
                     cls,
                     *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
@@ -81,7 +81,7 @@ class ObjectWithInlineCompositionProperty(
                         _configuration=_configuration,
                         **kwargs,
                     )
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
 
@@ -90,7 +90,7 @@ class ObjectWithInlineCompositionProperty(
         *args: typing.Union[dict, frozendict, ],
         someProp: typing.Union['MetaOapg.properties.someProp', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ObjectWithInlineCompositionProperty':
         return super().__new__(
             cls,

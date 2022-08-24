@@ -310,7 +310,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 @property
                 def XYZ(cls):
                     return cls("(xyz)")
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     enum_form_string_array: MetaOapg.properties.enum_form_string_array
     enum_form_string: MetaOapg.properties.enum_form_string
@@ -321,7 +321,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         enum_form_string_array: typing.Union['MetaOapg.properties.enum_form_string_array', schemas.Unset] = schemas.unset,
         enum_form_string: typing.Union['MetaOapg.properties.enum_form_string', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

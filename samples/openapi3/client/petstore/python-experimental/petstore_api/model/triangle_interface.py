@@ -55,7 +55,7 @@ class TriangleInterface(
                 def TRIANGLE(cls):
                     return cls("Triangle")
             triangleType = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     shapeType: MetaOapg.properties.shapeType
     triangleType: MetaOapg.properties.triangleType
@@ -66,7 +66,7 @@ class TriangleInterface(
         shapeType: 'MetaOapg.properties.shapeType',
         triangleType: 'MetaOapg.properties.triangleType',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'TriangleInterface':
         return super().__new__(
             cls,

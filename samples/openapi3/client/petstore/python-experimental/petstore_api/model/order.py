@@ -67,7 +67,7 @@ class Order(
                 def DELIVERED(cls):
                     return cls("delivered")
             complete = schemas.BoolSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
     petId: MetaOapg.properties.petId
@@ -86,7 +86,7 @@ class Order(
         status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
         complete: typing.Union['MetaOapg.properties.complete', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Order':
         return super().__new__(
             cls,

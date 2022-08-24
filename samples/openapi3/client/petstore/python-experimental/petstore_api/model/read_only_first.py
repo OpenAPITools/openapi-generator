@@ -37,7 +37,7 @@ class ReadOnlyFirst(
         class properties:
             bar = schemas.StrSchema
             baz = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     bar: MetaOapg.properties.bar
     baz: MetaOapg.properties.baz
@@ -48,7 +48,7 @@ class ReadOnlyFirst(
         bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
         baz: typing.Union['MetaOapg.properties.baz', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ReadOnlyFirst':
         return super().__new__(
             cls,

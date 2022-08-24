@@ -66,7 +66,7 @@ class Apple(
                             re.IGNORECASE
                         )
                     }]
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     cultivar: MetaOapg.properties.cultivar
     origin: MetaOapg.properties.origin
@@ -76,7 +76,7 @@ class Apple(
         *args: typing.Union[dict, frozendict, None, ],
         origin: typing.Union['MetaOapg.properties.origin', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Apple':
         return super().__new__(
             cls,

@@ -36,7 +36,7 @@ class ComposedOneOfDifferentTypes(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         one_of_2 = schemas.NoneSchema
         one_of_3 = schemas.DateSchema
         
@@ -47,7 +47,7 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                _additional_properties = schemas.AnyTypeSchema
+                additional_properties = schemas.AnyTypeSchema
                 max_properties = 4
                 min_properties = 4
         
@@ -55,7 +55,7 @@ class ComposedOneOfDifferentTypes(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg._additional_properties',
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'one_of_4':
                 return super().__new__(
                     cls,
@@ -111,7 +111,7 @@ class ComposedOneOfDifferentTypes(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ComposedOneOfDifferentTypes':
         return super().__new__(
             cls,

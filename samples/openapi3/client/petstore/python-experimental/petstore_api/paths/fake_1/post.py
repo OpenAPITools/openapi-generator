@@ -141,7 +141,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                     max_length = 64
                     min_length = 10
             callback = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     integer: MetaOapg.properties.integer
     int32: MetaOapg.properties.int32
@@ -174,7 +174,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         password: typing.Union['MetaOapg.properties.password', schemas.Unset] = schemas.unset,
         callback: typing.Union['MetaOapg.properties.callback', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

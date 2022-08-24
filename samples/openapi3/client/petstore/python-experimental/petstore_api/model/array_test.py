@@ -67,7 +67,7 @@ class ArrayTest(
                     @property
                     def _items(cls) -> typing.Type['ReadOnlyFirst']:
                         return ReadOnlyFirst
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     array_of_string: MetaOapg.properties.array_of_string
     array_array_of_integer: MetaOapg.properties.array_array_of_integer
@@ -80,7 +80,7 @@ class ArrayTest(
         array_array_of_integer: typing.Union['MetaOapg.properties.array_array_of_integer', schemas.Unset] = schemas.unset,
         array_array_of_model: typing.Union['MetaOapg.properties.array_array_of_model', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ArrayTest':
         return super().__new__(
             cls,

@@ -34,7 +34,7 @@ class SimpleQuadrilateral(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
@@ -59,7 +59,7 @@ class SimpleQuadrilateral(
                         @property
                         def SIMPLE_QUADRILATERAL(cls):
                             return cls("SimpleQuadrilateral")
-                _additional_properties = schemas.AnyTypeSchema
+                additional_properties = schemas.AnyTypeSchema
             
             quadrilateralType: MetaOapg.properties.quadrilateralType
         
@@ -68,7 +68,7 @@ class SimpleQuadrilateral(
                 *args: typing.Union[dict, frozendict, ],
                 quadrilateralType: typing.Union['MetaOapg.properties.quadrilateralType', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg._additional_properties',
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -98,7 +98,7 @@ class SimpleQuadrilateral(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SimpleQuadrilateral':
         return super().__new__(
             cls,

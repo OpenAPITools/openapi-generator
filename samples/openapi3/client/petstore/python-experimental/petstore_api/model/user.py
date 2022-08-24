@@ -55,13 +55,13 @@ class User(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.AnyTypeSchema
+                    additional_properties = schemas.AnyTypeSchema
             
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'objectWithNoDeclaredPropsNullable':
                     return super().__new__(
                         cls,
@@ -78,14 +78,14 @@ class User(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.AnyTypeSchema
+                    additional_properties = schemas.AnyTypeSchema
                     not_schema = schemas.NoneSchema
             
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'anyTypeExceptNullProp':
                     return super().__new__(
                         cls,
@@ -94,7 +94,7 @@ class User(
                         **kwargs,
                     )
             anyTypePropNullable = schemas.AnyTypeSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
     username: MetaOapg.properties.username
@@ -127,7 +127,7 @@ class User(
         anyTypeExceptNullProp: typing.Union['MetaOapg.properties.anyTypeExceptNullProp', schemas.Unset] = schemas.unset,
         anyTypePropNullable: typing.Union['MetaOapg.properties.anyTypePropNullable', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'User':
         return super().__new__(
             cls,

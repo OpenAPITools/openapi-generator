@@ -40,7 +40,7 @@ class Category(
         class properties:
             id = schemas.Int64Schema
             name = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
     name: MetaOapg.properties.name
@@ -51,7 +51,7 @@ class Category(
         name: 'MetaOapg.properties.name',
         id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Category':
         return super().__new__(
             cls,

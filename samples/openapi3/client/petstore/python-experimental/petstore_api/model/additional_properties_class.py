@@ -43,13 +43,13 @@ class AdditionalPropertiesClass(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.StrSchema
+                    additional_properties = schemas.StrSchema
             
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'map_property':
                     return super().__new__(
                         cls,
@@ -67,20 +67,20 @@ class AdditionalPropertiesClass(
                 class MetaOapg:
                     
                     
-                    class _additional_properties(
+                    class additional_properties(
                         schemas.DictSchema
                     ):
                     
                     
                         class MetaOapg:
-                            _additional_properties = schemas.StrSchema
+                            additional_properties = schemas.StrSchema
                     
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: 'MetaOapg._additional_properties',
-                        ) -> '_additional_properties':
+                            **kwargs: 'MetaOapg.additional_properties',
+                        ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
                                 *args,
@@ -92,7 +92,7 @@ class AdditionalPropertiesClass(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'map_of_map_property':
                     return super().__new__(
                         cls,
@@ -112,7 +112,7 @@ class AdditionalPropertiesClass(
             
             
                 class MetaOapg:
-                    _additional_properties = None
+                    additional_properties = None
             
                 def __new__(
                     cls,
@@ -132,13 +132,13 @@ class AdditionalPropertiesClass(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.StrSchema
+                    additional_properties = schemas.StrSchema
             
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'map_with_undeclared_properties_string':
                     return super().__new__(
                         cls,
@@ -146,7 +146,7 @@ class AdditionalPropertiesClass(
                         _configuration=_configuration,
                         **kwargs,
                     )
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     map_property: MetaOapg.properties.map_property
     map_of_map_property: MetaOapg.properties.map_of_map_property
@@ -169,7 +169,7 @@ class AdditionalPropertiesClass(
         empty_map: typing.Union['MetaOapg.properties.empty_map', schemas.Unset] = schemas.unset,
         map_with_undeclared_properties_string: typing.Union['MetaOapg.properties.map_with_undeclared_properties_string', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'AdditionalPropertiesClass':
         return super().__new__(
             cls,

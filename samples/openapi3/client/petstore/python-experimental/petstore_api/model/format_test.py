@@ -175,7 +175,7 @@ class FormatTest(
                         )
                     }]
             noneProp = schemas.NoneSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     integer: MetaOapg.properties.integer
     int32: MetaOapg.properties.int32
@@ -222,7 +222,7 @@ class FormatTest(
         pattern_with_digits_and_delimiter: typing.Union['MetaOapg.properties.pattern_with_digits_and_delimiter', schemas.Unset] = schemas.unset,
         noneProp: typing.Union['MetaOapg.properties.noneProp', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'FormatTest':
         return super().__new__(
             cls,

@@ -34,13 +34,13 @@ class Address(
 
 
     class MetaOapg:
-        _additional_properties = schemas.IntSchema
+        additional_properties = schemas.IntSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Address':
         return super().__new__(
             cls,

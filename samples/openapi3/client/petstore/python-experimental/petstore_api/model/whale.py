@@ -55,7 +55,7 @@ class Whale(
                 @property
                 def WHALE(cls):
                     return cls("whale")
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     hasBaleen: MetaOapg.properties.hasBaleen
     hasTeeth: MetaOapg.properties.hasTeeth
@@ -68,7 +68,7 @@ class Whale(
         hasBaleen: typing.Union['MetaOapg.properties.hasBaleen', schemas.Unset] = schemas.unset,
         hasTeeth: typing.Union['MetaOapg.properties.hasTeeth', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Whale':
         return super().__new__(
             cls,

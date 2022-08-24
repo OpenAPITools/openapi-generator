@@ -41,7 +41,7 @@ class SchemaForRequestBodyMultipartFormData(
                 schemas.ListSchema
             ):
                 _items = schemas.BinarySchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     files: MetaOapg.properties.files
 
@@ -50,7 +50,7 @@ class SchemaForRequestBodyMultipartFormData(
         *args: typing.Union[dict, frozendict, ],
         files: typing.Union['MetaOapg.properties.files', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,

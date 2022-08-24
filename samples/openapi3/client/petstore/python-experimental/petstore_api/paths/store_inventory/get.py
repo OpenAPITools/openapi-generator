@@ -34,13 +34,13 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
-        _additional_properties = schemas.Int32Schema
+        additional_properties = schemas.Int32Schema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,

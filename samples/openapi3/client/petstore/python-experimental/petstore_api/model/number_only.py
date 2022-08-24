@@ -36,7 +36,7 @@ class NumberOnly(
     class MetaOapg:
         class properties:
             JustNumber = schemas.NumberSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     JustNumber: MetaOapg.properties.JustNumber
 
@@ -45,7 +45,7 @@ class NumberOnly(
         *args: typing.Union[dict, frozendict, ],
         JustNumber: typing.Union['MetaOapg.properties.JustNumber', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'NumberOnly':
         return super().__new__(
             cls,

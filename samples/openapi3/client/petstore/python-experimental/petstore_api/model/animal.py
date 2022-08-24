@@ -50,7 +50,7 @@ class Animal(
         class properties:
             className = schemas.StrSchema
             color = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
     color: MetaOapg.properties.color
@@ -61,7 +61,7 @@ class Animal(
         className: 'MetaOapg.properties.className',
         color: typing.Union['MetaOapg.properties.color', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Animal':
         return super().__new__(
             cls,

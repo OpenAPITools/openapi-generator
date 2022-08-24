@@ -34,7 +34,7 @@ class Cat(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
@@ -45,7 +45,7 @@ class Cat(
             class MetaOapg:
                 class properties:
                     declawed = schemas.BoolSchema
-                _additional_properties = schemas.AnyTypeSchema
+                additional_properties = schemas.AnyTypeSchema
             
             declawed: MetaOapg.properties.declawed
         
@@ -54,7 +54,7 @@ class Cat(
                 *args: typing.Union[dict, frozendict, ],
                 declawed: typing.Union['MetaOapg.properties.declawed', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg._additional_properties',
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -84,7 +84,7 @@ class Cat(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Cat':
         return super().__new__(
             cls,

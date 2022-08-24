@@ -53,7 +53,7 @@ class BasquePig(
                 @property
                 def BASQUE_PIG(cls):
                     return cls("BasquePig")
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
 
@@ -62,7 +62,7 @@ class BasquePig(
         *args: typing.Union[dict, frozendict, ],
         className: 'MetaOapg.properties.className',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'BasquePig':
         return super().__new__(
             cls,

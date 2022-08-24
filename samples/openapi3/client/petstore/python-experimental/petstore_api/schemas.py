@@ -1005,7 +1005,7 @@ class DictBase(Discriminable, ValidatorBase):
         seen_required_properties = set()
         invalid_arguments = []
         required_property_names = getattr(cls.MetaOapg, 'required', set())
-        additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
+        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
         for property_name in arg:
             if property_name in required_property_names:
                 seen_required_properties.add(property_name)
@@ -1052,7 +1052,7 @@ class DictBase(Discriminable, ValidatorBase):
             ApiTypeError - for missing required arguments, or for invalid properties
         """
         path_to_schemas = {}
-        additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
+        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
         for property_name, value in arg.items():
             if property_name in cls._property_names:
                 schema = getattr(cls.MetaOapg.properties, property_name)
@@ -1199,7 +1199,7 @@ class DictBase(Discriminable, ValidatorBase):
         dict_items = {}
         # if we have definitions for property schemas convert values using it
         # otherwise accept anything
-        additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
+        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
         for property_name_js, value in arg.items():
             if hasattr(cls.MetaOapg, 'properties'):
                 property_cls = getattr(cls.MetaOapg.properties, property_name_js, additional_properties)

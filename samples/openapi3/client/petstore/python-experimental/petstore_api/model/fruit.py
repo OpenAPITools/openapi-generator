@@ -36,7 +36,7 @@ class Fruit(
     class MetaOapg:
         class properties:
             color = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         @classmethod
         @property
@@ -61,7 +61,7 @@ class Fruit(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         color: typing.Union['MetaOapg.properties.color', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Fruit':
         return super().__new__(
             cls,

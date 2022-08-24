@@ -48,14 +48,14 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                     
                     @classmethod
                     @property
-                    def _additional_properties(cls) -> typing.Type['Animal']:
+                    def additional_properties(cls) -> typing.Type['Animal']:
                         return Animal
             
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'map':
                     return super().__new__(
                         cls,
@@ -63,7 +63,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                         _configuration=_configuration,
                         **kwargs,
                     )
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     uuid: MetaOapg.properties.uuid
     dateTime: MetaOapg.properties.dateTime
@@ -76,7 +76,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         dateTime: typing.Union['MetaOapg.properties.dateTime', schemas.Unset] = schemas.unset,
         map: typing.Union['MetaOapg.properties.map', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
             cls,

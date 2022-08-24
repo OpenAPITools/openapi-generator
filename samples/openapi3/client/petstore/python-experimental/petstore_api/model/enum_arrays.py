@@ -82,7 +82,7 @@ class EnumArrays(
                     @property
                     def CRAB(cls):
                         return cls("crab")
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     just_symbol: MetaOapg.properties.just_symbol
     array_enum: MetaOapg.properties.array_enum
@@ -93,7 +93,7 @@ class EnumArrays(
         just_symbol: typing.Union['MetaOapg.properties.just_symbol', schemas.Unset] = schemas.unset,
         array_enum: typing.Union['MetaOapg.properties.array_enum', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'EnumArrays':
         return super().__new__(
             cls,

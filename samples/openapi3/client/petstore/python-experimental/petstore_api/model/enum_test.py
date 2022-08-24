@@ -159,7 +159,7 @@ class EnumTest(
             @property
             def IntegerEnumOneValue(cls) -> typing.Type['IntegerEnumOneValue']:
                 return IntegerEnumOneValue
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     enum_string: MetaOapg.properties.enum_string
     enum_string_required: MetaOapg.properties.enum_string_required
@@ -184,7 +184,7 @@ class EnumTest(
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'EnumTest':
         return super().__new__(
             cls,

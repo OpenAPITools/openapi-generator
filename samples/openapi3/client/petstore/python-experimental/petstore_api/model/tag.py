@@ -37,7 +37,7 @@ class Tag(
         class properties:
             id = schemas.Int64Schema
             name = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
     name: MetaOapg.properties.name
@@ -48,7 +48,7 @@ class Tag(
         id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
         name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Tag':
         return super().__new__(
             cls,

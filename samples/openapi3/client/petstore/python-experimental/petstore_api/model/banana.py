@@ -39,7 +39,7 @@ class Banana(
         }
         class properties:
             lengthCm = schemas.NumberSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     lengthCm: MetaOapg.properties.lengthCm
 
@@ -48,7 +48,7 @@ class Banana(
         *args: typing.Union[dict, frozendict, ],
         lengthCm: 'MetaOapg.properties.lengthCm',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Banana':
         return super().__new__(
             cls,

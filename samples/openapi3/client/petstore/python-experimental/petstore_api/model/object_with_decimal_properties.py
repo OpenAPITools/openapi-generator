@@ -42,7 +42,7 @@ class ObjectWithDecimalProperties(
             @property
             def cost(cls) -> typing.Type['Money']:
                 return Money
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     length: MetaOapg.properties.length
     width: MetaOapg.properties.width
@@ -55,7 +55,7 @@ class ObjectWithDecimalProperties(
         width: typing.Union['MetaOapg.properties.width', schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,

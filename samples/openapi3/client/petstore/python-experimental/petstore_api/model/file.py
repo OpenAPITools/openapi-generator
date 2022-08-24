@@ -38,7 +38,7 @@ class File(
     class MetaOapg:
         class properties:
             sourceURI = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     sourceURI: MetaOapg.properties.sourceURI
 
@@ -47,7 +47,7 @@ class File(
         *args: typing.Union[dict, frozendict, ],
         sourceURI: typing.Union['MetaOapg.properties.sourceURI', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'File':
         return super().__new__(
             cls,

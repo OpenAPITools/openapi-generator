@@ -41,7 +41,7 @@ class Capitalization(
             Capital_Snake = schemas.StrSchema
             SCA_ETH_Flow_Points = schemas.StrSchema
             ATT_NAME = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     smallCamel: MetaOapg.properties.smallCamel
     CapitalCamel: MetaOapg.properties.CapitalCamel
@@ -60,7 +60,7 @@ class Capitalization(
         SCA_ETH_Flow_Points: typing.Union['MetaOapg.properties.SCA_ETH_Flow_Points', schemas.Unset] = schemas.unset,
         ATT_NAME: typing.Union['MetaOapg.properties.ATT_NAME', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Capitalization':
         return super().__new__(
             cls,

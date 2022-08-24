@@ -38,7 +38,7 @@ class ApiResponse(
             code = schemas.Int32Schema
             type = schemas.StrSchema
             message = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     code: MetaOapg.properties.code
     type: MetaOapg.properties.type
@@ -51,7 +51,7 @@ class ApiResponse(
         type: typing.Union['MetaOapg.properties.type', schemas.Unset] = schemas.unset,
         message: typing.Union['MetaOapg.properties.message', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ApiResponse':
         return super().__new__(
             cls,

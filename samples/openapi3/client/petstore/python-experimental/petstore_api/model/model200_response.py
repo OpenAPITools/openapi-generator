@@ -51,7 +51,7 @@ class Model200Response(
             - _from_openapi_data these are passed in in a dict in the first positional argument *arg
             If the property is required and was not passed in, an exception will be thrown
             """
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     name: MetaOapg.properties.name
 
@@ -60,7 +60,7 @@ class Model200Response(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Model200Response':
         return super().__new__(
             cls,

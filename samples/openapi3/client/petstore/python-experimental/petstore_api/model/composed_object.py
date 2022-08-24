@@ -35,7 +35,7 @@ class ComposedObject(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         all_of_0 = schemas.AnyTypeSchema
         
         @classmethod
@@ -57,7 +57,7 @@ class ComposedObject(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ComposedObject':
         return super().__new__(
             cls,

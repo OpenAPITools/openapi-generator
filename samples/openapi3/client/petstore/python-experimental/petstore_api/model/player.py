@@ -43,7 +43,7 @@ class Player(
             @property
             def enemyPlayer(cls) -> typing.Type['Player']:
                 return Player
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     name: MetaOapg.properties.name
     enemyPlayer: 'MetaOapg.properties.enemyPlayer'
@@ -54,7 +54,7 @@ class Player(
         name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         enemyPlayer: typing.Union['Player', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Player':
         return super().__new__(
             cls,

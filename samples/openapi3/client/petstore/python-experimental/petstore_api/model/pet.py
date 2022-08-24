@@ -91,7 +91,7 @@ class Pet(
                 @property
                 def SOLD(cls):
                     return cls("sold")
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
     category: 'MetaOapg.properties.category'
@@ -110,7 +110,7 @@ class Pet(
         tags: typing.Union['MetaOapg.properties.tags', schemas.Unset] = schemas.unset,
         status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Pet':
         return super().__new__(
             cls,

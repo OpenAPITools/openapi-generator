@@ -34,7 +34,7 @@ class Dog(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
@@ -45,7 +45,7 @@ class Dog(
             class MetaOapg:
                 class properties:
                     breed = schemas.StrSchema
-                _additional_properties = schemas.AnyTypeSchema
+                additional_properties = schemas.AnyTypeSchema
             
             breed: MetaOapg.properties.breed
         
@@ -54,7 +54,7 @@ class Dog(
                 *args: typing.Union[dict, frozendict, ],
                 breed: typing.Union['MetaOapg.properties.breed', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg._additional_properties',
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -84,7 +84,7 @@ class Dog(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Dog':
         return super().__new__(
             cls,

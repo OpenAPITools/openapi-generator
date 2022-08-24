@@ -40,7 +40,7 @@ class AppleReq(
         class properties:
             cultivar = schemas.StrSchema
             mealy = schemas.BoolSchema
-        _additional_properties = None
+        additional_properties = None
     
     cultivar: MetaOapg.properties.cultivar
     mealy: MetaOapg.properties.mealy

@@ -63,7 +63,7 @@ class SchemaForRequestBodyMultipartFormData(
         class properties:
             additionalMetadata = schemas.StrSchema
             file = schemas.BinarySchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     additionalMetadata: MetaOapg.properties.additionalMetadata
     file: MetaOapg.properties.file
@@ -74,7 +74,7 @@ class SchemaForRequestBodyMultipartFormData(
         additionalMetadata: typing.Union['MetaOapg.properties.additionalMetadata', schemas.Unset] = schemas.unset,
         file: typing.Union['MetaOapg.properties.file', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,

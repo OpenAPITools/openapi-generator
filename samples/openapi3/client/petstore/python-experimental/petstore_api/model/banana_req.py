@@ -40,7 +40,7 @@ class BananaReq(
         class properties:
             lengthCm = schemas.NumberSchema
             sweet = schemas.BoolSchema
-        _additional_properties = None
+        additional_properties = None
     
     lengthCm: MetaOapg.properties.lengthCm
     sweet: MetaOapg.properties.sweet

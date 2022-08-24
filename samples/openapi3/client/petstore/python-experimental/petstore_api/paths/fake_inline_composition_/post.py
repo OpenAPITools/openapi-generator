@@ -32,7 +32,7 @@ class CompositionAtRootSchema(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_0(
@@ -62,7 +62,7 @@ class CompositionAtRootSchema(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'CompositionAtRootSchema':
         return super().__new__(
             cls,
@@ -87,7 +87,7 @@ class CompositionInPropertySchema(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.AnyTypeSchema
+                    additional_properties = schemas.AnyTypeSchema
                     
                     
                     class all_of_0(
@@ -117,7 +117,7 @@ class CompositionInPropertySchema(
                     cls,
                     *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
@@ -125,7 +125,7 @@ class CompositionInPropertySchema(
                         _configuration=_configuration,
                         **kwargs,
                     )
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
 
@@ -134,7 +134,7 @@ class CompositionInPropertySchema(
         *args: typing.Union[dict, frozendict, ],
         someProp: typing.Union['MetaOapg.properties.someProp', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'CompositionInPropertySchema':
         return super().__new__(
             cls,
@@ -183,7 +183,7 @@ class SchemaForRequestBodyApplicationJson(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_0(
@@ -213,7 +213,7 @@ class SchemaForRequestBodyApplicationJson(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -238,7 +238,7 @@ class SchemaForRequestBodyMultipartFormData(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.AnyTypeSchema
+                    additional_properties = schemas.AnyTypeSchema
                     
                     
                     class all_of_0(
@@ -268,7 +268,7 @@ class SchemaForRequestBodyMultipartFormData(
                     cls,
                     *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
@@ -276,7 +276,7 @@ class SchemaForRequestBodyMultipartFormData(
                         _configuration=_configuration,
                         **kwargs,
                     )
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
 
@@ -285,7 +285,7 @@ class SchemaForRequestBodyMultipartFormData(
         *args: typing.Union[dict, frozendict, ],
         someProp: typing.Union['MetaOapg.properties.someProp', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -312,7 +312,7 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_0(
@@ -342,7 +342,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -367,7 +367,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
             
             
                 class MetaOapg:
-                    _additional_properties = schemas.AnyTypeSchema
+                    additional_properties = schemas.AnyTypeSchema
                     
                     
                     class all_of_0(
@@ -397,7 +397,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
                     cls,
                     *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg._additional_properties',
+                    **kwargs: 'MetaOapg.additional_properties',
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
@@ -405,7 +405,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
                         _configuration=_configuration,
                         **kwargs,
                     )
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
 
@@ -414,7 +414,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
         *args: typing.Union[dict, frozendict, ],
         someProp: typing.Union['MetaOapg.properties.someProp', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaFor200ResponseBodyMultipartFormData':
         return super().__new__(
             cls,

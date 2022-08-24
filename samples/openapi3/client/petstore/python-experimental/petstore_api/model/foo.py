@@ -36,7 +36,7 @@ class Foo(
     class MetaOapg:
         class properties:
             bar = schemas.StrSchema
-        _additional_properties = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
     
     bar: MetaOapg.properties.bar
 
@@ -45,7 +45,7 @@ class Foo(
         *args: typing.Union[dict, frozendict, ],
         bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Foo':
         return super().__new__(
             cls,

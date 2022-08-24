@@ -63,7 +63,7 @@ class Drawing(
         
         @classmethod
         @property
-        def _additional_properties(cls) -> typing.Type['Fruit']:
+        def additional_properties(cls) -> typing.Type['Fruit']:
             return Fruit
     
     mainShape: 'MetaOapg.properties.mainShape'
@@ -79,7 +79,7 @@ class Drawing(
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,
         shapes: typing.Union['MetaOapg.properties.shapes', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg._additional_properties',
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'Drawing':
         return super().__new__(
             cls,
