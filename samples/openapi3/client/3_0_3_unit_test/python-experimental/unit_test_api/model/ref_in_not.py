@@ -34,6 +34,7 @@ class RefInNot(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         @classmethod
         @property
@@ -44,7 +45,7 @@ class RefInNot(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'RefInNot':
         return super().__new__(
             cls,

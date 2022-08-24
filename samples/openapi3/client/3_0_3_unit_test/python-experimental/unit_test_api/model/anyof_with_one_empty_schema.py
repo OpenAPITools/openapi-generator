@@ -34,6 +34,7 @@ class AnyofWithOneEmptySchema(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         any_of_0 = schemas.NumberSchema
         any_of_1 = schemas.AnyTypeSchema
         
@@ -57,7 +58,7 @@ class AnyofWithOneEmptySchema(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'AnyofWithOneEmptySchema':
         return super().__new__(
             cls,

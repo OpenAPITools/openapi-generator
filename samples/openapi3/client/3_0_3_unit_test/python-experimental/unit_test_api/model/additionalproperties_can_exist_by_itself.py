@@ -31,14 +31,16 @@ class AdditionalpropertiesCanExistByItself(
 
     Do not edit the class manually.
     """
-    _additional_properties = schemas.BoolSchema
 
+
+    class MetaOapg:
+        additional_properties = schemas.BoolSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'AdditionalpropertiesCanExistByItself':
         return super().__new__(
             cls,

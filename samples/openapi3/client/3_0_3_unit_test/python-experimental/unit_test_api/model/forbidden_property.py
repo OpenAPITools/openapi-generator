@@ -31,35 +31,43 @@ class ForbiddenProperty(
 
     Do not edit the class manually.
     """
+
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class foo(
+                schemas.ComposedSchema,
+            ):
+            
+            
+                class MetaOapg:
+                    additional_properties = schemas.AnyTypeSchema
+                    not_schema = schemas.AnyTypeSchema
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: 'MetaOapg.additional_properties',
+                ) -> 'foo':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+        additional_properties = schemas.AnyTypeSchema
     
-    
-    class foo(
-        schemas.ComposedSchema,
-    ):
-    
-    
-        class MetaOapg:
-            not_schema = schemas.AnyTypeSchema
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'foo':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
+    foo: MetaOapg.properties.foo
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'ForbiddenProperty':
         return super().__new__(
             cls,

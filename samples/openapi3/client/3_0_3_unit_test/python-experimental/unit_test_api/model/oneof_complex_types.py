@@ -34,22 +34,30 @@ class OneofComplexTypes(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class one_of_0(
             schemas.AnyTypeSchema,
         ):
-            _required_property_names = {
-                "bar",
-            }
-            bar = schemas.IntSchema
+        
+        
+            class MetaOapg:
+                required = {
+                    "bar",
+                }
+                class properties:
+                    bar = schemas.IntSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            bar: MetaOapg.properties.bar
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                bar: bar,
+                bar: 'MetaOapg.properties.bar',
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'one_of_0':
                 return super().__new__(
                     cls,
@@ -63,17 +71,24 @@ class OneofComplexTypes(
         class one_of_1(
             schemas.AnyTypeSchema,
         ):
-            _required_property_names = {
-                "foo",
-            }
-            foo = schemas.StrSchema
+        
+        
+            class MetaOapg:
+                required = {
+                    "foo",
+                }
+                class properties:
+                    foo = schemas.StrSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            foo: MetaOapg.properties.foo
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                foo: foo,
+                foo: 'MetaOapg.properties.foo',
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'one_of_1':
                 return super().__new__(
                     cls,
@@ -103,7 +118,7 @@ class OneofComplexTypes(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'OneofComplexTypes':
         return super().__new__(
             cls,

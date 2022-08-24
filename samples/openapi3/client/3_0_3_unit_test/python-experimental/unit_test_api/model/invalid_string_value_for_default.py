@@ -31,22 +31,29 @@ class InvalidStringValueForDefault(
 
     Do not edit the class manually.
     """
+
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class bar(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    min_length = 4
+        additional_properties = schemas.AnyTypeSchema
     
-    
-    class bar(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            min_length = 4
+    bar: MetaOapg.properties.bar
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        bar: typing.Union[bar, schemas.Unset] = schemas.unset,
+        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'InvalidStringValueForDefault':
         return super().__new__(
             cls,

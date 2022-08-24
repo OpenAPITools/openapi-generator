@@ -31,48 +31,55 @@ class EnumsInProperties(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "bar",
-    }
-    
-    
-    class foo(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "foo": "FOO",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def FOO(cls):
-            return cls("foo")
-    
-    
-    class bar(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "bar": "BAR",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def BAR(cls):
-            return cls("bar")
 
+
+    class MetaOapg:
+        required = {
+            "bar",
+        }
+        class properties:
+            
+            
+            class foo(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "foo": "FOO",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def FOO(cls):
+                    return cls("foo")
+            
+            
+            class bar(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "bar": "BAR",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def BAR(cls):
+                    return cls("bar")
+        additional_properties = schemas.AnyTypeSchema
+    
+    foo: MetaOapg.properties.foo
+    bar: MetaOapg.properties.bar
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        bar: bar,
-        foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+        bar: 'MetaOapg.properties.bar',
+        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'EnumsInProperties':
         return super().__new__(
             cls,

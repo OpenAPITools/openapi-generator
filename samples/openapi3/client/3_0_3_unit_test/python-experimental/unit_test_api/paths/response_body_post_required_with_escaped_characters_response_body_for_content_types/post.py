@@ -28,20 +28,24 @@ from . import path
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.AnyTypeSchema,
 ):
-    _required_property_names = {
-        "foo\"bar",
-        "foo\nbar",
-        "foo\fbar",
-        "foo\tbar",
-        "foo\rbar",
-        "foo\\bar",
-    }
+
+
+    class MetaOapg:
+        required = {
+            "foo\"bar",
+            "foo\nbar",
+            "foo\fbar",
+            "foo\tbar",
+            "foo\rbar",
+            "foo\\bar",
+        }
+        additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,

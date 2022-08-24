@@ -34,13 +34,14 @@ class BySmallNumber(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         multiple_of = 0.00010
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'BySmallNumber':
         return super().__new__(
             cls,

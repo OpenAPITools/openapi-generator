@@ -32,17 +32,24 @@ class RefInProperty(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def a(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
-        return PropertyNamedRefThatIsNotAReference
+
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def a(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
+                return PropertyNamedRefThatIsNotAReference
+        additional_properties = schemas.AnyTypeSchema
+    
+    a: 'MetaOapg.properties.a'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         a: typing.Union['PropertyNamedRefThatIsNotAReference', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'RefInProperty':
         return super().__new__(
             cls,

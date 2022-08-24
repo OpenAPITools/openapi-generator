@@ -31,20 +31,27 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class not_schema(
             schemas.DictSchema
         ):
-            foo = schemas.StrSchema
         
+        
+            class MetaOapg:
+                class properties:
+                    foo = schemas.StrSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            foo: MetaOapg.properties.foo
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+                foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'not_schema':
                 return super().__new__(
                     cls,
@@ -58,7 +65,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,

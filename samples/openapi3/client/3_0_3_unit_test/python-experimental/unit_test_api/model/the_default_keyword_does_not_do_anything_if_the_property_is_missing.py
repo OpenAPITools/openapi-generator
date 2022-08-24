@@ -31,23 +31,29 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
 
     Do not edit the class manually.
     """
-    
-    
-    class alpha(
-        schemas.NumberSchema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 3
 
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class alpha(
+                schemas.NumberSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 3
+        additional_properties = schemas.AnyTypeSchema
+    
+    alpha: MetaOapg.properties.alpha
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        alpha: typing.Union[alpha, schemas.Unset] = schemas.unset,
+        alpha: typing.Union['MetaOapg.properties.alpha', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing':
         return super().__new__(
             cls,

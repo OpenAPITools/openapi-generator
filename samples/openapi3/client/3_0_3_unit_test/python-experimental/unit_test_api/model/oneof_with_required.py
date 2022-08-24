@@ -35,21 +35,26 @@ class OneofWithRequired(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class one_of_0(
             schemas.AnyTypeSchema,
         ):
-            _required_property_names = {
-                "bar",
-                "foo",
-            }
+        
+        
+            class MetaOapg:
+                required = {
+                    "bar",
+                    "foo",
+                }
+                additional_properties = schemas.AnyTypeSchema
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'one_of_0':
                 return super().__new__(
                     cls,
@@ -62,16 +67,20 @@ class OneofWithRequired(
         class one_of_1(
             schemas.AnyTypeSchema,
         ):
-            _required_property_names = {
-                "foo",
-                "baz",
-            }
+        
+        
+            class MetaOapg:
+                required = {
+                    "foo",
+                    "baz",
+                }
+                additional_properties = schemas.AnyTypeSchema
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'one_of_1':
                 return super().__new__(
                     cls,
@@ -100,7 +109,7 @@ class OneofWithRequired(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'OneofWithRequired':
         return super().__new__(
             cls,

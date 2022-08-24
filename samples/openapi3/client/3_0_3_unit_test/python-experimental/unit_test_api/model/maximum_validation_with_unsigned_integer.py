@@ -34,13 +34,14 @@ class MaximumValidationWithUnsignedInteger(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         inclusive_maximum = 300
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'MaximumValidationWithUnsignedInteger':
         return super().__new__(
             cls,

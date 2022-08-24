@@ -43,13 +43,14 @@ class AnyofWithBaseSchema(
         
         
             class MetaOapg:
+                additional_properties = schemas.AnyTypeSchema
                 max_length = 2
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'any_of_0':
                 return super().__new__(
                     cls,
@@ -65,13 +66,14 @@ class AnyofWithBaseSchema(
         
         
             class MetaOapg:
+                additional_properties = schemas.AnyTypeSchema
                 min_length = 4
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'any_of_1':
                 return super().__new__(
                     cls,

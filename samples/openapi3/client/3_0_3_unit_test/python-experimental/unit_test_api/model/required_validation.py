@@ -31,19 +31,27 @@ class RequiredValidation(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "foo",
-    }
-    foo = schemas.AnyTypeSchema
-    bar = schemas.AnyTypeSchema
+
+
+    class MetaOapg:
+        required = {
+            "foo",
+        }
+        class properties:
+            foo = schemas.AnyTypeSchema
+            bar = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    foo: MetaOapg.properties.foo
+    bar: MetaOapg.properties.bar
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        foo: foo,
-        bar: typing.Union[bar, schemas.Unset] = schemas.unset,
+        foo: 'MetaOapg.properties.foo',
+        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'RequiredValidation':
         return super().__new__(
             cls,

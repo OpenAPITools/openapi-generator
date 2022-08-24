@@ -34,6 +34,7 @@ class PatternValidation(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         regex=[{
             'pattern': r'^a*$',  # noqa: E501
         }]
@@ -42,7 +43,7 @@ class PatternValidation(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'PatternValidation':
         return super().__new__(
             cls,

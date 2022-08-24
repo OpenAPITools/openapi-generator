@@ -34,6 +34,7 @@ class NestedAnyofToCheckValidationSemantics(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class any_of_0(
@@ -42,6 +43,7 @@ class NestedAnyofToCheckValidationSemantics(
         
         
             class MetaOapg:
+                additional_properties = schemas.AnyTypeSchema
                 any_of_0 = schemas.NoneSchema
                 
                 @classmethod
@@ -63,7 +65,7 @@ class NestedAnyofToCheckValidationSemantics(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg.additional_properties',
             ) -> 'any_of_0':
                 return super().__new__(
                     cls,
@@ -91,7 +93,7 @@ class NestedAnyofToCheckValidationSemantics(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'NestedAnyofToCheckValidationSemantics':
         return super().__new__(
             cls,

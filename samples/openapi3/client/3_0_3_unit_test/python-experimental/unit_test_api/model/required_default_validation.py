@@ -31,14 +31,21 @@ class RequiredDefaultValidation(
 
     Do not edit the class manually.
     """
-    foo = schemas.AnyTypeSchema
+
+
+    class MetaOapg:
+        class properties:
+            foo = schemas.AnyTypeSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    foo: MetaOapg.properties.foo
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg.additional_properties',
     ) -> 'RequiredDefaultValidation':
         return super().__new__(
             cls,
