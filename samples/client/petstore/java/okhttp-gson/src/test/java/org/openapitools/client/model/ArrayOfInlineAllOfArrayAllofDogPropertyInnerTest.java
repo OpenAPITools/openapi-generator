@@ -19,8 +19,6 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf;
-import org.openapitools.client.model.DogAllOf;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
