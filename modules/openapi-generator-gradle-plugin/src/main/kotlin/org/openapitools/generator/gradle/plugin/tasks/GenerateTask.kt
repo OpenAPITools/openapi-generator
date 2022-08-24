@@ -495,12 +495,14 @@ open class GenerateTask : DefaultTask() {
         }
     }
 
+    protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
-        } else CodegenConfigurator()
+        } else createDefaultCodegenConfigurator()
 
         try {
             if (globalProperties.isPresent) {
