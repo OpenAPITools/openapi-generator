@@ -486,8 +486,10 @@ class Schema:
 
 if typing.TYPE_CHECKING:
     StrMixin = str
+    DecimalMixin = decimal.Decimal
 else:
     StrMixin = object
+    DecimalMixin = object
 
 
 class ValidatorBase:
@@ -1836,7 +1838,8 @@ class NoneSchema(
 class NumberSchema(
     SchemaTypeCheckerClsFactory(typing.Union[decimal.Decimal]),
     NumberBase,
-    Schema
+    Schema,
+    DecimalMixin
 ):
     """
     This is used for type: number with no format
