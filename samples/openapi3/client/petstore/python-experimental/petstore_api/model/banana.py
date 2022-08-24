@@ -31,18 +31,23 @@ class Banana(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "lengthCm",
-    }
-    lengthCm = schemas.NumberSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "lengthCm",
+        }
+        class properties:
+            lengthCm = schemas.NumberSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        lengthCm: lengthCm,
+        lengthCm: 'MetaOapg.properties.lengthCm',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Banana':
         return super().__new__(
             cls,

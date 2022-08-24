@@ -43,14 +43,11 @@ class properties:
 
 @classmethod
 @property
-def _additional_properties(cls) -> typing.Type['{{complexType}}']:
+def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
     return {{complexType}}
-{{/if}}
-{{#unless complexType}}
-{{#unless isAnyType}}
+{{else}}
 {{> model_templates/schema }}
-{{/unless}}
-{{/unless}}
+{{/if}}
 {{/with}}
 {{#unless additionalProperties}}
 _additional_properties = None

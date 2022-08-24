@@ -31,28 +31,33 @@ class GrandparentAnimal(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "pet_type",
-    }
-    pet_type = schemas.StrSchema
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'pet_type': {
-                'ChildCat': ChildCat,
-                'ParentPet': ParentPet,
-            }
+    class MetaOapg:
+        _required_property_names = {
+            "pet_type",
         }
+        
+        @classmethod
+        @property
+        def _discriminator(cls):
+            return {
+                'pet_type': {
+                    'ChildCat': ChildCat,
+                    'ParentPet': ParentPet,
+                }
+            }
+        class properties:
+            pet_type = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        pet_type: pet_type,
+        pet_type: 'MetaOapg.properties.pet_type',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,

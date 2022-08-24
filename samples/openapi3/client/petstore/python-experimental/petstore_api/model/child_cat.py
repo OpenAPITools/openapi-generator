@@ -31,23 +31,30 @@ class ChildCat(
 
     Do not edit the class manually.
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
             schemas.DictSchema
         ):
-            name = schemas.StrSchema
+            # TODO type hints here
+        
+            class MetaOapg:
+                class properties:
+                    name = schemas.StrSchema
+                _additional_properties = schemas.AnyTypeSchema
         
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                name: typing.Union[name, schemas.Unset] = schemas.unset,
+                name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg._additional_properties',
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -77,7 +84,7 @@ class ChildCat(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ChildCat':
         return super().__new__(
             cls,

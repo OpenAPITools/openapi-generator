@@ -31,62 +31,67 @@ class EnumArrays(
 
     Do not edit the class manually.
     """
-    
-    
-    class just_symbol(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                ">=": "GREATER_THAN_EQUALS",
-                "$": "DOLLAR",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def GREATER_THAN_EQUALS(cls):
-            return cls(">=")
-        
-        @classmethod
-        @property
-        def DOLLAR(cls):
-            return cls("$")
-    
-    
-    class array_enum(
-        schemas.ListSchema
-    ):
-        
-        
-        class _items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
-                    "fish": "FISH",
-                    "crab": "CRAB",
-                }
-            ),
-            schemas.StrSchema
-        ):
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
             
-            @classmethod
-            @property
-            def FISH(cls):
-                return cls("fish")
             
-            @classmethod
-            @property
-            def CRAB(cls):
-                return cls("crab")
+            class just_symbol(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        ">=": "GREATER_THAN_EQUALS",
+                        "$": "DOLLAR",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def GREATER_THAN_EQUALS(cls):
+                    return cls(">=")
+                
+                @classmethod
+                @property
+                def DOLLAR(cls):
+                    return cls("$")
+            
+            
+            class array_enum(
+                schemas.ListSchema
+            ):
+                
+                
+                class _items(
+                    schemas.SchemaEnumMakerClsFactory(
+                        enum_value_to_name={
+                            "fish": "FISH",
+                            "crab": "CRAB",
+                        }
+                    ),
+                    schemas.StrSchema
+                ):
+                    
+                    @classmethod
+                    @property
+                    def FISH(cls):
+                        return cls("fish")
+                    
+                    @classmethod
+                    @property
+                    def CRAB(cls):
+                        return cls("crab")
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        just_symbol: typing.Union[just_symbol, schemas.Unset] = schemas.unset,
-        array_enum: typing.Union[array_enum, schemas.Unset] = schemas.unset,
+        just_symbol: typing.Union['MetaOapg.properties.just_symbol', schemas.Unset] = schemas.unset,
+        array_enum: typing.Union['MetaOapg.properties.array_enum', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'EnumArrays':
         return super().__new__(
             cls,

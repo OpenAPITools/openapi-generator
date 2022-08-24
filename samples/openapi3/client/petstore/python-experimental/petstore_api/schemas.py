@@ -946,9 +946,9 @@ class Discriminable:
         """
         Used in schemas with discriminators
         """
-        if not hasattr(cls, '_discriminator'):
+        if not hasattr(cls.MetaOapg, '_discriminator'):
             return None
-        disc = cls._discriminator
+        disc = cls.MetaOapg._discriminator
         if disc_property_name not in disc:
             return None
         discriminated_cls = disc[disc_property_name].get(disc_payload_value)
@@ -982,8 +982,6 @@ class Discriminable:
 
 
 class DictBase(Discriminable, ValidatorBase):
-    # subclass properties
-    _required_property_names = set()
 
     @classmethod
     def _validate_arg_presence(cls, arg):
@@ -1006,16 +1004,18 @@ class DictBase(Discriminable, ValidatorBase):
         """
         seen_required_properties = set()
         invalid_arguments = []
+        required_property_names = getattr(cls.MetaOapg, '_required_property_names', set())
+        additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
         for property_name in arg:
-            if property_name in cls._required_property_names:
+            if property_name in required_property_names:
                 seen_required_properties.add(property_name)
             elif property_name in cls._property_names:
                 continue
-            elif cls._additional_properties:
+            elif additional_properties:
                 continue
             else:
                 invalid_arguments.append(property_name)
-        missing_required_arguments = list(cls._required_property_names - seen_required_properties)
+        missing_required_arguments = list(required_property_names - seen_required_properties)
         if missing_required_arguments:
             missing_required_arguments.sort()
             raise ApiTypeError(
@@ -1052,11 +1052,12 @@ class DictBase(Discriminable, ValidatorBase):
             ApiTypeError - for missing required arguments, or for invalid properties
         """
         path_to_schemas = {}
+        additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
         for property_name, value in arg.items():
             if property_name in cls._property_names:
-                schema = getattr(cls, property_name)
-            elif cls._additional_properties:
-                schema = cls._additional_properties
+                schema = getattr(cls.MetaOapg.properties, property_name)
+            elif additional_properties:
+                schema = additional_properties
             else:
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
@@ -1131,7 +1132,7 @@ class DictBase(Discriminable, ValidatorBase):
         other_path_to_schemas = cls._validate_args(arg, validation_metadata=validation_metadata)
         update(_path_to_schemas, other_path_to_schemas)
         try:
-            _discriminator = cls._discriminator
+            _discriminator = cls.MetaOapg._discriminator
         except AttributeError:
             return _path_to_schemas
         # discriminator exists
@@ -1163,15 +1164,12 @@ class DictBase(Discriminable, ValidatorBase):
 
     @classmethod
     @property
-    def _additional_properties(cls):
-        return AnyTypeSchema
-
-    @classmethod
-    @property
     @functools.cache
-    def _property_names(cls):
+    def _property_names(cls) -> typing.Tuple[str]:
+        if not hasattr(cls.MetaOapg, 'properties'):
+            return tuple()
         property_names = set()
-        for var_name, var_value in cls.__dict__.items():
+        for var_name, var_value in cls.MetaOapg.properties.__dict__.items():
             # referenced models are classmethods
             is_classmethod = type(var_value) is classmethod
             if is_classmethod:
@@ -1181,8 +1179,6 @@ class DictBase(Discriminable, ValidatorBase):
             if not is_class:
                 continue
             if not issubclass(var_value, Schema):
-                continue
-            if var_name == '_additional_properties':
                 continue
             property_names.add(var_name)
         property_names = list(property_names)
@@ -1203,9 +1199,13 @@ class DictBase(Discriminable, ValidatorBase):
         dict_items = {}
         # if we have definitions for property schemas convert values using it
         # otherwise accept anything
-
+        additional_properties = getattr(cls.MetaOapg, '_additional_properties', AnyTypeSchema)
         for property_name_js, value in arg.items():
-            property_cls = getattr(cls, property_name_js, cls._additional_properties)
+            if hasattr(cls.MetaOapg, 'properties'):
+                property_cls = getattr(cls.MetaOapg.properties, property_name_js, additional_properties)
+            else:
+                property_cls = additional_properties
+
             property_path_to_item = path_to_item + (property_name_js,)
             stored_property_cls = path_to_schemas.get(property_path_to_item)
             if stored_property_cls:
@@ -1256,6 +1256,8 @@ class Schema:
     - payload is of allowed types
     - payload value is an allowed enum value
     """
+    class MetaOapg:
+        pass
 
     @classmethod
     def _validate(
@@ -2068,7 +2070,6 @@ class DictSchema(
     DictBase,
     Schema
 ):
-
     @classmethod
     def _from_openapi_data(cls, arg: typing.Dict[str, typing.Any], _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)

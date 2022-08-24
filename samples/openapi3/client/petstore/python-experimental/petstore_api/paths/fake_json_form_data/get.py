@@ -29,21 +29,26 @@ from . import path
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    _required_property_names = {
-        "param",
-        "param2",
-    }
-    param = schemas.StrSchema
-    param2 = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "param",
+            "param2",
+        }
+        class properties:
+            param = schemas.StrSchema
+            param2 = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        param: param,
-        param2: param2,
+        param: 'MetaOapg.properties.param',
+        param2: 'MetaOapg.properties.param2',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

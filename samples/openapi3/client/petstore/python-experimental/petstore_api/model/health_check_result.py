@@ -33,33 +33,38 @@ class HealthCheckResult(
 
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     """
-    
-    
-    class NullableMessage(
-        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
-        schemas.StrBase,
-        schemas.NoneBase,
-        schemas.Schema
-    ):
-    
-        def __new__(
-            cls,
-            *args: typing.Union[str, None, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-        ) -> 'NullableMessage':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-            )
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class NullableMessage(
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema
+            ):
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[str, None, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'NullableMessage':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        NullableMessage: typing.Union[NullableMessage, schemas.Unset] = schemas.unset,
+        NullableMessage: typing.Union['MetaOapg.properties.NullableMessage', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'HealthCheckResult':
         return super().__new__(
             cls,

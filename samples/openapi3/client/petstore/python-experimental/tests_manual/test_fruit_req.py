@@ -66,9 +66,8 @@ class TestFruitReq(unittest.TestCase):
             getattr(fruit, 'cultivar')
 
         # make sure that the ModelComposed class properties are correct
-        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit.MetaOapg.one_of,
+            FruitReq.MetaOapg.one_of,
             [
                 NoneSchema,
                 apple_req.AppleReq,

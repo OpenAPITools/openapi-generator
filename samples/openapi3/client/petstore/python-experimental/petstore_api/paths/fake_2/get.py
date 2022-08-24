@@ -253,68 +253,73 @@ request_header_enum_header_string = api_client.HeaderParameter(
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    
-    
-    class enum_form_string_array(
-        schemas.ListSchema
-    ):
-        
-        
-        class _items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
-                    ">": "GREATER_THAN",
-                    "$": "DOLLAR",
-                }
-            ),
-            schemas.StrSchema
-        ):
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
             
-            @classmethod
-            @property
-            def GREATER_THAN(cls):
-                return cls(">")
             
-            @classmethod
-            @property
-            def DOLLAR(cls):
-                return cls("$")
-    
-    
-    class enum_form_string(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "_abc": "_ABC",
-                "-efg": "EFG",
-                "(xyz)": "XYZ",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def _ABC(cls):
-            return cls("_abc")
-        
-        @classmethod
-        @property
-        def EFG(cls):
-            return cls("-efg")
-        
-        @classmethod
-        @property
-        def XYZ(cls):
-            return cls("(xyz)")
+            class enum_form_string_array(
+                schemas.ListSchema
+            ):
+                
+                
+                class _items(
+                    schemas.SchemaEnumMakerClsFactory(
+                        enum_value_to_name={
+                            ">": "GREATER_THAN",
+                            "$": "DOLLAR",
+                        }
+                    ),
+                    schemas.StrSchema
+                ):
+                    
+                    @classmethod
+                    @property
+                    def GREATER_THAN(cls):
+                        return cls(">")
+                    
+                    @classmethod
+                    @property
+                    def DOLLAR(cls):
+                        return cls("$")
+            
+            
+            class enum_form_string(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "_abc": "_ABC",
+                        "-efg": "EFG",
+                        "(xyz)": "XYZ",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def _ABC(cls):
+                    return cls("_abc")
+                
+                @classmethod
+                @property
+                def EFG(cls):
+                    return cls("-efg")
+                
+                @classmethod
+                @property
+                def XYZ(cls):
+                    return cls("(xyz)")
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        enum_form_string_array: typing.Union[enum_form_string_array, schemas.Unset] = schemas.unset,
-        enum_form_string: typing.Union[enum_form_string, schemas.Unset] = schemas.unset,
+        enum_form_string_array: typing.Union['MetaOapg.properties.enum_form_string_array', schemas.Unset] = schemas.unset,
+        enum_form_string: typing.Union['MetaOapg.properties.enum_form_string', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

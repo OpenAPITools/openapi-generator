@@ -31,36 +31,40 @@ class Drawing(
 
     Do not edit the class manually.
     """
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def mainShape(cls) -> typing.Type['Shape']:
-        return Shape
-
-    @classmethod
-    @property
-    def shapeOrNull(cls) -> typing.Type['ShapeOrNull']:
-        return ShapeOrNull
-
-    @classmethod
-    @property
-    def nullableShape(cls) -> typing.Type['NullableShape']:
-        return NullableShape
-    
-    
-    class shapes(
-        schemas.ListSchema
-    ):
-    
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def mainShape(cls) -> typing.Type['Shape']:
+                return Shape
+        
+            @classmethod
+            @property
+            def shapeOrNull(cls) -> typing.Type['ShapeOrNull']:
+                return ShapeOrNull
+        
+            @classmethod
+            @property
+            def nullableShape(cls) -> typing.Type['NullableShape']:
+                return NullableShape
+            
+            
+            class shapes(
+                schemas.ListSchema
+            ):
+            
+                @classmethod
+                @property
+                def _items(cls) -> typing.Type['Shape']:
+                    return Shape
+        
         @classmethod
         @property
-        def _items(cls) -> typing.Type['Shape']:
-            return Shape
-
-    @classmethod
-    @property
-    def _additional_properties(cls) -> typing.Type['Fruit']:
-        return Fruit
+        def _additional_properties(cls) -> typing.Type['Fruit']:
+            return Fruit
 
 
     def __new__(
@@ -69,9 +73,9 @@ class Drawing(
         mainShape: typing.Union['Shape', schemas.Unset] = schemas.unset,
         shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset] = schemas.unset,
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,
-        shapes: typing.Union[shapes, schemas.Unset] = schemas.unset,
+        shapes: typing.Union['MetaOapg.properties.shapes', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Drawing':
         return super().__new__(
             cls,

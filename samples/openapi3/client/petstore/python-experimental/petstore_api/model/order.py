@@ -31,51 +31,56 @@ class Order(
 
     Do not edit the class manually.
     """
-    id = schemas.Int64Schema
-    petId = schemas.Int64Schema
-    quantity = schemas.Int32Schema
-    shipDate = schemas.DateTimeSchema
-    
-    
-    class status(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "placed": "PLACED",
-                "approved": "APPROVED",
-                "delivered": "DELIVERED",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def PLACED(cls):
-            return cls("placed")
-        
-        @classmethod
-        @property
-        def APPROVED(cls):
-            return cls("approved")
-        
-        @classmethod
-        @property
-        def DELIVERED(cls):
-            return cls("delivered")
-    complete = schemas.BoolSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            id = schemas.Int64Schema
+            petId = schemas.Int64Schema
+            quantity = schemas.Int32Schema
+            shipDate = schemas.DateTimeSchema
+            
+            
+            class status(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "placed": "PLACED",
+                        "approved": "APPROVED",
+                        "delivered": "DELIVERED",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def PLACED(cls):
+                    return cls("placed")
+                
+                @classmethod
+                @property
+                def APPROVED(cls):
+                    return cls("approved")
+                
+                @classmethod
+                @property
+                def DELIVERED(cls):
+                    return cls("delivered")
+            complete = schemas.BoolSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
-        petId: typing.Union[petId, schemas.Unset] = schemas.unset,
-        quantity: typing.Union[quantity, schemas.Unset] = schemas.unset,
-        shipDate: typing.Union[shipDate, schemas.Unset] = schemas.unset,
-        status: typing.Union[status, schemas.Unset] = schemas.unset,
-        complete: typing.Union[complete, schemas.Unset] = schemas.unset,
+        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
+        petId: typing.Union['MetaOapg.properties.petId', schemas.Unset] = schemas.unset,
+        quantity: typing.Union['MetaOapg.properties.quantity', schemas.Unset] = schemas.unset,
+        shipDate: typing.Union['MetaOapg.properties.shipDate', schemas.Unset] = schemas.unset,
+        status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
+        complete: typing.Union['MetaOapg.properties.complete', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Order':
         return super().__new__(
             cls,

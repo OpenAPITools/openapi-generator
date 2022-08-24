@@ -33,9 +33,11 @@ class NullableShape(
 
     The value may be a shape or the 'null' value. For a composed schema to validate a null payload, one of its chosen oneOf schemas must be type null or nullable (introduced in OAS schema >= 3.0)
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         one_of_2 = schemas.NoneSchema
         
         @classmethod
@@ -59,7 +61,7 @@ class NullableShape(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'NullableShape':
         return super().__new__(
             cls,

@@ -31,19 +31,23 @@ class AppleReq(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "cultivar",
-    }
-    cultivar = schemas.StrSchema
-    mealy = schemas.BoolSchema
-    _additional_properties = None
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "cultivar",
+        }
+        class properties:
+            cultivar = schemas.StrSchema
+            mealy = schemas.BoolSchema
+        _additional_properties = None
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        cultivar: cultivar,
-        mealy: typing.Union[mealy, schemas.Unset] = schemas.unset,
+        cultivar: 'MetaOapg.properties.cultivar',
+        mealy: typing.Union['MetaOapg.properties.mealy', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'AppleReq':
         return super().__new__(

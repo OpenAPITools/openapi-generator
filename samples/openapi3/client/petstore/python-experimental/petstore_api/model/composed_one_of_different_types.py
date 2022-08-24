@@ -33,9 +33,11 @@ class ComposedOneOfDifferentTypes(
 
     this is a model that allows payloads of type object or number
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         one_of_2 = schemas.NoneSchema
         one_of_3 = schemas.DateSchema
         
@@ -43,9 +45,10 @@ class ComposedOneOfDifferentTypes(
         class one_of_4(
             schemas.DictSchema
         ):
-        
+            # TODO type hints here
         
             class MetaOapg:
+                _additional_properties = schemas.AnyTypeSchema
                 max_properties = 4
                 min_properties = 4
         
@@ -54,7 +57,7 @@ class ComposedOneOfDifferentTypes(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg._additional_properties',
             ) -> 'one_of_4':
                 return super().__new__(
                     cls,
@@ -110,7 +113,7 @@ class ComposedOneOfDifferentTypes(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ComposedOneOfDifferentTypes':
         return super().__new__(
             cls,

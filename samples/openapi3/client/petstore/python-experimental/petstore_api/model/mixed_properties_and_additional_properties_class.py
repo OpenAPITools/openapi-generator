@@ -31,42 +31,50 @@ class MixedPropertiesAndAdditionalPropertiesClass(
 
     Do not edit the class manually.
     """
-    uuid = schemas.UUIDSchema
-    dateTime = schemas.DateTimeSchema
-    
-    
-    class map(
-        schemas.DictSchema
-    ):
-    
-        @classmethod
-        @property
-        def _additional_properties(cls) -> typing.Type['Animal']:
-            return Animal
-    
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'map':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            uuid = schemas.UUIDSchema
+            dateTime = schemas.DateTimeSchema
+            
+            
+            class map(
+                schemas.DictSchema
+            ):
+                # TODO type hints here
+            
+                class MetaOapg:
+                    
+                    @classmethod
+                    @property
+                    def _additional_properties(cls) -> typing.Type['Animal']:
+                        return Animal
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: 'MetaOapg._additional_properties',
+                ) -> 'map':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        uuid: typing.Union[uuid, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[dateTime, schemas.Unset] = schemas.unset,
-        map: typing.Union[map, schemas.Unset] = schemas.unset,
+        uuid: typing.Union['MetaOapg.properties.uuid', schemas.Unset] = schemas.unset,
+        dateTime: typing.Union['MetaOapg.properties.dateTime', schemas.Unset] = schemas.unset,
+        map: typing.Union['MetaOapg.properties.map', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
             cls,

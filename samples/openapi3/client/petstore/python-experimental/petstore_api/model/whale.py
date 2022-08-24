@@ -31,36 +31,41 @@ class Whale(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    hasBaleen = schemas.BoolSchema
-    hasTeeth = schemas.BoolSchema
-    
-    
-    class className(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "whale": "WHALE",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def WHALE(cls):
-            return cls("whale")
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "className",
+        }
+        class properties:
+            hasBaleen = schemas.BoolSchema
+            hasTeeth = schemas.BoolSchema
+            
+            
+            class className(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "whale": "WHALE",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def WHALE(cls):
+                    return cls("whale")
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
-        hasBaleen: typing.Union[hasBaleen, schemas.Unset] = schemas.unset,
-        hasTeeth: typing.Union[hasTeeth, schemas.Unset] = schemas.unset,
+        className: 'MetaOapg.properties.className',
+        hasBaleen: typing.Union['MetaOapg.properties.hasBaleen', schemas.Unset] = schemas.unset,
+        hasTeeth: typing.Union['MetaOapg.properties.hasTeeth', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Whale':
         return super().__new__(
             cls,

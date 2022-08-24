@@ -31,37 +31,44 @@ class ComplexQuadrilateral(
 
     Do not edit the class manually.
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
             schemas.DictSchema
         ):
-            
-            
-            class quadrilateralType(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "ComplexQuadrilateral": "COMPLEX_QUADRILATERAL",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def COMPLEX_QUADRILATERAL(cls):
-                    return cls("ComplexQuadrilateral")
+            # TODO type hints here
+        
+            class MetaOapg:
+                class properties:
+                    
+                    
+                    class quadrilateralType(
+                        schemas.SchemaEnumMakerClsFactory(
+                            enum_value_to_name={
+                                "ComplexQuadrilateral": "COMPLEX_QUADRILATERAL",
+                            }
+                        ),
+                        schemas.StrSchema
+                    ):
+                        
+                        @classmethod
+                        @property
+                        def COMPLEX_QUADRILATERAL(cls):
+                            return cls("ComplexQuadrilateral")
+                _additional_properties = schemas.AnyTypeSchema
         
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                quadrilateralType: typing.Union[quadrilateralType, schemas.Unset] = schemas.unset,
+                quadrilateralType: typing.Union['MetaOapg.properties.quadrilateralType', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg._additional_properties',
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -91,7 +98,7 @@ class ComplexQuadrilateral(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ComplexQuadrilateral':
         return super().__new__(
             cls,

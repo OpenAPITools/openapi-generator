@@ -31,173 +31,178 @@ class FormatTest(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "date",
-        "number",
-        "password",
-        "byte",
-    }
-    
-    
-    class integer(
-        schemas.IntSchema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 100
-            inclusive_minimum = 10
-            multiple_of = 2
-    int32 = schemas.Int32Schema
-    
-    
-    class int32withValidations(
-        schemas.Int32Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 200
-            inclusive_minimum = 20
-    int64 = schemas.Int64Schema
-    
-    
-    class number(
-        schemas.NumberSchema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 543.2
-            inclusive_minimum = 32.1
-            multiple_of = 32.5
-    
-    
-    class _float(
-        schemas.Float32Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 987.6
-            inclusive_minimum = 54.3
-    locals()["float"] = _float
-    del locals()['_float']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    float32 = schemas.Float32Schema
-    
-    
-    class double(
-        schemas.Float64Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 123.4
-            inclusive_minimum = 67.8
-    float64 = schemas.Float64Schema
-    
-    
-    class arrayWithUniqueItems(
-        schemas.ListSchema
-    ):
-        _items = schemas.NumberSchema
-    
-    
-        class MetaOapg:
-            unique_items = True
-    
-    
-    class string(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'[a-z]',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }]
-    byte = schemas.StrSchema
-    binary = schemas.BinarySchema
-    date = schemas.DateSchema
-    dateTime = schemas.DateTimeSchema
-    uuid = schemas.UUIDSchema
-    uuidNoExample = schemas.UUIDSchema
-    
-    
-    class password(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            max_length = 64
-            min_length = 10
-    
-    
-    class pattern_with_digits(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^\d{10}$',  # noqa: E501
-            }]
-    
-    
-    class pattern_with_digits_and_delimiter(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^image_\d{1,3}$',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }]
-    noneProp = schemas.NoneSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "date",
+            "number",
+            "password",
+            "byte",
+        }
+        class properties:
+            
+            
+            class integer(
+                schemas.IntSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 100
+                    inclusive_minimum = 10
+                    multiple_of = 2
+            int32 = schemas.Int32Schema
+            
+            
+            class int32withValidations(
+                schemas.Int32Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 200
+                    inclusive_minimum = 20
+            int64 = schemas.Int64Schema
+            
+            
+            class number(
+                schemas.NumberSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 543.2
+                    inclusive_minimum = 32.1
+                    multiple_of = 32.5
+            
+            
+            class _float(
+                schemas.Float32Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 987.6
+                    inclusive_minimum = 54.3
+            locals()["float"] = _float
+            del locals()['_float']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            float32 = schemas.Float32Schema
+            
+            
+            class double(
+                schemas.Float64Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 123.4
+                    inclusive_minimum = 67.8
+            float64 = schemas.Float64Schema
+            
+            
+            class arrayWithUniqueItems(
+                schemas.ListSchema
+            ):
+                _items = schemas.NumberSchema
+            
+            
+                class MetaOapg:
+                    unique_items = True
+            
+            
+            class string(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'[a-z]',  # noqa: E501
+                        'flags': (
+                            re.IGNORECASE
+                        )
+                    }]
+            byte = schemas.StrSchema
+            binary = schemas.BinarySchema
+            date = schemas.DateSchema
+            dateTime = schemas.DateTimeSchema
+            uuid = schemas.UUIDSchema
+            uuidNoExample = schemas.UUIDSchema
+            
+            
+            class password(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    max_length = 64
+                    min_length = 10
+            
+            
+            class pattern_with_digits(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^\d{10}$',  # noqa: E501
+                    }]
+            
+            
+            class pattern_with_digits_and_delimiter(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^image_\d{1,3}$',  # noqa: E501
+                        'flags': (
+                            re.IGNORECASE
+                        )
+                    }]
+            noneProp = schemas.NoneSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        date: date,
-        number: number,
-        password: password,
-        byte: byte,
-        integer: typing.Union[integer, schemas.Unset] = schemas.unset,
-        int32: typing.Union[int32, schemas.Unset] = schemas.unset,
-        int32withValidations: typing.Union[int32withValidations, schemas.Unset] = schemas.unset,
-        int64: typing.Union[int64, schemas.Unset] = schemas.unset,
-        float32: typing.Union[float32, schemas.Unset] = schemas.unset,
-        double: typing.Union[double, schemas.Unset] = schemas.unset,
-        float64: typing.Union[float64, schemas.Unset] = schemas.unset,
-        arrayWithUniqueItems: typing.Union[arrayWithUniqueItems, schemas.Unset] = schemas.unset,
-        string: typing.Union[string, schemas.Unset] = schemas.unset,
-        binary: typing.Union[binary, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[dateTime, schemas.Unset] = schemas.unset,
-        uuid: typing.Union[uuid, schemas.Unset] = schemas.unset,
-        uuidNoExample: typing.Union[uuidNoExample, schemas.Unset] = schemas.unset,
-        pattern_with_digits: typing.Union[pattern_with_digits, schemas.Unset] = schemas.unset,
-        pattern_with_digits_and_delimiter: typing.Union[pattern_with_digits_and_delimiter, schemas.Unset] = schemas.unset,
-        noneProp: typing.Union[noneProp, schemas.Unset] = schemas.unset,
+        date: 'MetaOapg.properties.date',
+        number: 'MetaOapg.properties.number',
+        password: 'MetaOapg.properties.password',
+        byte: 'MetaOapg.properties.byte',
+        integer: typing.Union['MetaOapg.properties.integer', schemas.Unset] = schemas.unset,
+        int32: typing.Union['MetaOapg.properties.int32', schemas.Unset] = schemas.unset,
+        int32withValidations: typing.Union['MetaOapg.properties.int32withValidations', schemas.Unset] = schemas.unset,
+        int64: typing.Union['MetaOapg.properties.int64', schemas.Unset] = schemas.unset,
+        float32: typing.Union['MetaOapg.properties.float32', schemas.Unset] = schemas.unset,
+        double: typing.Union['MetaOapg.properties.double', schemas.Unset] = schemas.unset,
+        float64: typing.Union['MetaOapg.properties.float64', schemas.Unset] = schemas.unset,
+        arrayWithUniqueItems: typing.Union['MetaOapg.properties.arrayWithUniqueItems', schemas.Unset] = schemas.unset,
+        string: typing.Union['MetaOapg.properties.string', schemas.Unset] = schemas.unset,
+        binary: typing.Union['MetaOapg.properties.binary', schemas.Unset] = schemas.unset,
+        dateTime: typing.Union['MetaOapg.properties.dateTime', schemas.Unset] = schemas.unset,
+        uuid: typing.Union['MetaOapg.properties.uuid', schemas.Unset] = schemas.unset,
+        uuidNoExample: typing.Union['MetaOapg.properties.uuidNoExample', schemas.Unset] = schemas.unset,
+        pattern_with_digits: typing.Union['MetaOapg.properties.pattern_with_digits', schemas.Unset] = schemas.unset,
+        pattern_with_digits_and_delimiter: typing.Union['MetaOapg.properties.pattern_with_digits_and_delimiter', schemas.Unset] = schemas.unset,
+        noneProp: typing.Union['MetaOapg.properties.noneProp', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'FormatTest':
         return super().__new__(
             cls,

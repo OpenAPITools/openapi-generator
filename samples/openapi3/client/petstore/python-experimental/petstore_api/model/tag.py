@@ -31,17 +31,22 @@ class Tag(
 
     Do not edit the class manually.
     """
-    id = schemas.Int64Schema
-    name = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            id = schemas.Int64Schema
+            name = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
-        name: typing.Union[name, schemas.Unset] = schemas.unset,
+        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
+        name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Tag':
         return super().__new__(
             cls,

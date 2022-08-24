@@ -31,23 +31,28 @@ class ObjectWithDecimalProperties(
 
     Do not edit the class manually.
     """
-    length = schemas.DecimalSchema
-    width = schemas.DecimalSchema
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def cost(cls) -> typing.Type['Money']:
-        return Money
+    class MetaOapg:
+        class properties:
+            length = schemas.DecimalSchema
+            width = schemas.DecimalSchema
+        
+            @classmethod
+            @property
+            def cost(cls) -> typing.Type['Money']:
+                return Money
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        length: typing.Union[length, schemas.Unset] = schemas.unset,
-        width: typing.Union[width, schemas.Unset] = schemas.unset,
+        length: typing.Union['MetaOapg.properties.length', schemas.Unset] = schemas.unset,
+        width: typing.Union['MetaOapg.properties.width', schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,

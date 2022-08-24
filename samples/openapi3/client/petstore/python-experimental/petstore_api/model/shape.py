@@ -31,19 +31,21 @@ class Shape(
 
     Do not edit the class manually.
     """
-
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'shapeType': {
-                'Quadrilateral': Quadrilateral,
-                'Triangle': Triangle,
-            }
-        }
+    # TODO typ hint
 
 
     class MetaOapg:
+        
+        @classmethod
+        @property
+        def _discriminator(cls):
+            return {
+                'shapeType': {
+                    'Quadrilateral': Quadrilateral,
+                    'Triangle': Triangle,
+                }
+            }
+        _additional_properties = schemas.AnyTypeSchema
         
         @classmethod
         @property
@@ -65,7 +67,7 @@ class Shape(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Shape':
         return super().__new__(
             cls,

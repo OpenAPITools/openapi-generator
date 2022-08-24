@@ -33,21 +33,26 @@ class Player(
 
     a model that includes a self reference this forces properties and additionalProperties to be lazy loaded in python models because the Player class has not fully loaded when defining properties
     """
-    name = schemas.StrSchema
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def enemyPlayer(cls) -> typing.Type['Player']:
-        return Player
+    class MetaOapg:
+        class properties:
+            name = schemas.StrSchema
+        
+            @classmethod
+            @property
+            def enemyPlayer(cls) -> typing.Type['Player']:
+                return Player
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: typing.Union[name, schemas.Unset] = schemas.unset,
+        name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         enemyPlayer: typing.Union['Player', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Player':
         return super().__new__(
             cls,

@@ -31,9 +31,11 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
     Do not edit the class manually.
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         any_of_0 = schemas.DictSchema
         any_of_1 = schemas.DateSchema
         any_of_2 = schemas.DateTimeSchema
@@ -90,7 +92,7 @@ class ComposedAnyOfDifferentTypesNoValidations(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ComposedAnyOfDifferentTypesNoValidations':
         return super().__new__(
             cls,

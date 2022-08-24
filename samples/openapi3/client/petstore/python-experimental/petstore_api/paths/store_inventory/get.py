@@ -31,14 +31,17 @@ _auth = [
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.DictSchema
 ):
-    _additional_properties = schemas.Int32Schema
+    # TODO type hints here
+
+    class MetaOapg:
+        _additional_properties = schemas.Int32Schema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,

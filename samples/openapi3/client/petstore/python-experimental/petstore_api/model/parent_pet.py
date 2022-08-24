@@ -32,18 +32,20 @@ class ParentPet(
 
     Do not edit the class manually.
     """
-
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'pet_type': {
-                'ChildCat': ChildCat,
-            }
-        }
+    # TODO typ hint
 
 
     class MetaOapg:
+        
+        @classmethod
+        @property
+        def _discriminator(cls):
+            return {
+                'pet_type': {
+                    'ChildCat': ChildCat,
+                }
+            }
+        _additional_properties = schemas.AnyTypeSchema
         
         @classmethod
         @property
@@ -64,7 +66,7 @@ class ParentPet(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ParentPet':
         return super().__new__(
             cls,

@@ -31,37 +31,44 @@ class IsoscelesTriangle(
 
     Do not edit the class manually.
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
             schemas.DictSchema
         ):
-            
-            
-            class triangleType(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def ISOSCELES_TRIANGLE(cls):
-                    return cls("IsoscelesTriangle")
+            # TODO type hints here
+        
+            class MetaOapg:
+                class properties:
+                    
+                    
+                    class triangleType(
+                        schemas.SchemaEnumMakerClsFactory(
+                            enum_value_to_name={
+                                "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
+                            }
+                        ),
+                        schemas.StrSchema
+                    ):
+                        
+                        @classmethod
+                        @property
+                        def ISOSCELES_TRIANGLE(cls):
+                            return cls("IsoscelesTriangle")
+                _additional_properties = schemas.AnyTypeSchema
         
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                triangleType: typing.Union[triangleType, schemas.Unset] = schemas.unset,
+                triangleType: typing.Union['MetaOapg.properties.triangleType', schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: 'MetaOapg._additional_properties',
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -91,7 +98,7 @@ class IsoscelesTriangle(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'IsoscelesTriangle':
         return super().__new__(
             cls,

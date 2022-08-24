@@ -55,17 +55,22 @@ request_path_pet_id = api_client.PathParameter(
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    name = schemas.StrSchema
-    status = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            name = schemas.StrSchema
+            status = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: typing.Union[name, schemas.Unset] = schemas.unset,
-        status: typing.Union[status, schemas.Unset] = schemas.unset,
+        name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
+        status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

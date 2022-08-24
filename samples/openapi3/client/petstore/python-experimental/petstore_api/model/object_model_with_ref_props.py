@@ -33,23 +33,28 @@ class ObjectModelWithRefProps(
 
     a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
     """
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def myNumber(cls) -> typing.Type['NumberWithValidations']:
-        return NumberWithValidations
-    myString = schemas.StrSchema
-    myBoolean = schemas.BoolSchema
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def myNumber(cls) -> typing.Type['NumberWithValidations']:
+                return NumberWithValidations
+            myString = schemas.StrSchema
+            myBoolean = schemas.BoolSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         myNumber: typing.Union['NumberWithValidations', schemas.Unset] = schemas.unset,
-        myString: typing.Union[myString, schemas.Unset] = schemas.unset,
-        myBoolean: typing.Union[myBoolean, schemas.Unset] = schemas.unset,
+        myString: typing.Union['MetaOapg.properties.myString', schemas.Unset] = schemas.unset,
+        myBoolean: typing.Union['MetaOapg.properties.myBoolean', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ObjectModelWithRefProps':
         return super().__new__(
             cls,

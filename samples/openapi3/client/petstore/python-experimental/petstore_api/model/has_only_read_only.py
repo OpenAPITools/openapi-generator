@@ -31,17 +31,22 @@ class HasOnlyReadOnly(
 
     Do not edit the class manually.
     """
-    bar = schemas.StrSchema
-    foo = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            bar = schemas.StrSchema
+            foo = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        bar: typing.Union[bar, schemas.Unset] = schemas.unset,
-        foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
+        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'HasOnlyReadOnly':
         return super().__new__(
             cls,

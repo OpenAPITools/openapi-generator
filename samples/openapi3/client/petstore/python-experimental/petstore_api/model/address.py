@@ -31,14 +31,17 @@ class Address(
 
     Do not edit the class manually.
     """
-    _additional_properties = schemas.IntSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _additional_properties = schemas.IntSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Address':
         return super().__new__(
             cls,

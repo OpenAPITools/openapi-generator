@@ -31,30 +31,35 @@ class Animal(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    className = schemas.StrSchema
-    color = schemas.StrSchema
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'className': {
-                'Cat': Cat,
-                'Dog': Dog,
-            }
+    class MetaOapg:
+        _required_property_names = {
+            "className",
         }
+        
+        @classmethod
+        @property
+        def _discriminator(cls):
+            return {
+                'className': {
+                    'Cat': Cat,
+                    'Dog': Dog,
+                }
+            }
+        class properties:
+            className = schemas.StrSchema
+            color = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
-        color: typing.Union[color, schemas.Unset] = schemas.unset,
+        className: 'MetaOapg.properties.className',
+        color: typing.Union['MetaOapg.properties.color', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Animal':
         return super().__new__(
             cls,

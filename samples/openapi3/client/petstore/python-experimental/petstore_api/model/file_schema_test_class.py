@@ -31,30 +31,35 @@ class FileSchemaTestClass(
 
     Do not edit the class manually.
     """
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def file(cls) -> typing.Type['File']:
-        return File
-    
-    
-    class files(
-        schemas.ListSchema
-    ):
-    
-        @classmethod
-        @property
-        def _items(cls) -> typing.Type['File']:
-            return File
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def file(cls) -> typing.Type['File']:
+                return File
+            
+            
+            class files(
+                schemas.ListSchema
+            ):
+            
+                @classmethod
+                @property
+                def _items(cls) -> typing.Type['File']:
+                    return File
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         file: typing.Union['File', schemas.Unset] = schemas.unset,
-        files: typing.Union[files, schemas.Unset] = schemas.unset,
+        files: typing.Union['MetaOapg.properties.files', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,

@@ -31,15 +31,20 @@ class NumberOnly(
 
     Do not edit the class manually.
     """
-    JustNumber = schemas.NumberSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            JustNumber = schemas.NumberSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        JustNumber: typing.Union[JustNumber, schemas.Unset] = schemas.unset,
+        JustNumber: typing.Union['MetaOapg.properties.JustNumber', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'NumberOnly':
         return super().__new__(
             cls,

@@ -57,20 +57,25 @@ request_path_pet_id = api_client.PathParameter(
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    _required_property_names = {
-        "requiredFile",
-    }
-    additionalMetadata = schemas.StrSchema
-    requiredFile = schemas.BinarySchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "requiredFile",
+        }
+        class properties:
+            additionalMetadata = schemas.StrSchema
+            requiredFile = schemas.BinarySchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        requiredFile: requiredFile,
-        additionalMetadata: typing.Union[additionalMetadata, schemas.Unset] = schemas.unset,
+        requiredFile: 'MetaOapg.properties.requiredFile',
+        additionalMetadata: typing.Union['MetaOapg.properties.additionalMetadata', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,

@@ -31,9 +31,11 @@ class FruitReq(
 
     Do not edit the class manually.
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         one_of_0 = schemas.NoneSchema
         
         @classmethod
@@ -57,7 +59,7 @@ class FruitReq(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'FruitReq':
         return super().__new__(
             cls,

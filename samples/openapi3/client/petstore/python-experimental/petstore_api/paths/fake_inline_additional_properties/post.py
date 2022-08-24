@@ -29,14 +29,17 @@ from . import path
 class SchemaForRequestBodyApplicationJson(
     schemas.DictSchema
 ):
-    _additional_properties = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _additional_properties = schemas.StrSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,

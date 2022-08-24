@@ -33,15 +33,20 @@ class SpecialModelName(
 
     model with an invalid class name for python
     """
-    a = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            a = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        a: typing.Union[a, schemas.Unset] = schemas.unset,
+        a: typing.Union['MetaOapg.properties.a', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SpecialModelName':
         return super().__new__(
             cls,

@@ -31,19 +31,23 @@ class NoAdditionalProperties(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "id",
-    }
-    id = schemas.Int64Schema
-    petId = schemas.Int64Schema
-    _additional_properties = None
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "id",
+        }
+        class properties:
+            id = schemas.Int64Schema
+            petId = schemas.Int64Schema
+        _additional_properties = None
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: id,
-        petId: typing.Union[petId, schemas.Unset] = schemas.unset,
+        id: 'MetaOapg.properties.id',
+        petId: typing.Union['MetaOapg.properties.petId', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'NoAdditionalProperties':
         return super().__new__(

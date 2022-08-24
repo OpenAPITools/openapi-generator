@@ -31,48 +31,53 @@ class ArrayTest(
 
     Do not edit the class manually.
     """
-    
-    
-    class array_of_string(
-        schemas.ListSchema
-    ):
-        _items = schemas.StrSchema
-    
-    
-    class array_array_of_integer(
-        schemas.ListSchema
-    ):
-        
-        
-        class _items(
-            schemas.ListSchema
-        ):
-            _items = schemas.Int64Schema
-    
-    
-    class array_array_of_model(
-        schemas.ListSchema
-    ):
-        
-        
-        class _items(
-            schemas.ListSchema
-        ):
-        
-            @classmethod
-            @property
-            def _items(cls) -> typing.Type['ReadOnlyFirst']:
-                return ReadOnlyFirst
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class array_of_string(
+                schemas.ListSchema
+            ):
+                _items = schemas.StrSchema
+            
+            
+            class array_array_of_integer(
+                schemas.ListSchema
+            ):
+                
+                
+                class _items(
+                    schemas.ListSchema
+                ):
+                    _items = schemas.Int64Schema
+            
+            
+            class array_array_of_model(
+                schemas.ListSchema
+            ):
+                
+                
+                class _items(
+                    schemas.ListSchema
+                ):
+                
+                    @classmethod
+                    @property
+                    def _items(cls) -> typing.Type['ReadOnlyFirst']:
+                        return ReadOnlyFirst
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        array_of_string: typing.Union[array_of_string, schemas.Unset] = schemas.unset,
-        array_array_of_integer: typing.Union[array_array_of_integer, schemas.Unset] = schemas.unset,
-        array_array_of_model: typing.Union[array_array_of_model, schemas.Unset] = schemas.unset,
+        array_of_string: typing.Union['MetaOapg.properties.array_of_string', schemas.Unset] = schemas.unset,
+        array_array_of_integer: typing.Union['MetaOapg.properties.array_array_of_integer', schemas.Unset] = schemas.unset,
+        array_array_of_model: typing.Union['MetaOapg.properties.array_array_of_model', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ArrayTest':
         return super().__new__(
             cls,

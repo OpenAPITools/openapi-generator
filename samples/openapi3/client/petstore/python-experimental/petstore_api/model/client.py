@@ -31,15 +31,20 @@ class Client(
 
     Do not edit the class manually.
     """
-    client = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            client = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        client: typing.Union[client, schemas.Unset] = schemas.unset,
+        client: typing.Union['MetaOapg.properties.client', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Client':
         return super().__new__(
             cls,

@@ -33,15 +33,20 @@ class File(
 
     Must be named `File` for test.
     """
-    sourceURI = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            sourceURI = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        sourceURI: typing.Union[sourceURI, schemas.Unset] = schemas.unset,
+        sourceURI: typing.Union['MetaOapg.properties.sourceURI', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'File':
         return super().__new__(
             cls,

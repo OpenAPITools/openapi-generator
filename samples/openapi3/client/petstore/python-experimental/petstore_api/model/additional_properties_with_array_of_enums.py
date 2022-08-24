@@ -31,23 +31,26 @@ class AdditionalPropertiesWithArrayOfEnums(
 
     Do not edit the class manually.
     """
-    
-    
-    class _additional_properties(
-        schemas.ListSchema
-    ):
-    
-        @classmethod
-        @property
-        def _items(cls) -> typing.Type['EnumClass']:
-            return EnumClass
+    # TODO type hints here
+
+    class MetaOapg:
+        
+        
+        class _additional_properties(
+            schemas.ListSchema
+        ):
+        
+            @classmethod
+            @property
+            def _items(cls) -> typing.Type['EnumClass']:
+                return EnumClass
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'AdditionalPropertiesWithArrayOfEnums':
         return super().__new__(
             cls,

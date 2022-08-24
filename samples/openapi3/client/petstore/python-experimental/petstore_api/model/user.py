@@ -31,80 +31,92 @@ class User(
 
     Do not edit the class manually.
     """
-    id = schemas.Int64Schema
-    username = schemas.StrSchema
-    firstName = schemas.StrSchema
-    lastName = schemas.StrSchema
-    email = schemas.StrSchema
-    password = schemas.StrSchema
-    phone = schemas.StrSchema
-    userStatus = schemas.Int32Schema
-    objectWithNoDeclaredProps = schemas.DictSchema
-    
-    
-    class objectWithNoDeclaredPropsNullable(
-        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
-        schemas.DictBase,
-        schemas.NoneBase,
-        schemas.Schema
-    ):
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, None, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'objectWithNoDeclaredPropsNullable':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-    anyTypeProp = schemas.AnyTypeSchema
-    
-    
-    class anyTypeExceptNullProp(
-        schemas.ComposedSchema,
-    ):
-    
-    
-        class MetaOapg:
-            not_schema = schemas.NoneSchema
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'anyTypeExceptNullProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-    anyTypePropNullable = schemas.AnyTypeSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            id = schemas.Int64Schema
+            username = schemas.StrSchema
+            firstName = schemas.StrSchema
+            lastName = schemas.StrSchema
+            email = schemas.StrSchema
+            password = schemas.StrSchema
+            phone = schemas.StrSchema
+            userStatus = schemas.Int32Schema
+            objectWithNoDeclaredProps = schemas.DictSchema
+            
+            
+            class objectWithNoDeclaredPropsNullable(
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                schemas.DictBase,
+                schemas.NoneBase,
+                schemas.Schema
+            ):
+                # TODO typ hint
+            
+            
+                class MetaOapg:
+                    _additional_properties = schemas.AnyTypeSchema
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, None, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: 'MetaOapg._additional_properties',
+                ) -> 'objectWithNoDeclaredPropsNullable':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            anyTypeProp = schemas.AnyTypeSchema
+            
+            
+            class anyTypeExceptNullProp(
+                schemas.ComposedSchema,
+            ):
+                # TODO typ hint
+            
+            
+                class MetaOapg:
+                    _additional_properties = schemas.AnyTypeSchema
+                    not_schema = schemas.NoneSchema
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: 'MetaOapg._additional_properties',
+                ) -> 'anyTypeExceptNullProp':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            anyTypePropNullable = schemas.AnyTypeSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
-        username: typing.Union[username, schemas.Unset] = schemas.unset,
-        firstName: typing.Union[firstName, schemas.Unset] = schemas.unset,
-        lastName: typing.Union[lastName, schemas.Unset] = schemas.unset,
-        email: typing.Union[email, schemas.Unset] = schemas.unset,
-        password: typing.Union[password, schemas.Unset] = schemas.unset,
-        phone: typing.Union[phone, schemas.Unset] = schemas.unset,
-        userStatus: typing.Union[userStatus, schemas.Unset] = schemas.unset,
-        objectWithNoDeclaredProps: typing.Union[objectWithNoDeclaredProps, schemas.Unset] = schemas.unset,
-        objectWithNoDeclaredPropsNullable: typing.Union[objectWithNoDeclaredPropsNullable, schemas.Unset] = schemas.unset,
-        anyTypeProp: typing.Union[anyTypeProp, schemas.Unset] = schemas.unset,
-        anyTypeExceptNullProp: typing.Union[anyTypeExceptNullProp, schemas.Unset] = schemas.unset,
-        anyTypePropNullable: typing.Union[anyTypePropNullable, schemas.Unset] = schemas.unset,
+        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
+        username: typing.Union['MetaOapg.properties.username', schemas.Unset] = schemas.unset,
+        firstName: typing.Union['MetaOapg.properties.firstName', schemas.Unset] = schemas.unset,
+        lastName: typing.Union['MetaOapg.properties.lastName', schemas.Unset] = schemas.unset,
+        email: typing.Union['MetaOapg.properties.email', schemas.Unset] = schemas.unset,
+        password: typing.Union['MetaOapg.properties.password', schemas.Unset] = schemas.unset,
+        phone: typing.Union['MetaOapg.properties.phone', schemas.Unset] = schemas.unset,
+        userStatus: typing.Union['MetaOapg.properties.userStatus', schemas.Unset] = schemas.unset,
+        objectWithNoDeclaredProps: typing.Union['MetaOapg.properties.objectWithNoDeclaredProps', schemas.Unset] = schemas.unset,
+        objectWithNoDeclaredPropsNullable: typing.Union['MetaOapg.properties.objectWithNoDeclaredPropsNullable', schemas.Unset] = schemas.unset,
+        anyTypeProp: typing.Union['MetaOapg.properties.anyTypeProp', schemas.Unset] = schemas.unset,
+        anyTypeExceptNullProp: typing.Union['MetaOapg.properties.anyTypeExceptNullProp', schemas.Unset] = schemas.unset,
+        anyTypePropNullable: typing.Union['MetaOapg.properties.anyTypePropNullable', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'User':
         return super().__new__(
             cls,

@@ -34,41 +34,47 @@ class Apple(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "cultivar",
-    }
-    
-    
-    class cultivar(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
-            }]
-    
-    
-    class origin(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^[A-Z\s]*$',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }]
+    # TODO typ hint
+
+
+    class MetaOapg:
+        _required_property_names = {
+            "cultivar",
+        }
+        class properties:
+            
+            
+            class cultivar(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+                    }]
+            
+            
+            class origin(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^[A-Z\s]*$',  # noqa: E501
+                        'flags': (
+                            re.IGNORECASE
+                        )
+                    }]
+        _additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, None, ],
-        origin: typing.Union[origin, schemas.Unset] = schemas.unset,
+        origin: typing.Union['MetaOapg.properties.origin', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Apple':
         return super().__new__(
             cls,

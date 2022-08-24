@@ -31,20 +31,25 @@ class ArrayOfNumberOnly(
 
     Do not edit the class manually.
     """
-    
-    
-    class ArrayNumber(
-        schemas.ListSchema
-    ):
-        _items = schemas.NumberSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class ArrayNumber(
+                schemas.ListSchema
+            ):
+                _items = schemas.NumberSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        ArrayNumber: typing.Union[ArrayNumber, schemas.Unset] = schemas.unset,
+        ArrayNumber: typing.Union['MetaOapg.properties.ArrayNumber', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,

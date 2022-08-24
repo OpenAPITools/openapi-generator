@@ -33,73 +33,78 @@ class Pet(
 
     Pet object that needs to be added to the store
     """
-    _required_property_names = {
-        "photoUrls",
-        "name",
-    }
-    id = schemas.Int64Schema
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def category(cls) -> typing.Type['Category']:
-        return Category
-    name = schemas.StrSchema
-    
-    
-    class photoUrls(
-        schemas.ListSchema
-    ):
-        _items = schemas.StrSchema
-    
-    
-    class tags(
-        schemas.ListSchema
-    ):
-    
-        @classmethod
-        @property
-        def _items(cls) -> typing.Type['Tag']:
-            return Tag
-    
-    
-    class status(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "available": "AVAILABLE",
-                "pending": "PENDING",
-                "sold": "SOLD",
-            }
-        ),
-        schemas.StrSchema
-    ):
+    class MetaOapg:
+        _required_property_names = {
+            "photoUrls",
+            "name",
+        }
+        class properties:
+            id = schemas.Int64Schema
         
-        @classmethod
-        @property
-        def AVAILABLE(cls):
-            return cls("available")
-        
-        @classmethod
-        @property
-        def PENDING(cls):
-            return cls("pending")
-        
-        @classmethod
-        @property
-        def SOLD(cls):
-            return cls("sold")
+            @classmethod
+            @property
+            def category(cls) -> typing.Type['Category']:
+                return Category
+            name = schemas.StrSchema
+            
+            
+            class photoUrls(
+                schemas.ListSchema
+            ):
+                _items = schemas.StrSchema
+            
+            
+            class tags(
+                schemas.ListSchema
+            ):
+            
+                @classmethod
+                @property
+                def _items(cls) -> typing.Type['Tag']:
+                    return Tag
+            
+            
+            class status(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "available": "AVAILABLE",
+                        "pending": "PENDING",
+                        "sold": "SOLD",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def AVAILABLE(cls):
+                    return cls("available")
+                
+                @classmethod
+                @property
+                def PENDING(cls):
+                    return cls("pending")
+                
+                @classmethod
+                @property
+                def SOLD(cls):
+                    return cls("sold")
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        photoUrls: photoUrls,
-        name: name,
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
+        photoUrls: 'MetaOapg.properties.photoUrls',
+        name: 'MetaOapg.properties.name',
+        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
-        tags: typing.Union[tags, schemas.Unset] = schemas.unset,
-        status: typing.Union[status, schemas.Unset] = schemas.unset,
+        tags: typing.Union['MetaOapg.properties.tags', schemas.Unset] = schemas.unset,
+        status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Pet':
         return super().__new__(
             cls,

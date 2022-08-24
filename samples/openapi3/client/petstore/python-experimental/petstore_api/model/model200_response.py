@@ -33,27 +33,33 @@ class Model200Response(
 
     model with an invalid class name for python, starts with a number
     """
-    name = schemas.Int32Schema
-    _class = schemas.StrSchema
-    locals()["class"] = _class
-    del locals()['_class']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
+    # TODO typ hint
+
+
+    class MetaOapg:
+        class properties:
+            name = schemas.Int32Schema
+            _class = schemas.StrSchema
+            locals()["class"] = _class
+            del locals()['_class']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+        _additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        name: typing.Union[name, schemas.Unset] = schemas.unset,
+        name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Model200Response':
         return super().__new__(
             cls,

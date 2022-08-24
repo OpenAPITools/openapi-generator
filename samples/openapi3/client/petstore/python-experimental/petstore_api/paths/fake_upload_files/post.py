@@ -31,20 +31,25 @@ from . import path
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    
-    
-    class files(
-        schemas.ListSchema
-    ):
-        _items = schemas.BinarySchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class files(
+                schemas.ListSchema
+            ):
+                _items = schemas.BinarySchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        files: typing.Union[files, schemas.Unset] = schemas.unset,
+        files: typing.Union['MetaOapg.properties.files', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,

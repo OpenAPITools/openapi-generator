@@ -31,25 +31,30 @@ class Money(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "amount",
-        "currency",
-    }
-    amount = schemas.DecimalSchema
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def currency(cls) -> typing.Type['Currency']:
-        return Currency
+    class MetaOapg:
+        _required_property_names = {
+            "amount",
+            "currency",
+        }
+        class properties:
+            amount = schemas.DecimalSchema
+        
+            @classmethod
+            @property
+            def currency(cls) -> typing.Type['Currency']:
+                return Currency
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        amount: amount,
-        currency: currency,
+        amount: 'MetaOapg.properties.amount',
+        currency: 'MetaOapg.properties.currency',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Money':
         return super().__new__(
             cls,

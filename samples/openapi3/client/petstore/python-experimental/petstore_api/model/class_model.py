@@ -33,14 +33,20 @@ class ClassModel(
 
     Model for testing model with "_class" property
     """
-    _class = schemas.StrSchema
+    # TODO typ hint
+
+
+    class MetaOapg:
+        class properties:
+            _class = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _class: typing.Union[_class, schemas.Unset] = schemas.unset,
+        _class: typing.Union['MetaOapg.properties._class', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ClassModel':
         return super().__new__(
             cls,

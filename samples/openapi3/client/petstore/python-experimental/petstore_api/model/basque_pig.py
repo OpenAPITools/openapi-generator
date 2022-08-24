@@ -31,32 +31,37 @@ class BasquePig(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    
-    
-    class className(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "BasquePig": "BASQUE_PIG",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def BASQUE_PIG(cls):
-            return cls("BasquePig")
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "className",
+        }
+        class properties:
+            
+            
+            class className(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "BasquePig": "BASQUE_PIG",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def BASQUE_PIG(cls):
+                    return cls("BasquePig")
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
+        className: 'MetaOapg.properties.className',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'BasquePig':
         return super().__new__(
             cls,

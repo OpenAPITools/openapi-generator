@@ -33,19 +33,21 @@ class ShapeOrNull(
 
     The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
     """
-
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'shapeType': {
-                'Quadrilateral': Quadrilateral,
-                'Triangle': Triangle,
-            }
-        }
+    # TODO typ hint
 
 
     class MetaOapg:
+        
+        @classmethod
+        @property
+        def _discriminator(cls):
+            return {
+                'shapeType': {
+                    'Quadrilateral': Quadrilateral,
+                    'Triangle': Triangle,
+                }
+            }
+        _additional_properties = schemas.AnyTypeSchema
         one_of_0 = schemas.NoneSchema
         
         @classmethod
@@ -69,7 +71,7 @@ class ShapeOrNull(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ShapeOrNull':
         return super().__new__(
             cls,

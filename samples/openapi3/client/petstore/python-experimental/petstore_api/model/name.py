@@ -33,32 +33,38 @@ class Name(
 
     Model for testing model name same as property name
     """
-    _required_property_names = {
-        "name",
-    }
-    name = schemas.Int32Schema
-    snake_case = schemas.Int32Schema
-    _property = schemas.StrSchema
-    locals()["property"] = _property
-    del locals()['_property']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
+    # TODO typ hint
+
+
+    class MetaOapg:
+        _required_property_names = {
+            "name",
+        }
+        class properties:
+            name = schemas.Int32Schema
+            snake_case = schemas.Int32Schema
+            _property = schemas.StrSchema
+            locals()["property"] = _property
+            del locals()['_property']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+        _additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        name: name,
-        snake_case: typing.Union[snake_case, schemas.Unset] = schemas.unset,
+        name: 'MetaOapg.properties.name',
+        snake_case: typing.Union['MetaOapg.properties.snake_case', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Name':
         return super().__new__(
             cls,

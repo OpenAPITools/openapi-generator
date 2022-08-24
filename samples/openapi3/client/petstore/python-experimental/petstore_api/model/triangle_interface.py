@@ -31,34 +31,40 @@ class TriangleInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "shapeType",
-        "triangleType",
-    }
-    
-    
-    class shapeType(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "Triangle": "TRIANGLE",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def TRIANGLE(cls):
-            return cls("Triangle")
-    triangleType = schemas.StrSchema
+    # TODO typ hint
+
+
+    class MetaOapg:
+        _required_property_names = {
+            "shapeType",
+            "triangleType",
+        }
+        class properties:
+            
+            
+            class shapeType(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "Triangle": "TRIANGLE",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def TRIANGLE(cls):
+                    return cls("Triangle")
+            triangleType = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        shapeType: shapeType,
-        triangleType: triangleType,
+        shapeType: 'MetaOapg.properties.shapeType',
+        triangleType: 'MetaOapg.properties.triangleType',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'TriangleInterface':
         return super().__new__(
             cls,

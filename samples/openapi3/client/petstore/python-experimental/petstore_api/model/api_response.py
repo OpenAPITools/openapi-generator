@@ -31,19 +31,24 @@ class ApiResponse(
 
     Do not edit the class manually.
     """
-    code = schemas.Int32Schema
-    type = schemas.StrSchema
-    message = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            code = schemas.Int32Schema
+            type = schemas.StrSchema
+            message = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        code: typing.Union[code, schemas.Unset] = schemas.unset,
-        type: typing.Union[type, schemas.Unset] = schemas.unset,
-        message: typing.Union[message, schemas.Unset] = schemas.unset,
+        code: typing.Union['MetaOapg.properties.code', schemas.Unset] = schemas.unset,
+        type: typing.Union['MetaOapg.properties.type', schemas.Unset] = schemas.unset,
+        message: typing.Union['MetaOapg.properties.message', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ApiResponse':
         return super().__new__(
             cls,

@@ -31,20 +31,25 @@ class Category(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "name",
-    }
-    id = schemas.Int64Schema
-    name = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "name",
+        }
+        class properties:
+            id = schemas.Int64Schema
+            name = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: name,
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
+        name: 'MetaOapg.properties.name',
+        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'Category':
         return super().__new__(
             cls,

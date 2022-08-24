@@ -32,9 +32,11 @@ class ComposedObject(
 
     Do not edit the class manually.
     """
+    # TODO typ hint
 
 
     class MetaOapg:
+        _additional_properties = schemas.AnyTypeSchema
         all_of_0 = schemas.AnyTypeSchema
         
         @classmethod
@@ -56,7 +58,7 @@ class ComposedObject(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'ComposedObject':
         return super().__new__(
             cls,

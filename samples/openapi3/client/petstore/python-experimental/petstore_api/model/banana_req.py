@@ -31,19 +31,23 @@ class BananaReq(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "lengthCm",
-    }
-    lengthCm = schemas.NumberSchema
-    sweet = schemas.BoolSchema
-    _additional_properties = None
+    # TODO type hints here
+
+    class MetaOapg:
+        _required_property_names = {
+            "lengthCm",
+        }
+        class properties:
+            lengthCm = schemas.NumberSchema
+            sweet = schemas.BoolSchema
+        _additional_properties = None
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        lengthCm: lengthCm,
-        sweet: typing.Union[sweet, schemas.Unset] = schemas.unset,
+        lengthCm: 'MetaOapg.properties.lengthCm',
+        sweet: typing.Union['MetaOapg.properties.sweet', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'BananaReq':
         return super().__new__(

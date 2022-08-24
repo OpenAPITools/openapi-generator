@@ -30,11 +30,16 @@ from . import path
 class SchemaFor0ResponseBodyApplicationJson(
     schemas.DictSchema
 ):
+    # TODO type hints here
 
-    @classmethod
-    @property
-    def string(cls) -> typing.Type['Foo']:
-        return Foo
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def string(cls) -> typing.Type['Foo']:
+                return Foo
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
@@ -42,7 +47,7 @@ class SchemaFor0ResponseBodyApplicationJson(
         *args: typing.Union[dict, frozendict, ],
         string: typing.Union['Foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'SchemaFor0ResponseBodyApplicationJson':
         return super().__new__(
             cls,

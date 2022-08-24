@@ -31,34 +31,40 @@ class QuadrilateralInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "shapeType",
-        "quadrilateralType",
-    }
-    
-    
-    class shapeType(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "Quadrilateral": "QUADRILATERAL",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def QUADRILATERAL(cls):
-            return cls("Quadrilateral")
-    quadrilateralType = schemas.StrSchema
+    # TODO typ hint
+
+
+    class MetaOapg:
+        _required_property_names = {
+            "shapeType",
+            "quadrilateralType",
+        }
+        class properties:
+            
+            
+            class shapeType(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "Quadrilateral": "QUADRILATERAL",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def QUADRILATERAL(cls):
+                    return cls("Quadrilateral")
+            quadrilateralType = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        shapeType: shapeType,
-        quadrilateralType: quadrilateralType,
+        shapeType: 'MetaOapg.properties.shapeType',
+        quadrilateralType: 'MetaOapg.properties.quadrilateralType',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,

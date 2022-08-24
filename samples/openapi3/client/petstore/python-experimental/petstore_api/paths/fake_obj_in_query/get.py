@@ -28,15 +28,20 @@ from . import path
 class MapBeanSchema(
     schemas.DictSchema
 ):
-    keyword = schemas.StrSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        class properties:
+            keyword = schemas.StrSchema
+        _additional_properties = schemas.AnyTypeSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        keyword: typing.Union[keyword, schemas.Unset] = schemas.unset,
+        keyword: typing.Union['MetaOapg.properties.keyword', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'MapBeanSchema':
         return super().__new__(
             cls,

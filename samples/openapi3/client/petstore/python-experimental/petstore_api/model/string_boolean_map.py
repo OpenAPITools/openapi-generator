@@ -31,14 +31,17 @@ class StringBooleanMap(
 
     Do not edit the class manually.
     """
-    _additional_properties = schemas.BoolSchema
+    # TODO type hints here
+
+    class MetaOapg:
+        _additional_properties = schemas.BoolSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'MetaOapg._additional_properties',
     ) -> 'StringBooleanMap':
         return super().__new__(
             cls,

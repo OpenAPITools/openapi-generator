@@ -114,7 +114,7 @@ class TestValidateResults(unittest.TestCase):
         )
         assert path_to_schemas == {
             ("args[0]",): {Pig, DanishPig, frozendict},
-            ("args[0]", "className"): {DanishPig.className, AnyTypeSchema, str},
+            ("args[0]", "className"): {DanishPig.MetaOapg.properties.className, AnyTypeSchema, str},
         }
 
     def test_anyof_composition_gm_fruit_validate(self):
@@ -125,7 +125,7 @@ class TestValidateResults(unittest.TestCase):
         )
         assert path_to_schemas == {
             ("args[0]",): {GmFruit, Apple, Banana, frozendict},
-            ("args[0]", "cultivar"): {Apple.cultivar, AnyTypeSchema, str},
+            ("args[0]", "cultivar"): {Apple.MetaOapg.properties.cultivar, AnyTypeSchema, str},
             ("args[0]", "lengthCm"): {AnyTypeSchema, NumberSchema, Decimal},
         }
 
