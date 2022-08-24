@@ -214,6 +214,284 @@ class BoolClass(Singleton):
         raise ValueError('Unable to find the boolean value of this instance')
 
 
+class MetaOapgTyped:
+    exclusive_maximum: typing.Union[int, float]
+    inclusive_maximum: typing.Union[int, float]
+    exclusive_minimum: typing.Union[int, float]
+    inclusive_minimum: typing.Union[int, float]
+    max_items: int
+    min_items: int
+    discriminator: typing.Dict[str, typing.Dict[str, typing.Type['Schema']]]
+
+
+    class properties:
+        # to hold object properties
+        pass
+
+    additional_properties: typing.Optional[typing.Type['Schema']]
+    max_properties: int
+    min_properties: int
+    all_of: typing.List[typing.Type['Schema']]
+    one_of: typing.List[typing.Type['Schema']]
+    any_of: typing.List[typing.Type['Schema']]
+    not_schema: typing.Type['Schema']
+    max_length: int
+    min_length: int
+
+
+class Schema:
+    """
+    the base class of all swagger/openapi schemas/models
+    """
+    __inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes, BoolClass, NoneClass}
+    MetaOapg = MetaOapgTyped
+
+    @classmethod
+    def _validate(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        """
+        Schema _validate
+        Runs all schema validation logic and
+        returns a dynamic class of different bases depending upon the input
+        This makes it so:
+        - the returned instance is always a subclass of our defining schema
+            - this allows us to check type based on whether an instance is a subclass of a schema
+        - the returned instance is a serializable type (except for None, True, and False) which are enums
+
+        Use cases:
+        1. inheritable type: string/decimal.Decimal/frozendict/tuple
+        2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
+
+        Required Steps:
+        1. verify type of input is valid vs the allowed _types
+        2. check validations that are applicable for this type of input
+        3. if enums exist, check that the value exists in the enum
+
+        Returns:
+            path_to_schemas: a map of path to schemas
+
+        Raises:
+            ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
+            ApiTypeError: when the input type is not in the list of allowed spec types
+        """
+        base_class = type(arg)
+        path_to_schemas = {validation_metadata.path_to_item: set()}
+        path_to_schemas[validation_metadata.path_to_item].add(cls)
+        path_to_schemas[validation_metadata.path_to_item].add(base_class)
+        return path_to_schemas
+
+    @staticmethod
+    def __process_schema_classes(
+        schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]
+    ):
+        """
+        Processes and mutates schema_classes
+        If a SomeSchema is a subclass of DictSchema then remove DictSchema because it is already included
+        """
+        if len(schema_classes) < 2:
+            return
+        x_schema = schema_type_classes & schema_classes
+        if not x_schema:
+            return
+        x_schema = x_schema.pop()
+        if any(c is not x_schema and issubclass(c, x_schema) for c in schema_classes):
+            # needed to not have a mro error in get_new_class
+            schema_classes.remove(x_schema)
+
+    @classmethod
+    def __get_new_cls(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]:
+        """
+        Make a new dynamic class and return an instance of that class
+        We are making an instance of cls, but instead of making cls
+        make a new class, new_cls
+        which includes dynamic bases including cls
+        return an instance of that new class
+
+        Dict property + List Item Assignment Use cases:
+        1. value is NOT an instance of the required schema class
+            the value is validated by _validate
+            _validate returns a key value pair
+            where the key is the path to the item, and the value will be the required manufactured class
+            made out of the matching schemas
+        2. value is an instance of the the correct schema type
+            the value is NOT validated by _validate, _validate only checks that the instance is of the correct schema type
+            for this value, _validate does NOT return an entry for it in _path_to_schemas
+            and in list/dict _get_items,_get_properties the value will be directly assigned
+            because value is of the correct type, and validation was run earlier when the instance was created
+        """
+        _path_to_schemas = {}
+        if validation_metadata.validated_path_to_schemas:
+            update(_path_to_schemas, validation_metadata.validated_path_to_schemas)
+        if not validation_metadata.validation_ran_earlier(cls):
+            other_path_to_schemas = cls._validate(arg, validation_metadata=validation_metadata)
+            update(_path_to_schemas, other_path_to_schemas)
+        # loop through it make a new class for each entry
+        # do not modify the returned result because it is cached and we would be modifying the cached value
+        path_to_schemas = {}
+        for path, schema_classes in _path_to_schemas.items():
+            """
+            Use cases
+            1. N number of schema classes + enum + type != bool/None, classes in path_to_schemas: tuple/frozendict/str/Decimal/bytes/FileIo
+                needs Singleton added
+            2. N number of schema classes + enum + type == bool/None, classes in path_to_schemas: BoolClass/NoneClass
+                Singleton already added
+            3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict/str/Decimal/bytes/FileIo
+            """
+            cls.__process_schema_classes(schema_classes)
+            enum_schema = any(
+                hasattr(this_cls, '_enum_value_to_name') for this_cls in schema_classes)
+            inheritable_primitive_type = schema_classes.intersection(cls.__inheritable_primitive_types_set)
+            chosen_schema_classes = schema_classes - inheritable_primitive_type
+            suffix = tuple(inheritable_primitive_type)
+            if enum_schema and suffix[0] not in {NoneClass, BoolClass}:
+                suffix = (Singleton,) + suffix
+
+            used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
+            mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
+            path_to_schemas[path] = mfg_cls
+
+        return path_to_schemas
+
+    @classmethod
+    def _get_new_instance_without_conversion(
+        cls: 'Schema',
+        arg: typing.Any,
+        path_to_item: typing.Tuple[typing.Union[str, int], ...],
+        path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
+    ):
+        # We have a Dynamic class and we are making an instance of it
+        if issubclass(cls, frozendict):
+            properties = cls._get_properties(arg, path_to_item, path_to_schemas)
+            return super(Schema, cls).__new__(cls, properties)
+        elif issubclass(cls, tuple):
+            items = cls._get_items(arg, path_to_item, path_to_schemas)
+            return super(Schema, cls).__new__(cls, items)
+        """
+        str = openapi str, date, and datetime
+        decimal.Decimal = openapi int and float
+        FileIO = openapi binary type and the user inputs a file
+        bytes = openapi binary type and the user inputs bytes
+        """
+        return super(Schema, cls).__new__(cls, arg)
+
+    @classmethod
+    def _from_openapi_data(
+        cls,
+        arg: typing.Union[
+            str,
+            date,
+            datetime,
+            int,
+            float,
+            decimal.Decimal,
+            bool,
+            None,
+            'Schema',
+            dict,
+            frozendict,
+            tuple,
+            list,
+            io.FileIO,
+            io.BufferedReader,
+            bytes
+        ],
+        _configuration: typing.Optional[Configuration]
+    ):
+        """
+        Schema _from_openapi_data
+        """
+        from_server = True
+        validated_path_to_schemas = {}
+        arg = cast_to_allowed_types(arg, from_server, validated_path_to_schemas)
+        validation_metadata = ValidationMetadata(
+            from_server=from_server, configuration=_configuration, validated_path_to_schemas=validated_path_to_schemas)
+        path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
+        new_cls = path_to_schemas[validation_metadata.path_to_item]
+        new_inst = new_cls._get_new_instance_without_conversion(
+            arg,
+            validation_metadata.path_to_item,
+            path_to_schemas
+        )
+        return new_inst
+
+    @staticmethod
+    def __get_input_dict(*args, **kwargs) -> frozendict:
+        input_dict = {}
+        if args and isinstance(args[0], (dict, frozendict)):
+            input_dict.update(args[0])
+        if kwargs:
+            input_dict.update(kwargs)
+        return frozendict(input_dict)
+
+    @staticmethod
+    def __remove_unsets(kwargs):
+        return {key: val for key, val in kwargs.items() if val is not unset}
+
+    def __new__(cls, *args: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'], _configuration: typing.Optional[Configuration] = None, **kwargs: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset]):
+        """
+        Schema __new__
+
+        Args:
+            args (int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): the value
+            kwargs (str, int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): dict values
+            _configuration: contains the Configuration that enables json schema validation keywords
+                like minItems, minLength etc
+        """
+        kwargs = cls.__remove_unsets(kwargs)
+        if not args and not kwargs:
+            raise TypeError(
+                'No input given. args or kwargs must be given.'
+            )
+        if not kwargs and args and not isinstance(args[0], dict):
+            arg = args[0]
+        else:
+            arg = cls.__get_input_dict(*args, **kwargs)
+        from_server = False
+        validated_path_to_schemas = {}
+        arg = cast_to_allowed_types(
+            arg, from_server, validated_path_to_schemas)
+        validation_metadata = ValidationMetadata(
+            configuration=_configuration, from_server=from_server, validated_path_to_schemas=validated_path_to_schemas)
+        path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
+        new_cls = path_to_schemas[validation_metadata.path_to_item]
+        return new_cls._get_new_instance_without_conversion(
+            arg,
+            validation_metadata.path_to_item,
+            path_to_schemas
+        )
+
+    def __init__(
+        self,
+        *args: typing.Union[
+            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'],
+        _configuration: typing.Optional[Configuration] = None,
+        **kwargs: typing.Union[
+            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset
+        ]
+    ):
+        """
+        this is needed to fix 'Unexpected argument' warning in pycharm
+        this code does nothing because all Schema instances are immutable
+        this means that all input data is passed into and used in new, and after the new instance is made
+        no new attributes are assigned and init is not used
+        """
+        pass
+
+"""
+if typing.TYPE_CHECKING:
+    pass
+else:
+    # pass
+"""
+
+
 class ValidatorBase:
     @staticmethod
     def is_json_validation_enabled_oapg(schema_keyword, configuration=None):
@@ -1242,260 +1520,6 @@ class DictBase(Discriminable, ValidatorBase):
             return self[name]
         except (KeyError, TypeError):
             return super().__getattribute__(name)
-
-
-inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes, BoolClass, NoneClass}
-
-
-class Schema:
-    """
-    the base class of all swagger/openapi schemas/models
-
-    ensures that:
-    - payload passes required validations
-    - payload is of allowed types
-    - payload value is an allowed enum value
-    """
-    class MetaOapg:
-        pass
-
-    @classmethod
-    def _validate(
-        cls,
-        arg,
-        validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
-        """
-        Schema _validate
-        Runs all schema validation logic and
-        returns a dynamic class of different bases depending upon the input
-        This makes it so:
-        - the returned instance is always a subclass of our defining schema
-            - this allows us to check type based on whether an instance is a subclass of a schema
-        - the returned instance is a serializable type (except for None, True, and False) which are enums
-
-        Use cases:
-        1. inheritable type: string/decimal.Decimal/frozendict/tuple
-        2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
-
-        Required Steps:
-        1. verify type of input is valid vs the allowed _types
-        2. check validations that are applicable for this type of input
-        3. if enums exist, check that the value exists in the enum
-
-        Returns:
-            path_to_schemas: a map of path to schemas
-
-        Raises:
-            ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
-            ApiTypeError: when the input type is not in the list of allowed spec types
-        """
-        base_class = type(arg)
-        path_to_schemas = {validation_metadata.path_to_item: set()}
-        path_to_schemas[validation_metadata.path_to_item].add(cls)
-        path_to_schemas[validation_metadata.path_to_item].add(base_class)
-        return path_to_schemas
-
-    @staticmethod
-    def __process_schema_classes(
-        schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]
-    ):
-        """
-        Processes and mutates schema_classes
-        If a SomeSchema is a subclass of DictSchema then remove DictSchema because it is already included
-        """
-        if len(schema_classes) < 2:
-            return
-        x_schema = schema_type_classes & schema_classes
-        if not x_schema:
-            return
-        x_schema = x_schema.pop()
-        if any(c is not x_schema and issubclass(c, x_schema) for c in schema_classes):
-            # needed to not have a mro error in get_new_class
-            schema_classes.remove(x_schema)
-
-    @classmethod
-    def __get_new_cls(
-        cls,
-        arg,
-        validation_metadata: ValidationMetadata
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], 'Schema']:
-        """
-        Make a new dynamic class and return an instance of that class
-        We are making an instance of cls, but instead of making cls
-        make a new class, new_cls
-        which includes dynamic bases including cls
-        return an instance of that new class
-
-        Dict property + List Item Assignment Use cases:
-        1. value is NOT an instance of the required schema class
-            the value is validated by _validate
-            _validate returns a key value pair
-            where the key is the path to the item, and the value will be the required manufactured class
-            made out of the matching schemas
-        2. value is an instance of the the correct schema type
-            the value is NOT validated by _validate, _validate only checks that the instance is of the correct schema type
-            for this value, _validate does NOT return an entry for it in _path_to_schemas
-            and in list/dict _get_items,_get_properties the value will be directly assigned
-            because value is of the correct type, and validation was run earlier when the instance was created
-        """
-        _path_to_schemas = {}
-        if validation_metadata.validated_path_to_schemas:
-            update(_path_to_schemas, validation_metadata.validated_path_to_schemas)
-        if not validation_metadata.validation_ran_earlier(cls):
-            other_path_to_schemas = cls._validate(arg, validation_metadata=validation_metadata)
-            update(_path_to_schemas, other_path_to_schemas)
-        # loop through it make a new class for each entry
-        # do not modify the returned result because it is cached and we would be modifying the cached value
-        path_to_schemas = {}
-        for path, schema_classes in _path_to_schemas.items():
-            """
-            Use cases
-            1. N number of schema classes + enum + type != bool/None, classes in path_to_schemas: tuple/frozendict/str/Decimal/bytes/FileIo
-                needs Singleton added
-            2. N number of schema classes + enum + type == bool/None, classes in path_to_schemas: BoolClass/NoneClass
-                Singleton already added
-            3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict/str/Decimal/bytes/FileIo
-            """
-            cls.__process_schema_classes(schema_classes)
-            enum_schema = any(
-                hasattr(this_cls, '_enum_value_to_name') for this_cls in schema_classes)
-            inheritable_primitive_type = schema_classes.intersection(inheritable_primitive_types_set)
-            chosen_schema_classes = schema_classes - inheritable_primitive_type
-            suffix = tuple(inheritable_primitive_type)
-            if enum_schema and suffix[0] not in {NoneClass, BoolClass}:
-                suffix = (Singleton,) + suffix
-
-            used_classes = tuple(sorted(chosen_schema_classes, key=lambda a_cls: a_cls.__name__)) + suffix
-            mfg_cls = get_new_class(class_name='DynamicSchema', bases=used_classes)
-            path_to_schemas[path] = mfg_cls
-
-        return path_to_schemas
-
-    @classmethod
-    def _get_new_instance_without_conversion(
-        cls: 'Schema',
-        arg: typing.Any,
-        path_to_item: typing.Tuple[typing.Union[str, int], ...],
-        path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
-    ):
-        # We have a Dynamic class and we are making an instance of it
-        if issubclass(cls, frozendict):
-            properties = cls._get_properties(arg, path_to_item, path_to_schemas)
-            return super(Schema, cls).__new__(cls, properties)
-        elif issubclass(cls, tuple):
-            items = cls._get_items(arg, path_to_item, path_to_schemas)
-            return super(Schema, cls).__new__(cls, items)
-        """
-        str = openapi str, date, and datetime
-        decimal.Decimal = openapi int and float
-        FileIO = openapi binary type and the user inputs a file
-        bytes = openapi binary type and the user inputs bytes
-        """
-        return super(Schema, cls).__new__(cls, arg)
-
-    @classmethod
-    def _from_openapi_data(
-        cls,
-        arg: typing.Union[
-            str,
-            date,
-            datetime,
-            int,
-            float,
-            decimal.Decimal,
-            bool,
-            None,
-            'Schema',
-            dict,
-            frozendict,
-            tuple,
-            list,
-            io.FileIO,
-            io.BufferedReader,
-            bytes
-        ],
-        _configuration: typing.Optional[Configuration]
-    ):
-        """
-        Schema _from_openapi_data
-        """
-        from_server = True
-        validated_path_to_schemas = {}
-        arg = cast_to_allowed_types(arg, from_server, validated_path_to_schemas)
-        validation_metadata = ValidationMetadata(
-            from_server=from_server, configuration=_configuration, validated_path_to_schemas=validated_path_to_schemas)
-        path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
-        new_cls = path_to_schemas[validation_metadata.path_to_item]
-        new_inst = new_cls._get_new_instance_without_conversion(
-            arg,
-            validation_metadata.path_to_item,
-            path_to_schemas
-        )
-        return new_inst
-
-    @staticmethod
-    def __get_input_dict(*args, **kwargs) -> frozendict:
-        input_dict = {}
-        if args and isinstance(args[0], (dict, frozendict)):
-            input_dict.update(args[0])
-        if kwargs:
-            input_dict.update(kwargs)
-        return frozendict(input_dict)
-
-    @staticmethod
-    def __remove_unsets(kwargs):
-        return {key: val for key, val in kwargs.items() if val is not unset}
-
-    def __new__(cls, *args: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'], _configuration: typing.Optional[Configuration] = None, **kwargs: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset]):
-        """
-        Schema __new__
-
-        Args:
-            args (int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): the value
-            kwargs (str, int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): dict values
-            _configuration: contains the Configuration that enables json schema validation keywords
-                like minItems, minLength etc
-        """
-        kwargs = cls.__remove_unsets(kwargs)
-        if not args and not kwargs:
-            raise TypeError(
-                'No input given. args or kwargs must be given.'
-            )
-        if not kwargs and args and not isinstance(args[0], dict):
-            arg = args[0]
-        else:
-            arg = cls.__get_input_dict(*args, **kwargs)
-        from_server = False
-        validated_path_to_schemas = {}
-        arg = cast_to_allowed_types(
-            arg, from_server, validated_path_to_schemas)
-        validation_metadata = ValidationMetadata(
-            configuration=_configuration, from_server=from_server, validated_path_to_schemas=validated_path_to_schemas)
-        path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
-        new_cls = path_to_schemas[validation_metadata.path_to_item]
-        return new_cls._get_new_instance_without_conversion(
-            arg,
-            validation_metadata.path_to_item,
-            path_to_schemas
-        )
-
-    def __init__(
-        self,
-        *args: typing.Union[
-            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Union[
-            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset
-        ]
-    ):
-        """
-        this is needed to fix 'Unexpected argument' warning in pycharm
-        this code does nothing because all Schema instances are immutable
-        this means that all input data is passed into and used in new, and after the new instance is made
-        no new attributes are assigned and init is not used
-        """
-        pass
 
 
 def cast_to_allowed_types(
