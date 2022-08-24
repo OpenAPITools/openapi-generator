@@ -1,7 +1,7 @@
     self: {{selfType}},
 {{#if bodyParam}}
 {{#with bodyParam}}
-    body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
+    body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, schemas.Unset] = schemas.unset{{else}}]{{/unless}},
 {{/with}}
 {{/if}}
 {{#if queryParams}}

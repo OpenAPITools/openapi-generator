@@ -969,7 +969,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             parentVar.isInherited = true;
                             LOGGER.info("adding parent variable {}", property.name);
                             codegenModel.parentVars.add(parentVar);
-                            Set<String> imports = parentVar.getImports(true).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
                             for (String imp: imports) {
                                 // Avoid dupes
                                 if (!codegenModel.getImports().contains(imp)) {

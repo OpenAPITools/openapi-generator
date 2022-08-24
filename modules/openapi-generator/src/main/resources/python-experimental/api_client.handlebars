@@ -146,6 +146,84 @@ class ParameterSerializerBase:
         return {name: value}
 
     @classmethod
+    def __ref6570_str_float_int_expansion(
+        cls,
+        variable_name: str,
+        in_data: typing.Any,
+        explode: bool,
+        percent_encode: bool,
+        prefix_separator_iterator: PrefixSeparatorIterator,
+        var_name_piece: str,
+        named_parameter_expansion: bool
+    ) -> str:
+        item_value = cls.__ref6570_item_value(in_data, percent_encode)
+        if item_value is None or (item_value == '' and prefix_separator_iterator.separator == ';'):
+            return next(prefix_separator_iterator) + var_name_piece
+        value_pair_equals = '=' if named_parameter_expansion else ''
+        return next(prefix_separator_iterator) + var_name_piece + value_pair_equals + item_value
+
+    @classmethod
+    def __ref6570_list_expansion(
+        cls,
+        variable_name: str,
+        in_data: typing.Any,
+        explode: bool,
+        percent_encode: bool,
+        prefix_separator_iterator: PrefixSeparatorIterator,
+        var_name_piece: str,
+        named_parameter_expansion: bool
+    ) -> str:
+        item_values = [cls.__ref6570_item_value(v, percent_encode) for v in in_data]
+        item_values = [v for v in item_values if v is not None]
+        if not item_values:
+            # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
+            return ""
+        value_pair_equals = '=' if named_parameter_expansion else ''
+        if not explode:
+            return (
+                next(prefix_separator_iterator) +
+                var_name_piece +
+                value_pair_equals +
+                prefix_separator_iterator.item_separator.join(item_values)
+            )
+        # exploded
+        return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
+            [var_name_piece + value_pair_equals + val for val in item_values]
+        )
+
+    @classmethod
+    def __ref6570_dict_expansion(
+        cls,
+        variable_name: str,
+        in_data: typing.Any,
+        explode: bool,
+        percent_encode: bool,
+        prefix_separator_iterator: PrefixSeparatorIterator,
+        var_name_piece: str,
+        named_parameter_expansion: bool
+    ) -> str:
+        in_data_transformed = {key: cls.__ref6570_item_value(val, percent_encode) for key, val in in_data.items()}
+        in_data_transformed = {key: val for key, val in in_data_transformed.items() if val is not None}
+        if not in_data_transformed:
+            # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
+            return ""
+        value_pair_equals = '=' if named_parameter_expansion else ''
+        if not explode:
+            return (
+                next(prefix_separator_iterator) +
+                var_name_piece + value_pair_equals +
+                prefix_separator_iterator.item_separator.join(
+                    prefix_separator_iterator.item_separator.join(
+                        item_pair
+                    ) for item_pair in in_data_transformed.items()
+                )
+            )
+        # exploded
+        return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
+            [key + '=' + val for key, val in in_data_transformed.items()]
+        )
+
+    @classmethod
     def ref6570_expansion(
         cls,
         variable_name: str,
@@ -160,54 +238,37 @@ class ParameterSerializerBase:
         named_parameter_expansion = prefix_separator_iterator.separator in {'&', ';'}
         var_name_piece = variable_name if named_parameter_expansion else ''
         if type(in_data) in {str, float, int}:
-            item_value = cls.__ref6570_item_value(in_data, percent_encode)
-            if item_value is None:
-                return next(prefix_separator_iterator) + var_name_piece
-            elif item_value == '' and prefix_separator_iterator.separator == ';':
-                return next(prefix_separator_iterator) + var_name_piece
-            value_pair_equals = '=' if named_parameter_expansion else ''
-            return next(prefix_separator_iterator) + var_name_piece + value_pair_equals + item_value
+            return cls.__ref6570_str_float_int_expansion(
+                variable_name,
+                in_data,
+                explode,
+                percent_encode,
+                prefix_separator_iterator,
+                var_name_piece,
+                named_parameter_expansion
+            )
         elif isinstance(in_data, none_type):
             # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
             return ""
         elif isinstance(in_data, list):
-            item_values = [cls.__ref6570_item_value(v, percent_encode) for v in in_data]
-            item_values = [v for v in item_values if v is not None]
-            if not item_values:
-                # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
-                return ""
-            value_pair_equals = '=' if named_parameter_expansion else ''
-            if not explode:
-                return (
-                    next(prefix_separator_iterator) +
-                    var_name_piece +
-                    value_pair_equals +
-                    prefix_separator_iterator.item_separator.join(item_values)
-                )
-            # exploded
-            return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
-                [var_name_piece + value_pair_equals + val for val in item_values]
+            return cls.__ref6570_list_expansion(
+                variable_name,
+                in_data,
+                explode,
+                percent_encode,
+                prefix_separator_iterator,
+                var_name_piece,
+                named_parameter_expansion
             )
         elif isinstance(in_data, dict):
-            in_data_transformed = {key: cls.__ref6570_item_value(val, percent_encode) for key, val in in_data.items()}
-            in_data_transformed = {key: val for key, val in in_data_transformed.items() if val is not None}
-            if not in_data_transformed:
-                # ignored by the expansion process https://datatracker.ietf.org/doc/html/rfc6570#section-3.2.1
-                return ""
-            value_pair_equals = '=' if named_parameter_expansion else ''
-            if not explode:
-                return (
-                    next(prefix_separator_iterator) +
-                    var_name_piece + value_pair_equals +
-                    prefix_separator_iterator.item_separator.join(
-                        prefix_separator_iterator.item_separator.join(
-                            item_pair
-                        ) for item_pair in in_data_transformed.items()
-                    )
-                )
-            # exploded
-            return next(prefix_separator_iterator) + next(prefix_separator_iterator).join(
-                [key + '=' + val for key, val in in_data_transformed.items()]
+            return cls.__ref6570_dict_expansion(
+                variable_name,
+                in_data,
+                explode,
+                percent_encode,
+                prefix_separator_iterator,
+                var_name_piece,
+                named_parameter_expansion
             )
         # bool, bytes, etc
         raise ApiValueError('Unable to generate a ref6570 representation of {}'.format(in_data))
@@ -903,7 +964,6 @@ class ApiClient:
     """
 
     _pool = None
-    __json_encoder = JSONEncoder()
 
     def __init__(
         self,
@@ -1160,33 +1220,34 @@ class ApiClient:
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
-            if auth_setting:
-                if auth_setting['in'] == 'cookie':
-                    headers.add('Cookie', auth_setting['value'])
-                elif auth_setting['in'] == 'header':
-                    if auth_setting['type'] != 'http-signature':
-                        headers.add(auth_setting['key'], auth_setting['value'])
+            if not auth_setting:
+                continue
+            if auth_setting['in'] == 'cookie':
+                headers.add('Cookie', auth_setting['value'])
+            elif auth_setting['in'] == 'header':
+                if auth_setting['type'] != 'http-signature':
+                    headers.add(auth_setting['key'], auth_setting['value'])
 {{#if hasHttpSignatureMethods}}
-                    else:
-                        # The HTTP signature scheme requires multiple HTTP headers
-                        # that are calculated dynamically.
-                        signing_info = self.configuration.signing_info
-                        querys = tuple()
-                        auth_headers = signing_info.get_http_signature_headers(
-                                            resource_path, method, headers, body, querys)
-                        for key, value in auth_headers.items():
-                            headers.add(key, value)
-{{/if}}
-                elif auth_setting['in'] == 'query':
-                    """ TODO implement auth in query
-                    need to pass in prefix_separator_iterator
-                    and need to output resource_path with query params added
-                    """
-                    raise ApiValueError("Auth in query not yet implemented")
                 else:
-                    raise ApiValueError(
-                        'Authentication token must be in `query` or `header`'
-                    )
+                    # The HTTP signature scheme requires multiple HTTP headers
+                    # that are calculated dynamically.
+                    signing_info = self.configuration.signing_info
+                    querys = tuple()
+                    auth_headers = signing_info.get_http_signature_headers(
+                                        resource_path, method, headers, body, querys)
+                    for key, value in auth_headers.items():
+                        headers.add(key, value)
+{{/if}}
+            elif auth_setting['in'] == 'query':
+                """ TODO implement auth in query
+                need to pass in prefix_separator_iterator
+                and need to output resource_path with query params added
+                """
+                raise ApiValueError("Auth in query not yet implemented")
+            else:
+                raise ApiValueError(
+                    'Authentication token must be in `query` or `header`'
+                )
 
 
 class Api:

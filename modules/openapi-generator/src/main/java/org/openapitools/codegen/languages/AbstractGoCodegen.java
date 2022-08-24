@@ -625,13 +625,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         boolean addedOSImport = false;
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
-            for (CodegenProperty param : model.vars) {
-                if (!addedTimeImport
-                    && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
+            for (CodegenProperty cp : model.vars) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
+                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                if (!addedOSImport && "*os.File".equals(param.baseType)) {
+                if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
+                        (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }

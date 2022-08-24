@@ -1,5 +1,9 @@
+pub mod action_container;
+pub use self::action_container::ActionContainer;
 pub mod api_response;
 pub use self::api_response::ApiResponse;
+pub mod baz;
+pub use self::baz::Baz;
 pub mod category;
 pub use self::category::Category;
 pub mod order;
@@ -10,5 +14,7 @@ pub mod property_test;
 pub use self::property_test::PropertyTest;
 pub mod tag;
 pub use self::tag::Tag;
+pub mod type_testing;
+pub use self::type_testing::TypeTesting;
 pub mod user;
 pub use self::user::User;

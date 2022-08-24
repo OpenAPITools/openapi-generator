@@ -135,7 +135,7 @@ module Petstore
           case value
           when ::File, ::Tempfile
             # TODO hardcode to application/octet-stream, need better way to detect content type
-            data[key] = Faraday::UploadIO.new(value.path, 'application/octet-stream', value.path)
+            data[key] = Faraday::FilePart.new(value.path, 'application/octet-stream', value.path)
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value

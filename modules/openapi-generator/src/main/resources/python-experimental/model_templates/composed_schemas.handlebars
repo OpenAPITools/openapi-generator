@@ -1,7 +1,27 @@
+{{#with composedSchemas}}
+{{#each allOf}}
+{{#unless complexType}}
+{{> model_templates/schema }}
+{{/unless}}
+{{/each}}
+{{#each oneOf}}
+{{#unless complexType}}
+{{> model_templates/schema }}
+{{/unless}}
+{{/each}}
+{{#each anyOf}}
+{{#unless complexType}}
+{{> model_templates/schema }}
+{{/unless}}
+{{/each}}
+{{/with}}
+{{#with composedSchemas}}
+{{#if allOf}}
+
 @classmethod
 @property
 @functools.cache
-def _composed_schemas(cls):
+def all_of(cls):
     # we need this here to make our import statements work
     # we must store _composed_schemas in here so the code is only run
     # when we invoke this method. If we kept this at the class
@@ -9,82 +29,85 @@ def _composed_schemas(cls):
     # code would be run when this module is imported, and these composed
     # classes don't exist yet because their module has not finished
     # loading
-{{#with composedSchemas}}
-{{#each allOf}}
-{{#unless complexType}}
-    {{> model_templates/schema }}
-{{/unless}}
-{{/each}}
-{{#each oneOf}}
-{{#unless complexType}}
-    {{> model_templates/schema }}
-{{/unless}}
-{{/each}}
-{{#each anyOf}}
-{{#unless complexType}}
-    {{> model_templates/schema }}
-{{/unless}}
-{{/each}}
-{{#with not}}
-{{#unless complexType}}
-    {{> model_templates/schema }}
-{{/unless}}
-{{/with}}
-{{/with}}
-    return {
-        'allOf': [
-{{#with composedSchemas}}
+    return [
 {{#each allOf}}
 {{#if complexType}}
-            {{complexType}},
+        {{complexType}},
 {{else}}
     {{#if nameInSnakeCase}}
-            {{name}},
+        cls.{{name}},
     {{else}}
-            {{baseName}},
+        cls.{{baseName}},
     {{/if}}
 {{/if}}
 {{/each}}
-        ],
-        'oneOf': [
+    ]
+{{/if}}
+{{#if oneOf}}
+
+@classmethod
+@property
+@functools.cache
+def one_of(cls):
+    # we need this here to make our import statements work
+    # we must store _composed_schemas in here so the code is only run
+    # when we invoke this method. If we kept this at the class
+    # level we would get an error because the class level
+    # code would be run when this module is imported, and these composed
+    # classes don't exist yet because their module has not finished
+    # loading
+    return [
 {{#each oneOf}}
 {{#if complexType}}
-            {{complexType}},
+        {{complexType}},
 {{else}}
     {{#if nameInSnakeCase}}
-            {{name}},
+        cls.{{name}},
     {{else}}
-            {{baseName}},
+        cls.{{baseName}},
     {{/if}}
 {{/if}}
 {{/each}}
-        ],
-        'anyOf': [
+    ]
+{{/if}}
+{{#if anyOf}}
+
+@classmethod
+@property
+@functools.cache
+def any_of(cls):
+    # we need this here to make our import statements work
+    # we must store _composed_schemas in here so the code is only run
+    # when we invoke this method. If we kept this at the class
+    # level we would get an error because the class level
+    # code would be run when this module is imported, and these composed
+    # classes don't exist yet because their module has not finished
+    # loading
+    return [
 {{#each anyOf}}
 {{#if complexType}}
-            {{complexType}},
+        {{complexType}},
 {{else}}
     {{#if nameInSnakeCase}}
-            {{name}},
+        cls.{{name}},
     {{else}}
-            {{baseName}},
+        cls.{{baseName}},
     {{/if}}
 {{/if}}
 {{/each}}
-        ],
-        'not':
+    ]
+{{/if}}
+{{#if not}}
 {{#with not}}
 {{#if complexType}}
-            {{complexType}}
+
+@classmethod
+@property
+def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+    return {{complexType}}
 {{else}}
-    {{#if nameInSnakeCase}}
-            {{name}}
-    {{else}}
-            {{baseName}}
-    {{/if}}
+{{> model_templates/schema }}
 {{/if}}
-{{else}}
-            None
 {{/with}}
+{{/if}}
 {{/with}}
-    }
