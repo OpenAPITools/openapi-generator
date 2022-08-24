@@ -488,10 +488,12 @@ if typing.TYPE_CHECKING:
     StrMixin = str
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
+    NoneMixin = NoneClass
 else:
     StrMixin = object
     DecimalMixin = object
     BoolMixin = object
+    NoneMixin = object
 
 
 class ValidatorBase:
@@ -1826,7 +1828,8 @@ class ListSchema(
 class NoneSchema(
     SchemaTypeCheckerClsFactory(typing.Union[NoneClass]),
     NoneBase,
-    Schema
+    Schema,
+    NoneMixin
 ):
 
     @classmethod
