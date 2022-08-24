@@ -343,7 +343,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
 
-        if (useES6) {
+        if (useES6 || LIBRARY_APOLLO.equals(library)) {
             supportingFiles.add(new SupportingFile(".babelrc.mustache", ".babelrc"));
         }
     }
