@@ -75,7 +75,7 @@ func New{{classname}}WithDefaults() *{{classname}} {
 	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
 {{/isNullable}}
 {{^isNullable}}
-	var {{nameInCamelCase}} {{{dataType}}} = {{#vendorExtensions.x-type-declare}}{{.}}({{/vendorExtensions.x-type-declare}}{{{.}}}{{#vendorExtensions.x-type-declare}}){{/vendorExtensions.x-type-declare}}
+	var {{nameInCamelCase}} {{{dataType}}} = {{#vendorExtensions.x-type-declare}}types.Make{{.}}({{/vendorExtensions.x-type-declare}}{{{.}}}{{#vendorExtensions.x-type-declare}}){{/vendorExtensions.x-type-declare}}
 	this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
 {{/isNullable}}
 {{/isReadOnly}}
@@ -190,7 +190,7 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
 	if o == nil{{^isNullable}} || {{#vendorExtensions.x-type-declare}}!o.{{name}}.Assigned() {{/vendorExtensions.x-type-declare}}{{^vendorExtensions.x-type-declare}}o.{{name}} == nil{{/vendorExtensions.x-type-declare}}{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
-		return {{#vendorExtensions.x-type-declare}}types.Null{{.}}{{/vendorExtensions.x-type-declare}}{{^vendorExtensions.x-type-declare}}nil{{/vendorExtensions.x-type-declare}}, false
+		return {{#vendorExtensions.x-type-declare}}*(&types.{{.}}{}).SetNull(){{/vendorExtensions.x-type-declare}}{{^vendorExtensions.x-type-declare}}nil{{/vendorExtensions.x-type-declare}}, false
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}
