@@ -115,7 +115,7 @@ export function {{classname}}ToJSONTyped(ignoreDiscriminator: boolean, value?: {
     if (!ignoreDiscriminator) {
 {{#discriminator.mappedModels}}
         if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
-            return {{modelName}}FromJSONTyped(value, true);
+            return {{modelName}}ToJSONTyped(value, true);
         }
 {{/discriminator.mappedModels}}
     }
