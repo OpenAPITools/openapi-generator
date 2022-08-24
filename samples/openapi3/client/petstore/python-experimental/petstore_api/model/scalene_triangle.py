@@ -31,7 +31,6 @@ class ScaleneTriangle(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -41,7 +40,7 @@ class ScaleneTriangle(
         class all_of_1(
             schemas.DictSchema
         ):
-            # TODO type hints here
+        
         
             class MetaOapg:
                 class properties:
@@ -61,7 +60,8 @@ class ScaleneTriangle(
                         def SCALENE_TRIANGLE(cls):
                             return cls("ScaleneTriangle")
                 _additional_properties = schemas.AnyTypeSchema
-        
+            
+            triangleType: MetaOapg.properties.triangleType
         
             def __new__(
                 cls,

@@ -31,7 +31,7 @@ class Order(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -68,7 +68,13 @@ class Order(
                     return cls("delivered")
             complete = schemas.BoolSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    id: MetaOapg.properties.id
+    petId: MetaOapg.properties.petId
+    quantity: MetaOapg.properties.quantity
+    shipDate: MetaOapg.properties.shipDate
+    status: MetaOapg.properties.status
+    complete: MetaOapg.properties.complete
 
     def __new__(
         cls,

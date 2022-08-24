@@ -33,13 +33,14 @@ class ClassModel(
 
     Model for testing model with "_class" property
     """
-    # TODO typ hint
 
 
     class MetaOapg:
         class properties:
             _class = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
+    
+    _class: MetaOapg.properties._class
 
     def __new__(
         cls,

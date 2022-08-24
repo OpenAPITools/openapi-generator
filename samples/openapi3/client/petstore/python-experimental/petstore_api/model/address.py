@@ -31,11 +31,10 @@ class Address(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _additional_properties = schemas.IntSchema
-
 
     def __new__(
         cls,

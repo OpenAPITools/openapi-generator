@@ -31,7 +31,7 @@ class AdditionalPropertiesWithArrayOfEnums(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         
@@ -44,7 +44,6 @@ class AdditionalPropertiesWithArrayOfEnums(
             @property
             def _items(cls) -> typing.Type['EnumClass']:
                 return EnumClass
-
 
     def __new__(
         cls,

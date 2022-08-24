@@ -31,11 +31,10 @@ class StringBooleanMap(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _additional_properties = schemas.BoolSchema
-
 
     def __new__(
         cls,

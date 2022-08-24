@@ -31,13 +31,14 @@ class NumberOnly(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             JustNumber = schemas.NumberSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    JustNumber: MetaOapg.properties.JustNumber
 
     def __new__(
         cls,

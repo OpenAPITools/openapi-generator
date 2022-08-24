@@ -31,7 +31,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -42,7 +42,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             class map(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     
@@ -50,7 +50,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                     @property
                     def _additional_properties(cls) -> typing.Type['Animal']:
                         return Animal
-            
             
                 def __new__(
                     cls,
@@ -65,7 +64,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                         **kwargs,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    uuid: MetaOapg.properties.uuid
+    dateTime: MetaOapg.properties.dateTime
+    map: MetaOapg.properties.map
 
     def __new__(
         cls,

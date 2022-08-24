@@ -31,14 +31,16 @@ class Tag(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             id = schemas.Int64Schema
             name = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    id: MetaOapg.properties.id
+    name: MetaOapg.properties.name
 
     def __new__(
         cls,

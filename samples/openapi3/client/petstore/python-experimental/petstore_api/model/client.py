@@ -31,13 +31,14 @@ class Client(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             client = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    client: MetaOapg.properties.client
 
     def __new__(
         cls,

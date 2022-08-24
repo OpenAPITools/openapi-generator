@@ -31,7 +31,7 @@ class Drawing(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -65,7 +65,11 @@ class Drawing(
         @property
         def _additional_properties(cls) -> typing.Type['Fruit']:
             return Fruit
-
+    
+    mainShape: 'MetaOapg.properties.mainShape'
+    shapeOrNull: 'MetaOapg.properties.shapeOrNull'
+    nullableShape: 'MetaOapg.properties.nullableShape'
+    shapes: MetaOapg.properties.shapes
 
     def __new__(
         cls,

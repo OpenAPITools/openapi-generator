@@ -31,7 +31,7 @@ class EnumArrays(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -83,7 +83,9 @@ class EnumArrays(
                     def CRAB(cls):
                         return cls("crab")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    just_symbol: MetaOapg.properties.just_symbol
+    array_enum: MetaOapg.properties.array_enum
 
     def __new__(
         cls,

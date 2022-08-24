@@ -34,7 +34,6 @@ class Apple(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -68,6 +67,9 @@ class Apple(
                         )
                     }]
         _additional_properties = schemas.AnyTypeSchema
+    
+    cultivar: MetaOapg.properties.cultivar
+    origin: MetaOapg.properties.origin
 
     def __new__(
         cls,

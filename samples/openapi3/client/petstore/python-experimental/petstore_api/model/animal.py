@@ -31,7 +31,7 @@ class Animal(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -40,7 +40,7 @@ class Animal(
         
         @classmethod
         @property
-        def _discriminator(cls):
+        def discriminator(cls):
             return {
                 'className': {
                     'Cat': Cat,
@@ -51,7 +51,9 @@ class Animal(
             className = schemas.StrSchema
             color = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    className: MetaOapg.properties.className
+    color: MetaOapg.properties.color
 
     def __new__(
         cls,

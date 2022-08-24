@@ -31,7 +31,7 @@ class AdditionalPropertiesClass(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -40,11 +40,10 @@ class AdditionalPropertiesClass(
             class map_property(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     _additional_properties = schemas.StrSchema
-            
             
                 def __new__(
                     cls,
@@ -63,7 +62,7 @@ class AdditionalPropertiesClass(
             class map_of_map_property(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     
@@ -71,11 +70,10 @@ class AdditionalPropertiesClass(
                     class _additional_properties(
                         schemas.DictSchema
                     ):
-                        # TODO type hints here
+                    
                     
                         class MetaOapg:
                             _additional_properties = schemas.StrSchema
-                    
                     
                         def __new__(
                             cls,
@@ -89,7 +87,6 @@ class AdditionalPropertiesClass(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
-            
             
                 def __new__(
                     cls,
@@ -112,11 +109,10 @@ class AdditionalPropertiesClass(
             class empty_map(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     _additional_properties = None
-            
             
                 def __new__(
                     cls,
@@ -133,11 +129,10 @@ class AdditionalPropertiesClass(
             class map_with_undeclared_properties_string(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     _additional_properties = schemas.StrSchema
-            
             
                 def __new__(
                     cls,
@@ -152,7 +147,15 @@ class AdditionalPropertiesClass(
                         **kwargs,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    map_property: MetaOapg.properties.map_property
+    map_of_map_property: MetaOapg.properties.map_of_map_property
+    anytype_1: MetaOapg.properties.anytype_1
+    map_with_undeclared_properties_anytype_1: MetaOapg.properties.map_with_undeclared_properties_anytype_1
+    map_with_undeclared_properties_anytype_2: MetaOapg.properties.map_with_undeclared_properties_anytype_2
+    map_with_undeclared_properties_anytype_3: MetaOapg.properties.map_with_undeclared_properties_anytype_3
+    empty_map: MetaOapg.properties.empty_map
+    map_with_undeclared_properties_string: MetaOapg.properties.map_with_undeclared_properties_string
 
     def __new__(
         cls,

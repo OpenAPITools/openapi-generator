@@ -33,13 +33,14 @@ class File(
 
     Must be named `File` for test.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             sourceURI = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    sourceURI: MetaOapg.properties.sourceURI
 
     def __new__(
         cls,

@@ -31,7 +31,7 @@ class ObjectWithDecimalProperties(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -43,7 +43,10 @@ class ObjectWithDecimalProperties(
             def cost(cls) -> typing.Type['Money']:
                 return Money
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    length: MetaOapg.properties.length
+    width: MetaOapg.properties.width
+    cost: 'MetaOapg.properties.cost'
 
     def __new__(
         cls,

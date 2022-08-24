@@ -33,7 +33,7 @@ class HealthCheckResult(
 
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -57,7 +57,8 @@ class HealthCheckResult(
                         _configuration=_configuration,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    NullableMessage: MetaOapg.properties.NullableMessage
 
     def __new__(
         cls,

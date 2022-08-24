@@ -31,7 +31,7 @@ class ArrayOfNumberOnly(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -42,7 +42,8 @@ class ArrayOfNumberOnly(
             ):
                 _items = schemas.NumberSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    ArrayNumber: MetaOapg.properties.ArrayNumber
 
     def __new__(
         cls,

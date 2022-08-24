@@ -33,7 +33,6 @@ class ComposedOneOfDifferentTypes(
 
     this is a model that allows payloads of type object or number
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -45,13 +44,12 @@ class ComposedOneOfDifferentTypes(
         class one_of_4(
             schemas.DictSchema
         ):
-            # TODO type hints here
+        
         
             class MetaOapg:
                 _additional_properties = schemas.AnyTypeSchema
                 max_properties = 4
                 min_properties = 4
-        
         
             def __new__(
                 cls,

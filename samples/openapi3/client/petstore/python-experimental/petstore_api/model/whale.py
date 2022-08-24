@@ -31,7 +31,7 @@ class Whale(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -56,7 +56,10 @@ class Whale(
                 def WHALE(cls):
                     return cls("whale")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    hasBaleen: MetaOapg.properties.hasBaleen
+    hasTeeth: MetaOapg.properties.hasTeeth
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,

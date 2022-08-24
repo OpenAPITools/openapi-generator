@@ -29,11 +29,10 @@ from . import path
 class SchemaForRequestBodyApplicationJson(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         _additional_properties = schemas.StrSchema
-
 
     def __new__(
         cls,

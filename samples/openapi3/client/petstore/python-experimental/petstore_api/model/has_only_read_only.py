@@ -31,14 +31,16 @@ class HasOnlyReadOnly(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             bar = schemas.StrSchema
             foo = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    bar: MetaOapg.properties.bar
+    foo: MetaOapg.properties.foo
 
     def __new__(
         cls,

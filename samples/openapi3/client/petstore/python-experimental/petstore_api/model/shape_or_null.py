@@ -33,14 +33,13 @@ class ShapeOrNull(
 
     The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
         
         @classmethod
         @property
-        def _discriminator(cls):
+        def discriminator(cls):
             return {
                 'shapeType': {
                     'Quadrilateral': Quadrilateral,

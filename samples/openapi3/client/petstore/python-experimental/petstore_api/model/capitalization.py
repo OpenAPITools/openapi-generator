@@ -31,7 +31,7 @@ class Capitalization(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -42,7 +42,13 @@ class Capitalization(
             SCA_ETH_Flow_Points = schemas.StrSchema
             ATT_NAME = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    smallCamel: MetaOapg.properties.smallCamel
+    CapitalCamel: MetaOapg.properties.CapitalCamel
+    small_Snake: MetaOapg.properties.small_Snake
+    Capital_Snake: MetaOapg.properties.Capital_Snake
+    SCA_ETH_Flow_Points: MetaOapg.properties.SCA_ETH_Flow_Points
+    ATT_NAME: MetaOapg.properties.ATT_NAME
 
     def __new__(
         cls,

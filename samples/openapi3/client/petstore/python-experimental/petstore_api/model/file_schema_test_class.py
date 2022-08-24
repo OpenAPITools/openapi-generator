@@ -31,7 +31,7 @@ class FileSchemaTestClass(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -51,7 +51,9 @@ class FileSchemaTestClass(
                 def _items(cls) -> typing.Type['File']:
                     return File
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    file: 'MetaOapg.properties.file'
+    files: MetaOapg.properties.files
 
     def __new__(
         cls,

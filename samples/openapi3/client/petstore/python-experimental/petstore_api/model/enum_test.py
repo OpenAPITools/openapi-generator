@@ -31,7 +31,7 @@ class EnumTest(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -160,7 +160,16 @@ class EnumTest(
             def IntegerEnumOneValue(cls) -> typing.Type['IntegerEnumOneValue']:
                 return IntegerEnumOneValue
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    enum_string: MetaOapg.properties.enum_string
+    enum_string_required: MetaOapg.properties.enum_string_required
+    enum_integer: MetaOapg.properties.enum_integer
+    enum_number: MetaOapg.properties.enum_number
+    stringEnum: 'MetaOapg.properties.stringEnum'
+    IntegerEnum: 'MetaOapg.properties.IntegerEnum'
+    StringEnumWithDefaultValue: 'MetaOapg.properties.StringEnumWithDefaultValue'
+    IntegerEnumWithDefaultValue: 'MetaOapg.properties.IntegerEnumWithDefaultValue'
+    IntegerEnumOneValue: 'MetaOapg.properties.IntegerEnumOneValue'
 
     def __new__(
         cls,

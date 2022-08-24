@@ -31,7 +31,6 @@ class FruitReq(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:

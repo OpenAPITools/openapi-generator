@@ -31,7 +31,7 @@ class NullableClass(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -200,7 +200,6 @@ class NullableClass(
                     schemas.NoneBase,
                     schemas.Schema
                 ):
-                    # TODO typ hint
                 
                 
                     class MetaOapg:
@@ -226,7 +225,6 @@ class NullableClass(
                 schemas.NoneBase,
                 schemas.Schema
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -252,7 +250,6 @@ class NullableClass(
                 schemas.NoneBase,
                 schemas.Schema
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -264,7 +261,6 @@ class NullableClass(
                         schemas.NoneBase,
                         schemas.Schema
                     ):
-                        # TODO typ hint
                     
                     
                         class MetaOapg:
@@ -300,7 +296,7 @@ class NullableClass(
             class object_items_nullable(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     
@@ -311,7 +307,6 @@ class NullableClass(
                         schemas.NoneBase,
                         schemas.Schema
                     ):
-                        # TODO typ hint
                     
                     
                         class MetaOapg:
@@ -329,7 +324,6 @@ class NullableClass(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
-            
             
                 def __new__(
                     cls,
@@ -351,7 +345,6 @@ class NullableClass(
             schemas.NoneBase,
             schemas.Schema
         ):
-            # TODO typ hint
         
         
             class MetaOapg:
@@ -369,7 +362,19 @@ class NullableClass(
                     _configuration=_configuration,
                     **kwargs,
                 )
-
+    
+    integer_prop: MetaOapg.properties.integer_prop
+    number_prop: MetaOapg.properties.number_prop
+    boolean_prop: MetaOapg.properties.boolean_prop
+    string_prop: MetaOapg.properties.string_prop
+    date_prop: MetaOapg.properties.date_prop
+    datetime_prop: MetaOapg.properties.datetime_prop
+    array_nullable_prop: MetaOapg.properties.array_nullable_prop
+    array_and_items_nullable_prop: MetaOapg.properties.array_and_items_nullable_prop
+    array_items_nullable: MetaOapg.properties.array_items_nullable
+    object_nullable_prop: MetaOapg.properties.object_nullable_prop
+    object_and_items_nullable_prop: MetaOapg.properties.object_and_items_nullable_prop
+    object_items_nullable: MetaOapg.properties.object_items_nullable
 
     def __new__(
         cls,

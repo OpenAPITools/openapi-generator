@@ -29,7 +29,6 @@ from . import path
 class CompositionAtRootSchema(
     schemas.ComposedSchema,
 ):
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -76,7 +75,7 @@ class CompositionAtRootSchema(
 class CompositionInPropertySchema(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -85,7 +84,6 @@ class CompositionInPropertySchema(
             class someProp(
                 schemas.ComposedSchema,
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -128,7 +126,8 @@ class CompositionInPropertySchema(
                         **kwargs,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    someProp: MetaOapg.properties.someProp
 
     def __new__(
         cls,
@@ -181,7 +180,6 @@ request_query_composition_in_property = api_client.QueryParameter(
 class SchemaForRequestBodyApplicationJson(
     schemas.ComposedSchema,
 ):
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -228,7 +226,7 @@ class SchemaForRequestBodyApplicationJson(
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -237,7 +235,6 @@ class SchemaForRequestBodyMultipartFormData(
             class someProp(
                 schemas.ComposedSchema,
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -280,7 +277,8 @@ class SchemaForRequestBodyMultipartFormData(
                         **kwargs,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    someProp: MetaOapg.properties.someProp
 
     def __new__(
         cls,
@@ -311,7 +309,6 @@ request_body_any_type = api_client.RequestBody(
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ComposedSchema,
 ):
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -358,7 +355,7 @@ class SchemaFor200ResponseBodyApplicationJson(
 class SchemaFor200ResponseBodyMultipartFormData(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -367,7 +364,6 @@ class SchemaFor200ResponseBodyMultipartFormData(
             class someProp(
                 schemas.ComposedSchema,
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -410,7 +406,8 @@ class SchemaFor200ResponseBodyMultipartFormData(
                         **kwargs,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    someProp: MetaOapg.properties.someProp
 
     def __new__(
         cls,

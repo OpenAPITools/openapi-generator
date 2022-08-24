@@ -31,7 +31,7 @@ class Banana(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -40,7 +40,8 @@ class Banana(
         class properties:
             lengthCm = schemas.NumberSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    lengthCm: MetaOapg.properties.lengthCm
 
     def __new__(
         cls,

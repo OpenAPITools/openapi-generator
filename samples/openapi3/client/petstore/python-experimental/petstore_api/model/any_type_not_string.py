@@ -31,7 +31,6 @@ class AnyTypeNotString(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:

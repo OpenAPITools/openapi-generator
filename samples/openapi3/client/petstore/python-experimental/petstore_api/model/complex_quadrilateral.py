@@ -31,7 +31,6 @@ class ComplexQuadrilateral(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -41,7 +40,7 @@ class ComplexQuadrilateral(
         class all_of_1(
             schemas.DictSchema
         ):
-            # TODO type hints here
+        
         
             class MetaOapg:
                 class properties:
@@ -61,7 +60,8 @@ class ComplexQuadrilateral(
                         def COMPLEX_QUADRILATERAL(cls):
                             return cls("ComplexQuadrilateral")
                 _additional_properties = schemas.AnyTypeSchema
-        
+            
+            quadrilateralType: MetaOapg.properties.quadrilateralType
         
             def __new__(
                 cls,

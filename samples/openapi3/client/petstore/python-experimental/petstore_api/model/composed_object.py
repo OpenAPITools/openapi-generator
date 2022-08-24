@@ -32,7 +32,6 @@ class ComposedObject(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:

@@ -31,7 +31,7 @@ class DanishPig(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -54,7 +54,8 @@ class DanishPig(
                 def DANISH_PIG(cls):
                     return cls("DanishPig")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,

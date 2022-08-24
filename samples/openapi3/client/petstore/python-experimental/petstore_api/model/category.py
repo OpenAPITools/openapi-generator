@@ -31,7 +31,7 @@ class Category(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -41,7 +41,9 @@ class Category(
             id = schemas.Int64Schema
             name = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    id: MetaOapg.properties.id
+    name: MetaOapg.properties.name
 
     def __new__(
         cls,

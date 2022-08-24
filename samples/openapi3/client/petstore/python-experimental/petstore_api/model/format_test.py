@@ -31,7 +31,7 @@ class FormatTest(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -176,7 +176,27 @@ class FormatTest(
                     }]
             noneProp = schemas.NoneSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    integer: MetaOapg.properties.integer
+    int32: MetaOapg.properties.int32
+    int32withValidations: MetaOapg.properties.int32withValidations
+    int64: MetaOapg.properties.int64
+    number: MetaOapg.properties.number
+    float32: MetaOapg.properties.float32
+    double: MetaOapg.properties.double
+    float64: MetaOapg.properties.float64
+    arrayWithUniqueItems: MetaOapg.properties.arrayWithUniqueItems
+    string: MetaOapg.properties.string
+    byte: MetaOapg.properties.byte
+    binary: MetaOapg.properties.binary
+    date: MetaOapg.properties.date
+    dateTime: MetaOapg.properties.dateTime
+    uuid: MetaOapg.properties.uuid
+    uuidNoExample: MetaOapg.properties.uuidNoExample
+    password: MetaOapg.properties.password
+    pattern_with_digits: MetaOapg.properties.pattern_with_digits
+    pattern_with_digits_and_delimiter: MetaOapg.properties.pattern_with_digits_and_delimiter
+    noneProp: MetaOapg.properties.noneProp
 
     def __new__(
         cls,

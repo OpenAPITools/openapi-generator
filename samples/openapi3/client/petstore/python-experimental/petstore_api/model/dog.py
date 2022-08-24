@@ -31,7 +31,6 @@ class Dog(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -41,13 +40,14 @@ class Dog(
         class all_of_1(
             schemas.DictSchema
         ):
-            # TODO type hints here
+        
         
             class MetaOapg:
                 class properties:
                     breed = schemas.StrSchema
                 _additional_properties = schemas.AnyTypeSchema
-        
+            
+            breed: MetaOapg.properties.breed
         
             def __new__(
                 cls,

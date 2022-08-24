@@ -33,7 +33,6 @@ class Name(
 
     Model for testing model name same as property name
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -57,6 +56,9 @@ class Name(
             If the property is required and was not passed in, an exception will be thrown
             """
         _additional_properties = schemas.AnyTypeSchema
+    
+    name: MetaOapg.properties.name
+    snake_case: MetaOapg.properties.snake_case
 
     def __new__(
         cls,

@@ -31,7 +31,6 @@ class TriangleInterface(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -57,6 +56,9 @@ class TriangleInterface(
                     return cls("Triangle")
             triangleType = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
+    
+    shapeType: MetaOapg.properties.shapeType
+    triangleType: MetaOapg.properties.triangleType
 
     def __new__(
         cls,

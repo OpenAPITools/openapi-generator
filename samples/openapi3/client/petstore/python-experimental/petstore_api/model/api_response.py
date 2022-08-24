@@ -31,7 +31,7 @@ class ApiResponse(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -39,7 +39,10 @@ class ApiResponse(
             type = schemas.StrSchema
             message = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    code: MetaOapg.properties.code
+    type: MetaOapg.properties.type
+    message: MetaOapg.properties.message
 
     def __new__(
         cls,

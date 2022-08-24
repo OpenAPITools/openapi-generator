@@ -33,7 +33,7 @@ class ObjectModelWithRefProps(
 
     a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -45,7 +45,10 @@ class ObjectModelWithRefProps(
             myString = schemas.StrSchema
             myBoolean = schemas.BoolSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    myNumber: 'MetaOapg.properties.myNumber'
+    myString: MetaOapg.properties.myString
+    myBoolean: MetaOapg.properties.myBoolean
 
     def __new__(
         cls,

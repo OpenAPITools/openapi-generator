@@ -55,14 +55,16 @@ request_path_pet_id = api_client.PathParameter(
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             name = schemas.StrSchema
             status = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    name: MetaOapg.properties.name
+    status: MetaOapg.properties.status
 
     def __new__(
         cls,

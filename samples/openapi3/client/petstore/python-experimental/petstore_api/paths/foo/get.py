@@ -30,7 +30,7 @@ from . import path
 class SchemaFor0ResponseBodyApplicationJson(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -40,7 +40,8 @@ class SchemaFor0ResponseBodyApplicationJson(
             def string(cls) -> typing.Type['Foo']:
                 return Foo
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    string: 'MetaOapg.properties.string'
 
     def __new__(
         cls,

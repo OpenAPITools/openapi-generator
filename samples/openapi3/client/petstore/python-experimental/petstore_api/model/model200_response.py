@@ -33,7 +33,6 @@ class Model200Response(
 
     model with an invalid class name for python, starts with a number
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -53,6 +52,8 @@ class Model200Response(
             If the property is required and was not passed in, an exception will be thrown
             """
         _additional_properties = schemas.AnyTypeSchema
+    
+    name: MetaOapg.properties.name
 
     def __new__(
         cls,

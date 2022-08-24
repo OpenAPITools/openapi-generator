@@ -29,7 +29,7 @@ from . import path
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -40,7 +40,9 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             param = schemas.StrSchema
             param2 = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    param: MetaOapg.properties.param
+    param2: MetaOapg.properties.param2
 
     def __new__(
         cls,

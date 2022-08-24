@@ -31,9 +31,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or isMap isAnyType}}
-    # TODO typ hint
-{{/or}}
 {{#or hasValidation composedSchemas isMap isAnyType}}
 
 
@@ -51,5 +48,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{#if isEnum}}
     {{> model_templates/enums }}
 {{/if}}
+    {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}

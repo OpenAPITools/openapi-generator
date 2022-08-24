@@ -253,7 +253,7 @@ request_header_enum_header_string = api_client.HeaderParameter(
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -311,7 +311,9 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 def XYZ(cls):
                     return cls("(xyz)")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    enum_form_string_array: MetaOapg.properties.enum_form_string_array
+    enum_form_string: MetaOapg.properties.enum_form_string
 
     def __new__(
         cls,

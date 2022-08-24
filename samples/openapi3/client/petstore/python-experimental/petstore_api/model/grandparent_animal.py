@@ -31,7 +31,7 @@ class GrandparentAnimal(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -40,7 +40,7 @@ class GrandparentAnimal(
         
         @classmethod
         @property
-        def _discriminator(cls):
+        def discriminator(cls):
             return {
                 'pet_type': {
                     'ChildCat': ChildCat,
@@ -50,7 +50,8 @@ class GrandparentAnimal(
         class properties:
             pet_type = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    pet_type: MetaOapg.properties.pet_type
 
     def __new__(
         cls,

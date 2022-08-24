@@ -31,7 +31,6 @@ class QuadrilateralInterface(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -57,6 +56,9 @@ class QuadrilateralInterface(
                     return cls("Quadrilateral")
             quadrilateralType = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
+    
+    shapeType: MetaOapg.properties.shapeType
+    quadrilateralType: MetaOapg.properties.quadrilateralType
 
     def __new__(
         cls,

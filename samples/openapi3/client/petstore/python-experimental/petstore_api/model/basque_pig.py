@@ -31,7 +31,7 @@ class BasquePig(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -54,7 +54,8 @@ class BasquePig(
                 def BASQUE_PIG(cls):
                     return cls("BasquePig")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,

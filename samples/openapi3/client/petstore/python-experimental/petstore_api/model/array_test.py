@@ -31,7 +31,7 @@ class ArrayTest(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -68,7 +68,10 @@ class ArrayTest(
                     def _items(cls) -> typing.Type['ReadOnlyFirst']:
                         return ReadOnlyFirst
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    array_of_string: MetaOapg.properties.array_of_string
+    array_array_of_integer: MetaOapg.properties.array_array_of_integer
+    array_array_of_model: MetaOapg.properties.array_array_of_model
 
     def __new__(
         cls,

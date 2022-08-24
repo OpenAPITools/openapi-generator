@@ -33,7 +33,7 @@ class Pet(
 
     Pet object that needs to be added to the store
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -92,7 +92,13 @@ class Pet(
                 def SOLD(cls):
                     return cls("sold")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    id: MetaOapg.properties.id
+    category: 'MetaOapg.properties.category'
+    name: MetaOapg.properties.name
+    photoUrls: MetaOapg.properties.photoUrls
+    tags: MetaOapg.properties.tags
+    status: MetaOapg.properties.status
 
     def __new__(
         cls,

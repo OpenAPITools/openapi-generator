@@ -31,7 +31,6 @@ class Fruit(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -54,6 +53,8 @@ class Fruit(
                 Apple,
                 Banana,
             ]
+    
+    color: MetaOapg.properties.color
 
     def __new__(
         cls,

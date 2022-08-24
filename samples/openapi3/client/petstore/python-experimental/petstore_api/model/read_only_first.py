@@ -31,14 +31,16 @@ class ReadOnlyFirst(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             bar = schemas.StrSchema
             baz = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    bar: MetaOapg.properties.bar
+    baz: MetaOapg.properties.baz
 
     def __new__(
         cls,

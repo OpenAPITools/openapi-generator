@@ -31,7 +31,7 @@ class MapTest(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -40,7 +40,7 @@ class MapTest(
             class map_map_of_string(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     
@@ -48,11 +48,10 @@ class MapTest(
                     class _additional_properties(
                         schemas.DictSchema
                     ):
-                        # TODO type hints here
+                    
                     
                         class MetaOapg:
                             _additional_properties = schemas.StrSchema
-                    
                     
                         def __new__(
                             cls,
@@ -66,7 +65,6 @@ class MapTest(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
-            
             
                 def __new__(
                     cls,
@@ -85,7 +83,7 @@ class MapTest(
             class map_of_enum_string(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     
@@ -110,7 +108,6 @@ class MapTest(
                         def LOWER(cls):
                             return cls("lower")
             
-            
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
@@ -128,11 +125,10 @@ class MapTest(
             class direct_map(
                 schemas.DictSchema
             ):
-                # TODO type hints here
+            
             
                 class MetaOapg:
                     _additional_properties = schemas.BoolSchema
-            
             
                 def __new__(
                     cls,
@@ -152,7 +148,11 @@ class MapTest(
             def indirect_map(cls) -> typing.Type['StringBooleanMap']:
                 return StringBooleanMap
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    map_map_of_string: MetaOapg.properties.map_map_of_string
+    map_of_enum_string: MetaOapg.properties.map_of_enum_string
+    direct_map: MetaOapg.properties.direct_map
+    indirect_map: 'MetaOapg.properties.indirect_map'
 
     def __new__(
         cls,

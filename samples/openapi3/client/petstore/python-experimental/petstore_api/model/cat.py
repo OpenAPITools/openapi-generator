@@ -31,7 +31,6 @@ class Cat(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -41,13 +40,14 @@ class Cat(
         class all_of_1(
             schemas.DictSchema
         ):
-            # TODO type hints here
+        
         
             class MetaOapg:
                 class properties:
                     declawed = schemas.BoolSchema
                 _additional_properties = schemas.AnyTypeSchema
-        
+            
+            declawed: MetaOapg.properties.declawed
         
             def __new__(
                 cls,

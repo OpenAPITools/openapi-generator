@@ -31,14 +31,13 @@ class Triangle(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
         
         @classmethod
         @property
-        def _discriminator(cls):
+        def discriminator(cls):
             return {
                 'triangleType': {
                     'EquilateralTriangle': EquilateralTriangle,

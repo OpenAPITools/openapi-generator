@@ -31,7 +31,7 @@ class ObjectWithInlineCompositionProperty(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -40,7 +40,6 @@ class ObjectWithInlineCompositionProperty(
             class someProp(
                 schemas.ComposedSchema,
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -83,7 +82,8 @@ class ObjectWithInlineCompositionProperty(
                         **kwargs,
                     )
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    someProp: MetaOapg.properties.someProp
 
     def __new__(
         cls,

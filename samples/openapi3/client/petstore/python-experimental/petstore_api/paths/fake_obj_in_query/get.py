@@ -28,13 +28,14 @@ from . import path
 class MapBeanSchema(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             keyword = schemas.StrSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    keyword: MetaOapg.properties.keyword
 
     def __new__(
         cls,

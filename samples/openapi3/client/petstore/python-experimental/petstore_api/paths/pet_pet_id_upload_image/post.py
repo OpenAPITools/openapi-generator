@@ -57,14 +57,16 @@ request_path_pet_id = api_client.PathParameter(
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
             additionalMetadata = schemas.StrSchema
             file = schemas.BinarySchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    additionalMetadata: MetaOapg.properties.additionalMetadata
+    file: MetaOapg.properties.file
 
     def __new__(
         cls,

@@ -31,7 +31,7 @@ class Zebra(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -81,7 +81,9 @@ class Zebra(
                 def ZEBRA(cls):
                     return cls("zebra")
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    type: MetaOapg.properties.type
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,

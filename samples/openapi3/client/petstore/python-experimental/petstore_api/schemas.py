@@ -946,9 +946,9 @@ class Discriminable:
         """
         Used in schemas with discriminators
         """
-        if not hasattr(cls.MetaOapg, '_discriminator'):
+        if not hasattr(cls.MetaOapg, 'discriminator'):
             return None
-        disc = cls.MetaOapg._discriminator
+        disc = cls.MetaOapg.discriminator
         if disc_property_name not in disc:
             return None
         discriminated_cls = disc[disc_property_name].get(disc_payload_value)
@@ -1132,11 +1132,11 @@ class DictBase(Discriminable, ValidatorBase):
         other_path_to_schemas = cls._validate_args(arg, validation_metadata=validation_metadata)
         update(_path_to_schemas, other_path_to_schemas)
         try:
-            _discriminator = cls.MetaOapg._discriminator
+            discriminator = cls.MetaOapg.discriminator
         except AttributeError:
             return _path_to_schemas
         # discriminator exists
-        disc_prop_name = list(_discriminator.keys())[0]
+        disc_prop_name = list(discriminator.keys())[0]
         cls._ensure_discriminator_value_present(disc_prop_name, validation_metadata, arg)
         discriminated_cls = cls._get_discriminated_class(
             disc_property_name=disc_prop_name, disc_payload_value=arg[disc_prop_name])
@@ -1145,7 +1145,7 @@ class DictBase(Discriminable, ValidatorBase):
                 "Invalid discriminator value was passed in to {}.{} Only the values {} are allowed at {}".format(
                     cls.__name__,
                     disc_prop_name,
-                    list(_discriminator[disc_prop_name].keys()),
+                    list(discriminator[disc_prop_name].keys()),
                     validation_metadata.path_to_item + (disc_prop_name,)
                 )
             )
@@ -1686,10 +1686,10 @@ class ComposedBase(Discriminable):
         )
 
         # process composed schema
-        _discriminator = getattr(cls, '_discriminator', None)
+        discriminator = getattr(cls, 'discriminator', None)
         discriminated_cls = None
-        if _discriminator and arg and isinstance(arg, frozendict):
-            disc_property_name = list(_discriminator.keys())[0]
+        if discriminator and arg and isinstance(arg, frozendict):
+            disc_property_name = list(discriminator.keys())[0]
             cls._ensure_discriminator_value_present(disc_property_name, updated_vm, arg)
             # get discriminated_cls by looking at the dict in the current class
             discriminated_cls = cls._get_discriminated_class(
@@ -1700,7 +1700,7 @@ class ComposedBase(Discriminable):
                         arg[disc_property_name],
                         cls.__name__,
                         disc_property_name,
-                        list(_discriminator[disc_property_name].keys()),
+                        list(discriminator[disc_property_name].keys()),
                         updated_vm.path_to_item + (disc_property_name,)
                     )
                 )

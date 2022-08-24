@@ -31,12 +31,11 @@ class ObjectWithValidations(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _additional_properties = schemas.AnyTypeSchema
         min_properties = 2
-
 
     def __new__(
         cls,

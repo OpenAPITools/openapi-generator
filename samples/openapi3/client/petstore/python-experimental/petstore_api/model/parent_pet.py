@@ -32,14 +32,13 @@ class ParentPet(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
         
         @classmethod
         @property
-        def _discriminator(cls):
+        def discriminator(cls):
             return {
                 'pet_type': {
                     'ChildCat': ChildCat,

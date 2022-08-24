@@ -31,7 +31,7 @@ class User(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -52,7 +52,6 @@ class User(
                 schemas.NoneBase,
                 schemas.Schema
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -76,7 +75,6 @@ class User(
             class anyTypeExceptNullProp(
                 schemas.ComposedSchema,
             ):
-                # TODO typ hint
             
             
                 class MetaOapg:
@@ -97,7 +95,20 @@ class User(
                     )
             anyTypePropNullable = schemas.AnyTypeSchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    id: MetaOapg.properties.id
+    username: MetaOapg.properties.username
+    firstName: MetaOapg.properties.firstName
+    lastName: MetaOapg.properties.lastName
+    email: MetaOapg.properties.email
+    password: MetaOapg.properties.password
+    phone: MetaOapg.properties.phone
+    userStatus: MetaOapg.properties.userStatus
+    objectWithNoDeclaredProps: MetaOapg.properties.objectWithNoDeclaredProps
+    objectWithNoDeclaredPropsNullable: MetaOapg.properties.objectWithNoDeclaredPropsNullable
+    anyTypeProp: MetaOapg.properties.anyTypeProp
+    anyTypeExceptNullProp: MetaOapg.properties.anyTypeExceptNullProp
+    anyTypePropNullable: MetaOapg.properties.anyTypePropNullable
 
     def __new__(
         cls,

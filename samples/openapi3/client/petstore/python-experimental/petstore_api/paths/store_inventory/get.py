@@ -31,11 +31,10 @@ _auth = [
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         _additional_properties = schemas.Int32Schema
-
 
     def __new__(
         cls,

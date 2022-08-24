@@ -33,7 +33,6 @@ class ModelReturn(
 
     Model for testing reserved words
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -52,6 +51,7 @@ class ModelReturn(
             If the property is required and was not passed in, an exception will be thrown
             """
         _additional_properties = schemas.AnyTypeSchema
+    
 
     def __new__(
         cls,

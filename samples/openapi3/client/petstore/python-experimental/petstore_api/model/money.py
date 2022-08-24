@@ -31,7 +31,7 @@ class Money(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -46,7 +46,9 @@ class Money(
             def currency(cls) -> typing.Type['Currency']:
                 return Currency
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    amount: MetaOapg.properties.amount
+    currency: 'MetaOapg.properties.currency'
 
     def __new__(
         cls,

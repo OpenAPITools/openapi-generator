@@ -31,7 +31,7 @@ class NoAdditionalProperties(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -41,7 +41,9 @@ class NoAdditionalProperties(
             id = schemas.Int64Schema
             petId = schemas.Int64Schema
         _additional_properties = None
-
+    
+    id: MetaOapg.properties.id
+    petId: MetaOapg.properties.petId
 
     def __new__(
         cls,

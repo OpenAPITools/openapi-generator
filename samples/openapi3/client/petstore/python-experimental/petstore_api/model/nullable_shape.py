@@ -33,7 +33,6 @@ class NullableShape(
 
     The value may be a shape or the 'null' value. For a composed schema to validate a null payload, one of its chosen oneOf schemas must be type null or nullable (introduced in OAS schema >= 3.0)
     """
-    # TODO typ hint
 
 
     class MetaOapg:

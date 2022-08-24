@@ -31,7 +31,6 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:

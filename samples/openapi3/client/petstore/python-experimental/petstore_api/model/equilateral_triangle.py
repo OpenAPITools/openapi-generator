@@ -31,7 +31,6 @@ class EquilateralTriangle(
 
     Do not edit the class manually.
     """
-    # TODO typ hint
 
 
     class MetaOapg:
@@ -41,7 +40,7 @@ class EquilateralTriangle(
         class all_of_1(
             schemas.DictSchema
         ):
-            # TODO type hints here
+        
         
             class MetaOapg:
                 class properties:
@@ -61,7 +60,8 @@ class EquilateralTriangle(
                         def EQUILATERAL_TRIANGLE(cls):
                             return cls("EquilateralTriangle")
                 _additional_properties = schemas.AnyTypeSchema
-        
+            
+            triangleType: MetaOapg.properties.triangleType
         
             def __new__(
                 cls,

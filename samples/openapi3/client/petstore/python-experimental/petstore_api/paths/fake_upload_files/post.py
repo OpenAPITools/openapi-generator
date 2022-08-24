@@ -31,7 +31,7 @@ from . import path
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    # TODO type hints here
+
 
     class MetaOapg:
         class properties:
@@ -42,7 +42,8 @@ class SchemaForRequestBodyMultipartFormData(
             ):
                 _items = schemas.BinarySchema
         _additional_properties = schemas.AnyTypeSchema
-
+    
+    files: MetaOapg.properties.files
 
     def __new__(
         cls,

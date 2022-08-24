@@ -33,7 +33,7 @@ class ObjectWithDifficultlyNamedProps(
 
     model with properties that have invalid names for python
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -80,7 +80,7 @@ class ObjectWithDifficultlyNamedProps(
             If the property is required and was not passed in, an exception will be thrown
             """
         _additional_properties = schemas.AnyTypeSchema
-
+    
 
     def __new__(
         cls,

@@ -31,7 +31,7 @@ class AppleReq(
 
     Do not edit the class manually.
     """
-    # TODO type hints here
+
 
     class MetaOapg:
         _required_property_names = {
@@ -41,7 +41,9 @@ class AppleReq(
             cultivar = schemas.StrSchema
             mealy = schemas.BoolSchema
         _additional_properties = None
-
+    
+    cultivar: MetaOapg.properties.cultivar
+    mealy: MetaOapg.properties.mealy
 
     def __new__(
         cls,
