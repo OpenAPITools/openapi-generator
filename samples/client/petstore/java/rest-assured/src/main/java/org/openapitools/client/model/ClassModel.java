@@ -34,7 +34,7 @@ public class ClassModel {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
-  public ClassModel() { 
+  public ClassModel() {
   }
 
   public ClassModel propertyClass(String propertyClass) {

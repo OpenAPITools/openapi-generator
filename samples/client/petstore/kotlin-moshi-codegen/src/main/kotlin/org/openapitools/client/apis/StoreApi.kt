@@ -21,6 +21,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.Order
 
@@ -40,7 +41,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+class StoreApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -108,7 +109,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -245,7 +246,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", orderId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

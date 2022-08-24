@@ -93,7 +93,7 @@ public class Order {
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
-  public Order() { 
+  public Order() {
   }
 
   public Order id(Long id) {

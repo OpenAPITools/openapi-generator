@@ -14,17 +14,19 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  EnumPatternObject,
+  FakeEnumRequestGetInline200Response,
+  NumberEnum,
+  StringEnum,
+} from '../models';
 import {
-    EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
-    FakeEnumRequestGetInline200Response,
     FakeEnumRequestGetInline200ResponseFromJSON,
     FakeEnumRequestGetInline200ResponseToJSON,
-    NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
-    StringEnum,
     StringEnumFromJSON,
     StringEnumToJSON,
 } from '../models';
@@ -37,9 +39,9 @@ export interface FakeEnumRequestGetInlineRequest {
 }
 
 export interface FakeEnumRequestGetRefRequest {
-    stringEnum?: FakeEnumRequestGetRefStringEnumEnum;
+    stringEnum?: StringEnum;
     nullableStringEnum?: StringEnum | null;
-    numberEnum?: FakeEnumRequestGetRefNumberEnumEnum;
+    numberEnum?: NumberEnum;
     nullableNumberEnum?: NumberEnum | null;
 }
 
@@ -58,7 +60,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
+    async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
         const queryParameters: any = {};
 
         if (requestParameters.stringEnum !== undefined) {
@@ -91,14 +93,14 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestGetInline(requestParameters: FakeEnumRequestGetInlineRequest = {}, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<FakeEnumRequestGetInline200Response> {
+    async fakeEnumRequestGetInline(requestParameters: FakeEnumRequestGetInlineRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FakeEnumRequestGetInline200Response> {
         const response = await this.fakeEnumRequestGetInlineRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async fakeEnumRequestGetRefRaw(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
+    async fakeEnumRequestGetRefRaw(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
         const queryParameters: any = {};
 
         if (requestParameters.stringEnum !== undefined) {
@@ -131,14 +133,14 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestGetRef(requestParameters: FakeEnumRequestGetRefRequest = {}, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<EnumPatternObject> {
+    async fakeEnumRequestGetRef(requestParameters: FakeEnumRequestGetRefRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnumPatternObject> {
         const response = await this.fakeEnumRequestGetRefRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async fakeEnumRequestPostInlineRaw(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
+    async fakeEnumRequestPostInlineRaw(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -158,14 +160,14 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestPostInline(requestParameters: FakeEnumRequestPostInlineRequest = {}, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<FakeEnumRequestGetInline200Response> {
+    async fakeEnumRequestPostInline(requestParameters: FakeEnumRequestPostInlineRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FakeEnumRequestGetInline200Response> {
         const response = await this.fakeEnumRequestPostInlineRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async fakeEnumRequestPostRefRaw(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
+    async fakeEnumRequestPostRefRaw(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -185,7 +187,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestPostRef(requestParameters: FakeEnumRequestPostRefRequest = {}, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<EnumPatternObject> {
+    async fakeEnumRequestPostRef(requestParameters: FakeEnumRequestPostRefRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnumPatternObject> {
         const response = await this.fakeEnumRequestPostRefRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -206,24 +208,6 @@ export enum FakeEnumRequestGetInlineStringEnumEnum {
   * @enum {string}
   */
 export enum FakeEnumRequestGetInlineNumberEnumEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
-}
-/**
-  * @export
-  * @enum {string}
-  */
-export enum FakeEnumRequestGetRefStringEnumEnum {
-    One = 'one',
-    Two = 'two',
-    Three = 'three'
-}
-/**
-  * @export
-  * @enum {string}
-  */
-export enum FakeEnumRequestGetRefNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3

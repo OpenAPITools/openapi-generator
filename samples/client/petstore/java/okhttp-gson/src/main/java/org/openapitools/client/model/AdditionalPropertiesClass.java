@@ -22,7 +22,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -83,7 +82,7 @@ public class AdditionalPropertiesClass {
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   private Map<String, String> mapWithUndeclaredPropertiesString = null;
 
-  public AdditionalPropertiesClass() { 
+  public AdditionalPropertiesClass() {
   }
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {

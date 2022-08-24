@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -45,7 +44,8 @@ public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
-  public Cat() { 
+  public Cat() {
+
   }
 
   public Cat declawed(Boolean declawed) {

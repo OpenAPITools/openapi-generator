@@ -22,7 +22,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -93,7 +92,7 @@ public class MapTest {
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = null;
 
-  public MapTest() { 
+  public MapTest() {
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

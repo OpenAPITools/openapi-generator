@@ -21,6 +21,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
@@ -41,7 +42,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -181,7 +182,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -411,7 +412,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -554,7 +555,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -632,7 +633,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

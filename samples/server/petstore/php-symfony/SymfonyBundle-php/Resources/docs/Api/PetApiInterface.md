@@ -16,11 +16,10 @@ Method | HTTP request | Description
 
 ## Service Declaration
 ```yaml
-# src/Acme/MyBundle/Resources/services.yml
+# config/services.yml
 services:
     # ...
-    acme.my_bundle.api.pet:
-        class: Acme\MyBundle\Api\PetApi
+    Acme\MyBundle\Api\PetApi:
         tags:
             - { name: "open_api_server.api", api: "pet" }
     # ...
@@ -58,7 +57,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $pet)
+    public function addPet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -120,7 +119,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#deletePet
      */
-    public function deletePet($petId, $apiKey = null)
+    public function deletePet(int $petId, ?string $apiKey, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -183,7 +182,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByStatus
      */
-    public function findPetsByStatus(array $status)
+    public function findPetsByStatus(array $status, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -245,7 +244,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags(array $tags)
+    public function findPetsByTags(array $tags, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -307,7 +306,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#getPetById
      */
-    public function getPetById($petId)
+    public function getPetById(int $petId, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -369,7 +368,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $pet)
+    public function updatePet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }
@@ -431,7 +430,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePetWithForm
      */
-    public function updatePetWithForm($petId, $name = null, $status = null)
+    public function updatePetWithForm(int $petId, ?string $name, ?string $status, int &$responseCode, array &$responseHeaders): void
     {
         // Implement the operation ...
     }
@@ -495,7 +494,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null)
+    public function uploadFile(int $petId, ?string $additionalMetadata, ?UploadedFile $file, int &$responseCode, array &$responseHeaders): array|object|null
     {
         // Implement the operation ...
     }

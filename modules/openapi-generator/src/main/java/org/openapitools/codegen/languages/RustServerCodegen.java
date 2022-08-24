@@ -335,7 +335,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getHelp() {
-        return "Generates a Rust client/server library (beta) using the openapi-generator project.";
+        return "Generates a Rust Hyper/Tower server library. Also generates a matching Hyper client library within " +
+                "the same crate that implements the same trait.";
     }
 
     @Override
@@ -1110,9 +1111,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             co, Map<String, List<CodegenOperation>> operations) {
         // only generate operation for the first tag of the tags
-        if (tag != null && co.tags.size() > 1 && !tag.equals(co.tags.get(0).getName())) {
-            LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, co.operationId);
-            return;
+        if (tag != null && co.tags.size() > 1) {
+            String expectedTag = sanitizeTag(co.tags.get(0).getName());
+            if (!tag.equals(expectedTag)) {
+                LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, co.operationId);
+                return;
+            }
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
     }

@@ -583,10 +583,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
-        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive) {
-            supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                    (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
-                    "SpringFoxConfiguration.kt"));
+        if (!reactive) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        "SpringFoxConfiguration.kt"));
+            } else if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        "SpringDocConfiguration.kt"));
+            }
         }
 
         // spring uses the jackson lib, and we disallow configuration.

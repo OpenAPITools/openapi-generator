@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |serveStatic|serve will serve files from the directory 'static'.| |true|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|useCustomMonad|use a custom monad instead of the default Handler| |false|
 
 ## IMPORT MAPPING
 
@@ -195,7 +196,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

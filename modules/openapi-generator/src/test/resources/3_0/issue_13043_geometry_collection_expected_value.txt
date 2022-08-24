@@ -1,0 +1,4 @@
+GeometryCollection(
+        type="GeometryCollection",
+        geometries=[],
+    )

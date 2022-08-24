@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * Tag
@@ -45,7 +47,7 @@ public class Tag {
   @XmlElement(name = "name")
   private String name;
 
-  public Tag() { 
+  public Tag() {
   }
 
   public Tag id(Long id) {

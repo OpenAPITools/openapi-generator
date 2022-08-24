@@ -38,8 +38,7 @@ public class Animal {
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
-  public Animal() { 
-    this.className = this.getClass().getSimpleName();
+  public Animal() {
   }
 
   public Animal className(String className) {

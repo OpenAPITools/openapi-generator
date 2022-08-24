@@ -231,4 +231,10 @@ describe("ObjectSerializer", () => {
             expect(deserialized).to.deep.equal(categories)
         })        
     })
+    describe("Parse", () => {
+        it("text/html", () => {
+            const input = "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n<title>Error 404 Not Found</title>\n</head>\n<body><h2>HTTP ERROR 404</h2>\n<p>Resource not found</p>\n</body>\n</html>\n"
+            expect(ObjectSerializer.parse(input, "text/html")).to.equal(input)
+        });
+    })
 })

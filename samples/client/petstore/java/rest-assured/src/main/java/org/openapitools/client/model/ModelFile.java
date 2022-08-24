@@ -34,7 +34,7 @@ public class ModelFile {
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
   private String sourceURI;
 
-  public ModelFile() { 
+  public ModelFile() {
   }
 
   public ModelFile sourceURI(String sourceURI) {

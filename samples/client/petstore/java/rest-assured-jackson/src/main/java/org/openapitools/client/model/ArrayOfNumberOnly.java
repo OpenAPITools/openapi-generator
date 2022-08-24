@@ -40,7 +40,7 @@ public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber = null;
 
-  public ArrayOfNumberOnly() { 
+  public ArrayOfNumberOnly() {
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {

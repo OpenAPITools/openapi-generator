@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * FileSchemaTestClass
@@ -51,7 +53,7 @@ public class FileSchemaTestClass {
   @XmlElement(name = "files")
   private List<ModelFile> files = null;
 
-  public FileSchemaTestClass() { 
+  public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {

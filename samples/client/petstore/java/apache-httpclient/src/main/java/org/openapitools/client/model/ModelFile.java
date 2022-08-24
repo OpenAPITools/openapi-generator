@@ -35,7 +35,7 @@ public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private String sourceURI;
 
-  public ModelFile() { 
+  public ModelFile() {
   }
 
   public ModelFile sourceURI(String sourceURI) {

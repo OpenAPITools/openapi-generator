@@ -91,6 +91,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
+    @Deprecated
     default ResponseEntity<Set<Pet>> findPetsByTags(Set<String> tags) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

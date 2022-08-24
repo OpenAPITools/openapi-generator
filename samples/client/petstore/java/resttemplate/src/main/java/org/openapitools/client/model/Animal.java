@@ -55,7 +55,7 @@ public class Animal {
   public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
 
-  public Animal() { 
+  public Animal() {
   }
 
   public Animal className(String className) {

@@ -353,7 +353,11 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
         default:
 
             guard let data = data, !data.isEmpty else {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
+                if let E = T.self as? ExpressibleByNilLiteral.Type {
+                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T)))
+                } else {
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
+                }
                 return
             }
 

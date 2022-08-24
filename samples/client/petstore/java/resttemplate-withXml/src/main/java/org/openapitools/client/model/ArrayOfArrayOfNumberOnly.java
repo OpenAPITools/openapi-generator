@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -46,7 +48,7 @@ public class ArrayOfArrayOfNumberOnly {
   @XmlElement(name = "arrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
-  public ArrayOfArrayOfNumberOnly() { 
+  public ArrayOfArrayOfNumberOnly() {
   }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {

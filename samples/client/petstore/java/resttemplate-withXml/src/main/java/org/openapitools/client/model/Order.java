@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * Order
@@ -56,6 +58,7 @@ public class Order {
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   @XmlElement(name = "shipDate")
+  @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
   private OffsetDateTime shipDate;
 
   /**
@@ -108,7 +111,7 @@ public class Order {
   @XmlElement(name = "complete")
   private Boolean complete = false;
 
-  public Order() { 
+  public Order() {
   }
 
   public Order id(Long id) {

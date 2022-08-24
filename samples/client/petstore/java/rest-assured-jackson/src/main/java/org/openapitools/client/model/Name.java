@@ -49,7 +49,7 @@ public class Name {
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   private Integer _123number;
 
-  public Name() { 
+  public Name() {
   }
 
   @JsonCreator

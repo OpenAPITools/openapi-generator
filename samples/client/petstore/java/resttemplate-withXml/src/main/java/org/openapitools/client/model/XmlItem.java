@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * XmlItem
@@ -215,7 +217,7 @@ public class XmlItem {
   @XmlElementWrapper(namespace="http://f.com/schema", name = "prefix_ns_wrapped_array")
   private List<Integer> prefixNsWrappedArray = null;
 
-  public XmlItem() { 
+  public XmlItem() {
   }
 
   public XmlItem attributeString(String attributeString) {

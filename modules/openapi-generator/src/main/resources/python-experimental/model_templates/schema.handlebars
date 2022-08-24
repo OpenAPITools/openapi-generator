@@ -7,7 +7,7 @@
     {{else}}
         {{#or isMap isArray isAnyType}}
             {{#if isMap}}
-                {{#or hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping}}
+                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping}}
 {{> model_templates/schema_dict }}
                 {{else}}
                     {{#if additionalPropertiesIsAnyType}}
@@ -25,7 +25,7 @@
                 {{/or}}
             {{/if}}
             {{#if isAnyType}}
-                {{#or isEnum hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping items}}
+                {{#or isEnum hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping items}}
 {{> model_templates/schema_composed_or_anytype }}
                 {{else}}
 {{> model_templates/var_equals_cls }}
@@ -39,8 +39,18 @@
             {{/or}}
         {{/or}}
         {{#if nameInSnakeCase}}
-locals()['{{baseName}}'] = {{name}}
+locals()["{{{baseName}}}"] = {{name}}
 del locals()['{{name}}']
+"""
+NOTE:
+openapi/json-schema allows properties to have invalid python names
+The above local assignment allows the code to keep those invalid python names
+This allows properties to have names like 'some-name', '1 bad name'
+Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+- __new__ these properties can be passed in as **kwargs
+- _from_openapi_data these are passed in in a dict in the first positional argument *arg
+If the property is required and was not passed in, an exception will be thrown
+"""
         {{/if}}
     {{/if}}
 {{/unless}}

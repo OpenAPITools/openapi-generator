@@ -52,7 +52,7 @@ public class GrandparentAnimal {
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
   protected String petType;
 
-  public GrandparentAnimal() { 
+  public GrandparentAnimal() {
     this.petType = this.getClass().getSimpleName();
   }
 

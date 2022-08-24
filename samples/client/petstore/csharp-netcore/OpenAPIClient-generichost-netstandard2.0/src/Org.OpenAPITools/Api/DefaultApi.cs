@@ -169,6 +169,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/foo";
 

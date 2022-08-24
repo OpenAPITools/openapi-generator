@@ -23,7 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -56,7 +55,7 @@ public class Cat extends Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() { 
+  public Cat() {
     super();
     this.className = this.getClass().getSimpleName();
   }

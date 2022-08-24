@@ -35,7 +35,7 @@ public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   private OuterEnumInteger value;
 
-  public OuterObjectWithEnumProperty() { 
+  public OuterObjectWithEnumProperty() {
   }
 
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {

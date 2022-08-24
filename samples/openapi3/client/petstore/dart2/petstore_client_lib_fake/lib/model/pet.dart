@@ -69,20 +69,26 @@ class Pet {
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    final json = <String, dynamic>{};
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (category != null) {
-      _json[r'category'] = category;
+    if (this.category != null) {
+      json[r'category'] = this.category;
+    } else {
+      json[r'category'] = null;
     }
-      _json[r'name'] = name;
-      _json[r'photoUrls'] = photoUrls;
-      _json[r'tags'] = tags;
-    if (status != null) {
-      _json[r'status'] = status;
+      json[r'name'] = this.name;
+      json[r'photoUrls'] = this.photoUrls;
+      json[r'tags'] = this.tags;
+    if (this.status != null) {
+      json[r'status'] = this.status;
+    } else {
+      json[r'status'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Pet] instance and imports its values from

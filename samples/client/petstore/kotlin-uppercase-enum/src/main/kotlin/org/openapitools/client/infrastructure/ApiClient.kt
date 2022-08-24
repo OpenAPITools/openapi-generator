@@ -27,9 +27,10 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Locale
-import com.squareup.moshi.adapter
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 
-open class ApiClient(val baseUrl: String) {
+open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -47,7 +48,7 @@ open class ApiClient(val baseUrl: String) {
         const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
-        val client: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 
@@ -104,7 +105,7 @@ open class ApiClient(val baseUrl: String) {
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
-                    Serializer.moshi.adapter(T::class.java).toJson(content)
+                    Serializer.kotlinxSerializationJson.encodeToString(content)
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
@@ -112,18 +113,21 @@ open class ApiClient(val baseUrl: String) {
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
-    @OptIn(ExperimentalStdlibApi::class)
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
         if(body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
-            // return tempfile
+            // return tempFile
             // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
-            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
-            f.deleteOnExit()
-            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
-            return f as T
+            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            tempFile.deleteOnExit()
+            body.byteStream().use { inputStream ->
+                tempFile.outputStream().use { tempFileOutputStream ->
+                    inputStream.copyTo(tempFileOutputStream)
+                }
+            }
+            return tempFile as T
         }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
@@ -131,7 +135,7 @@ open class ApiClient(val baseUrl: String) {
         }
         return when {
             mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
-                Serializer.moshi.adapter<T>().fromJson(bodyContent)
+                Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -233,6 +237,6 @@ open class ApiClient(val baseUrl: String) {
         formatter. It also easily allows to provide a simple way to define a custom date format pattern
         inside a gson/moshi adapter.
         */
-        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
+        return Serializer.kotlinxSerializationJson.encodeToString(value).replace("\"", "")
     }
 }

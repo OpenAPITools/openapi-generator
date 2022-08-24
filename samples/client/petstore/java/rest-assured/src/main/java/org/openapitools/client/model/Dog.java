@@ -22,7 +22,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.DogAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -36,8 +35,8 @@ public class Dog extends Animal {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public Dog() { 
-    this.className = this.getClass().getSimpleName();
+  public Dog() {
+
   }
 
   public Dog breed(String breed) {

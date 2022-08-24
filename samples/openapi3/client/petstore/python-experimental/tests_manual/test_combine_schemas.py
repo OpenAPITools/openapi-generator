@@ -10,7 +10,7 @@
 """
 
 
-import sys
+import decimal
 import unittest
 
 import petstore_api
@@ -40,20 +40,12 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
 
         assert EnumPlusPrim._enum_value_to_name == {0: "POSITIVE_0"}
 
-        # _enum_value_to_name only contains one key
-        assert set(EnumPlusPrim._enum_value_to_name) == {0}
-        # the value is the expected enum class
-        enum_value_cls = EnumPlusPrim._enum_by_value[0]
-        assert issubclass(enum_value_cls, EnumPlusPrim)
-        assert issubclass(enum_value_cls, Singleton)
-        assert issubclass(enum_value_cls, int)
-        # the enum stored in that class is expected
-        enum_value = enum_value_cls.POSITIVE_0
+        enum_value = EnumPlusPrim.POSITIVE_0
         assert isinstance(enum_value, EnumPlusPrim)
         assert isinstance(enum_value, Singleton)
-        assert isinstance(enum_value, int)
+        assert isinstance(enum_value, decimal.Decimal)
         # we can access this enum from our class
-        assert EnumPlusPrim.POSITIVE_0 == enum_value
+        assert EnumPlusPrim.POSITIVE_0 == 0
 
         # invalid value throws an exception
         with self.assertRaises(petstore_api.ApiValueError):
@@ -64,7 +56,7 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         assert val == 0
         assert isinstance(val, EnumPlusPrim)
         assert isinstance(val, Singleton)
-        assert isinstance(val, int)
+        assert isinstance(val, decimal.Decimal)
 
     def test_valid_enum_plus_enum(self):
         class IntegerOneEnum(IntegerEnum, IntegerEnumOneValue):
@@ -78,20 +70,12 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
 
         assert IntegerOneEnum._enum_value_to_name == {0: "POSITIVE_0"}
 
-        # _enum_by_value only contains one key
-        assert set(IntegerOneEnum._enum_by_value) == {0}
-        # the value is the expected enum class
-        enum_value_cls = IntegerOneEnum._enum_by_value[0]
-        assert issubclass(enum_value_cls, IntegerOneEnum)
-        assert issubclass(enum_value_cls, Singleton)
-        assert issubclass(enum_value_cls, int)
-        # the enum stored in that class is expected
-        enum_value = enum_value_cls.POSITIVE_0
+        enum_value = IntegerOneEnum.POSITIVE_0
         assert isinstance(enum_value, IntegerOneEnum)
         assert isinstance(enum_value, Singleton)
-        assert isinstance(enum_value, int)
+        assert isinstance(enum_value, decimal.Decimal)
         # we can access this enum from our class
-        assert IntegerOneEnum.POSITIVE_0 == enum_value
+        assert IntegerOneEnum.POSITIVE_0 == 0
 
         # accessing invalid enum throws an exception
         invalid_enums = ['POSITIVE_1', 'POSITIVE_2']

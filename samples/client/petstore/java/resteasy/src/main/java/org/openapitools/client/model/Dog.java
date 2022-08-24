@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.DogAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -45,7 +44,8 @@ public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
-  public Dog() { 
+  public Dog() {
+
   }
 
   public Dog breed(String breed) {

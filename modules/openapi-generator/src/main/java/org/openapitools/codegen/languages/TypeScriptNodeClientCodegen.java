@@ -345,4 +345,10 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
         return def;
     }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "." + value;
+    }
+
 }

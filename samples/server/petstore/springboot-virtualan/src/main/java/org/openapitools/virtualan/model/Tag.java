@@ -4,12 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -38,7 +37,7 @@ public class Tag {
    * @return id
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -57,7 +56,7 @@ public class Tag {
    * @return name
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }

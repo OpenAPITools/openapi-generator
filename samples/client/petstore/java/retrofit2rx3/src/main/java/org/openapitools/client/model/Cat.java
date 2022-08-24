@@ -23,7 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
 
 /**
  * Cat
@@ -34,8 +33,8 @@ public class Cat extends Animal {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() { 
-    this.className = this.getClass().getSimpleName();
+  public Cat() {
+
   }
 
   public Cat declawed(Boolean declawed) {

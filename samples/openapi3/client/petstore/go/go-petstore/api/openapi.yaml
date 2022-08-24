@@ -1953,6 +1953,31 @@ components:
       items:
         type: string
       type: array
+    DuplicatedPropChild:
+      allOf:
+      - $ref: '#/components/schemas/DuplicatedPropParent'
+      - $ref: '#/components/schemas/DuplicatedPropChild_allOf'
+    DuplicatedPropParent:
+      description: parent model with duplicated property
+      discriminator:
+        propertyName: dup-prop
+      properties:
+        dup-prop:
+          description: A discriminator value
+          type: string
+      required:
+      - dup-prop
+      type: object
+    MapOfFileTest:
+      description: test map of file in a property
+      properties:
+        prop_test:
+          additionalProperties:
+            format: binary
+            type: string
+          description: a property to test map of file
+          type: object
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2110,6 +2135,12 @@ components:
       allOf:
       - $ref: '#/components/schemas/NullableAllOfChild'
       nullable: true
+    DuplicatedPropChild_allOf:
+      properties:
+        dup-prop:
+          description: A discriminator value
+          type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

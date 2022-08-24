@@ -21,11 +21,13 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
@@ -41,7 +43,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -181,7 +183,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -404,7 +406,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -547,7 +549,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -625,7 +627,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", "$petId"),
+            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", petId.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

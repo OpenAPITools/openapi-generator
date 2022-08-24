@@ -21,6 +21,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.User
 
@@ -40,7 +41,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+internal class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -309,7 +310,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -379,7 +380,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -590,7 +591,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

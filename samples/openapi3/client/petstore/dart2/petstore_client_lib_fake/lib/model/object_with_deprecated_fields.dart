@@ -64,18 +64,24 @@ class ObjectWithDeprecatedFields {
   String toString() => 'ObjectWithDeprecatedFields[uuid=$uuid, id=$id, deprecatedRef=$deprecatedRef, bars=$bars]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (uuid != null) {
-      _json[r'uuid'] = uuid;
+    final json = <String, dynamic>{};
+    if (this.uuid != null) {
+      json[r'uuid'] = this.uuid;
+    } else {
+      json[r'uuid'] = null;
     }
-    if (id != null) {
-      _json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (deprecatedRef != null) {
-      _json[r'deprecatedRef'] = deprecatedRef;
+    if (this.deprecatedRef != null) {
+      json[r'deprecatedRef'] = this.deprecatedRef;
+    } else {
+      json[r'deprecatedRef'] = null;
     }
-      _json[r'bars'] = bars;
-    return _json;
+      json[r'bars'] = this.bars;
+    return json;
   }
 
   /// Returns a new [ObjectWithDeprecatedFields] instance and imports its values from

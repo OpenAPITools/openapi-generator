@@ -85,7 +85,7 @@ public class BigCatAllOf {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCatAllOf() { 
+  public BigCatAllOf() {
   }
 
   public BigCatAllOf kind(KindEnum kind) {

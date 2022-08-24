@@ -35,7 +35,7 @@ public class HasOnlyReadOnly {
   @SerializedName(SERIALIZED_NAME_FOO)
   private String foo;
 
-  public HasOnlyReadOnly() { 
+  public HasOnlyReadOnly() {
   }
 
   

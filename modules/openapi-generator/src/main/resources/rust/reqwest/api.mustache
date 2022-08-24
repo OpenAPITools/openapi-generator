@@ -17,7 +17,7 @@ pub struct {{{operationIdCamelCase}}}Params {
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
 {{#-last}}
 }
 
@@ -108,7 +108,14 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     };
     {{/isArray}}
     {{^isArray}}
+    {{^isNullable}}
     local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{/isNullable}}
+    {{#isNullable}}
+    if let Some(ref local_var_str) = {{{paramName}}} {
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+    };
+    {{/isNullable}}
     {{/isArray}}
     {{/required}}
     {{^required}}

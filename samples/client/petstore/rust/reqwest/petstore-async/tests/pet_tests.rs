@@ -17,7 +17,7 @@ fn test_pet() {
     new_pet.id = Option::Some(8787);
 
     let new_pet_params = petstore_reqwest_async::apis::pet_api::AddPetParams {
-        body: new_pet,
+        pet: new_pet,
     };
 
     // add pet
@@ -28,7 +28,7 @@ fn test_pet() {
     };
 
     // get pet
-    let pet_result = petstore_reqwest_async::apis::pet_api::get_pet_by_id(&config, get_pet_params);
+    let _pet_result = petstore_reqwest_async::apis::pet_api::get_pet_by_id(&config, get_pet_params);
 
     // TODO Testing async functions requires some additionnal testing crates.
 }

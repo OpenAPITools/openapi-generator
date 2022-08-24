@@ -117,6 +117,76 @@ public class TypeScriptFetchModelTest {
         Assert.assertFalse(property5.isContainer);
     }
 
+    @Test(description = "convert a simple TypeScript Angular model; overwrite date/DateTime type mapping")
+    public void simpleModelWithStringDateTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("birthDate", new DateSchema())
+                .addProperties("active", new BooleanSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
+
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("date", "string");
+        codegen.typeMapping().put("DateTime", "string");
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 5);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "number");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertEquals(property1.defaultValue, "undefined");
+        Assert.assertEquals(property1.baseType, "number");
+        Assert.assertTrue(property1.required);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.dataType, "string");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertEquals(property2.defaultValue, "undefined");
+        Assert.assertEquals(property2.baseType, "string");
+        Assert.assertTrue(property2.required);
+        Assert.assertFalse(property2.isContainer);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.complexType, null);
+        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, "undefined");
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "birthDate");
+        Assert.assertEquals(property4.complexType, null);
+        Assert.assertEquals(property4.dataType, "string");
+        Assert.assertEquals(property4.name, "birthDate");
+        Assert.assertEquals(property4.defaultValue, "undefined");
+        Assert.assertFalse(property4.required);
+        Assert.assertFalse(property4.isContainer);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "active");
+        Assert.assertEquals(property5.complexType, null);
+        Assert.assertEquals(property5.dataType, "boolean");
+        Assert.assertEquals(property5.name, "active");
+        Assert.assertEquals(property5.defaultValue, "undefined");
+        Assert.assertFalse(property5.required);
+        Assert.assertFalse(property5.isContainer);
+    }
+
     @Test(description = "convert and check default values for a simple TypeScript Angular model")
     public void simpleModelDefaultValuesTest() throws ParseException {
         IntegerSchema integerSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);

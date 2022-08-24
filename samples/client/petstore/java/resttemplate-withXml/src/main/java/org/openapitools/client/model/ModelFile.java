@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * Must be named &#x60;File&#x60; for test.
@@ -41,7 +43,7 @@ public class ModelFile {
   @XmlElement(name = "sourceURI")
   private String sourceURI;
 
-  public ModelFile() { 
+  public ModelFile() {
   }
 
   public ModelFile sourceURI(String sourceURI) {
