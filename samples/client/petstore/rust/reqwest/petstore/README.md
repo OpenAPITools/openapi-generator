@@ -38,6 +38,8 @@ Class | Method | HTTP request | Description
 *StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
 *StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
+*TestingApi* | [**tests_file_response_get**](docs/TestingApi.md#tests_file_response_get) | **GET** /tests/fileResponse | Returns an image file
+*TestingApi* | [**tests_type_testing_get**](docs/TestingApi.md#tests_type_testing_get) | **GET** /tests/typeTesting | Route to test the TypeTesting schema
 *UserApi* | [**create_user**](docs/UserApi.md#create_user) | **POST** /user | Create user
 *UserApi* | [**create_users_with_array_input**](docs/UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
 *UserApi* | [**create_users_with_list_input**](docs/UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
@@ -58,6 +60,7 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Pet.md)
  - [PropertyTest](docs/PropertyTest.md)
  - [Tag](docs/Tag.md)
+ - [TypeTesting](docs/TypeTesting.md)
  - [User](docs/User.md)
 
 

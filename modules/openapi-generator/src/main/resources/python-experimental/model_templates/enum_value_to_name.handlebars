@@ -1,7 +1,7 @@
-_SchemaEnumMaker(
+schemas.SchemaEnumMakerClsFactory(
     enum_value_to_name={
 {{#if isNull}}
-        NoneClass.NONE: "NONE",
+        schemas.NoneClass.NONE: "NONE",
 {{/if}}
 {{#with allowableValues}}
 {{#each enumVars}}

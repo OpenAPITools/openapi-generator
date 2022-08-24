@@ -152,6 +152,8 @@ class PathValues(str, enum.Enum):
     RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postRefInOneofResponseBodyForContentTypes"
     REQUEST_BODY_POST_REF_IN_ANYOF_REQUEST_BODY = "/requestBody/postRefInAnyofRequestBody"
     RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postRefInAnyofResponseBodyForContentTypes"
+    REQUEST_BODY_POST_REF_IN_NOT_REQUEST_BODY = "/requestBody/postRefInNotRequestBody"
+    RESPONSE_BODY_POST_REF_IN_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postRefInNotResponseBodyForContentTypes"
     REQUEST_BODY_POST_REQUIRED_VALIDATION_REQUEST_BODY = "/requestBody/postRequiredValidationRequestBody"
     RESPONSE_BODY_POST_REQUIRED_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postRequiredValidationResponseBodyForContentTypes"
     REQUEST_BODY_POST_REQUIRED_DEFAULT_VALIDATION_REQUEST_BODY = "/requestBody/postRequiredDefaultValidationRequestBody"

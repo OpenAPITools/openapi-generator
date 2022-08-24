@@ -599,6 +599,31 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  '/tests/fileResponse':
+    get:
+      tags:
+        - testing
+      summary: Returns an image file
+      responses:
+        '200':
+          description: An image file
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+  '/tests/typeTesting':
+    get:
+      tags:
+        - testing
+      summary: Route to test the TypeTesting schema
+      responses:
+        '200':
+          description: The TypeTesting response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeTesting'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -791,3 +816,34 @@ components:
       - A
       - B
       type: string
+    TypeTesting:
+      description: Test handling of different field data types
+      type: object
+      required:
+        - int32
+        - int64
+        - float
+        - double
+        - string
+        - boolean
+        - uuid
+      properties:
+        int32:
+          type: integer
+          format: int32
+        int64:
+          type: integer
+          format: int64
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double
+        string:
+          type: string
+        boolean:
+          type: boolean
+        uuid:
+          type: string
+          format: uuid

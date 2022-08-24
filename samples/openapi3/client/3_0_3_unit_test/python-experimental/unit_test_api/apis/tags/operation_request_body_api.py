@@ -81,6 +81,7 @@ from unit_test_api.paths.request_body_post_ref_in_additionalproperties_request_b
 from unit_test_api.paths.request_body_post_ref_in_allof_request_body.post import PostRefInAllofRequestBody
 from unit_test_api.paths.request_body_post_ref_in_anyof_request_body.post import PostRefInAnyofRequestBody
 from unit_test_api.paths.request_body_post_ref_in_items_request_body.post import PostRefInItemsRequestBody
+from unit_test_api.paths.request_body_post_ref_in_not_request_body.post import PostRefInNotRequestBody
 from unit_test_api.paths.request_body_post_ref_in_oneof_request_body.post import PostRefInOneofRequestBody
 from unit_test_api.paths.request_body_post_ref_in_property_request_body.post import PostRefInPropertyRequestBody
 from unit_test_api.paths.request_body_post_required_default_validation_request_body.post import PostRequiredDefaultValidationRequestBody
@@ -170,6 +171,7 @@ class OperationRequestBodyApi(
     PostRefInAllofRequestBody,
     PostRefInAnyofRequestBody,
     PostRefInItemsRequestBody,
+    PostRefInNotRequestBody,
     PostRefInOneofRequestBody,
     PostRefInPropertyRequestBody,
     PostRequiredDefaultValidationRequestBody,

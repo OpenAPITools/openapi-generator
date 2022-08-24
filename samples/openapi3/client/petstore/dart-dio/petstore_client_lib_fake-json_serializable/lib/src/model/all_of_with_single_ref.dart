@@ -55,7 +55,7 @@ class AllOfWithSingleRef {
   @override
   int get hashCode =>
     username.hashCode +
-    (singleRefType == null ? 0 : singleRefType.hashCode);
+    singleRefType.hashCode;
 
   factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);
 

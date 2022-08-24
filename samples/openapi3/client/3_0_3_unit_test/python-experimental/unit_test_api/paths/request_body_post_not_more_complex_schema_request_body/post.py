@@ -19,52 +19,7 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from unit_test_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from unit_test_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,35 +27,26 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema,
 ):
 
-    @classmethod
-    @property
-    @functools.cache
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
+
+    class MetaOapg:
         
         
-        class NotSchema(
-            DictSchema
+        class not_schema(
+            schemas.DictSchema
         ):
-            foo = StrSchema
+            foo = schemas.StrSchema
         
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                foo: typing.Union[foo, Unset] = unset,
-                _configuration: typing.Optional[Configuration] = None,
-                **kwargs: typing.Type[Schema],
-            ) -> 'NotSchema':
+                foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Type[schemas.Schema],
+            ) -> 'not_schema':
                 return super().__new__(
                     cls,
                     *args,
@@ -108,22 +54,12 @@ class SchemaForRequestBodyApplicationJson(
                     _configuration=_configuration,
                     **kwargs,
                 )
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                NotSchema
-        }
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -145,8 +81,8 @@ request_body_body = api_client.RequestBody(
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -180,7 +116,7 @@ class BaseApi(api_client.Api):
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
 
-        if body is unset:
+        if body is schemas.unset:
             raise exceptions.ApiValueError(
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None

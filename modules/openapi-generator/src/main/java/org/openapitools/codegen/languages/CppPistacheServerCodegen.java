@@ -139,12 +139,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
+        typeMapping.put("AnyType", "nlohmann::json");
 
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("nlohmann::json", "#include <nlohmann/json.hpp>");
     }
 
     @Override

@@ -380,9 +380,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/arrayParameter.yaml", null, new ParseOptions()).getOpenAPI();
+            .readLocation("src/test/resources/3_0/setParameter.yaml", null, new ParseOptions()).getOpenAPI();
 
-        openAPI.getComponents().getParameters().get("operationsQueryParam").setSchema(new ArraySchema().uniqueItems(true));
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");

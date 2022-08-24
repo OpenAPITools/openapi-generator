@@ -147,6 +147,8 @@ from unit_test_api.apis.paths.request_body_post_ref_in_oneof_request_body import
 from unit_test_api.apis.paths.response_body_post_ref_in_oneof_response_body_for_content_types import ResponseBodyPostRefInOneofResponseBodyForContentTypes
 from unit_test_api.apis.paths.request_body_post_ref_in_anyof_request_body import RequestBodyPostRefInAnyofRequestBody
 from unit_test_api.apis.paths.response_body_post_ref_in_anyof_response_body_for_content_types import ResponseBodyPostRefInAnyofResponseBodyForContentTypes
+from unit_test_api.apis.paths.request_body_post_ref_in_not_request_body import RequestBodyPostRefInNotRequestBody
+from unit_test_api.apis.paths.response_body_post_ref_in_not_response_body_for_content_types import ResponseBodyPostRefInNotResponseBodyForContentTypes
 from unit_test_api.apis.paths.request_body_post_required_validation_request_body import RequestBodyPostRequiredValidationRequestBody
 from unit_test_api.apis.paths.response_body_post_required_validation_response_body_for_content_types import ResponseBodyPostRequiredValidationResponseBodyForContentTypes
 from unit_test_api.apis.paths.request_body_post_required_default_validation_request_body import RequestBodyPostRequiredDefaultValidationRequestBody
@@ -323,6 +325,8 @@ PathToApi = typing.TypedDict(
         PathValues.RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRefInOneofResponseBodyForContentTypes,
         PathValues.REQUEST_BODY_POST_REF_IN_ANYOF_REQUEST_BODY: RequestBodyPostRefInAnyofRequestBody,
         PathValues.RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRefInAnyofResponseBodyForContentTypes,
+        PathValues.REQUEST_BODY_POST_REF_IN_NOT_REQUEST_BODY: RequestBodyPostRefInNotRequestBody,
+        PathValues.RESPONSE_BODY_POST_REF_IN_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRefInNotResponseBodyForContentTypes,
         PathValues.REQUEST_BODY_POST_REQUIRED_VALIDATION_REQUEST_BODY: RequestBodyPostRequiredValidationRequestBody,
         PathValues.RESPONSE_BODY_POST_REQUIRED_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRequiredValidationResponseBodyForContentTypes,
         PathValues.REQUEST_BODY_POST_REQUIRED_DEFAULT_VALIDATION_REQUEST_BODY: RequestBodyPostRequiredDefaultValidationRequestBody,
@@ -500,6 +504,8 @@ path_to_api = PathToApi(
         PathValues.RESPONSE_BODY_POST_REF_IN_ONEOF_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRefInOneofResponseBodyForContentTypes,
         PathValues.REQUEST_BODY_POST_REF_IN_ANYOF_REQUEST_BODY: RequestBodyPostRefInAnyofRequestBody,
         PathValues.RESPONSE_BODY_POST_REF_IN_ANYOF_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRefInAnyofResponseBodyForContentTypes,
+        PathValues.REQUEST_BODY_POST_REF_IN_NOT_REQUEST_BODY: RequestBodyPostRefInNotRequestBody,
+        PathValues.RESPONSE_BODY_POST_REF_IN_NOT_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRefInNotResponseBodyForContentTypes,
         PathValues.REQUEST_BODY_POST_REQUIRED_VALIDATION_REQUEST_BODY: RequestBodyPostRequiredValidationRequestBody,
         PathValues.RESPONSE_BODY_POST_REQUIRED_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES: ResponseBodyPostRequiredValidationResponseBodyForContentTypes,
         PathValues.REQUEST_BODY_POST_REQUIRED_DEFAULT_VALIDATION_REQUEST_BODY: RequestBodyPostRequiredDefaultValidationRequestBody,
