@@ -41,7 +41,7 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
     const std::string _pathPrefix = pathPrefix.empty() ? "{{classname}}" : pathPrefix;
 
     {{#isEnum}}{{! Special case for enum types }}
-    if (m_value == {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED)
+    if (value == {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED)
     {
         success = false;
         msg << _pathPrefix << ": has no value;";
@@ -73,7 +73,9 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
 
 bool {{classname}}::operator==(const {{classname}}& other) const
 {
-    return {{#vars}}{{name}} == other.{{name}}{{^-last}} && {{/-last}}{{/vars}};
+    return
+    {{#isEnum}}value == other.value{{/isEnum}}
+    {{#vars}}{{name}} == other.{{name}}{{^-last}} && {{/-last}}{{/vars}};
 }
 
 bool {{classname}}::operator!=(const {{classname}}& other) const
@@ -87,6 +89,20 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
     {{^required}}if (o.{{name}}.has_value()){{/required}}
         j["{{baseName}}"] = o.{{name}}{{^required}}.value(){{/required}};
     {{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    switch (o.value)
+    {
+    {{#enumVars}}
+    {{#-first}}
+    case {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
+         j = "INVALID_VALUE_OPENAPI_GENERATED";
+         break;
+    {{/-first}}
+    case {{classname}}::e{{classname}}::{{name}}:
+         j = "{{value}}";
+         break;
+    {{/enumVars}}
+    }{{/allowableValues}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}to_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 }
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
@@ -96,9 +112,23 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
     {{^required}}if (j.find("{{baseName}}") != j.end()) {
         {{{dataType}}} temporary_{{name}};
         j.at("{{baseName}}").get_to(temporary_{{name}});
-        o.{{name}} = temporary_{{name}};
+        o.{{name}} = std::move(temporary_{{name}});
     }{{/required}}
     {{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    auto s = j.get<std::string>();
+    {{#enumVars}}
+    {{#-first}}
+    if{{/-first}}{{^-first}}else if{{/-first}}(s == "{{value}}") {
+        o.value = {{classname}}::e{{classname}}::{{name}};
+    } {{#-last}} else {
+        std::stringstream ss;
+        ss << "Unexpected value " << s << " in json"
+           << " cannot be converted to enum of type"
+           << " {{classname}}::e{{classname}}";
+        throw std::invalid_argument(ss.str());
+    } {{/-last}}
+    {{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }
 
 } // namespace {{modelNamespace}}
