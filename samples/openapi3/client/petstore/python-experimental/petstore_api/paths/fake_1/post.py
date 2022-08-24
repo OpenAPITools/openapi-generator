@@ -19,52 +19,7 @@ import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,7 +27,7 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
-    DictSchema
+    schemas.DictSchema
 ):
     _required_property_names = {
         "number",
@@ -83,95 +38,105 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     
     class integer(
-        _SchemaValidator(
-            inclusive_maximum=100,
-            inclusive_minimum=10,
-        ),
-        IntSchema
+        schemas.IntSchema
     ):
-        pass
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 100
+            inclusive_minimum = 10
     
     
     class int32(
-        _SchemaValidator(
-            inclusive_maximum=200,
-            inclusive_minimum=20,
-        ),
-        Int32Schema
+        schemas.Int32Schema
     ):
-        pass
-    int64 = Int64Schema
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 200
+            inclusive_minimum = 20
+    int64 = schemas.Int64Schema
     
     
     class number(
-        _SchemaValidator(
-            inclusive_maximum=543.2,
-            inclusive_minimum=32.1,
-        ),
-        NumberSchema
+        schemas.NumberSchema
     ):
-        pass
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 543.2
+            inclusive_minimum = 32.1
     
     
     class _float(
-        _SchemaValidator(
-            inclusive_maximum=987.6,
-        ),
-        Float32Schema
+        schemas.Float32Schema
     ):
-        pass
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 987.6
     locals()["float"] = _float
     del locals()['_float']
+    """
+    NOTE:
+    openapi/json-schema allows properties to have invalid python names
+    The above local assignment allows the code to keep those invalid python names
+    This allows properties to have names like 'some-name', '1 bad name'
+    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+    - __new__ these properties can be passed in as **kwargs
+    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+    If the property is required and was not passed in, an exception will be thrown
+    """
     
     
     class double(
-        _SchemaValidator(
-            inclusive_maximum=123.4,
-            inclusive_minimum=67.8,
-        ),
-        Float64Schema
+        schemas.Float64Schema
     ):
-        pass
+    
+    
+        class MetaOapg:
+            inclusive_maximum = 123.4
+            inclusive_minimum = 67.8
     
     
     class string(
-        _SchemaValidator(
+        schemas.StrSchema
+    ):
+    
+    
+        class MetaOapg:
             regex=[{
                 'pattern': r'[a-z]',  # noqa: E501
                 'flags': (
                     re.IGNORECASE
                 )
-            }],
-        ),
-        StrSchema
-    ):
-        pass
+            }]
     
     
     class pattern_without_delimiter(
-        _SchemaValidator(
+        schemas.StrSchema
+    ):
+    
+    
+        class MetaOapg:
             regex=[{
                 'pattern': r'^[A-Z].*',  # noqa: E501
-            }],
-        ),
-        StrSchema
-    ):
-        pass
-    byte = StrSchema
-    binary = BinarySchema
-    date = DateSchema
-    dateTime = DateTimeSchema
+            }]
+    byte = schemas.StrSchema
+    binary = schemas.BinarySchema
+    date = schemas.DateSchema
+    dateTime = schemas.DateTimeSchema
     
     
     class password(
-        _SchemaValidator(
-            max_length=64,
-            min_length=10,
-        ),
-        StrSchema
+        schemas.StrSchema
     ):
-        pass
-    callback = StrSchema
+    
+    
+        class MetaOapg:
+            max_length = 64
+            min_length = 10
+    callback = schemas.StrSchema
 
 
     def __new__(
@@ -181,17 +146,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         pattern_without_delimiter: pattern_without_delimiter,
         byte: byte,
         double: double,
-        integer: typing.Union[integer, Unset] = unset,
-        int32: typing.Union[int32, Unset] = unset,
-        int64: typing.Union[int64, Unset] = unset,
-        string: typing.Union[string, Unset] = unset,
-        binary: typing.Union[binary, Unset] = unset,
-        date: typing.Union[date, Unset] = unset,
-        dateTime: typing.Union[dateTime, Unset] = unset,
-        password: typing.Union[password, Unset] = unset,
-        callback: typing.Union[callback, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        integer: typing.Union[integer, schemas.Unset] = schemas.unset,
+        int32: typing.Union[int32, schemas.Unset] = schemas.unset,
+        int64: typing.Union[int64, schemas.Unset] = schemas.unset,
+        string: typing.Union[string, schemas.Unset] = schemas.unset,
+        binary: typing.Union[binary, schemas.Unset] = schemas.unset,
+        date: typing.Union[date, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[dateTime, schemas.Unset] = schemas.unset,
+        password: typing.Union[password, schemas.Unset] = schemas.unset,
+        callback: typing.Union[callback, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Type[schemas.Schema],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -228,8 +193,8 @@ _auth = [
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -240,8 +205,8 @@ _response_for_400 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_404 = api_client.OpenApiResponse(
@@ -257,7 +222,7 @@ class BaseApi(api_client.Api):
 
     def _endpoint_parameters(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -278,7 +243,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -316,7 +281,7 @@ class EndpointParameters(BaseApi):
 
     def endpoint_parameters(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -338,7 +303,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

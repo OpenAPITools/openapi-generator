@@ -1,4 +1,5 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
+#![allow(unused_imports)]
 
 use async_trait::async_trait;
 use futures::Stream;
@@ -9,8 +10,8 @@ use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
-pub const BASE_PATH: &'static str = "";
-pub const API_VERSION: &'static str = "1.0.7";
+pub const BASE_PATH: &str = "";
+pub const API_VERSION: &str = "1.0.7";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipartRelatedRequestPostResponse {
@@ -95,7 +96,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
 {
     /// Binds this API to a context.
-    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
+    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
 }
 
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {

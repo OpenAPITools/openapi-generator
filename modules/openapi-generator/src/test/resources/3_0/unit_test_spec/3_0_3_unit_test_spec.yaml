@@ -2664,6 +2664,42 @@ paths:
       - path.post
       - contentType_json
       - $ref
+  /requestBody/postRefInNotRequestBody:
+    post:
+      operationId: postRefInNotRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefInNot'
+            x-schema-test-examples:
+              $ref: '#/components/x-schema-test-examples/RefInNot'
+        required: true
+      responses:
+        '200':
+          description: success
+      tags:
+      - operation.requestBody
+      - path.post
+      - contentType_json
+      - $ref
+  /responseBody/postRefInNotResponseBodyForContentTypes:
+    post:
+      operationId: postRefInNotResponseBodyForContentTypes
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefInNot'
+              x-schema-test-examples:
+                $ref: '#/components/x-schema-test-examples/RefInNot'
+      tags:
+      - response.content.contentType.schema
+      - path.post
+      - contentType_json
+      - $ref
   /requestBody/postRequiredValidationRequestBody:
     post:
       operationId: postRequiredValidationRequestBody
@@ -3450,6 +3486,9 @@ components:
     RefInAnyof:
       anyOf:
       - $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
+    RefInNot:
+      not:
+        $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
     RequiredValidation:
       properties:
         foo: {}
@@ -4741,6 +4780,17 @@ components:
         data:
           $ref: 2
         valid: false
+    RefInNot:
+      PropertyNamedRefInvalid:
+        description: property named $ref invalid
+        data:
+          $ref: a
+        valid: false
+      PropertyNamedRefValid:
+        description: property named $ref valid
+        data:
+          $ref: 2
+        valid: true
     RequiredValidation:
       PresentRequiredPropertyIsValid:
         description: present required property is valid

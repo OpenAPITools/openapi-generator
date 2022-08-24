@@ -16,17 +16,17 @@ def __new__(
 {{#unless nameInSnakeCase}}
 {{#unless getRequired}}
 {{#unless complexType}}
-    {{baseName}}: typing.Union[{{baseName}}, Unset] = unset,
+    {{baseName}}: typing.Union[{{baseName}}, schemas.Unset] = schemas.unset,
 {{/unless}}
 {{#if complexType}}
-    {{baseName}}: typing.Union['{{complexType}}', Unset] = unset,
+    {{baseName}}: typing.Union['{{complexType}}', schemas.Unset] = schemas.unset,
 {{/if}}
 {{/unless}}
 {{/unless}}
 {{/each}}
-    _configuration: typing.Optional[Configuration] = None,
+    _configuration: typing.Optional[schemas.Configuration] = None,
 {{#with additionalProperties}}
-    **kwargs: typing.Type[Schema],
+    **kwargs: typing.Type[schemas.Schema],
 {{/with}}
 ) -> '{{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}':
     return super().__new__(
