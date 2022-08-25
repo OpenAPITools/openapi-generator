@@ -6,9 +6,6 @@ import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/animal.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:one_of/one_of.dart';
-import 'package:one_of/any_of.dart';
-// ignore_for_file: unused_element, unused_import
 
 part 'dog.g.dart';
 
@@ -20,93 +17,121 @@ part 'dog.g.dart';
 /// * [breed] 
 @BuiltValue()
 abstract class Dog implements Animal, DogAllOf, Built<Dog, DogBuilder> {
+  static const String discriminatorFieldName = r'className';
 
+  Dog._();
 
-    static const String discriminatorFieldName = r'className';
-    Dog._();
-    
-    factory Dog([void updates(DogBuilder b)]) = _$Dog;
+  factory Dog([void updates(DogBuilder b)]) = _$Dog;
 
-    @BuiltValueHook(initializeBuilder: true)
-    static void _defaults(DogBuilder b) => b
-        ..color = 'red';
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(DogBuilder b) => b
+      ..color = 'red';
 
-    @BuiltValueSerializer(custom: true)
-    static Serializer<Dog> get serializer => _$DogSerializer();
-
-
+  @BuiltValueSerializer(custom: true)
+  static Serializer<Dog> get serializer => _$DogSerializer();
 }
 
 class _$DogSerializer implements PrimitiveSerializer<Dog> {
-    @override
-    final Iterable<Type> types = const [Dog, _$Dog];
+  @override
+  final Iterable<Type> types = const [Dog, _$Dog];
 
-    @override
-    final String wireName = r'Dog';
+  @override
+  final String wireName = r'Dog';
 
-    Iterable<Object?> _serializeProperties(Serializers serializers, Dog object,
-        {FullType specifiedType = FullType.unspecified}) sync* {        
-        yield r'className';
-        yield serializers.serialize(object.className,
-                specifiedType: const FullType(String));
-        if (object.color != null) {
-            yield r'color';
-            yield serializers.serialize(object.color,
-                    specifiedType: const FullType(String));
-        }
-        if (object.breed != null) {
-            yield r'breed';
-            yield serializers.serialize(object.breed,
-                    specifiedType: const FullType(String));
-        }
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    Dog object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
+    if (object.color != null) {
+      yield r'color';
+      yield serializers.serialize(
+        object.color,
+        specifiedType: const FullType(String),
+      );
     }
-
-    @override
-    Object serialize(Serializers serializers, Dog object,
-        {FullType specifiedType = FullType.unspecified}) {
-        return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    if (object.breed != null) {
+      yield r'breed';
+      yield serializers.serialize(
+        object.breed,
+        specifiedType: const FullType(String),
+      );
     }
+  }
 
-    void _deserializeProperties(Serializers serializers, Object serialized,
-    {FullType specifiedType = FullType.unspecified, required List<Object?> serializedList,required DogBuilder result, required List<Object?> unhandled}) {
+  @override
+  Object serialize(
+    Serializers serializers,
+    Dog object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required DogBuilder result,
+    required List<Object?> unhandled,
+  }) {
     for (var i = 0; i < serializedList.length; i += 2) {
-        final key = serializedList[i] as String;
-        final value = serializedList[i + 1];
-        switch (key) {
-                case r'className':
-                final valueDes = serializers.deserialize(value,
-                    specifiedType: const FullType(String)) as String;
-                result.className = valueDes;
-                break;
-                case r'color':
-                final valueDes = serializers.deserialize(value,
-                    specifiedType: const FullType(String)) as String;
-                result.color = valueDes;
-                break;
-                case r'breed':
-                final valueDes = serializers.deserialize(value,
-                    specifiedType: const FullType(String)) as String;
-                result.breed = valueDes;
-                break;
-            default:
-                unhandled.add(key);
-                unhandled.add(value);
-                break;
-        }
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
+          break;
+        case r'color':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.color = valueDes;
+          break;
+        case r'breed':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.breed = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
     }
+  }
+
+  @override
+  Dog deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = DogBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
-    
-    @override
-    Dog deserialize(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = DogBuilder();
-        final serializedList = (serialized as Iterable<Object?>).toList();        
-        final unhandled = <Object?>[];
-        _deserializeProperties(serializers, serialized, specifiedType: specifiedType, serializedList: serializedList, unhandled: unhandled, result: result);        
-        return result.build();
-    }
-}
-
-
-
 

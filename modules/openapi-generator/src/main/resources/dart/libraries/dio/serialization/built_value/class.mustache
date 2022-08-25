@@ -1,8 +1,7 @@
 import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:one_of/one_of.dart';
-import 'package:one_of/any_of.dart';
-// ignore_for_file: unused_element, unused_import
+import 'package:built_value/serializer.dart';{{#oneOf}}
+import 'package:one_of/one_of.dart';{{/oneOf}}{{#anyOf}}
+import 'package:one_of/any_of.dart';{{/anyOf}}
 
 {{#imports}}
 {{/imports}}
@@ -12,10 +11,7 @@ part '{{classFilename}}.g.dart';
 {{>serialization/built_value/class_members}}
 }
 
-{{>serialization/built_value/class_serializer}}
+{{>serialization/built_value/class_serializer}}{{#vendorExtensions.x-is-parent}}
 
-{{#vendorExtensions.x-is-parent}}
-{{>serialization/built_value/class_concrete}}
-{{/vendorExtensions.x-is-parent}}
-
+{{>serialization/built_value/class_concrete}}{{/vendorExtensions.x-is-parent}}
 {{>serialization/built_value/class_inline_enums}}
