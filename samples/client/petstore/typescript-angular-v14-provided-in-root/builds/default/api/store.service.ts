@@ -136,7 +136,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        let localVarPath = `/store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.delete<any>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -197,7 +198,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
+        let localVarPath = `/store/inventory`;
+        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -256,7 +258,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        let localVarPath = `/store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        return this.httpClient.get<Order>(`${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -324,7 +327,8 @@ export class StoreService {
             }
         }
 
-        return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
+        let localVarPath = `/store/order`;
+        return this.httpClient.post<Order>(`${this.configuration.basePath}${localVarPath}`,
             order,
             {
                 context: localVarHttpContext,

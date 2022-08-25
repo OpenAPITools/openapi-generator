@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
+@Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientCodegenTest {
     @Test
     public void getTypeDeclarationTest() {
