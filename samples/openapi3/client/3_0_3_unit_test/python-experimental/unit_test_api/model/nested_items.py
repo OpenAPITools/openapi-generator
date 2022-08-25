@@ -31,19 +31,31 @@ class NestedItems(
 
     Do not edit the class manually.
     """
-    
-    
-    class _items(
-        schemas.ListSchema
-    ):
+
+
+    class MetaOapg:
         
         
         class _items(
             schemas.ListSchema
         ):
-            
-            
-            class _items(
-                schemas.ListSchema
-            ):
-                _items = schemas.NumberSchema
+        
+        
+            class MetaOapg:
+                
+                
+                class _items(
+                    schemas.ListSchema
+                ):
+                
+                
+                    class MetaOapg:
+                        
+                        
+                        class _items(
+                            schemas.ListSchema
+                        ):
+                        
+                        
+                            class MetaOapg:
+                                _items = schemas.NumberSchema

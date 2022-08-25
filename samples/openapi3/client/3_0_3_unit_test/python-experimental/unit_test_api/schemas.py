@@ -237,6 +237,7 @@ class MetaOapgTyped:
     not_schema: typing.Type['Schema']
     max_length: int
     min_length: int
+    _items: typing.Type['Schema']
 
 
 class Schema:
@@ -1097,7 +1098,7 @@ class ListBase(ValidatorBase):
 
         # if we have definitions for an items schema, use it
         # otherwise accept anything
-        item_cls = getattr(cls, '_items', AnyTypeSchema)
+        item_cls = getattr(cls.MetaOapg, '_items', AnyTypeSchema)
         path_to_schemas = {}
         for i, value in enumerate(list_items):
             item_validation_metadata = ValidationMetadata(
@@ -1202,7 +1203,7 @@ class ListBase(ValidatorBase):
         # if we have definitions for an items schema, use it
         # otherwise accept anything
 
-        cls_item_cls = getattr(cls, '_items', AnyTypeSchema)
+        cls_item_cls = getattr(cls.MetaOapg, '_items', AnyTypeSchema)
         for i, value in enumerate(list_items):
             item_path_to_item = path_to_item + (i,)
             item_cls = path_to_schemas.get(item_path_to_item)

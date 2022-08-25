@@ -31,4 +31,7 @@ class ArrayTypeMatchesArrays(
 
     Do not edit the class manually.
     """
-    _items = schemas.AnyTypeSchema
+
+
+    class MetaOapg:
+        _items = schemas.AnyTypeSchema

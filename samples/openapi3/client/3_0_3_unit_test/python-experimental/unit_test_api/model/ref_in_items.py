@@ -32,9 +32,12 @@ class RefInItems(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
-        return PropertyNamedRefThatIsNotAReference
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def _items(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
+            return PropertyNamedRefThatIsNotAReference
 
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
