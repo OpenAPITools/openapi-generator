@@ -221,7 +221,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
     @Override
     public String getName() {
-        return "javascript-apollo";
+        return "javascript-apollo-deprecated";
     }
 
     @Override
