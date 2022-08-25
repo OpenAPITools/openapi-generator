@@ -34,7 +34,7 @@ import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class CppRestbedServerCodegen extends AbstractCppCodegen {
+public class CppRestbedServerDeprecatedCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -43,7 +43,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     protected String declspec = "";
     protected String defaultInclude = "";
 
-    public CppRestbedServerCodegen() {
+    public CppRestbedServerDeprecatedCodegen() {
         super();
 
         // TODO: cpp-restbed-server maintainer review
