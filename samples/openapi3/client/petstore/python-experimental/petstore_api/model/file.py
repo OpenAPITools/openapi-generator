@@ -45,9 +45,9 @@ class File(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        sourceURI: typing.Union['MetaOapg.properties.sourceURI', schemas.Unset] = schemas.unset,
+        sourceURI: typing.Union[MetaOapg.properties.sourceURI, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'File':
         return super().__new__(
             cls,

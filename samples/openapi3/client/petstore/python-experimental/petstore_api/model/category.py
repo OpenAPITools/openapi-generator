@@ -48,10 +48,10 @@ class Category(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: 'MetaOapg.properties.name',
-        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
+        name: MetaOapg.properties.name,
+        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Category':
         return super().__new__(
             cls,

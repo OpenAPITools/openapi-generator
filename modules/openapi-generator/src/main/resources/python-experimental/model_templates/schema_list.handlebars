@@ -23,7 +23,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 
         @classmethod
         @property
-        def _items(cls) -> typing.Type['{{complexType}}']:
+        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
             return {{complexType}}
 {{else}}
         {{> model_templates/schema }}

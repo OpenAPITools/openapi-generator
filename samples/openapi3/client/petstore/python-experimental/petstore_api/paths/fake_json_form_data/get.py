@@ -47,10 +47,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        param: 'MetaOapg.properties.param',
-        param2: 'MetaOapg.properties.param2',
+        param: MetaOapg.properties.param,
+        param2: MetaOapg.properties.param2,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

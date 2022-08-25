@@ -1033,7 +1033,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             item.getAdditionalProperties().setBaseName("additional_properties");
         }
         if (item.getItems() != null) {
-            item.getItems().setBaseName("_items");
+            item.getItems().setBaseName("items");
         }
     }
 

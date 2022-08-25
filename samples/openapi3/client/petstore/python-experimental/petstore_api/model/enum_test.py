@@ -165,26 +165,26 @@ class EnumTest(
     enum_string_required: MetaOapg.properties.enum_string_required
     enum_integer: MetaOapg.properties.enum_integer
     enum_number: MetaOapg.properties.enum_number
-    stringEnum: 'MetaOapg.properties.stringEnum'
-    IntegerEnum: 'MetaOapg.properties.IntegerEnum'
-    StringEnumWithDefaultValue: 'MetaOapg.properties.StringEnumWithDefaultValue'
-    IntegerEnumWithDefaultValue: 'MetaOapg.properties.IntegerEnumWithDefaultValue'
-    IntegerEnumOneValue: 'MetaOapg.properties.IntegerEnumOneValue'
+    stringEnum: 'StringEnum'
+    IntegerEnum: 'IntegerEnum'
+    StringEnumWithDefaultValue: 'StringEnumWithDefaultValue'
+    IntegerEnumWithDefaultValue: 'IntegerEnumWithDefaultValue'
+    IntegerEnumOneValue: 'IntegerEnumOneValue'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        enum_string_required: 'MetaOapg.properties.enum_string_required',
-        enum_string: typing.Union['MetaOapg.properties.enum_string', schemas.Unset] = schemas.unset,
-        enum_integer: typing.Union['MetaOapg.properties.enum_integer', schemas.Unset] = schemas.unset,
-        enum_number: typing.Union['MetaOapg.properties.enum_number', schemas.Unset] = schemas.unset,
+        enum_string_required: MetaOapg.properties.enum_string_required,
+        enum_string: typing.Union[MetaOapg.properties.enum_string, schemas.Unset] = schemas.unset,
+        enum_integer: typing.Union[MetaOapg.properties.enum_integer, schemas.Unset] = schemas.unset,
+        enum_number: typing.Union[MetaOapg.properties.enum_number, schemas.Unset] = schemas.unset,
         stringEnum: typing.Union['StringEnum', schemas.Unset] = schemas.unset,
         IntegerEnum: typing.Union['IntegerEnum', schemas.Unset] = schemas.unset,
         StringEnumWithDefaultValue: typing.Union['StringEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'EnumTest':
         return super().__new__(
             cls,

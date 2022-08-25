@@ -66,9 +66,9 @@ class EquilateralTriangle(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                triangleType: typing.Union['MetaOapg.properties.triangleType', schemas.Unset] = schemas.unset,
+                triangleType: typing.Union[MetaOapg.properties.triangleType, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg.additional_properties',
+                **kwargs: MetaOapg.additional_properties,
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -98,7 +98,7 @@ class EquilateralTriangle(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'EquilateralTriangle':
         return super().__new__(
             cls,

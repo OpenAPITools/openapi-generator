@@ -48,8 +48,8 @@ class BananaReq(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        lengthCm: 'MetaOapg.properties.lengthCm',
-        sweet: typing.Union['MetaOapg.properties.sweet', schemas.Unset] = schemas.unset,
+        lengthCm: MetaOapg.properties.lengthCm,
+        sweet: typing.Union[MetaOapg.properties.sweet, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'BananaReq':
         return super().__new__(

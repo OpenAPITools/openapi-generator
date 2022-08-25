@@ -48,15 +48,15 @@ class Money(
         additional_properties = schemas.AnyTypeSchema
     
     amount: MetaOapg.properties.amount
-    currency: 'MetaOapg.properties.currency'
+    currency: 'Currency'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        amount: 'MetaOapg.properties.amount',
-        currency: 'MetaOapg.properties.currency',
+        amount: MetaOapg.properties.amount,
+        currency: 'Currency',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Money':
         return super().__new__(
             cls,

@@ -56,19 +56,22 @@ class Drawing(
                 schemas.ListSchema
             ):
             
-                @classmethod
-                @property
-                def _items(cls) -> typing.Type['Shape']:
-                    return Shape
+            
+                class MetaOapg:
+            
+                    @classmethod
+                    @property
+                    def items(cls) -> typing.Type['Shape']:
+                        return Shape
         
         @classmethod
         @property
         def additional_properties(cls) -> typing.Type['Fruit']:
             return Fruit
     
-    mainShape: 'MetaOapg.properties.mainShape'
-    shapeOrNull: 'MetaOapg.properties.shapeOrNull'
-    nullableShape: 'MetaOapg.properties.nullableShape'
+    mainShape: 'Shape'
+    shapeOrNull: 'ShapeOrNull'
+    nullableShape: 'NullableShape'
     shapes: MetaOapg.properties.shapes
 
     def __new__(
@@ -77,9 +80,9 @@ class Drawing(
         mainShape: typing.Union['Shape', schemas.Unset] = schemas.unset,
         shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset] = schemas.unset,
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,
-        shapes: typing.Union['MetaOapg.properties.shapes', schemas.Unset] = schemas.unset,
+        shapes: typing.Union[MetaOapg.properties.shapes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: 'Fruit',
     ) -> 'Drawing':
         return super().__new__(
             cls,

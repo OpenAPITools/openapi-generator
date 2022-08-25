@@ -57,7 +57,7 @@ class MapTest(
                             cls,
                             *args: typing.Union[dict, frozendict, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: 'MetaOapg.additional_properties',
+                            **kwargs: MetaOapg.additional_properties,
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
@@ -70,7 +70,7 @@ class MapTest(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg.additional_properties',
+                    **kwargs: MetaOapg.additional_properties,
                 ) -> 'map_map_of_string':
                     return super().__new__(
                         cls,
@@ -112,7 +112,7 @@ class MapTest(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg.additional_properties',
+                    **kwargs: MetaOapg.additional_properties,
                 ) -> 'map_of_enum_string':
                     return super().__new__(
                         cls,
@@ -134,7 +134,7 @@ class MapTest(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg.additional_properties',
+                    **kwargs: MetaOapg.additional_properties,
                 ) -> 'direct_map':
                     return super().__new__(
                         cls,
@@ -152,17 +152,17 @@ class MapTest(
     map_map_of_string: MetaOapg.properties.map_map_of_string
     map_of_enum_string: MetaOapg.properties.map_of_enum_string
     direct_map: MetaOapg.properties.direct_map
-    indirect_map: 'MetaOapg.properties.indirect_map'
+    indirect_map: 'StringBooleanMap'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        map_map_of_string: typing.Union['MetaOapg.properties.map_map_of_string', schemas.Unset] = schemas.unset,
-        map_of_enum_string: typing.Union['MetaOapg.properties.map_of_enum_string', schemas.Unset] = schemas.unset,
-        direct_map: typing.Union['MetaOapg.properties.direct_map', schemas.Unset] = schemas.unset,
+        map_map_of_string: typing.Union[MetaOapg.properties.map_map_of_string, schemas.Unset] = schemas.unset,
+        map_of_enum_string: typing.Union[MetaOapg.properties.map_of_enum_string, schemas.Unset] = schemas.unset,
+        direct_map: typing.Union[MetaOapg.properties.direct_map, schemas.Unset] = schemas.unset,
         indirect_map: typing.Union['StringBooleanMap', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'MapTest':
         return super().__new__(
             cls,

@@ -43,9 +43,9 @@ class Client(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        client: typing.Union['MetaOapg.properties.client', schemas.Unset] = schemas.unset,
+        client: typing.Union[MetaOapg.properties.client, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Client':
         return super().__new__(
             cls,

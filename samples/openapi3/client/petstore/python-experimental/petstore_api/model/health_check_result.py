@@ -63,9 +63,9 @@ class HealthCheckResult(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        NullableMessage: typing.Union['MetaOapg.properties.NullableMessage', schemas.Unset] = schemas.unset,
+        NullableMessage: typing.Union[MetaOapg.properties.NullableMessage, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'HealthCheckResult':
         return super().__new__(
             cls,

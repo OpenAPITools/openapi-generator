@@ -49,7 +49,7 @@ class AdditionalPropertiesClass(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg.additional_properties',
+                    **kwargs: MetaOapg.additional_properties,
                 ) -> 'map_property':
                     return super().__new__(
                         cls,
@@ -79,7 +79,7 @@ class AdditionalPropertiesClass(
                             cls,
                             *args: typing.Union[dict, frozendict, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: 'MetaOapg.additional_properties',
+                            **kwargs: MetaOapg.additional_properties,
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
@@ -92,7 +92,7 @@ class AdditionalPropertiesClass(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg.additional_properties',
+                    **kwargs: MetaOapg.additional_properties,
                 ) -> 'map_of_map_property':
                     return super().__new__(
                         cls,
@@ -138,7 +138,7 @@ class AdditionalPropertiesClass(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: 'MetaOapg.additional_properties',
+                    **kwargs: MetaOapg.additional_properties,
                 ) -> 'map_with_undeclared_properties_string':
                     return super().__new__(
                         cls,
@@ -160,16 +160,16 @@ class AdditionalPropertiesClass(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        map_property: typing.Union['MetaOapg.properties.map_property', schemas.Unset] = schemas.unset,
-        map_of_map_property: typing.Union['MetaOapg.properties.map_of_map_property', schemas.Unset] = schemas.unset,
-        anytype_1: typing.Union['MetaOapg.properties.anytype_1', schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_anytype_1: typing.Union['MetaOapg.properties.map_with_undeclared_properties_anytype_1', schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_anytype_2: typing.Union['MetaOapg.properties.map_with_undeclared_properties_anytype_2', schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_anytype_3: typing.Union['MetaOapg.properties.map_with_undeclared_properties_anytype_3', schemas.Unset] = schemas.unset,
-        empty_map: typing.Union['MetaOapg.properties.empty_map', schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_string: typing.Union['MetaOapg.properties.map_with_undeclared_properties_string', schemas.Unset] = schemas.unset,
+        map_property: typing.Union[MetaOapg.properties.map_property, schemas.Unset] = schemas.unset,
+        map_of_map_property: typing.Union[MetaOapg.properties.map_of_map_property, schemas.Unset] = schemas.unset,
+        anytype_1: typing.Union[MetaOapg.properties.anytype_1, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_anytype_1: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_1, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_anytype_2: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_2, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_anytype_3: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_3, schemas.Unset] = schemas.unset,
+        empty_map: typing.Union[MetaOapg.properties.empty_map, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_string: typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'AdditionalPropertiesClass':
         return super().__new__(
             cls,

@@ -32,9 +32,12 @@ class ArrayOfEnums(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['StringEnum']:
-        return StringEnum
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['StringEnum']:
+            return StringEnum
 
 from petstore_api.model.string_enum import StringEnum

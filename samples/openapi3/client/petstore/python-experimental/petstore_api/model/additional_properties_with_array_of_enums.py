@@ -40,16 +40,19 @@ class AdditionalPropertiesWithArrayOfEnums(
             schemas.ListSchema
         ):
         
-            @classmethod
-            @property
-            def _items(cls) -> typing.Type['EnumClass']:
-                return EnumClass
+        
+            class MetaOapg:
+        
+                @classmethod
+                @property
+                def items(cls) -> typing.Type['EnumClass']:
+                    return EnumClass
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'AdditionalPropertiesWithArrayOfEnums':
         return super().__new__(
             cls,

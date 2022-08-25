@@ -47,11 +47,11 @@ class ApiResponse(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        code: typing.Union['MetaOapg.properties.code', schemas.Unset] = schemas.unset,
-        type: typing.Union['MetaOapg.properties.type', schemas.Unset] = schemas.unset,
-        message: typing.Union['MetaOapg.properties.message', schemas.Unset] = schemas.unset,
+        code: typing.Union[MetaOapg.properties.code, schemas.Unset] = schemas.unset,
+        type: typing.Union[MetaOapg.properties.type, schemas.Unset] = schemas.unset,
+        message: typing.Union[MetaOapg.properties.message, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ApiResponse':
         return super().__new__(
             cls,

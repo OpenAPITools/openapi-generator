@@ -45,9 +45,9 @@ class ClassModel(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _class: typing.Union['MetaOapg.properties._class', schemas.Unset] = schemas.unset,
+        _class: typing.Union[MetaOapg.properties._class, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ClassModel':
         return super().__new__(
             cls,

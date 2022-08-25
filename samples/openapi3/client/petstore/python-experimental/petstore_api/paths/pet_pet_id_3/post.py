@@ -69,10 +69,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
-        status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
+        name: typing.Union[MetaOapg.properties.name, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

@@ -52,9 +52,9 @@ class ChildCat(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
+                name: typing.Union[MetaOapg.properties.name, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg.additional_properties',
+                **kwargs: MetaOapg.additional_properties,
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -84,7 +84,7 @@ class ChildCat(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ChildCat':
         return super().__new__(
             cls,

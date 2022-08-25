@@ -36,7 +36,7 @@ class NestedItems(
     class MetaOapg:
         
         
-        class _items(
+        class items(
             schemas.ListSchema
         ):
         
@@ -44,7 +44,7 @@ class NestedItems(
             class MetaOapg:
                 
                 
-                class _items(
+                class items(
                     schemas.ListSchema
                 ):
                 
@@ -52,10 +52,10 @@ class NestedItems(
                     class MetaOapg:
                         
                         
-                        class _items(
+                        class items(
                             schemas.ListSchema
                         ):
                         
                         
                             class MetaOapg:
-                                _items = schemas.NumberSchema
+                                items = schemas.NumberSchema

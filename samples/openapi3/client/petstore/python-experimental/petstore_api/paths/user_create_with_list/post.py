@@ -32,10 +32,13 @@ class SchemaForRequestBodyApplicationJson(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['User']:
-        return User
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['User']:
+            return User
 
 
 request_body_user = api_client.RequestBody(

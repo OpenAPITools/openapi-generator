@@ -63,10 +63,10 @@ class Name(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        name: 'MetaOapg.properties.name',
-        snake_case: typing.Union['MetaOapg.properties.snake_case', schemas.Unset] = schemas.unset,
+        name: MetaOapg.properties.name,
+        snake_case: typing.Union[MetaOapg.properties.snake_case, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Name':
         return super().__new__(
             cls,

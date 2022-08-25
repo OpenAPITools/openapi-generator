@@ -79,14 +79,14 @@ class Order(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
-        petId: typing.Union['MetaOapg.properties.petId', schemas.Unset] = schemas.unset,
-        quantity: typing.Union['MetaOapg.properties.quantity', schemas.Unset] = schemas.unset,
-        shipDate: typing.Union['MetaOapg.properties.shipDate', schemas.Unset] = schemas.unset,
-        status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
-        complete: typing.Union['MetaOapg.properties.complete', schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
+        petId: typing.Union[MetaOapg.properties.petId, schemas.Unset] = schemas.unset,
+        quantity: typing.Union[MetaOapg.properties.quantity, schemas.Unset] = schemas.unset,
+        shipDate: typing.Union[MetaOapg.properties.shipDate, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, schemas.Unset] = schemas.unset,
+        complete: typing.Union[MetaOapg.properties.complete, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Order':
         return super().__new__(
             cls,

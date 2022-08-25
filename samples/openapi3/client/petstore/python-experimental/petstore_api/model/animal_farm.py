@@ -32,9 +32,12 @@ class AnimalFarm(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Animal']:
-        return Animal
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Animal']:
+            return Animal
 
 from petstore_api.model.animal import Animal

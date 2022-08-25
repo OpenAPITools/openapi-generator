@@ -53,14 +53,14 @@ class Capitalization(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        smallCamel: typing.Union['MetaOapg.properties.smallCamel', schemas.Unset] = schemas.unset,
-        CapitalCamel: typing.Union['MetaOapg.properties.CapitalCamel', schemas.Unset] = schemas.unset,
-        small_Snake: typing.Union['MetaOapg.properties.small_Snake', schemas.Unset] = schemas.unset,
-        Capital_Snake: typing.Union['MetaOapg.properties.Capital_Snake', schemas.Unset] = schemas.unset,
-        SCA_ETH_Flow_Points: typing.Union['MetaOapg.properties.SCA_ETH_Flow_Points', schemas.Unset] = schemas.unset,
-        ATT_NAME: typing.Union['MetaOapg.properties.ATT_NAME', schemas.Unset] = schemas.unset,
+        smallCamel: typing.Union[MetaOapg.properties.smallCamel, schemas.Unset] = schemas.unset,
+        CapitalCamel: typing.Union[MetaOapg.properties.CapitalCamel, schemas.Unset] = schemas.unset,
+        small_Snake: typing.Union[MetaOapg.properties.small_Snake, schemas.Unset] = schemas.unset,
+        Capital_Snake: typing.Union[MetaOapg.properties.Capital_Snake, schemas.Unset] = schemas.unset,
+        SCA_ETH_Flow_Points: typing.Union[MetaOapg.properties.SCA_ETH_Flow_Points, schemas.Unset] = schemas.unset,
+        ATT_NAME: typing.Union[MetaOapg.properties.ATT_NAME, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Capitalization':
         return super().__new__(
             cls,

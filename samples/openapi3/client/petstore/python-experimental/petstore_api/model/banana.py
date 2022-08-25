@@ -46,9 +46,9 @@ class Banana(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        lengthCm: 'MetaOapg.properties.lengthCm',
+        lengthCm: MetaOapg.properties.lengthCm,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Banana':
         return super().__new__(
             cls,

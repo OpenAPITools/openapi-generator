@@ -43,9 +43,9 @@ class NumberOnly(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        JustNumber: typing.Union['MetaOapg.properties.JustNumber', schemas.Unset] = schemas.unset,
+        JustNumber: typing.Union[MetaOapg.properties.JustNumber, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'NumberOnly':
         return super().__new__(
             cls,

@@ -58,9 +58,9 @@ class Model200Response(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        name: typing.Union['MetaOapg.properties.name', schemas.Unset] = schemas.unset,
+        name: typing.Union[MetaOapg.properties.name, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Model200Response':
         return super().__new__(
             cls,

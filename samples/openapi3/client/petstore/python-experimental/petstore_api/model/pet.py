@@ -53,17 +53,23 @@ class Pet(
             class photoUrls(
                 schemas.ListSchema
             ):
-                _items = schemas.StrSchema
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
             
             
             class tags(
                 schemas.ListSchema
             ):
             
-                @classmethod
-                @property
-                def _items(cls) -> typing.Type['Tag']:
-                    return Tag
+            
+                class MetaOapg:
+            
+                    @classmethod
+                    @property
+                    def items(cls) -> typing.Type['Tag']:
+                        return Tag
             
             
             class status(
@@ -94,7 +100,7 @@ class Pet(
         additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
-    category: 'MetaOapg.properties.category'
+    category: 'Category'
     name: MetaOapg.properties.name
     photoUrls: MetaOapg.properties.photoUrls
     tags: MetaOapg.properties.tags
@@ -103,14 +109,14 @@ class Pet(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        photoUrls: 'MetaOapg.properties.photoUrls',
-        name: 'MetaOapg.properties.name',
-        id: typing.Union['MetaOapg.properties.id', schemas.Unset] = schemas.unset,
+        photoUrls: MetaOapg.properties.photoUrls,
+        name: MetaOapg.properties.name,
+        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
-        tags: typing.Union['MetaOapg.properties.tags', schemas.Unset] = schemas.unset,
-        status: typing.Union['MetaOapg.properties.status', schemas.Unset] = schemas.unset,
+        tags: typing.Union[MetaOapg.properties.tags, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Pet':
         return super().__new__(
             cls,

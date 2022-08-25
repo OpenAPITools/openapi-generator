@@ -30,31 +30,46 @@ from . import path
 class PipeSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class IoutilSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class HttpSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class UrlSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class ContextSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',

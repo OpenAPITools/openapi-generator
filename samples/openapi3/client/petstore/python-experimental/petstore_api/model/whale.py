@@ -64,11 +64,11 @@ class Whale(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: 'MetaOapg.properties.className',
-        hasBaleen: typing.Union['MetaOapg.properties.hasBaleen', schemas.Unset] = schemas.unset,
-        hasTeeth: typing.Union['MetaOapg.properties.hasTeeth', schemas.Unset] = schemas.unset,
+        className: MetaOapg.properties.className,
+        hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset] = schemas.unset,
+        hasTeeth: typing.Union[MetaOapg.properties.hasTeeth, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Whale':
         return super().__new__(
             cls,

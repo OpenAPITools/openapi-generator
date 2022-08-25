@@ -40,7 +40,7 @@ class StringBooleanMap(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'StringBooleanMap':
         return super().__new__(
             cls,

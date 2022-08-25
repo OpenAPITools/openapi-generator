@@ -63,10 +63,10 @@ class TriangleInterface(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        shapeType: 'MetaOapg.properties.shapeType',
-        triangleType: 'MetaOapg.properties.triangleType',
+        shapeType: MetaOapg.properties.shapeType,
+        triangleType: MetaOapg.properties.triangleType,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'TriangleInterface':
         return super().__new__(
             cls,

@@ -49,7 +49,10 @@ class ComposedAnyOfDifferentTypesNoValidations(
         class any_of_9(
             schemas.ListSchema
         ):
-            _items = schemas.AnyTypeSchema
+        
+        
+            class MetaOapg:
+                items = schemas.AnyTypeSchema
         any_of_10 = schemas.NumberSchema
         any_of_11 = schemas.Float32Schema
         any_of_12 = schemas.Float64Schema
@@ -91,7 +94,7 @@ class ComposedAnyOfDifferentTypesNoValidations(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ComposedAnyOfDifferentTypesNoValidations':
         return super().__new__(
             cls,

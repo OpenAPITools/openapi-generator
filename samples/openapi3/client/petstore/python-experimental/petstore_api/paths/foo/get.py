@@ -41,14 +41,14 @@ class SchemaFor0ResponseBodyApplicationJson(
                 return Foo
         additional_properties = schemas.AnyTypeSchema
     
-    string: 'MetaOapg.properties.string'
+    string: 'Foo'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         string: typing.Union['Foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'SchemaFor0ResponseBodyApplicationJson':
         return super().__new__(
             cls,

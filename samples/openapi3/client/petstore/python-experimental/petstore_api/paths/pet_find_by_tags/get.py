@@ -31,7 +31,10 @@ from . import path
 class TagsSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -66,20 +69,26 @@ class SchemaFor200ResponseBodyApplicationXml(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
 
 
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
 
 
 @dataclass

@@ -162,7 +162,7 @@ class TestValidateCalls(unittest.TestCase):
     def test_list_validate_direct_instantiation(self):
         results = [
             {("args[0]",): {ArrayWithValidationsInItems, tuple}},
-            {("args[0]", 0): {ArrayWithValidationsInItems._items, Decimal}}
+            {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
         ]
         with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems([7])
@@ -189,7 +189,7 @@ class TestValidateCalls(unittest.TestCase):
             mock_validate.assert_called_once_with(
                 tuple([Decimal('7')]),
                 validation_metadata=ValidationMetadata(
-                    validated_path_to_schemas={('args[0]', 0): {ArrayWithValidationsInItems._items, Decimal}}
+                    validated_path_to_schemas={('args[0]', 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
                 )
             )
 
@@ -197,7 +197,7 @@ class TestValidateCalls(unittest.TestCase):
 
         results = [
             {("args[0]",): {ArrayWithValidationsInItems, tuple}},
-            {("args[0]", 0): {ArrayWithValidationsInItems._items, Decimal}}
+            {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
         ]
         with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems._from_openapi_data([7])

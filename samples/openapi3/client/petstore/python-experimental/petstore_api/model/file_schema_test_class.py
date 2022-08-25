@@ -46,22 +46,25 @@ class FileSchemaTestClass(
                 schemas.ListSchema
             ):
             
-                @classmethod
-                @property
-                def _items(cls) -> typing.Type['File']:
-                    return File
+            
+                class MetaOapg:
+            
+                    @classmethod
+                    @property
+                    def items(cls) -> typing.Type['File']:
+                        return File
         additional_properties = schemas.AnyTypeSchema
     
-    file: 'MetaOapg.properties.file'
+    file: 'File'
     files: MetaOapg.properties.files
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         file: typing.Union['File', schemas.Unset] = schemas.unset,
-        files: typing.Union['MetaOapg.properties.files', schemas.Unset] = schemas.unset,
+        files: typing.Union[MetaOapg.properties.files, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,

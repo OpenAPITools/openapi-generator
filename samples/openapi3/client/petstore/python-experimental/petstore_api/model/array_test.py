@@ -40,33 +40,48 @@ class ArrayTest(
             class array_of_string(
                 schemas.ListSchema
             ):
-                _items = schemas.StrSchema
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
             
             
             class array_array_of_integer(
                 schemas.ListSchema
             ):
-                
-                
-                class _items(
-                    schemas.ListSchema
-                ):
-                    _items = schemas.Int64Schema
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class items(
+                        schemas.ListSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            items = schemas.Int64Schema
             
             
             class array_array_of_model(
                 schemas.ListSchema
             ):
-                
-                
-                class _items(
-                    schemas.ListSchema
-                ):
-                
-                    @classmethod
-                    @property
-                    def _items(cls) -> typing.Type['ReadOnlyFirst']:
-                        return ReadOnlyFirst
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class items(
+                        schemas.ListSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                    
+                            @classmethod
+                            @property
+                            def items(cls) -> typing.Type['ReadOnlyFirst']:
+                                return ReadOnlyFirst
         additional_properties = schemas.AnyTypeSchema
     
     array_of_string: MetaOapg.properties.array_of_string
@@ -76,11 +91,11 @@ class ArrayTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        array_of_string: typing.Union['MetaOapg.properties.array_of_string', schemas.Unset] = schemas.unset,
-        array_array_of_integer: typing.Union['MetaOapg.properties.array_array_of_integer', schemas.Unset] = schemas.unset,
-        array_array_of_model: typing.Union['MetaOapg.properties.array_array_of_model', schemas.Unset] = schemas.unset,
+        array_of_string: typing.Union[MetaOapg.properties.array_of_string, schemas.Unset] = schemas.unset,
+        array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset] = schemas.unset,
+        array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ArrayTest':
         return super().__new__(
             cls,

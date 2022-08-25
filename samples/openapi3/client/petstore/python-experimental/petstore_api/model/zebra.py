@@ -88,10 +88,10 @@ class Zebra(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: 'MetaOapg.properties.className',
-        type: typing.Union['MetaOapg.properties.type', schemas.Unset] = schemas.unset,
+        className: MetaOapg.properties.className,
+        type: typing.Union[MetaOapg.properties.type, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'Zebra':
         return super().__new__(
             cls,

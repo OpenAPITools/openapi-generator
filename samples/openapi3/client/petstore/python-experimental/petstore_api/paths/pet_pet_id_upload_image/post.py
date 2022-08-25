@@ -71,10 +71,10 @@ class SchemaForRequestBodyMultipartFormData(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        additionalMetadata: typing.Union['MetaOapg.properties.additionalMetadata', schemas.Unset] = schemas.unset,
-        file: typing.Union['MetaOapg.properties.file', schemas.Unset] = schemas.unset,
+        additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset] = schemas.unset,
+        file: typing.Union[MetaOapg.properties.file, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,

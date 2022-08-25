@@ -45,10 +45,10 @@ class ReadOnlyFirst(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
-        baz: typing.Union['MetaOapg.properties.baz', schemas.Unset] = schemas.unset,
+        bar: typing.Union[MetaOapg.properties.bar, schemas.Unset] = schemas.unset,
+        baz: typing.Union[MetaOapg.properties.baz, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ReadOnlyFirst':
         return super().__new__(
             cls,

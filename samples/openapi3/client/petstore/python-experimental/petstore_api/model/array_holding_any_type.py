@@ -31,4 +31,7 @@ class ArrayHoldingAnyType(
 
     Do not edit the class manually.
     """
-    _items = schemas.AnyTypeSchema
+
+
+    class MetaOapg:
+        items = schemas.AnyTypeSchema
