@@ -20,39 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Capitalization {
     /**
-     * @member {String} smallCamel
-     * @type {String}
-     */
-    smallCamel;
-    /**
-     * @member {String} CapitalCamel
-     * @type {String}
-     */
-    CapitalCamel;
-    /**
-     * @member {String} small_Snake
-     * @type {String}
-     */
-    small_Snake;
-    /**
-     * @member {String} Capital_Snake
-     * @type {String}
-     */
-    Capital_Snake;
-    /**
-     * @member {String} SCA_ETH_Flow_Points
-     * @type {String}
-     */
-    SCA_ETH_Flow_Points;
-    /**
-     * @member {String} ATT_NAME
-     * @type {String}
-     */
-    ATT_NAME;
-
-    
-
-    /**
      * Constructs a new <code>Capitalization</code>.
      * @alias module:model/Capitalization
      */
@@ -101,7 +68,43 @@ class Capitalization {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} smallCamel
+ */
+Capitalization.prototype['smallCamel'] = undefined;
+
+/**
+ * @member {String} CapitalCamel
+ */
+Capitalization.prototype['CapitalCamel'] = undefined;
+
+/**
+ * @member {String} small_Snake
+ */
+Capitalization.prototype['small_Snake'] = undefined;
+
+/**
+ * @member {String} Capital_Snake
+ */
+Capitalization.prototype['Capital_Snake'] = undefined;
+
+/**
+ * @member {String} SCA_ETH_Flow_Points
+ */
+Capitalization.prototype['SCA_ETH_Flow_Points'] = undefined;
+
+/**
+ * Name of the pet 
+ * @member {String} ATT_NAME
+ */
+Capitalization.prototype['ATT_NAME'] = undefined;
+
+
+
 
 
 

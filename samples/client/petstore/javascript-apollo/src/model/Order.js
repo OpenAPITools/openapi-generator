@@ -20,40 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Order {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {Number} petId
-     * @type {Number}
-     */
-    petId;
-    /**
-     * @member {Number} quantity
-     * @type {Number}
-     */
-    quantity;
-    /**
-     * @member {Date} shipDate
-     * @type {Date}
-     */
-    shipDate;
-    /**
-     * @member {module:model/Order.StatusEnum} status
-     * @type {module:model/Order.StatusEnum}
-     */
-    status;
-    /**
-     * @member {Boolean} complete
-     * @type {Boolean}
-     * @default false
-     */
-    complete = false;
-
-    
-
-    /**
      * Constructs a new <code>Order</code>.
      * @alias module:model/Order
      */
@@ -102,7 +68,44 @@ class Order {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+Order.prototype['id'] = undefined;
+
+/**
+ * @member {Number} petId
+ */
+Order.prototype['petId'] = undefined;
+
+/**
+ * @member {Number} quantity
+ */
+Order.prototype['quantity'] = undefined;
+
+/**
+ * @member {Date} shipDate
+ */
+Order.prototype['shipDate'] = undefined;
+
+/**
+ * Order Status
+ * @member {module:model/Order.StatusEnum} status
+ */
+Order.prototype['status'] = undefined;
+
+/**
+ * @member {Boolean} complete
+ * @default false
+ */
+Order.prototype['complete'] = false;
+
+
+
 
 
 /**

@@ -22,29 +22,6 @@ import CatAllOf from './CatAllOf';
  */
 class Cat {
     /**
-     * @member {Boolean} declawed
-     * @type {Boolean}
-     */
-    declawed;
-
-    /**
-     * @member {String} className
-     * @type {String}
-     */
-    #className;
-    /**
-     * @member {String} color
-     * @type {String}
-     */
-    #color;
-    /**
-     * @member {Boolean} declawed
-     * @type {Boolean}
-     */
-    #declawed;
-    
-
-    /**
      * Constructs a new <code>Cat</code>.
      * @alias module:model/Cat
      * @extends module:model/Animal
@@ -85,7 +62,32 @@ class Cat {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Boolean} declawed
+ */
+Cat.prototype['declawed'] = undefined;
+
+
+// Implement Animal interface:
+/**
+ * @member {String} className
+ */
+Animal.prototype['className'] = undefined;
+/**
+ * @member {String} color
+ * @default 'red'
+ */
+Animal.prototype['color'] = 'red';
+// Implement CatAllOf interface:
+/**
+ * @member {Boolean} declawed
+ */
+CatAllOf.prototype['declawed'] = undefined;
+
 
 
 

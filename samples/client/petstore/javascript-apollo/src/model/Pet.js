@@ -22,39 +22,6 @@ import Tag from './Tag';
  */
 class Pet {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {module:model/Category} category
-     * @type {module:model/Category}
-     */
-    category;
-    /**
-     * @member {String} name
-     * @type {String}
-     */
-    name;
-    /**
-     * @member {Array.<String>} photoUrls
-     * @type {Array.<String>}
-     */
-    photoUrls;
-    /**
-     * @member {Array.<module:model/Tag>} tags
-     * @type {Array.<module:model/Tag>}
-     */
-    tags;
-    /**
-     * @member {module:model/Pet.StatusEnum} status
-     * @type {module:model/Pet.StatusEnum}
-     */
-    status;
-
-    
-
-    /**
      * Constructs a new <code>Pet</code>.
      * @alias module:model/Pet
      * @param name {String} 
@@ -107,7 +74,43 @@ class Pet {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+Pet.prototype['id'] = undefined;
+
+/**
+ * @member {module:model/Category} category
+ */
+Pet.prototype['category'] = undefined;
+
+/**
+ * @member {String} name
+ */
+Pet.prototype['name'] = undefined;
+
+/**
+ * @member {Array.<String>} photoUrls
+ */
+Pet.prototype['photoUrls'] = undefined;
+
+/**
+ * @member {Array.<module:model/Tag>} tags
+ */
+Pet.prototype['tags'] = undefined;
+
+/**
+ * pet status in the store
+ * @member {module:model/Pet.StatusEnum} status
+ */
+Pet.prototype['status'] = undefined;
+
+
+
 
 
 /**

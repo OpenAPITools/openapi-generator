@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class NumberOnly {
     /**
-     * @member {Number} JustNumber
-     * @type {Number}
-     */
-    JustNumber;
-
-    
-
-    /**
      * Constructs a new <code>NumberOnly</code>.
      * @alias module:model/NumberOnly
      */
@@ -61,7 +53,17 @@ class NumberOnly {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} JustNumber
+ */
+NumberOnly.prototype['JustNumber'] = undefined;
+
+
+
 
 
 

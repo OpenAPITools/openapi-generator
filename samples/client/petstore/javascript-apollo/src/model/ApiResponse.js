@@ -20,24 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class ApiResponse {
     /**
-     * @member {Number} code
-     * @type {Number}
-     */
-    code;
-    /**
-     * @member {String} type
-     * @type {String}
-     */
-    type;
-    /**
-     * @member {String} message
-     * @type {String}
-     */
-    message;
-
-    
-
-    /**
      * Constructs a new <code>ApiResponse</code>.
      * @alias module:model/ApiResponse
      */
@@ -77,7 +59,27 @@ class ApiResponse {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} code
+ */
+ApiResponse.prototype['code'] = undefined;
+
+/**
+ * @member {String} type
+ */
+ApiResponse.prototype['type'] = undefined;
+
+/**
+ * @member {String} message
+ */
+ApiResponse.prototype['message'] = undefined;
+
+
+
 
 
 

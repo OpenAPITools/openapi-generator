@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class ReadOnlyFirst {
     /**
-     * @member {String} bar
-     * @type {String}
-     */
-    bar;
-    /**
-     * @member {String} baz
-     * @type {String}
-     */
-    baz;
-
-    
-
-    /**
      * Constructs a new <code>ReadOnlyFirst</code>.
      * @alias module:model/ReadOnlyFirst
      */
@@ -69,7 +56,22 @@ class ReadOnlyFirst {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} bar
+ */
+ReadOnlyFirst.prototype['bar'] = undefined;
+
+/**
+ * @member {String} baz
+ */
+ReadOnlyFirst.prototype['baz'] = undefined;
+
+
+
 
 
 

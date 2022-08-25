@@ -21,14 +21,6 @@ import OuterEnumInteger from './OuterEnumInteger';
  */
 class OuterObjectWithEnumProperty {
     /**
-     * @member {module:model/OuterEnumInteger} value
-     * @type {module:model/OuterEnumInteger}
-     */
-    value;
-
-    
-
-    /**
      * Constructs a new <code>OuterObjectWithEnumProperty</code>.
      * @alias module:model/OuterObjectWithEnumProperty
      * @param value {module:model/OuterEnumInteger} 
@@ -64,7 +56,17 @@ class OuterObjectWithEnumProperty {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {module:model/OuterEnumInteger} value
+ */
+OuterObjectWithEnumProperty.prototype['value'] = undefined;
+
+
+
 
 
 

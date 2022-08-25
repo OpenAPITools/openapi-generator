@@ -20,20 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Category {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {String} name
-     * @type {String}
-     * @default 'default-name'
-     */
-    name = 'default-name';
-
-    
-
-    /**
      * Constructs a new <code>Category</code>.
      * @alias module:model/Category
      * @param name {String} 
@@ -49,7 +35,7 @@ class Category {
      * Only for internal use.
      */
     static initialize(obj, name) { 
-        obj['name'] = name;
+        obj['name'] = name || 'default-name';
     }
 
     /**
@@ -72,7 +58,23 @@ class Category {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+Category.prototype['id'] = undefined;
+
+/**
+ * @member {String} name
+ * @default 'default-name'
+ */
+Category.prototype['name'] = 'default-name';
+
+
+
 
 
 

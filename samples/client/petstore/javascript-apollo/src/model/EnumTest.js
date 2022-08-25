@@ -24,49 +24,6 @@ import OuterEnumIntegerDefaultValue from './OuterEnumIntegerDefaultValue';
  */
 class EnumTest {
     /**
-     * @member {module:model/EnumTest.EnumStringEnum} enum_string
-     * @type {module:model/EnumTest.EnumStringEnum}
-     */
-    enum_string;
-    /**
-     * @member {module:model/EnumTest.EnumStringRequiredEnum} enum_string_required
-     * @type {module:model/EnumTest.EnumStringRequiredEnum}
-     */
-    enum_string_required;
-    /**
-     * @member {module:model/EnumTest.EnumIntegerEnum} enum_integer
-     * @type {module:model/EnumTest.EnumIntegerEnum}
-     */
-    enum_integer;
-    /**
-     * @member {module:model/EnumTest.EnumNumberEnum} enum_number
-     * @type {module:model/EnumTest.EnumNumberEnum}
-     */
-    enum_number;
-    /**
-     * @member {module:model/OuterEnum} outerEnum
-     * @type {module:model/OuterEnum}
-     */
-    outerEnum;
-    /**
-     * @member {module:model/OuterEnumInteger} outerEnumInteger
-     * @type {module:model/OuterEnumInteger}
-     */
-    outerEnumInteger;
-    /**
-     * @member {module:model/OuterEnumDefaultValue} outerEnumDefaultValue
-     * @type {module:model/OuterEnumDefaultValue}
-     */
-    outerEnumDefaultValue;
-    /**
-     * @member {module:model/OuterEnumIntegerDefaultValue} outerEnumIntegerDefaultValue
-     * @type {module:model/OuterEnumIntegerDefaultValue}
-     */
-    outerEnumIntegerDefaultValue;
-
-    
-
-    /**
      * Constructs a new <code>EnumTest</code>.
      * @alias module:model/EnumTest
      * @param enumStringRequired {module:model/EnumTest.EnumStringRequiredEnum} 
@@ -123,7 +80,52 @@ class EnumTest {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {module:model/EnumTest.EnumStringEnum} enum_string
+ */
+EnumTest.prototype['enum_string'] = undefined;
+
+/**
+ * @member {module:model/EnumTest.EnumStringRequiredEnum} enum_string_required
+ */
+EnumTest.prototype['enum_string_required'] = undefined;
+
+/**
+ * @member {module:model/EnumTest.EnumIntegerEnum} enum_integer
+ */
+EnumTest.prototype['enum_integer'] = undefined;
+
+/**
+ * @member {module:model/EnumTest.EnumNumberEnum} enum_number
+ */
+EnumTest.prototype['enum_number'] = undefined;
+
+/**
+ * @member {module:model/OuterEnum} outerEnum
+ */
+EnumTest.prototype['outerEnum'] = undefined;
+
+/**
+ * @member {module:model/OuterEnumInteger} outerEnumInteger
+ */
+EnumTest.prototype['outerEnumInteger'] = undefined;
+
+/**
+ * @member {module:model/OuterEnumDefaultValue} outerEnumDefaultValue
+ */
+EnumTest.prototype['outerEnumDefaultValue'] = undefined;
+
+/**
+ * @member {module:model/OuterEnumIntegerDefaultValue} outerEnumIntegerDefaultValue
+ */
+EnumTest.prototype['outerEnumIntegerDefaultValue'] = undefined;
+
+
+
 
 
 /**

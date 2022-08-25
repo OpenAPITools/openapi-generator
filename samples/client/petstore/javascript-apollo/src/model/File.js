@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class File {
     /**
-     * @member {String} sourceURI
-     * @type {String}
-     */
-    sourceURI;
-
-    
-
-    /**
      * Constructs a new <code>File</code>.
      * Must be named &#x60;File&#x60; for test.
      * @alias module:model/File
@@ -62,7 +54,18 @@ class File {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * Test capitalization
+ * @member {String} sourceURI
+ */
+File.prototype['sourceURI'] = undefined;
+
+
+
 
 
 

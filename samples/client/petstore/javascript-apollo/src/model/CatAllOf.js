@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class CatAllOf {
     /**
-     * @member {Boolean} declawed
-     * @type {Boolean}
-     */
-    declawed;
-
-    
-
-    /**
      * Constructs a new <code>CatAllOf</code>.
      * @alias module:model/CatAllOf
      */
@@ -61,7 +53,17 @@ class CatAllOf {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Boolean} declawed
+ */
+CatAllOf.prototype['declawed'] = undefined;
+
+
+
 
 
 

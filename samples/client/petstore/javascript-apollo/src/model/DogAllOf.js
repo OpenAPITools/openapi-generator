@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class DogAllOf {
     /**
-     * @member {String} breed
-     * @type {String}
-     */
-    breed;
-
-    
-
-    /**
      * Constructs a new <code>DogAllOf</code>.
      * @alias module:model/DogAllOf
      */
@@ -61,7 +53,17 @@ class DogAllOf {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} breed
+ */
+DogAllOf.prototype['breed'] = undefined;
+
+
+
 
 
 

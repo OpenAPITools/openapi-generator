@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class ArrayOfArrayOfNumberOnly {
     /**
-     * @member {Array.<Array.<Number>>} ArrayArrayNumber
-     * @type {Array.<Array.<Number>>}
-     */
-    ArrayArrayNumber;
-
-    
-
-    /**
      * Constructs a new <code>ArrayOfArrayOfNumberOnly</code>.
      * @alias module:model/ArrayOfArrayOfNumberOnly
      */
@@ -61,7 +53,17 @@ class ArrayOfArrayOfNumberOnly {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Array.<Array.<Number>>} ArrayArrayNumber
+ */
+ArrayOfArrayOfNumberOnly.prototype['ArrayArrayNumber'] = undefined;
+
+
+
 
 
 

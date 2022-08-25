@@ -20,69 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class NullableClass {
     /**
-     * @member {Number} integer_prop
-     * @type {Number}
-     */
-    integer_prop;
-    /**
-     * @member {Number} number_prop
-     * @type {Number}
-     */
-    number_prop;
-    /**
-     * @member {Boolean} boolean_prop
-     * @type {Boolean}
-     */
-    boolean_prop;
-    /**
-     * @member {String} string_prop
-     * @type {String}
-     */
-    string_prop;
-    /**
-     * @member {Date} date_prop
-     * @type {Date}
-     */
-    date_prop;
-    /**
-     * @member {Date} datetime_prop
-     * @type {Date}
-     */
-    datetime_prop;
-    /**
-     * @member {Array.<Object>} array_nullable_prop
-     * @type {Array.<Object>}
-     */
-    array_nullable_prop;
-    /**
-     * @member {Array.<Object>} array_and_items_nullable_prop
-     * @type {Array.<Object>}
-     */
-    array_and_items_nullable_prop;
-    /**
-     * @member {Array.<Object>} array_items_nullable
-     * @type {Array.<Object>}
-     */
-    array_items_nullable;
-    /**
-     * @member {Object.<String, Object>} object_nullable_prop
-     * @type {Object.<String, Object>}
-     */
-    object_nullable_prop;
-    /**
-     * @member {Object.<String, Object>} object_and_items_nullable_prop
-     * @type {Object.<String, Object>}
-     */
-    object_and_items_nullable_prop;
-    /**
-     * @member {Object.<String, Object>} object_items_nullable
-     * @type {Object.<String, Object>}
-     */
-    object_items_nullable;
-
-    
-
-    /**
      * Constructs a new <code>NullableClass</code>.
      * @alias module:model/NullableClass
      * @extends Object
@@ -153,7 +90,72 @@ class NullableClass {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} integer_prop
+ */
+NullableClass.prototype['integer_prop'] = undefined;
+
+/**
+ * @member {Number} number_prop
+ */
+NullableClass.prototype['number_prop'] = undefined;
+
+/**
+ * @member {Boolean} boolean_prop
+ */
+NullableClass.prototype['boolean_prop'] = undefined;
+
+/**
+ * @member {String} string_prop
+ */
+NullableClass.prototype['string_prop'] = undefined;
+
+/**
+ * @member {Date} date_prop
+ */
+NullableClass.prototype['date_prop'] = undefined;
+
+/**
+ * @member {Date} datetime_prop
+ */
+NullableClass.prototype['datetime_prop'] = undefined;
+
+/**
+ * @member {Array.<Object>} array_nullable_prop
+ */
+NullableClass.prototype['array_nullable_prop'] = undefined;
+
+/**
+ * @member {Array.<Object>} array_and_items_nullable_prop
+ */
+NullableClass.prototype['array_and_items_nullable_prop'] = undefined;
+
+/**
+ * @member {Array.<Object>} array_items_nullable
+ */
+NullableClass.prototype['array_items_nullable'] = undefined;
+
+/**
+ * @member {Object.<String, Object>} object_nullable_prop
+ */
+NullableClass.prototype['object_nullable_prop'] = undefined;
+
+/**
+ * @member {Object.<String, Object>} object_and_items_nullable_prop
+ */
+NullableClass.prototype['object_and_items_nullable_prop'] = undefined;
+
+/**
+ * @member {Object.<String, Object>} object_items_nullable
+ */
+NullableClass.prototype['object_items_nullable'] = undefined;
+
+
+
 
 
 

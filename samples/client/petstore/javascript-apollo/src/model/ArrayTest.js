@@ -21,24 +21,6 @@ import ReadOnlyFirst from './ReadOnlyFirst';
  */
 class ArrayTest {
     /**
-     * @member {Array.<String>} array_of_string
-     * @type {Array.<String>}
-     */
-    array_of_string;
-    /**
-     * @member {Array.<Array.<Number>>} array_array_of_integer
-     * @type {Array.<Array.<Number>>}
-     */
-    array_array_of_integer;
-    /**
-     * @member {Array.<Array.<module:model/ReadOnlyFirst>>} array_array_of_model
-     * @type {Array.<Array.<module:model/ReadOnlyFirst>>}
-     */
-    array_array_of_model;
-
-    
-
-    /**
      * Constructs a new <code>ArrayTest</code>.
      * @alias module:model/ArrayTest
      */
@@ -78,7 +60,27 @@ class ArrayTest {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Array.<String>} array_of_string
+ */
+ArrayTest.prototype['array_of_string'] = undefined;
+
+/**
+ * @member {Array.<Array.<Number>>} array_array_of_integer
+ */
+ArrayTest.prototype['array_array_of_integer'] = undefined;
+
+/**
+ * @member {Array.<Array.<module:model/ReadOnlyFirst>>} array_array_of_model
+ */
+ArrayTest.prototype['array_array_of_model'] = undefined;
+
+
+
 
 
 

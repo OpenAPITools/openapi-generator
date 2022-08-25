@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class FileSchemaTestClass {
     /**
-     * @member {File} file
-     * @type {File}
-     */
-    file;
-    /**
-     * @member {Array.<File>} files
-     * @type {Array.<File>}
-     */
-    files;
-
-    
-
-    /**
      * Constructs a new <code>FileSchemaTestClass</code>.
      * @alias module:model/FileSchemaTestClass
      */
@@ -69,7 +56,22 @@ class FileSchemaTestClass {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {File} file
+ */
+FileSchemaTestClass.prototype['file'] = undefined;
+
+/**
+ * @member {Array.<File>} files
+ */
+FileSchemaTestClass.prototype['files'] = undefined;
+
+
+
 
 
 

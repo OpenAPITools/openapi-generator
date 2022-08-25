@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Tag {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {String} name
-     * @type {String}
-     */
-    name;
-
-    
-
-    /**
      * Constructs a new <code>Tag</code>.
      * @alias module:model/Tag
      */
@@ -69,7 +56,22 @@ class Tag {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+Tag.prototype['id'] = undefined;
+
+/**
+ * @member {String} name
+ */
+Tag.prototype['name'] = undefined;
+
+
+
 
 
 

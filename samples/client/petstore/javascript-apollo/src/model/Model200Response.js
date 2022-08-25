@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Model200Response {
     /**
-     * @member {Number} name
-     * @type {Number}
-     */
-    name;
-    /**
-     * @member {String} class
-     * @type {String}
-     */
-    class;
-
-    
-
-    /**
      * Constructs a new <code>Model200Response</code>.
      * Model for testing model name starting with number
      * @alias module:model/Model200Response
@@ -70,7 +57,22 @@ class Model200Response {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} name
+ */
+Model200Response.prototype['name'] = undefined;
+
+/**
+ * @member {String} class
+ */
+Model200Response.prototype['class'] = undefined;
+
+
+
 
 
 

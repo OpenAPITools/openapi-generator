@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class SpecialModelName {
     /**
-     * @member {Number} $special[property.name]
-     * @type {Number}
-     */
-    $special[property.name];
-
-    
-
-    /**
      * Constructs a new <code>SpecialModelName</code>.
      * @alias module:model/SpecialModelName
      */
@@ -61,7 +53,17 @@ class SpecialModelName {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} $special[property.name]
+ */
+SpecialModelName.prototype['$special[property.name]'] = undefined;
+
+
+
 
 
 

@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class AdditionalPropertiesClass {
     /**
-     * @member {Object.<String, String>} map_property
-     * @type {Object.<String, String>}
-     */
-    map_property;
-    /**
-     * @member {Object.<String, Object.<String, String>>} map_of_map_property
-     * @type {Object.<String, Object.<String, String>>}
-     */
-    map_of_map_property;
-
-    
-
-    /**
      * Constructs a new <code>AdditionalPropertiesClass</code>.
      * @alias module:model/AdditionalPropertiesClass
      */
@@ -69,7 +56,22 @@ class AdditionalPropertiesClass {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Object.<String, String>} map_property
+ */
+AdditionalPropertiesClass.prototype['map_property'] = undefined;
+
+/**
+ * @member {Object.<String, Object.<String, String>>} map_of_map_property
+ */
+AdditionalPropertiesClass.prototype['map_of_map_property'] = undefined;
+
+
+
 
 
 

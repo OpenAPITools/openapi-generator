@@ -21,29 +21,6 @@ import DeprecatedObject from './DeprecatedObject';
  */
 class ObjectWithDeprecatedFields {
     /**
-     * @member {String} uuid
-     * @type {String}
-     */
-    uuid;
-    /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {module:model/DeprecatedObject} deprecatedRef
-     * @type {module:model/DeprecatedObject}
-     */
-    deprecatedRef;
-    /**
-     * @member {Array.<String>} bars
-     * @type {Array.<String>}
-     */
-    bars;
-
-    
-
-    /**
      * Constructs a new <code>ObjectWithDeprecatedFields</code>.
      * @alias module:model/ObjectWithDeprecatedFields
      */
@@ -86,7 +63,32 @@ class ObjectWithDeprecatedFields {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} uuid
+ */
+ObjectWithDeprecatedFields.prototype['uuid'] = undefined;
+
+/**
+ * @member {Number} id
+ */
+ObjectWithDeprecatedFields.prototype['id'] = undefined;
+
+/**
+ * @member {module:model/DeprecatedObject} deprecatedRef
+ */
+ObjectWithDeprecatedFields.prototype['deprecatedRef'] = undefined;
+
+/**
+ * @member {Array.<String>} bars
+ */
+ObjectWithDeprecatedFields.prototype['bars'] = undefined;
+
+
+
 
 
 

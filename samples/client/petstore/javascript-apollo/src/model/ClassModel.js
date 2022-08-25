@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class ClassModel {
     /**
-     * @member {String} _class
-     * @type {String}
-     */
-    _class;
-
-    
-
-    /**
      * Constructs a new <code>ClassModel</code>.
      * Model for testing model with \&quot;_class\&quot; property
      * @alias module:model/ClassModel
@@ -62,7 +54,17 @@ class ClassModel {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} _class
+ */
+ClassModel.prototype['_class'] = undefined;
+
+
+
 
 
 

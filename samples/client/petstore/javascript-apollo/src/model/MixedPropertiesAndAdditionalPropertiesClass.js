@@ -21,24 +21,6 @@ import Animal from './Animal';
  */
 class MixedPropertiesAndAdditionalPropertiesClass {
     /**
-     * @member {String} uuid
-     * @type {String}
-     */
-    uuid;
-    /**
-     * @member {Date} dateTime
-     * @type {Date}
-     */
-    dateTime;
-    /**
-     * @member {Object.<String, module:model/Animal>} map
-     * @type {Object.<String, module:model/Animal>}
-     */
-    map;
-
-    
-
-    /**
      * Constructs a new <code>MixedPropertiesAndAdditionalPropertiesClass</code>.
      * @alias module:model/MixedPropertiesAndAdditionalPropertiesClass
      */
@@ -78,7 +60,27 @@ class MixedPropertiesAndAdditionalPropertiesClass {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} uuid
+ */
+MixedPropertiesAndAdditionalPropertiesClass.prototype['uuid'] = undefined;
+
+/**
+ * @member {Date} dateTime
+ */
+MixedPropertiesAndAdditionalPropertiesClass.prototype['dateTime'] = undefined;
+
+/**
+ * @member {Object.<String, module:model/Animal>} map
+ */
+MixedPropertiesAndAdditionalPropertiesClass.prototype['map'] = undefined;
+
+
+
 
 
 

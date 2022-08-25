@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class DeprecatedObject {
     /**
-     * @member {String} name
-     * @type {String}
-     */
-    name;
-
-    
-
-    /**
      * Constructs a new <code>DeprecatedObject</code>.
      * @alias module:model/DeprecatedObject
      */
@@ -61,7 +53,17 @@ class DeprecatedObject {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} name
+ */
+DeprecatedObject.prototype['name'] = undefined;
+
+
+
 
 
 

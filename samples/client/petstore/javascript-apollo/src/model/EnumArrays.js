@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class EnumArrays {
     /**
-     * @member {module:model/EnumArrays.JustSymbolEnum} just_symbol
-     * @type {module:model/EnumArrays.JustSymbolEnum}
-     */
-    just_symbol;
-    /**
-     * @member {Array.<module:model/EnumArrays.ArrayEnumEnum>} array_enum
-     * @type {Array.<module:model/EnumArrays.ArrayEnumEnum>}
-     */
-    array_enum;
-
-    
-
-    /**
      * Constructs a new <code>EnumArrays</code>.
      * @alias module:model/EnumArrays
      */
@@ -69,7 +56,22 @@ class EnumArrays {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {module:model/EnumArrays.JustSymbolEnum} just_symbol
+ */
+EnumArrays.prototype['just_symbol'] = undefined;
+
+/**
+ * @member {Array.<module:model/EnumArrays.ArrayEnumEnum>} array_enum
+ */
+EnumArrays.prototype['array_enum'] = undefined;
+
+
+
 
 
 /**

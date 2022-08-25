@@ -20,19 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class HasOnlyReadOnly {
     /**
-     * @member {String} bar
-     * @type {String}
-     */
-    bar;
-    /**
-     * @member {String} foo
-     * @type {String}
-     */
-    foo;
-
-    
-
-    /**
      * Constructs a new <code>HasOnlyReadOnly</code>.
      * @alias module:model/HasOnlyReadOnly
      */
@@ -69,7 +56,22 @@ class HasOnlyReadOnly {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} bar
+ */
+HasOnlyReadOnly.prototype['bar'] = undefined;
+
+/**
+ * @member {String} foo
+ */
+HasOnlyReadOnly.prototype['foo'] = undefined;
+
+
+
 
 
 

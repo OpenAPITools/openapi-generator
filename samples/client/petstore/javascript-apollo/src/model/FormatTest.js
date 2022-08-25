@@ -20,89 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class FormatTest {
     /**
-     * @member {Number} integer
-     * @type {Number}
-     */
-    integer;
-    /**
-     * @member {Number} int32
-     * @type {Number}
-     */
-    int32;
-    /**
-     * @member {Number} int64
-     * @type {Number}
-     */
-    int64;
-    /**
-     * @member {Number} number
-     * @type {Number}
-     */
-    number;
-    /**
-     * @member {Number} float
-     * @type {Number}
-     */
-    float;
-    /**
-     * @member {Number} double
-     * @type {Number}
-     */
-    double;
-    /**
-     * @member {Number} decimal
-     * @type {Number}
-     */
-    decimal;
-    /**
-     * @member {String} string
-     * @type {String}
-     */
-    string;
-    /**
-     * @member {Blob} byte
-     * @type {Blob}
-     */
-    byte;
-    /**
-     * @member {File} binary
-     * @type {File}
-     */
-    binary;
-    /**
-     * @member {Date} date
-     * @type {Date}
-     */
-    date;
-    /**
-     * @member {Date} dateTime
-     * @type {Date}
-     */
-    dateTime;
-    /**
-     * @member {String} uuid
-     * @type {String}
-     */
-    uuid;
-    /**
-     * @member {String} password
-     * @type {String}
-     */
-    password;
-    /**
-     * @member {String} pattern_with_digits
-     * @type {String}
-     */
-    pattern_with_digits;
-    /**
-     * @member {String} pattern_with_digits_and_delimiter
-     * @type {String}
-     */
-    pattern_with_digits_and_delimiter;
-
-    
-
-    /**
      * Constructs a new <code>FormatTest</code>.
      * @alias module:model/FormatTest
      * @param number {Number} 
@@ -189,7 +106,94 @@ class FormatTest {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} integer
+ */
+FormatTest.prototype['integer'] = undefined;
+
+/**
+ * @member {Number} int32
+ */
+FormatTest.prototype['int32'] = undefined;
+
+/**
+ * @member {Number} int64
+ */
+FormatTest.prototype['int64'] = undefined;
+
+/**
+ * @member {Number} number
+ */
+FormatTest.prototype['number'] = undefined;
+
+/**
+ * @member {Number} float
+ */
+FormatTest.prototype['float'] = undefined;
+
+/**
+ * @member {Number} double
+ */
+FormatTest.prototype['double'] = undefined;
+
+/**
+ * @member {Number} decimal
+ */
+FormatTest.prototype['decimal'] = undefined;
+
+/**
+ * @member {String} string
+ */
+FormatTest.prototype['string'] = undefined;
+
+/**
+ * @member {Blob} byte
+ */
+FormatTest.prototype['byte'] = undefined;
+
+/**
+ * @member {File} binary
+ */
+FormatTest.prototype['binary'] = undefined;
+
+/**
+ * @member {Date} date
+ */
+FormatTest.prototype['date'] = undefined;
+
+/**
+ * @member {Date} dateTime
+ */
+FormatTest.prototype['dateTime'] = undefined;
+
+/**
+ * @member {String} uuid
+ */
+FormatTest.prototype['uuid'] = undefined;
+
+/**
+ * @member {String} password
+ */
+FormatTest.prototype['password'] = undefined;
+
+/**
+ * A string that is a 10 digit number. Can have leading zeros.
+ * @member {String} pattern_with_digits
+ */
+FormatTest.prototype['pattern_with_digits'] = undefined;
+
+/**
+ * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+ * @member {String} pattern_with_digits_and_delimiter
+ */
+FormatTest.prototype['pattern_with_digits_and_delimiter'] = undefined;
+
+
+
 
 
 

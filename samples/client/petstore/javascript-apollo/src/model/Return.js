@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Return {
     /**
-     * @member {Number} return
-     * @type {Number}
-     */
-    return;
-
-    
-
-    /**
      * Constructs a new <code>Return</code>.
      * Model for testing reserved words
      * @alias module:model/Return
@@ -62,7 +54,17 @@ class Return {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} return
+ */
+Return.prototype['return'] = undefined;
+
+
+
 
 
 

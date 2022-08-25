@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class HealthCheckResult {
     /**
-     * @member {String} NullableMessage
-     * @type {String}
-     */
-    NullableMessage;
-
-    
-
-    /**
      * Constructs a new <code>HealthCheckResult</code>.
      * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
      * @alias module:model/HealthCheckResult
@@ -62,7 +54,17 @@ class HealthCheckResult {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} NullableMessage
+ */
+HealthCheckResult.prototype['NullableMessage'] = undefined;
+
+
+
 
 
 

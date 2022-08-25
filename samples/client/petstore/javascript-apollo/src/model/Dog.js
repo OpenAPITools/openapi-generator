@@ -22,29 +22,6 @@ import DogAllOf from './DogAllOf';
  */
 class Dog {
     /**
-     * @member {String} breed
-     * @type {String}
-     */
-    breed;
-
-    /**
-     * @member {String} className
-     * @type {String}
-     */
-    #className;
-    /**
-     * @member {String} color
-     * @type {String}
-     */
-    #color;
-    /**
-     * @member {String} breed
-     * @type {String}
-     */
-    #breed;
-    
-
-    /**
      * Constructs a new <code>Dog</code>.
      * @alias module:model/Dog
      * @extends module:model/Animal
@@ -85,7 +62,32 @@ class Dog {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} breed
+ */
+Dog.prototype['breed'] = undefined;
+
+
+// Implement Animal interface:
+/**
+ * @member {String} className
+ */
+Animal.prototype['className'] = undefined;
+/**
+ * @member {String} color
+ * @default 'red'
+ */
+Animal.prototype['color'] = 'red';
+// Implement DogAllOf interface:
+/**
+ * @member {String} breed
+ */
+DogAllOf.prototype['breed'] = undefined;
+
 
 
 

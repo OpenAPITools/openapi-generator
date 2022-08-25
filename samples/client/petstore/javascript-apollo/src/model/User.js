@@ -20,49 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class User {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {String} username
-     * @type {String}
-     */
-    username;
-    /**
-     * @member {String} firstName
-     * @type {String}
-     */
-    firstName;
-    /**
-     * @member {String} lastName
-     * @type {String}
-     */
-    lastName;
-    /**
-     * @member {String} email
-     * @type {String}
-     */
-    email;
-    /**
-     * @member {String} password
-     * @type {String}
-     */
-    password;
-    /**
-     * @member {String} phone
-     * @type {String}
-     */
-    phone;
-    /**
-     * @member {Number} userStatus
-     * @type {Number}
-     */
-    userStatus;
-
-    
-
-    /**
      * Constructs a new <code>User</code>.
      * @alias module:model/User
      */
@@ -117,7 +74,53 @@ class User {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+User.prototype['id'] = undefined;
+
+/**
+ * @member {String} username
+ */
+User.prototype['username'] = undefined;
+
+/**
+ * @member {String} firstName
+ */
+User.prototype['firstName'] = undefined;
+
+/**
+ * @member {String} lastName
+ */
+User.prototype['lastName'] = undefined;
+
+/**
+ * @member {String} email
+ */
+User.prototype['email'] = undefined;
+
+/**
+ * @member {String} password
+ */
+User.prototype['password'] = undefined;
+
+/**
+ * @member {String} phone
+ */
+User.prototype['phone'] = undefined;
+
+/**
+ * User Status
+ * @member {Number} userStatus
+ */
+User.prototype['userStatus'] = undefined;
+
+
+
 
 
 

@@ -20,29 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Name {
     /**
-     * @member {Number} name
-     * @type {Number}
-     */
-    name;
-    /**
-     * @member {Number} snake_case
-     * @type {Number}
-     */
-    snake_case;
-    /**
-     * @member {String} property
-     * @type {String}
-     */
-    property;
-    /**
-     * @member {Number} 123Number
-     * @type {Number}
-     */
-    123Number;
-
-    
-
-    /**
      * Constructs a new <code>Name</code>.
      * Model for testing model name same as property name
      * @alias module:model/Name
@@ -88,7 +65,32 @@ class Name {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} name
+ */
+Name.prototype['name'] = undefined;
+
+/**
+ * @member {Number} snake_case
+ */
+Name.prototype['snake_case'] = undefined;
+
+/**
+ * @member {String} property
+ */
+Name.prototype['property'] = undefined;
+
+/**
+ * @member {Number} 123Number
+ */
+Name.prototype['123Number'] = undefined;
+
+
+
 
 
 

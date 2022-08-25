@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Client {
     /**
-     * @member {String} client
-     * @type {String}
-     */
-    client;
-
-    
-
-    /**
      * Constructs a new <code>Client</code>.
      * @alias module:model/Client
      */
@@ -61,7 +53,17 @@ class Client {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} client
+ */
+Client.prototype['client'] = undefined;
+
+
+
 
 
 

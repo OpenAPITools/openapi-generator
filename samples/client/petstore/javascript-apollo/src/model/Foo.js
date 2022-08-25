@@ -20,15 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Foo {
     /**
-     * @member {String} bar
-     * @type {String}
-     * @default 'bar'
-     */
-    bar = 'bar';
-
-    
-
-    /**
      * Constructs a new <code>Foo</code>.
      * @alias module:model/Foo
      */
@@ -62,7 +53,18 @@ class Foo {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} bar
+ * @default 'bar'
+ */
+Foo.prototype['bar'] = 'bar';
+
+
+
 
 
 

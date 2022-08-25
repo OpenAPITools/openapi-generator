@@ -20,14 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class List {
     /**
-     * @member {String} 123-list
-     * @type {String}
-     */
-    123-list;
-
-    
-
-    /**
      * Constructs a new <code>List</code>.
      * @alias module:model/List
      */
@@ -61,7 +53,17 @@ class List {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} 123-list
+ */
+List.prototype['123-list'] = undefined;
+
+
+
 
 
 

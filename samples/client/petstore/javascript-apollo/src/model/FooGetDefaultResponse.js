@@ -21,14 +21,6 @@ import Foo from './Foo';
  */
 class FooGetDefaultResponse {
     /**
-     * @member {module:model/Foo} string
-     * @type {module:model/Foo}
-     */
-    string;
-
-    
-
-    /**
      * Constructs a new <code>FooGetDefaultResponse</code>.
      * @alias module:model/FooGetDefaultResponse
      */
@@ -62,7 +54,17 @@ class FooGetDefaultResponse {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {module:model/Foo} string
+ */
+FooGetDefaultResponse.prototype['string'] = undefined;
+
+
+
 
 
 

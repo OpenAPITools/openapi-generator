@@ -20,24 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class OuterComposite {
     /**
-     * @member {Number} my_number
-     * @type {Number}
-     */
-    my_number;
-    /**
-     * @member {String} my_string
-     * @type {String}
-     */
-    my_string;
-    /**
-     * @member {Boolean} my_boolean
-     * @type {Boolean}
-     */
-    my_boolean;
-
-    
-
-    /**
      * Constructs a new <code>OuterComposite</code>.
      * @alias module:model/OuterComposite
      */
@@ -77,7 +59,27 @@ class OuterComposite {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} my_number
+ */
+OuterComposite.prototype['my_number'] = undefined;
+
+/**
+ * @member {String} my_string
+ */
+OuterComposite.prototype['my_string'] = undefined;
+
+/**
+ * @member {Boolean} my_boolean
+ */
+OuterComposite.prototype['my_boolean'] = undefined;
+
+
+
 
 
 

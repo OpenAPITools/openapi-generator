@@ -20,20 +20,6 @@ import ApiClient from '../ApiClient';
  */
 class Animal {
     /**
-     * @member {String} className
-     * @type {String}
-     */
-    className;
-    /**
-     * @member {String} color
-     * @type {String}
-     * @default 'red'
-     */
-    color = 'red';
-
-    
-
-    /**
      * Constructs a new <code>Animal</code>.
      * @alias module:model/Animal
      * @param className {String} 
@@ -72,7 +58,23 @@ class Animal {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {String} className
+ */
+Animal.prototype['className'] = undefined;
+
+/**
+ * @member {String} color
+ * @default 'red'
+ */
+Animal.prototype['color'] = 'red';
+
+
+
 
 
 
