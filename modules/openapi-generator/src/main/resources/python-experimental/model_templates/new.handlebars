@@ -6,7 +6,11 @@ def __new__(
 {{#each getRequiredVarsMap}}
 {{#with this}}
 {{#unless nameInSnakeCase}}
-    {{baseName}}: 'MetaOapg.properties.{{baseName}}',
+{{#if complexType}}
+    {{baseName}}: '{{complexType}}',
+{{else}}
+    {{baseName}}: MetaOapg.properties.{{baseName}},
+{{/if}}
 {{/unless}}
 {{/with}}
 {{/each}}
@@ -15,18 +19,21 @@ def __new__(
 {{#each vars}}
 {{#unless nameInSnakeCase}}
 {{#unless getRequired}}
-{{#unless complexType}}
-    {{baseName}}: typing.Union['MetaOapg.properties.{{baseName}}', schemas.Unset] = schemas.unset,
-{{/unless}}
 {{#if complexType}}
     {{baseName}}: typing.Union['{{complexType}}', schemas.Unset] = schemas.unset,
+{{else}}
+    {{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset] = schemas.unset,
 {{/if}}
 {{/unless}}
 {{/unless}}
 {{/each}}
     _configuration: typing.Optional[schemas.Configuration] = None,
 {{#with additionalProperties}}
-    **kwargs: 'MetaOapg.additional_properties',
+{{#if complexType}}
+    **kwargs: '{{complexType}}',
+{{else}}
+    **kwargs: MetaOapg.additional_properties,
+{{/if}}
 {{/with}}
 ) -> '{{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}':
     return super().__new__(

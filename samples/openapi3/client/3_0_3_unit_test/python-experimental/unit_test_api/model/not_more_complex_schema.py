@@ -52,9 +52,9 @@ class NotMoreComplexSchema(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
+                foo: typing.Union[MetaOapg.properties.foo, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg.additional_properties',
+                **kwargs: MetaOapg.additional_properties,
             ) -> 'not_schema':
                 return super().__new__(
                     cls,
@@ -68,7 +68,7 @@ class NotMoreComplexSchema(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'NotMoreComplexSchema':
         return super().__new__(
             cls,

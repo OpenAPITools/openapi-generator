@@ -43,9 +43,9 @@ class RequiredDefaultValidation(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
+        foo: typing.Union[MetaOapg.properties.foo, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'RequiredDefaultValidation':
         return super().__new__(
             cls,

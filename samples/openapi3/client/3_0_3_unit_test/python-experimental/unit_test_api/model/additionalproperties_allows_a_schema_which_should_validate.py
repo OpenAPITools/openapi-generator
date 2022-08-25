@@ -45,10 +45,10 @@ class AdditionalpropertiesAllowsASchemaWhichShouldValidate(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
-        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
+        foo: typing.Union[MetaOapg.properties.foo, schemas.Unset] = schemas.unset,
+        bar: typing.Union[MetaOapg.properties.bar, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'AdditionalpropertiesAllowsASchemaWhichShouldValidate':
         return super().__new__(
             cls,

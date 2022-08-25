@@ -56,7 +56,7 @@ class AllofWithOneEmptySchema(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'AllofWithOneEmptySchema':
         return super().__new__(
             cls,

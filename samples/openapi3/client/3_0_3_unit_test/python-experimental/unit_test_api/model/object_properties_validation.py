@@ -45,10 +45,10 @@ class ObjectPropertiesValidation(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        foo: typing.Union['MetaOapg.properties.foo', schemas.Unset] = schemas.unset,
-        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
+        foo: typing.Union[MetaOapg.properties.foo, schemas.Unset] = schemas.unset,
+        bar: typing.Union[MetaOapg.properties.bar, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'ObjectPropertiesValidation':
         return super().__new__(
             cls,

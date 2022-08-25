@@ -51,9 +51,9 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        alpha: typing.Union['MetaOapg.properties.alpha', schemas.Unset] = schemas.unset,
+        alpha: typing.Union[MetaOapg.properties.alpha, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing':
         return super().__new__(
             cls,

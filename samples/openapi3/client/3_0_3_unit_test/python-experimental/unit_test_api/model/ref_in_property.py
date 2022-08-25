@@ -42,14 +42,14 @@ class RefInProperty(
                 return PropertyNamedRefThatIsNotAReference
         additional_properties = schemas.AnyTypeSchema
     
-    a: 'MetaOapg.properties.a'
+    a: 'PropertyNamedRefThatIsNotAReference'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         a: typing.Union['PropertyNamedRefThatIsNotAReference', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'RefInProperty':
         return super().__new__(
             cls,

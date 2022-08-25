@@ -54,7 +54,7 @@ class OneofWithRequired(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg.additional_properties',
+                **kwargs: MetaOapg.additional_properties,
             ) -> 'one_of_0':
                 return super().__new__(
                     cls,
@@ -80,7 +80,7 @@ class OneofWithRequired(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg.additional_properties',
+                **kwargs: MetaOapg.additional_properties,
             ) -> 'one_of_1':
                 return super().__new__(
                     cls,
@@ -109,7 +109,7 @@ class OneofWithRequired(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'OneofWithRequired':
         return super().__new__(
             cls,

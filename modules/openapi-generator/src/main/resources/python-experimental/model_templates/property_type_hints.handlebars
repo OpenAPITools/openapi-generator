@@ -3,7 +3,7 @@
 {{#each vars}}
 {{#unless nameInSnakeCase}}
 {{#if complexType}}
-{{baseName}}: 'MetaOapg.properties.{{baseName}}'
+{{baseName}}: '{{complexType}}'
 {{else}}
 {{baseName}}: MetaOapg.properties.{{baseName}}
 {{/if}}

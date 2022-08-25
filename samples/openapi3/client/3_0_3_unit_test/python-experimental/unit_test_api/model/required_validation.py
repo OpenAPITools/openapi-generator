@@ -48,10 +48,10 @@ class RequiredValidation(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        foo: 'MetaOapg.properties.foo',
-        bar: typing.Union['MetaOapg.properties.bar', schemas.Unset] = schemas.unset,
+        foo: MetaOapg.properties.foo,
+        bar: typing.Union[MetaOapg.properties.bar, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'RequiredValidation':
         return super().__new__(
             cls,

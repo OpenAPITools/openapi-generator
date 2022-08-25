@@ -65,7 +65,7 @@ class NestedOneofToCheckValidationSemantics(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: 'MetaOapg.additional_properties',
+                **kwargs: MetaOapg.additional_properties,
             ) -> 'one_of_0':
                 return super().__new__(
                     cls,
@@ -93,7 +93,7 @@ class NestedOneofToCheckValidationSemantics(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: 'MetaOapg.additional_properties',
+        **kwargs: MetaOapg.additional_properties,
     ) -> 'NestedOneofToCheckValidationSemantics':
         return super().__new__(
             cls,
