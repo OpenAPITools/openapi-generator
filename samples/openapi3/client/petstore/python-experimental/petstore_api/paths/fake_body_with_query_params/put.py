@@ -31,7 +31,7 @@ QuerySchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'query': QuerySchema,
+        'query': typing.Union[QuerySchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

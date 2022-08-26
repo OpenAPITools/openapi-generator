@@ -28,7 +28,7 @@ UsernameSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'username': UsernameSchema,
+        'username': typing.Union[UsernameSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(

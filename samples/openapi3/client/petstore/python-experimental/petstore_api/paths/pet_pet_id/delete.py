@@ -34,7 +34,7 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'api_key': ApiKeySchema,
+        'api_key': typing.Union[ApiKeySchema, str, ],
     },
     total=False
 )
@@ -54,7 +54,7 @@ PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'petId': PetIdSchema,
+        'petId': typing.Union[PetIdSchema, int, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(

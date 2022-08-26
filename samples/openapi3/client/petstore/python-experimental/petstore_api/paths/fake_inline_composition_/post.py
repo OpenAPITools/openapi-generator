@@ -152,8 +152,8 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'compositionAtRoot': CompositionAtRootSchema,
-        'compositionInProperty': CompositionInPropertySchema,
+        'compositionAtRoot': typing.Union[CompositionAtRootSchema, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        'compositionInProperty': typing.Union[CompositionInPropertySchema, dict, frozendict, ],
     },
     total=False
 )

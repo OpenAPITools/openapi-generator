@@ -30,8 +30,8 @@ PasswordSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'username': UsernameSchema,
-        'password': PasswordSchema,
+        'username': typing.Union[UsernameSchema, str, ],
+        'password': typing.Union[PasswordSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

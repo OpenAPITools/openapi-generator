@@ -28,7 +28,7 @@ OrderIdSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'order_id': OrderIdSchema,
+        'order_id': typing.Union[OrderIdSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(

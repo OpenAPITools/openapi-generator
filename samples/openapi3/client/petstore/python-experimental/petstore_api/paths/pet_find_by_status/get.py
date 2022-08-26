@@ -65,7 +65,7 @@ class StatusSchema(
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'status': StatusSchema,
+        'status': typing.Union[StatusSchema, tuple, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

@@ -35,7 +35,7 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'mapBean': MapBeanSchema,
+        'mapBean': typing.Union[MapBeanSchema, ],
     },
     total=False
 )

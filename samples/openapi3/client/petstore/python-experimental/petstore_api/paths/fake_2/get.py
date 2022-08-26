@@ -131,10 +131,10 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'enum_query_string_array': EnumQueryStringArraySchema,
-        'enum_query_string': EnumQueryStringSchema,
-        'enum_query_integer': EnumQueryIntegerSchema,
-        'enum_query_double': EnumQueryDoubleSchema,
+        'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, tuple, ],
+        'enum_query_string': typing.Union[EnumQueryStringSchema, str, ],
+        'enum_query_integer': typing.Union[EnumQueryIntegerSchema, int, ],
+        'enum_query_double': typing.Union[EnumQueryDoubleSchema, float, ],
     },
     total=False
 )
@@ -233,8 +233,8 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'enum_header_string_array': EnumHeaderStringArraySchema,
-        'enum_header_string': EnumHeaderStringSchema,
+        'enum_header_string_array': typing.Union[EnumHeaderStringArraySchema, tuple, ],
+        'enum_header_string': typing.Union[EnumHeaderStringSchema, str, ],
     },
     total=False
 )

@@ -75,12 +75,12 @@ RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'pipe': PipeSchema,
-        'ioutil': IoutilSchema,
-        'http': HttpSchema,
-        'url': UrlSchema,
-        'context': ContextSchema,
-        'refParam': RefParamSchema,
+        'pipe': typing.Union[PipeSchema, tuple, ],
+        'ioutil': typing.Union[IoutilSchema, tuple, ],
+        'http': typing.Union[HttpSchema, tuple, ],
+        'url': typing.Union[UrlSchema, tuple, ],
+        'context': typing.Union[ContextSchema, tuple, ],
+        'refParam': typing.Union[RefParamSchema, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
