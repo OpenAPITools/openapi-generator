@@ -50,19 +50,19 @@
   describe('FileSchemaTestClass', function() {
     it('should create an instance of FileSchemaTestClass', function() {
       // uncomment below and update the code to test FileSchemaTestClass
-      //var instane = new OpenApiPetstore.FileSchemaTestClass();
+      //var instance = new OpenApiPetstore.FileSchemaTestClass();
       //expect(instance).to.be.a(OpenApiPetstore.FileSchemaTestClass);
     });
 
     it('should have the property file (base name: "file")', function() {
       // uncomment below and update the code to test the property file
-      //var instane = new OpenApiPetstore.FileSchemaTestClass();
+      //var instance = new OpenApiPetstore.FileSchemaTestClass();
       //expect(instance).to.be();
     });
 
     it('should have the property files (base name: "files")', function() {
       // uncomment below and update the code to test the property files
-      //var instane = new OpenApiPetstore.FileSchemaTestClass();
+      //var instance = new OpenApiPetstore.FileSchemaTestClass();
       //expect(instance).to.be();
     });
 
