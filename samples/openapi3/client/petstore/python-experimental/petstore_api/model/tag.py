@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -45,10 +46,10 @@ class Tag(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
-        name: typing.Union[MetaOapg.properties.name, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
+        name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Tag':
         return super().__new__(
             cls,

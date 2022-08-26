@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -61,7 +62,7 @@ class User(
                     cls,
                     *args: typing.Union[dict, frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: MetaOapg.additional_properties,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 ) -> 'objectWithNoDeclaredPropsNullable':
                     return super().__new__(
                         cls,
@@ -83,9 +84,9 @@ class User(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+                    *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: MetaOapg.additional_properties,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 ) -> 'anyTypeExceptNullProp':
                     return super().__new__(
                         cls,
@@ -113,21 +114,21 @@ class User(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
-        username: typing.Union[MetaOapg.properties.username, schemas.Unset] = schemas.unset,
-        firstName: typing.Union[MetaOapg.properties.firstName, schemas.Unset] = schemas.unset,
-        lastName: typing.Union[MetaOapg.properties.lastName, schemas.Unset] = schemas.unset,
-        email: typing.Union[MetaOapg.properties.email, schemas.Unset] = schemas.unset,
-        password: typing.Union[MetaOapg.properties.password, schemas.Unset] = schemas.unset,
-        phone: typing.Union[MetaOapg.properties.phone, schemas.Unset] = schemas.unset,
-        userStatus: typing.Union[MetaOapg.properties.userStatus, schemas.Unset] = schemas.unset,
-        objectWithNoDeclaredProps: typing.Union[MetaOapg.properties.objectWithNoDeclaredProps, schemas.Unset] = schemas.unset,
-        objectWithNoDeclaredPropsNullable: typing.Union[MetaOapg.properties.objectWithNoDeclaredPropsNullable, schemas.Unset] = schemas.unset,
-        anyTypeProp: typing.Union[MetaOapg.properties.anyTypeProp, schemas.Unset] = schemas.unset,
-        anyTypeExceptNullProp: typing.Union[MetaOapg.properties.anyTypeExceptNullProp, schemas.Unset] = schemas.unset,
-        anyTypePropNullable: typing.Union[MetaOapg.properties.anyTypePropNullable, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
+        username: typing.Union[MetaOapg.properties.username, str, schemas.Unset] = schemas.unset,
+        firstName: typing.Union[MetaOapg.properties.firstName, str, schemas.Unset] = schemas.unset,
+        lastName: typing.Union[MetaOapg.properties.lastName, str, schemas.Unset] = schemas.unset,
+        email: typing.Union[MetaOapg.properties.email, str, schemas.Unset] = schemas.unset,
+        password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
+        phone: typing.Union[MetaOapg.properties.phone, str, schemas.Unset] = schemas.unset,
+        userStatus: typing.Union[MetaOapg.properties.userStatus, int, schemas.Unset] = schemas.unset,
+        objectWithNoDeclaredProps: typing.Union[MetaOapg.properties.objectWithNoDeclaredProps, dict, frozendict, schemas.Unset] = schemas.unset,
+        objectWithNoDeclaredPropsNullable: typing.Union[MetaOapg.properties.objectWithNoDeclaredPropsNullable, dict, frozendict, None, schemas.Unset] = schemas.unset,
+        anyTypeProp: typing.Union[MetaOapg.properties.anyTypeProp, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        anyTypeExceptNullProp: typing.Union[MetaOapg.properties.anyTypeExceptNullProp, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        anyTypePropNullable: typing.Union[MetaOapg.properties.anyTypePropNullable, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'User':
         return super().__new__(
             cls,

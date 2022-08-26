@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -91,11 +92,11 @@ class ArrayTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        array_of_string: typing.Union[MetaOapg.properties.array_of_string, schemas.Unset] = schemas.unset,
-        array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset] = schemas.unset,
-        array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset] = schemas.unset,
+        array_of_string: typing.Union[MetaOapg.properties.array_of_string, tuple, schemas.Unset] = schemas.unset,
+        array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
+        array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ArrayTest':
         return super().__new__(
             cls,

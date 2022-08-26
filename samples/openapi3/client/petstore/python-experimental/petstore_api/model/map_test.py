@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -57,7 +58,7 @@ class MapTest(
                             cls,
                             *args: typing.Union[dict, frozendict, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: MetaOapg.additional_properties,
+                            **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
@@ -70,7 +71,7 @@ class MapTest(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: MetaOapg.additional_properties,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, ],
                 ) -> 'map_map_of_string':
                     return super().__new__(
                         cls,
@@ -112,7 +113,7 @@ class MapTest(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: MetaOapg.additional_properties,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                 ) -> 'map_of_enum_string':
                     return super().__new__(
                         cls,
@@ -134,7 +135,7 @@ class MapTest(
                     cls,
                     *args: typing.Union[dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: MetaOapg.additional_properties,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, bool, ],
                 ) -> 'direct_map':
                     return super().__new__(
                         cls,
@@ -157,12 +158,12 @@ class MapTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        map_map_of_string: typing.Union[MetaOapg.properties.map_map_of_string, schemas.Unset] = schemas.unset,
-        map_of_enum_string: typing.Union[MetaOapg.properties.map_of_enum_string, schemas.Unset] = schemas.unset,
-        direct_map: typing.Union[MetaOapg.properties.direct_map, schemas.Unset] = schemas.unset,
+        map_map_of_string: typing.Union[MetaOapg.properties.map_map_of_string, dict, frozendict, schemas.Unset] = schemas.unset,
+        map_of_enum_string: typing.Union[MetaOapg.properties.map_of_enum_string, dict, frozendict, schemas.Unset] = schemas.unset,
+        direct_map: typing.Union[MetaOapg.properties.direct_map, dict, frozendict, schemas.Unset] = schemas.unset,
         indirect_map: typing.Union['StringBooleanMap', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'MapTest':
         return super().__new__(
             cls,

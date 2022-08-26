@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -51,9 +52,9 @@ class ArrayOfNumberOnly(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset] = schemas.unset,
+        ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,

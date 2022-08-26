@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -174,17 +175,17 @@ class EnumTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        enum_string_required: MetaOapg.properties.enum_string_required,
-        enum_string: typing.Union[MetaOapg.properties.enum_string, schemas.Unset] = schemas.unset,
-        enum_integer: typing.Union[MetaOapg.properties.enum_integer, schemas.Unset] = schemas.unset,
-        enum_number: typing.Union[MetaOapg.properties.enum_number, schemas.Unset] = schemas.unset,
+        enum_string_required: typing.Union[MetaOapg.properties.enum_string_required, str, ],
+        enum_string: typing.Union[MetaOapg.properties.enum_string, str, schemas.Unset] = schemas.unset,
+        enum_integer: typing.Union[MetaOapg.properties.enum_integer, int, schemas.Unset] = schemas.unset,
+        enum_number: typing.Union[MetaOapg.properties.enum_number, float, schemas.Unset] = schemas.unset,
         stringEnum: typing.Union['StringEnum', schemas.Unset] = schemas.unset,
         IntegerEnum: typing.Union['IntegerEnum', schemas.Unset] = schemas.unset,
         StringEnumWithDefaultValue: typing.Union['StringEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'EnumTest':
         return super().__new__(
             cls,

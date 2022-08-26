@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -80,7 +81,7 @@ class Drawing(
         mainShape: typing.Union['Shape', schemas.Unset] = schemas.unset,
         shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset] = schemas.unset,
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,
-        shapes: typing.Union[MetaOapg.properties.shapes, schemas.Unset] = schemas.unset,
+        shapes: typing.Union[MetaOapg.properties.shapes, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: 'Fruit',
     ) -> 'Drawing':

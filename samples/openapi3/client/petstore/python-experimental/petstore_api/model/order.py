@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -79,14 +80,14 @@ class Order(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
-        petId: typing.Union[MetaOapg.properties.petId, schemas.Unset] = schemas.unset,
-        quantity: typing.Union[MetaOapg.properties.quantity, schemas.Unset] = schemas.unset,
-        shipDate: typing.Union[MetaOapg.properties.shipDate, schemas.Unset] = schemas.unset,
-        status: typing.Union[MetaOapg.properties.status, schemas.Unset] = schemas.unset,
-        complete: typing.Union[MetaOapg.properties.complete, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
+        petId: typing.Union[MetaOapg.properties.petId, int, schemas.Unset] = schemas.unset,
+        quantity: typing.Union[MetaOapg.properties.quantity, int, schemas.Unset] = schemas.unset,
+        shipDate: typing.Union[MetaOapg.properties.shipDate, datetime, str, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
+        complete: typing.Union[MetaOapg.properties.complete, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Order':
         return super().__new__(
             cls,

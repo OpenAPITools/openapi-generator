@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -201,28 +202,28 @@ class FormatTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        date: MetaOapg.properties.date,
-        number: MetaOapg.properties.number,
-        password: MetaOapg.properties.password,
-        byte: MetaOapg.properties.byte,
-        integer: typing.Union[MetaOapg.properties.integer, schemas.Unset] = schemas.unset,
-        int32: typing.Union[MetaOapg.properties.int32, schemas.Unset] = schemas.unset,
-        int32withValidations: typing.Union[MetaOapg.properties.int32withValidations, schemas.Unset] = schemas.unset,
-        int64: typing.Union[MetaOapg.properties.int64, schemas.Unset] = schemas.unset,
-        float32: typing.Union[MetaOapg.properties.float32, schemas.Unset] = schemas.unset,
-        double: typing.Union[MetaOapg.properties.double, schemas.Unset] = schemas.unset,
-        float64: typing.Union[MetaOapg.properties.float64, schemas.Unset] = schemas.unset,
-        arrayWithUniqueItems: typing.Union[MetaOapg.properties.arrayWithUniqueItems, schemas.Unset] = schemas.unset,
-        string: typing.Union[MetaOapg.properties.string, schemas.Unset] = schemas.unset,
+        date: typing.Union[MetaOapg.properties.date, date, str, ],
+        number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
+        password: typing.Union[MetaOapg.properties.password, str, ],
+        byte: typing.Union[MetaOapg.properties.byte, str, ],
+        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
+        int32withValidations: typing.Union[MetaOapg.properties.int32withValidations, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        float32: typing.Union[MetaOapg.properties.float32, float, schemas.Unset] = schemas.unset,
+        double: typing.Union[MetaOapg.properties.double, float, schemas.Unset] = schemas.unset,
+        float64: typing.Union[MetaOapg.properties.float64, float, schemas.Unset] = schemas.unset,
+        arrayWithUniqueItems: typing.Union[MetaOapg.properties.arrayWithUniqueItems, tuple, schemas.Unset] = schemas.unset,
+        string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset] = schemas.unset,
-        uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset] = schemas.unset,
-        uuidNoExample: typing.Union[MetaOapg.properties.uuidNoExample, schemas.Unset] = schemas.unset,
-        pattern_with_digits: typing.Union[MetaOapg.properties.pattern_with_digits, schemas.Unset] = schemas.unset,
-        pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, schemas.Unset] = schemas.unset,
-        noneProp: typing.Union[MetaOapg.properties.noneProp, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        uuid: typing.Union[MetaOapg.properties.uuid, uuid.UUID, str, schemas.Unset] = schemas.unset,
+        uuidNoExample: typing.Union[MetaOapg.properties.uuidNoExample, uuid.UUID, str, schemas.Unset] = schemas.unset,
+        pattern_with_digits: typing.Union[MetaOapg.properties.pattern_with_digits, str, schemas.Unset] = schemas.unset,
+        pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, str, schemas.Unset] = schemas.unset,
+        noneProp: typing.Union[MetaOapg.properties.noneProp, None, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'FormatTest':
         return super().__new__(
             cls,

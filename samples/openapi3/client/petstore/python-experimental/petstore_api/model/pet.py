@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -109,14 +110,14 @@ class Pet(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        photoUrls: MetaOapg.properties.photoUrls,
-        name: MetaOapg.properties.name,
-        id: typing.Union[MetaOapg.properties.id, schemas.Unset] = schemas.unset,
+        photoUrls: typing.Union[MetaOapg.properties.photoUrls, tuple, ],
+        name: typing.Union[MetaOapg.properties.name, str, ],
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
-        tags: typing.Union[MetaOapg.properties.tags, schemas.Unset] = schemas.unset,
-        status: typing.Union[MetaOapg.properties.status, schemas.Unset] = schemas.unset,
+        tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Pet':
         return super().__new__(
             cls,

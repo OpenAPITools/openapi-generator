@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -51,9 +52,9 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        alpha: typing.Union[MetaOapg.properties.alpha, schemas.Unset] = schemas.unset,
+        alpha: typing.Union[MetaOapg.properties.alpha, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing':
         return super().__new__(
             cls,

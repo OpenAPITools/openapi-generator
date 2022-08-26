@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -160,21 +161,21 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        number: MetaOapg.properties.number,
-        pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter,
-        byte: MetaOapg.properties.byte,
-        double: MetaOapg.properties.double,
-        integer: typing.Union[MetaOapg.properties.integer, schemas.Unset] = schemas.unset,
-        int32: typing.Union[MetaOapg.properties.int32, schemas.Unset] = schemas.unset,
-        int64: typing.Union[MetaOapg.properties.int64, schemas.Unset] = schemas.unset,
-        string: typing.Union[MetaOapg.properties.string, schemas.Unset] = schemas.unset,
+        number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
+        pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
+        byte: typing.Union[MetaOapg.properties.byte, str, ],
+        double: typing.Union[MetaOapg.properties.double, float, ],
+        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, schemas.Unset] = schemas.unset,
-        date: typing.Union[MetaOapg.properties.date, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset] = schemas.unset,
-        password: typing.Union[MetaOapg.properties.password, schemas.Unset] = schemas.unset,
-        callback: typing.Union[MetaOapg.properties.callback, schemas.Unset] = schemas.unset,
+        date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
+        callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

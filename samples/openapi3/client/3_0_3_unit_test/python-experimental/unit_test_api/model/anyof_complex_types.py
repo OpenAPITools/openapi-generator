@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -54,10 +55,10 @@ class AnyofComplexTypes(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                bar: MetaOapg.properties.bar,
+                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                bar: typing.Union[MetaOapg.properties.bar, int, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: MetaOapg.additional_properties,
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'any_of_0':
                 return super().__new__(
                     cls,
@@ -85,10 +86,10 @@ class AnyofComplexTypes(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                foo: MetaOapg.properties.foo,
+                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                foo: typing.Union[MetaOapg.properties.foo, str, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: MetaOapg.additional_properties,
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'any_of_1':
                 return super().__new__(
                     cls,
@@ -116,9 +117,9 @@ class AnyofComplexTypes(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: MetaOapg.additional_properties,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'AnyofComplexTypes':
         return super().__new__(
             cls,

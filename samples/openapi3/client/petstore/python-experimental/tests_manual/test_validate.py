@@ -182,7 +182,7 @@ class TestValidateCalls(unittest.TestCase):
 
     def test_list_validate_direct_instantiation_cast_item(self):
         # item validation is skipped if items are of the correct type
-        item = ArrayWithValidationsInItems._items(7)
+        item = ArrayWithValidationsInItems.MetaOapg.items(7)
         return_value = {("args[0]",): {ArrayWithValidationsInItems, tuple}}
         with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             ArrayWithValidationsInItems([item])

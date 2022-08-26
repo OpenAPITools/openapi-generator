@@ -89,7 +89,7 @@ class ValidationMetadata(frozendict):
         from_server: bool = False,
         configuration: typing.Optional[Configuration] = None,
         seen_classes: typing.FrozenSet[typing.Type] = frozenset(),
-        validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set['Schema']] = frozendict()
+        validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Type]] = frozendict()
     ):
         """
         Args:
@@ -145,7 +145,7 @@ class ValidationMetadata(frozendict):
         return self.get('seen_classes')
 
     @property
-    def validated_path_to_schemas(self) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set['Schema']]:
+    def validated_path_to_schemas(self) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Type]]:
         return self.get('validated_path_to_schemas')
 
 
@@ -1465,6 +1465,7 @@ class DictBase(Discriminable, ValidatorBase):
             return tuple()
         property_names = set()
         for var_name, var_value in cls.MetaOapg.properties.__dict__.items():
+            var_name: str
             # referenced models are classmethods
             is_classmethod = type(var_value) is classmethod
             if is_classmethod:
@@ -2136,7 +2137,8 @@ def get_new_class(
     """
     Returns a new class that is made with the subclass bases
     """
-    return type(class_name, bases, {})
+    new_cls: typing.Type[Schema] = type(class_name, bases, {})
+    return new_cls
 
 
 LOG_CACHE_USAGE = False
