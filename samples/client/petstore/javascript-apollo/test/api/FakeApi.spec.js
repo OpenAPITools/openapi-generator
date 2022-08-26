@@ -18,6 +18,9 @@
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     factory(require('expect.js'), require(process.cwd()+'/src/index'));
+  } else {
+    // Browser globals (root is window)
+    factory(root.expect, root.OpenApiPetstore);
   }
 }(this, function(expect, OpenApiPetstore) {
   'use strict';
