@@ -202,7 +202,7 @@ export class {{classname}} {
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
+                [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         {{/isQueryParamObjectFormatJson}}
         }
@@ -220,7 +220,7 @@ export class {{classname}} {
 {{#headerParams}}
         {{#isArray}}
         if ({{paramName}}) {
-            localVarHeaders = localVarHeaders.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            localVarHeaders = localVarHeaders.set('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']));
         }
         {{/isArray}}
         {{^isArray}}
@@ -339,7 +339,7 @@ export class {{classname}} {
                     localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
             })
             } else {
-                localVarFormParams = localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
             }
         {{/isCollectionFormatMulti}}
         }
