@@ -101,12 +101,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
+                        "set",
                         "array")
         );
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "map",
+                        "set",
                         "array",
                         "bool",
                         "bytes",
@@ -127,9 +129,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "repeat");
+        instantiationTypes.put("set", "repeat");
+
 
         // ref: https://developers.google.com/protocol-buffers/docs/proto
         typeMapping.clear();
+        typeMapping.put("set", "array");
         typeMapping.put("array", "array");
         typeMapping.put("map", "map");
         typeMapping.put("integer", "int32");
