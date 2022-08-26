@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,19 +32,27 @@ class ApiResponse(
 
     Do not edit the class manually.
     """
-    code = schemas.Int32Schema
-    type = schemas.StrSchema
-    message = schemas.StrSchema
 
+
+    class MetaOapg:
+        class properties:
+            code = schemas.Int32Schema
+            type = schemas.StrSchema
+            message = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    code: MetaOapg.properties.code
+    type: MetaOapg.properties.type
+    message: MetaOapg.properties.message
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        code: typing.Union[code, schemas.Unset] = schemas.unset,
-        type: typing.Union[type, schemas.Unset] = schemas.unset,
-        message: typing.Union[message, schemas.Unset] = schemas.unset,
+        code: typing.Union[MetaOapg.properties.code, int, schemas.Unset] = schemas.unset,
+        type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
+        message: typing.Union[MetaOapg.properties.message, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ApiResponse':
         return super().__new__(
             cls,

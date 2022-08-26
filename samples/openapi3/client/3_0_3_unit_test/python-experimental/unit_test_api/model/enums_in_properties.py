@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,48 +32,55 @@ class EnumsInProperties(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "bar",
-    }
-    
-    
-    class foo(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "foo": "FOO",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def FOO(cls):
-            return cls("foo")
-    
-    
-    class bar(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "bar": "BAR",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def BAR(cls):
-            return cls("bar")
 
+
+    class MetaOapg:
+        required = {
+            "bar",
+        }
+        class properties:
+            
+            
+            class foo(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "foo": "FOO",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def FOO(cls):
+                    return cls("foo")
+            
+            
+            class bar(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "bar": "BAR",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def BAR(cls):
+                    return cls("bar")
+        additional_properties = schemas.AnyTypeSchema
+    
+    foo: MetaOapg.properties.foo
+    bar: MetaOapg.properties.bar
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        bar: bar,
-        foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+        bar: typing.Union[MetaOapg.properties.bar, str, ],
+        foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'EnumsInProperties':
         return super().__new__(
             cls,

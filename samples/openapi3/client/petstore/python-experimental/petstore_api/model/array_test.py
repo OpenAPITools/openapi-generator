@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,48 +32,71 @@ class ArrayTest(
 
     Do not edit the class manually.
     """
-    
-    
-    class array_of_string(
-        schemas.ListSchema
-    ):
-        _items = schemas.StrSchema
-    
-    
-    class array_array_of_integer(
-        schemas.ListSchema
-    ):
-        
-        
-        class _items(
-            schemas.ListSchema
-        ):
-            _items = schemas.Int64Schema
-    
-    
-    class array_array_of_model(
-        schemas.ListSchema
-    ):
-        
-        
-        class _items(
-            schemas.ListSchema
-        ):
-        
-            @classmethod
-            @property
-            def _items(cls) -> typing.Type['ReadOnlyFirst']:
-                return ReadOnlyFirst
 
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class array_of_string(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+            
+            class array_array_of_integer(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class items(
+                        schemas.ListSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            items = schemas.Int64Schema
+            
+            
+            class array_array_of_model(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class items(
+                        schemas.ListSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                    
+                            @classmethod
+                            @property
+                            def items(cls) -> typing.Type['ReadOnlyFirst']:
+                                return ReadOnlyFirst
+        additional_properties = schemas.AnyTypeSchema
+    
+    array_of_string: MetaOapg.properties.array_of_string
+    array_array_of_integer: MetaOapg.properties.array_array_of_integer
+    array_array_of_model: MetaOapg.properties.array_array_of_model
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        array_of_string: typing.Union[array_of_string, schemas.Unset] = schemas.unset,
-        array_array_of_integer: typing.Union[array_array_of_integer, schemas.Unset] = schemas.unset,
-        array_array_of_model: typing.Union[array_array_of_model, schemas.Unset] = schemas.unset,
+        array_of_string: typing.Union[MetaOapg.properties.array_of_string, tuple, schemas.Unset] = schemas.unset,
+        array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
+        array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ArrayTest':
         return super().__new__(
             cls,

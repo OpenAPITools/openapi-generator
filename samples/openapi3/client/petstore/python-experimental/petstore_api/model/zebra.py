@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,60 +32,67 @@ class Zebra(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    
-    
-    class type(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "plains": "PLAINS",
-                "mountain": "MOUNTAIN",
-                "grevys": "GREVYS",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def PLAINS(cls):
-            return cls("plains")
-        
-        @classmethod
-        @property
-        def MOUNTAIN(cls):
-            return cls("mountain")
-        
-        @classmethod
-        @property
-        def GREVYS(cls):
-            return cls("grevys")
-    
-    
-    class className(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "zebra": "ZEBRA",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def ZEBRA(cls):
-            return cls("zebra")
 
+
+    class MetaOapg:
+        required = {
+            "className",
+        }
+        class properties:
+            
+            
+            class type(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "plains": "PLAINS",
+                        "mountain": "MOUNTAIN",
+                        "grevys": "GREVYS",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def PLAINS(cls):
+                    return cls("plains")
+                
+                @classmethod
+                @property
+                def MOUNTAIN(cls):
+                    return cls("mountain")
+                
+                @classmethod
+                @property
+                def GREVYS(cls):
+                    return cls("grevys")
+            
+            
+            class className(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "zebra": "ZEBRA",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def ZEBRA(cls):
+                    return cls("zebra")
+        additional_properties = schemas.AnyTypeSchema
+    
+    type: MetaOapg.properties.type
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
-        type: typing.Union[type, schemas.Unset] = schemas.unset,
+        className: typing.Union[MetaOapg.properties.className, str, ],
+        type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Zebra':
         return super().__new__(
             cls,

@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,19 +32,25 @@ class AppleReq(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "cultivar",
-    }
-    cultivar = schemas.StrSchema
-    mealy = schemas.BoolSchema
-    _additional_properties = None
 
+
+    class MetaOapg:
+        required = {
+            "cultivar",
+        }
+        class properties:
+            cultivar = schemas.StrSchema
+            mealy = schemas.BoolSchema
+        additional_properties = None
+    
+    cultivar: MetaOapg.properties.cultivar
+    mealy: MetaOapg.properties.mealy
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        cultivar: cultivar,
-        mealy: typing.Union[mealy, schemas.Unset] = schemas.unset,
+        cultivar: typing.Union[MetaOapg.properties.cultivar, str, ],
+        mealy: typing.Union[MetaOapg.properties.mealy, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'AppleReq':
         return super().__new__(

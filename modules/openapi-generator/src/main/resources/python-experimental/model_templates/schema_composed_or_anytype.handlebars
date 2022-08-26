@@ -31,13 +31,13 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or isMap isAnyType}}
-{{> model_templates/dict_partial }}
-{{/or}}
-{{#or hasValidation composedSchemas}}
+{{#or hasValidation composedSchemas isMap isAnyType}}
 
 
     class MetaOapg:
+{{#or isMap isAnyType}}
+        {{> model_templates/dict_partial }}
+{{/or}}
 {{#if hasValidation}}
         {{> model_templates/validations }}
 {{/if}}
@@ -48,5 +48,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{#if isEnum}}
     {{> model_templates/enums }}
 {{/if}}
+    {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}

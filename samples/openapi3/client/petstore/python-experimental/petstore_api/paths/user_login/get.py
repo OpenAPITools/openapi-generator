@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -29,8 +30,8 @@ PasswordSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'username': UsernameSchema,
-        'password': PasswordSchema,
+        'username': typing.Union[UsernameSchema, str, ],
+        'password': typing.Union[PasswordSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

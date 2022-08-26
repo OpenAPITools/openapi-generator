@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -32,36 +33,47 @@ class Drawing(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def mainShape(cls) -> typing.Type['Shape']:
-        return Shape
 
-    @classmethod
-    @property
-    def shapeOrNull(cls) -> typing.Type['ShapeOrNull']:
-        return ShapeOrNull
-
-    @classmethod
-    @property
-    def nullableShape(cls) -> typing.Type['NullableShape']:
-        return NullableShape
-    
-    
-    class shapes(
-        schemas.ListSchema
-    ):
-    
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def mainShape(cls) -> typing.Type['Shape']:
+                return Shape
+        
+            @classmethod
+            @property
+            def shapeOrNull(cls) -> typing.Type['ShapeOrNull']:
+                return ShapeOrNull
+        
+            @classmethod
+            @property
+            def nullableShape(cls) -> typing.Type['NullableShape']:
+                return NullableShape
+            
+            
+            class shapes(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+            
+                    @classmethod
+                    @property
+                    def items(cls) -> typing.Type['Shape']:
+                        return Shape
+        
         @classmethod
         @property
-        def _items(cls) -> typing.Type['Shape']:
-            return Shape
-
-    @classmethod
-    @property
-    def _additional_properties(cls) -> typing.Type['Fruit']:
-        return Fruit
-
+        def additional_properties(cls) -> typing.Type['Fruit']:
+            return Fruit
+    
+    mainShape: 'Shape'
+    shapeOrNull: 'ShapeOrNull'
+    nullableShape: 'NullableShape'
+    shapes: MetaOapg.properties.shapes
 
     def __new__(
         cls,
@@ -69,9 +81,9 @@ class Drawing(
         mainShape: typing.Union['Shape', schemas.Unset] = schemas.unset,
         shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset] = schemas.unset,
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,
-        shapes: typing.Union[shapes, schemas.Unset] = schemas.unset,
+        shapes: typing.Union[MetaOapg.properties.shapes, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: 'Fruit',
     ) -> 'Drawing':
         return super().__new__(
             cls,

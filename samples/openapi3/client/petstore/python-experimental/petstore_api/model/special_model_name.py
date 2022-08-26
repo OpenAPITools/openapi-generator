@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -33,15 +34,21 @@ class SpecialModelName(
 
     model with an invalid class name for python
     """
-    a = schemas.StrSchema
 
+
+    class MetaOapg:
+        class properties:
+            a = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    a: MetaOapg.properties.a
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        a: typing.Union[a, schemas.Unset] = schemas.unset,
+        a: typing.Union[MetaOapg.properties.a, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SpecialModelName':
         return super().__new__(
             cls,

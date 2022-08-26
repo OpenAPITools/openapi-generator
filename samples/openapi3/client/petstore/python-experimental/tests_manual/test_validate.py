@@ -114,7 +114,7 @@ class TestValidateResults(unittest.TestCase):
         )
         assert path_to_schemas == {
             ("args[0]",): {Pig, DanishPig, frozendict},
-            ("args[0]", "className"): {DanishPig.className, AnyTypeSchema, str},
+            ("args[0]", "className"): {DanishPig.MetaOapg.properties.className, AnyTypeSchema, str},
         }
 
     def test_anyof_composition_gm_fruit_validate(self):
@@ -125,7 +125,7 @@ class TestValidateResults(unittest.TestCase):
         )
         assert path_to_schemas == {
             ("args[0]",): {GmFruit, Apple, Banana, frozendict},
-            ("args[0]", "cultivar"): {Apple.cultivar, AnyTypeSchema, str},
+            ("args[0]", "cultivar"): {Apple.MetaOapg.properties.cultivar, AnyTypeSchema, str},
             ("args[0]", "lengthCm"): {AnyTypeSchema, NumberSchema, Decimal},
         }
 
@@ -162,7 +162,7 @@ class TestValidateCalls(unittest.TestCase):
     def test_list_validate_direct_instantiation(self):
         results = [
             {("args[0]",): {ArrayWithValidationsInItems, tuple}},
-            {("args[0]", 0): {ArrayWithValidationsInItems._items, Decimal}}
+            {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
         ]
         with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems([7])
@@ -182,14 +182,14 @@ class TestValidateCalls(unittest.TestCase):
 
     def test_list_validate_direct_instantiation_cast_item(self):
         # item validation is skipped if items are of the correct type
-        item = ArrayWithValidationsInItems._items(7)
+        item = ArrayWithValidationsInItems.MetaOapg.items(7)
         return_value = {("args[0]",): {ArrayWithValidationsInItems, tuple}}
         with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             ArrayWithValidationsInItems([item])
             mock_validate.assert_called_once_with(
                 tuple([Decimal('7')]),
                 validation_metadata=ValidationMetadata(
-                    validated_path_to_schemas={('args[0]', 0): {ArrayWithValidationsInItems._items, Decimal}}
+                    validated_path_to_schemas={('args[0]', 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
                 )
             )
 
@@ -197,7 +197,7 @@ class TestValidateCalls(unittest.TestCase):
 
         results = [
             {("args[0]",): {ArrayWithValidationsInItems, tuple}},
-            {("args[0]", 0): {ArrayWithValidationsInItems._items, Decimal}}
+            {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
         ]
         with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems._from_openapi_data([7])

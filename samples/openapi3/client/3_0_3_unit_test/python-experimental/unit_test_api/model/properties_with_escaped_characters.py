@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,90 +32,96 @@ class PropertiesWithEscapedCharacters(
 
     Do not edit the class manually.
     """
-    foobar = schemas.NumberSchema
-    locals()["foo\nbar"] = foobar
-    del locals()['foobar']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    foobar = schemas.NumberSchema
-    locals()["foo\"bar"] = foobar
-    del locals()['foobar']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    foo_bar = schemas.NumberSchema
-    locals()["foo\\bar"] = foo_bar
-    del locals()['foo_bar']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    foobar = schemas.NumberSchema
-    locals()["foo\rbar"] = foobar
-    del locals()['foobar']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    foobar = schemas.NumberSchema
-    locals()["foo\tbar"] = foobar
-    del locals()['foobar']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    foobar = schemas.NumberSchema
-    locals()["foo\fbar"] = foobar
-    del locals()['foobar']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
+
+
+    class MetaOapg:
+        class properties:
+            foobar = schemas.NumberSchema
+            locals()["foo\nbar"] = foobar
+            del locals()['foobar']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            foobar = schemas.NumberSchema
+            locals()["foo\"bar"] = foobar
+            del locals()['foobar']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            foo_bar = schemas.NumberSchema
+            locals()["foo\\bar"] = foo_bar
+            del locals()['foo_bar']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            foobar = schemas.NumberSchema
+            locals()["foo\rbar"] = foobar
+            del locals()['foobar']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            foobar = schemas.NumberSchema
+            locals()["foo\tbar"] = foobar
+            del locals()['foobar']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            foobar = schemas.NumberSchema
+            locals()["foo\fbar"] = foobar
+            del locals()['foobar']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+        additional_properties = schemas.AnyTypeSchema
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'PropertiesWithEscapedCharacters':
         return super().__new__(
             cls,

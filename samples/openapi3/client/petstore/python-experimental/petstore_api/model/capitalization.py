@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,25 +32,36 @@ class Capitalization(
 
     Do not edit the class manually.
     """
-    smallCamel = schemas.StrSchema
-    CapitalCamel = schemas.StrSchema
-    small_Snake = schemas.StrSchema
-    Capital_Snake = schemas.StrSchema
-    SCA_ETH_Flow_Points = schemas.StrSchema
-    ATT_NAME = schemas.StrSchema
 
+
+    class MetaOapg:
+        class properties:
+            smallCamel = schemas.StrSchema
+            CapitalCamel = schemas.StrSchema
+            small_Snake = schemas.StrSchema
+            Capital_Snake = schemas.StrSchema
+            SCA_ETH_Flow_Points = schemas.StrSchema
+            ATT_NAME = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    smallCamel: MetaOapg.properties.smallCamel
+    CapitalCamel: MetaOapg.properties.CapitalCamel
+    small_Snake: MetaOapg.properties.small_Snake
+    Capital_Snake: MetaOapg.properties.Capital_Snake
+    SCA_ETH_Flow_Points: MetaOapg.properties.SCA_ETH_Flow_Points
+    ATT_NAME: MetaOapg.properties.ATT_NAME
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        smallCamel: typing.Union[smallCamel, schemas.Unset] = schemas.unset,
-        CapitalCamel: typing.Union[CapitalCamel, schemas.Unset] = schemas.unset,
-        small_Snake: typing.Union[small_Snake, schemas.Unset] = schemas.unset,
-        Capital_Snake: typing.Union[Capital_Snake, schemas.Unset] = schemas.unset,
-        SCA_ETH_Flow_Points: typing.Union[SCA_ETH_Flow_Points, schemas.Unset] = schemas.unset,
-        ATT_NAME: typing.Union[ATT_NAME, schemas.Unset] = schemas.unset,
+        smallCamel: typing.Union[MetaOapg.properties.smallCamel, str, schemas.Unset] = schemas.unset,
+        CapitalCamel: typing.Union[MetaOapg.properties.CapitalCamel, str, schemas.Unset] = schemas.unset,
+        small_Snake: typing.Union[MetaOapg.properties.small_Snake, str, schemas.Unset] = schemas.unset,
+        Capital_Snake: typing.Union[MetaOapg.properties.Capital_Snake, str, schemas.Unset] = schemas.unset,
+        SCA_ETH_Flow_Points: typing.Union[MetaOapg.properties.SCA_ETH_Flow_Points, str, schemas.Unset] = schemas.unset,
+        ATT_NAME: typing.Union[MetaOapg.properties.ATT_NAME, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Capitalization':
         return super().__new__(
             cls,

@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -29,134 +30,152 @@ from . import path
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    _required_property_names = {
-        "number",
-        "pattern_without_delimiter",
-        "byte",
-        "double",
-    }
-    
-    
-    class integer(
-        schemas.IntSchema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 100
-            inclusive_minimum = 10
-    
-    
-    class int32(
-        schemas.Int32Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 200
-            inclusive_minimum = 20
-    int64 = schemas.Int64Schema
-    
-    
-    class number(
-        schemas.NumberSchema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 543.2
-            inclusive_minimum = 32.1
-    
-    
-    class _float(
-        schemas.Float32Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 987.6
-    locals()["float"] = _float
-    del locals()['_float']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    
-    
-    class double(
-        schemas.Float64Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 123.4
-            inclusive_minimum = 67.8
-    
-    
-    class string(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'[a-z]',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }]
-    
-    
-    class pattern_without_delimiter(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^[A-Z].*',  # noqa: E501
-            }]
-    byte = schemas.StrSchema
-    binary = schemas.BinarySchema
-    date = schemas.DateSchema
-    dateTime = schemas.DateTimeSchema
-    
-    
-    class password(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            max_length = 64
-            min_length = 10
-    callback = schemas.StrSchema
 
+
+    class MetaOapg:
+        required = {
+            "number",
+            "pattern_without_delimiter",
+            "byte",
+            "double",
+        }
+        class properties:
+            
+            
+            class integer(
+                schemas.IntSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 100
+                    inclusive_minimum = 10
+            
+            
+            class int32(
+                schemas.Int32Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 200
+                    inclusive_minimum = 20
+            int64 = schemas.Int64Schema
+            
+            
+            class number(
+                schemas.NumberSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 543.2
+                    inclusive_minimum = 32.1
+            
+            
+            class _float(
+                schemas.Float32Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 987.6
+            locals()["float"] = _float
+            del locals()['_float']
+            """
+            NOTE:
+            openapi/json-schema allows properties to have invalid python names
+            The above local assignment allows the code to keep those invalid python names
+            This allows properties to have names like 'some-name', '1 bad name'
+            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
+            - __new__ these properties can be passed in as **kwargs
+            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
+            If the property is required and was not passed in, an exception will be thrown
+            """
+            
+            
+            class double(
+                schemas.Float64Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 123.4
+                    inclusive_minimum = 67.8
+            
+            
+            class string(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'[a-z]',  # noqa: E501
+                        'flags': (
+                            re.IGNORECASE
+                        )
+                    }]
+            
+            
+            class pattern_without_delimiter(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^[A-Z].*',  # noqa: E501
+                    }]
+            byte = schemas.StrSchema
+            binary = schemas.BinarySchema
+            date = schemas.DateSchema
+            dateTime = schemas.DateTimeSchema
+            
+            
+            class password(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    max_length = 64
+                    min_length = 10
+            callback = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    integer: MetaOapg.properties.integer
+    int32: MetaOapg.properties.int32
+    int64: MetaOapg.properties.int64
+    number: MetaOapg.properties.number
+    double: MetaOapg.properties.double
+    string: MetaOapg.properties.string
+    pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter
+    byte: MetaOapg.properties.byte
+    binary: MetaOapg.properties.binary
+    date: MetaOapg.properties.date
+    dateTime: MetaOapg.properties.dateTime
+    password: MetaOapg.properties.password
+    callback: MetaOapg.properties.callback
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        number: number,
-        pattern_without_delimiter: pattern_without_delimiter,
-        byte: byte,
-        double: double,
-        integer: typing.Union[integer, schemas.Unset] = schemas.unset,
-        int32: typing.Union[int32, schemas.Unset] = schemas.unset,
-        int64: typing.Union[int64, schemas.Unset] = schemas.unset,
-        string: typing.Union[string, schemas.Unset] = schemas.unset,
-        binary: typing.Union[binary, schemas.Unset] = schemas.unset,
-        date: typing.Union[date, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[dateTime, schemas.Unset] = schemas.unset,
-        password: typing.Union[password, schemas.Unset] = schemas.unset,
-        callback: typing.Union[callback, schemas.Unset] = schemas.unset,
+        number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
+        pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
+        byte: typing.Union[MetaOapg.properties.byte, str, ],
+        double: typing.Union[MetaOapg.properties.double, float, ],
+        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
+        binary: typing.Union[MetaOapg.properties.binary, schemas.Unset] = schemas.unset,
+        date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
+        callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -222,7 +241,7 @@ class BaseApi(api_client.Api):
 
     def _endpoint_parameters(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -281,7 +300,7 @@ class EndpointParameters(BaseApi):
 
     def endpoint_parameters(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -303,7 +322,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

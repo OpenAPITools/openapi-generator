@@ -1,12 +1,16 @@
 def __new__(
     cls,
-    *args: typing.Union[{{#if isAnyType}}dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes{{/if}}{{#if isUnboundedInteger}}int, {{/if}}{{#if isNumber}}float, {{/if}}{{#if isBoolean}}bool, {{/if}}{{#if isArray}}list, tuple, {{/if}}{{#if isMap}}dict, frozendict, {{/if}}{{#if isString}}str, {{/if}}{{#if isNull}}None, {{/if}}],
+    *args: typing.Union[{{> model_templates/schema_python_types }}],
 {{#unless isNull}}
 {{#if getHasRequired}}
 {{#each getRequiredVarsMap}}
 {{#with this}}
 {{#unless nameInSnakeCase}}
-    {{baseName}}: {{baseName}},
+{{#if complexType}}
+    {{baseName}}: '{{complexType}}',
+{{else}}
+    {{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, {{> model_templates/schema_python_types }}],
+{{/if}}
 {{/unless}}
 {{/with}}
 {{/each}}
@@ -15,18 +19,21 @@ def __new__(
 {{#each vars}}
 {{#unless nameInSnakeCase}}
 {{#unless getRequired}}
-{{#unless complexType}}
-    {{baseName}}: typing.Union[{{baseName}}, schemas.Unset] = schemas.unset,
-{{/unless}}
 {{#if complexType}}
     {{baseName}}: typing.Union['{{complexType}}', schemas.Unset] = schemas.unset,
+{{else}}
+    {{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, {{> model_templates/schema_python_types }}schemas.Unset] = schemas.unset,
 {{/if}}
 {{/unless}}
 {{/unless}}
 {{/each}}
     _configuration: typing.Optional[schemas.Configuration] = None,
 {{#with additionalProperties}}
-    **kwargs: typing.Type[schemas.Schema],
+{{#if complexType}}
+    **kwargs: '{{complexType}}',
+{{else}}
+    **kwargs: typing.Union[MetaOapg.additional_properties, {{> model_templates/schema_python_types }}],
+{{/if}}
 {{/with}}
 ) -> '{{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}':
     return super().__new__(

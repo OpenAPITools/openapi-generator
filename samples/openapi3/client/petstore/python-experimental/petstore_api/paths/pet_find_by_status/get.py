@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,37 +32,40 @@ from . import path
 class StatusSchema(
     schemas.ListSchema
 ):
-    
-    
-    class _items(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "available": "AVAILABLE",
-                "pending": "PENDING",
-                "sold": "SOLD",
-            }
-        ),
-        schemas.StrSchema
-    ):
+
+
+    class MetaOapg:
         
-        @classmethod
-        @property
-        def AVAILABLE(cls):
-            return cls("available")
         
-        @classmethod
-        @property
-        def PENDING(cls):
-            return cls("pending")
-        
-        @classmethod
-        @property
-        def SOLD(cls):
-            return cls("sold")
+        class items(
+            schemas.SchemaEnumMakerClsFactory(
+                enum_value_to_name={
+                    "available": "AVAILABLE",
+                    "pending": "PENDING",
+                    "sold": "SOLD",
+                }
+            ),
+            schemas.StrSchema
+        ):
+            
+            @classmethod
+            @property
+            def AVAILABLE(cls):
+                return cls("available")
+            
+            @classmethod
+            @property
+            def PENDING(cls):
+                return cls("pending")
+            
+            @classmethod
+            @property
+            def SOLD(cls):
+                return cls("sold")
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'status': StatusSchema,
+        'status': typing.Union[StatusSchema, tuple, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
@@ -92,20 +96,26 @@ class SchemaFor200ResponseBodyApplicationXml(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
 
 
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
 
 
 @dataclass

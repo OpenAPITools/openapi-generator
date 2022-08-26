@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,11 +32,14 @@ from . import path
 class TagsSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'tags': TagsSchema,
+        'tags': typing.Union[TagsSchema, tuple, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
@@ -66,20 +70,26 @@ class SchemaFor200ResponseBodyApplicationXml(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
 
 
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
 
 
 @dataclass

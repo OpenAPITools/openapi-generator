@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,19 +32,25 @@ class BananaReq(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "lengthCm",
-    }
-    lengthCm = schemas.NumberSchema
-    sweet = schemas.BoolSchema
-    _additional_properties = None
 
+
+    class MetaOapg:
+        required = {
+            "lengthCm",
+        }
+        class properties:
+            lengthCm = schemas.NumberSchema
+            sweet = schemas.BoolSchema
+        additional_properties = None
+    
+    lengthCm: MetaOapg.properties.lengthCm
+    sweet: MetaOapg.properties.sweet
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        lengthCm: lengthCm,
-        sweet: typing.Union[sweet, schemas.Unset] = schemas.unset,
+        lengthCm: typing.Union[MetaOapg.properties.lengthCm, decimal.Decimal, int, float, ],
+        sweet: typing.Union[MetaOapg.properties.sweet, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'BananaReq':
         return super().__new__(

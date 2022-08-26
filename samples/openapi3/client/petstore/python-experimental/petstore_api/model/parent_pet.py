@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -33,17 +34,18 @@ class ParentPet(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'pet_type': {
-                'ChildCat': ChildCat,
-            }
-        }
-
 
     class MetaOapg:
+        
+        @classmethod
+        @property
+        def discriminator(cls):
+            return {
+                'pet_type': {
+                    'ChildCat': ChildCat,
+                }
+            }
+        additional_properties = schemas.AnyTypeSchema
         
         @classmethod
         @property
@@ -64,7 +66,7 @@ class ParentPet(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ParentPet':
         return super().__new__(
             cls,

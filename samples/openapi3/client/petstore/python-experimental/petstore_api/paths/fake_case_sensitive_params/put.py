@@ -17,6 +17,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -29,9 +30,9 @@ SomeVarSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'someVar': SomeVarSchema,
-        'SomeVar': SomeVarSchema,
-        'some_var': SomeVarSchema,
+        'someVar': typing.Union[SomeVarSchema, str, ],
+        'SomeVar': typing.Union[SomeVarSchema, str, ],
+        'some_var': typing.Union[SomeVarSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

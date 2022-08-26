@@ -33,7 +33,7 @@ RequestRequiredQueryParams = typing.TypedDict(
     {
 {{#each queryParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -43,7 +43,7 @@ RequestOptionalQueryParams = typing.TypedDict(
     {
 {{#each queryParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -71,7 +71,7 @@ RequestRequiredHeaderParams = typing.TypedDict(
     {
 {{#each headerParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -81,7 +81,7 @@ RequestOptionalHeaderParams = typing.TypedDict(
     {
 {{#each headerParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -109,7 +109,7 @@ RequestRequiredPathParams = typing.TypedDict(
     {
 {{#each pathParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -119,7 +119,7 @@ RequestOptionalPathParams = typing.TypedDict(
     {
 {{#each pathParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -147,7 +147,7 @@ RequestRequiredCookieParams = typing.TypedDict(
     {
 {{#each cookieParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -157,7 +157,7 @@ RequestOptionalCookieParams = typing.TypedDict(
     {
 {{#each cookieParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },

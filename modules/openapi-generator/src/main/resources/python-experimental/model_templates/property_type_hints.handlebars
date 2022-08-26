@@ -1,0 +1,12 @@
+{{#if vars}}
+
+{{#each vars}}
+{{#unless nameInSnakeCase}}
+{{#if complexType}}
+{{baseName}}: '{{complexType}}'
+{{else}}
+{{baseName}}: MetaOapg.properties.{{baseName}}
+{{/if}}
+{{/unless}}
+{{/each}}
+{{/if}}

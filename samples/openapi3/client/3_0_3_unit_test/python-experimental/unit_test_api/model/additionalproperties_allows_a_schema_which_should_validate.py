@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,18 +32,24 @@ class AdditionalpropertiesAllowsASchemaWhichShouldValidate(
 
     Do not edit the class manually.
     """
-    foo = schemas.AnyTypeSchema
-    bar = schemas.AnyTypeSchema
-    _additional_properties = schemas.BoolSchema
 
+
+    class MetaOapg:
+        class properties:
+            foo = schemas.AnyTypeSchema
+            bar = schemas.AnyTypeSchema
+        additional_properties = schemas.BoolSchema
+    
+    foo: MetaOapg.properties.foo
+    bar: MetaOapg.properties.bar
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        foo: typing.Union[foo, schemas.Unset] = schemas.unset,
-        bar: typing.Union[bar, schemas.Unset] = schemas.unset,
+        foo: typing.Union[MetaOapg.properties.foo, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        bar: typing.Union[MetaOapg.properties.bar, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, bool, ],
     ) -> 'AdditionalpropertiesAllowsASchemaWhichShouldValidate':
         return super().__new__(
             cls,

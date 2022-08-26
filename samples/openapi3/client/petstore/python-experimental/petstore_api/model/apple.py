@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,41 +35,49 @@ class Apple(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "cultivar",
-    }
+
+
+    class MetaOapg:
+        required = {
+            "cultivar",
+        }
+        class properties:
+            
+            
+            class cultivar(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+                    }]
+            
+            
+            class origin(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^[A-Z\s]*$',  # noqa: E501
+                        'flags': (
+                            re.IGNORECASE
+                        )
+                    }]
+        additional_properties = schemas.AnyTypeSchema
     
-    
-    class cultivar(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
-            }]
-    
-    
-    class origin(
-        schemas.StrSchema
-    ):
-    
-    
-        class MetaOapg:
-            regex=[{
-                'pattern': r'^[A-Z\s]*$',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }]
+    cultivar: MetaOapg.properties.cultivar
+    origin: MetaOapg.properties.origin
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, None, ],
-        origin: typing.Union[origin, schemas.Unset] = schemas.unset,
+        origin: typing.Union[MetaOapg.properties.origin, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Apple':
         return super().__new__(
             cls,

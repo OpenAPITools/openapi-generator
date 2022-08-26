@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,51 +32,62 @@ class Order(
 
     Do not edit the class manually.
     """
-    id = schemas.Int64Schema
-    petId = schemas.Int64Schema
-    quantity = schemas.Int32Schema
-    shipDate = schemas.DateTimeSchema
-    
-    
-    class status(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "placed": "PLACED",
-                "approved": "APPROVED",
-                "delivered": "DELIVERED",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def PLACED(cls):
-            return cls("placed")
-        
-        @classmethod
-        @property
-        def APPROVED(cls):
-            return cls("approved")
-        
-        @classmethod
-        @property
-        def DELIVERED(cls):
-            return cls("delivered")
-    complete = schemas.BoolSchema
 
+
+    class MetaOapg:
+        class properties:
+            id = schemas.Int64Schema
+            petId = schemas.Int64Schema
+            quantity = schemas.Int32Schema
+            shipDate = schemas.DateTimeSchema
+            
+            
+            class status(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "placed": "PLACED",
+                        "approved": "APPROVED",
+                        "delivered": "DELIVERED",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def PLACED(cls):
+                    return cls("placed")
+                
+                @classmethod
+                @property
+                def APPROVED(cls):
+                    return cls("approved")
+                
+                @classmethod
+                @property
+                def DELIVERED(cls):
+                    return cls("delivered")
+            complete = schemas.BoolSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    id: MetaOapg.properties.id
+    petId: MetaOapg.properties.petId
+    quantity: MetaOapg.properties.quantity
+    shipDate: MetaOapg.properties.shipDate
+    status: MetaOapg.properties.status
+    complete: MetaOapg.properties.complete
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
-        petId: typing.Union[petId, schemas.Unset] = schemas.unset,
-        quantity: typing.Union[quantity, schemas.Unset] = schemas.unset,
-        shipDate: typing.Union[shipDate, schemas.Unset] = schemas.unset,
-        status: typing.Union[status, schemas.Unset] = schemas.unset,
-        complete: typing.Union[complete, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
+        petId: typing.Union[MetaOapg.properties.petId, int, schemas.Unset] = schemas.unset,
+        quantity: typing.Union[MetaOapg.properties.quantity, int, schemas.Unset] = schemas.unset,
+        shipDate: typing.Union[MetaOapg.properties.shipDate, datetime, str, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
+        complete: typing.Union[MetaOapg.properties.complete, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Order':
         return super().__new__(
             cls,

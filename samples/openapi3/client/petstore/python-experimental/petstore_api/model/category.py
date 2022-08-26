@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,20 +32,27 @@ class Category(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "name",
-    }
-    id = schemas.Int64Schema
-    name = schemas.StrSchema
 
+
+    class MetaOapg:
+        required = {
+            "name",
+        }
+        class properties:
+            id = schemas.Int64Schema
+            name = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    id: MetaOapg.properties.id
+    name: MetaOapg.properties.name
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        name: name,
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
+        name: typing.Union[MetaOapg.properties.name, str, ],
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Category':
         return super().__new__(
             cls,

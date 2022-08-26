@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,6 +35,7 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         any_of_0 = schemas.DictSchema
         any_of_1 = schemas.DateSchema
         any_of_2 = schemas.DateTimeSchema
@@ -48,7 +50,10 @@ class ComposedAnyOfDifferentTypesNoValidations(
         class any_of_9(
             schemas.ListSchema
         ):
-            _items = schemas.AnyTypeSchema
+        
+        
+            class MetaOapg:
+                items = schemas.AnyTypeSchema
         any_of_10 = schemas.NumberSchema
         any_of_11 = schemas.Float32Schema
         any_of_12 = schemas.Float64Schema
@@ -88,9 +93,9 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ComposedAnyOfDifferentTypesNoValidations':
         return super().__new__(
             cls,

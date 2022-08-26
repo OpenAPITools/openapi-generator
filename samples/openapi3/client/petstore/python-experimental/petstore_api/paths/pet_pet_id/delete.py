@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -33,7 +34,7 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'api_key': ApiKeySchema,
+        'api_key': typing.Union[ApiKeySchema, str, ],
     },
     total=False
 )
@@ -53,7 +54,7 @@ PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'petId': PetIdSchema,
+        'petId': typing.Union[PetIdSchema, int, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(

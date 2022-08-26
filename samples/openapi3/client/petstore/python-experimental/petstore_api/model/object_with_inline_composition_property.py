@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,59 +32,66 @@ class ObjectWithInlineCompositionProperty(
 
     Do not edit the class manually.
     """
-    
-    
-    class someProp(
-        schemas.ComposedSchema,
-    ):
-    
-    
-        class MetaOapg:
+
+
+    class MetaOapg:
+        class properties:
             
             
-            class all_of_0(
-                schemas.StrSchema
+            class someProp(
+                schemas.ComposedSchema,
             ):
             
             
                 class MetaOapg:
-                    min_length = 1
+                    additional_properties = schemas.AnyTypeSchema
+                    
+                    
+                    class all_of_0(
+                        schemas.StrSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            min_length = 1
+                    
+                    @classmethod
+                    @property
+                    @functools.cache
+                    def all_of(cls):
+                        # we need this here to make our import statements work
+                        # we must store _composed_schemas in here so the code is only run
+                        # when we invoke this method. If we kept this at the class
+                        # level we would get an error because the class level
+                        # code would be run when this module is imported, and these composed
+                        # classes don't exist yet because their module has not finished
+                        # loading
+                        return [
+                            cls.all_of_0,
+                        ]
             
-            @classmethod
-            @property
-            @functools.cache
-            def all_of(cls):
-                # we need this here to make our import statements work
-                # we must store _composed_schemas in here so the code is only run
-                # when we invoke this method. If we kept this at the class
-                # level we would get an error because the class level
-                # code would be run when this module is imported, and these composed
-                # classes don't exist yet because their module has not finished
-                # loading
-                return [
-                    cls.all_of_0,
-                ]
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                ) -> 'someProp':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+        additional_properties = schemas.AnyTypeSchema
     
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
+    someProp: MetaOapg.properties.someProp
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, schemas.Unset] = schemas.unset,
+        someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithInlineCompositionProperty':
         return super().__new__(
             cls,

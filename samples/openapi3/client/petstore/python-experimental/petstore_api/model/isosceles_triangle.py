@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,34 +35,41 @@ class IsoscelesTriangle(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
             schemas.DictSchema
         ):
-            
-            
-            class triangleType(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def ISOSCELES_TRIANGLE(cls):
-                    return cls("IsoscelesTriangle")
         
+        
+            class MetaOapg:
+                class properties:
+                    
+                    
+                    class triangleType(
+                        schemas.SchemaEnumMakerClsFactory(
+                            enum_value_to_name={
+                                "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
+                            }
+                        ),
+                        schemas.StrSchema
+                    ):
+                        
+                        @classmethod
+                        @property
+                        def ISOSCELES_TRIANGLE(cls):
+                            return cls("IsoscelesTriangle")
+                additional_properties = schemas.AnyTypeSchema
+            
+            triangleType: MetaOapg.properties.triangleType
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                triangleType: typing.Union[triangleType, schemas.Unset] = schemas.unset,
+                triangleType: typing.Union[MetaOapg.properties.triangleType, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -89,9 +97,9 @@ class IsoscelesTriangle(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'IsoscelesTriangle':
         return super().__new__(
             cls,

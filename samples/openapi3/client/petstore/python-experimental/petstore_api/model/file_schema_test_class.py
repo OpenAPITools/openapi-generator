@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -32,29 +33,39 @@ class FileSchemaTestClass(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def file(cls) -> typing.Type['File']:
-        return File
-    
-    
-    class files(
-        schemas.ListSchema
-    ):
-    
-        @classmethod
-        @property
-        def _items(cls) -> typing.Type['File']:
-            return File
 
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def file(cls) -> typing.Type['File']:
+                return File
+            
+            
+            class files(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+            
+                    @classmethod
+                    @property
+                    def items(cls) -> typing.Type['File']:
+                        return File
+        additional_properties = schemas.AnyTypeSchema
+    
+    file: 'File'
+    files: MetaOapg.properties.files
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         file: typing.Union['File', schemas.Unset] = schemas.unset,
-        files: typing.Union[files, schemas.Unset] = schemas.unset,
+        files: typing.Union[MetaOapg.properties.files, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,

@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,32 +32,38 @@ class DanishPig(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    
-    
-    class className(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "DanishPig": "DANISH_PIG",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def DANISH_PIG(cls):
-            return cls("DanishPig")
 
+
+    class MetaOapg:
+        required = {
+            "className",
+        }
+        class properties:
+            
+            
+            class className(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "DanishPig": "DANISH_PIG",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def DANISH_PIG(cls):
+                    return cls("DanishPig")
+        additional_properties = schemas.AnyTypeSchema
+    
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
+        className: typing.Union[MetaOapg.properties.className, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'DanishPig':
         return super().__new__(
             cls,

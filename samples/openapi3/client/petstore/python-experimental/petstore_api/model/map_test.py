@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,121 +32,138 @@ class MapTest(
 
     Do not edit the class manually.
     """
-    
-    
-    class map_map_of_string(
-        schemas.DictSchema
-    ):
-        
-        
-        class _additional_properties(
-            schemas.DictSchema
-        ):
-            _additional_properties = schemas.StrSchema
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict, ],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
-            ) -> '_additional_properties':
-                return super().__new__(
+
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class map_map_of_string(
+                schemas.DictSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class additional_properties(
+                        schemas.DictSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            additional_properties = schemas.StrSchema
+                    
+                        def __new__(
+                            cls,
+                            *args: typing.Union[dict, frozendict, ],
+                            _configuration: typing.Optional[schemas.Configuration] = None,
+                            **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
+                        ) -> 'additional_properties':
+                            return super().__new__(
+                                cls,
+                                *args,
+                                _configuration=_configuration,
+                                **kwargs,
+                            )
+            
+                def __new__(
                     cls,
-                    *args,
-                    _configuration=_configuration,
-                    **kwargs,
-                )
-    
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'map_map_of_string':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-    
-    
-    class map_of_enum_string(
-        schemas.DictSchema
-    ):
-        
-        
-        class _additional_properties(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
-                    "UPPER": "UPPER",
-                    "lower": "LOWER",
-                }
-            ),
-            schemas.StrSchema
-        ):
+                    *args: typing.Union[dict, frozendict, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, ],
+                ) -> 'map_map_of_string':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
             
+            
+            class map_of_enum_string(
+                schemas.DictSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class additional_properties(
+                        schemas.SchemaEnumMakerClsFactory(
+                            enum_value_to_name={
+                                "UPPER": "UPPER",
+                                "lower": "LOWER",
+                            }
+                        ),
+                        schemas.StrSchema
+                    ):
+                        
+                        @classmethod
+                        @property
+                        def UPPER(cls):
+                            return cls("UPPER")
+                        
+                        @classmethod
+                        @property
+                        def LOWER(cls):
+                            return cls("lower")
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
+                ) -> 'map_of_enum_string':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            
+            
+            class direct_map(
+                schemas.DictSchema
+            ):
+            
+            
+                class MetaOapg:
+                    additional_properties = schemas.BoolSchema
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, bool, ],
+                ) -> 'direct_map':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+        
             @classmethod
             @property
-            def UPPER(cls):
-                return cls("UPPER")
-            
-            @classmethod
-            @property
-            def LOWER(cls):
-                return cls("lower")
+            def indirect_map(cls) -> typing.Type['StringBooleanMap']:
+                return StringBooleanMap
+        additional_properties = schemas.AnyTypeSchema
     
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'map_of_enum_string':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-    
-    
-    class direct_map(
-        schemas.DictSchema
-    ):
-        _additional_properties = schemas.BoolSchema
-    
-    
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-            **kwargs: typing.Type[schemas.Schema],
-        ) -> 'direct_map':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
-    @classmethod
-    @property
-    def indirect_map(cls) -> typing.Type['StringBooleanMap']:
-        return StringBooleanMap
-
+    map_map_of_string: MetaOapg.properties.map_map_of_string
+    map_of_enum_string: MetaOapg.properties.map_of_enum_string
+    direct_map: MetaOapg.properties.direct_map
+    indirect_map: 'StringBooleanMap'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        map_map_of_string: typing.Union[map_map_of_string, schemas.Unset] = schemas.unset,
-        map_of_enum_string: typing.Union[map_of_enum_string, schemas.Unset] = schemas.unset,
-        direct_map: typing.Union[direct_map, schemas.Unset] = schemas.unset,
+        map_map_of_string: typing.Union[MetaOapg.properties.map_map_of_string, dict, frozendict, schemas.Unset] = schemas.unset,
+        map_of_enum_string: typing.Union[MetaOapg.properties.map_of_enum_string, dict, frozendict, schemas.Unset] = schemas.unset,
+        direct_map: typing.Union[MetaOapg.properties.direct_map, dict, frozendict, schemas.Unset] = schemas.unset,
         indirect_map: typing.Union['StringBooleanMap', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'MapTest':
         return super().__new__(
             cls,

@@ -14,13 +14,11 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{> model_templates/dict_partial }}
-{{#if hasValidation}}
 
 
     class MetaOapg:
+        {{> model_templates/dict_partial }}
         {{> model_templates/validations }}
-{{/if}}
-
+    {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}

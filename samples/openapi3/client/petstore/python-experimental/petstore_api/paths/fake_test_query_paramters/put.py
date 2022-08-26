@@ -17,6 +17,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -30,41 +31,56 @@ from . import path
 class PipeSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class IoutilSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class HttpSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class UrlSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 
 
 class ContextSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
 RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'pipe': PipeSchema,
-        'ioutil': IoutilSchema,
-        'http': HttpSchema,
-        'url': UrlSchema,
-        'context': ContextSchema,
-        'refParam': RefParamSchema,
+        'pipe': typing.Union[PipeSchema, tuple, ],
+        'ioutil': typing.Union[IoutilSchema, tuple, ],
+        'http': typing.Union[HttpSchema, tuple, ],
+        'url': typing.Union[UrlSchema, tuple, ],
+        'context': typing.Union[ContextSchema, tuple, ],
+        'refParam': typing.Union[RefParamSchema, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

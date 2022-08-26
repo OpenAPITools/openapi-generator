@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -32,9 +33,12 @@ class ArrayOfEnums(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['StringEnum']:
-        return StringEnum
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['StringEnum']:
+            return StringEnum
 
 from petstore_api.model.string_enum import StringEnum

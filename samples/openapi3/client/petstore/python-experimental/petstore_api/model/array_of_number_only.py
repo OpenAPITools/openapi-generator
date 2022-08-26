@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,20 +32,29 @@ class ArrayOfNumberOnly(
 
     Do not edit the class manually.
     """
-    
-    
-    class ArrayNumber(
-        schemas.ListSchema
-    ):
-        _items = schemas.NumberSchema
 
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class ArrayNumber(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.NumberSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    ArrayNumber: MetaOapg.properties.ArrayNumber
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        ArrayNumber: typing.Union[ArrayNumber, schemas.Unset] = schemas.unset,
+        ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,

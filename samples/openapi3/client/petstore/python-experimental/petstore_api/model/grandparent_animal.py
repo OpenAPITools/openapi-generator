@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,28 +32,34 @@ class GrandparentAnimal(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "pet_type",
-    }
-    pet_type = schemas.StrSchema
 
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'pet_type': {
-                'ChildCat': ChildCat,
-                'ParentPet': ParentPet,
-            }
+
+    class MetaOapg:
+        required = {
+            "pet_type",
         }
-
+        
+        @classmethod
+        @property
+        def discriminator(cls):
+            return {
+                'pet_type': {
+                    'ChildCat': ChildCat,
+                    'ParentPet': ParentPet,
+                }
+            }
+        class properties:
+            pet_type = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    pet_type: MetaOapg.properties.pet_type
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        pet_type: pet_type,
+        pet_type: typing.Union[MetaOapg.properties.pet_type, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,

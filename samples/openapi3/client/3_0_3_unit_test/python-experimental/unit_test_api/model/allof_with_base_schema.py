@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,29 +32,38 @@ class AllofWithBaseSchema(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "bar",
-    }
-    bar = schemas.IntSchema
 
 
     class MetaOapg:
+        required = {
+            "bar",
+        }
+        class properties:
+            bar = schemas.IntSchema
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_0(
             schemas.AnyTypeSchema,
         ):
-            _required_property_names = {
-                "foo",
-            }
-            foo = schemas.StrSchema
+        
+        
+            class MetaOapg:
+                required = {
+                    "foo",
+                }
+                class properties:
+                    foo = schemas.StrSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            foo: MetaOapg.properties.foo
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                foo: foo,
+                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                foo: typing.Union[MetaOapg.properties.foo, str, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_0':
                 return super().__new__(
                     cls,
@@ -67,17 +77,24 @@ class AllofWithBaseSchema(
         class all_of_1(
             schemas.AnyTypeSchema,
         ):
-            _required_property_names = {
-                "baz",
-            }
-            baz = schemas.NoneSchema
+        
+        
+            class MetaOapg:
+                required = {
+                    "baz",
+                }
+                class properties:
+                    baz = schemas.NoneSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            baz: MetaOapg.properties.baz
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-                baz: baz,
+                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                baz: typing.Union[MetaOapg.properties.baz, None, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -102,13 +119,15 @@ class AllofWithBaseSchema(
                 cls.all_of_0,
                 cls.all_of_1,
             ]
+    
+    bar: MetaOapg.properties.bar
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        bar: bar,
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        bar: typing.Union[MetaOapg.properties.bar, int, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'AllofWithBaseSchema':
         return super().__new__(
             cls,

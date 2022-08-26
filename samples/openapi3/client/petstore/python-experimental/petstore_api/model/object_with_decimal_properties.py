@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,23 +32,31 @@ class ObjectWithDecimalProperties(
 
     Do not edit the class manually.
     """
-    length = schemas.DecimalSchema
-    width = schemas.DecimalSchema
 
-    @classmethod
-    @property
-    def cost(cls) -> typing.Type['Money']:
-        return Money
 
+    class MetaOapg:
+        class properties:
+            length = schemas.DecimalSchema
+            width = schemas.DecimalSchema
+        
+            @classmethod
+            @property
+            def cost(cls) -> typing.Type['Money']:
+                return Money
+        additional_properties = schemas.AnyTypeSchema
+    
+    length: MetaOapg.properties.length
+    width: MetaOapg.properties.width
+    cost: 'Money'
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        length: typing.Union[length, schemas.Unset] = schemas.unset,
-        width: typing.Union[width, schemas.Unset] = schemas.unset,
+        length: typing.Union[MetaOapg.properties.length, str, schemas.Unset] = schemas.unset,
+        width: typing.Union[MetaOapg.properties.width, str, schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,
