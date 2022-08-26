@@ -115,7 +115,7 @@ class BaseApi(api_client.Api):
 
     def _update_pet_with_form(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
@@ -189,7 +189,7 @@ class UpdatePetWithForm(BaseApi):
 
     def update_pet_with_form(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
@@ -213,7 +213,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,

@@ -85,7 +85,7 @@ class BaseApi(api_client.Api):
 
     def _body_with_query_params(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -160,7 +160,7 @@ class BodyWithQueryParams(BaseApi):
 
     def body_with_query_params(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -185,7 +185,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,

@@ -97,7 +97,7 @@ class BaseApi(api_client.Api):
 
     def _update_user(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -172,7 +172,7 @@ class UpdateUser(BaseApi):
 
     def update_user(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -196,7 +196,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,

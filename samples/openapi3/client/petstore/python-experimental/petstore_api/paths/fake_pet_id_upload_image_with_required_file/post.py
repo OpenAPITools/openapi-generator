@@ -130,7 +130,7 @@ class BaseApi(api_client.Api):
 
     def _upload_file_with_required_file(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -209,7 +209,7 @@ class UploadFileWithRequiredFile(BaseApi):
 
     def upload_file_with_required_file(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -236,7 +236,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
