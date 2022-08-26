@@ -50,13 +50,13 @@
   describe('CatAllOf', function() {
     it('should create an instance of CatAllOf', function() {
       // uncomment below and update the code to test CatAllOf
-      //var instane = new OpenApiPetstore.CatAllOf();
+      //var instance = new OpenApiPetstore.CatAllOf();
       //expect(instance).to.be.a(OpenApiPetstore.CatAllOf);
     });
 
     it('should have the property declawed (base name: "declawed")', function() {
       // uncomment below and update the code to test the property declawed
-      //var instane = new OpenApiPetstore.CatAllOf();
+      //var instance = new OpenApiPetstore.CatAllOf();
       //expect(instance).to.be();
     });
 
