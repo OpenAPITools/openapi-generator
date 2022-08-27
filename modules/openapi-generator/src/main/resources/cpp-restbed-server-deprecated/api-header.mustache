@@ -1,0 +1,203 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+#include <memory>
+#include <utility>
+#include <exception>
+
+#include <corvusoft/restbed/session.hpp>
+#include <corvusoft/restbed/resource.hpp>
+#include <corvusoft/restbed/request.hpp>
+#include <corvusoft/restbed/service.hpp>
+#include <corvusoft/restbed/settings.hpp>
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+///
+/// Exception to flag problems in the handlers
+///
+class {{declspec}} {{classname}}Exception: public std::exception
+{
+public:
+    {{classname}}Exception(int status_code, std::string what);
+
+    int getStatus() const;
+    const char* what() const noexcept override;
+
+private:
+    int m_status;
+    std::string m_what;
+};
+
+{{#operation}}
+/// <summary>
+/// {{summary}}
+/// </summary>
+/// <remarks>
+/// {{notes}}
+/// </remarks>
+class {{declspec}} {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource: public restbed::Resource
+{
+public:
+    {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context = "{{contextPath}}");
+    virtual ~{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource();
+
+protected:
+    //////////////////////////////////////////////////////////
+    // Override these to implement the server functionality //
+    //////////////////////////////////////////////////////////
+
+    virtual {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} handler_{{httpMethod}}(
+        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+
+    {{#vendorExtensions.x-codegen-other-methods}}
+    virtual {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} handler_{{httpMethod}}(
+        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{/vendorExtensions.x-codegen-other-methods}}
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
+
+    {{#hasPathParams}}
+    {{#pathParams}}
+    {{#isPrimitiveType}}
+    virtual {{{dataType}}} getPathParam_{{{paramName}}}(const std::shared_ptr<const restbed::Request>& request)
+    {
+        return request->get_path_parameter("{{{paramName}}}", {{{defaultValue}}});
+    }
+
+    {{/isPrimitiveType}}
+    {{/pathParams}}
+    {{/hasPathParams}}
+    {{#hasQueryParams}}
+    {{#queryParams}}
+    {{#isPrimitiveType}}
+    virtual {{{dataType}}} getQueryParam_{{{paramName}}}(const std::shared_ptr<const restbed::Request>& request)
+    {
+        return request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
+    }
+
+    {{/isPrimitiveType}}
+    {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
+    {{#headerParams}}
+    {{#isPrimitiveType}}
+    virtual {{{dataType}}} getHeader_{{{baseName}}}(const std::shared_ptr<const restbed::Request>& request)
+    {
+        return request->get_header("{{baseName}}", {{{defaultValue}}});
+    }
+
+    {{/isPrimitiveType}}
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+
+    {{#vendorExtensions.x-codegen-other-methods}}
+    {{#hasPathParams}}
+    {{#pathParams}}
+    {{#isPrimitiveType}}
+    virtual {{{dataType}}} getPathParam_{{{paramName}}}_x_extension(const std::shared_ptr<const restbed::Request>& request)
+    {
+        return request->get_path_parameter("{{{paramName}}}", {{{defaultValue}}});
+    }
+    {{/isPrimitiveType}}
+    {{/pathParams}}
+    {{/hasPathParams}}
+    {{#hasQueryParams}}
+    {{#queryParams}}
+    {{#isPrimitiveType}}
+    virtual {{{dataType}}} getQueryParam_{{{paramName}}}_x_extension(const std::shared_ptr<const restbed::Request>& request)
+    {
+        return request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
+    }
+    {{/isPrimitiveType}}
+    {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
+    {{#headerParams}}
+    {{#isPrimitiveType}}
+    virtual {{{dataType}}} getHeader_{{{baseName}}}_x_extension(const std::shared_ptr<const restbed::Request>& request)
+    {
+        return request->get_header("{{baseName}}", {{{defaultValue}}});
+    }
+    {{/isPrimitiveType}}
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+    {{/vendorExtensions.x-codegen-other-methods}}
+
+    virtual std::pair<int, std::string> handle{{classname}}Exception(const {{classname}}Exception& e);
+    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
+    virtual std::pair<int, std::string> handleUnspecifiedException();
+
+    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
+        const std::string& header);
+
+
+    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result, const std::string& contentType);
+    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result);
+
+private:
+    void handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session);
+    {{#vendorExtensions.x-codegen-other-methods}}
+    void handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session);
+    {{/vendorExtensions.x-codegen-other-methods}}
+};
+
+
+{{/operation}}
+
+//
+// The restbed service to actually implement the REST server
+//
+class {{declspec}} {{classname}}
+{
+public:
+    explicit {{classname}}(std::shared_ptr<restbed::Service> const& restbedService);
+	virtual ~{{classname}}();
+
+    {{#operation}}
+    virtual void set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
+    {{/operation}}
+
+    virtual void publishDefaultResources();
+
+    virtual std::shared_ptr<restbed::Service> service();
+
+protected:
+	{{#operation}}
+	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
+	{{/operation}}
+
+private:
+    std::shared_ptr<restbed::Service> m_service;
+};
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{classname}}_H_ */
+
+{{/operations}}
