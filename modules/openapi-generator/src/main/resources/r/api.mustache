@@ -566,7 +566,7 @@
         if (is.null(local_var_resp$response) || local_var_resp$response == "") {
           local_var_resp$response <- "API server error"
         }
-        return local_var_resp
+        local_var_resp
       {{/returnExceptionOnFailure}}
       }
     }{{^-last}},{{/-last}}
