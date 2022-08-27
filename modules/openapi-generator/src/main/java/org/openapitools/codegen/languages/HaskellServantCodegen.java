@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
@@ -592,7 +593,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         op.vendorExtensions.put("x-client-type", joinStrings(" -> ", type));
         op.vendorExtensions.put("x-form-name", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-form-prefix", camelize(op.operationId, true));
+            param.vendorExtensions.put("x-form-prefix", camelize(op.operationId, LOWERCASE_FIRST_LETTER));
         }
         return op;
     }
@@ -658,7 +659,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = camelize(model.classname, true);
+        String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }

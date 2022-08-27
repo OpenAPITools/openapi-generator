@@ -38,6 +38,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
@@ -609,7 +610,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
-                modified = camelize(modified, true);
+                modified = camelize(modified, LOWERCASE_FIRST_LETTER);
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
@@ -741,19 +742,19 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(operationId))
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), LOWERCASE_FIRST_LETTER);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -908,7 +909,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String toVarName(String name) {
         name = toVariableName(name);
         if (propertyAdditionalKeywords.contains(name)) {
-            return camelize("property_" + name, true);
+            return camelize("property_" + name, LOWERCASE_FIRST_LETTER);
         } else {
             return name;
         }
@@ -946,7 +947,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number or containing dollar symbol, escape it
         if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {

@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -27,15 +28,20 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -293,7 +299,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -527,7 +533,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (specialCharReplacements.containsKey(name)) {
             name = specialCharReplacements.get(name);
         }
-        String identifier = camelize(sanitizeName(name), true);
+        String identifier = camelize(sanitizeName(name), LOWERCASE_FIRST_LETTER);
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }
@@ -588,11 +594,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
@@ -600,7 +606,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -613,5 +619,33 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.SCALA;
+    }
+
+    protected static abstract class CustomLambda implements Mustache.Lambda {
+        @Override
+        public void execute(Template.Fragment frag, Writer out) throws IOException {
+            final StringWriter tempWriter = new StringWriter();
+            frag.execute(tempWriter);
+            out.write(formatFragment(tempWriter.toString()));
+        }
+
+        public abstract String formatFragment(String fragment);
+    }
+
+    protected static class CamelizeLambda extends CustomLambda {
+        private final CamelizeOption option;
+
+        public CamelizeLambda(boolean capitalizeFirst) {
+            if (capitalizeFirst) {
+                option = UPPERCASE_FIRST_CHAR;
+            } else {
+                option = LOWERCASE_FIRST_LETTER;
+            }
+        }
+
+        @Override
+        public String formatFragment(String fragment) {
+            return camelize(fragment, option);
+        }
     }
 }

@@ -105,7 +105,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void convertVarName() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
-        Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$Name");
         Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
         Assert.assertEquals(fakeJavaCodegen.toVarName("user-name"), "userName");
         Assert.assertEquals(fakeJavaCodegen.toVarName("user_name"), "userName");
@@ -118,7 +118,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toVarName("1a"), "_1a");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1A"), "_1A");
         Assert.assertEquals(fakeJavaCodegen.toVarName("1AAAA"), "_1AAAA");
-        Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1aAaa");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("1AAaa"), "_1AAaa");
     }
 
     @Test

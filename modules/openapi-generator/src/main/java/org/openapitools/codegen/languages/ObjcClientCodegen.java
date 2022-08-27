@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -573,7 +574,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // e.g. `pet_id` to `petId`
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, prepend `_`
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -618,11 +619,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
-            operationId = "call_" + operationId;
+            final String newName = "call_" + operationId;
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newName);
+            operationId = newName;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     public void setClassPrefix(String classPrefix) {
@@ -677,6 +679,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the default value of the schema
+     *
      * @param p OpenAPI schema object
      * @return string presentation of the default value of the schema
      */
@@ -795,5 +798,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OBJECTIVE_C; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.OBJECTIVE_C;
+    }
 }

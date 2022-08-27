@@ -54,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -588,10 +589,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
         if (isReservedWord(operationId)) {
-            return escapeReservedWord(camelize(sanitizeName(operationId), true));
+            return escapeReservedWord(camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     public void setModelPropertyNaming(String naming) {
@@ -614,7 +615,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:

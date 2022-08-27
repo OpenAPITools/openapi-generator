@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /*
@@ -200,7 +201,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
 
     @Override

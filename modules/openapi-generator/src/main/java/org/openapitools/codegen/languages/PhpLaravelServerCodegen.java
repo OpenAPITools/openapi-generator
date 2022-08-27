@@ -276,7 +276,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -298,7 +298,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     @Override

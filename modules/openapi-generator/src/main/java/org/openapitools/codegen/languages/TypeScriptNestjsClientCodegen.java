@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -543,7 +544,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         if ("kebab-case".equals(fileNaming)) {
             name = dashize(underscore(name));
         } else {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
         }
         return name;
     }

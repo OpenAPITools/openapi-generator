@@ -485,7 +485,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                 languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return modelNamePrefix + camelize(sanitizeName(type), false);
+            return modelNamePrefix + camelize(sanitizeName(type));
         }
     }
 
@@ -500,7 +500,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         }
 
         //Unreal variable names are CamelCase
-        String camelCaseName = camelize(name, false);
+        String camelCaseName = camelize(name);
 
         //Avoid empty variable name at all costs
         if(!camelCaseName.isEmpty()) {
@@ -527,7 +527,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiName(String type) {
-        return modelNamePrefix + camelize(type, false) + "Api";
+        return modelNamePrefix + camelize(type) + "Api";
     }
 
     @Override
