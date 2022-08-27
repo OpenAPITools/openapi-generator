@@ -15,7 +15,7 @@
     actual_instance = NULL,
     #' @field actual_type the type of the object stored in this instance.
     actual_type = NULL,
-    #' @field one_of  a list of object types defined in the oneOf schema.
+    #' @field one_of  a list of types defined in the oneOf schema.
     one_of = list({{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}),
     #' Initialize a new {{{classname}}}.
     #'
@@ -61,23 +61,33 @@
       error_messages <- list()
       instance <- NULL
 
-      {{#oneOf}}
-      {{{.}}}_result <- tryCatch({
-          {{{.}}}$public_methods$validateJSON(input)
-          {{{.}}}_instance <- {{{.}}}$new()
-          instance <- {{{.}}}_instance$fromJSON(input)
-          instance_type <- "{{{.}}}"
-          matched_schemas <- append(matched_schemas, "{{{.}}}")
+      {{#composedSchemas.oneOf}}
+      {{^isNull}}
+      {{{dataType}}}_result <- tryCatch({
+          {{#isPrimitiveType}}
+          instance <- jsonlite::fromJSON(input, simplifyVector = FALSE)
+          if (typeof(instance) != "{{{dataType}}}") {
+            stop(sprintf("Data type doesn't match. Expected: %s. Actual: %s.", "{{{dataType}}}", typeof(instance)))
+          }
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          {{{dataType}}}$public_methods$validateJSON(input)
+          {{{dataType}}}_instance <- {{{dataType}}}$new()
+          instance <- {{{dataType}}}_instance$fromJSON(input)
+          {{/isPrimitiveType}}
+          instance_type <- "{{{dataType}}}"
+          matched_schemas <- append(matched_schemas, "{{{dataType}}}")
           matched <- matched + 1
         },
         error = function(err) err
       )
 
-      if (!is.null({{{.}}}_result["error"])) {
-        error_messages <- append(error_messages, {{{.}}}_result["message"])
+      if (!is.null({{{dataType}}}_result["error"])) {
+        error_messages <- append(error_messages, {{{dataType}}}_result["message"])
       }
 
-      {{/oneOf}}
+      {{/isNull}}
+      {{/composedSchemas.oneOf}}
       if (matched == 1) {
         # successfully match exactly 1 schema specified in oneOf
         self$actual_instance <- instance

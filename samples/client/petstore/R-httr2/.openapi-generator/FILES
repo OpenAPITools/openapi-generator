@@ -21,6 +21,7 @@ R/dog_all_of.R
 R/fake_api.R
 R/model_api_response.R
 R/nested_one_of.R
+R/one_of_primitive_type_test.R
 R/order.R
 R/pet.R
 R/pet_api.R
@@ -45,6 +46,7 @@ docs/DogAllOf.md
 docs/FakeApi.md
 docs/ModelApiResponse.md
 docs/NestedOneOf.md
+docs/OneOfPrimitiveTypeTest.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md

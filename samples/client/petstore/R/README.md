@@ -101,6 +101,7 @@ Class | Method | HTTP request | Description
  - [DogAllOf](docs/DogAllOf.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)
+ - [OneOfPrimitiveTypeTest](docs/OneOfPrimitiveTypeTest.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
