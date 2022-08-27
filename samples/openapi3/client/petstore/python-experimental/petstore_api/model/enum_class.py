@@ -30,6 +30,8 @@ class EnumClass(
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
+            "COUNT_1M": "COUNT_1M",
+            "COUNT_50M": "COUNT_50M",
         }
     ),
     schemas.StrSchema
@@ -54,3 +56,13 @@ class EnumClass(
     @property
     def XYZ(cls):
         return cls("(xyz)")
+    
+    @classmethod
+    @property
+    def COUNT_1M(cls):
+        return cls("COUNT_1M")
+    
+    @classmethod
+    @property
+    def COUNT_50M(cls):
+        return cls("COUNT_50M")
