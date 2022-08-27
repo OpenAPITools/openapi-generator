@@ -15,6 +15,6 @@ package petstore;
 
 message OtherTest {
 
-  repeated string setUnderscoretest = 343904081;
+  repeated string set_test = 341814865;
 
 }

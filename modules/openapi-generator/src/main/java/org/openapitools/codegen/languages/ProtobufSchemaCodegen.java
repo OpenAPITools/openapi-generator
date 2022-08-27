@@ -42,8 +42,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -178,8 +177,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
 
@@ -223,22 +221,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
      *
      * @param allowableValues allowable values
-     * @param prefix added prefix
+     * @param prefix          added prefix
      */
-    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix){
-        if(allowableValues.containsKey("enumVars")) {
-            List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix) {
+        if (allowableValues.containsKey("enumVars")) {
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
 
-            for(Map<String, Object> value : enumVars) {
-                String name = (String)value.get("name");
+            for (Map<String, Object> value : enumVars) {
+                String name = (String) value.get("name");
                 value.put("name", prefix + "_" + name);
                 value.put("value", "\"" + prefix + "_" + name + "\"");
             }
         }
 
-        if(allowableValues.containsKey("values")) {
-            List<String> values = (List<String>)allowableValues.get("values");
-            for(String value : values) {
+        if (allowableValues.containsKey("values")) {
+            List<String> values = (List<String>) allowableValues.get("values");
+            for (String value : values) {
                 value = prefix + "_" + value;
             }
         }
@@ -250,9 +248,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param allowableValues allowable values
      */
     public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
-        if(startEnumsWithUnknown) {
-            if(allowableValues.containsKey("enumVars")) {
-                List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+        if (startEnumsWithUnknown) {
+            if (allowableValues.containsKey("enumVars")) {
+                List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
 
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
                 unknown.put("name", "UNKNOWN");
@@ -262,8 +260,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 enumVars.add(0, unknown);
             }
 
-            if(allowableValues.containsKey("values")) {
-                List<String> values = (List<String>)allowableValues.get("values");           
+            if (allowableValues.containsKey("values")) {
+                List<String> values = (List<String>) allowableValues.get("values");
                 values.add(0, "UNKNOWN");
             }
         }
@@ -289,12 +287,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if(cm.isEnum) {
+            if (cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
                 addUnknownToAllowableValues(allowableValues);
                 addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
                     addEnumIndexes(enumVars);
                 }
             }
@@ -304,8 +302,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
                     var.vendorExtensions.put("x-protobuf-type", "repeated");
-                }
-                else if (Boolean.TRUE.equals(var.isNullable &&  var.isPrimitiveType)) {
+                } else if (Boolean.TRUE.equals(var.isNullable && var.isPrimitiveType)) {
                     var.vendorExtensions.put("x-protobuf-type", "optional");
                 }
 
@@ -322,19 +319,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 if (var.isEnum) {
                     addUnknownToAllowableValues(var.allowableValues);
                     addEnumValuesPrefix(var.allowableValues, var.getEnumName());
-                
-                    if(var.allowableValues.containsKey("enumVars")) {
+
+                    if (var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
                         addEnumIndexes(enumVars);
                     }
                 }
 
                 // Add x-protobuf-index, unless already specified
-                if(this.numberedFieldNumberList) {
+                if (this.numberedFieldNumberList) {
                     var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
                     index++;
-                }
-                else {
+                } else {
                     try {
                         var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
                     } catch (ProtoBufIndexComputationException e) {
@@ -501,6 +497,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toVarName(final String name) {
+        return name;
+    }
+
+    @Override
     public String toModelName(String name) {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
@@ -555,14 +556,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             int index = 1;
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
-                
+
                 if (Boolean.TRUE.equals(p.isArray)) {
                     p.vendorExtensions.put("x-protobuf-type", "repeated");
-                }
-                else if (Boolean.TRUE.equals(p.isNullable &&  p.isPrimitiveType)) {
+                } else if (Boolean.TRUE.equals(p.isNullable && p.isPrimitiveType)) {
                     p.vendorExtensions.put("x-protobuf-type", "optional");
-                }
-                else if (Boolean.TRUE.equals(p.isMap)) {
+                } else if (Boolean.TRUE.equals(p.isMap)) {
                     LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName, op.operationId);
                 }
 
@@ -649,5 +648,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PROTOBUF; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PROTOBUF;
+    }
 }
