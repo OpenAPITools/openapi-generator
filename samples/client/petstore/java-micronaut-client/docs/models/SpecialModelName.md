@@ -8,7 +8,7 @@ The class is defined in **[SpecialModelName.java](../../src/main/java/org/openap
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**$specialPropertyName** | `Long` |  |  [optional property]
+**$SpecialPropertyName** | `Long` |  |  [optional property]
 
 
 

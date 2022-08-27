@@ -33,26 +33,26 @@ import javax.validation.Valid;
 public class SpecialModelName   {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
-  private Long $specialPropertyName;
+  private Long $SpecialPropertyName;
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public SpecialModelName $SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
     return this;
   }
 
   /**
-   * Get $specialPropertyName
-   * @return $specialPropertyName
+   * Get $SpecialPropertyName
+   * @return $SpecialPropertyName
    **/
   @JsonProperty(value = "$special[property.name]")
   @ApiModelProperty(value = "")
   
   public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+    return $SpecialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public void set$SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
   }
 
 
@@ -65,12 +65,12 @@ public class SpecialModelName   {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName);
+    return Objects.equals(this.$SpecialPropertyName, specialModelName.$SpecialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash($SpecialPropertyName);
   }
 
   @Override
@@ -78,7 +78,7 @@ public class SpecialModelName   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     
-    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    $SpecialPropertyName: ").append(toIndentedString($SpecialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

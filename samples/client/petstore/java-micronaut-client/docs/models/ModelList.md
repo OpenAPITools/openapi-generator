@@ -8,7 +8,7 @@ The class is defined in **[ModelList.java](../../src/main/java/org/openapitools/
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**_123list** | `String` |  |  [optional property]
+**_123List** | `String` |  |  [optional property]
 
 
 

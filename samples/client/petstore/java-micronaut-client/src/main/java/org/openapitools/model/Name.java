@@ -28,7 +28,7 @@ import javax.annotation.Generated;
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
   Name.JSON_PROPERTY_PROPERTY,
-  Name.JSON_PROPERTY_123NUMBER
+  Name.JSON_PROPERTY_123_NUMBER
 })
 @JsonTypeName("Name")
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
@@ -43,8 +43,8 @@ public class Name {
     public static final String JSON_PROPERTY_PROPERTY = "property";
     private String property;
 
-    public static final String JSON_PROPERTY_123NUMBER = "123Number";
-    private Integer _123number;
+    public static final String JSON_PROPERTY_123_NUMBER = "123Number";
+    private Integer _123Number;
 
     public Name() {
     }
@@ -104,14 +104,14 @@ public class Name {
     }
 
     /**
-     * Get _123number
-     * @return _123number
+     * Get _123Number
+     * @return _123Number
      **/
     @Nullable
-    @JsonProperty(JSON_PROPERTY_123NUMBER)
+    @JsonProperty(JSON_PROPERTY_123_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public Integer get123number() {
-        return _123number;
+    public Integer get123Number() {
+        return _123Number;
     }
 
     @Override
@@ -126,12 +126,12 @@ public class Name {
         return Objects.equals(this.name, name.name) &&
             Objects.equals(this.snakeCase, name.snakeCase) &&
             Objects.equals(this.property, name.property) &&
-            Objects.equals(this._123number, name._123number);
+            Objects.equals(this._123Number, name._123Number);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, snakeCase, property, _123number);
+        return Objects.hash(name, snakeCase, property, _123Number);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class Name {
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
         sb.append("    property: ").append(toIndentedString(property)).append("\n");
-        sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
+        sb.append("    _123Number: ").append(toIndentedString(_123Number)).append("\n");
         sb.append("}");
         return sb.toString();
     }

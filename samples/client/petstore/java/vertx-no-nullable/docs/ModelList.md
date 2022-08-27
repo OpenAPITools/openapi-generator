@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**_123list** | **String** |  |  [optional] |
+|**_123List** | **String** |  |  [optional] |
 
 
 

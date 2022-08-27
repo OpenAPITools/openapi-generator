@@ -11,7 +11,7 @@ Model for testing model name same as property name
 |**name** | **Integer** |  |  |
 |**snakeCase** | **Integer** |  |  [optional] [readonly] |
 |**property** | **String** |  |  [optional] |
-|**_123number** | **Integer** |  |  [optional] [readonly] |
+|**_123Number** | **Integer** |  |  [optional] [readonly] |
 
 
 

@@ -19,10 +19,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("$special[model.name]")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class SpecialModelName  implements Serializable {
-  private @Valid Long $specialPropertyName;
+  private @Valid Long $SpecialPropertyName;
 
   protected SpecialModelName(SpecialModelNameBuilder<?, ?> b) {
-    this.$specialPropertyName = b.$specialPropertyName;
+    this.$SpecialPropertyName = b.$SpecialPropertyName;
   }
 
   public SpecialModelName() {
@@ -30,8 +30,8 @@ public class SpecialModelName  implements Serializable {
 
   /**
    **/
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public SpecialModelName $SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
     return this;
   }
 
@@ -39,12 +39,12 @@ public class SpecialModelName  implements Serializable {
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+    return $SpecialPropertyName;
   }
 
   @JsonProperty("$special[property.name]")
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public void set$SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
   }
 
 
@@ -56,13 +56,13 @@ public class SpecialModelName  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName $SpecialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$SpecialPropertyName, $SpecialModelName.$SpecialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash($SpecialPropertyName);
   }
 
   @Override
@@ -70,7 +70,7 @@ public class SpecialModelName  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     
-    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    $SpecialPropertyName: ").append(toIndentedString($SpecialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -105,13 +105,13 @@ public class SpecialModelName  implements Serializable {
   }
 
   public static abstract class SpecialModelNameBuilder<C extends SpecialModelName, B extends SpecialModelNameBuilder<C, B>>  {
-    private Long $specialPropertyName;
+    private Long $SpecialPropertyName;
     protected abstract B self();
 
     public abstract C build();
 
-    public B $specialPropertyName(Long $specialPropertyName) {
-      this.$specialPropertyName = $specialPropertyName;
+    public B $SpecialPropertyName(Long $SpecialPropertyName) {
+      this.$SpecialPropertyName = $SpecialPropertyName;
       return self();
     }
   }

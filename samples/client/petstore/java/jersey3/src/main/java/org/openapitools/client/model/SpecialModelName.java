@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
-  private Long $specialPropertyName;
+  private Long $SpecialPropertyName;
 
   public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
   private String specialModelName;
@@ -47,14 +47,14 @@ public class SpecialModelName {
   public SpecialModelName() { 
   }
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public SpecialModelName $SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
     return this;
   }
 
    /**
-   * Get $specialPropertyName
-   * @return $specialPropertyName
+   * Get $SpecialPropertyName
+   * @return $SpecialPropertyName
   **/
   @jakarta.annotation.Nullable
   @ApiModelProperty(value = "")
@@ -62,14 +62,14 @@ public class SpecialModelName {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+    return $SpecialPropertyName;
   }
 
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public void set$SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
   }
 
 
@@ -111,20 +111,20 @@ public class SpecialModelName {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
+    return Objects.equals(this.$SpecialPropertyName, specialModelName.$SpecialPropertyName) &&
         Objects.equals(this.specialModelName, specialModelName.specialModelName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName, specialModelName);
+    return Objects.hash($SpecialPropertyName, specialModelName);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
-    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    $SpecialPropertyName: ").append(toIndentedString($SpecialPropertyName)).append("\n");
     sb.append("    specialModelName: ").append(toIndentedString(specialModelName)).append("\n");
     sb.append("}");
     return sb.toString();

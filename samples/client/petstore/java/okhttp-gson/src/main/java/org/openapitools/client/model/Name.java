@@ -62,9 +62,9 @@ public class Name {
   @SerializedName(SERIALIZED_NAME_PROPERTY)
   private String property;
 
-  public static final String SERIALIZED_NAME_123NUMBER = "123Number";
-  @SerializedName(SERIALIZED_NAME_123NUMBER)
-  private Integer _123number;
+  public static final String SERIALIZED_NAME_123_NUMBER = "123Number";
+  @SerializedName(SERIALIZED_NAME_123_NUMBER)
+  private Integer _123Number;
 
   public Name() {
   }
@@ -72,11 +72,11 @@ public class Name {
   
   public Name(
      Integer snakeCase, 
-     Integer _123number
+     Integer _123Number
   ) {
     this();
     this.snakeCase = snakeCase;
-    this._123number = _123number;
+    this._123Number = _123Number;
   }
 
   public Name name(Integer name) {
@@ -140,14 +140,14 @@ public class Name {
 
 
    /**
-   * Get _123number
-   * @return _123number
+   * Get _123Number
+   * @return _123Number
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public Integer get123number() {
-    return _123number;
+  public Integer get123Number() {
+    return _123Number;
   }
 
 
@@ -201,13 +201,13 @@ public class Name {
     return Objects.equals(this.name, name.name) &&
         Objects.equals(this.snakeCase, name.snakeCase) &&
         Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123number, name._123number)&&
+        Objects.equals(this._123Number, name._123Number)&&
         Objects.equals(this.additionalProperties, name.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123number, additionalProperties);
+    return Objects.hash(name, snakeCase, property, _123Number, additionalProperties);
   }
 
   @Override
@@ -217,7 +217,7 @@ public class Name {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");
-    sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
+    sb.append("    _123Number: ").append(toIndentedString(_123Number)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();

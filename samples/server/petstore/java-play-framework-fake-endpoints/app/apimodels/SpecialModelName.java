@@ -14,23 +14,23 @@ import javax.validation.constraints.*;
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
   
-  private Long $specialPropertyName;
+  private Long $SpecialPropertyName;
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public SpecialModelName $SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
     return this;
   }
 
    /**
-   * Get $specialPropertyName
-   * @return $specialPropertyName
+   * Get $SpecialPropertyName
+   * @return $SpecialPropertyName
   **/
   public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+    return $SpecialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public void set$SpecialPropertyName(Long $SpecialPropertyName) {
+    this.$SpecialPropertyName = $SpecialPropertyName;
   }
 
 
@@ -42,13 +42,13 @@ public class SpecialModelName   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName $SpecialModelName = (SpecialModelName) o;
+    return Objects.equals($SpecialPropertyName, $SpecialModelName.$SpecialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash($SpecialPropertyName);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -57,7 +57,7 @@ public class SpecialModelName   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     
-    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    $SpecialPropertyName: ").append(toIndentedString($SpecialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

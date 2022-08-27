@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **name** | `Integer` |  | 
 **snakeCase** | `Integer` |  |  [optional property] [readonly property]
 **property** | `String` |  |  [optional property]
-**_123number** | `Integer` |  |  [optional property] [readonly property]
+**_123Number** | `Integer` |  |  [optional property] [readonly property]
 
 
 

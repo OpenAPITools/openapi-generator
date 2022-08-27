@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**$specialPropertyName** | **Long** |  |  [optional] |
+|**$SpecialPropertyName** | **Long** |  |  [optional] |
 |**specialModelName** | **String** |  |  [optional] |
 
 
