@@ -56,28 +56,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String USE_ES6 = "useES6";
     public static final String NPM_REPOSITORY = "npmRepository";
 
-    final String[][] JAVASCRIPT_SUPPORTING_FILES = {
-            new String[]{"package.mustache", "package.json"},
-            // new String[]{"index.mustache", "src/index.js", },
-            // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
-            new String[]{"git_push.sh.mustache", "git_push.sh"},
-            new String[]{"README.mustache", "README.md"},
-            new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"},
-            new String[]{"gitignore.mustache", ".gitignore"}
-    };
-
-    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = {
-            new String[]{"package.mustache", "package.json"},
-            // new String[]{"index.mustache", "src/index.js"},
-            // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
-            new String[]{"git_push.sh.mustache", "git_push.sh"},
-            new String[]{"README.mustache", "README.md"},
-            new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"},
-            new String[]{".babelrc.mustache", ".babelrc"},
-            new String[]{"gitignore.mustache", ".gitignore"}
-    };
+    public static final String LIBRARY_JAVASCRIPT = "javascript";
+    public static final String LIBRARY_APOLLO = "apollo";
 
     protected String projectName;
     protected String moduleName;
@@ -109,7 +89,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         apiTemplateFiles.put("api.mustache", ".js");
         apiTestTemplateFiles.put("api_test.mustache", ".js");
         // subfolder Javascript/es6
-        embeddedTemplateDir = templateDir = "Javascript" + File.separator + "es6";
+        embeddedTemplateDir = templateDir = "Javascript";
         apiPackage = "api";
         modelPackage = "model";
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -207,6 +187,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+
+        supportedLibraries.put(LIBRARY_JAVASCRIPT, "JavaScript client library");
+        supportedLibraries.put(LIBRARY_APOLLO, "Apollo REST DataSource");
+        setLibrary(LIBRARY_JAVASCRIPT);
+        final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(LIBRARY_JAVASCRIPT);
+        library.setEnum(supportedLibraries);
+        cliOptions.add(library);
     }
 
     @Override
@@ -274,6 +261,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(((String) additionalProperties.get(NPM_REPOSITORY)));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
     }
 
@@ -344,18 +334,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        String[][] supportingTemplateFiles = JAVASCRIPT_SUPPORTING_FILES;
-        if (useES6) {
-            supportingTemplateFiles = JAVASCRIPT_ES6_SUPPORTING_FILES;
-        }
-
-        for (String[] supportingTemplateFile : supportingTemplateFiles) {
-            supportingFiles.add(new SupportingFile(supportingTemplateFile[0], "", supportingTemplateFile[1]));
-        }
-
+        supportingFiles.add(new SupportingFile("package.mustache", "package.json"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("README.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("mocha.opts", "mocha.opts"));
+        supportingFiles.add(new SupportingFile("travis.yml", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", ".gitignore"));
         supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
 
+        if (useES6 || LIBRARY_APOLLO.equals(library)) {
+            supportingFiles.add(new SupportingFile(".babelrc.mustache", ".babelrc"));
+        }
     }
 
     @Override
@@ -1000,9 +990,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     argList.add("opts");
                 }
 
-                if (!usePromises) {
+                // Add extra function arguments after the required and optional API call parameters:
+                if (LIBRARY_JAVASCRIPT.equals(library) && !usePromises) {
                     argList.add("callback");
                 }
+                if (LIBRARY_APOLLO.equals(library)) {
+                    argList.add("requestInit");
+                }
+
                 String joinedArgList = StringUtils.join(argList, ", ");
                 operation.vendorExtensions.put("x-codegen-arg-list", joinedArgList);
                 operation.vendorExtensions.put("x-codegen-has-optional-params", hasOptionalParams);

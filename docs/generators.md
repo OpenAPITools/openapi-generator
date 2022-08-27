@@ -34,7 +34,7 @@ The following generators are available:
 * [java](generators/java.md)  
 * [java-micronaut-client (beta)](generators/java-micronaut-client.md)  
 * [javascript](generators/javascript.md)  
-* [javascript-apollo](generators/javascript-apollo.md)  
+* [javascript-apollo-deprecated (deprecated)](generators/javascript-apollo-deprecated.md)  
 * [javascript-closure-angular](generators/javascript-closure-angular.md)  
 * [javascript-flowtyped](generators/javascript-flowtyped.md)  
 * [jaxrs-cxf-client](generators/jaxrs-cxf-client.md)  

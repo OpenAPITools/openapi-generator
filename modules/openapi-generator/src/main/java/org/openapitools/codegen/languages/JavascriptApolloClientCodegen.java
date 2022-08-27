@@ -104,6 +104,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");
         modelTestTemplateFiles.put("model_test.mustache", ".js");
@@ -217,7 +221,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
     @Override
     public String getName() {
-        return "javascript-apollo";
+        return "javascript-apollo-deprecated";
     }
 
     @Override
