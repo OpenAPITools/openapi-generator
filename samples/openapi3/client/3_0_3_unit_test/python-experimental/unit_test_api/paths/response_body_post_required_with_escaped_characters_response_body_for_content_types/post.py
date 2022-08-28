@@ -42,6 +42,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         }
         additional_properties = schemas.AnyTypeSchema
 
+    
 
     def __new__(
         cls,
