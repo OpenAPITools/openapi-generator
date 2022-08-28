@@ -19,7 +19,9 @@ cat(api_wrapper$pet_api$api_client$password)
 print("DONE")
 
 var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(56, "name_example"), list(Tag$new(56, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+print(var_pet)
 
+print("DONE print")
 #Add a new pet to the store
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth

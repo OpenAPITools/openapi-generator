@@ -5,10 +5,11 @@ library(jsonlite)
 
 t <- OneOfPrimitiveTypeTest$new()
 
-t$fromJSONString("[1,2,3]")
+#t$fromJSONString("[1,2,3]")
 
 
-###var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(56, "name_example"), list(Tag$new(56, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(56, "name_example"), list(Tag$new(56, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+print(var_pet)
 ###
 ####Add a new pet to the store
 ###api_instance <- PetApi$new()
