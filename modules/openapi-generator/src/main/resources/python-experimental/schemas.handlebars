@@ -1512,11 +1512,11 @@ class DictBase(Discriminable, ValidatorBase):
             dict_items[property_name_js] = new_value
         return dict_items
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: typing.Any):
         if not isinstance(self, FileIO):
             raise AttributeError('property setting not supported on immutable instances')
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str):
         if isinstance(self, frozendict):
             # if an attribute does not exist
             try:
@@ -1524,13 +1524,6 @@ class DictBase(Discriminable, ValidatorBase):
             except KeyError as ex:
                 raise AttributeError(str(ex))
         return super().__getattr__(self, name)
-
-    def __getattribute__(self, name):
-        # if an attribute does exist (for example as a class property but not as an instance method)
-        try:
-            return self[name]
-        except (KeyError, TypeError):
-            return super().__getattribute__(name)
 
 
 def cast_to_allowed_types(
