@@ -8,6 +8,7 @@ NAMESPACE
 R/allof_tag_api_response.R
 R/animal.R
 R/any_of_pig.R
+R/any_of_primitive_type_test.R
 R/api_client.R
 R/api_exception.R
 R/api_response.R
@@ -21,6 +22,7 @@ R/dog_all_of.R
 R/fake_api.R
 R/model_api_response.R
 R/nested_one_of.R
+R/one_of_primitive_type_test.R
 R/order.R
 R/pet.R
 R/pet_api.R
@@ -35,6 +37,7 @@ README.md
 docs/AllofTagApiResponse.md
 docs/Animal.md
 docs/AnyOfPig.md
+docs/AnyOfPrimitiveTypeTest.md
 docs/BasquePig.md
 docs/Cat.md
 docs/CatAllOf.md
@@ -45,6 +48,7 @@ docs/DogAllOf.md
 docs/FakeApi.md
 docs/ModelApiResponse.md
 docs/NestedOneOf.md
+docs/OneOfPrimitiveTypeTest.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md

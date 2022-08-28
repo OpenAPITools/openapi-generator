@@ -933,6 +933,14 @@ components:
         - $ref: '#/components/schemas/DanishPig'
       discriminator:
         propertyName: className
+    OneOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    AnyOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
     BasquePig:
       type: object
       properties:

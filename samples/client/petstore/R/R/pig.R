@@ -22,7 +22,7 @@ Pig <- R6::R6Class(
     actual_instance = NULL,
     #' @field actual_type the type of the object stored in this instance.
     actual_type = NULL,
-    #' @field one_of  a list of object types defined in the oneOf schema.
+    #' @field one_of  a list of types defined in the oneOf schema.
     one_of = list("BasquePig", "DanishPig"),
     #' Initialize a new Pig.
     #'
