@@ -197,6 +197,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasMultipleTypes = false;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
+    private boolean schemaIsFromAdditionalProperties;
 
     public String getBaseName() {
         return baseName;
@@ -342,6 +343,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public void setUnescapedDescription(String unescapedDescription) {
         this.unescapedDescription = unescapedDescription;
+    }
+
+    @Override
+    public boolean getSchemaIsFromAdditionalProperties() {
+        return schemaIsFromAdditionalProperties;
+    }
+
+    @Override
+    public void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties) {
+        this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
     }
 
     @Override
@@ -1004,6 +1015,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
+        sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
         sb.append('}');
         return sb.toString();
     }
@@ -1059,6 +1071,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNull == that.isNull &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping &&
+                getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
@@ -1129,6 +1142,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
-                ref, uniqueItemsBoolean);
+                ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties);
     }
 }
