@@ -69,8 +69,8 @@ class SchemaForRequestBodyMultipartFormData(
             requiredFile = schemas.BinarySchema
         additional_properties = schemas.AnyTypeSchema
     
-    additionalMetadata: MetaOapg.properties.additionalMetadata
     requiredFile: MetaOapg.properties.requiredFile
+    additionalMetadata: MetaOapg.properties.additionalMetadata
 
     def __new__(
         cls,

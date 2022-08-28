@@ -83,8 +83,8 @@ class Zebra(
                     return cls("zebra")
         additional_properties = schemas.AnyTypeSchema
     
-    type: MetaOapg.properties.type
     className: MetaOapg.properties.className
+    type: MetaOapg.properties.type
 
     def __new__(
         cls,

@@ -1524,6 +1524,7 @@ class DictBase(Discriminable, ValidatorBase):
             raise AttributeError('property setting not supported on immutable instances')
 
     def __getattr__(self, name: str):
+        # for instance.name access
         if isinstance(self, frozendict):
             # if an attribute does not exist
             try:

@@ -7220,6 +7220,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (cp.baseName.equals(requiredPropertyName)) {
                         found = true;
                         requiredVarsMap.put(requiredPropertyName, cp);
+                        break;
                     }
                 }
                 if (found == false) {

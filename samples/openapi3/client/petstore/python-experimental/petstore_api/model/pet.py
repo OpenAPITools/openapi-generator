@@ -128,10 +128,10 @@ class Pet(
                     return cls("sold")
         additional_properties = schemas.AnyTypeSchema
     
+    photoUrls: MetaOapg.properties.photoUrls
+    name: MetaOapg.properties.name
     id: MetaOapg.properties.id
     category: 'Category'
-    name: MetaOapg.properties.name
-    photoUrls: MetaOapg.properties.photoUrls
     tags: MetaOapg.properties.tags
     status: MetaOapg.properties.status
 
