@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { ClubOwner } from './ClubOwner';
+import type { Owner } from './Owner';
 import {
-    ClubOwnerFromJSON,
-    ClubOwnerFromJSONTyped,
-    ClubOwnerToJSON,
-} from './ClubOwner';
+    OwnerFromJSON,
+    OwnerFromJSONTyped,
+    OwnerToJSON,
+} from './Owner';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface Club {
     /**
      * 
-     * @type {ClubOwner}
+     * @type {Owner}
      * @memberof Club
      */
-    owner?: ClubOwner;
+    readonly owner?: Owner;
 }
 
 /**
@@ -53,7 +53,7 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     }
     return {
         
-        'owner': !exists(json, 'owner') ? undefined : ClubOwnerFromJSON(json['owner']),
+        'owner': !exists(json, 'owner') ? undefined : OwnerFromJSON(json['owner']),
     };
 }
 
@@ -66,7 +66,6 @@ export function ClubToJSON(value?: Club | null): any {
     }
     return {
         
-        'owner': ClubOwnerToJSON(value.owner),
     };
 }
 
