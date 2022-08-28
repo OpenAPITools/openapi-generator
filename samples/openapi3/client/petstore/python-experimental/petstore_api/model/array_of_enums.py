@@ -41,4 +41,15 @@ class ArrayOfEnums(
         def items(cls) -> typing.Type['StringEnum']:
             return StringEnum
 
+    def __new__(
+        cls,
+        arg: typing.Tuple['StringEnum'],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'ArrayOfEnums'['StringEnum']:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 from petstore_api.model.string_enum import StringEnum

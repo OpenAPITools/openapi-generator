@@ -41,6 +41,17 @@ class SchemaForRequestBodyApplicationJson(
         def items(cls) -> typing.Type['User']:
             return User
 
+    def __new__(
+        cls,
+        arg: typing.Tuple['User'],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaForRequestBodyApplicationJson'['User']:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 request_body_user = api_client.RequestBody(
     content={

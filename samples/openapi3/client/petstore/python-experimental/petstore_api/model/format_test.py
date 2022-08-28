@@ -121,6 +121,17 @@ class FormatTest(
                     unique_items = True
                     items = schemas.NumberSchema
             
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, decimal.Decimal, int, float, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'arrayWithUniqueItems'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
             
             class string(
                 schemas.StrSchema

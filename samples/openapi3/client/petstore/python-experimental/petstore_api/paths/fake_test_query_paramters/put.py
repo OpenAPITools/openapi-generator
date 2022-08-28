@@ -36,6 +36,17 @@ class PipeSchema(
     class MetaOapg:
         items = schemas.StrSchema
 
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'PipeSchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 class IoutilSchema(
     schemas.ListSchema
@@ -44,6 +55,17 @@ class IoutilSchema(
 
     class MetaOapg:
         items = schemas.StrSchema
+
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'IoutilSchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
 
 
 class HttpSchema(
@@ -54,6 +76,17 @@ class HttpSchema(
     class MetaOapg:
         items = schemas.StrSchema
 
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'HttpSchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 class UrlSchema(
     schemas.ListSchema
@@ -63,6 +96,17 @@ class UrlSchema(
     class MetaOapg:
         items = schemas.StrSchema
 
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'UrlSchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 class ContextSchema(
     schemas.ListSchema
@@ -71,6 +115,17 @@ class ContextSchema(
 
     class MetaOapg:
         items = schemas.StrSchema
+
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'ContextSchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
 RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',

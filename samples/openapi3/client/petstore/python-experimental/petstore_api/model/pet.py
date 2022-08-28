@@ -59,6 +59,17 @@ class Pet(
                 class MetaOapg:
                     items = schemas.StrSchema
             
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'photoUrls'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
             
             class tags(
                 schemas.ListSchema
@@ -71,6 +82,17 @@ class Pet(
                     @property
                     def items(cls) -> typing.Type['Tag']:
                         return Tag
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple['Tag'],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'tags'['Tag']:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
             
             
             class status(

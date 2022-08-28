@@ -54,6 +54,17 @@ class ComposedAnyOfDifferentTypesNoValidations(
         
             class MetaOapg:
                 items = schemas.AnyTypeSchema
+        
+            def __new__(
+                cls,
+                arg: typing.Tuple[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+            ) -> 'any_of_9'[MetaOapg.items]:
+                return super().__new__(
+                    cls,
+                    arg,
+                    _configuration=_configuration,
+                )
         any_of_10 = schemas.NumberSchema
         any_of_11 = schemas.Float32Schema
         any_of_12 = schemas.Float64Schema

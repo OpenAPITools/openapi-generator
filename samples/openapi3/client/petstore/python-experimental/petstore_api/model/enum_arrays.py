@@ -86,6 +86,17 @@ class EnumArrays(
                         @property
                         def CRAB(cls):
                             return cls("crab")
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'array_enum'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
         additional_properties = schemas.AnyTypeSchema
     
     just_symbol: MetaOapg.properties.just_symbol

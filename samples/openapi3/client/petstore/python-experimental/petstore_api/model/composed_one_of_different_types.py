@@ -76,6 +76,17 @@ class ComposedOneOfDifferentTypes(
                 min_items = 4
                 items = schemas.AnyTypeSchema
         
+            def __new__(
+                cls,
+                arg: typing.Tuple[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+            ) -> 'one_of_5'[MetaOapg.items]:
+                return super().__new__(
+                    cls,
+                    arg,
+                    _configuration=_configuration,
+                )
+        
         
         class one_of_6(
             schemas.DateTimeSchema

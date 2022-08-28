@@ -55,6 +55,17 @@ class EnumQueryStringArraySchema(
             def DOLLAR(cls):
                 return cls("$")
 
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'EnumQueryStringArraySchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 class EnumQueryStringSchema(
     schemas.SchemaEnumMakerClsFactory(
@@ -199,6 +210,17 @@ class EnumHeaderStringArraySchema(
             def DOLLAR(cls):
                 return cls("$")
 
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'EnumHeaderStringArraySchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 class EnumHeaderStringSchema(
     schemas.SchemaEnumMakerClsFactory(
@@ -293,6 +315,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                         @property
                         def DOLLAR(cls):
                             return cls("$")
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'enum_form_string_array'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
             
             
             class enum_form_string(

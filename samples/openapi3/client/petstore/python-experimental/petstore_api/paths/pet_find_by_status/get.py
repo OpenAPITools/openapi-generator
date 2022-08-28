@@ -62,6 +62,17 @@ class StatusSchema(
             @property
             def SOLD(cls):
                 return cls("sold")
+
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'StatusSchema'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -104,6 +115,17 @@ class SchemaFor200ResponseBodyApplicationXml(
         def items(cls) -> typing.Type['Pet']:
             return Pet
 
+    def __new__(
+        cls,
+        arg: typing.Tuple['Pet'],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaFor200ResponseBodyApplicationXml'['Pet']:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ListSchema
@@ -116,6 +138,17 @@ class SchemaFor200ResponseBodyApplicationJson(
         @property
         def items(cls) -> typing.Type['Pet']:
             return Pet
+
+    def __new__(
+        cls,
+        arg: typing.Tuple['Pet'],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaFor200ResponseBodyApplicationJson'['Pet']:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
 
 
 @dataclass

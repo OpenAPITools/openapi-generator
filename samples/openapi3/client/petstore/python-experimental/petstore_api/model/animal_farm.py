@@ -41,4 +41,15 @@ class AnimalFarm(
         def items(cls) -> typing.Type['Animal']:
             return Animal
 
+    def __new__(
+        cls,
+        arg: typing.Tuple['Animal'],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'AnimalFarm'['Animal']:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
 from petstore_api.model.animal import Animal

@@ -46,6 +46,17 @@ class ArrayTest(
                 class MetaOapg:
                     items = schemas.StrSchema
             
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'array_of_string'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
             
             class array_array_of_integer(
                 schemas.ListSchema
@@ -62,6 +73,28 @@ class ArrayTest(
                     
                         class MetaOapg:
                             items = schemas.Int64Schema
+                    
+                        def __new__(
+                            cls,
+                            arg: typing.Tuple[MetaOapg.items, int, ],
+                            _configuration: typing.Optional[schemas.Configuration] = None,
+                        ) -> 'items'[MetaOapg.items]:
+                            return super().__new__(
+                                cls,
+                                arg,
+                                _configuration=_configuration,
+                            )
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, tuple, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'array_array_of_integer'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
             
             
             class array_array_of_model(
@@ -83,6 +116,28 @@ class ArrayTest(
                             @property
                             def items(cls) -> typing.Type['ReadOnlyFirst']:
                                 return ReadOnlyFirst
+                    
+                        def __new__(
+                            cls,
+                            arg: typing.Tuple['ReadOnlyFirst'],
+                            _configuration: typing.Optional[schemas.Configuration] = None,
+                        ) -> 'items'['ReadOnlyFirst']:
+                            return super().__new__(
+                                cls,
+                                arg,
+                                _configuration=_configuration,
+                            )
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, tuple, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'array_array_of_model'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
         additional_properties = schemas.AnyTypeSchema
     
     array_of_string: MetaOapg.properties.array_of_string

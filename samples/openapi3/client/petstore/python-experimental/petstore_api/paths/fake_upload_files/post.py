@@ -45,6 +45,17 @@ class SchemaForRequestBodyMultipartFormData(
             
                 class MetaOapg:
                     items = schemas.BinarySchema
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'files'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
         additional_properties = schemas.AnyTypeSchema
     
     files: MetaOapg.properties.files

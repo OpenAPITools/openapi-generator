@@ -161,12 +161,12 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[tuple, None, ],
+                    arg: typing.Tuple[MetaOapg.items, dict, frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'array_nullable_prop':
+                ) -> 'array_nullable_prop'[MetaOapg.items]:
                     return super().__new__(
                         cls,
-                        *args,
+                        arg,
                         _configuration=_configuration,
                     )
             
@@ -180,12 +180,12 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[tuple, None, ],
+                    arg: typing.Tuple[MetaOapg.items, dict, frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'array_and_items_nullable_prop':
+                ) -> 'array_and_items_nullable_prop'[MetaOapg.items]:
                     return super().__new__(
                         cls,
-                        *args,
+                        arg,
                         _configuration=_configuration,
                     )
             
@@ -221,6 +221,17 @@ class NullableClass(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
+            
+                def __new__(
+                    cls,
+                    arg: typing.Tuple[MetaOapg.items, dict, frozendict, None, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'array_items_nullable'[MetaOapg.items]:
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
             
             
             class object_nullable_prop(

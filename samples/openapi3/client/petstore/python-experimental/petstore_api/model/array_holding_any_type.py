@@ -36,3 +36,14 @@ class ArrayHoldingAnyType(
 
     class MetaOapg:
         items = schemas.AnyTypeSchema
+
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'ArrayHoldingAnyType'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )

@@ -45,3 +45,14 @@ class ArrayWithValidationsInItems(
         
             class MetaOapg:
                 inclusive_maximum = 7
+
+    def __new__(
+        cls,
+        arg: typing.Tuple[MetaOapg.items, int, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'ArrayWithValidationsInItems'[MetaOapg.items]:
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
