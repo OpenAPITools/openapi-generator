@@ -54,6 +54,7 @@ class Fruit(
                 Apple,
                 Banana,
             ]
+
     
     color: MetaOapg.properties.color
 

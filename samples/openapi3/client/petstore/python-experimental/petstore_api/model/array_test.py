@@ -48,14 +48,17 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'array_of_string'[MetaOapg.items]:
+                ) -> 'array_of_string':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
             
             
             class array_array_of_integer(
@@ -76,25 +79,31 @@ class ArrayTest(
                     
                         def __new__(
                             cls,
-                            arg: typing.Tuple[MetaOapg.items, int, ],
+                            arg: typing.Collection[typing.Union[MetaOapg.items, int, ]],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                        ) -> 'items'[MetaOapg.items]:
+                        ) -> 'items':
                             return super().__new__(
                                 cls,
                                 arg,
                                 _configuration=_configuration,
                             )
+                    
+                        def __getitem__(self, i) -> MetaOapg.items:
+                            return super().__getitem__(i)
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple[MetaOapg.items, tuple, ],
+                    arg: typing.Collection[typing.Union[MetaOapg.items, tuple, ]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'array_array_of_integer'[MetaOapg.items]:
+                ) -> 'array_array_of_integer':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
             
             
             class array_array_of_model(
@@ -119,25 +128,31 @@ class ArrayTest(
                     
                         def __new__(
                             cls,
-                            arg: typing.Tuple['ReadOnlyFirst'],
+                            arg: typing.Collection['ReadOnlyFirst'],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                        ) -> 'items'['ReadOnlyFirst']:
+                        ) -> 'items':
                             return super().__new__(
                                 cls,
                                 arg,
                                 _configuration=_configuration,
                             )
+                    
+                        def __getitem__(self, i) -> 'items':
+                            return super().__getitem__(i)
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple[MetaOapg.items, tuple, ],
+                    arg: typing.Collection[typing.Union[MetaOapg.items, tuple, ]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'array_array_of_model'[MetaOapg.items]:
+                ) -> 'array_array_of_model':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
         additional_properties = schemas.AnyTypeSchema
     
     array_of_string: MetaOapg.properties.array_of_string

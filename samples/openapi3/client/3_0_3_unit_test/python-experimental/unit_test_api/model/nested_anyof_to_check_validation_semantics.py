@@ -62,6 +62,7 @@ class NestedAnyofToCheckValidationSemantics(
                         cls.any_of_0,
                     ]
         
+        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -89,6 +90,7 @@ class NestedAnyofToCheckValidationSemantics(
             return [
                 cls.any_of_0,
             ]
+
 
     def __new__(
         cls,

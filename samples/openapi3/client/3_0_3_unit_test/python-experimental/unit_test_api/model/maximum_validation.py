@@ -38,6 +38,7 @@ class MaximumValidation(
         additional_properties = schemas.AnyTypeSchema
         inclusive_maximum = 3.0
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],

@@ -47,6 +47,7 @@ class AllofCombinedWithAnyofOneof(
                 additional_properties = schemas.AnyTypeSchema
                 multiple_of = 2
         
+        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -70,6 +71,7 @@ class AllofCombinedWithAnyofOneof(
                 additional_properties = schemas.AnyTypeSchema
                 multiple_of = 5
         
+        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -92,6 +94,7 @@ class AllofCombinedWithAnyofOneof(
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
                 multiple_of = 3
+        
         
             def __new__(
                 cls,
@@ -150,6 +153,7 @@ class AllofCombinedWithAnyofOneof(
             return [
                 cls.any_of_0,
             ]
+
 
     def __new__(
         cls,

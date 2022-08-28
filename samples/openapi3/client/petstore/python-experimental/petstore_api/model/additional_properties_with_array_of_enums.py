@@ -51,14 +51,17 @@ class AdditionalPropertiesWithArrayOfEnums(
         
             def __new__(
                 cls,
-                arg: typing.Tuple['EnumClass'],
+                arg: typing.Collection['EnumClass'],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-            ) -> 'additional_properties'['EnumClass']:
+            ) -> 'additional_properties':
                 return super().__new__(
                     cls,
                     arg,
                     _configuration=_configuration,
                 )
+        
+            def __getitem__(self, i) -> 'items':
+                return super().__getitem__(i)
 
     def __new__(
         cls,

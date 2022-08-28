@@ -57,6 +57,7 @@ class Name(
             If the property is required and was not passed in, an exception will be thrown
             """
         additional_properties = schemas.AnyTypeSchema
+
     
     name: MetaOapg.properties.name
     snake_case: MetaOapg.properties.snake_case

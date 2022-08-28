@@ -42,6 +42,7 @@ class RequiredValidation(
             foo = schemas.AnyTypeSchema
             bar = schemas.AnyTypeSchema
         additional_properties = schemas.AnyTypeSchema
+
     
     foo: MetaOapg.properties.foo
     bar: MetaOapg.properties.bar

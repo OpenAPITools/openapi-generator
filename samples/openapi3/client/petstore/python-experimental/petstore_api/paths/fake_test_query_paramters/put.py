@@ -38,14 +38,17 @@ class PipeSchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'PipeSchema'[MetaOapg.items]:
+    ) -> 'PipeSchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class IoutilSchema(
@@ -58,14 +61,17 @@ class IoutilSchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'IoutilSchema'[MetaOapg.items]:
+    ) -> 'IoutilSchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class HttpSchema(
@@ -78,14 +84,17 @@ class HttpSchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'HttpSchema'[MetaOapg.items]:
+    ) -> 'HttpSchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class UrlSchema(
@@ -98,14 +107,17 @@ class UrlSchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'UrlSchema'[MetaOapg.items]:
+    ) -> 'UrlSchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class ContextSchema(
@@ -118,14 +130,17 @@ class ContextSchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'ContextSchema'[MetaOapg.items]:
+    ) -> 'ContextSchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',

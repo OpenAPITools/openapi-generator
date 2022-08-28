@@ -67,14 +67,17 @@ class Drawing(
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple['Shape'],
+                    arg: typing.Collection['Shape'],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'shapes'['Shape']:
+                ) -> 'shapes':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> 'items':
+                    return super().__getitem__(i)
         
         @classmethod
         @property

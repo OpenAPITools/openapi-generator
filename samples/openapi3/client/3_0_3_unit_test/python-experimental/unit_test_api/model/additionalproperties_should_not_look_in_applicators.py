@@ -47,6 +47,7 @@ class AdditionalpropertiesShouldNotLookInApplicators(
                 class properties:
                     foo = schemas.AnyTypeSchema
                 additional_properties = schemas.AnyTypeSchema
+        
             
             foo: MetaOapg.properties.foo
         
@@ -79,6 +80,7 @@ class AdditionalpropertiesShouldNotLookInApplicators(
             return [
                 cls.all_of_0,
             ]
+
 
     def __new__(
         cls,

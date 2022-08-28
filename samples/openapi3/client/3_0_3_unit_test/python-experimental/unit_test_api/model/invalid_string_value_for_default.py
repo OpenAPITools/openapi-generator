@@ -46,6 +46,7 @@ class InvalidStringValueForDefault(
                 class MetaOapg:
                     min_length = 4
         additional_properties = schemas.AnyTypeSchema
+
     
     bar: MetaOapg.properties.bar
 

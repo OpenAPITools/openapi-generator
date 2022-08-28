@@ -48,14 +48,17 @@ class ArrayOfNumberOnly(
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple[MetaOapg.items, decimal.Decimal, int, float, ],
+                    arg: typing.Collection[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'ArrayNumber'[MetaOapg.items]:
+                ) -> 'ArrayNumber':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
         additional_properties = schemas.AnyTypeSchema
     
     ArrayNumber: MetaOapg.properties.ArrayNumber

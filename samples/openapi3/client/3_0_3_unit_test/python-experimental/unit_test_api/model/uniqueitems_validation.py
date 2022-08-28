@@ -38,6 +38,7 @@ class UniqueitemsValidation(
         additional_properties = schemas.AnyTypeSchema
         unique_items = True
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],

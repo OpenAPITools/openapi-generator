@@ -43,13 +43,16 @@ class AnimalFarm(
 
     def __new__(
         cls,
-        arg: typing.Tuple['Animal'],
+        arg: typing.Collection['Animal'],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'AnimalFarm'['Animal']:
+    ) -> 'AnimalFarm':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> 'items':
+        return super().__getitem__(i)
 
 from petstore_api.model.animal import Animal

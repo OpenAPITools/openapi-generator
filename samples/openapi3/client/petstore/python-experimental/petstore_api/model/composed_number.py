@@ -53,6 +53,7 @@ class ComposedNumber(
                 cls.all_of_0,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[decimal.Decimal, int, float, ],

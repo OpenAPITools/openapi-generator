@@ -61,14 +61,17 @@ class Pet(
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'photoUrls'[MetaOapg.items]:
+                ) -> 'photoUrls':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
             
             
             class tags(
@@ -85,14 +88,17 @@ class Pet(
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple['Tag'],
+                    arg: typing.Collection['Tag'],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'tags'['Tag']:
+                ) -> 'tags':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> 'items':
+                    return super().__getitem__(i)
             
             
             class status(

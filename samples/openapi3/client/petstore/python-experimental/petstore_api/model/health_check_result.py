@@ -47,6 +47,7 @@ class HealthCheckResult(
                 schemas.Schema
             ):
             
+            
                 def __new__(
                     cls,
                     *args: typing.Union[None, str, ],

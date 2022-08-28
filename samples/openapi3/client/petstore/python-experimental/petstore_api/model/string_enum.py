@@ -82,6 +82,7 @@ class StringEnum(
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
         return cls("double quote \n with newline")
 
+
     def __new__(
         cls,
         *args: typing.Union[None, str, ],

@@ -57,14 +57,17 @@ class EnumQueryStringArraySchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'EnumQueryStringArraySchema'[MetaOapg.items]:
+    ) -> 'EnumQueryStringArraySchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class EnumQueryStringSchema(
@@ -212,14 +215,17 @@ class EnumHeaderStringArraySchema(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, str, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'EnumHeaderStringArraySchema'[MetaOapg.items]:
+    ) -> 'EnumHeaderStringArraySchema':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class EnumHeaderStringSchema(
@@ -318,14 +324,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
                 def __new__(
                     cls,
-                    arg: typing.Tuple[MetaOapg.items, str, ],
+                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'enum_form_string_array'[MetaOapg.items]:
+                ) -> 'enum_form_string_array':
                     return super().__new__(
                         cls,
                         arg,
                         _configuration=_configuration,
                     )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
             
             
             class enum_form_string(

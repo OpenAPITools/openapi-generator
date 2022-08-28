@@ -38,6 +38,7 @@ class RequiredWithEmptyArray(
         class properties:
             foo = schemas.AnyTypeSchema
         additional_properties = schemas.AnyTypeSchema
+
     
     foo: MetaOapg.properties.foo
 

@@ -48,11 +48,14 @@ class ArrayWithValidationsInItems(
 
     def __new__(
         cls,
-        arg: typing.Tuple[MetaOapg.items, int, ],
+        arg: typing.Collection[typing.Union[MetaOapg.items, int, ]],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'ArrayWithValidationsInItems'[MetaOapg.items]:
+    ) -> 'ArrayWithValidationsInItems':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)

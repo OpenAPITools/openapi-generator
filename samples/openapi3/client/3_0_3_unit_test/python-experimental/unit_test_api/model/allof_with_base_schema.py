@@ -55,6 +55,7 @@ class AllofWithBaseSchema(
                 class properties:
                     foo = schemas.StrSchema
                 additional_properties = schemas.AnyTypeSchema
+        
             
             foo: MetaOapg.properties.foo
         
@@ -86,6 +87,7 @@ class AllofWithBaseSchema(
                 class properties:
                     baz = schemas.NoneSchema
                 additional_properties = schemas.AnyTypeSchema
+        
             
             baz: MetaOapg.properties.baz
         
@@ -119,6 +121,7 @@ class AllofWithBaseSchema(
                 cls.all_of_0,
                 cls.all_of_1,
             ]
+
     
     bar: MetaOapg.properties.bar
 

@@ -54,6 +54,7 @@ class GmFruit(
                 Apple,
                 Banana,
             ]
+
     
     color: MetaOapg.properties.color
 

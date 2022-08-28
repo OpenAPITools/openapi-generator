@@ -43,14 +43,17 @@ class SchemaForRequestBodyApplicationJson(
 
     def __new__(
         cls,
-        arg: typing.Tuple['User'],
+        arg: typing.Collection['User'],
         _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'SchemaForRequestBodyApplicationJson'['User']:
+    ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
             arg,
             _configuration=_configuration,
         )
+
+    def __getitem__(self, i) -> 'items':
+        return super().__getitem__(i)
 
 
 request_body_user = api_client.RequestBody(

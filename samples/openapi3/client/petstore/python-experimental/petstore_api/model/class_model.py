@@ -40,6 +40,7 @@ class ClassModel(
         class properties:
             _class = schemas.StrSchema
         additional_properties = schemas.AnyTypeSchema
+
     
     _class: MetaOapg.properties._class
 

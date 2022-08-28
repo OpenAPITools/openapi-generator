@@ -55,6 +55,7 @@ class OneofWithEmptySchema(
                 cls.one_of_1,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
