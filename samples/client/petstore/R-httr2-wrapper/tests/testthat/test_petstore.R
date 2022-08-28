@@ -294,6 +294,22 @@ test_that ("Tests validations", {
 
 })
 
+test_that("Tests oneOf discriminator mapping", {
+  whale_json <- '{"className": "whale", "hasBaleen": true, "hasTeeth": true}'
+  zebra_json <- '{"className": "zebra", "type": "plains"}'
+
+  mammal <- Mammal$new()
+  mammal$fromJSON(whale_json)
+  expect_equal(mammal$actual_type, "Whale")
+  expect_equal(mammal$actual_instance$hasBaleen, TRUE)
+  expect_equal(mammal$actual_instance$hasTeeth, TRUE)
+
+  mammal$fromJSON(zebra_json)
+  expect_equal(mammal$actual_type, "Zebra")
+  expect_equal(mammal$actual_instance$type, "plains")
+
+})
+
 test_that("Tests oneOf", {
   basque_pig_json <-
   '{"className": "BasquePig", "color": "red"}'
@@ -333,8 +349,8 @@ test_that("Tests oneOf", {
   expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
-  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  Failed to lookup discriminator value for Pig. Error message: EXPR must be a length 1 vector. Input: \\{\\}, The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  Failed to lookup discriminator value for Pig. Error message: EXPR must be a length 1 vector. Input: \\{\\}, The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
   # class name test
   expect_equal(get(class(basque_pig$actual_instance)[[1]], pos = -1)$classname, "BasquePig")

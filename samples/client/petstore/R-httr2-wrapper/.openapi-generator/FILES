@@ -20,6 +20,7 @@ R/danish_pig.R
 R/dog.R
 R/dog_all_of.R
 R/fake_api.R
+R/mammal.R
 R/model_api_response.R
 R/nested_one_of.R
 R/one_of_primitive_type_test.R
@@ -34,6 +35,8 @@ R/tag.R
 R/update_pet_request.R
 R/user.R
 R/user_api.R
+R/whale.R
+R/zebra.R
 README.md
 docs/AllofTagApiResponse.md
 docs/Animal.md
@@ -47,6 +50,7 @@ docs/DanishPig.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/FakeApi.md
+docs/Mammal.md
 docs/ModelApiResponse.md
 docs/NestedOneOf.md
 docs/OneOfPrimitiveTypeTest.md
@@ -60,5 +64,7 @@ docs/Tag.md
 docs/UpdatePetRequest.md
 docs/User.md
 docs/UserApi.md
+docs/Whale.md
+docs/Zebra.md
 git_push.sh
 tests/testthat.R

@@ -933,14 +933,6 @@ components:
         - $ref: '#/components/schemas/DanishPig'
       discriminator:
         propertyName: className
-    OneOfPrimitiveTypeTest:
-      oneOf:
-        - type: "integer"
-        - type: "string"
-    AnyOfPrimitiveTypeTest:
-      oneOf:
-        - type: "integer"
-        - type: "string"
     BasquePig:
       type: object
       properties:
@@ -968,3 +960,44 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+    OneOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    AnyOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    mammal:
+      oneOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+    whale:
+      type: object
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+        - className
+    zebra:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+      required:
+        - className

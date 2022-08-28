@@ -1,62 +1,62 @@
 #' @docType class
-#' @title Pig
+#' @title Mammal
 #'
-#' @description Pig Class
+#' @description Mammal Class
 #'
 #' @format An \code{R6Class} generator object
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
-Pig <- R6::R6Class(
-  "Pig",
+Mammal <- R6::R6Class(
+  "Mammal",
   public = list(
     #' @field actual_instance the object stored in this instance.
     actual_instance = NULL,
     #' @field actual_type the type of the object stored in this instance.
     actual_type = NULL,
     #' @field one_of  a list of types defined in the oneOf schema.
-    one_of = list("BasquePig", "DanishPig"),
-    #' Initialize a new Pig.
+    one_of = list("Whale", "Zebra"),
+    #' Initialize a new Mammal.
     #'
     #' @description
-    #' Initialize a new Pig.
+    #' Initialize a new Mammal.
     #'
-    #' @param instance an instance of the object defined in the oneOf schemas: "BasquePig", "DanishPig"
+    #' @param instance an instance of the object defined in the oneOf schemas: "Whale", "Zebra"
     #' @export
     initialize = function(instance = NULL) {
       if (is.null(instance)) {
         # do nothing
-      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "BasquePig") {
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "Whale") {
         self$actual_instance <- instance
-        self$actual_type <- "BasquePig"
-      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "DanishPig") {
+        self$actual_type <- "Whale"
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "Zebra") {
         self$actual_instance <- instance
-        self$actual_type <- "DanishPig"
+        self$actual_type <- "Zebra"
       } else {
-        stop(paste("Failed to initialize Pig with oneOf schemas BasquePig, DanishPig. Provided class name: ",
+        stop(paste("Failed to initialize Mammal with oneOf schemas Whale, Zebra. Provided class name: ",
                    get(class(instance)[[1]], pos = -1)$classname))
       }
     },
-    #' Deserialize JSON string into an instance of Pig.
+    #' Deserialize JSON string into an instance of Mammal.
     #'
     #' @description
-    #' Deserialize JSON string into an instance of Pig.
+    #' Deserialize JSON string into an instance of Mammal.
     #' An alias to the method `fromJSON` .
     #'
     #' @param input The input JSON.
-    #' @return An instance of Pig.
+    #' @return An instance of Mammal.
     #' @export
     fromJSONString = function(input) {
       self$fromJSON(input)
     },
-    #' Deserialize JSON string into an instance of Pig.
+    #' Deserialize JSON string into an instance of Mammal.
     #'
     #' @description
-    #' Deserialize JSON string into an instance of Pig.
+    #' Deserialize JSON string into an instance of Mammal.
     #'
     #' @param input The input JSON.
-    #' @return An instance of Pig.
+    #' @return An instance of Mammal.
     #' @export
     fromJSON = function(input) {
       matched <- 0 # match counter
@@ -64,57 +64,34 @@ Pig <- R6::R6Class(
       error_messages <- list()
       instance <- NULL
 
-      oneof_lookup_result <- tryCatch({
-          discriminatorValue <- (jsonlite::fromJSON(input, simplifyVector = FALSE))$`className`
-          switch(discriminatorValue,
-          BasquePig={
-            BasquePig$public_methods$validateJSON(input)
-            BasquePig_instance <- BasquePig$new()
-            self$actual_instance <- BasquePig_instance$fromJSON(input)
-            self$actual_type <- "BasquePig"
-            return(self)
-          },
-          DanishPig={
-            DanishPig$public_methods$validateJSON(input)
-            DanishPig_instance <- DanishPig$new()
-            self$actual_instance <- DanishPig_instance$fromJSON(input)
-            self$actual_type <- "DanishPig"
-            return(self)
-          })},
-          error = function(err) err
-      )
-      if (!is.null(oneof_lookup_result["error"])) {
-        error_messages <- append(error_messages, sprintf("Failed to lookup discriminator value for Pig. Error message: %s. Input: %s", oneof_lookup_result["message"], input))
-      }
-
-      BasquePig_result <- tryCatch({
-          BasquePig$public_methods$validateJSON(input)
-          BasquePig_instance <- BasquePig$new()
-          instance <- BasquePig_instance$fromJSON(input)
-          instance_type <- "BasquePig"
-          matched_schemas <- append(matched_schemas, "BasquePig")
+      Whale_result <- tryCatch({
+          Whale$public_methods$validateJSON(input)
+          Whale_instance <- Whale$new()
+          instance <- Whale_instance$fromJSON(input)
+          instance_type <- "Whale"
+          matched_schemas <- append(matched_schemas, "Whale")
           matched <- matched + 1
         },
         error = function(err) err
       )
 
-      if (!is.null(BasquePig_result["error"])) {
-        error_messages <- append(error_messages, BasquePig_result["message"])
+      if (!is.null(Whale_result["error"])) {
+        error_messages <- append(error_messages, Whale_result["message"])
       }
 
-      DanishPig_result <- tryCatch({
-          DanishPig$public_methods$validateJSON(input)
-          DanishPig_instance <- DanishPig$new()
-          instance <- DanishPig_instance$fromJSON(input)
-          instance_type <- "DanishPig"
-          matched_schemas <- append(matched_schemas, "DanishPig")
+      Zebra_result <- tryCatch({
+          Zebra$public_methods$validateJSON(input)
+          Zebra_instance <- Zebra$new()
+          instance <- Zebra_instance$fromJSON(input)
+          instance_type <- "Zebra"
+          matched_schemas <- append(matched_schemas, "Zebra")
           matched <- matched + 1
         },
         error = function(err) err
       )
 
-      if (!is.null(DanishPig_result["error"])) {
-        error_messages <- append(error_messages, DanishPig_result["message"])
+      if (!is.null(Zebra_result["error"])) {
+        error_messages <- append(error_messages, Zebra_result["message"])
       }
 
       if (matched == 1) {
@@ -123,21 +100,21 @@ Pig <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig.")
+        stop("Multiple matches found when deserializing the payload into Mammal with oneOf schemas Whale, Zebra.")
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ",
+        stop(paste("No match found when deserializing the payload into Mammal with oneOf schemas Whale, Zebra. Details: ",
                    paste(error_messages, collapse = ", ")))
       }
 
       self
     },
-    #' Serialize Pig to JSON string.
+    #' Serialize Mammal to JSON string.
     #'
     #' @description
-    #' Serialize Pig to JSON string.
+    #' Serialize Mammal to JSON string.
     #'
-    #' @return JSON string representation of the Pig.
+    #' @return JSON string representation of the Mammal.
     #' @export
     toJSONString = function() {
       if (!is.null(self$actual_instance)) {
@@ -146,12 +123,12 @@ Pig <- R6::R6Class(
         NULL
       }
     },
-    #' Serialize Pig to JSON.
+    #' Serialize Mammal to JSON.
     #'
     #' @description
-    #' Serialize Pig to JSON.
+    #' Serialize Mammal to JSON.
     #'
-    #' @return JSON representation of the Pig.
+    #' @return JSON representation of the Mammal.
     #' @export
     toJSON = function() {
       if (!is.null(self$actual_instance)) {
@@ -160,10 +137,10 @@ Pig <- R6::R6Class(
         NULL
       }
     },
-    #' Validate the input JSON with respect to Pig.
+    #' Validate the input JSON with respect to Mammal.
     #'
     #' @description
-    #' Validate the input JSON with respect to Pig and
+    #' Validate the input JSON with respect to Mammal and
     #' throw exception if invalid.
     #'
     #' @param input The input JSON.
@@ -202,7 +179,7 @@ Pig <- R6::R6Class(
 )
 
 # Unlock the class to allow modifications of the method or field
-Pig$unlock()
+Mammal$unlock()
 
 #' Print the object
 #'
@@ -210,11 +187,11 @@ Pig$unlock()
 #' Print the object
 #'
 #' @export
-Pig$set("public", "print", function(...) {
+Mammal$set("public", "print", function(...) {
   print(jsonlite::prettify(self$toJSONString()))
   invisible(self)
 })
 
 # Lock the class to prevent modifications to the method or field
-Pig$lock()
+Mammal$lock()
 

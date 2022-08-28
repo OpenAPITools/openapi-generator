@@ -3,6 +3,12 @@ install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 library(jsonlite)
 
+  whale_json <- '{"className": "whale", "hasBaleen": true, "hasTeeth": true}'
+  zebra_json <- '{"className": "zebra", "type": "plains"}'
+
+  mammal <- Mammal$new()
+  mammal$fromJSON(whale_json)
+
 api_client <- ApiClient$new()
 api_client$username <- "username999"
 api_client$password <- "password888"

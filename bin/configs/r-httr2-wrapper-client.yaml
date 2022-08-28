@@ -12,3 +12,4 @@ additionalProperties:
   errorObjectType: "ModelApiResponse"
   operationIdNaming: snake_case
   generateWrapper: true
+  useOneOfDiscriminatorLookup: true

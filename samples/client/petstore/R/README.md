@@ -100,6 +100,7 @@ Class | Method | HTTP request | Description
  - [DanishPig](docs/DanishPig.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)
  - [OneOfPrimitiveTypeTest](docs/OneOfPrimitiveTypeTest.md)
@@ -110,6 +111,8 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [UpdatePetRequest](docs/UpdatePetRequest.md)
  - [User](docs/User.md)
+ - [Whale](docs/Whale.md)
+ - [Zebra](docs/Zebra.md)
 
 
 ## Documentation for Authorization
