@@ -1,3 +1,4 @@
+{{>partial_header}}
 {{#operations}}
 #' @docType class
 #' @title {{baseName}} operations
@@ -181,7 +182,6 @@
 {{/useRlangExceptionHandling}}
 #' @export
 {{classname}} <- R6::R6Class(
-{{>partial_header}}
   "{{classname}}",
   public = list(
     api_client = NULL,
