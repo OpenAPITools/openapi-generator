@@ -61,6 +61,39 @@
       error_messages <- list()
       instance <- NULL
 
+      {{#useOneOfDiscriminatorLookup}}
+      {{#discriminator}}
+      oneof_lookup_result <- tryCatch({
+          discriminatorValue <- (jsonlite::fromJSON(input, simplifyVector = FALSE))$`{{{propertyBaseName}}}`
+          switch(discriminatorValue,
+          {{#mappedModels}}
+          {{{mappingName}}}={
+            {{{modelName}}}$public_methods$validateJSON(input)
+            {{{modelName}}}_instance <- {{{modelName}}}$new()
+            self$actual_instance <- {{{modelName}}}_instance$fromJSON(input)
+            self$actual_type <- "{{{modelName}}}"
+            return(self)
+          }{{^-last}},{{/-last}}{{#-last}})},{{/-last}}
+          {{/mappedModels}}
+          {{^mappedModels}}
+          {{#oneOf}}
+          {{{.}}}={
+            {{{.}}}$public_methods$validateJSON(input)
+            {{{.}}}_instance <- {{{.}}}$new()
+            self$actual_instance <- {{{.}}}_instance$fromJSON(input)
+            self$actual_type <- "{{{.}}}"
+            return(self)
+          }{{^-last}},{{/-last}}{{#-last}})},{{/-last}}
+          {{/oneOf}}
+          {{/mappedModels}}
+          error = function(err) err
+      )
+      if (!is.null(oneof_lookup_result["error"])) {
+        error_messages <- append(error_messages, sprintf("Failed to lookup discriminator value for {{classname}}. Error message: %s. Input: %s", oneof_lookup_result["message"], input))
+      }
+
+      {{/discriminator}}
+      {{/useOneOfDiscriminatorLookup}}
       {{#composedSchemas.oneOf}}
       {{^isNull}}
       {{{dataType}}}_result <- tryCatch({

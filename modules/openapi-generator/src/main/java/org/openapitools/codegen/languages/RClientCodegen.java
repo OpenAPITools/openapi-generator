@@ -76,6 +76,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String errorObjectType;
     protected String operationIdNaming;
     protected boolean generateWrapper;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -263,6 +264,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.get(GENERATE_WRAPPER).toString()));
         } else {
             this.setGenerateWrapper(false);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -621,6 +628,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setGenerateWrapper(final boolean generateWrapper) {
         this.generateWrapper = generateWrapper;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setOperationIdNaming(final String operationIdNaming) {
