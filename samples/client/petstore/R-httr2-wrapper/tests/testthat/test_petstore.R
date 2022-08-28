@@ -21,10 +21,11 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
-test_that("Test toJSON toJSONString fromJSON fromJSONString", {
+test_that("Test toJSON toJSONString fromJSON fromJSONString print", {
   # test pet
   expect_equal(pet_id, 123321)
   expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
+  print(pet) # should not return anything and output the result to the console
 
   # tests for other pet objects
   pet0 <- Pet$new()
