@@ -46,8 +46,8 @@ class TestAnimal(unittest.TestCase):
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Cat'
         assert animal.color == 'black'
-        assert animal.__class__.color is StrSchema
-        assert animal.__class__.className is StrSchema
+        assert isinstance(animal.color, StrSchema)
+        assert isinstance(animal.className, StrSchema)
 
         # pass in optional param
         animal = Animal(className='Cat', color='black', declawed=True)
@@ -59,35 +59,29 @@ class TestAnimal(unittest.TestCase):
         assert animal.className == 'Cat'
         assert animal.color == 'black'
         assert bool(animal.declawed) is True
-        assert animal.__class__.color is StrSchema
-        assert animal.__class__.className is StrSchema
-        assert animal.__class__.declawed is BoolSchema
+        assert isinstance(animal.color, StrSchema)
+        assert isinstance(animal.className, StrSchema)
+        assert isinstance(animal.declawed, BoolSchema)
 
         # make a Dog
         animal = Animal(className='Dog', color='black')
-        assert isinstance(animal, Animal)
-        assert isinstance(animal, frozendict)
-        assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog.MetaOapg.all_of[1])
+        assert isinstance(animal, (Animal, frozendict, Dog, Dog.MetaOapg.all_of[1]))
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'
-        assert animal.__class__.color is StrSchema
-        assert animal.__class__.className is StrSchema
+        assert isinstance(animal.color, StrSchema)
+        assert isinstance(animal.className, StrSchema)
 
         # pass in optional param
         animal = Animal(className='Dog', color='black', breed='Labrador')
-        assert isinstance(animal, Animal)
-        assert isinstance(animal, frozendict)
-        assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog.MetaOapg.all_of[1])
+        assert isinstance(animal, (Animal, frozendict, Dog, Dog.MetaOapg.all_of[1]))
         assert set(animal.keys()) == {'className', 'color', 'breed'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'
         assert animal.breed == 'Labrador'
-        assert animal.__class__.color is StrSchema
-        assert animal.__class__.className is StrSchema
-        assert animal.__class__.breed is StrSchema
+        assert isinstance(animal.color, StrSchema)
+        assert isinstance(animal.className, StrSchema)
+        assert isinstance(animal.breed, StrSchema)
 
 
 if __name__ == '__main__':

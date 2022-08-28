@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,15 +32,15 @@ Int64GroupSchema = schemas.Int64Schema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'required_string_group': RequiredStringGroupSchema,
-        'required_int64_group': RequiredInt64GroupSchema,
+        'required_string_group': typing.Union[RequiredStringGroupSchema, int, ],
+        'required_int64_group': typing.Union[RequiredInt64GroupSchema, int, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'string_group': StringGroupSchema,
-        'int64_group': Int64GroupSchema,
+        'string_group': typing.Union[StringGroupSchema, int, ],
+        'int64_group': typing.Union[Int64GroupSchema, int, ],
     },
     total=False
 )
@@ -81,13 +82,13 @@ BooleanGroupSchema = schemas.BoolSchema
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
-        'required_boolean_group': RequiredBooleanGroupSchema,
+        'required_boolean_group': typing.Union[RequiredBooleanGroupSchema, bool, ],
     }
 )
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'boolean_group': BooleanGroupSchema,
+        'boolean_group': typing.Union[BooleanGroupSchema, bool, ],
     },
     total=False
 )

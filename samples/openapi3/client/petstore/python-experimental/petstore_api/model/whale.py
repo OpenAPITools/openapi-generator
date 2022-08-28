@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,36 +32,44 @@ class Whale(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    hasBaleen = schemas.BoolSchema
-    hasTeeth = schemas.BoolSchema
-    
-    
-    class className(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "whale": "WHALE",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def WHALE(cls):
-            return cls("whale")
 
+
+    class MetaOapg:
+        required = {
+            "className",
+        }
+        class properties:
+            hasBaleen = schemas.BoolSchema
+            hasTeeth = schemas.BoolSchema
+            
+            
+            class className(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "whale": "WHALE",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def WHALE(cls):
+                    return cls("whale")
+        additional_properties = schemas.AnyTypeSchema
+    
+    hasBaleen: MetaOapg.properties.hasBaleen
+    hasTeeth: MetaOapg.properties.hasTeeth
+    className: MetaOapg.properties.className
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
-        hasBaleen: typing.Union[hasBaleen, schemas.Unset] = schemas.unset,
-        hasTeeth: typing.Union[hasTeeth, schemas.Unset] = schemas.unset,
+        className: typing.Union[MetaOapg.properties.className, str, ],
+        hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, bool, schemas.Unset] = schemas.unset,
+        hasTeeth: typing.Union[MetaOapg.properties.hasTeeth, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Whale':
         return super().__new__(
             cls,

@@ -14,20 +14,18 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#with items}}
-{{#if complexType}}
-
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['{{complexType}}']:
-        return {{complexType}}
-{{else}}
-    {{> model_templates/schema }}
-{{/if}}
-{{/with}}
-{{#if hasValidation}}
 
 
     class MetaOapg:
         {{> model_templates/validations }}
+{{#with items}}
+{{#if complexType}}
+
+        @classmethod
+        @property
+        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+            return {{complexType}}
+{{else}}
+        {{> model_templates/schema }}
 {{/if}}
+{{/with}}

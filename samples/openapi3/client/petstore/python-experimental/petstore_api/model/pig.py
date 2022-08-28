@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -32,18 +33,19 @@ class Pig(
     Do not edit the class manually.
     """
 
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'className': {
-                'BasquePig': BasquePig,
-                'DanishPig': DanishPig,
-            }
-        }
-
 
     class MetaOapg:
+        
+        @classmethod
+        @property
+        def discriminator(cls):
+            return {
+                'className': {
+                    'BasquePig': BasquePig,
+                    'DanishPig': DanishPig,
+                }
+            }
+        additional_properties = schemas.AnyTypeSchema
         
         @classmethod
         @property
@@ -63,9 +65,9 @@ class Pig(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Pig':
         return super().__new__(
             cls,

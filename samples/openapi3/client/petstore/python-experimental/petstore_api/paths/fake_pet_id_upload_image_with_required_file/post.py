@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -30,7 +31,7 @@ PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'petId': PetIdSchema,
+        'petId': typing.Union[PetIdSchema, int, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(
@@ -57,20 +58,27 @@ request_path_pet_id = api_client.PathParameter(
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    _required_property_names = {
-        "requiredFile",
-    }
-    additionalMetadata = schemas.StrSchema
-    requiredFile = schemas.BinarySchema
 
+
+    class MetaOapg:
+        required = {
+            "requiredFile",
+        }
+        class properties:
+            additionalMetadata = schemas.StrSchema
+            requiredFile = schemas.BinarySchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    additionalMetadata: MetaOapg.properties.additionalMetadata
+    requiredFile: MetaOapg.properties.requiredFile
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        requiredFile: requiredFile,
-        additionalMetadata: typing.Union[additionalMetadata, schemas.Unset] = schemas.unset,
+        requiredFile: typing.Union[MetaOapg.properties.requiredFile, ],
+        additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -122,7 +130,7 @@ class BaseApi(api_client.Api):
 
     def _upload_file_with_required_file(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -201,7 +209,7 @@ class UploadFileWithRequiredFile(BaseApi):
 
     def upload_file_with_required_file(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -228,7 +236,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,

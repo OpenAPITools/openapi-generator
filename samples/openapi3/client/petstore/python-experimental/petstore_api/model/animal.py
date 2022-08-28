@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,30 +32,37 @@ class Animal(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "className",
-    }
-    className = schemas.StrSchema
-    color = schemas.StrSchema
 
-    @classmethod
-    @property
-    def _discriminator(cls):
-        return {
-            'className': {
-                'Cat': Cat,
-                'Dog': Dog,
-            }
+
+    class MetaOapg:
+        required = {
+            "className",
         }
-
+        
+        @classmethod
+        @property
+        def discriminator(cls):
+            return {
+                'className': {
+                    'Cat': Cat,
+                    'Dog': Dog,
+                }
+            }
+        class properties:
+            className = schemas.StrSchema
+            color = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    className: MetaOapg.properties.className
+    color: MetaOapg.properties.color
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        className: className,
-        color: typing.Union[color, schemas.Unset] = schemas.unset,
+        className: typing.Union[MetaOapg.properties.className, str, ],
+        color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Animal':
         return super().__new__(
             cls,

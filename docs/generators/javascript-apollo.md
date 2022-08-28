@@ -7,7 +7,7 @@ title: Documentation for the javascript-apollo Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | javascript-apollo | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Javascript | |
 | generator default templating engine | mustache | |

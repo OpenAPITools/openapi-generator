@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -67,7 +68,7 @@ class BaseApi(api_client.Api):
 
     def _client_model(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -132,7 +133,7 @@ class ClientModel(BaseApi):
 
     def client_model(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -157,7 +158,7 @@ class ApiForpatch(BaseApi):
 
     def patch(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,

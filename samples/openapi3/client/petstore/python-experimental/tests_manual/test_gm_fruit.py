@@ -64,9 +64,8 @@ class TestGmFruit(unittest.TestCase):
         self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 
         # make sure that the ModelComposed class properties are correct
-        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit.MetaOapg.any_of,
+            GmFruit.MetaOapg.any_of,
             [
                 apple.Apple,
                 banana.Banana,

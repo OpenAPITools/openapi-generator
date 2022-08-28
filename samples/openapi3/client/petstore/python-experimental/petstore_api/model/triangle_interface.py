@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,34 +32,42 @@ class TriangleInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "shapeType",
-        "triangleType",
-    }
+
+
+    class MetaOapg:
+        required = {
+            "shapeType",
+            "triangleType",
+        }
+        class properties:
+            
+            
+            class shapeType(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "Triangle": "TRIANGLE",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def TRIANGLE(cls):
+                    return cls("Triangle")
+            triangleType = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
     
-    
-    class shapeType(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "Triangle": "TRIANGLE",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def TRIANGLE(cls):
-            return cls("Triangle")
-    triangleType = schemas.StrSchema
+    shapeType: MetaOapg.properties.shapeType
+    triangleType: MetaOapg.properties.triangleType
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        shapeType: shapeType,
-        triangleType: triangleType,
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
+        triangleType: typing.Union[MetaOapg.properties.triangleType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'TriangleInterface':
         return super().__new__(
             cls,

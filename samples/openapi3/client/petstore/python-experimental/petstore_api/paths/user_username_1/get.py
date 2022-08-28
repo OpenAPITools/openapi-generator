@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -30,7 +31,7 @@ UsernameSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'username': UsernameSchema,
+        'username': typing.Union[UsernameSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(

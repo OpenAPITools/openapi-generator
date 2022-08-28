@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -33,73 +34,90 @@ class Pet(
 
     Pet object that needs to be added to the store
     """
-    _required_property_names = {
-        "photoUrls",
-        "name",
-    }
-    id = schemas.Int64Schema
 
-    @classmethod
-    @property
-    def category(cls) -> typing.Type['Category']:
-        return Category
-    name = schemas.StrSchema
-    
-    
-    class photoUrls(
-        schemas.ListSchema
-    ):
-        _items = schemas.StrSchema
-    
-    
-    class tags(
-        schemas.ListSchema
-    ):
-    
-        @classmethod
-        @property
-        def _items(cls) -> typing.Type['Tag']:
-            return Tag
-    
-    
-    class status(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "available": "AVAILABLE",
-                "pending": "PENDING",
-                "sold": "SOLD",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def AVAILABLE(cls):
-            return cls("available")
-        
-        @classmethod
-        @property
-        def PENDING(cls):
-            return cls("pending")
-        
-        @classmethod
-        @property
-        def SOLD(cls):
-            return cls("sold")
 
+    class MetaOapg:
+        required = {
+            "photoUrls",
+            "name",
+        }
+        class properties:
+            id = schemas.Int64Schema
+        
+            @classmethod
+            @property
+            def category(cls) -> typing.Type['Category']:
+                return Category
+            name = schemas.StrSchema
+            
+            
+            class photoUrls(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+            
+            class tags(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+            
+                    @classmethod
+                    @property
+                    def items(cls) -> typing.Type['Tag']:
+                        return Tag
+            
+            
+            class status(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "available": "AVAILABLE",
+                        "pending": "PENDING",
+                        "sold": "SOLD",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def AVAILABLE(cls):
+                    return cls("available")
+                
+                @classmethod
+                @property
+                def PENDING(cls):
+                    return cls("pending")
+                
+                @classmethod
+                @property
+                def SOLD(cls):
+                    return cls("sold")
+        additional_properties = schemas.AnyTypeSchema
+    
+    id: MetaOapg.properties.id
+    category: 'Category'
+    name: MetaOapg.properties.name
+    photoUrls: MetaOapg.properties.photoUrls
+    tags: MetaOapg.properties.tags
+    status: MetaOapg.properties.status
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        photoUrls: photoUrls,
-        name: name,
-        id: typing.Union[id, schemas.Unset] = schemas.unset,
+        photoUrls: typing.Union[MetaOapg.properties.photoUrls, tuple, ],
+        name: typing.Union[MetaOapg.properties.name, str, ],
+        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
-        tags: typing.Union[tags, schemas.Unset] = schemas.unset,
-        status: typing.Union[status, schemas.Unset] = schemas.unset,
+        tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
+        status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Pet':
         return super().__new__(
             cls,

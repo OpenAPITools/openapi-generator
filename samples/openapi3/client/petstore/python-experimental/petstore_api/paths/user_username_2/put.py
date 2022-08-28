@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -30,7 +31,7 @@ UsernameSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'username': UsernameSchema,
+        'username': typing.Union[UsernameSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(
@@ -96,7 +97,7 @@ class BaseApi(api_client.Api):
 
     def _update_user(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -171,7 +172,7 @@ class UpdateUser(BaseApi):
 
     def update_user(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -195,7 +196,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,

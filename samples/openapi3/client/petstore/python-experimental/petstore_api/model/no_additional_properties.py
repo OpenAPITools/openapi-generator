@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,19 +32,25 @@ class NoAdditionalProperties(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "id",
-    }
-    id = schemas.Int64Schema
-    petId = schemas.Int64Schema
-    _additional_properties = None
 
+
+    class MetaOapg:
+        required = {
+            "id",
+        }
+        class properties:
+            id = schemas.Int64Schema
+            petId = schemas.Int64Schema
+        additional_properties = None
+    
+    id: MetaOapg.properties.id
+    petId: MetaOapg.properties.petId
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        id: id,
-        petId: typing.Union[petId, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, int, ],
+        petId: typing.Union[MetaOapg.properties.petId, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'NoAdditionalProperties':
         return super().__new__(

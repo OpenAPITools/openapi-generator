@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -34,6 +35,7 @@ class NestedAnyofToCheckValidationSemantics(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class any_of_0(
@@ -42,6 +44,7 @@ class NestedAnyofToCheckValidationSemantics(
         
         
             class MetaOapg:
+                additional_properties = schemas.AnyTypeSchema
                 any_of_0 = schemas.NoneSchema
                 
                 @classmethod
@@ -61,9 +64,9 @@ class NestedAnyofToCheckValidationSemantics(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'any_of_0':
                 return super().__new__(
                     cls,
@@ -89,9 +92,9 @@ class NestedAnyofToCheckValidationSemantics(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'NestedAnyofToCheckValidationSemantics':
         return super().__new__(
             cls,

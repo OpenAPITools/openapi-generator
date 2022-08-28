@@ -30,7 +30,7 @@ class TestObjectModelWithRefProps(unittest.TestCase):
 
     def testObjectModelWithRefProps(self):
         """Test ObjectModelWithRefProps"""
-        self.assertEqual(ObjectModelWithRefProps.myNumber, NumberWithValidations)
+        self.assertEqual(ObjectModelWithRefProps.MetaOapg.properties.myNumber, NumberWithValidations)
 
         inst = ObjectModelWithRefProps(myNumber=15.0, myString="a", myBoolean=True)
         assert isinstance(inst, ObjectModelWithRefProps)
@@ -39,9 +39,9 @@ class TestObjectModelWithRefProps(unittest.TestCase):
         assert inst.myNumber == 15.0
         assert isinstance(inst.myNumber, NumberWithValidations)
         assert inst.myString == 'a'
-        assert isinstance(inst.myString, ObjectModelWithRefProps.myString)
+        assert isinstance(inst.myString, ObjectModelWithRefProps.MetaOapg.properties.myString)
         assert bool(inst.myBoolean) is True
-        assert isinstance(inst.myBoolean, ObjectModelWithRefProps.myBoolean)
+        assert isinstance(inst.myBoolean, ObjectModelWithRefProps.MetaOapg.properties.myBoolean)
         assert isinstance(inst.myBoolean, BoolClass)
 
 

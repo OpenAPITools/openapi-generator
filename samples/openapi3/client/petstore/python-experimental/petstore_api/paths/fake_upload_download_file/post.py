@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -65,7 +66,7 @@ class BaseApi(api_client.Api):
 
     def _upload_download_file(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationOctetStream],
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
         content_type: str = 'application/octet-stream',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -130,7 +131,7 @@ class UploadDownloadFile(BaseApi):
 
     def upload_download_file(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationOctetStream],
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
         content_type: str = 'application/octet-stream',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -155,7 +156,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationOctetStream],
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
         content_type: str = 'application/octet-stream',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,

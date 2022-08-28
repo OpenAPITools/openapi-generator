@@ -18,6 +18,7 @@ from unit_test_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -57,7 +58,7 @@ class BaseApi(api_client.Api):
 
     def _post_uniqueitems_false_validation_request_body(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -117,7 +118,7 @@ class PostUniqueitemsFalseValidationRequestBody(BaseApi):
 
     def post_uniqueitems_false_validation_request_body(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -140,7 +141,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -30,7 +31,7 @@ QuerySchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'query': QuerySchema,
+        'query': typing.Union[QuerySchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
@@ -84,7 +85,7 @@ class BaseApi(api_client.Api):
 
     def _body_with_query_params(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -159,7 +160,7 @@ class BodyWithQueryParams(BaseApi):
 
     def body_with_query_params(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
@@ -184,7 +185,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,

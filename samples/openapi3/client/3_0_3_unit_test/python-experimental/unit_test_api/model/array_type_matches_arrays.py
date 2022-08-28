@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,4 +32,7 @@ class ArrayTypeMatchesArrays(
 
     Do not edit the class manually.
     """
-    _items = schemas.AnyTypeSchema
+
+
+    class MetaOapg:
+        items = schemas.AnyTypeSchema

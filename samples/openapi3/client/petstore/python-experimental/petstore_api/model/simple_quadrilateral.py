@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,34 +35,41 @@ class SimpleQuadrilateral(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
             schemas.DictSchema
         ):
-            
-            
-            class quadrilateralType(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def SIMPLE_QUADRILATERAL(cls):
-                    return cls("SimpleQuadrilateral")
         
+        
+            class MetaOapg:
+                class properties:
+                    
+                    
+                    class quadrilateralType(
+                        schemas.SchemaEnumMakerClsFactory(
+                            enum_value_to_name={
+                                "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
+                            }
+                        ),
+                        schemas.StrSchema
+                    ):
+                        
+                        @classmethod
+                        @property
+                        def SIMPLE_QUADRILATERAL(cls):
+                            return cls("SimpleQuadrilateral")
+                additional_properties = schemas.AnyTypeSchema
+            
+            quadrilateralType: MetaOapg.properties.quadrilateralType
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                quadrilateralType: typing.Union[quadrilateralType, schemas.Unset] = schemas.unset,
+                quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -89,9 +97,9 @@ class SimpleQuadrilateral(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SimpleQuadrilateral':
         return super().__new__(
             cls,

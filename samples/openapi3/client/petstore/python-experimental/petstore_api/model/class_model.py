@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -33,14 +34,21 @@ class ClassModel(
 
     Model for testing model with "_class" property
     """
-    _class = schemas.StrSchema
+
+
+    class MetaOapg:
+        class properties:
+            _class = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    _class: MetaOapg.properties._class
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _class: typing.Union[_class, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        _class: typing.Union[MetaOapg.properties._class, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ClassModel':
         return super().__new__(
             cls,

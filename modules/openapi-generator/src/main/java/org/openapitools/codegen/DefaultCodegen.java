@@ -5936,7 +5936,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (String lib : supportedLibraries.keySet()) {
             sb.append("\n").append(lib).append(" - ").append(supportedLibraries.get(lib));
         }
-        return new CliOption("library", sb.toString());
+        return new CliOption(CodegenConstants.LIBRARY, sb.toString());
     }
 
     /**

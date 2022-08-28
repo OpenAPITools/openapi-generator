@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,34 +32,42 @@ class QuadrilateralInterface(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "shapeType",
-        "quadrilateralType",
-    }
+
+
+    class MetaOapg:
+        required = {
+            "shapeType",
+            "quadrilateralType",
+        }
+        class properties:
+            
+            
+            class shapeType(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "Quadrilateral": "QUADRILATERAL",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def QUADRILATERAL(cls):
+                    return cls("Quadrilateral")
+            quadrilateralType = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
     
-    
-    class shapeType(
-        schemas.SchemaEnumMakerClsFactory(
-            enum_value_to_name={
-                "Quadrilateral": "QUADRILATERAL",
-            }
-        ),
-        schemas.StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def QUADRILATERAL(cls):
-            return cls("Quadrilateral")
-    quadrilateralType = schemas.StrSchema
+    shapeType: MetaOapg.properties.shapeType
+    quadrilateralType: MetaOapg.properties.quadrilateralType
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        shapeType: shapeType,
-        quadrilateralType: quadrilateralType,
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
+        quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,

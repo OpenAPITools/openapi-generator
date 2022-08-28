@@ -17,6 +17,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -28,15 +29,21 @@ from . import path
 class MapBeanSchema(
     schemas.DictSchema
 ):
-    keyword = schemas.StrSchema
 
+
+    class MetaOapg:
+        class properties:
+            keyword = schemas.StrSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    keyword: MetaOapg.properties.keyword
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        keyword: typing.Union[keyword, schemas.Unset] = schemas.unset,
+        keyword: typing.Union[MetaOapg.properties.keyword, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'MapBeanSchema':
         return super().__new__(
             cls,
@@ -53,7 +60,7 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'mapBean': MapBeanSchema,
+        'mapBean': typing.Union[MapBeanSchema, dict, frozendict, ],
     },
     total=False
 )

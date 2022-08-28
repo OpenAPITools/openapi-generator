@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,19 +32,31 @@ class NestedItems(
 
     Do not edit the class manually.
     """
-    
-    
-    class _items(
-        schemas.ListSchema
-    ):
+
+
+    class MetaOapg:
         
         
-        class _items(
+        class items(
             schemas.ListSchema
         ):
-            
-            
-            class _items(
-                schemas.ListSchema
-            ):
-                _items = schemas.NumberSchema
+        
+        
+            class MetaOapg:
+                
+                
+                class items(
+                    schemas.ListSchema
+                ):
+                
+                
+                    class MetaOapg:
+                        
+                        
+                        class items(
+                            schemas.ListSchema
+                        ):
+                        
+                        
+                            class MetaOapg:
+                                items = schemas.NumberSchema

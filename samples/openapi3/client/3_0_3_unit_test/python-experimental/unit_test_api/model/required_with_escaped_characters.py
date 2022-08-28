@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -31,20 +32,24 @@ class RequiredWithEscapedCharacters(
 
     Do not edit the class manually.
     """
-    _required_property_names = {
-        "foo\"bar",
-        "foo\nbar",
-        "foo\fbar",
-        "foo\tbar",
-        "foo\rbar",
-        "foo\\bar",
-    }
+
+
+    class MetaOapg:
+        required = {
+            "foo\"bar",
+            "foo\nbar",
+            "foo\fbar",
+            "foo\tbar",
+            "foo\rbar",
+            "foo\\bar",
+        }
+        additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'RequiredWithEscapedCharacters':
         return super().__new__(
             cls,

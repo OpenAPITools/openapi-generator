@@ -271,7 +271,7 @@ export class PetService {
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (status) {
             localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                status.join(COLLECTION_FORMATS['csv']), 'status');
+                [...status].join(COLLECTION_FORMATS['csv']), 'status');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -346,7 +346,7 @@ export class PetService {
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (tags) {
             localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                tags.join(COLLECTION_FORMATS['csv']), 'tags');
+                [...tags].join(COLLECTION_FORMATS['csv']), 'tags');
         }
 
         let localVarHeaders = this.defaultHeaders;

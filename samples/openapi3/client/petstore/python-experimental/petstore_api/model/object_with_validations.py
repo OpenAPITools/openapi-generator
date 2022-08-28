@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,14 +35,14 @@ class ObjectWithValidations(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         min_properties = 2
-
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithValidations':
         return super().__new__(
             cls,

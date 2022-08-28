@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,20 +35,27 @@ class Dog(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
             schemas.DictSchema
         ):
-            breed = schemas.StrSchema
         
+        
+            class MetaOapg:
+                class properties:
+                    breed = schemas.StrSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            breed: MetaOapg.properties.breed
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                breed: typing.Union[breed, schemas.Unset] = schemas.unset,
+                breed: typing.Union[MetaOapg.properties.breed, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -75,9 +83,9 @@ class Dog(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Dog':
         return super().__new__(
             cls,

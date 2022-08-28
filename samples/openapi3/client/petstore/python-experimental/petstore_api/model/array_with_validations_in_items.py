@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,16 +32,16 @@ class ArrayWithValidationsInItems(
 
     Do not edit the class manually.
     """
-    
-    
-    class _items(
-        schemas.Int64Schema
-    ):
-    
-    
-        class MetaOapg:
-            inclusive_maximum = 7
 
 
     class MetaOapg:
         max_items = 2
+        
+        
+        class items(
+            schemas.Int64Schema
+        ):
+        
+        
+            class MetaOapg:
+                inclusive_maximum = 7

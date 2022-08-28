@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -33,33 +34,39 @@ class HealthCheckResult(
 
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     """
-    
-    
-    class NullableMessage(
-        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
-        schemas.StrBase,
-        schemas.NoneBase,
-        schemas.Schema
-    ):
-    
-        def __new__(
-            cls,
-            *args: typing.Union[str, None, ],
-            _configuration: typing.Optional[schemas.Configuration] = None,
-        ) -> 'NullableMessage':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-            )
 
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class NullableMessage(
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema
+            ):
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[None, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'NullableMessage':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+        additional_properties = schemas.AnyTypeSchema
+    
+    NullableMessage: MetaOapg.properties.NullableMessage
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        NullableMessage: typing.Union[NullableMessage, schemas.Unset] = schemas.unset,
+        NullableMessage: typing.Union[MetaOapg.properties.NullableMessage, None, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'HealthCheckResult':
         return super().__new__(
             cls,

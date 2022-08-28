@@ -847,3 +847,13 @@ components:
         uuid:
           type: string
           format: uuid
+    Return:
+      description: Test using keywords
+      type: object
+      properties:
+        match:
+          type: integer
+        async:
+          type: boolean
+        super:
+          type: boolean

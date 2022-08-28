@@ -18,6 +18,7 @@ from unit_test_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -29,20 +30,24 @@ from . import path
 class SchemaForRequestBodyApplicationJson(
     schemas.AnyTypeSchema,
 ):
-    _required_property_names = {
-        "foo\"bar",
-        "foo\nbar",
-        "foo\fbar",
-        "foo\tbar",
-        "foo\rbar",
-        "foo\\bar",
-    }
+
+
+    class MetaOapg:
+        required = {
+            "foo\"bar",
+            "foo\nbar",
+            "foo\fbar",
+            "foo\tbar",
+            "foo\rbar",
+            "foo\\bar",
+        }
+        additional_properties = schemas.AnyTypeSchema
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -80,7 +85,7 @@ class BaseApi(api_client.Api):
 
     def _post_required_with_escaped_characters_request_body(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -140,7 +145,7 @@ class PostRequiredWithEscapedCharactersRequestBody(BaseApi):
 
     def post_required_with_escaped_characters_request_body(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -163,7 +168,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

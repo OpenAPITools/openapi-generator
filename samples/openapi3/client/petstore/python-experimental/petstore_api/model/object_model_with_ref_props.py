@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,22 +35,30 @@ class ObjectModelWithRefProps(
     a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
     """
 
-    @classmethod
-    @property
-    def myNumber(cls) -> typing.Type['NumberWithValidations']:
-        return NumberWithValidations
-    myString = schemas.StrSchema
-    myBoolean = schemas.BoolSchema
 
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def myNumber(cls) -> typing.Type['NumberWithValidations']:
+                return NumberWithValidations
+            myString = schemas.StrSchema
+            myBoolean = schemas.BoolSchema
+        additional_properties = schemas.AnyTypeSchema
+    
+    myNumber: 'NumberWithValidations'
+    myString: MetaOapg.properties.myString
+    myBoolean: MetaOapg.properties.myBoolean
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
         myNumber: typing.Union['NumberWithValidations', schemas.Unset] = schemas.unset,
-        myString: typing.Union[myString, schemas.Unset] = schemas.unset,
-        myBoolean: typing.Union[myBoolean, schemas.Unset] = schemas.unset,
+        myString: typing.Union[MetaOapg.properties.myString, str, schemas.Unset] = schemas.unset,
+        myBoolean: typing.Union[MetaOapg.properties.myBoolean, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectModelWithRefProps':
         return super().__new__(
             cls,

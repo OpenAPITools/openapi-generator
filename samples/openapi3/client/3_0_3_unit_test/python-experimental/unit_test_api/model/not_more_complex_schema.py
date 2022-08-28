@@ -19,6 +19,7 @@ from frozendict import frozendict  # noqa: F401
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -34,20 +35,27 @@ class NotMoreComplexSchema(
 
 
     class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class not_schema(
             schemas.DictSchema
         ):
-            foo = schemas.StrSchema
         
+        
+            class MetaOapg:
+                class properties:
+                    foo = schemas.StrSchema
+                additional_properties = schemas.AnyTypeSchema
+            
+            foo: MetaOapg.properties.foo
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+                foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'not_schema':
                 return super().__new__(
                     cls,
@@ -59,9 +67,9 @@ class NotMoreComplexSchema(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'NotMoreComplexSchema':
         return super().__new__(
             cls,

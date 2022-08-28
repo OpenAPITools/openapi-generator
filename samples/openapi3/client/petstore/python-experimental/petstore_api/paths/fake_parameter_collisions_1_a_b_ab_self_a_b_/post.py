@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -37,11 +38,11 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'Ab': AbSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     },
     total=False
 )
@@ -94,10 +95,10 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     },
     total=False
 )
@@ -136,11 +137,11 @@ ABSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'Ab': AbSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(
@@ -199,11 +200,11 @@ RequestRequiredCookieParams = typing.TypedDict(
 RequestOptionalCookieParams = typing.TypedDict(
     'RequestOptionalCookieParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'Ab': AbSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     },
     total=False
 )
@@ -284,7 +285,7 @@ class BaseApi(api_client.Api):
 
     def _parameter_collisions(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),
@@ -400,7 +401,7 @@ class ParameterCollisions(BaseApi):
 
     def parameter_collisions(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),
@@ -433,7 +434,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict(),
         header_params: RequestHeaderParams = frozendict(),
         path_params: RequestPathParams = frozendict(),

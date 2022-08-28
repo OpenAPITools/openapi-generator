@@ -18,6 +18,7 @@ from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
+import uuid  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -100,7 +101,7 @@ class BaseApi(api_client.Api):
 
     def _update_pet(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -165,7 +166,7 @@ class UpdatePet(BaseApi):
 
     def update_pet(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -189,7 +190,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
         host_index: typing.Optional[int] = None,
         stream: bool = False,
