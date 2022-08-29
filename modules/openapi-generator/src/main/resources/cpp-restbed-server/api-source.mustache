@@ -154,10 +154,6 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}
     {{>api-source-HandlerBody}}
     {{/lambda.indented}}
 
-    {{#hasBodyParam}}
-    });
-    {{/hasBodyParam}}
-    
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}

@@ -58,11 +58,6 @@ boost::split({{{paramName}}}_temp, {{{paramName}}}_raw, boost::is_any_of(","));
 std::copy({{{paramName}}}_temp.begin(), {{{paramName}}}_temp.end(), std::inserter({{{paramName}}}, std::next({{{paramName}}}.begin())));
 {{/isString}}
 {{^isString}}
-        #if 0
-        /*
-    {{{.}}}
-        */
-        #endif
 std::transform({{{paramName}}}_temp.begin(), {{{paramName}}}_temp.end(), std::back_inserter({{{paramName}}}), [](const auto& i){ {{{dataType}}} ret; ret.fromString(i); return ret;});
 {{/isString}}
 {{/items}}
