@@ -10,13 +10,13 @@
 """
 
 
-import sys
 import unittest
 from datetime import date, datetime, timezone
 from dateutil.tz import tzutc
 
-import petstore_api
-from petstore_api.schemas import DateSchema, DateTimeSchema, Singleton, NoneClass, frozendict
+import frozendict
+
+from petstore_api.schemas import DateSchema, DateTimeSchema, Singleton, NoneClass
 from petstore_api.model.animal import Animal
 from petstore_api.model.cat import Cat
 from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
@@ -42,13 +42,13 @@ class TestComposedOneOfDifferentTypes(unittest.TestCase):
         assert isinstance(inst, ComposedOneOfDifferentTypes)
         assert isinstance(inst, Animal)
         assert isinstance(inst, Cat)
-        assert isinstance(inst, frozendict)
+        assert isinstance(inst, frozendict.frozendict)
 
         # object that holds 4 properties and is not an Animal
         inst = ComposedOneOfDifferentTypes(a="a", b="b", c="c", d="d")
         assert isinstance(inst, ComposedOneOfDifferentTypes)
         assert not isinstance(inst, Animal)
-        assert isinstance(inst, frozendict)
+        assert isinstance(inst, frozendict.frozendict)
 
         # None
         inst = ComposedOneOfDifferentTypes(None)

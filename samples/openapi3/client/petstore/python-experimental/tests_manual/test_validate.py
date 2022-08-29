@@ -4,6 +4,8 @@ from decimal import Decimal
 from unittest.mock import patch, call
 import unittest
 
+import frozendict
+
 from petstore_api.model.string_with_validation import StringWithValidation
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.number_with_validations import NumberWithValidations
@@ -29,7 +31,6 @@ from petstore_api.schemas import (
     NumberSchema,
     Schema,
     ValidationMetadata,
-    frozendict,
 )
 
 
@@ -76,17 +77,17 @@ class TestValidateResults(unittest.TestCase):
 
     def test_empty_dict_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = Foo._validate(frozendict({}), validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): {Foo, frozendict}}
+        path_to_schemas = Foo._validate(frozendict.frozendict({}), validation_metadata=vm)
+        assert path_to_schemas == {("args[0]",): {Foo, frozendict.frozendict}}
 
     def test_dict_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Foo._validate(
-            frozendict({"bar": "a", "additional": Decimal(0)}),
+            frozendict.frozendict({"bar": "a", "additional": Decimal(0)}),
             validation_metadata=vm,
         )
         assert path_to_schemas == {
-            ("args[0]",): {Foo, frozendict},
+            ("args[0]",): {Foo, frozendict.frozendict},
             ("args[0]", "bar"): {StrSchema, str},
             ("args[0]", "additional"): {AnyTypeSchema, Decimal},
         }
@@ -94,10 +95,10 @@ class TestValidateResults(unittest.TestCase):
     def test_discriminated_dict_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Animal._validate(
-            frozendict(className="Dog", color="black"), validation_metadata=vm
+            frozendict.frozendict(className="Dog", color="black"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of[1], frozendict},
+            ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of[1], frozendict.frozendict},
             ("args[0]", "className"): {StrSchema, AnyTypeSchema, str},
             ("args[0]", "color"): {StrSchema, AnyTypeSchema, str},
         }
@@ -110,21 +111,21 @@ class TestValidateResults(unittest.TestCase):
     def test_oneof_composition_pig_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Pig._validate(
-            frozendict(className="DanishPig"), validation_metadata=vm
+            frozendict.frozendict(className="DanishPig"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): {Pig, DanishPig, frozendict},
+            ("args[0]",): {Pig, DanishPig, frozendict.frozendict},
             ("args[0]", "className"): {DanishPig.MetaOapg.properties.className, AnyTypeSchema, str},
         }
 
     def test_anyof_composition_gm_fruit_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = GmFruit._validate(
-            frozendict(cultivar="GoldenDelicious", lengthCm=Decimal(10)),
+            frozendict.frozendict(cultivar="GoldenDelicious", lengthCm=Decimal(10)),
             validation_metadata=vm,
         )
         assert path_to_schemas == {
-            ("args[0]",): {GmFruit, Apple, Banana, frozendict},
+            ("args[0]",): {GmFruit, Apple, Banana, frozendict.frozendict},
             ("args[0]", "cultivar"): {Apple.MetaOapg.properties.cultivar, AnyTypeSchema, str},
             ("args[0]", "lengthCm"): {AnyTypeSchema, NumberSchema, Decimal},
         }
@@ -146,7 +147,7 @@ class TestValidateCalls(unittest.TestCase):
             assert mock_validate.call_count == 1
 
     def test_empty_dict_validate(self):
-        return_value = {("args[0]",): {Foo, frozendict}}
+        return_value = {("args[0]",): {Foo, frozendict.frozendict}}
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:
@@ -217,14 +218,14 @@ class TestValidateCalls(unittest.TestCase):
 
     def test_dict_validate_direct_instantiation(self):
         call_results = [
-            {("args[0]",): {Foo, frozendict}},
+            {("args[0]",): {Foo, frozendict.frozendict}},
             {("args[0]", "bar"): {StrSchema, str}}
         ]
         with patch.object(Schema, "_validate", side_effect=call_results) as mock_validate:
             Foo(bar="a")
             calls = [
                 call(
-                    frozendict({"bar": "a"}),
+                    frozendict.frozendict({"bar": "a"}),
                     validation_metadata=ValidationMetadata(path_to_item=("args[0]",)),
                 ),
                 call(
@@ -239,13 +240,13 @@ class TestValidateCalls(unittest.TestCase):
     def test_dict_validate_direct_instantiation_cast_item(self):
         bar = StrSchema("a")
         return_value = {
-            ("args[0]",): {Foo, frozendict}
+            ("args[0]",): {Foo, frozendict.frozendict}
         }
         # only the Foo dict is validated because the bar property value was already validated
         with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             Foo(bar=bar)
             mock_validate.assert_called_once_with(
-                frozendict(dict(bar='a')),
+                frozendict.frozendict(dict(bar='a')),
                 validation_metadata=ValidationMetadata(
                     validated_path_to_schemas={('args[0]', 'bar'): {str, StrSchema}}
                 )
@@ -254,14 +255,14 @@ class TestValidateCalls(unittest.TestCase):
     def test_dict_validate_from_openapi_data_instantiation(self):
 
         return_values = [
-            {("args[0]",): {Foo, frozendict}},
+            {("args[0]",): {Foo, frozendict.frozendict}},
             {("args[0]", 'bar'): {StrSchema, str}}
         ]
         with patch.object(Schema, "_validate", side_effect=return_values) as mock_validate:
             Foo._from_openapi_data({"bar": "a"})
             calls = [
                 call(
-                    frozendict({"bar": "a"}),
+                    frozendict.frozendict({"bar": "a"}),
                     validation_metadata=ValidationMetadata(path_to_item=("args[0]",), from_server=True),
                 ),
                 call(

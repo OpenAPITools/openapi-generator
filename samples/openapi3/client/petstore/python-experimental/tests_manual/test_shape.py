@@ -13,10 +13,11 @@
 import sys
 import unittest
 
+import frozendict
+
 import petstore_api
-from petstore_api.schemas import Singleton, frozendict
+from petstore_api.schemas import Singleton
 from petstore_api.model.shape import Shape
-from petstore_api.model import quadrilateral
 from petstore_api.model import complex_quadrilateral
 from petstore_api.model import simple_quadrilateral
 from petstore_api.model import triangle
@@ -52,7 +53,7 @@ class TestShape(unittest.TestCase):
         assert isinstance(tri, triangle.Triangle)
         assert isinstance(tri, triangle_interface.TriangleInterface)
         assert isinstance(tri, Shape)
-        assert isinstance(tri, frozendict)
+        assert isinstance(tri, frozendict.frozendict)
         assert isinstance(tri.shapeType, str)
         assert isinstance(tri.shapeType, Singleton)
 
