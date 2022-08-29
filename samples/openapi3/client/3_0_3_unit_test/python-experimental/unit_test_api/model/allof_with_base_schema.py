@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -40,6 +38,9 @@ class AllofWithBaseSchema(
         }
         class properties:
             bar = schemas.IntSchema
+            __annotations__ = {
+                "bar": bar,
+            }
         additional_properties = schemas.AnyTypeSchema
         
         
@@ -54,17 +55,27 @@ class AllofWithBaseSchema(
                 }
                 class properties:
                     foo = schemas.StrSchema
+                    __annotations__ = {
+                        "foo": foo,
+                    }
                 additional_properties = schemas.AnyTypeSchema
         
             
             foo: MetaOapg.properties.foo
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 foo: typing.Union[MetaOapg.properties.foo, str, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_0':
                 return super().__new__(
                     cls,
@@ -86,17 +97,27 @@ class AllofWithBaseSchema(
                 }
                 class properties:
                     baz = schemas.NoneSchema
+                    __annotations__ = {
+                        "baz": baz,
+                    }
                 additional_properties = schemas.AnyTypeSchema
         
             
             baz: MetaOapg.properties.baz
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.properties.baz: ...
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 baz: typing.Union[MetaOapg.properties.baz, None, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -124,13 +145,20 @@ class AllofWithBaseSchema(
 
     
     bar: MetaOapg.properties.bar
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         bar: typing.Union[MetaOapg.properties.bar, int, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'AllofWithBaseSchema':
         return super().__new__(
             cls,

@@ -1362,7 +1362,7 @@ class DictBase(Discriminable, ValidatorBase):
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
             if isinstance(schema, classmethod):
-                # call classmethod property
+                # referenced schema, call classmethod property
                 schema = schema.__func__.fget(properties)
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,

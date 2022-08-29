@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -40,10 +38,14 @@ class RefInAdditionalproperties(
         @property
         def additional_properties(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
             return PropertyNamedRefThatIsNotAReference
+    
+    def __getitem__(self, name: str) -> 'PropertyNamedRefThatIsNotAReference':
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: 'PropertyNamedRefThatIsNotAReference',
     ) -> 'RefInAdditionalproperties':

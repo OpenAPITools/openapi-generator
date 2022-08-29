@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -47,12 +45,16 @@ class ForbiddenProperty(
                     additional_properties = schemas.AnyTypeSchema
                     not_schema = schemas.AnyTypeSchema
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                    *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 ) -> 'foo':
                     return super().__new__(
                         cls,
@@ -60,17 +62,27 @@ class ForbiddenProperty(
                         _configuration=_configuration,
                         **kwargs,
                     )
+            __annotations__ = {
+                "foo": foo,
+            }
         additional_properties = schemas.AnyTypeSchema
 
     
     foo: MetaOapg.properties.foo
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-        foo: typing.Union[MetaOapg.properties.foo, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        foo: typing.Union[MetaOapg.properties.foo, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ForbiddenProperty':
         return super().__new__(
             cls,

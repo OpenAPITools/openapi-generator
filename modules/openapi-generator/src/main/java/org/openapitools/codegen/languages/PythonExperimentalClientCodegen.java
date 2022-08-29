@@ -996,6 +996,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        // fix needed for values with /n /t etc in them
+        String fixedName = handleSpecialCharacters(name);
         CodegenProperty cp = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
 
         if (cp.isAnyType && cp.isNullable) {
@@ -1013,9 +1015,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // set cp.nameInSnakeCase to a value so we can tell that we are in this use case
         // we handle this in the schema templates
         // templates use its presence to handle these badly named variables / keys
-        if ((isReservedWord(name) || !isValidPythonVarOrClassName(name)) && !name.equals(cp.name)) {
+        if ((isReservedWord(fixedName) || !isValidPythonVarOrClassName(fixedName)) && !fixedName.equals(name)) {
             cp.nameInSnakeCase = cp.name;
-            cp.baseName = (String) processTestExampleData(name);
         } else {
             cp.nameInSnakeCase = null;
         }

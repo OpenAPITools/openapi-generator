@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -39,7 +37,7 @@ class ArrayTypeMatchesArrays(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'ArrayTypeMatchesArrays':
         return super().__new__(
@@ -48,5 +46,5 @@ class ArrayTypeMatchesArrays(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)

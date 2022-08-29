@@ -36,16 +36,17 @@ class ModelReturn(
 
     class MetaOapg:
         class properties:
-            _return = schemas.Int32Schema
+            return = schemas.Int32Schema
             __annotations__ = {
-                "return": _return,
+                "return": return,
             }
         additional_properties = schemas.AnyTypeSchema
 
     
+    return: MetaOapg.properties.return
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["return"]) -> MetaOapg.properties._return: ...
+    def __getitem__(self, name: typing.Literal["return"]) -> MetaOapg.properties.return: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
@@ -54,12 +55,14 @@ class ModelReturn(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        return: typing.Union[MetaOapg.properties.return, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ModelReturn':
         return super().__new__(
             cls,
             *args,
+            return=return,
             _configuration=_configuration,
             **kwargs,
         )

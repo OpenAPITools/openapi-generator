@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -36,32 +34,33 @@ class PropertyNamedRefThatIsNotAReference(
 
     class MetaOapg:
         class properties:
-            ref = schemas.StrSchema
-            locals()["$ref"] = ref
-            del locals()['ref']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
+            $ref = schemas.StrSchema
+            __annotations__ = {
+                "$ref": $ref,
+            }
         additional_properties = schemas.AnyTypeSchema
 
     
+    $ref: MetaOapg.properties.$ref
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["$ref"]) -> MetaOapg.properties.$ref: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        $ref: typing.Union[MetaOapg.properties.$ref, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'PropertyNamedRefThatIsNotAReference':
         return super().__new__(
             cls,
             *args,
+            $ref=$ref,
             _configuration=_configuration,
             **kwargs,
         )

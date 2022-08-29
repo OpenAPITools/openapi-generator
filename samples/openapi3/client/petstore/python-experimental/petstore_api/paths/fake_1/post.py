@@ -74,7 +74,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                     inclusive_minimum = 32.1
             
             
-            class _float(
+            class float(
                 schemas.Float32Schema
             ):
             
@@ -136,7 +136,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "int32": int32,
                 "int64": int64,
                 "number": number,
-                "float": _float,
+                "float": float,
                 "double": double,
                 "string": string,
                 "pattern_without_delimiter": pattern_without_delimiter,
@@ -156,6 +156,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     integer: MetaOapg.properties.integer
     int32: MetaOapg.properties.int32
     int64: MetaOapg.properties.int64
+    float: MetaOapg.properties.float
     string: MetaOapg.properties.string
     binary: MetaOapg.properties.binary
     date: MetaOapg.properties.date
@@ -185,7 +186,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties.float: ...
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
@@ -219,6 +220,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
         int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
         int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        float: typing.Union[MetaOapg.properties.float, float, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, schemas.Unset] = schemas.unset,
         date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
@@ -238,6 +240,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             integer=integer,
             int32=int32,
             int64=int64,
+            float=float,
             string=string,
             binary=binary,
             date=date,

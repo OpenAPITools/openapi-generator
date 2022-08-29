@@ -1,0 +1,42 @@
+{{#if getRequiredVarsMap}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.additional_properties: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+{{else}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/if}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+{{#unless required}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+{{else}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/unless}}
+{{/each}}
+{{/if}}
+
+def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}:
+    # dict_instance[name] accessor
+    return super().__getitem__(name)
