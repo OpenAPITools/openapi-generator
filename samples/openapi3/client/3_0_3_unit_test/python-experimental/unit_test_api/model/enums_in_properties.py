@@ -39,21 +39,6 @@ class EnumsInProperties(
         class properties:
             
             
-            class foo(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "foo": "FOO",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def FOO(cls):
-                    return cls("foo")
-            
-            
             class bar(
                 schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
@@ -67,9 +52,24 @@ class EnumsInProperties(
                 @property
                 def BAR(cls):
                     return cls("bar")
+            
+            
+            class foo(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "foo": "FOO",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def FOO(cls):
+                    return cls("foo")
             __annotations__ = {
-                "foo": foo,
                 "bar": bar,
+                "foo": foo,
             }
         additional_properties = schemas.AnyTypeSchema
     
