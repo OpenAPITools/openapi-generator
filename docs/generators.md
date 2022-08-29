@@ -79,7 +79,7 @@ The following generators are available:
 * [aspnetcore](generators/aspnetcore.md)  
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
-* [cpp-restbed-server-deprecated](generators/cpp-restbed-server-deprecated.md)  
+* [cpp-restbed-server](generators/cpp-restbed-server.md)  
 * [cpp-restbed-server-deprecated](generators/cpp-restbed-server-deprecated.md)  
 * [csharp-netcore-functions](generators/csharp-netcore-functions.md)  
 * [erlang-server](generators/erlang-server.md)  
