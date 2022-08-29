@@ -41,6 +41,16 @@ class ClassModel(
 
     
     _class: MetaOapg.properties._class
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["_class"]) -> MetaOapg.properties._class: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

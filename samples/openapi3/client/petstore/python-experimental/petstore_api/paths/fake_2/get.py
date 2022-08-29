@@ -367,6 +367,19 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     enum_form_string_array: MetaOapg.properties.enum_form_string_array
     enum_form_string: MetaOapg.properties.enum_form_string
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

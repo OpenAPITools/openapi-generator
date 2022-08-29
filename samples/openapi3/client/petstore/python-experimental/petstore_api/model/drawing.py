@@ -86,6 +86,25 @@ class Drawing(
     shapeOrNull: 'ShapeOrNull'
     nullableShape: 'NullableShape'
     shapes: MetaOapg.properties.shapes
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["mainShape"]) -> 'Shape': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["shapeOrNull"]) -> 'ShapeOrNull': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["nullableShape"]) -> 'NullableShape': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["shapes"]) -> MetaOapg.properties.shapes: ...
+    
+    def __getitem__(self, name: str) -> 'additional_properties':
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

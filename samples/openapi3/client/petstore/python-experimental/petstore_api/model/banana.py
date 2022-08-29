@@ -41,6 +41,16 @@ class Banana(
         additional_properties = schemas.AnyTypeSchema
     
     lengthCm: MetaOapg.properties.lengthCm
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

@@ -47,6 +47,16 @@ class ChildCat(
                 additional_properties = schemas.AnyTypeSchema
             
             name: MetaOapg.properties.name
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # if an attribute does not exist
+                try:
+                    return self[name]
+                except KeyError as ex:
+                    raise AttributeError(str(ex))
         
             def __new__(
                 cls,
@@ -79,6 +89,13 @@ class ChildCat(
                 cls.all_of_1,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

@@ -60,6 +60,13 @@ class CompositionAtRootSchema(
                 cls.all_of_0,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,
@@ -116,6 +123,13 @@ class CompositionInPropertySchema(
                             cls.all_of_0,
                         ]
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -132,6 +146,16 @@ class CompositionInPropertySchema(
         additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,
@@ -213,6 +237,13 @@ class SchemaForRequestBodyApplicationJson(
                 cls.all_of_0,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,
@@ -269,6 +300,13 @@ class SchemaForRequestBodyMultipartFormData(
                             cls.all_of_0,
                         ]
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -285,6 +323,16 @@ class SchemaForRequestBodyMultipartFormData(
         additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,
@@ -344,6 +392,13 @@ class SchemaFor200ResponseBodyApplicationJson(
                 cls.all_of_0,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,
@@ -400,6 +455,13 @@ class SchemaFor200ResponseBodyMultipartFormData(
                             cls.all_of_0,
                         ]
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -416,6 +478,16 @@ class SchemaFor200ResponseBodyMultipartFormData(
         additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

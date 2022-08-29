@@ -49,6 +49,13 @@ class ComposedOneOfDifferentTypes(
                 additional_properties = schemas.AnyTypeSchema
                 max_properties = 4
                 min_properties = 4
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # if an attribute does not exist
+                try:
+                    return self[name]
+                except KeyError as ex:
+                    raise AttributeError(str(ex))
         
             def __new__(
                 cls,
@@ -120,6 +127,13 @@ class ComposedOneOfDifferentTypes(
                 cls.one_of_6,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

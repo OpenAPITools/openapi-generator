@@ -42,6 +42,22 @@ class ApiResponse(
     code: MetaOapg.properties.code
     type: MetaOapg.properties.type
     message: MetaOapg.properties.message
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["code"]) -> MetaOapg.properties.code: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["type"]) -> MetaOapg.properties.type: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["message"]) -> MetaOapg.properties.message: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

@@ -210,6 +210,76 @@ class FormatTest(
     pattern_with_digits: MetaOapg.properties.pattern_with_digits
     pattern_with_digits_and_delimiter: MetaOapg.properties.pattern_with_digits_and_delimiter
     noneProp: MetaOapg.properties.noneProp
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["integer"]) -> MetaOapg.properties.integer: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32"]) -> MetaOapg.properties.int32: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32withValidations"]) -> MetaOapg.properties.int32withValidations: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties.float: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float32"]) -> MetaOapg.properties.float32: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["double"]) -> MetaOapg.properties.double: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float64"]) -> MetaOapg.properties.float64: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["arrayWithUniqueItems"]) -> MetaOapg.properties.arrayWithUniqueItems: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["binary"]) -> MetaOapg.properties.binary: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["uuidNoExample"]) -> MetaOapg.properties.uuidNoExample: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_with_digits"]) -> MetaOapg.properties.pattern_with_digits: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_with_digits_and_delimiter"]) -> MetaOapg.properties.pattern_with_digits_and_delimiter: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["noneProp"]) -> MetaOapg.properties.noneProp: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

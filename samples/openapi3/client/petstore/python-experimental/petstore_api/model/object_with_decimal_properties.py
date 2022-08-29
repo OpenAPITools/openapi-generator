@@ -46,6 +46,22 @@ class ObjectWithDecimalProperties(
     length: MetaOapg.properties.length
     width: MetaOapg.properties.width
     cost: 'Money'
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["length"]) -> MetaOapg.properties.length: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["width"]) -> MetaOapg.properties.width: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["cost"]) -> 'Money': ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

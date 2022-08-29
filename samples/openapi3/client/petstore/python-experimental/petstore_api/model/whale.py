@@ -59,6 +59,22 @@ class Whale(
     className: MetaOapg.properties.className
     hasBaleen: MetaOapg.properties.hasBaleen
     hasTeeth: MetaOapg.properties.hasTeeth
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["hasBaleen"]) -> MetaOapg.properties.hasBaleen: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["hasTeeth"]) -> MetaOapg.properties.hasTeeth: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

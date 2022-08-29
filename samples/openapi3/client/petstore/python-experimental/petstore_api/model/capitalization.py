@@ -48,6 +48,31 @@ class Capitalization(
     Capital_Snake: MetaOapg.properties.Capital_Snake
     SCA_ETH_Flow_Points: MetaOapg.properties.SCA_ETH_Flow_Points
     ATT_NAME: MetaOapg.properties.ATT_NAME
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["smallCamel"]) -> MetaOapg.properties.smallCamel: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["CapitalCamel"]) -> MetaOapg.properties.CapitalCamel: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["small_Snake"]) -> MetaOapg.properties.small_Snake: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["Capital_Snake"]) -> MetaOapg.properties.Capital_Snake: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["SCA_ETH_Flow_Points"]) -> MetaOapg.properties.SCA_ETH_Flow_Points: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["ATT_NAME"]) -> MetaOapg.properties.ATT_NAME: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

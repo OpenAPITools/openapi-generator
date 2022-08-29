@@ -59,6 +59,22 @@ class Name(
     
     name: MetaOapg.properties.name
     snake_case: MetaOapg.properties.snake_case
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["snake_case"]) -> MetaOapg.properties.snake_case: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties.property: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

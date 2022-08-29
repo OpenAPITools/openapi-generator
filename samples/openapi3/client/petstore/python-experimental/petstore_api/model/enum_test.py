@@ -169,6 +169,40 @@ class EnumTest(
     StringEnumWithDefaultValue: 'StringEnumWithDefaultValue'
     IntegerEnumWithDefaultValue: 'IntegerEnumWithDefaultValue'
     IntegerEnumOneValue: 'IntegerEnumOneValue'
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_string_required"]) -> MetaOapg.properties.enum_string_required: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_string"]) -> MetaOapg.properties.enum_string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_integer"]) -> MetaOapg.properties.enum_integer: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_number"]) -> MetaOapg.properties.enum_number: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["stringEnum"]) -> 'StringEnum': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["IntegerEnum"]) -> 'IntegerEnum': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["StringEnumWithDefaultValue"]) -> 'StringEnumWithDefaultValue': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["IntegerEnumWithDefaultValue"]) -> 'IntegerEnumWithDefaultValue': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["IntegerEnumOneValue"]) -> 'IntegerEnumOneValue': ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

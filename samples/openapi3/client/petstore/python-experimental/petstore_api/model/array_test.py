@@ -156,6 +156,22 @@ class ArrayTest(
     array_of_string: MetaOapg.properties.array_of_string
     array_array_of_integer: MetaOapg.properties.array_array_of_integer
     array_array_of_model: MetaOapg.properties.array_array_of_model
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["array_of_string"]) -> MetaOapg.properties.array_of_string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["array_array_of_integer"]) -> MetaOapg.properties.array_array_of_integer: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> MetaOapg.properties.array_array_of_model: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

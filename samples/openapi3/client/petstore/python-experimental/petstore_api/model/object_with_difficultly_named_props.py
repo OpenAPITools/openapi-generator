@@ -80,6 +80,22 @@ class ObjectWithDifficultlyNamedProps(
             """
         additional_properties = schemas.AnyTypeSchema
     
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties.123-list: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.$special[property.name]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties.123Number: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

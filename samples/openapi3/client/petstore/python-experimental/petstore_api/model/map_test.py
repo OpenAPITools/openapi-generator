@@ -51,6 +51,13 @@ class MapTest(
                     
                         class MetaOapg:
                             additional_properties = schemas.StrSchema
+                        
+                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                            # if an attribute does not exist
+                            try:
+                                return self[name]
+                            except KeyError as ex:
+                                raise AttributeError(str(ex))
                     
                         def __new__(
                             cls,
@@ -64,6 +71,13 @@ class MapTest(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -106,6 +120,13 @@ class MapTest(
                         @property
                         def LOWER(cls):
                             return cls("lower")
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -128,6 +149,13 @@ class MapTest(
             
                 class MetaOapg:
                     additional_properties = schemas.BoolSchema
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -152,6 +180,25 @@ class MapTest(
     map_of_enum_string: MetaOapg.properties.map_of_enum_string
     direct_map: MetaOapg.properties.direct_map
     indirect_map: 'StringBooleanMap'
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_map_of_string"]) -> MetaOapg.properties.map_map_of_string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_of_enum_string"]) -> MetaOapg.properties.map_of_enum_string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["direct_map"]) -> MetaOapg.properties.direct_map: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["indirect_map"]) -> 'StringBooleanMap': ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

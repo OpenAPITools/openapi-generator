@@ -45,6 +45,19 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     param: MetaOapg.properties.param
     param2: MetaOapg.properties.param2
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["param"]) -> MetaOapg.properties.param: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

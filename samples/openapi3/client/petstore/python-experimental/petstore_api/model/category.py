@@ -43,6 +43,19 @@ class Category(
     
     name: MetaOapg.properties.name
     id: MetaOapg.properties.id
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

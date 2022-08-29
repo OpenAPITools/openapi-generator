@@ -51,6 +51,16 @@ class GrandparentAnimal(
         additional_properties = schemas.AnyTypeSchema
     
     pet_type: MetaOapg.properties.pet_type
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

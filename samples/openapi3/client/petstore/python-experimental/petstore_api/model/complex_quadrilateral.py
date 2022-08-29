@@ -61,6 +61,16 @@ class ComplexQuadrilateral(
                 additional_properties = schemas.AnyTypeSchema
             
             quadrilateralType: MetaOapg.properties.quadrilateralType
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # if an attribute does not exist
+                try:
+                    return self[name]
+                except KeyError as ex:
+                    raise AttributeError(str(ex))
         
             def __new__(
                 cls,
@@ -93,6 +103,13 @@ class ComplexQuadrilateral(
                 cls.all_of_1,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

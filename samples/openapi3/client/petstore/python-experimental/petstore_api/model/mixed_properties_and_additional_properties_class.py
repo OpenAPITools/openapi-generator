@@ -49,6 +49,13 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                     @property
                     def additional_properties(cls) -> typing.Type['Animal']:
                         return Animal
+                
+                def __getitem__(self, name: str) -> 'additional_properties':
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -67,6 +74,22 @@ class MixedPropertiesAndAdditionalPropertiesClass(
     uuid: MetaOapg.properties.uuid
     dateTime: MetaOapg.properties.dateTime
     map: MetaOapg.properties.map
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map"]) -> MetaOapg.properties.map: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

@@ -69,6 +69,19 @@ class SchemaForRequestBodyMultipartFormData(
     
     additionalMetadata: MetaOapg.properties.additionalMetadata
     file: MetaOapg.properties.file
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> MetaOapg.properties.additionalMetadata: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

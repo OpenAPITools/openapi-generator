@@ -31,3 +31,43 @@
 {{/unless}}
 {{/each}}
 {{/if}}
+{{#if additionalProperties}}
+{{#if getRequiredVarsMap}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+{{baseName}}: MetaOapg.additional_properties
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.additional_properties: ...
+{{else}}
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+{{#unless required}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> '{{complexType}}': ...
+{{else}}
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/unless}}
+{{/each}}
+{{/if}}
+
+def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{baseName}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}:
+    # if an attribute does not exist
+    try:
+        return self[name]
+    except KeyError as ex:
+        raise AttributeError(str(ex))
+{{/if}}

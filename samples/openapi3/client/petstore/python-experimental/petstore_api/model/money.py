@@ -48,6 +48,19 @@ class Money(
     
     amount: MetaOapg.properties.amount
     currency: 'Currency'
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["amount"]) -> MetaOapg.properties.amount: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["currency"]) -> 'Currency': ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

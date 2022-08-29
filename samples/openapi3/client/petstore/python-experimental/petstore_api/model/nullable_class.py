@@ -202,6 +202,13 @@ class NullableClass(
                         class MetaOapg:
                             additional_properties = schemas.AnyTypeSchema
                     
+                        
+                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                            # if an attribute does not exist
+                            try:
+                                return self[name]
+                            except KeyError as ex:
+                                raise AttributeError(str(ex))
                     
                         def __new__(
                             cls,
@@ -248,6 +255,13 @@ class NullableClass(
                         class MetaOapg:
                             additional_properties = schemas.AnyTypeSchema
                     
+                        
+                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                            # if an attribute does not exist
+                            try:
+                                return self[name]
+                            except KeyError as ex:
+                                raise AttributeError(str(ex))
                     
                         def __new__(
                             cls,
@@ -288,6 +302,13 @@ class NullableClass(
                 class MetaOapg:
                     additional_properties = schemas.DictSchema
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -325,6 +346,13 @@ class NullableClass(
                         class MetaOapg:
                             additional_properties = schemas.AnyTypeSchema
                     
+                        
+                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                            # if an attribute does not exist
+                            try:
+                                return self[name]
+                            except KeyError as ex:
+                                raise AttributeError(str(ex))
                     
                         def __new__(
                             cls,
@@ -339,6 +367,13 @@ class NullableClass(
                                 **kwargs,
                             )
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -373,6 +408,13 @@ class NullableClass(
                         class MetaOapg:
                             additional_properties = schemas.AnyTypeSchema
                     
+                        
+                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                            # if an attribute does not exist
+                            try:
+                                return self[name]
+                            except KeyError as ex:
+                                raise AttributeError(str(ex))
                     
                         def __new__(
                             cls,
@@ -386,6 +428,13 @@ class NullableClass(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -412,6 +461,13 @@ class NullableClass(
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
         
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # if an attribute does not exist
+                try:
+                    return self[name]
+                except KeyError as ex:
+                    raise AttributeError(str(ex))
         
             def __new__(
                 cls,
@@ -438,6 +494,49 @@ class NullableClass(
     object_nullable_prop: MetaOapg.properties.object_nullable_prop
     object_and_items_nullable_prop: MetaOapg.properties.object_and_items_nullable_prop
     object_items_nullable: MetaOapg.properties.object_items_nullable
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["integer_prop"]) -> MetaOapg.properties.integer_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["number_prop"]) -> MetaOapg.properties.number_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["boolean_prop"]) -> MetaOapg.properties.boolean_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string_prop"]) -> MetaOapg.properties.string_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["date_prop"]) -> MetaOapg.properties.date_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["datetime_prop"]) -> MetaOapg.properties.datetime_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["array_nullable_prop"]) -> MetaOapg.properties.array_nullable_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["array_and_items_nullable_prop"]) -> MetaOapg.properties.array_and_items_nullable_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["array_items_nullable"]) -> MetaOapg.properties.array_items_nullable: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["object_nullable_prop"]) -> MetaOapg.properties.object_nullable_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["object_and_items_nullable_prop"]) -> MetaOapg.properties.object_and_items_nullable_prop: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["object_items_nullable"]) -> MetaOapg.properties.object_items_nullable: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

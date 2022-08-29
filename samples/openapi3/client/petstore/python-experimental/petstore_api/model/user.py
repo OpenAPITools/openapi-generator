@@ -56,6 +56,13 @@ class User(
                 class MetaOapg:
                     additional_properties = schemas.AnyTypeSchema
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -81,6 +88,13 @@ class User(
                     additional_properties = schemas.AnyTypeSchema
                     not_schema = schemas.NoneSchema
             
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -110,6 +124,52 @@ class User(
     anyTypeProp: MetaOapg.properties.anyTypeProp
     anyTypeExceptNullProp: MetaOapg.properties.anyTypeExceptNullProp
     anyTypePropNullable: MetaOapg.properties.anyTypePropNullable
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["username"]) -> MetaOapg.properties.username: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["firstName"]) -> MetaOapg.properties.firstName: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["lastName"]) -> MetaOapg.properties.lastName: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["email"]) -> MetaOapg.properties.email: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["phone"]) -> MetaOapg.properties.phone: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["userStatus"]) -> MetaOapg.properties.userStatus: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["objectWithNoDeclaredProps"]) -> MetaOapg.properties.objectWithNoDeclaredProps: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["objectWithNoDeclaredPropsNullable"]) -> MetaOapg.properties.objectWithNoDeclaredPropsNullable: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["anyTypeProp"]) -> MetaOapg.properties.anyTypeProp: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["anyTypeExceptNullProp"]) -> MetaOapg.properties.anyTypeExceptNullProp: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["anyTypePropNullable"]) -> MetaOapg.properties.anyTypePropNullable: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

@@ -48,6 +48,22 @@ class ObjectModelWithRefProps(
     myNumber: 'NumberWithValidations'
     myString: MetaOapg.properties.myString
     myBoolean: MetaOapg.properties.myBoolean
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["myNumber"]) -> 'NumberWithValidations': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["myString"]) -> MetaOapg.properties.myString: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["myBoolean"]) -> MetaOapg.properties.myBoolean: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

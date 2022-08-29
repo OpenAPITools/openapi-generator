@@ -43,6 +43,13 @@ class AdditionalPropertiesClass(
             
                 class MetaOapg:
                     additional_properties = schemas.StrSchema
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -73,6 +80,13 @@ class AdditionalPropertiesClass(
                     
                         class MetaOapg:
                             additional_properties = schemas.StrSchema
+                        
+                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                            # if an attribute does not exist
+                            try:
+                                return self[name]
+                            except KeyError as ex:
+                                raise AttributeError(str(ex))
                     
                         def __new__(
                             cls,
@@ -86,6 +100,13 @@ class AdditionalPropertiesClass(
                                 _configuration=_configuration,
                                 **kwargs,
                             )
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -132,6 +153,13 @@ class AdditionalPropertiesClass(
             
                 class MetaOapg:
                     additional_properties = schemas.StrSchema
+                
+                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                    # if an attribute does not exist
+                    try:
+                        return self[name]
+                    except KeyError as ex:
+                        raise AttributeError(str(ex))
             
                 def __new__(
                     cls,
@@ -155,6 +183,37 @@ class AdditionalPropertiesClass(
     map_with_undeclared_properties_anytype_3: MetaOapg.properties.map_with_undeclared_properties_anytype_3
     empty_map: MetaOapg.properties.empty_map
     map_with_undeclared_properties_string: MetaOapg.properties.map_with_undeclared_properties_string
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_property"]) -> MetaOapg.properties.map_property: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_of_map_property"]) -> MetaOapg.properties.map_of_map_property: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["anytype_1"]) -> MetaOapg.properties.anytype_1: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_1"]) -> MetaOapg.properties.map_with_undeclared_properties_anytype_1: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_2"]) -> MetaOapg.properties.map_with_undeclared_properties_anytype_2: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_3"]) -> MetaOapg.properties.map_with_undeclared_properties_anytype_3: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["empty_map"]) -> MetaOapg.properties.empty_map: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_string"]) -> MetaOapg.properties.map_with_undeclared_properties_string: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,

@@ -158,6 +158,55 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     dateTime: MetaOapg.properties.dateTime
     password: MetaOapg.properties.password
     callback: MetaOapg.properties.callback
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_without_delimiter"]) -> MetaOapg.properties.pattern_without_delimiter: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["double"]) -> MetaOapg.properties.double: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["integer"]) -> MetaOapg.properties.integer: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32"]) -> MetaOapg.properties.int32: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties.float: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["binary"]) -> MetaOapg.properties.binary: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["callback"]) -> MetaOapg.properties.callback: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # if an attribute does not exist
+        try:
+            return self[name]
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
     def __new__(
         cls,
