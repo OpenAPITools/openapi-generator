@@ -8,7 +8,11 @@
 {{#if complexType}}
 {{baseName}}: '{{complexType}}'
 {{else}}
+{{#if schemaIsFromAdditionalProperties}}
+{{baseName}}: MetaOapg.additional_properties
+{{else}}
 {{baseName}}: MetaOapg.properties.{{baseName}}
+{{/if}}
 {{/if}}
 {{/unless}}
 {{/with}}

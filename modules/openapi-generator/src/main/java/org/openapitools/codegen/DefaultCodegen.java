@@ -2470,17 +2470,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private static class NamedSchema {
-        private NamedSchema(String name, Schema s, boolean required, boolean schemaFromAdditionalProperties) {
+        private NamedSchema(String name, Schema s, boolean required, boolean schemaIsFromAdditionalProperties) {
             this.name = name;
             this.schema = s;
             this.required = required;
-            this.schemaFromAdditionalProperties = schemaFromAdditionalProperties;
+            this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
         }
 
         private String name;
         private Schema schema;
         private boolean required;
-        private boolean schemaFromAdditionalProperties;
+        private boolean schemaIsFromAdditionalProperties;
 
         @Override
         public boolean equals(Object o) {
@@ -2490,12 +2490,12 @@ public class DefaultCodegen implements CodegenConfig {
             return Objects.equals(required, that.required)  &&
                     Objects.equals(name, that.name) &&
                     Objects.equals(schema, that.schema) &&
-                    Objects.equals(schemaFromAdditionalProperties, that.schemaFromAdditionalProperties);
+                    Objects.equals(schemaIsFromAdditionalProperties, that.schemaIsFromAdditionalProperties);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, schema, required, schemaFromAdditionalProperties);
+            return Objects.hash(name, schema, required, schemaIsFromAdditionalProperties);
         }
     }
 
@@ -3607,13 +3607,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @param required true if the property is required in the next higher object schema, false otherwise
      * @return Codegen Property object
      */
-    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaFromAdditionalProperties) {
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
         if (p == null) {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
         LOGGER.debug("debugging fromProperty for {} : {}", name, p);
-        NamedSchema ns = new NamedSchema(name, p, required, schemaFromAdditionalProperties);
+        NamedSchema ns = new NamedSchema(name, p, required, schemaIsFromAdditionalProperties);
         CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
         if (cpc != null) {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
@@ -3623,6 +3623,7 @@ public class DefaultCodegen implements CodegenConfig {
         p = unaliasSchema(p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+        property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
 
