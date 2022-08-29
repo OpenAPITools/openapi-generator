@@ -1822,7 +1822,7 @@ class ListSchema(
     def _from_openapi_data(cls, arg: typing.List[typing.Any], _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: typing.Collection[typing.Any], **kwargs: Configuration):
+    def __new__(cls, arg: typing.Union[typing.List[typing.Any], typing.Tuple[typing.Any]], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 

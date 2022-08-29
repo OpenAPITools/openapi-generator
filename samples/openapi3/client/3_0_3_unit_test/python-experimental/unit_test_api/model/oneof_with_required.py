@@ -52,8 +52,8 @@ class OneofWithRequired(
                 additional_properties = schemas.AnyTypeSchema
         
             
-            bar: MetaOapg.properties.bar
-            foo: MetaOapg.properties.foo
+            bar: MetaOapg.additional_properties
+            foo: MetaOapg.additional_properties
         
             def __new__(
                 cls,
@@ -82,8 +82,8 @@ class OneofWithRequired(
                 additional_properties = schemas.AnyTypeSchema
         
             
-            foo: MetaOapg.properties.foo
-            baz: MetaOapg.properties.baz
+            foo: MetaOapg.additional_properties
+            baz: MetaOapg.additional_properties
         
             def __new__(
                 cls,
