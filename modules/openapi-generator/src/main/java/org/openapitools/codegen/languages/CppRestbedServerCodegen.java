@@ -76,7 +76,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "cpp-restbed-server-deprecated";
+        embeddedTemplateDir = templateDir = "cpp-restbed-server";
 
         cliOptions.clear();
 
@@ -197,7 +197,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getName() {
-        return "cpp-restbed-server-deprecated";
+        return "cpp-restbed-server";
     }
 
     /**
