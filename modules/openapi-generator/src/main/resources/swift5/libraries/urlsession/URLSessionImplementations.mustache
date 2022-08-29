@@ -496,6 +496,17 @@ private class FormDataEncoding: ParameterEncoding {
                     data: data
                 )
 
+            case let uuid as UUID:
+
+                if let data = uuid.uuidString.data(using: .utf8) {
+                    urlRequest = configureDataUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        data: data
+                    )
+                }
+
             default:
                 fatalError("Unprocessable value \(value) with key \(key)")
             }

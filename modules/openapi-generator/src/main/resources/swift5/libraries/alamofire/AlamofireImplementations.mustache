@@ -116,6 +116,8 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
                         case let data as Data:
                             mpForm.append(data, withName: k)
+                        case let uuid as UUID:
+                            mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
