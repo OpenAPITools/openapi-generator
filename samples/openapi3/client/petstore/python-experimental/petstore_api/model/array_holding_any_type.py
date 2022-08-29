@@ -46,5 +46,5 @@ class ArrayHoldingAnyType(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)

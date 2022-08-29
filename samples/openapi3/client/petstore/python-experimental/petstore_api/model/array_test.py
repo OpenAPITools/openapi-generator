@@ -55,7 +55,7 @@ class ArrayTest(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -86,7 +86,7 @@ class ArrayTest(
                                 _configuration=_configuration,
                             )
                     
-                        def __getitem__(self, i) -> MetaOapg.items:
+                        def __getitem__(self, i: int) -> MetaOapg.items:
                             return super().__getitem__(i)
             
                 def __new__(
@@ -100,7 +100,7 @@ class ArrayTest(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -135,7 +135,7 @@ class ArrayTest(
                                 _configuration=_configuration,
                             )
                     
-                        def __getitem__(self, i) -> 'items':
+                        def __getitem__(self, i: int) -> 'ReadOnlyFirst':
                             return super().__getitem__(i)
             
                 def __new__(
@@ -149,8 +149,13 @@ class ArrayTest(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            __annotations__ = {
+                "array_of_string": array_of_string,
+                "array_array_of_integer": array_array_of_integer,
+                "array_array_of_model": array_array_of_model,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     array_of_string: MetaOapg.properties.array_of_string
@@ -167,11 +172,8 @@ class ArrayTest(
     def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> MetaOapg.properties.array_array_of_model: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

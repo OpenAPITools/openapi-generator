@@ -79,6 +79,10 @@ class Zebra(
                 @property
                 def ZEBRA(cls):
                     return cls("zebra")
+            __annotations__ = {
+                "type": type,
+                "className": className,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
@@ -91,11 +95,8 @@ class Zebra(
     def __getitem__(self, name: typing.Literal["type"]) -> MetaOapg.properties.type: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

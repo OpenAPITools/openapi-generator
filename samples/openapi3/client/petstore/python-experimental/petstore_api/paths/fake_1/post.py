@@ -81,18 +81,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
                 class MetaOapg:
                     inclusive_maximum = 987.6
-            locals()["float"] = _float
-            del locals()['_float']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
             
             
             class double(
@@ -143,6 +131,22 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                     max_length = 64
                     min_length = 10
             callback = schemas.StrSchema
+            __annotations__ = {
+                "integer": integer,
+                "int32": int32,
+                "int64": int64,
+                "number": number,
+                "float": _float,
+                "double": double,
+                "string": string,
+                "pattern_without_delimiter": pattern_without_delimiter,
+                "byte": byte,
+                "binary": binary,
+                "date": date,
+                "dateTime": dateTime,
+                "password": password,
+                "callback": callback,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     number: MetaOapg.properties.number
@@ -181,7 +185,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties.locals()["float"]: ...
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
@@ -202,11 +206,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["callback"]) -> MetaOapg.properties.callback: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

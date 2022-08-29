@@ -74,8 +74,14 @@ class Drawing(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> 'items':
+                def __getitem__(self, i: int) -> 'Shape':
                     return super().__getitem__(i)
+            __annotations__ = {
+                "mainShape": mainShape,
+                "shapeOrNull": shapeOrNull,
+                "nullableShape": nullableShape,
+                "shapes": shapes,
+            }
         
         @classmethod
         @property
@@ -99,12 +105,9 @@ class Drawing(
     @typing.overload
     def __getitem__(self, name: typing.Literal["shapes"]) -> MetaOapg.properties.shapes: ...
     
-    def __getitem__(self, name: str) -> 'additional_properties':
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+    def __getitem__(self, name: str) -> 'Fruit':
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

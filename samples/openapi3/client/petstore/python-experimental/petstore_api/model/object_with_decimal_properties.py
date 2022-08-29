@@ -41,6 +41,11 @@ class ObjectWithDecimalProperties(
             @property
             def cost(cls) -> typing.Type['Money']:
                 return Money
+            __annotations__ = {
+                "length": length,
+                "width": width,
+                "cost": cost,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     length: MetaOapg.properties.length
@@ -57,11 +62,8 @@ class ObjectWithDecimalProperties(
     def __getitem__(self, name: typing.Literal["cost"]) -> 'Money': ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

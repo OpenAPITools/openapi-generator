@@ -35,6 +35,9 @@ class Foo(
     class MetaOapg:
         class properties:
             bar = schemas.StrSchema
+            __annotations__ = {
+                "bar": bar,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     bar: MetaOapg.properties.bar
@@ -43,11 +46,8 @@ class Foo(
     def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

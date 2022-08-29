@@ -40,62 +40,28 @@ class ObjectWithDifficultlyNamedProps(
         }
         class properties:
             special_property_name = schemas.Int64Schema
-            locals()["$special[property.name]"] = special_property_name
-            del locals()['special_property_name']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
             _123_list = schemas.StrSchema
-            locals()["123-list"] = _123_list
-            del locals()['_123_list']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
             _123_number = schemas.IntSchema
-            locals()["123Number"] = _123_number
-            del locals()['_123_number']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
+            __annotations__ = {
+                "$special[property.name]": special_property_name,
+                "123-list": _123_list,
+                "123Number": _123_number,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties.locals()["123-list"]: ...
+    def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.locals()["$special[property.name]"]: ...
+    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.special_property_name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties.locals()["123Number"]: ...
+    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties._123_number: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

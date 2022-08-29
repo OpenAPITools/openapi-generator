@@ -56,6 +56,9 @@ class HealthCheckResult(
                         *args,
                         _configuration=_configuration,
                     )
+            __annotations__ = {
+                "NullableMessage": NullableMessage,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     NullableMessage: MetaOapg.properties.NullableMessage
@@ -64,11 +67,8 @@ class HealthCheckResult(
     def __getitem__(self, name: typing.Literal["NullableMessage"]) -> MetaOapg.properties.NullableMessage: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

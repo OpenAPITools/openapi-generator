@@ -45,7 +45,7 @@ def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> '{{complexType}}'
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.additional_properties: ...
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.locals()["{{baseName}}"]: ...
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{name}}: ...
 {{else}}
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{baseName}}: ...
 {{/if}}
@@ -63,7 +63,7 @@ def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properti
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> '{{complexType}}': ...
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.locals()["{{baseName}}"]: ...
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{name}}: ...
 {{else}}
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{baseName}}: ...
 {{/if}}
@@ -72,10 +72,7 @@ def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properti
 {{/each}}
 {{/if}}
 
-def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{baseName}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}:
-    # if an attribute does not exist
-    try:
-        return self[name]
-    except KeyError as ex:
-        raise AttributeError(str(ex))
+def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}:
+    # dict_instance[name] accessor
+    return super().__getitem__(name)
 {{/if}}

@@ -49,7 +49,7 @@ class TagsSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
@@ -104,7 +104,7 @@ class SchemaFor200ResponseBodyApplicationXml(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> 'items':
+    def __getitem__(self, i: int) -> 'Pet':
         return super().__getitem__(i)
 
 
@@ -131,7 +131,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> 'items':
+    def __getitem__(self, i: int) -> 'Pet':
         return super().__getitem__(i)
 
 

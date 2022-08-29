@@ -36,6 +36,10 @@ class ReadOnlyFirst(
         class properties:
             bar = schemas.StrSchema
             baz = schemas.StrSchema
+            __annotations__ = {
+                "bar": bar,
+                "baz": baz,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     bar: MetaOapg.properties.bar
@@ -48,11 +52,8 @@ class ReadOnlyFirst(
     def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.properties.baz: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

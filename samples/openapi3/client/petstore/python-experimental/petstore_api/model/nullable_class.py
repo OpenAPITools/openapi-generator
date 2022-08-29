@@ -204,11 +204,8 @@ class NullableClass(
                     
                         
                         def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                            # if an attribute does not exist
-                            try:
-                                return self[name]
-                            except KeyError as ex:
-                                raise AttributeError(str(ex))
+                            # dict_instance[name] accessor
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -257,11 +254,8 @@ class NullableClass(
                     
                         
                         def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                            # if an attribute does not exist
-                            try:
-                                return self[name]
-                            except KeyError as ex:
-                                raise AttributeError(str(ex))
+                            # dict_instance[name] accessor
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -287,7 +281,7 @@ class NullableClass(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -304,11 +298,8 @@ class NullableClass(
             
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -348,11 +339,8 @@ class NullableClass(
                     
                         
                         def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                            # if an attribute does not exist
-                            try:
-                                return self[name]
-                            except KeyError as ex:
-                                raise AttributeError(str(ex))
+                            # dict_instance[name] accessor
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -369,11 +357,8 @@ class NullableClass(
             
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -410,11 +395,8 @@ class NullableClass(
                     
                         
                         def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                            # if an attribute does not exist
-                            try:
-                                return self[name]
-                            except KeyError as ex:
-                                raise AttributeError(str(ex))
+                            # dict_instance[name] accessor
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -430,11 +412,8 @@ class NullableClass(
                             )
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -448,6 +427,20 @@ class NullableClass(
                         _configuration=_configuration,
                         **kwargs,
                     )
+            __annotations__ = {
+                "integer_prop": integer_prop,
+                "number_prop": number_prop,
+                "boolean_prop": boolean_prop,
+                "string_prop": string_prop,
+                "date_prop": date_prop,
+                "datetime_prop": datetime_prop,
+                "array_nullable_prop": array_nullable_prop,
+                "array_and_items_nullable_prop": array_and_items_nullable_prop,
+                "array_items_nullable": array_items_nullable,
+                "object_nullable_prop": object_nullable_prop,
+                "object_and_items_nullable_prop": object_and_items_nullable_prop,
+                "object_items_nullable": object_items_nullable,
+            }
         
         
         class additional_properties(
@@ -463,11 +456,8 @@ class NullableClass(
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                # if an attribute does not exist
-                try:
-                    return self[name]
-                except KeyError as ex:
-                    raise AttributeError(str(ex))
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
         
             def __new__(
                 cls,
@@ -532,11 +522,8 @@ class NullableClass(
     def __getitem__(self, name: typing.Literal["object_items_nullable"]) -> MetaOapg.properties.object_items_nullable: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

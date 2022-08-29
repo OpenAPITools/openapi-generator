@@ -49,6 +49,10 @@ class Animal(
         class properties:
             className = schemas.StrSchema
             color = schemas.StrSchema
+            __annotations__ = {
+                "className": className,
+                "color": color,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
@@ -61,11 +65,8 @@ class Animal(
     def __getitem__(self, name: typing.Literal["color"]) -> MetaOapg.properties.color: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

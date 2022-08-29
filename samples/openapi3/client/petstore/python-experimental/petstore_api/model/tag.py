@@ -36,6 +36,10 @@ class Tag(
         class properties:
             id = schemas.Int64Schema
             name = schemas.StrSchema
+            __annotations__ = {
+                "id": id,
+                "name": name,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
@@ -48,11 +52,8 @@ class Tag(
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

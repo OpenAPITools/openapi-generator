@@ -53,11 +53,8 @@ class MapTest(
                             additional_properties = schemas.StrSchema
                         
                         def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                            # if an attribute does not exist
-                            try:
-                                return self[name]
-                            except KeyError as ex:
-                                raise AttributeError(str(ex))
+                            # dict_instance[name] accessor
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -73,11 +70,8 @@ class MapTest(
                             )
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -122,11 +116,8 @@ class MapTest(
                             return cls("lower")
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -151,11 +142,8 @@ class MapTest(
                     additional_properties = schemas.BoolSchema
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -174,6 +162,12 @@ class MapTest(
             @property
             def indirect_map(cls) -> typing.Type['StringBooleanMap']:
                 return StringBooleanMap
+            __annotations__ = {
+                "map_map_of_string": map_map_of_string,
+                "map_of_enum_string": map_of_enum_string,
+                "direct_map": direct_map,
+                "indirect_map": indirect_map,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     map_map_of_string: MetaOapg.properties.map_map_of_string
@@ -194,11 +188,8 @@ class MapTest(
     def __getitem__(self, name: typing.Literal["indirect_map"]) -> 'StringBooleanMap': ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

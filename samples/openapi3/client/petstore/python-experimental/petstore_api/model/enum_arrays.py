@@ -96,8 +96,12 @@ class EnumArrays(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            __annotations__ = {
+                "just_symbol": just_symbol,
+                "array_enum": array_enum,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     just_symbol: MetaOapg.properties.just_symbol
@@ -110,11 +114,8 @@ class EnumArrays(
     def __getitem__(self, name: typing.Literal["array_enum"]) -> MetaOapg.properties.array_enum: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

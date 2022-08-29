@@ -50,7 +50,7 @@ class ArrayOfEnums(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> 'items':
+    def __getitem__(self, i: int) -> 'StringEnum':
         return super().__getitem__(i)
 
 from petstore_api.model.string_enum import StringEnum

@@ -42,18 +42,11 @@ class Name(
             name = schemas.Int32Schema
             snake_case = schemas.Int32Schema
             _property = schemas.StrSchema
-            locals()["property"] = _property
-            del locals()['_property']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
+            __annotations__ = {
+                "name": name,
+                "snake_case": snake_case,
+                "property": _property,
+            }
         additional_properties = schemas.AnyTypeSchema
 
     
@@ -67,14 +60,11 @@ class Name(
     def __getitem__(self, name: typing.Literal["snake_case"]) -> MetaOapg.properties.snake_case: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties.locals()["property"]: ...
+    def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties._property: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

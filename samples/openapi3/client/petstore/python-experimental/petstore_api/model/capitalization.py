@@ -40,6 +40,14 @@ class Capitalization(
             Capital_Snake = schemas.StrSchema
             SCA_ETH_Flow_Points = schemas.StrSchema
             ATT_NAME = schemas.StrSchema
+            __annotations__ = {
+                "smallCamel": smallCamel,
+                "CapitalCamel": CapitalCamel,
+                "small_Snake": small_Snake,
+                "Capital_Snake": Capital_Snake,
+                "SCA_ETH_Flow_Points": SCA_ETH_Flow_Points,
+                "ATT_NAME": ATT_NAME,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     smallCamel: MetaOapg.properties.smallCamel
@@ -68,11 +76,8 @@ class Capitalization(
     def __getitem__(self, name: typing.Literal["ATT_NAME"]) -> MetaOapg.properties.ATT_NAME: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

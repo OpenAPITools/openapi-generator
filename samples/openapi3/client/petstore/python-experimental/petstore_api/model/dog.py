@@ -44,6 +44,9 @@ class Dog(
             class MetaOapg:
                 class properties:
                     breed = schemas.StrSchema
+                    __annotations__ = {
+                        "breed": breed,
+                    }
                 additional_properties = schemas.AnyTypeSchema
             
             breed: MetaOapg.properties.breed
@@ -52,11 +55,8 @@ class Dog(
             def __getitem__(self, name: typing.Literal["breed"]) -> MetaOapg.properties.breed: ...
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                # if an attribute does not exist
-                try:
-                    return self[name]
-                except KeyError as ex:
-                    raise AttributeError(str(ex))
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
         
             def __new__(
                 cls,
@@ -91,11 +91,8 @@ class Dog(
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

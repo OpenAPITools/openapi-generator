@@ -41,6 +41,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         class properties:
             param = schemas.StrSchema
             param2 = schemas.StrSchema
+            __annotations__ = {
+                "param": param,
+                "param2": param2,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     param: MetaOapg.properties.param
@@ -53,11 +57,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

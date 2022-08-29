@@ -65,6 +65,10 @@ class Apple(
                             re.IGNORECASE
                         )
                     }]
+            __annotations__ = {
+                "cultivar": cultivar,
+                "origin": origin,
+            }
         additional_properties = schemas.AnyTypeSchema
 
     
@@ -78,11 +82,8 @@ class Apple(
     def __getitem__(self, name: typing.Literal["origin"]) -> MetaOapg.properties.origin: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

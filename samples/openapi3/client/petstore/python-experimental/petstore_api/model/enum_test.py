@@ -158,6 +158,17 @@ class EnumTest(
             @property
             def IntegerEnumOneValue(cls) -> typing.Type['IntegerEnumOneValue']:
                 return IntegerEnumOneValue
+            __annotations__ = {
+                "enum_string": enum_string,
+                "enum_string_required": enum_string_required,
+                "enum_integer": enum_integer,
+                "enum_number": enum_number,
+                "stringEnum": stringEnum,
+                "IntegerEnum": IntegerEnum,
+                "StringEnumWithDefaultValue": StringEnumWithDefaultValue,
+                "IntegerEnumWithDefaultValue": IntegerEnumWithDefaultValue,
+                "IntegerEnumOneValue": IntegerEnumOneValue,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     enum_string_required: MetaOapg.properties.enum_string_required
@@ -198,11 +209,8 @@ class EnumTest(
     def __getitem__(self, name: typing.Literal["IntegerEnumOneValue"]) -> 'IntegerEnumOneValue': ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

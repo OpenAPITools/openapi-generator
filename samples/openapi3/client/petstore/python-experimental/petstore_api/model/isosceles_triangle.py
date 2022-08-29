@@ -58,6 +58,9 @@ class IsoscelesTriangle(
                         @property
                         def ISOSCELES_TRIANGLE(cls):
                             return cls("IsoscelesTriangle")
+                    __annotations__ = {
+                        "triangleType": triangleType,
+                    }
                 additional_properties = schemas.AnyTypeSchema
             
             triangleType: MetaOapg.properties.triangleType
@@ -66,11 +69,8 @@ class IsoscelesTriangle(
             def __getitem__(self, name: typing.Literal["triangleType"]) -> MetaOapg.properties.triangleType: ...
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                # if an attribute does not exist
-                try:
-                    return self[name]
-                except KeyError as ex:
-                    raise AttributeError(str(ex))
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
         
             def __new__(
                 cls,
@@ -105,11 +105,8 @@ class IsoscelesTriangle(
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

@@ -37,6 +37,9 @@ class File(
     class MetaOapg:
         class properties:
             sourceURI = schemas.StrSchema
+            __annotations__ = {
+                "sourceURI": sourceURI,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     sourceURI: MetaOapg.properties.sourceURI
@@ -45,11 +48,8 @@ class File(
     def __getitem__(self, name: typing.Literal["sourceURI"]) -> MetaOapg.properties.sourceURI: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

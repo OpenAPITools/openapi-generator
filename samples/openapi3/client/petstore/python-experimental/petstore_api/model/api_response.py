@@ -37,6 +37,11 @@ class ApiResponse(
             code = schemas.Int32Schema
             type = schemas.StrSchema
             message = schemas.StrSchema
+            __annotations__ = {
+                "code": code,
+                "type": type,
+                "message": message,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     code: MetaOapg.properties.code
@@ -53,11 +58,8 @@ class ApiResponse(
     def __getitem__(self, name: typing.Literal["message"]) -> MetaOapg.properties.message: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

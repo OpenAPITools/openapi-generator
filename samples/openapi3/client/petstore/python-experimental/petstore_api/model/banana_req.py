@@ -39,6 +39,10 @@ class BananaReq(
         class properties:
             lengthCm = schemas.NumberSchema
             sweet = schemas.BoolSchema
+            __annotations__ = {
+                "lengthCm": lengthCm,
+                "sweet": sweet,
+            }
         additional_properties = None
     
     lengthCm: MetaOapg.properties.lengthCm

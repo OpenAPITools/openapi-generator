@@ -63,7 +63,7 @@ class ArrayOfArrayOfNumberOnly(
                                 _configuration=_configuration,
                             )
                     
-                        def __getitem__(self, i) -> MetaOapg.items:
+                        def __getitem__(self, i: int) -> MetaOapg.items:
                             return super().__getitem__(i)
             
                 def __new__(
@@ -77,8 +77,11 @@ class ArrayOfArrayOfNumberOnly(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            __annotations__ = {
+                "ArrayArrayNumber": ArrayArrayNumber,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     ArrayArrayNumber: MetaOapg.properties.ArrayArrayNumber
@@ -87,11 +90,8 @@ class ArrayOfArrayOfNumberOnly(
     def __getitem__(self, name: typing.Literal["ArrayArrayNumber"]) -> MetaOapg.properties.ArrayArrayNumber: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

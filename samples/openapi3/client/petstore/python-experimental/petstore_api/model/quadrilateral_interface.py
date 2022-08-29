@@ -54,6 +54,10 @@ class QuadrilateralInterface(
                 def QUADRILATERAL(cls):
                     return cls("Quadrilateral")
             quadrilateralType = schemas.StrSchema
+            __annotations__ = {
+                "shapeType": shapeType,
+                "quadrilateralType": quadrilateralType,
+            }
         additional_properties = schemas.AnyTypeSchema
 
     
@@ -67,11 +71,8 @@ class QuadrilateralInterface(
     def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

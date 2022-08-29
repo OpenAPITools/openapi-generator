@@ -41,6 +41,9 @@ class SchemaFor0ResponseBodyApplicationJson(
             @property
             def string(cls) -> typing.Type['Foo']:
                 return Foo
+            __annotations__ = {
+                "string": string,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     string: 'Foo'
@@ -49,11 +52,8 @@ class SchemaFor0ResponseBodyApplicationJson(
     def __getitem__(self, name: typing.Literal["string"]) -> 'Foo': ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

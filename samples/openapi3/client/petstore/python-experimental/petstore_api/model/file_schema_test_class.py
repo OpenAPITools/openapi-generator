@@ -64,8 +64,12 @@ class FileSchemaTestClass(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> 'items':
+                def __getitem__(self, i: int) -> 'File':
                     return super().__getitem__(i)
+            __annotations__ = {
+                "file": file,
+                "files": files,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     file: 'File'
@@ -78,11 +82,8 @@ class FileSchemaTestClass(
     def __getitem__(self, name: typing.Literal["files"]) -> MetaOapg.properties.files: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

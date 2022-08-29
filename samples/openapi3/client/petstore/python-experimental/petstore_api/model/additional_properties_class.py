@@ -45,11 +45,8 @@ class AdditionalPropertiesClass(
                     additional_properties = schemas.StrSchema
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -82,11 +79,8 @@ class AdditionalPropertiesClass(
                             additional_properties = schemas.StrSchema
                         
                         def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                            # if an attribute does not exist
-                            try:
-                                return self[name]
-                            except KeyError as ex:
-                                raise AttributeError(str(ex))
+                            # dict_instance[name] accessor
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -102,11 +96,8 @@ class AdditionalPropertiesClass(
                             )
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -155,11 +146,8 @@ class AdditionalPropertiesClass(
                     additional_properties = schemas.StrSchema
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -173,6 +161,16 @@ class AdditionalPropertiesClass(
                         _configuration=_configuration,
                         **kwargs,
                     )
+            __annotations__ = {
+                "map_property": map_property,
+                "map_of_map_property": map_of_map_property,
+                "anytype_1": anytype_1,
+                "map_with_undeclared_properties_anytype_1": map_with_undeclared_properties_anytype_1,
+                "map_with_undeclared_properties_anytype_2": map_with_undeclared_properties_anytype_2,
+                "map_with_undeclared_properties_anytype_3": map_with_undeclared_properties_anytype_3,
+                "empty_map": empty_map,
+                "map_with_undeclared_properties_string": map_with_undeclared_properties_string,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     map_property: MetaOapg.properties.map_property
@@ -209,11 +207,8 @@ class AdditionalPropertiesClass(
     def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_string"]) -> MetaOapg.properties.map_with_undeclared_properties_string: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

@@ -39,6 +39,10 @@ class NoAdditionalProperties(
         class properties:
             id = schemas.Int64Schema
             petId = schemas.Int64Schema
+            __annotations__ = {
+                "id": id,
+                "petId": petId,
+            }
         additional_properties = None
     
     id: MetaOapg.properties.id

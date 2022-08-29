@@ -37,6 +37,15 @@ class properties:
     {{> model_templates/schema }}
 {{/if}}
 {{/each}}
+    __annotations__ = {
+{{#each vars}}
+{{#if nameInSnakeCase}}
+        "{{{baseName}}}": {{name}},
+{{else}}
+        "{{{baseName}}}": {{baseName}},
+{{/if}}
+{{/each}}
+    }
 {{/if}}
 {{#with additionalProperties}}
 {{#if complexType}}

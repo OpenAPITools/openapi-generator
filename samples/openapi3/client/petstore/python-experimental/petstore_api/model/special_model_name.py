@@ -37,6 +37,9 @@ class SpecialModelName(
     class MetaOapg:
         class properties:
             a = schemas.StrSchema
+            __annotations__ = {
+                "a": a,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     a: MetaOapg.properties.a
@@ -45,11 +48,8 @@ class SpecialModelName(
     def __getitem__(self, name: typing.Literal["a"]) -> MetaOapg.properties.a: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

@@ -1294,10 +1294,12 @@ class DictBase(Discriminable, ValidatorBase):
         invalid_arguments = []
         required_property_names = getattr(cls.MetaOapg, 'required', set())
         additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        properties = getattr(cls.MetaOapg, 'properties', {})
+        property_annotations = getattr(properties, '__annotations__', {})
         for property_name in arg:
             if property_name in required_property_names:
                 seen_required_properties.add(property_name)
-            elif property_name in cls._property_names:
+            elif property_name in property_annotations:
                 continue
             elif additional_properties:
                 continue
@@ -1341,15 +1343,20 @@ class DictBase(Discriminable, ValidatorBase):
         """
         path_to_schemas = {}
         additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        properties = getattr(cls.MetaOapg, 'properties', {})
+        property_annotations = getattr(properties, '__annotations__', {})
         for property_name, value in arg.items():
-            if property_name in cls._property_names:
-                schema = getattr(cls.MetaOapg.properties, property_name)
+            if property_name in property_annotations:
+                schema = property_annotations[property_name]
             elif additional_properties:
                 schema = additional_properties
             else:
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
+            if isinstance(schema, classmethod):
+                # referenced schema, call classmethod property
+                schema = schema.__func__.fget(properties)
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
@@ -1449,30 +1456,6 @@ class DictBase(Discriminable, ValidatorBase):
         other_path_to_schemas = discriminated_cls._validate(arg, validation_metadata=updated_vm)
         update(_path_to_schemas, other_path_to_schemas)
         return _path_to_schemas
-
-    @classmethod
-    @property
-    @functools.cache
-    def _property_names(cls) -> typing.Tuple[str]:
-        if not hasattr(cls.MetaOapg, 'properties'):
-            return tuple()
-        property_names = set()
-        for var_name, var_value in cls.MetaOapg.properties.__dict__.items():
-            var_name: str
-            # referenced models are classmethods
-            is_classmethod = type(var_value) is classmethod
-            if is_classmethod:
-                property_names.add(var_name)
-                continue
-            is_class = type(var_value) is type
-            if not is_class:
-                continue
-            if not issubclass(var_value, Schema):
-                continue
-            property_names.add(var_name)
-        property_names = list(property_names)
-        property_names.sort()
-        return tuple(property_names)
 
     @classmethod
     def _get_properties(

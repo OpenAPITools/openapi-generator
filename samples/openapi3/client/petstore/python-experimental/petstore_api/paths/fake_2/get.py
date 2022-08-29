@@ -67,7 +67,7 @@ class EnumQueryStringArraySchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 
 
@@ -225,7 +225,7 @@ class EnumHeaderStringArraySchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 
 
@@ -334,7 +334,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -363,6 +363,10 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 @property
                 def XYZ(cls):
                     return cls("(xyz)")
+            __annotations__ = {
+                "enum_form_string_array": enum_form_string_array,
+                "enum_form_string": enum_form_string,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     enum_form_string_array: MetaOapg.properties.enum_form_string_array
@@ -375,11 +379,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

@@ -84,18 +84,6 @@ class FormatTest(
                 class MetaOapg:
                     inclusive_maximum = 987.6
                     inclusive_minimum = 54.3
-            locals()["float"] = _float
-            del locals()['_float']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
             float32 = schemas.Float32Schema
             
             
@@ -130,7 +118,7 @@ class FormatTest(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -188,6 +176,29 @@ class FormatTest(
                         )
                     }]
             noneProp = schemas.NoneSchema
+            __annotations__ = {
+                "integer": integer,
+                "int32": int32,
+                "int32withValidations": int32withValidations,
+                "int64": int64,
+                "number": number,
+                "float": _float,
+                "float32": float32,
+                "double": double,
+                "float64": float64,
+                "arrayWithUniqueItems": arrayWithUniqueItems,
+                "string": string,
+                "byte": byte,
+                "binary": binary,
+                "date": date,
+                "dateTime": dateTime,
+                "uuid": uuid,
+                "uuidNoExample": uuidNoExample,
+                "password": password,
+                "pattern_with_digits": pattern_with_digits,
+                "pattern_with_digits_and_delimiter": pattern_with_digits_and_delimiter,
+                "noneProp": noneProp,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     date: MetaOapg.properties.date
@@ -236,7 +247,7 @@ class FormatTest(
     def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties.locals()["float"]: ...
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["float32"]) -> MetaOapg.properties.float32: ...
@@ -275,11 +286,8 @@ class FormatTest(
     def __getitem__(self, name: typing.Literal["noneProp"]) -> MetaOapg.properties.noneProp: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

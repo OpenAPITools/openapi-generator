@@ -70,11 +70,8 @@ class ObjectWithInlineCompositionProperty(
             
                 
                 def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-                    # if an attribute does not exist
-                    try:
-                        return self[name]
-                    except KeyError as ex:
-                        raise AttributeError(str(ex))
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -88,6 +85,9 @@ class ObjectWithInlineCompositionProperty(
                         _configuration=_configuration,
                         **kwargs,
                     )
+            __annotations__ = {
+                "someProp": someProp,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     someProp: MetaOapg.properties.someProp
@@ -96,11 +96,8 @@ class ObjectWithInlineCompositionProperty(
     def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

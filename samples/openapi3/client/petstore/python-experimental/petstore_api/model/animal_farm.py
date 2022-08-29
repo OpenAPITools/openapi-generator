@@ -50,7 +50,7 @@ class AnimalFarm(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> 'items':
+    def __getitem__(self, i: int) -> 'Animal':
         return super().__getitem__(i)
 
 from petstore_api.model.animal import Animal

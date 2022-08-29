@@ -66,6 +66,14 @@ class Order(
                 def DELIVERED(cls):
                     return cls("delivered")
             complete = schemas.BoolSchema
+            __annotations__ = {
+                "id": id,
+                "petId": petId,
+                "quantity": quantity,
+                "shipDate": shipDate,
+                "status": status,
+                "complete": complete,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     id: MetaOapg.properties.id
@@ -94,11 +102,8 @@ class Order(
     def __getitem__(self, name: typing.Literal["complete"]) -> MetaOapg.properties.complete: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

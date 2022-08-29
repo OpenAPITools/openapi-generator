@@ -68,7 +68,7 @@ class Pet(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -95,7 +95,7 @@ class Pet(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> 'items':
+                def __getitem__(self, i: int) -> 'Tag':
                     return super().__getitem__(i)
             
             
@@ -124,6 +124,14 @@ class Pet(
                 @property
                 def SOLD(cls):
                     return cls("sold")
+            __annotations__ = {
+                "id": id,
+                "category": category,
+                "name": name,
+                "photoUrls": photoUrls,
+                "tags": tags,
+                "status": status,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     photoUrls: MetaOapg.properties.photoUrls
@@ -152,11 +160,8 @@ class Pet(
     def __getitem__(self, name: typing.Literal["status"]) -> MetaOapg.properties.status: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
-        # if an attribute does not exist
-        try:
-            return self[name]
-        except KeyError as ex:
-            raise AttributeError(str(ex))
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,

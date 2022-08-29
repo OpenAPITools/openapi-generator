@@ -1,6 +1,6 @@
 
 
-class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
+class {{> model_templates/classname }}(
     schemas.DictSchema
 ):
 {{#if this.classname}}
