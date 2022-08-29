@@ -39,6 +39,21 @@ class Zebra(
         class properties:
             
             
+            class className(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "zebra": "ZEBRA",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def ZEBRA(cls):
+                    return cls("zebra")
+            
+            
             class type(
                 schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
@@ -64,24 +79,9 @@ class Zebra(
                 @property
                 def GREVYS(cls):
                     return cls("grevys")
-            
-            
-            class className(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "zebra": "ZEBRA",
-                    }
-                ),
-                schemas.StrSchema
-            ):
-                
-                @classmethod
-                @property
-                def ZEBRA(cls):
-                    return cls("zebra")
             __annotations__ = {
-                "type": type,
                 "className": className,
+                "type": type,
             }
         additional_properties = schemas.AnyTypeSchema
     

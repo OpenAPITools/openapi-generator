@@ -110,6 +110,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         loadDeepObjectIntoItems = false;
         importBaseType = false;
         addSchemaImportsFromV3SpecLocations = true;
+        sortModelPropertiesByRequiredFlag = Boolean.TRUE;
+        sortParamsByRequiredFlag = Boolean.TRUE;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(

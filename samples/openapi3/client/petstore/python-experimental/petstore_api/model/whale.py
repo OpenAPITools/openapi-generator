@@ -37,8 +37,6 @@ class Whale(
             "className",
         }
         class properties:
-            hasBaleen = schemas.BoolSchema
-            hasTeeth = schemas.BoolSchema
             
             
             class className(
@@ -54,10 +52,12 @@ class Whale(
                 @property
                 def WHALE(cls):
                     return cls("whale")
+            hasBaleen = schemas.BoolSchema
+            hasTeeth = schemas.BoolSchema
             __annotations__ = {
+                "className": className,
                 "hasBaleen": hasBaleen,
                 "hasTeeth": hasTeeth,
-                "className": className,
             }
         additional_properties = schemas.AnyTypeSchema
     

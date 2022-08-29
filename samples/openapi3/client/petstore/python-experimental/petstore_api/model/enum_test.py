@@ -39,7 +39,7 @@ class EnumTest(
         class properties:
             
             
-            class enum_string(
+            class enum_string_required(
                 schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
                         "UPPER": "UPPER",
@@ -66,7 +66,7 @@ class EnumTest(
                     return cls("")
             
             
-            class enum_string_required(
+            class enum_string(
                 schemas.SchemaEnumMakerClsFactory(
                     enum_value_to_name={
                         "UPPER": "UPPER",
@@ -159,8 +159,8 @@ class EnumTest(
             def IntegerEnumOneValue(cls) -> typing.Type['IntegerEnumOneValue']:
                 return IntegerEnumOneValue
             __annotations__ = {
-                "enum_string": enum_string,
                 "enum_string_required": enum_string_required,
+                "enum_string": enum_string,
                 "enum_integer": enum_integer,
                 "enum_number": enum_number,
                 "stringEnum": stringEnum,

@@ -40,12 +40,6 @@ class Pet(
             "name",
         }
         class properties:
-            id = schemas.Int64Schema
-        
-            @classmethod
-            @property
-            def category(cls) -> typing.Type['Category']:
-                return Category
             name = schemas.StrSchema
             
             
@@ -70,6 +64,12 @@ class Pet(
             
                 def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            id = schemas.Int64Schema
+        
+            @classmethod
+            @property
+            def category(cls) -> typing.Type['Category']:
+                return Category
             
             
             class tags(
@@ -125,10 +125,10 @@ class Pet(
                 def SOLD(cls):
                     return cls("sold")
             __annotations__ = {
-                "id": id,
-                "category": category,
                 "name": name,
                 "photoUrls": photoUrls,
+                "id": id,
+                "category": category,
                 "tags": tags,
                 "status": status,
             }

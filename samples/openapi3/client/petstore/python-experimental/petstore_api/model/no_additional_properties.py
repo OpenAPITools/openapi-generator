@@ -47,6 +47,14 @@ class NoAdditionalProperties(
     
     id: MetaOapg.properties.id
     petId: MetaOapg.properties.petId
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    
+    def __getitem__(self, name: typing.Literal["petId"]) -> MetaOapg.properties.petId:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
 
     def __new__(
         cls,

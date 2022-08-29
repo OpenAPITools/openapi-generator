@@ -47,6 +47,14 @@ class AppleReq(
     
     cultivar: MetaOapg.properties.cultivar
     mealy: MetaOapg.properties.mealy
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
+    
+    def __getitem__(self, name: typing.Literal["mealy"]) -> MetaOapg.properties.mealy:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
 
     def __new__(
         cls,

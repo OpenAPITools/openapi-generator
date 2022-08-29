@@ -42,6 +42,29 @@ class FormatTest(
         class properties:
             
             
+            class number(
+                schemas.NumberSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 543.2
+                    inclusive_minimum = 32.1
+                    multiple_of = 32.5
+            byte = schemas.StrSchema
+            date = schemas.DateSchema
+            
+            
+            class password(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    max_length = 64
+                    min_length = 10
+            
+            
             class integer(
                 schemas.IntSchema
             ):
@@ -63,17 +86,6 @@ class FormatTest(
                     inclusive_maximum = 200
                     inclusive_minimum = 20
             int64 = schemas.Int64Schema
-            
-            
-            class number(
-                schemas.NumberSchema
-            ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 543.2
-                    inclusive_minimum = 32.1
-                    multiple_of = 32.5
             
             
             class float(
@@ -134,22 +146,10 @@ class FormatTest(
                             re.IGNORECASE
                         )
                     }]
-            byte = schemas.StrSchema
             binary = schemas.BinarySchema
-            date = schemas.DateSchema
             dateTime = schemas.DateTimeSchema
             uuid = schemas.UUIDSchema
             uuidNoExample = schemas.UUIDSchema
-            
-            
-            class password(
-                schemas.StrSchema
-            ):
-            
-            
-                class MetaOapg:
-                    max_length = 64
-                    min_length = 10
             
             
             class pattern_with_digits(
@@ -177,24 +177,24 @@ class FormatTest(
                     }]
             noneProp = schemas.NoneSchema
             __annotations__ = {
+                "number": number,
+                "byte": byte,
+                "date": date,
+                "password": password,
                 "integer": integer,
                 "int32": int32,
                 "int32withValidations": int32withValidations,
                 "int64": int64,
-                "number": number,
                 "float": float,
                 "float32": float32,
                 "double": double,
                 "float64": float64,
                 "arrayWithUniqueItems": arrayWithUniqueItems,
                 "string": string,
-                "byte": byte,
                 "binary": binary,
-                "date": date,
                 "dateTime": dateTime,
                 "uuid": uuid,
                 "uuidNoExample": uuidNoExample,
-                "password": password,
                 "pattern_with_digits": pattern_with_digits,
                 "pattern_with_digits_and_delimiter": pattern_with_digits_and_delimiter,
                 "noneProp": noneProp,

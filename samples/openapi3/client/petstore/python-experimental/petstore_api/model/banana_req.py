@@ -47,6 +47,14 @@ class BananaReq(
     
     lengthCm: MetaOapg.properties.lengthCm
     sweet: MetaOapg.properties.sweet
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
+    
+    def __getitem__(self, name: typing.Literal["sweet"]) -> MetaOapg.properties.sweet:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
 
     def __new__(
         cls,
