@@ -38,7 +38,7 @@ class PipeSchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'PipeSchema':
         return super().__new__(
@@ -61,7 +61,7 @@ class IoutilSchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'IoutilSchema':
         return super().__new__(
@@ -84,7 +84,7 @@ class HttpSchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'HttpSchema':
         return super().__new__(
@@ -107,7 +107,7 @@ class UrlSchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'UrlSchema':
         return super().__new__(
@@ -130,7 +130,7 @@ class ContextSchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'ContextSchema':
         return super().__new__(

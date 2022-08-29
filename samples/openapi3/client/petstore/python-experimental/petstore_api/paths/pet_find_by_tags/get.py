@@ -39,7 +39,7 @@ class TagsSchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'TagsSchema':
         return super().__new__(
@@ -94,7 +94,7 @@ class SchemaFor200ResponseBodyApplicationXml(
 
     def __new__(
         cls,
-        arg: typing.Collection['Pet'],
+        arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationXml':
         return super().__new__(
@@ -121,7 +121,7 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     def __new__(
         cls,
-        arg: typing.Collection['Pet'],
+        arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(

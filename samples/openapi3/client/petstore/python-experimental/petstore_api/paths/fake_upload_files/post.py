@@ -48,7 +48,7 @@ class SchemaForRequestBodyMultipartFormData(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, ]], typing.List[typing.Union[MetaOapg.items, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'files':
                     return super().__new__(

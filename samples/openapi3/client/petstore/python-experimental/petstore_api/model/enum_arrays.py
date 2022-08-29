@@ -89,7 +89,7 @@ class EnumArrays(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_enum':
                     return super().__new__(

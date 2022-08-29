@@ -61,7 +61,7 @@ class Pet(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'photoUrls':
                     return super().__new__(
@@ -88,7 +88,7 @@ class Pet(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection['Tag'],
+                    arg: typing.Union[typing.Tuple['Tag'], typing.List['Tag']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'tags':
                     return super().__new__(

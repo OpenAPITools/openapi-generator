@@ -57,7 +57,7 @@ class EnumQueryStringArraySchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'EnumQueryStringArraySchema':
         return super().__new__(
@@ -215,7 +215,7 @@ class EnumHeaderStringArraySchema(
 
     def __new__(
         cls,
-        arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'EnumHeaderStringArraySchema':
         return super().__new__(
@@ -324,7 +324,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'enum_form_string_array':
                     return super().__new__(

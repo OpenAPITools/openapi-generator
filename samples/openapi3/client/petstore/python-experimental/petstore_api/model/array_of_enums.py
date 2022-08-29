@@ -43,7 +43,7 @@ class ArrayOfEnums(
 
     def __new__(
         cls,
-        arg: typing.Collection['StringEnum'],
+        arg: typing.Union[typing.Tuple['StringEnum'], typing.List['StringEnum']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'ArrayOfEnums':
         return super().__new__(

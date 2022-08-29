@@ -266,7 +266,7 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, dict, frozendict, None, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict, None, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict, None, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_items_nullable':
                     return super().__new__(

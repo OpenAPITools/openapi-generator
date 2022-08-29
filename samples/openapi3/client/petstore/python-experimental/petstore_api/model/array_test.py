@@ -48,7 +48,7 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, str, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_of_string':
                     return super().__new__(
@@ -79,7 +79,7 @@ class ArrayTest(
                     
                         def __new__(
                             cls,
-                            arg: typing.Collection[typing.Union[MetaOapg.items, int, ]],
+                            arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, int, ]], typing.List[typing.Union[MetaOapg.items, int, ]]],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                         ) -> 'items':
                             return super().__new__(
@@ -93,7 +93,7 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, tuple, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, tuple, ]], typing.List[typing.Union[MetaOapg.items, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_array_of_integer':
                     return super().__new__(
@@ -128,7 +128,7 @@ class ArrayTest(
                     
                         def __new__(
                             cls,
-                            arg: typing.Collection['ReadOnlyFirst'],
+                            arg: typing.Union[typing.Tuple['ReadOnlyFirst'], typing.List['ReadOnlyFirst']],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                         ) -> 'items':
                             return super().__new__(
@@ -142,7 +142,7 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Collection[typing.Union[MetaOapg.items, tuple, ]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, tuple, ]], typing.List[typing.Union[MetaOapg.items, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_array_of_model':
                     return super().__new__(

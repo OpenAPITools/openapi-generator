@@ -57,7 +57,7 @@ class ComposedAnyOfDifferentTypesNoValidations(
         
             def __new__(
                 cls,
-                arg: typing.Collection[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]],
+                arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
                 _configuration: typing.Optional[schemas.Configuration] = None,
             ) -> 'any_of_9':
                 return super().__new__(
