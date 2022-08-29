@@ -15,8 +15,9 @@ import functools  # noqa: F401
 
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -36,7 +37,7 @@ class ComposedArray(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'ComposedArray':
         return super().__new__(

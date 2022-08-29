@@ -15,8 +15,9 @@ import functools  # noqa: F401
 
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -45,7 +46,7 @@ class AppleReq(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         cultivar: typing.Union[MetaOapg.properties.cultivar, str, ],
         mealy: typing.Union[MetaOapg.properties.mealy, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,

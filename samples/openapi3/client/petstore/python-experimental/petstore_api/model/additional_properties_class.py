@@ -15,8 +15,9 @@ import functools  # noqa: F401
 
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -45,7 +46,7 @@ class AdditionalPropertiesClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, ],
+                    *args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                     **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                 ) -> 'map_property':
@@ -75,7 +76,7 @@ class AdditionalPropertiesClass(
                     
                         def __new__(
                             cls,
-                            *args: typing.Union[dict, frozendict, ],
+                            *args: typing.Union[dict, frozendict.frozendict, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
                             **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                         ) -> 'additional_properties':
@@ -88,9 +89,9 @@ class AdditionalPropertiesClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, ],
+                    *args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, ],
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, ],
                 ) -> 'map_of_map_property':
                     return super().__new__(
                         cls,
@@ -114,7 +115,7 @@ class AdditionalPropertiesClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, ],
+                    *args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'empty_map':
                     return super().__new__(
@@ -134,7 +135,7 @@ class AdditionalPropertiesClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, ],
+                    *args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                     **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
                 ) -> 'map_with_undeclared_properties_string':
@@ -157,17 +158,17 @@ class AdditionalPropertiesClass(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        map_property: typing.Union[MetaOapg.properties.map_property, dict, frozendict, schemas.Unset] = schemas.unset,
-        map_of_map_property: typing.Union[MetaOapg.properties.map_of_map_property, dict, frozendict, schemas.Unset] = schemas.unset,
-        anytype_1: typing.Union[MetaOapg.properties.anytype_1, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_anytype_1: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_1, dict, frozendict, schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_anytype_2: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_2, dict, frozendict, schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_anytype_3: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_3, dict, frozendict, schemas.Unset] = schemas.unset,
-        empty_map: typing.Union[MetaOapg.properties.empty_map, dict, frozendict, schemas.Unset] = schemas.unset,
-        map_with_undeclared_properties_string: typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, dict, frozendict, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        map_property: typing.Union[MetaOapg.properties.map_property, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        map_of_map_property: typing.Union[MetaOapg.properties.map_of_map_property, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        anytype_1: typing.Union[MetaOapg.properties.anytype_1, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_anytype_1: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_1, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_anytype_2: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_2, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_anytype_3: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_3, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        empty_map: typing.Union[MetaOapg.properties.empty_map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        map_with_undeclared_properties_string: typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'AdditionalPropertiesClass':
         return super().__new__(
             cls,

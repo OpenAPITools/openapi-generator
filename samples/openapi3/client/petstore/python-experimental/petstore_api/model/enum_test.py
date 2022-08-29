@@ -15,8 +15,9 @@ import functools  # noqa: F401
 
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -171,7 +172,7 @@ class EnumTest(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         enum_string_required: typing.Union[MetaOapg.properties.enum_string_required, str, ],
         enum_string: typing.Union[MetaOapg.properties.enum_string, str, schemas.Unset] = schemas.unset,
         enum_integer: typing.Union[MetaOapg.properties.enum_integer, int, schemas.Unset] = schemas.unset,
@@ -182,7 +183,7 @@ class EnumTest(
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'EnumTest':
         return super().__new__(
             cls,

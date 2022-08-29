@@ -16,8 +16,9 @@ import functools  # noqa: F401
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -40,10 +41,10 @@ class MapBeanSchema(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         keyword: typing.Union[MetaOapg.properties.keyword, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'MapBeanSchema':
         return super().__new__(
             cls,
@@ -60,7 +61,7 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'mapBean': typing.Union[MapBeanSchema, dict, frozendict, ],
+        'mapBean': typing.Union[MapBeanSchema, dict, frozendict.frozendict, ],
     },
     total=False
 )
@@ -97,7 +98,7 @@ class BaseApi(api_client.Api):
 
     def _object_in_query(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -155,7 +156,7 @@ class ObjectInQuery(BaseApi):
 
     def object_in_query(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -176,7 +177,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,

@@ -15,8 +15,9 @@ import functools  # noqa: F401
 
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -191,7 +192,7 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema
@@ -204,9 +205,9 @@ class NullableClass(
                     
                         def __new__(
                             cls,
-                            *args: typing.Union[dict, frozendict, None, ],
+                            *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'items':
                             return super().__new__(
                                 cls,
@@ -237,7 +238,7 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema
@@ -250,9 +251,9 @@ class NullableClass(
                     
                         def __new__(
                             cls,
-                            *args: typing.Union[dict, frozendict, None, ],
+                            *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'items':
                             return super().__new__(
                                 cls,
@@ -263,7 +264,7 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict, None, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict, None, ]]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict.frozendict, None, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict.frozendict, None, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_items_nullable':
                     return super().__new__(
@@ -277,7 +278,7 @@ class NullableClass(
             
             
             class object_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema
@@ -290,9 +291,9 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, None, ],
+                    *args: typing.Union[dict, frozendict.frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, ],
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, ],
                 ) -> 'object_nullable_prop':
                     return super().__new__(
                         cls,
@@ -303,7 +304,7 @@ class NullableClass(
             
             
             class object_and_items_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema
@@ -314,7 +315,7 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema
@@ -327,9 +328,9 @@ class NullableClass(
                     
                         def __new__(
                             cls,
-                            *args: typing.Union[dict, frozendict, None, ],
+                            *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
@@ -341,9 +342,9 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, None, ],
+                    *args: typing.Union[dict, frozendict.frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, None, ],
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, None, ],
                 ) -> 'object_and_items_nullable_prop':
                     return super().__new__(
                         cls,
@@ -362,7 +363,7 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema
@@ -375,9 +376,9 @@ class NullableClass(
                     
                         def __new__(
                             cls,
-                            *args: typing.Union[dict, frozendict, None, ],
+                            *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
@@ -388,9 +389,9 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[dict, frozendict, ],
+                    *args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, None, ],
+                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, None, ],
                 ) -> 'object_items_nullable':
                     return super().__new__(
                         cls,
@@ -401,7 +402,7 @@ class NullableClass(
         
         
         class additional_properties(
-            schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+            schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
             schemas.DictBase,
             schemas.NoneBase,
             schemas.Schema
@@ -414,9 +415,9 @@ class NullableClass(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, None, ],
+                *args: typing.Union[dict, frozendict.frozendict, None, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'additional_properties':
                 return super().__new__(
                     cls,
@@ -440,7 +441,7 @@ class NullableClass(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         integer_prop: typing.Union[MetaOapg.properties.integer_prop, None, int, schemas.Unset] = schemas.unset,
         number_prop: typing.Union[MetaOapg.properties.number_prop, None, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         boolean_prop: typing.Union[MetaOapg.properties.boolean_prop, None, bool, schemas.Unset] = schemas.unset,
@@ -450,11 +451,11 @@ class NullableClass(
         array_nullable_prop: typing.Union[MetaOapg.properties.array_nullable_prop, tuple, None, schemas.Unset] = schemas.unset,
         array_and_items_nullable_prop: typing.Union[MetaOapg.properties.array_and_items_nullable_prop, tuple, None, schemas.Unset] = schemas.unset,
         array_items_nullable: typing.Union[MetaOapg.properties.array_items_nullable, tuple, schemas.Unset] = schemas.unset,
-        object_nullable_prop: typing.Union[MetaOapg.properties.object_nullable_prop, dict, frozendict, None, schemas.Unset] = schemas.unset,
-        object_and_items_nullable_prop: typing.Union[MetaOapg.properties.object_and_items_nullable_prop, dict, frozendict, None, schemas.Unset] = schemas.unset,
-        object_items_nullable: typing.Union[MetaOapg.properties.object_items_nullable, dict, frozendict, schemas.Unset] = schemas.unset,
+        object_nullable_prop: typing.Union[MetaOapg.properties.object_nullable_prop, dict, frozendict.frozendict, None, schemas.Unset] = schemas.unset,
+        object_and_items_nullable_prop: typing.Union[MetaOapg.properties.object_and_items_nullable_prop, dict, frozendict.frozendict, None, schemas.Unset] = schemas.unset,
+        object_items_nullable: typing.Union[MetaOapg.properties.object_items_nullable, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, None, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, None, ],
     ) -> 'NullableClass':
         return super().__new__(
             cls,

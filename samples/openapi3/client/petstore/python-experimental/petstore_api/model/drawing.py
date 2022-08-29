@@ -15,8 +15,9 @@ import functools  # noqa: F401
 
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -88,7 +89,7 @@ class Drawing(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         mainShape: typing.Union['Shape', schemas.Unset] = schemas.unset,
         shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset] = schemas.unset,
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,

@@ -17,8 +17,9 @@ from urllib3._collections import HTTPHeaderDict
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -285,11 +286,11 @@ class BaseApi(api_client.Api):
 
     def _parameter_collisions(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
-        cookie_params: RequestCookieParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        cookie_params: RequestCookieParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -401,11 +402,11 @@ class ParameterCollisions(BaseApi):
 
     def parameter_collisions(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
-        cookie_params: RequestCookieParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        cookie_params: RequestCookieParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -434,11 +435,11 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
-        cookie_params: RequestCookieParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        cookie_params: RequestCookieParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
