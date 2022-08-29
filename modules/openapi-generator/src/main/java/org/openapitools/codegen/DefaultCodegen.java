@@ -3573,6 +3573,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     name of the property
      * @param p        OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
