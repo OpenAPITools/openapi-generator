@@ -282,6 +282,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         modelTemplateFiles.put("model." + templateExtension, ".py");
+        /*
+        This stub file exists to allow pycharm to read and use typing.overload decorators for it to see that
+        dict_instance["someProp"] is of type SomeClass.properties.someProp
+        See https://youtrack.jetbrains.com/issue/PY-42137/PyCharm-type-hinting-doesnt-work-well-with-overload-decorator
+         */
+        modelTemplateFiles.put("model_stub." + templateExtension, ".pyi");
         apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
@@ -554,6 +560,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             endpointMap.put("packageName", packageName);
             outputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
             pathsFiles.add(Arrays.asList(endpointMap, "endpoint.handlebars", outputFilename));
+            /*
+            This stub file exists to allow pycharm to read and use typing.overload decorators for it to see that
+            dict_instance["someProp"] is of type SomeClass.properties.someProp
+            See https://youtrack.jetbrains.com/issue/PY-42137/PyCharm-type-hinting-doesnt-work-well-with-overload-decorator
+             */
+            String stubOutputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".pyi"));
+            pathsFiles.add(Arrays.asList(endpointMap, "endpoint_stub.handlebars", stubOutputFilename));
 
             Map<String, Object> endpointTestMap = new HashMap<>();
             endpointTestMap.put("operation", co);
