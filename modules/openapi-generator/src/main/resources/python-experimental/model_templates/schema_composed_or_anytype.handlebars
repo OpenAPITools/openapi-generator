@@ -31,10 +31,21 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or hasValidation composedSchemas isMap isAnyType}}
+{{#or hasValidation composedSchemas isMap isAnyType getItems}}
 
 
     class MetaOapg:
+{{#with items}}
+{{#if complexType}}
+
+        @classmethod
+        @property
+        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+            return {{complexType}}
+{{else}}
+        {{> model_templates/schema }}
+{{/if}}
+{{/with}}
 {{#or isMap isAnyType}}
         {{> model_templates/dict_partial }}
 {{/or}}
@@ -48,6 +59,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{#if isEnum}}
     {{> model_templates/enums }}
 {{/if}}
+
     {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}

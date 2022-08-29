@@ -62,6 +62,7 @@ class ParentPet(
                 GrandparentAnimal,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],

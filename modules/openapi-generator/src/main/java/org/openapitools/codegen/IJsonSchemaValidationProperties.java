@@ -188,6 +188,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setHasMultipleTypes(boolean hasMultipleTypes);
 
+    boolean getSchemaIsFromAdditionalProperties();
+
+    void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties);
+
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance
      * for now this only supports types without format information

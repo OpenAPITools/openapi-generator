@@ -41,6 +41,20 @@ class SchemaForRequestBodyApplicationJson(
         def items(cls) -> typing.Type['User']:
             return User
 
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple['User'], typing.List['User']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaForRequestBodyApplicationJson':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i) -> 'items':
+        return super().__getitem__(i)
+
 
 request_body_user = api_client.RequestBody(
     content={

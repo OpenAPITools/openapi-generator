@@ -1519,11 +1519,12 @@ class DictBase(Discriminable, ValidatorBase):
             dict_items[property_name_js] = new_value
         return dict_items
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: typing.Any):
         if not isinstance(self, FileIO):
             raise AttributeError('property setting not supported on immutable instances')
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str):
+        # for instance.name access
         if isinstance(self, frozendict):
             # if an attribute does not exist
             try:
@@ -1531,13 +1532,6 @@ class DictBase(Discriminable, ValidatorBase):
             except KeyError as ex:
                 raise AttributeError(str(ex))
         return super().__getattr__(self, name)
-
-    def __getattribute__(self, name):
-        # if an attribute does exist (for example as a class property but not as an instance method)
-        try:
-            return self[name]
-        except (KeyError, TypeError):
-            return super().__getattribute__(name)
 
 
 def cast_to_allowed_types(
@@ -1828,7 +1822,7 @@ class ListSchema(
     def _from_openapi_data(cls, arg: typing.List[typing.Any], _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: typing.Union[list, tuple], **kwargs: ValidationMetadata):
+    def __new__(cls, arg: typing.Union[typing.List[typing.Any], typing.Tuple[typing.Any]], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
@@ -1843,7 +1837,7 @@ class NoneSchema(
     def _from_openapi_data(cls, arg: None, _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: None, **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: None, **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
@@ -1862,7 +1856,7 @@ class NumberSchema(
     def _from_openapi_data(cls, arg: typing.Union[int, float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: typing.Union[decimal.Decimal, int, float], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[decimal.Decimal, int, float], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
@@ -1905,7 +1899,7 @@ class IntSchema(IntBase, NumberSchema):
     def _from_openapi_data(cls, arg: int, _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: typing.Union[decimal.Decimal, int], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[decimal.Decimal, int], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
@@ -1990,31 +1984,31 @@ class StrSchema(
     def _from_openapi_data(cls, arg: typing.Union[str], _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: typing.Union[str, date, datetime, uuid.UUID], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[str, date, datetime, uuid.UUID], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
 class UUIDSchema(UUIDBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str, uuid.UUID], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[str, uuid.UUID], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
 class DateSchema(DateBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str, datetime], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[str, datetime], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
 class DateTimeSchema(DateTimeBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str, datetime], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[str, datetime], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
 class DecimalSchema(DecimalBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[str], **kwargs: Configuration):
         """
         Note: Decimals may not be passed in because cast_to_allowed_types is only invoked once for payloads
         which can be simple (str) or complex (dicts or lists with nested values)
@@ -2033,7 +2027,7 @@ class BytesSchema(
     """
     this class will subclass bytes and is immutable
     """
-    def __new__(cls, arg: typing.Union[bytes], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[bytes], **kwargs: Configuration):
         return super(Schema, cls).__new__(cls, arg)
 
 
@@ -2058,7 +2052,7 @@ class FileSchema(
     - to be able to preserve file name info
     """
 
-    def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader], **kwargs: Configuration):
         return super(Schema, cls).__new__(cls, arg)
 
 
@@ -2078,7 +2072,7 @@ class BinarySchema(
             FileSchema,
         ]
 
-    def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: Configuration):
         return super().__new__(cls, arg)
 
 
@@ -2093,7 +2087,7 @@ class BoolSchema(
     def _from_openapi_data(cls, arg: bool, _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, arg: bool, **kwargs: typing.Union[ValidationMetadata]):
+    def __new__(cls, arg: bool, **kwargs: ValidationMetadata):
         return super().__new__(cls, arg, **kwargs)
 
 

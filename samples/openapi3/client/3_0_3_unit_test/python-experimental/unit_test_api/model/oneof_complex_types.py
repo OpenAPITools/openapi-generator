@@ -50,6 +50,7 @@ class OneofComplexTypes(
                 class properties:
                     bar = schemas.IntSchema
                 additional_properties = schemas.AnyTypeSchema
+        
             
             bar: MetaOapg.properties.bar
         
@@ -81,6 +82,7 @@ class OneofComplexTypes(
                 class properties:
                     foo = schemas.StrSchema
                 additional_properties = schemas.AnyTypeSchema
+        
             
             foo: MetaOapg.properties.foo
         
@@ -114,6 +116,7 @@ class OneofComplexTypes(
                 cls.one_of_0,
                 cls.one_of_1,
             ]
+
 
     def __new__(
         cls,

@@ -41,4 +41,18 @@ class AnimalFarm(
         def items(cls) -> typing.Type['Animal']:
             return Animal
 
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple['Animal'], typing.List['Animal']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'AnimalFarm':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i) -> 'items':
+        return super().__getitem__(i)
+
 from petstore_api.model.animal import Animal

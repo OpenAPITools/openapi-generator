@@ -162,8 +162,8 @@ class EnumTest(
                 return IntegerEnumOneValue
         additional_properties = schemas.AnyTypeSchema
     
-    enum_string: MetaOapg.properties.enum_string
     enum_string_required: MetaOapg.properties.enum_string_required
+    enum_string: MetaOapg.properties.enum_string
     enum_integer: MetaOapg.properties.enum_integer
     enum_number: MetaOapg.properties.enum_number
     stringEnum: 'StringEnum'

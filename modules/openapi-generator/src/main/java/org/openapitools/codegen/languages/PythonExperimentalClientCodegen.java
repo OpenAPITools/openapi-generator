@@ -989,12 +989,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * This method is used by fromResponse
      *
      * @param name name of the property
-     * @param p    OAS property object
+     * @param p OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        CodegenProperty cp = super.fromProperty(name, p, required);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty cp = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
 
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;

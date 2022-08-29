@@ -58,6 +58,7 @@ class User(
                 class MetaOapg:
                     additional_properties = schemas.AnyTypeSchema
             
+            
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict, None, ],
@@ -81,6 +82,7 @@ class User(
                 class MetaOapg:
                     additional_properties = schemas.AnyTypeSchema
                     not_schema = schemas.NoneSchema
+            
             
                 def __new__(
                     cls,

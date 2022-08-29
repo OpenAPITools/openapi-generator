@@ -121,6 +121,20 @@ class FormatTest(
                     unique_items = True
                     items = schemas.NumberSchema
             
+                def __new__(
+                    cls,
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]], typing.List[typing.Union[MetaOapg.items, decimal.Decimal, int, float, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'arrayWithUniqueItems':
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
+            
             
             class string(
                 schemas.StrSchema
@@ -178,23 +192,23 @@ class FormatTest(
             noneProp = schemas.NoneSchema
         additional_properties = schemas.AnyTypeSchema
     
+    date: MetaOapg.properties.date
+    number: MetaOapg.properties.number
+    password: MetaOapg.properties.password
+    byte: MetaOapg.properties.byte
     integer: MetaOapg.properties.integer
     int32: MetaOapg.properties.int32
     int32withValidations: MetaOapg.properties.int32withValidations
     int64: MetaOapg.properties.int64
-    number: MetaOapg.properties.number
     float32: MetaOapg.properties.float32
     double: MetaOapg.properties.double
     float64: MetaOapg.properties.float64
     arrayWithUniqueItems: MetaOapg.properties.arrayWithUniqueItems
     string: MetaOapg.properties.string
-    byte: MetaOapg.properties.byte
     binary: MetaOapg.properties.binary
-    date: MetaOapg.properties.date
     dateTime: MetaOapg.properties.dateTime
     uuid: MetaOapg.properties.uuid
     uuidNoExample: MetaOapg.properties.uuidNoExample
-    password: MetaOapg.properties.password
     pattern_with_digits: MetaOapg.properties.pattern_with_digits
     pattern_with_digits_and_delimiter: MetaOapg.properties.pattern_with_digits_and_delimiter
     noneProp: MetaOapg.properties.noneProp

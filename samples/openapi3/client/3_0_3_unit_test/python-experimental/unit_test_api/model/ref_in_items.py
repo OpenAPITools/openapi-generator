@@ -41,4 +41,18 @@ class RefInItems(
         def items(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
             return PropertyNamedRefThatIsNotAReference
 
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple['PropertyNamedRefThatIsNotAReference'], typing.List['PropertyNamedRefThatIsNotAReference']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'RefInItems':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i) -> 'items':
+        return super().__getitem__(i)
+
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference

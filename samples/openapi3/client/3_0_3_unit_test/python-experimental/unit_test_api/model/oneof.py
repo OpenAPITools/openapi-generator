@@ -48,6 +48,7 @@ class Oneof(
                 additional_properties = schemas.AnyTypeSchema
                 inclusive_minimum = 2
         
+        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -76,6 +77,7 @@ class Oneof(
                 cls.one_of_0,
                 cls.one_of_1,
             ]
+
 
     def __new__(
         cls,

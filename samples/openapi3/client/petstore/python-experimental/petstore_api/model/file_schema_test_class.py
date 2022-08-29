@@ -54,6 +54,20 @@ class FileSchemaTestClass(
                     @property
                     def items(cls) -> typing.Type['File']:
                         return File
+            
+                def __new__(
+                    cls,
+                    arg: typing.Union[typing.Tuple['File'], typing.List['File']],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'files':
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i) -> 'items':
+                    return super().__getitem__(i)
         additional_properties = schemas.AnyTypeSchema
     
     file: 'File'

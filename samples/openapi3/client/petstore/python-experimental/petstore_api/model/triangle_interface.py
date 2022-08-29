@@ -57,6 +57,7 @@ class TriangleInterface(
                     return cls("Triangle")
             triangleType = schemas.StrSchema
         additional_properties = schemas.AnyTypeSchema
+
     
     shapeType: MetaOapg.properties.shapeType
     triangleType: MetaOapg.properties.triangleType

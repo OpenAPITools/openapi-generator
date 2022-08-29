@@ -144,14 +144,14 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             callback = schemas.StrSchema
         additional_properties = schemas.AnyTypeSchema
     
+    number: MetaOapg.properties.number
+    pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter
+    byte: MetaOapg.properties.byte
+    double: MetaOapg.properties.double
     integer: MetaOapg.properties.integer
     int32: MetaOapg.properties.int32
     int64: MetaOapg.properties.int64
-    number: MetaOapg.properties.number
-    double: MetaOapg.properties.double
     string: MetaOapg.properties.string
-    pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter
-    byte: MetaOapg.properties.byte
     binary: MetaOapg.properties.binary
     date: MetaOapg.properties.date
     dateTime: MetaOapg.properties.dateTime

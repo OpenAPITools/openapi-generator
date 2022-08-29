@@ -59,6 +59,7 @@ class CompositionAtRootSchema(
                 cls.all_of_0,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -113,6 +114,7 @@ class CompositionInPropertySchema(
                         return [
                             cls.all_of_0,
                         ]
+            
             
                 def __new__(
                     cls,
@@ -210,6 +212,7 @@ class SchemaForRequestBodyApplicationJson(
                 cls.all_of_0,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -264,6 +267,7 @@ class SchemaForRequestBodyMultipartFormData(
                         return [
                             cls.all_of_0,
                         ]
+            
             
                 def __new__(
                     cls,
@@ -339,6 +343,7 @@ class SchemaFor200ResponseBodyApplicationJson(
                 cls.all_of_0,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -393,6 +398,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
                         return [
                             cls.all_of_0,
                         ]
+            
             
                 def __new__(
                     cls,

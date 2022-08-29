@@ -55,6 +55,20 @@ class EnumQueryStringArraySchema(
             def DOLLAR(cls):
                 return cls("$")
 
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'EnumQueryStringArraySchema':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
+
 
 class EnumQueryStringSchema(
     schemas.SchemaEnumMakerClsFactory(
@@ -199,6 +213,20 @@ class EnumHeaderStringArraySchema(
             def DOLLAR(cls):
                 return cls("$")
 
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'EnumHeaderStringArraySchema':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i) -> MetaOapg.items:
+        return super().__getitem__(i)
+
 
 class EnumHeaderStringSchema(
     schemas.SchemaEnumMakerClsFactory(
@@ -293,6 +321,20 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                         @property
                         def DOLLAR(cls):
                             return cls("$")
+            
+                def __new__(
+                    cls,
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'enum_form_string_array':
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
             
             
             class enum_form_string(

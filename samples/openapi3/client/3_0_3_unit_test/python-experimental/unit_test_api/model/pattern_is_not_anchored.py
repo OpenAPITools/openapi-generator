@@ -40,6 +40,7 @@ class PatternIsNotAnchored(
             'pattern': r'a+',  # noqa: E501
         }]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],

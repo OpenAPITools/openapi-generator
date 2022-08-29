@@ -58,9 +58,9 @@ class Whale(
                     return cls("whale")
         additional_properties = schemas.AnyTypeSchema
     
+    className: MetaOapg.properties.className
     hasBaleen: MetaOapg.properties.hasBaleen
     hasTeeth: MetaOapg.properties.hasTeeth
-    className: MetaOapg.properties.className
 
     def __new__(
         cls,

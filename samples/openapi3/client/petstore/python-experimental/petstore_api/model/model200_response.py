@@ -53,6 +53,7 @@ class Model200Response(
             If the property is required and was not passed in, an exception will be thrown
             """
         additional_properties = schemas.AnyTypeSchema
+
     
     name: MetaOapg.properties.name
 

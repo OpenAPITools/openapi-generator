@@ -47,6 +47,7 @@ class AnyofWithBaseSchema(
                 additional_properties = schemas.AnyTypeSchema
                 max_length = 2
         
+        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -69,6 +70,7 @@ class AnyofWithBaseSchema(
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
                 min_length = 4
+        
         
             def __new__(
                 cls,
@@ -98,6 +100,7 @@ class AnyofWithBaseSchema(
                 cls.any_of_0,
                 cls.any_of_1,
             ]
+
 
     def __new__(
         cls,

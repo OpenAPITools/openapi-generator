@@ -1,6 +1,6 @@
 
 
-class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
+class {{> model_templates/classname }}(
     schemas.ListSchema
 ):
 {{#if this.classname}}
@@ -29,3 +29,8 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
         {{> model_templates/schema }}
 {{/if}}
 {{/with}}
+
+    {{> model_templates/new }}
+
+    def __getitem__(self, i) -> {{#with items}}{{#if complexType}}'{{baseName}}'{{else}}MetaOapg.items{{/if}}{{/with}}:
+        return super().__getitem__(i)

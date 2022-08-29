@@ -48,6 +48,20 @@ class AdditionalPropertiesWithArrayOfEnums(
                 @property
                 def items(cls) -> typing.Type['EnumClass']:
                     return EnumClass
+        
+            def __new__(
+                cls,
+                arg: typing.Union[typing.Tuple['EnumClass'], typing.List['EnumClass']],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+            ) -> 'additional_properties':
+                return super().__new__(
+                    cls,
+                    arg,
+                    _configuration=_configuration,
+                )
+        
+            def __getitem__(self, i) -> 'items':
+                return super().__getitem__(i)
 
     def __new__(
         cls,

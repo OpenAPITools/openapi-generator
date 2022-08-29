@@ -38,6 +38,7 @@ class BySmallNumber(
         additional_properties = schemas.AnyTypeSchema
         multiple_of = 0.00010
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],

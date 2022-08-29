@@ -68,6 +68,7 @@ class Apple(
                         )
                     }]
         additional_properties = schemas.AnyTypeSchema
+
     
     cultivar: MetaOapg.properties.cultivar
     origin: MetaOapg.properties.origin

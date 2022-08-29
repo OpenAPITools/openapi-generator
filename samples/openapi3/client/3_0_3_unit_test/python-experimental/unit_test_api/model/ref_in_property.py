@@ -42,6 +42,7 @@ class RefInProperty(
             def a(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
                 return PropertyNamedRefThatIsNotAReference
         additional_properties = schemas.AnyTypeSchema
+
     
     a: 'PropertyNamedRefThatIsNotAReference'
 

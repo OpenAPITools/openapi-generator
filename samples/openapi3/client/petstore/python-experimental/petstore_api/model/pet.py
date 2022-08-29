@@ -59,6 +59,20 @@ class Pet(
                 class MetaOapg:
                     items = schemas.StrSchema
             
+                def __new__(
+                    cls,
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'photoUrls':
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i) -> MetaOapg.items:
+                    return super().__getitem__(i)
+            
             
             class tags(
                 schemas.ListSchema
@@ -71,6 +85,20 @@ class Pet(
                     @property
                     def items(cls) -> typing.Type['Tag']:
                         return Tag
+            
+                def __new__(
+                    cls,
+                    arg: typing.Union[typing.Tuple['Tag'], typing.List['Tag']],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'tags':
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i) -> 'items':
+                    return super().__getitem__(i)
             
             
             class status(
@@ -100,10 +128,10 @@ class Pet(
                     return cls("sold")
         additional_properties = schemas.AnyTypeSchema
     
+    photoUrls: MetaOapg.properties.photoUrls
+    name: MetaOapg.properties.name
     id: MetaOapg.properties.id
     category: 'Category'
-    name: MetaOapg.properties.name
-    photoUrls: MetaOapg.properties.photoUrls
     tags: MetaOapg.properties.tags
     status: MetaOapg.properties.status
 

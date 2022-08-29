@@ -71,8 +71,8 @@ class EnumsInProperties(
                     return cls("bar")
         additional_properties = schemas.AnyTypeSchema
     
-    foo: MetaOapg.properties.foo
     bar: MetaOapg.properties.bar
+    foo: MetaOapg.properties.foo
 
     def __new__(
         cls,

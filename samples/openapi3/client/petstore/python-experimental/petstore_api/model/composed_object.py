@@ -54,6 +54,7 @@ class ComposedObject(
                 cls.all_of_0,
             ]
 
+
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],

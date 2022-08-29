@@ -51,6 +51,10 @@ class OneofWithRequired(
                 }
                 additional_properties = schemas.AnyTypeSchema
         
+            
+            bar: MetaOapg.additional_properties
+            foo: MetaOapg.additional_properties
+        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
@@ -76,6 +80,10 @@ class OneofWithRequired(
                     "baz",
                 }
                 additional_properties = schemas.AnyTypeSchema
+        
+            
+            foo: MetaOapg.additional_properties
+            baz: MetaOapg.additional_properties
         
             def __new__(
                 cls,
@@ -105,6 +113,7 @@ class OneofWithRequired(
                 cls.one_of_0,
                 cls.one_of_1,
             ]
+
 
     def __new__(
         cls,

@@ -50,6 +50,7 @@ class PropertyNamedRefThatIsNotAReference(
             If the property is required and was not passed in, an exception will be thrown
             """
         additional_properties = schemas.AnyTypeSchema
+
     
 
     def __new__(

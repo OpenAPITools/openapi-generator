@@ -43,8 +43,8 @@ class Category(
             name = schemas.StrSchema
         additional_properties = schemas.AnyTypeSchema
     
-    id: MetaOapg.properties.id
     name: MetaOapg.properties.name
+    id: MetaOapg.properties.id
 
     def __new__(
         cls,

@@ -36,6 +36,7 @@ class NullableString(
     Do not edit the class manually.
     """
 
+
     def __new__(
         cls,
         *args: typing.Union[None, str, ],
