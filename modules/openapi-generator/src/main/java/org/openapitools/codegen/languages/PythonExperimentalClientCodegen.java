@@ -989,7 +989,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * This method is used by fromResponse
      *
      * @param name name of the property
-     * @param p    OAS property object
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
      * @return Codegen Property object
      */
     @Override
