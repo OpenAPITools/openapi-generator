@@ -44,7 +44,11 @@ def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> '{{complexType}}'
 {{baseName}}: MetaOapg.additional_properties
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.additional_properties: ...
 {{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.locals()["{{baseName}}"]: ...
+{{else}}
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
 {{/if}}
 {{/if}}
 {{/with}}
@@ -58,7 +62,11 @@ def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properti
 {{#if complexType}}
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> '{{complexType}}': ...
 {{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.locals()["{{baseName}}"]: ...
+{{else}}
 def __getitem__(self, name: typing.Literal["{{baseName}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
 {{/if}}
 {{/unless}}
 {{/each}}

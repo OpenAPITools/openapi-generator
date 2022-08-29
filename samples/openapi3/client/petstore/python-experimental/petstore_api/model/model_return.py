@@ -54,7 +54,7 @@ class ModelReturn(
     
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["return"]) -> MetaOapg.properties.return: ...
+    def __getitem__(self, name: typing.Literal["return"]) -> MetaOapg.properties.locals()["return"]: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # if an attribute does not exist
