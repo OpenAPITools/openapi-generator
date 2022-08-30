@@ -5,12 +5,12 @@
 @typing.overload
 {{/unless}}
 {{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}':{{#unless @last}} ...{{/unless}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}'{{complexType}}'{{#unless required}}, schemas.Unset]{{/unless}}:{{#unless @last}} ...{{/unless}}
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}:{{#unless @last}} ...{{/unless}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{name}}{{#unless required}}, schemas.Unset]{{/unless}}:{{#unless @last}} ...{{/unless}}
 {{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}:{{#unless @last}} ...{{/unless}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{baseName}}{{#unless required}}, schemas.Unset]{{/unless}}:{{#unless @last}} ...{{/unless}}
 {{/if}}
 {{/if}}
 {{#if @last}}

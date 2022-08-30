@@ -51,7 +51,7 @@ class AppleReq(
     @typing.overload
     def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
     
-    def __getitem__(self, name: typing.Literal["mealy"]) -> MetaOapg.properties.mealy:
+    def __getitem__(self, name: typing.Literal["mealy"]) -> typing.Union[MetaOapg.properties.mealy, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
