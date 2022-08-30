@@ -3,28 +3,20 @@
 
 {{#unless @last}}
 @typing.overload
+{{/unless}}
 {{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}':{{#unless @last}} ...{{/unless}}
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}:{{#unless @last}} ...{{/unless}}
 {{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}:{{#unless @last}} ...{{/unless}}
 {{/if}}
 {{/if}}
-{{else}}
-{{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}':
-{{else}}
-{{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}:
-{{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}:
-{{/if}}
-{{/if}}
+{{#if @last}}
     # dict_instance[name] accessor
     return super().__getitem__(name)
-{{/unless}}
+{{/if}}
 {{/each}}
 
 {{/if}}
