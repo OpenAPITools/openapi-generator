@@ -23,8 +23,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJsonCharsetutf8 = schemas.AnyTypeSchema
 SchemaFor200ResponseBodyApplicationJsonCharsetutf8 = schemas.AnyTypeSchema

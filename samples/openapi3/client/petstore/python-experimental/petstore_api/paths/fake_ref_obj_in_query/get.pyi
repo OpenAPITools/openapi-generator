@@ -24,8 +24,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.foo import Foo
 
-from . import path
-
 # query params
 MapBeanSchema = Foo
 request_query_map_bean = api_client.QueryParameter(

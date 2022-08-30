@@ -18,8 +18,10 @@ from {{packageName}} import api_client, exceptions
 {{> model_templates/imports_schema_types }}
 {{> model_templates/imports_schemas }}
 
+{{#unless isStub}}
 from . import path
 
+{{/unless}}
 {{#with operation}}
 {{#if queryParams}}
 # query params
@@ -204,6 +206,7 @@ request_body_{{paramName}} = api_client.RequestBody(
 )
 {{/unless}}
 {{/with}}
+{{#unless ../isStub}}
 {{#each authMethods}}
 {{#if @first}}
 _auth = [
@@ -246,6 +249,7 @@ _servers = (
 )
 {{/if}}
 {{/each}}
+{{/unless}}
 {{#each responses}}
 {{#each responseHeaders}}
 {{#with schema}}

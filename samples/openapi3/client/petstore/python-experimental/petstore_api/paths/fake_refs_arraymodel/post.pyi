@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.animal_farm import AnimalFarm
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = AnimalFarm
 SchemaFor200ResponseBodyApplicationJson = AnimalFarm

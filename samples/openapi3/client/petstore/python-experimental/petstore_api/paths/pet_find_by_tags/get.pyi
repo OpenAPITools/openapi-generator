@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.pet import Pet
 
-from . import path
-
 # query params
 
 
@@ -57,10 +55,6 @@ request_query_tags = api_client.QueryParameter(
     schema=TagsSchema,
     required=True,
 )
-_auth = [
-    'http_signature_test',
-    'petstore_auth',
-]
 
 
 class SchemaFor200ResponseBodyApplicationXml(

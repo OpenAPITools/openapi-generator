@@ -23,8 +23,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
 # body param
 
 
@@ -250,9 +248,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             _configuration=_configuration,
             **kwargs,
         )
-_auth = [
-    'http_basic_test',
-]
 
 
 @dataclass

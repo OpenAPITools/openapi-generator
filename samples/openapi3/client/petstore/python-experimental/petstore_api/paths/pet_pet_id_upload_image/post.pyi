@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.api_response import ApiResponse
 
-from . import path
-
 # path params
 PetIdSchema = schemas.Int64Schema
 request_path_pet_id = api_client.PathParameter(
@@ -82,9 +80,6 @@ class SchemaForRequestBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
-_auth = [
-    'petstore_auth',
-]
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
 
 

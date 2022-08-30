@@ -23,8 +23,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationOctetStream = schemas.BinarySchema
 SchemaFor200ResponseBodyApplicationOctetStream = schemas.BinarySchema

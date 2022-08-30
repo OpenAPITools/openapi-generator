@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.foo import Foo
 
-from . import path
-
 
 
 class SchemaFor0ResponseBodyApplicationJson(

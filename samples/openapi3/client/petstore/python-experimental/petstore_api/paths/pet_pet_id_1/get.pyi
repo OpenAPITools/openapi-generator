@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.pet import Pet
 
-from . import path
-
 # path params
 PetIdSchema = schemas.Int64Schema
 request_path_pet_id = api_client.PathParameter(
@@ -35,9 +33,6 @@ request_path_pet_id = api_client.PathParameter(
     schema=PetIdSchema,
     required=True,
 )
-_auth = [
-    'api_key',
-]
 SchemaFor200ResponseBodyApplicationXml = Pet
 SchemaFor200ResponseBodyApplicationJson = Pet
 

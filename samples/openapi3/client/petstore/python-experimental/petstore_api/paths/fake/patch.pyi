@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.client import Client
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = Client
 SchemaFor200ResponseBodyApplicationJson = Client

@@ -23,8 +23,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
 # header params
 ApiKeySchema = schemas.StrSchema
 request_header_api_key = api_client.HeaderParameter(
@@ -40,9 +38,6 @@ request_path_pet_id = api_client.PathParameter(
     schema=PetIdSchema,
     required=True,
 )
-_auth = [
-    'petstore_auth',
-]
 
 
 @dataclass

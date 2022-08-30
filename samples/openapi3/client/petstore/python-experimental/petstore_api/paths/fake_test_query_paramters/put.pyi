@@ -24,8 +24,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.string_with_validation import StringWithValidation
 
-from . import path
-
 # query params
 
 

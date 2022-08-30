@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.number_with_validations import NumberWithValidations
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = NumberWithValidations
 SchemaFor200ResponseBodyApplicationJson = NumberWithValidations

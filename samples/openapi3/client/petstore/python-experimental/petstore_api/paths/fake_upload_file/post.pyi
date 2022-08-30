@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.api_response import ApiResponse
 
-from . import path
-
 # body param
 
 

@@ -25,25 +25,9 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.pet import Pet
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = Pet
 SchemaForRequestBodyApplicationXml = Pet
-_auth = [
-    'http_signature_test',
-    'petstore_auth',
-]
-_servers = (
-    {
-        'url': "https://petstore.swagger.io/v2",
-        'description': "No description provided",
-    },
-    {
-        'url': "https://path-server-test.petstore.local/v2",
-        'description': "No description provided",
-    },
-)
 
 
 @dataclass

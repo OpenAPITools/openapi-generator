@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.string_enum import StringEnum
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = StringEnum
 SchemaFor200ResponseBodyApplicationJson = StringEnum

@@ -22,8 +22,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
 # path params
 IdSchema = schemas.StrSchema
 request_path_id = api_client.PathParameter(

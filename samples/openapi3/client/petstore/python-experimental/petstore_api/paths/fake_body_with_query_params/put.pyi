@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.user import User
 
-from . import path
-
 # query params
 QuerySchema = schemas.StrSchema
 request_query_query = api_client.QueryParameter(

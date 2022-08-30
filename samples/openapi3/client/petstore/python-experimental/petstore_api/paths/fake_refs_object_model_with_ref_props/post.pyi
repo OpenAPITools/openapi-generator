@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = ObjectModelWithRefProps
 SchemaFor200ResponseBodyApplicationJson = ObjectModelWithRefProps

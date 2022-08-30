@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.order import Order
 
-from . import path
-
 # body param
 SchemaForRequestBodyApplicationJson = Order
 SchemaFor200ResponseBodyApplicationXml = Order

@@ -25,8 +25,6 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.health_check_result import HealthCheckResult
 
-from . import path
-
 SchemaFor200ResponseBodyApplicationJson = HealthCheckResult
 
 

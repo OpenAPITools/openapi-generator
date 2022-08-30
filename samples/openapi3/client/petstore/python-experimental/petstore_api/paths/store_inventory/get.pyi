@@ -23,11 +23,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
-_auth = [
-    'api_key',
-]
 
 
 class SchemaFor200ResponseBodyApplicationJson(

@@ -23,8 +23,6 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-from . import path
-
 # query params
 RequiredStringGroupSchema = schemas.IntSchema
 RequiredInt64GroupSchema = schemas.Int64Schema
@@ -70,9 +68,6 @@ request_header_boolean_group = api_client.HeaderParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=BooleanGroupSchema,
 )
-_auth = [
-    'bearer_test',
-]
 
 
 @dataclass
