@@ -474,7 +474,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\&quot;bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
@@ -557,7 +557,7 @@ headers | Unset | headers were not defined |
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
+**foo\&quot;bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
 **foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 

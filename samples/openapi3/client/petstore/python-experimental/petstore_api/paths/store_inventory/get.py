@@ -17,8 +17,9 @@ from urllib3._collections import HTTPHeaderDict
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -36,10 +37,14 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     class MetaOapg:
         additional_properties = schemas.Int32Schema
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, int, ],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':

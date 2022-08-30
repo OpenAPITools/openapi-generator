@@ -10,22 +10,20 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
 
 class Apple(
-    schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict, schemas.NoneClass, ]),
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
     schemas.DictBase,
     schemas.NoneBase,
     schemas.Schema
@@ -67,18 +65,32 @@ class Apple(
                             re.IGNORECASE
                         )
                     }]
+            __annotations__ = {
+                "cultivar": cultivar,
+                "origin": origin,
+            }
         additional_properties = schemas.AnyTypeSchema
 
     
     cultivar: MetaOapg.properties.cultivar
     origin: MetaOapg.properties.origin
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["origin"]) -> MetaOapg.properties.origin: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, None, ],
+        *args: typing.Union[dict, frozendict.frozendict, None, ],
         origin: typing.Union[MetaOapg.properties.origin, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Apple':
         return super().__new__(
             cls,

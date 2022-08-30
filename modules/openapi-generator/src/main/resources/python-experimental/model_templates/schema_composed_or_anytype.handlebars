@@ -9,7 +9,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{/if}}
 {{else}}
     {{#if getHasMultipleTypes}}
-    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isArray}}tuple, {{/if}}{{#if isMap}}frozendict, {{/if}}{{#if isNull}}schemas.NoneClass, {{/if}}{{#if isString}}str, {{/if}}{{#if isByteArray}}str, {{/if}}{{#if isUnboundedInteger}}decimal.Decimal, {{/if}}{{#if isShort}}decimal.Decimal, {{/if}}{{#if isLong}}decimal.Decimal, {{/if}}{{#if isFloat}}decimal.Decimal, {{/if}}{{#if isDouble}}decimal.Decimal, {{/if}}{{#if isNumber}}decimal.Decimal, {{/if}}{{#if isDate}}str, {{/if}}{{#if isDateTime}}str, {{/if}}{{#if isDecimal}}str, {{/if}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isArray}}tuple, {{/if}}{{#if isMap}}frozendict.frozendict, {{/if}}{{#if isNull}}schemas.NoneClass, {{/if}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}decimal.Decimal, {{/or}}{{#or isString isByteArray isDate isDateTime isDecimal}}str, {{/or}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
     {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedBase,
@@ -49,9 +49,11 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{#or isMap isAnyType}}
         {{> model_templates/dict_partial }}
 {{/or}}
+{{#unless isStub}}
 {{#if hasValidation}}
         {{> model_templates/validations }}
 {{/if}}
+{{/unless}}
 {{#if composedSchemas}}
         {{> model_templates/composed_schemas }}
 {{/if}}

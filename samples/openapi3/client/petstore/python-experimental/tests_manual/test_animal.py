@@ -12,11 +12,13 @@
 
 import unittest
 
+import frozendict
+
 import petstore_api
 from petstore_api.model.cat import Cat
 from petstore_api.model.dog import Dog
 from petstore_api.model.animal import Animal
-from petstore_api.schemas import StrSchema, BoolSchema, frozendict
+from petstore_api.schemas import StrSchema, BoolSchema
 
 
 class TestAnimal(unittest.TestCase):
@@ -40,7 +42,7 @@ class TestAnimal(unittest.TestCase):
 
         animal = Animal(className='Cat', color='black')
         assert isinstance(animal, Animal)
-        assert isinstance(animal, frozendict)
+        assert isinstance(animal, frozendict.frozendict)
         assert isinstance(animal, Cat)
         assert isinstance(animal, Cat.MetaOapg.all_of[1])
         assert set(animal.keys()) == {'className', 'color'}
@@ -52,7 +54,7 @@ class TestAnimal(unittest.TestCase):
         # pass in optional param
         animal = Animal(className='Cat', color='black', declawed=True)
         assert isinstance(animal, Animal)
-        assert isinstance(animal, frozendict)
+        assert isinstance(animal, frozendict.frozendict)
         assert isinstance(animal, Cat)
         assert isinstance(animal, Cat.MetaOapg.all_of[1])
         assert set(animal.keys()) == {'className', 'color', 'declawed'}
@@ -65,7 +67,7 @@ class TestAnimal(unittest.TestCase):
 
         # make a Dog
         animal = Animal(className='Dog', color='black')
-        assert isinstance(animal, (Animal, frozendict, Dog, Dog.MetaOapg.all_of[1]))
+        assert isinstance(animal, (Animal, frozendict.frozendict, Dog, Dog.MetaOapg.all_of[1]))
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'
@@ -74,7 +76,7 @@ class TestAnimal(unittest.TestCase):
 
         # pass in optional param
         animal = Animal(className='Dog', color='black', breed='Labrador')
-        assert isinstance(animal, (Animal, frozendict, Dog, Dog.MetaOapg.all_of[1]))
+        assert isinstance(animal, (Animal, frozendict.frozendict, Dog, Dog.MetaOapg.all_of[1]))
         assert set(animal.keys()) == {'className', 'color', 'breed'}
         assert animal.className == 'Dog'
         assert animal.color == 'black'

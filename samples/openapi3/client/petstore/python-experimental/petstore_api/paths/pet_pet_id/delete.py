@@ -17,8 +17,9 @@ from urllib3._collections import HTTPHeaderDict
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -99,8 +100,8 @@ class BaseApi(api_client.Api):
 
     def _delete_pet(
         self: api_client.Api,
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -170,8 +171,8 @@ class DeletePet(BaseApi):
 
     def delete_pet(
         self: BaseApi,
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -192,8 +193,8 @@ class ApiFordelete(BaseApi):
 
     def delete(
         self: BaseApi,
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,

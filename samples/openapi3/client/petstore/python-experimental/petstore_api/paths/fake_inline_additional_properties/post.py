@@ -17,8 +17,9 @@ from urllib3._collections import HTTPHeaderDict
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -34,10 +35,14 @@ class SchemaForRequestBodyApplicationJson(
 
     class MetaOapg:
         additional_properties = schemas.StrSchema
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
     ) -> 'SchemaForRequestBodyApplicationJson':
@@ -77,7 +82,7 @@ class BaseApi(api_client.Api):
 
     def _inline_additional_properties(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -138,7 +143,7 @@ class InlineAdditionalProperties(BaseApi):
 
     def inline_additional_properties(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -161,7 +166,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

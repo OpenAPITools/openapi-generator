@@ -16,8 +16,9 @@ import functools  # noqa: F401
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -47,7 +48,7 @@ class PipeSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 
 
@@ -70,7 +71,7 @@ class IoutilSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 
 
@@ -93,7 +94,7 @@ class HttpSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 
 
@@ -116,7 +117,7 @@ class UrlSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 
 
@@ -139,7 +140,7 @@ class ContextSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
@@ -225,7 +226,7 @@ class BaseApi(api_client.Api):
 
     def _query_parameter_collection_format(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -287,7 +288,7 @@ class QueryParameterCollectionFormat(BaseApi):
 
     def query_parameter_collection_format(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -308,7 +309,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,

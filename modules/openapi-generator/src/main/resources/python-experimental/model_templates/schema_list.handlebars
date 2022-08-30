@@ -17,7 +17,9 @@ class {{> model_templates/classname }}(
 
 
     class MetaOapg:
+{{#unless isStub}}
         {{> model_templates/validations }}
+{{/unless}}
 {{#with items}}
 {{#if complexType}}
 
@@ -32,5 +34,5 @@ class {{> model_templates/classname }}(
 
     {{> model_templates/new }}
 
-    def __getitem__(self, i) -> {{#with items}}{{#if complexType}}'{{baseName}}'{{else}}MetaOapg.items{{/if}}{{/with}}:
+    def __getitem__(self, i: int) -> {{#with items}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.items{{/if}}{{/with}}:
         return super().__getitem__(i)

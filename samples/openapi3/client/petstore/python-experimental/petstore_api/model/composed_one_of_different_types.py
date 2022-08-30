@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -51,12 +49,16 @@ class ComposedOneOfDifferentTypes(
                 additional_properties = schemas.AnyTypeSchema
                 max_properties = 4
                 min_properties = 4
+            
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, ],
+                *args: typing.Union[dict, frozendict.frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'one_of_4':
                 return super().__new__(
                     cls,
@@ -78,7 +80,7 @@ class ComposedOneOfDifferentTypes(
         
             def __new__(
                 cls,
-                arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
+                arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]], typing.List[typing.Union[MetaOapg.items, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ]]],
                 _configuration: typing.Optional[schemas.Configuration] = None,
             ) -> 'one_of_5':
                 return super().__new__(
@@ -87,7 +89,7 @@ class ComposedOneOfDifferentTypes(
                     _configuration=_configuration,
                 )
         
-            def __getitem__(self, i) -> MetaOapg.items:
+            def __getitem__(self, i: int) -> MetaOapg.items:
                 return super().__getitem__(i)
         
         
@@ -122,12 +124,16 @@ class ComposedOneOfDifferentTypes(
                 cls.one_of_6,
             ]
 
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ComposedOneOfDifferentTypes':
         return super().__new__(
             cls,

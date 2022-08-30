@@ -31,3 +31,8 @@
 {{/unless}}
 {{/each}}
 {{/if}}
+{{#if additionalProperties}}
+{{> model_templates/property_getitems_with_addprops }}
+{{else}}
+{{> model_templates/property_getitems_without_addprops }}
+{{/if}}

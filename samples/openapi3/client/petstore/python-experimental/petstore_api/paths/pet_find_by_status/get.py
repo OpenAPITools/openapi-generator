@@ -17,8 +17,9 @@ from urllib3._collections import HTTPHeaderDict
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -74,7 +75,7 @@ class StatusSchema(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
@@ -129,7 +130,7 @@ class SchemaFor200ResponseBodyApplicationXml(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> 'items':
+    def __getitem__(self, i: int) -> 'Pet':
         return super().__getitem__(i)
 
 
@@ -156,7 +157,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i) -> 'items':
+    def __getitem__(self, i: int) -> 'Pet':
         return super().__getitem__(i)
 
 
@@ -205,7 +206,7 @@ class BaseApi(api_client.Api):
 
     def _find_pets_by_status(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -271,7 +272,7 @@ class FindPetsByStatus(BaseApi):
 
     def find_pets_by_status(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -294,7 +295,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

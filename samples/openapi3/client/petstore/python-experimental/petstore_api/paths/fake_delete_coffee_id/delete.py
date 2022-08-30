@@ -16,8 +16,9 @@ import functools  # noqa: F401
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -83,7 +84,7 @@ class BaseApi(api_client.Api):
 
     def _delete_coffee(
         self: api_client.Api,
-        path_params: RequestPathParams = frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -146,7 +147,7 @@ class DeleteCoffee(BaseApi):
 
     def delete_coffee(
         self: BaseApi,
-        path_params: RequestPathParams = frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -168,7 +169,7 @@ class ApiFordelete(BaseApi):
 
     def delete(
         self: BaseApi,
-        path_params: RequestPathParams = frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,

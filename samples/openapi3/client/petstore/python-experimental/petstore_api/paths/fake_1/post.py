@@ -17,8 +17,9 @@ from urllib3._collections import HTTPHeaderDict
 from petstore_api import api_client, exceptions
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -80,18 +81,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
                 class MetaOapg:
                     inclusive_maximum = 987.6
-            locals()["float"] = _float
-            del locals()['_float']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
             
             
             class double(
@@ -142,6 +131,22 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                     max_length = 64
                     min_length = 10
             callback = schemas.StrSchema
+            __annotations__ = {
+                "integer": integer,
+                "int32": int32,
+                "int64": int64,
+                "number": number,
+                "float": _float,
+                "double": double,
+                "string": string,
+                "pattern_without_delimiter": pattern_without_delimiter,
+                "byte": byte,
+                "binary": binary,
+                "date": date,
+                "dateTime": dateTime,
+                "password": password,
+                "callback": callback,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     number: MetaOapg.properties.number
@@ -157,10 +162,56 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     dateTime: MetaOapg.properties.dateTime
     password: MetaOapg.properties.password
     callback: MetaOapg.properties.callback
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_without_delimiter"]) -> MetaOapg.properties.pattern_without_delimiter: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["double"]) -> MetaOapg.properties.double: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["integer"]) -> MetaOapg.properties.integer: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32"]) -> MetaOapg.properties.int32: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["binary"]) -> MetaOapg.properties.binary: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["callback"]) -> MetaOapg.properties.callback: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
         byte: typing.Union[MetaOapg.properties.byte, str, ],
@@ -175,7 +226,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
         callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -241,7 +292,7 @@ class BaseApi(api_client.Api):
 
     def _endpoint_parameters(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -300,7 +351,7 @@ class EndpointParameters(BaseApi):
 
     def endpoint_parameters(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -322,7 +373,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

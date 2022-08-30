@@ -10,16 +10,14 @@
 """
 
 import re  # noqa: F401
-import sys  # noqa: F401
 import typing  # noqa: F401
 import functools  # noqa: F401
 
-from frozendict import frozendict  # noqa: F401
-
 import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
 import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -42,6 +40,29 @@ class FormatTest(
             "byte",
         }
         class properties:
+            
+            
+            class number(
+                schemas.NumberSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 543.2
+                    inclusive_minimum = 32.1
+                    multiple_of = 32.5
+            byte = schemas.StrSchema
+            date = schemas.DateSchema
+            
+            
+            class password(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    max_length = 64
+                    min_length = 10
             
             
             class integer(
@@ -67,17 +88,6 @@ class FormatTest(
             int64 = schemas.Int64Schema
             
             
-            class number(
-                schemas.NumberSchema
-            ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 543.2
-                    inclusive_minimum = 32.1
-                    multiple_of = 32.5
-            
-            
             class _float(
                 schemas.Float32Schema
             ):
@@ -86,18 +96,6 @@ class FormatTest(
                 class MetaOapg:
                     inclusive_maximum = 987.6
                     inclusive_minimum = 54.3
-            locals()["float"] = _float
-            del locals()['_float']
-            """
-            NOTE:
-            openapi/json-schema allows properties to have invalid python names
-            The above local assignment allows the code to keep those invalid python names
-            This allows properties to have names like 'some-name', '1 bad name'
-            Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-            - __new__ these properties can be passed in as **kwargs
-            - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-            If the property is required and was not passed in, an exception will be thrown
-            """
             float32 = schemas.Float32Schema
             
             
@@ -132,7 +130,7 @@ class FormatTest(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i) -> MetaOapg.items:
+                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -148,22 +146,10 @@ class FormatTest(
                             re.IGNORECASE
                         )
                     }]
-            byte = schemas.StrSchema
             binary = schemas.BinarySchema
-            date = schemas.DateSchema
             dateTime = schemas.DateTimeSchema
             uuid = schemas.UUIDSchema
             uuidNoExample = schemas.UUIDSchema
-            
-            
-            class password(
-                schemas.StrSchema
-            ):
-            
-            
-                class MetaOapg:
-                    max_length = 64
-                    min_length = 10
             
             
             class pattern_with_digits(
@@ -190,6 +176,29 @@ class FormatTest(
                         )
                     }]
             noneProp = schemas.NoneSchema
+            __annotations__ = {
+                "number": number,
+                "byte": byte,
+                "date": date,
+                "password": password,
+                "integer": integer,
+                "int32": int32,
+                "int32withValidations": int32withValidations,
+                "int64": int64,
+                "float": _float,
+                "float32": float32,
+                "double": double,
+                "float64": float64,
+                "arrayWithUniqueItems": arrayWithUniqueItems,
+                "string": string,
+                "binary": binary,
+                "dateTime": dateTime,
+                "uuid": uuid,
+                "uuidNoExample": uuidNoExample,
+                "pattern_with_digits": pattern_with_digits,
+                "pattern_with_digits_and_delimiter": pattern_with_digits_and_delimiter,
+                "noneProp": noneProp,
+            }
         additional_properties = schemas.AnyTypeSchema
     
     date: MetaOapg.properties.date
@@ -212,10 +221,77 @@ class FormatTest(
     pattern_with_digits: MetaOapg.properties.pattern_with_digits
     pattern_with_digits_and_delimiter: MetaOapg.properties.pattern_with_digits_and_delimiter
     noneProp: MetaOapg.properties.noneProp
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["integer"]) -> MetaOapg.properties.integer: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32"]) -> MetaOapg.properties.int32: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32withValidations"]) -> MetaOapg.properties.int32withValidations: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float32"]) -> MetaOapg.properties.float32: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["double"]) -> MetaOapg.properties.double: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float64"]) -> MetaOapg.properties.float64: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["arrayWithUniqueItems"]) -> MetaOapg.properties.arrayWithUniqueItems: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["binary"]) -> MetaOapg.properties.binary: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["uuidNoExample"]) -> MetaOapg.properties.uuidNoExample: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_with_digits"]) -> MetaOapg.properties.pattern_with_digits: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_with_digits_and_delimiter"]) -> MetaOapg.properties.pattern_with_digits_and_delimiter: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["noneProp"]) -> MetaOapg.properties.noneProp: ...
+    
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         date: typing.Union[MetaOapg.properties.date, date, str, ],
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         password: typing.Union[MetaOapg.properties.password, str, ],
@@ -237,7 +313,7 @@ class FormatTest(
         pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, str, schemas.Unset] = schemas.unset,
         noneProp: typing.Union[MetaOapg.properties.noneProp, None, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'FormatTest':
         return super().__new__(
             cls,

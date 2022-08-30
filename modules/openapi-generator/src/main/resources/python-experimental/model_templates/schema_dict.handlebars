@@ -1,6 +1,6 @@
 
 
-class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
+class {{> model_templates/classname }}(
     schemas.DictSchema
 ):
 {{#if this.classname}}
@@ -18,7 +18,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 
     class MetaOapg:
         {{> model_templates/dict_partial }}
+{{#unless isStub}}
         {{> model_templates/validations }}
+{{/unless}}
     {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}

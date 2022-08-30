@@ -25,6 +25,7 @@ from urllib3._collections import HTTPHeaderDict
 from urllib.parse import quote
 from urllib3.fields import RequestField as RequestFieldBase
 
+import frozendict
 
 from unit_test_api import rest
 from unit_test_api.configuration import Configuration
@@ -38,7 +39,6 @@ from unit_test_api.schemas import (
     date,
     datetime,
     none_type,
-    frozendict,
     Unset,
     unset,
 )
@@ -67,7 +67,7 @@ class JSONEncoder(json.JSONEncoder):
             return None
         elif isinstance(obj, BoolClass):
             return bool(obj)
-        elif isinstance(obj, (dict, frozendict)):
+        elif isinstance(obj, (dict, frozendict.frozendict)):
             return {key: self.default(val) for key, val in obj.items()}
         elif isinstance(obj, (list, tuple)):
             return [self.default(item) for item in obj]
@@ -478,7 +478,7 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
     def serialize(
         self,
         in_data: typing.Union[
-            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
+            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict.frozendict]
     ) -> typing.Dict[str, str]:
         if self.schema:
             cast_in_data = self.schema(in_data)
@@ -596,7 +596,7 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
     def serialize(
         self,
         in_data: typing.Union[
-            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict],
+            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict.frozendict],
         prefix_separator_iterator: typing.Optional[PrefixSeparatorIterator] = None
     ) -> typing.Dict[str, str]:
         if self.schema:
@@ -662,7 +662,7 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
     def serialize(
         self,
         in_data: typing.Union[
-            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
+            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict.frozendict]
     ) -> typing.Dict[str, str]:
         if self.schema:
             cast_in_data = self.schema(in_data)
@@ -734,7 +734,7 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
     def serialize(
         self,
         in_data: typing.Union[
-            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict]
+            Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict.frozendict]
     ) -> HTTPHeaderDict[str, str]:
         if self.schema:
             cast_in_data = self.schema(in_data)
@@ -1359,8 +1359,8 @@ class RequestBody(StyleFormSerializer, JSONDetector):
 
     @staticmethod
     def __serialize_text_plain(in_data: typing.Any) -> typing.Dict[str, str]:
-        if isinstance(in_data, frozendict):
-            raise ValueError('Unable to serialize type frozendict to text/plain')
+        if isinstance(in_data, frozendict.frozendict):
+            raise ValueError('Unable to serialize type frozendict.frozendict to text/plain')
         elif isinstance(in_data, tuple):
             raise ValueError('Unable to serialize type tuple to text/plain')
         elif isinstance(in_data, NoneClass):
@@ -1393,7 +1393,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
     def __serialize_multipart_form_data(
         self, in_data: Schema
     ) -> typing.Dict[str, typing.Tuple[RequestField, ...]]:
-        if not isinstance(in_data, frozendict):
+        if not isinstance(in_data, frozendict.frozendict):
             raise ValueError(f'Unable to serialize {in_data} to multipart/form-data because it is not a dict of data')
         """
         In a multipart/form-data request body, each schema property, or each element of a schema array property,
@@ -1440,7 +1440,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
         """
         POST submission of form data in body
         """
-        if not isinstance(in_data, frozendict):
+        if not isinstance(in_data, frozendict.frozendict):
             raise ValueError(
                 f'Unable to serialize {in_data} to application/x-www-form-urlencoded because it is not a dict of data')
         cast_in_data = self.__json_encoder.default(in_data)
@@ -1462,7 +1462,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
         media_type = self.content[content_type]
         if isinstance(in_data, media_type.schema):
             cast_in_data = in_data
-        elif isinstance(in_data, (dict, frozendict)) and in_data:
+        elif isinstance(in_data, (dict, frozendict.frozendict)) and in_data:
             cast_in_data = media_type.schema(**in_data)
         else:
             cast_in_data = media_type.schema(in_data)

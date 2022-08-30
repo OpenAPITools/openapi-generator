@@ -19,7 +19,7 @@ import typing
 import uuid
 
 from dateutil.parser.isoparser import isoparser, _takes_ascii
-from frozendict import frozendict
+import frozendict
 
 from petstore_api.exceptions import (
     ApiTypeError,
@@ -79,7 +79,7 @@ def update(d: dict, u: dict):
             d[k] = d[k] | v
 
 
-class ValidationMetadata(frozendict):
+class ValidationMetadata(frozendict.frozendict):
     """
     A class storing metadata that is needed to validate OpenApi Schema payloads
     """
@@ -89,7 +89,7 @@ class ValidationMetadata(frozendict):
         from_server: bool = False,
         configuration: typing.Optional[Configuration] = None,
         seen_classes: typing.FrozenSet[typing.Type] = frozenset(),
-        validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Type]] = frozendict()
+        validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Type]] = frozendict.frozendict()
     ):
         """
         Args:
@@ -244,7 +244,7 @@ class Schema:
     """
     the base class of all swagger/openapi schemas/models
     """
-    __inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes, BoolClass, NoneClass}
+    __inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict.frozendict, FileIO, bytes, BoolClass, NoneClass}
     MetaOapg = MetaOapgTyped
 
     @classmethod
@@ -252,7 +252,7 @@ class Schema:
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         """
         Schema _validate
         Runs all schema validation logic and
@@ -263,7 +263,7 @@ class Schema:
         - the returned instance is a serializable type (except for None, True, and False) which are enums
 
         Use cases:
-        1. inheritable type: string/decimal.Decimal/frozendict/tuple
+        1. inheritable type: string/decimal.Decimal/frozendict.frozendict/tuple
         2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
 
         Required Steps:
@@ -286,7 +286,7 @@ class Schema:
 
     @staticmethod
     def __process_schema_classes(
-        schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]
+        schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]
     ):
         """
         Processes and mutates schema_classes
@@ -339,11 +339,11 @@ class Schema:
         for path, schema_classes in _path_to_schemas.items():
             """
             Use cases
-            1. N number of schema classes + enum + type != bool/None, classes in path_to_schemas: tuple/frozendict/str/Decimal/bytes/FileIo
+            1. N number of schema classes + enum + type != bool/None, classes in path_to_schemas: tuple/frozendict.frozendict/str/Decimal/bytes/FileIo
                 needs Singleton added
             2. N number of schema classes + enum + type == bool/None, classes in path_to_schemas: BoolClass/NoneClass
                 Singleton already added
-            3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict/str/Decimal/bytes/FileIo
+            3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict.frozendict/str/Decimal/bytes/FileIo
             """
             cls.__process_schema_classes(schema_classes)
             enum_schema = any(
@@ -368,7 +368,7 @@ class Schema:
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
     ):
         # We have a Dynamic class and we are making an instance of it
-        if issubclass(cls, frozendict):
+        if issubclass(cls, frozendict.frozendict):
             properties = cls._get_properties(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
         elif issubclass(cls, tuple):
@@ -396,7 +396,7 @@ class Schema:
             None,
             'Schema',
             dict,
-            frozendict,
+            frozendict.frozendict,
             tuple,
             list,
             io.FileIO,
@@ -423,25 +423,25 @@ class Schema:
         return new_inst
 
     @staticmethod
-    def __get_input_dict(*args, **kwargs) -> frozendict:
+    def __get_input_dict(*args, **kwargs) -> frozendict.frozendict:
         input_dict = {}
-        if args and isinstance(args[0], (dict, frozendict)):
+        if args and isinstance(args[0], (dict, frozendict.frozendict)):
             input_dict.update(args[0])
         if kwargs:
             input_dict.update(kwargs)
-        return frozendict(input_dict)
+        return frozendict.frozendict(input_dict)
 
     @staticmethod
     def __remove_unsets(kwargs):
         return {key: val for key, val in kwargs.items() if val is not unset}
 
-    def __new__(cls, *args: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'], _configuration: typing.Optional[Configuration] = None, **kwargs: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset]):
+    def __new__(cls, *args: typing.Union[dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'], _configuration: typing.Optional[Configuration] = None, **kwargs: typing.Union[dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset]):
         """
         Schema __new__
 
         Args:
-            args (int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): the value
-            kwargs (str, int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): dict values
+            args (int/float/decimal.Decimal/str/list/tuple/dict/frozendict.frozendict/bool/None): the value
+            kwargs (str, int/float/decimal.Decimal/str/list/tuple/dict/frozendict.frozendict/bool/None): dict values
             _configuration: contains the Configuration that enables json schema validation keywords
                 like minItems, minLength etc
         """
@@ -471,10 +471,10 @@ class Schema:
     def __init__(
         self,
         *args: typing.Union[
-            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'],
+            dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'],
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Union[
-            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset
+            dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset
         ]
     ):
         """
@@ -538,7 +538,7 @@ class Validator(typing.Protocol):
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         pass
 
 
@@ -610,7 +610,7 @@ def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Val
             cls,
             arg,
             validation_metadata: ValidationMetadata,
-        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
             """
             SchemaTypeChecker _validate
             Validates arg's type
@@ -661,7 +661,7 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
             cls,
             arg,
             validation_metadata: ValidationMetadata,
-        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
             """
             SchemaEnumMaker _validate
             Validates that arg is in the enum's allowed values
@@ -784,7 +784,7 @@ class StrBase(ValidatorBase):
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         """
         StrBase _validate
         Validates that validations pass
@@ -1068,7 +1068,7 @@ class NumberBase(ValidatorBase):
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         """
         NumberBase _validate
         Validates that validations pass
@@ -1301,10 +1301,12 @@ class DictBase(Discriminable, ValidatorBase):
         invalid_arguments = []
         required_property_names = getattr(cls.MetaOapg, 'required', set())
         additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        properties = getattr(cls.MetaOapg, 'properties', {})
+        property_annotations = getattr(properties, '__annotations__', {})
         for property_name in arg:
             if property_name in required_property_names:
                 seen_required_properties.add(property_name)
-            elif property_name in cls._property_names:
+            elif property_name in property_annotations:
                 continue
             elif additional_properties:
                 continue
@@ -1348,15 +1350,20 @@ class DictBase(Discriminable, ValidatorBase):
         """
         path_to_schemas = {}
         additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        properties = getattr(cls.MetaOapg, 'properties', {})
+        property_annotations = getattr(properties, '__annotations__', {})
         for property_name, value in arg.items():
-            if property_name in cls._property_names:
-                schema = getattr(cls.MetaOapg.properties, property_name)
+            if property_name in property_annotations:
+                schema = property_annotations[property_name]
             elif additional_properties:
                 schema = additional_properties
             else:
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
+            if isinstance(schema, classmethod):
+                # referenced schema, call classmethod property
+                schema = schema.__func__.fget(properties)
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
@@ -1418,10 +1425,10 @@ class DictBase(Discriminable, ValidatorBase):
             ApiValueError: when a string can't be converted into a date or datetime and it must be one of those classes
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
-        if isinstance(arg, frozendict):
+        if isinstance(arg, frozendict.frozendict):
             cls.__check_dict_validations(arg, validation_metadata)
         _path_to_schemas = super()._validate(arg, validation_metadata=validation_metadata)
-        if not isinstance(arg, frozendict):
+        if not isinstance(arg, frozendict.frozendict):
             return _path_to_schemas
         cls._validate_arg_presence(arg)
         other_path_to_schemas = cls._validate_args(arg, validation_metadata=validation_metadata)
@@ -1456,30 +1463,6 @@ class DictBase(Discriminable, ValidatorBase):
         other_path_to_schemas = discriminated_cls._validate(arg, validation_metadata=updated_vm)
         update(_path_to_schemas, other_path_to_schemas)
         return _path_to_schemas
-
-    @classmethod
-    @property
-    @functools.cache
-    def _property_names(cls) -> typing.Tuple[str]:
-        if not hasattr(cls.MetaOapg, 'properties'):
-            return tuple()
-        property_names = set()
-        for var_name, var_value in cls.MetaOapg.properties.__dict__.items():
-            var_name: str
-            # referenced models are classmethods
-            is_classmethod = type(var_value) is classmethod
-            if is_classmethod:
-                property_names.add(var_name)
-                continue
-            is_class = type(var_value) is type
-            if not is_class:
-                continue
-            if not issubclass(var_value, Schema):
-                continue
-            property_names.add(var_name)
-        property_names = list(property_names)
-        property_names.sort()
-        return tuple(property_names)
 
     @classmethod
     def _get_properties(
@@ -1525,7 +1508,7 @@ class DictBase(Discriminable, ValidatorBase):
 
     def __getattr__(self, name: str):
         # for instance.name access
-        if isinstance(self, frozendict):
+        if isinstance(self, frozendict.frozendict):
             # if an attribute does not exist
             try:
                 return self[name]
@@ -1535,11 +1518,11 @@ class DictBase(Discriminable, ValidatorBase):
 
 
 def cast_to_allowed_types(
-    arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema],
+    arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, Schema],
     from_server: bool,
-    validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]],
+    validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]],
     path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
-) -> typing.Union[frozendict, tuple, decimal.Decimal, str, bytes, BoolClass, NoneClass, FileIO]:
+) -> typing.Union[frozendict.frozendict, tuple, decimal.Decimal, str, bytes, BoolClass, NoneClass, FileIO]:
     """
     Casts the input payload arg into the allowed types
     The input validated_path_to_schemas is mutated by running this function
@@ -1571,8 +1554,8 @@ def cast_to_allowed_types(
 
     if isinstance(arg, str):
         return str(arg)
-    elif isinstance(arg, (dict, frozendict)):
-        return frozendict({key: cast_to_allowed_types(val, from_server, validated_path_to_schemas, path_to_item + (key,)) for key, val in arg.items()})
+    elif isinstance(arg, (dict, frozendict.frozendict)):
+        return frozendict.frozendict({key: cast_to_allowed_types(val, from_server, validated_path_to_schemas, path_to_item + (key,)) for key, val in arg.items()})
     elif isinstance(arg, (bool, BoolClass)):
         """
         this check must come before isinstance(arg, (int, float))
@@ -1694,7 +1677,7 @@ class ComposedBase(Discriminable):
         cls,
         arg,
         validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict, tuple]]]:
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         """
         ComposedBase _validate
         We return dynamic classes of different bases depending upon the inputs
@@ -1724,7 +1707,7 @@ class ComposedBase(Discriminable):
         # process composed schema
         discriminator = getattr(cls, 'discriminator', None)
         discriminated_cls = None
-        if discriminator and arg and isinstance(arg, frozendict):
+        if discriminator and arg and isinstance(arg, frozendict.frozendict):
             disc_property_name = list(discriminator.keys())[0]
             cls._ensure_discriminator_value_present(disc_property_name, updated_vm, arg)
             # get discriminated_cls by looking at the dict in the current class
@@ -1788,7 +1771,7 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict]),
+    SchemaTypeCheckerClsFactory(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict.frozendict]),
     ComposedBase,
     DictBase,
     ListBase,
@@ -2093,7 +2076,7 @@ class BoolSchema(
 
 class AnyTypeSchema(
     SchemaTypeCheckerClsFactory(
-        typing.Union[frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
+        typing.Union[frozendict.frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
     ),
     DictBase,
     ListBase,
@@ -2107,7 +2090,7 @@ class AnyTypeSchema(
 
 
 class DictSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[frozendict]),
+    SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict]),
     DictBase,
     Schema,
     FrozenDictMixin
@@ -2116,11 +2099,11 @@ class DictSchema(
     def _from_openapi_data(cls, arg: typing.Dict[str, typing.Any], _configuration: typing.Optional[Configuration] = None):
         return super()._from_openapi_data(arg, _configuration=_configuration)
 
-    def __new__(cls, *args: typing.Union[dict, frozendict], **kwargs: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, bytes, Schema, Unset, ValidationMetadata]):
+    def __new__(cls, *args: typing.Union[dict, frozendict.frozendict], **kwargs: typing.Union[dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, bytes, Schema, Unset, ValidationMetadata]):
         return super().__new__(cls, *args, **kwargs)
 
 
-schema_type_classes = set([NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema])
+schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema}
 
 
 @functools.cache

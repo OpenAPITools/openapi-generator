@@ -18,8 +18,10 @@ from {{packageName}} import api_client, exceptions
 {{> model_templates/imports_schema_types }}
 {{> model_templates/imports_schemas }}
 
+{{#unless isStub}}
 from . import path
 
+{{/unless}}
 {{#with operation}}
 {{#if queryParams}}
 # query params
@@ -28,6 +30,7 @@ from . import path
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -58,6 +61,7 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{#each queryParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if headerParams}}
 # header params
@@ -66,6 +70,7 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -96,6 +101,7 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{#each headerParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if pathParams}}
 # path params
@@ -104,6 +110,7 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
@@ -134,6 +141,7 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{#each pathParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if cookieParams}}
 # cookie params
@@ -142,6 +150,7 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
     {
@@ -172,6 +181,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{#each cookieParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#with bodyParam}}
 # body param
@@ -180,6 +190,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 
 
 request_body_{{paramName}} = api_client.RequestBody(
@@ -193,7 +204,9 @@ request_body_{{paramName}} = api_client.RequestBody(
     required=True,
 {{/if}}
 )
+{{/unless}}
 {{/with}}
+{{#unless isStub}}
 {{#each authMethods}}
 {{#if @first}}
 _auth = [
@@ -236,11 +249,13 @@ _servers = (
 )
 {{/if}}
 {{/each}}
+{{/unless}}
 {{#each responses}}
 {{#each responseHeaders}}
 {{#with schema}}
 {{> model_templates/schema }}
 {{/with}}
+{{#unless isStub}}
 {{paramName}}_parameter = api_client.HeaderParameter(
     name="{{baseName}}",
 {{#if style}}
@@ -258,12 +273,14 @@ _servers = (
     explode=True,
 {{/if}}
 )
+{{/unless}}
 {{/each}}
 {{#each content}}
 {{#with this.schema}}
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 {{#if responseHeaders}}
 ResponseHeadersFor{{code}} = typing.TypedDict(
     'ResponseHeadersFor{{code}}',
@@ -346,7 +363,9 @@ _response_for_{{code}} = api_client.OpenApiResponse(
     ]
 {{/if}}
 )
+{{/unless}}
 {{/each}}
+{{#unless isStub}}
 _status_code_to_response = {
 {{#each responses}}
 {{#if isDefault}}
@@ -533,4 +552,5 @@ class ApiFor{{httpMethod}}(BaseApi):
         )
 
 
+{{/unless}}
 {{/with}}
