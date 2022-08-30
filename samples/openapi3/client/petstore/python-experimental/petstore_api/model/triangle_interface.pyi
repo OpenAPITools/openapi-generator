@@ -70,9 +70,17 @@ class TriangleInterface(
     @typing.overload
     def __getitem__(self, name: typing.Literal["triangleType"]) -> MetaOapg.properties.triangleType: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["shapeType"], typing.Literal["triangleType"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

@@ -54,14 +54,22 @@ class ObjectWithDifficultlyNamedProps(
     def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.special_property_name: ...
+    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> typing.Union[MetaOapg.properties.special_property_name, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties._123_number: ...
+    def __getitem__(self, name: typing.Literal["123Number"]) -> typing.Union[MetaOapg.properties._123_number, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["123-list"], typing.Literal["$special[property.name]"], typing.Literal["123Number"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

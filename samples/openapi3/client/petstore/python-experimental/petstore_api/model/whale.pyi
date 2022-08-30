@@ -62,21 +62,29 @@ class Whale(
         additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
-    hasBaleen: MetaOapg.properties.hasBaleen
-    hasTeeth: MetaOapg.properties.hasTeeth
+    hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset]
+    hasTeeth: typing.Union[MetaOapg.properties.hasTeeth, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["hasBaleen"]) -> MetaOapg.properties.hasBaleen: ...
+    def __getitem__(self, name: typing.Literal["hasBaleen"]) -> typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["hasTeeth"]) -> MetaOapg.properties.hasTeeth: ...
+    def __getitem__(self, name: typing.Literal["hasTeeth"]) -> typing.Union[MetaOapg.properties.hasTeeth, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["className"], typing.Literal["hasBaleen"], typing.Literal["hasTeeth"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

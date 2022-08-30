@@ -25,18 +25,28 @@ def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.proper
 
 @typing.overload
 {{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union['{{complexType}}', schemas.Unset]: ...
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{name}}, schemas.Unset]: ...
 {{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]: ...
 {{/if}}
 {{/if}}
 {{/unless}}
 {{/each}}
 {{/if}}
+{{#or vars getRequiredVarsMap}}
 
-def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}:
+@typing.overload
+def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}: ...
+{{/or}}
+
+def __getitem__(self, name: typing.Union[str, {{#each getRequiredVarsMap}}{{#with this}}typing.Literal["{{{baseName}}}"], {{/with}}{{/each}}{{#each vars}}{{#unless required}}typing.Literal["{{{baseName}}}"], {{/unless}}{{/each}}]){{#not vars}}{{#not getRequiredVarsMap}} -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}{{/not}}{{/not}}:
     # dict_instance[name] accessor
-    return super().__getitem__(name)
+    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+        return super().__getitem__(name)
+    try:
+        return super().__getitem__(name)
+    except KeyError:
+        return schemas.unset

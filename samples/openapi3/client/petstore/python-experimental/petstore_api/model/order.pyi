@@ -76,34 +76,42 @@ class Order(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    id: MetaOapg.properties.id
-    petId: MetaOapg.properties.petId
-    quantity: MetaOapg.properties.quantity
-    shipDate: MetaOapg.properties.shipDate
-    status: MetaOapg.properties.status
-    complete: MetaOapg.properties.complete
+    id: typing.Union[MetaOapg.properties.id, schemas.Unset]
+    petId: typing.Union[MetaOapg.properties.petId, schemas.Unset]
+    quantity: typing.Union[MetaOapg.properties.quantity, schemas.Unset]
+    shipDate: typing.Union[MetaOapg.properties.shipDate, schemas.Unset]
+    status: typing.Union[MetaOapg.properties.status, schemas.Unset]
+    complete: typing.Union[MetaOapg.properties.complete, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    def __getitem__(self, name: typing.Literal["id"]) -> typing.Union[MetaOapg.properties.id, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["petId"]) -> MetaOapg.properties.petId: ...
+    def __getitem__(self, name: typing.Literal["petId"]) -> typing.Union[MetaOapg.properties.petId, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["quantity"]) -> MetaOapg.properties.quantity: ...
+    def __getitem__(self, name: typing.Literal["quantity"]) -> typing.Union[MetaOapg.properties.quantity, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["shipDate"]) -> MetaOapg.properties.shipDate: ...
+    def __getitem__(self, name: typing.Literal["shipDate"]) -> typing.Union[MetaOapg.properties.shipDate, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["status"]) -> MetaOapg.properties.status: ...
+    def __getitem__(self, name: typing.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["complete"]) -> MetaOapg.properties.complete: ...
+    def __getitem__(self, name: typing.Literal["complete"]) -> typing.Union[MetaOapg.properties.complete, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["id"], typing.Literal["petId"], typing.Literal["quantity"], typing.Literal["shipDate"], typing.Literal["status"], typing.Literal["complete"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

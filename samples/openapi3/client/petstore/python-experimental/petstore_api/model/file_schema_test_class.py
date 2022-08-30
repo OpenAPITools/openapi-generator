@@ -72,18 +72,26 @@ class FileSchemaTestClass(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    file: 'File'
-    files: MetaOapg.properties.files
+    file: typing.Union['File', schemas.Unset]
+    files: typing.Union[MetaOapg.properties.files, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["file"]) -> 'File': ...
+    def __getitem__(self, name: typing.Literal["file"]) -> typing.Union['File', schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["files"]) -> MetaOapg.properties.files: ...
+    def __getitem__(self, name: typing.Literal["files"]) -> typing.Union[MetaOapg.properties.files, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["file"], typing.Literal["files"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

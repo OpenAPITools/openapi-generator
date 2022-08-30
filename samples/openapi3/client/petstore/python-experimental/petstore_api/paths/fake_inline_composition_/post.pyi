@@ -56,9 +56,14 @@ class CompositionAtRootSchema(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
@@ -113,9 +118,14 @@ class CompositionInPropertySchema(
                         ]
             
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    return super().__getitem__(name)
+                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+                        return super().__getitem__(name)
+                    try:
+                        return super().__getitem__(name)
+                    except KeyError:
+                        return schemas.unset
             
                 def __new__(
                     cls,
@@ -134,14 +144,22 @@ class CompositionInPropertySchema(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    someProp: MetaOapg.properties.someProp
+    someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    def __getitem__(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["someProp"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
@@ -190,9 +208,14 @@ class SchemaForRequestBodyApplicationJson(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
@@ -247,9 +270,14 @@ class SchemaForRequestBodyMultipartFormData(
                         ]
             
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    return super().__getitem__(name)
+                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+                        return super().__getitem__(name)
+                    try:
+                        return super().__getitem__(name)
+                    except KeyError:
+                        return schemas.unset
             
                 def __new__(
                     cls,
@@ -268,14 +296,22 @@ class SchemaForRequestBodyMultipartFormData(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    someProp: MetaOapg.properties.someProp
+    someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    def __getitem__(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["someProp"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
@@ -323,9 +359,14 @@ class SchemaFor200ResponseBodyApplicationJson(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
@@ -380,9 +421,14 @@ class SchemaFor200ResponseBodyMultipartFormData(
                         ]
             
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    return super().__getitem__(name)
+                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+                        return super().__getitem__(name)
+                    try:
+                        return super().__getitem__(name)
+                    except KeyError:
+                        return schemas.unset
             
                 def __new__(
                     cls,
@@ -401,14 +447,22 @@ class SchemaFor200ResponseBodyMultipartFormData(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    someProp: MetaOapg.properties.someProp
+    someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    def __getitem__(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["someProp"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

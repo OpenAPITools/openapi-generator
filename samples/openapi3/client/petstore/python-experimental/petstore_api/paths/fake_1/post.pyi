@@ -115,15 +115,15 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter
     byte: MetaOapg.properties.byte
     double: MetaOapg.properties.double
-    integer: MetaOapg.properties.integer
-    int32: MetaOapg.properties.int32
-    int64: MetaOapg.properties.int64
-    string: MetaOapg.properties.string
-    binary: MetaOapg.properties.binary
-    date: MetaOapg.properties.date
-    dateTime: MetaOapg.properties.dateTime
-    password: MetaOapg.properties.password
-    callback: MetaOapg.properties.callback
+    integer: typing.Union[MetaOapg.properties.integer, schemas.Unset]
+    int32: typing.Union[MetaOapg.properties.int32, schemas.Unset]
+    int64: typing.Union[MetaOapg.properties.int64, schemas.Unset]
+    string: typing.Union[MetaOapg.properties.string, schemas.Unset]
+    binary: typing.Union[MetaOapg.properties.binary, schemas.Unset]
+    date: typing.Union[MetaOapg.properties.date, schemas.Unset]
+    dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
+    password: typing.Union[MetaOapg.properties.password, schemas.Unset]
+    callback: typing.Union[MetaOapg.properties.callback, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
@@ -138,38 +138,46 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["double"]) -> MetaOapg.properties.double: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["integer"]) -> MetaOapg.properties.integer: ...
+    def __getitem__(self, name: typing.Literal["integer"]) -> typing.Union[MetaOapg.properties.integer, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["int32"]) -> MetaOapg.properties.int32: ...
+    def __getitem__(self, name: typing.Literal["int32"]) -> typing.Union[MetaOapg.properties.int32, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
+    def __getitem__(self, name: typing.Literal["int64"]) -> typing.Union[MetaOapg.properties.int64, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
+    def __getitem__(self, name: typing.Literal["float"]) -> typing.Union[MetaOapg.properties._float, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["string"]) -> MetaOapg.properties.string: ...
+    def __getitem__(self, name: typing.Literal["string"]) -> typing.Union[MetaOapg.properties.string, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["binary"]) -> MetaOapg.properties.binary: ...
+    def __getitem__(self, name: typing.Literal["binary"]) -> typing.Union[MetaOapg.properties.binary, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
+    def __getitem__(self, name: typing.Literal["date"]) -> typing.Union[MetaOapg.properties.date, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    def __getitem__(self, name: typing.Literal["password"]) -> typing.Union[MetaOapg.properties.password, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["callback"]) -> MetaOapg.properties.callback: ...
+    def __getitem__(self, name: typing.Literal["callback"]) -> typing.Union[MetaOapg.properties.callback, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["number"], typing.Literal["pattern_without_delimiter"], typing.Literal["byte"], typing.Literal["double"], typing.Literal["integer"], typing.Literal["int32"], typing.Literal["int64"], typing.Literal["float"], typing.Literal["string"], typing.Literal["binary"], typing.Literal["date"], typing.Literal["dateTime"], typing.Literal["password"], typing.Literal["callback"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

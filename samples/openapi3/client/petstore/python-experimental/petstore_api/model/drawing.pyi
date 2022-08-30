@@ -88,26 +88,34 @@ class Drawing(
         def additional_properties(cls) -> typing.Type['Fruit']:
             return Fruit
     
-    mainShape: 'Shape'
-    shapeOrNull: 'ShapeOrNull'
-    nullableShape: 'NullableShape'
-    shapes: MetaOapg.properties.shapes
+    mainShape: typing.Union['Shape', schemas.Unset]
+    shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset]
+    nullableShape: typing.Union['NullableShape', schemas.Unset]
+    shapes: typing.Union[MetaOapg.properties.shapes, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["mainShape"]) -> 'Shape': ...
+    def __getitem__(self, name: typing.Literal["mainShape"]) -> typing.Union['Shape', schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["shapeOrNull"]) -> 'ShapeOrNull': ...
+    def __getitem__(self, name: typing.Literal["shapeOrNull"]) -> typing.Union['ShapeOrNull', schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["nullableShape"]) -> 'NullableShape': ...
+    def __getitem__(self, name: typing.Literal["nullableShape"]) -> typing.Union['NullableShape', schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["shapes"]) -> MetaOapg.properties.shapes: ...
+    def __getitem__(self, name: typing.Literal["shapes"]) -> typing.Union[MetaOapg.properties.shapes, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> 'Fruit':
+    @typing.overload
+    def __getitem__(self, name: str) -> 'Fruit': ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["mainShape"], typing.Literal["shapeOrNull"], typing.Literal["nullableShape"], typing.Literal["shapes"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

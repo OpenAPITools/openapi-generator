@@ -49,17 +49,25 @@ class SchemaForRequestBodyMultipartFormData(
         additional_properties = schemas.AnyTypeSchema
     
     file: MetaOapg.properties.file
-    additionalMetadata: MetaOapg.properties.additionalMetadata
+    additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> MetaOapg.properties.additionalMetadata: ...
+    def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["file"], typing.Literal["additionalMetadata"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

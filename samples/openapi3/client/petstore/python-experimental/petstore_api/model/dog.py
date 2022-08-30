@@ -49,14 +49,22 @@ class Dog(
                     }
                 additional_properties = schemas.AnyTypeSchema
             
-            breed: MetaOapg.properties.breed
+            breed: typing.Union[MetaOapg.properties.breed, schemas.Unset]
             
             @typing.overload
-            def __getitem__(self, name: typing.Literal["breed"]) -> MetaOapg.properties.breed: ...
+            def __getitem__(self, name: typing.Literal["breed"]) -> typing.Union[MetaOapg.properties.breed, schemas.Unset]: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            @typing.overload
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+            
+            def __getitem__(self, name: typing.Union[str, typing.Literal["breed"], ]):
                 # dict_instance[name] accessor
-                return super().__getitem__(name)
+                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+                    return super().__getitem__(name)
+                try:
+                    return super().__getitem__(name)
+                except KeyError:
+                    return schemas.unset
         
             def __new__(
                 cls,
@@ -90,9 +98,14 @@ class Dog(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

@@ -136,10 +136,10 @@ class Pet(
     
     photoUrls: MetaOapg.properties.photoUrls
     name: MetaOapg.properties.name
-    id: MetaOapg.properties.id
-    category: 'Category'
-    tags: MetaOapg.properties.tags
-    status: MetaOapg.properties.status
+    id: typing.Union[MetaOapg.properties.id, schemas.Unset]
+    category: typing.Union['Category', schemas.Unset]
+    tags: typing.Union[MetaOapg.properties.tags, schemas.Unset]
+    status: typing.Union[MetaOapg.properties.status, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["photoUrls"]) -> MetaOapg.properties.photoUrls: ...
@@ -148,20 +148,28 @@ class Pet(
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    def __getitem__(self, name: typing.Literal["id"]) -> typing.Union[MetaOapg.properties.id, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["category"]) -> 'Category': ...
+    def __getitem__(self, name: typing.Literal["category"]) -> typing.Union['Category', schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["tags"]) -> MetaOapg.properties.tags: ...
+    def __getitem__(self, name: typing.Literal["tags"]) -> typing.Union[MetaOapg.properties.tags, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["status"]) -> MetaOapg.properties.status: ...
+    def __getitem__(self, name: typing.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["photoUrls"], typing.Literal["name"], typing.Literal["id"], typing.Literal["category"], typing.Literal["tags"], typing.Literal["status"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

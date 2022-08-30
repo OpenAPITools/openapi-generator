@@ -50,9 +50,14 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                     def additional_properties(cls) -> typing.Type['Animal']:
                         return Animal
                 
-                def __getitem__(self, name: str) -> 'Animal':
+                def __getitem__(self, name: typing.Union[str, ]) -> 'Animal':
                     # dict_instance[name] accessor
-                    return super().__getitem__(name)
+                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+                        return super().__getitem__(name)
+                    try:
+                        return super().__getitem__(name)
+                    except KeyError:
+                        return schemas.unset
             
                 def __new__(
                     cls,
@@ -73,22 +78,30 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    uuid: MetaOapg.properties.uuid
-    dateTime: MetaOapg.properties.dateTime
-    map: MetaOapg.properties.map
+    uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset]
+    dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
+    map: typing.Union[MetaOapg.properties.map, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
+    def __getitem__(self, name: typing.Literal["uuid"]) -> typing.Union[MetaOapg.properties.uuid, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map"]) -> MetaOapg.properties.map: ...
+    def __getitem__(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["uuid"], typing.Literal["dateTime"], typing.Literal["map"], ]):
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
