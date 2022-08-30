@@ -51,7 +51,10 @@ class AppleReq(
     @typing.overload
     def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
     
-    def __getitem__(self, name: typing.Literal["mealy"]) -> typing.Union[MetaOapg.properties.mealy, schemas.Unset]:
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["mealy"]) -> typing.Union[MetaOapg.properties.mealy, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Literal["cultivar", "mealy", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
