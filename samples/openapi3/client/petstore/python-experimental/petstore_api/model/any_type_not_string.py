@@ -37,7 +37,7 @@ class AnyTypeNotString(
         not_schema = schemas.StrSchema
 
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

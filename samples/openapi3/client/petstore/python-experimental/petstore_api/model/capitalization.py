@@ -75,7 +75,10 @@ class Capitalization(
     @typing.overload
     def __getitem__(self, name: typing.Literal["ATT_NAME"]) -> typing.Union[MetaOapg.properties.ATT_NAME, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["smallCamel"], typing.Literal["CapitalCamel"], typing.Literal["small_Snake"], typing.Literal["Capital_Snake"], typing.Literal["SCA_ETH_Flow_Points"], typing.Literal["ATT_NAME"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

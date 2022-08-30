@@ -50,7 +50,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                     def additional_properties(cls) -> typing.Type['Animal']:
                         return Animal
                 
-                def __getitem__(self, name: str) -> typing.Union['Animal', schemas.Unset]:
+                def __getitem__(self, name: typing.Union[str, ]) -> 'Animal':
                     # dict_instance[name] accessor
                     if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                         return super().__getitem__(name)
@@ -91,7 +91,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(
     @typing.overload
     def __getitem__(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["uuid"], typing.Literal["dateTime"], typing.Literal["map"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

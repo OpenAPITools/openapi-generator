@@ -57,7 +57,7 @@ class User(
                     additional_properties = schemas.AnyTypeSchema
             
                 
-                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
                     if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                         return super().__getitem__(name)
@@ -91,7 +91,7 @@ class User(
                     not_schema = schemas.NoneSchema
             
                 
-                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
                     if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                         return super().__getitem__(name)
@@ -183,7 +183,10 @@ class User(
     @typing.overload
     def __getitem__(self, name: typing.Literal["anyTypePropNullable"]) -> typing.Union[MetaOapg.properties.anyTypePropNullable, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["id"], typing.Literal["username"], typing.Literal["firstName"], typing.Literal["lastName"], typing.Literal["email"], typing.Literal["password"], typing.Literal["phone"], typing.Literal["userStatus"], typing.Literal["objectWithNoDeclaredProps"], typing.Literal["objectWithNoDeclaredPropsNullable"], typing.Literal["anyTypeProp"], typing.Literal["anyTypeExceptNullProp"], typing.Literal["anyTypePropNullable"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

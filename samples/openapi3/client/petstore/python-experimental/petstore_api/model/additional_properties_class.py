@@ -44,7 +44,7 @@ class AdditionalPropertiesClass(
                 class MetaOapg:
                     additional_properties = schemas.StrSchema
                 
-                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
                     if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                         return super().__getitem__(name)
@@ -83,7 +83,7 @@ class AdditionalPropertiesClass(
                         class MetaOapg:
                             additional_properties = schemas.StrSchema
                         
-                        def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+                        def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                             # dict_instance[name] accessor
                             if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                                 return super().__getitem__(name)
@@ -105,7 +105,7 @@ class AdditionalPropertiesClass(
                                 **kwargs,
                             )
                 
-                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
                     if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                         return super().__getitem__(name)
@@ -160,7 +160,7 @@ class AdditionalPropertiesClass(
                 class MetaOapg:
                     additional_properties = schemas.StrSchema
                 
-                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
                     if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                         return super().__getitem__(name)
@@ -226,7 +226,10 @@ class AdditionalPropertiesClass(
     @typing.overload
     def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_string"]) -> typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["map_property"], typing.Literal["map_of_map_property"], typing.Literal["anytype_1"], typing.Literal["map_with_undeclared_properties_anytype_1"], typing.Literal["map_with_undeclared_properties_anytype_2"], typing.Literal["map_with_undeclared_properties_anytype_3"], typing.Literal["empty_map"], typing.Literal["map_with_undeclared_properties_string"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

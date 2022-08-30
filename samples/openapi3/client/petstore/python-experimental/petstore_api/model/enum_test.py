@@ -208,7 +208,10 @@ class EnumTest(
     @typing.overload
     def __getitem__(self, name: typing.Literal["IntegerEnumOneValue"]) -> typing.Union['IntegerEnumOneValue', schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    @typing.overload
+    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["enum_string_required"], typing.Literal["enum_string"], typing.Literal["enum_integer"], typing.Literal["enum_number"], typing.Literal["stringEnum"], typing.Literal["IntegerEnum"], typing.Literal["StringEnumWithDefaultValue"], typing.Literal["IntegerEnumWithDefaultValue"], typing.Literal["IntegerEnumOneValue"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
