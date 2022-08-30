@@ -37,22 +37,21 @@ class Model200Response(
     class MetaOapg:
         class properties:
             name = schemas.Int32Schema
-            class = schemas.StrSchema
+            _class = schemas.StrSchema
             __annotations__ = {
                 "name": name,
-                "class": class,
+                "class": _class,
             }
         additional_properties = schemas.AnyTypeSchema
 
     
     name: MetaOapg.properties.name
-    class: MetaOapg.properties.class
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["class"]) -> MetaOapg.properties.class: ...
+    def __getitem__(self, name: typing.Literal["class"]) -> MetaOapg.properties._class: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
@@ -62,7 +61,6 @@ class Model200Response(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         name: typing.Union[MetaOapg.properties.name, int, schemas.Unset] = schemas.unset,
-        class: typing.Union[MetaOapg.properties.class, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Model200Response':
@@ -70,7 +68,6 @@ class Model200Response(
             cls,
             *args,
             name=name,
-            class=class,
             _configuration=_configuration,
             **kwargs,
         )

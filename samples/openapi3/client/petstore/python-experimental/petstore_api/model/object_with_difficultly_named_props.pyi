@@ -39,28 +39,25 @@ class ObjectWithDifficultlyNamedProps(
             "123-list",
         }
         class properties:
-            123-list = schemas.StrSchema
-            $special[property.name] = schemas.Int64Schema
-            123Number = schemas.IntSchema
+            _123_list = schemas.StrSchema
+            special_property_name = schemas.Int64Schema
+            _123_number = schemas.IntSchema
             __annotations__ = {
-                "123-list": 123-list,
-                "$special[property.name]": $special[property.name],
-                "123Number": 123Number,
+                "123-list": _123_list,
+                "$special[property.name]": special_property_name,
+                "123Number": _123_number,
             }
         additional_properties = schemas.AnyTypeSchema
     
-    123-list: MetaOapg.properties.123-list
-    $special[property.name]: MetaOapg.properties.$special[property.name]
-    123Number: MetaOapg.properties.123Number
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties.123-list: ...
+    def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.$special[property.name]: ...
+    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.special_property_name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties.123Number: ...
+    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties._123_number: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
@@ -69,18 +66,12 @@ class ObjectWithDifficultlyNamedProps(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        123-list: typing.Union[MetaOapg.properties.123-list, str, ],
-        $special[property.name]: typing.Union[MetaOapg.properties.$special[property.name], int, schemas.Unset] = schemas.unset,
-        123Number: typing.Union[MetaOapg.properties.123Number, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithDifficultlyNamedProps':
         return super().__new__(
             cls,
             *args,
-            123-list=123-list,
-            $special[property.name]=$special[property.name],
-            123Number=123Number,
             _configuration=_configuration,
             **kwargs,
         )

@@ -70,7 +70,7 @@ class FormatTest(
             int64 = schemas.Int64Schema
             
             
-            class float(
+            class _float(
                 schemas.Float32Schema
             ):
                 pass
@@ -137,7 +137,7 @@ class FormatTest(
                 "int32": int32,
                 "int32withValidations": int32withValidations,
                 "int64": int64,
-                "float": float,
+                "float": _float,
                 "float32": float32,
                 "double": double,
                 "float64": float64,
@@ -161,7 +161,6 @@ class FormatTest(
     int32: MetaOapg.properties.int32
     int32withValidations: MetaOapg.properties.int32withValidations
     int64: MetaOapg.properties.int64
-    float: MetaOapg.properties.float
     float32: MetaOapg.properties.float32
     double: MetaOapg.properties.double
     float64: MetaOapg.properties.float64
@@ -200,7 +199,7 @@ class FormatTest(
     def __getitem__(self, name: typing.Literal["int64"]) -> MetaOapg.properties.int64: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties.float: ...
+    def __getitem__(self, name: typing.Literal["float"]) -> MetaOapg.properties._float: ...
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["float32"]) -> MetaOapg.properties.float32: ...
@@ -253,7 +252,6 @@ class FormatTest(
         int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
         int32withValidations: typing.Union[MetaOapg.properties.int32withValidations, int, schemas.Unset] = schemas.unset,
         int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
-        float: typing.Union[MetaOapg.properties.float, float, schemas.Unset] = schemas.unset,
         float32: typing.Union[MetaOapg.properties.float32, float, schemas.Unset] = schemas.unset,
         double: typing.Union[MetaOapg.properties.double, float, schemas.Unset] = schemas.unset,
         float64: typing.Union[MetaOapg.properties.float64, float, schemas.Unset] = schemas.unset,
@@ -280,7 +278,6 @@ class FormatTest(
             int32=int32,
             int32withValidations=int32withValidations,
             int64=int64,
-            float=float,
             float32=float32,
             double=double,
             float64=float64,

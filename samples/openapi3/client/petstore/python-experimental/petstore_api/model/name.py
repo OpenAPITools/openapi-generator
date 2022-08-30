@@ -41,18 +41,17 @@ class Name(
         class properties:
             name = schemas.Int32Schema
             snake_case = schemas.Int32Schema
-            property = schemas.StrSchema
+            _property = schemas.StrSchema
             __annotations__ = {
                 "name": name,
                 "snake_case": snake_case,
-                "property": property,
+                "property": _property,
             }
         additional_properties = schemas.AnyTypeSchema
 
     
     name: MetaOapg.properties.name
     snake_case: MetaOapg.properties.snake_case
-    property: MetaOapg.properties.property
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -61,7 +60,7 @@ class Name(
     def __getitem__(self, name: typing.Literal["snake_case"]) -> MetaOapg.properties.snake_case: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties.property: ...
+    def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties._property: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
@@ -72,7 +71,6 @@ class Name(
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         name: typing.Union[MetaOapg.properties.name, int, ],
         snake_case: typing.Union[MetaOapg.properties.snake_case, int, schemas.Unset] = schemas.unset,
-        property: typing.Union[MetaOapg.properties.property, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Name':
@@ -81,7 +79,6 @@ class Name(
             *args,
             name=name,
             snake_case=snake_case,
-            property=property,
             _configuration=_configuration,
             **kwargs,
         )

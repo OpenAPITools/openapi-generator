@@ -34,43 +34,41 @@ class PropertiesWithEscapedCharacters(
 
     class MetaOapg:
         class properties:
-            foobar = schemas.NumberSchema
-            foobar = schemas.NumberSchema
+            foo_nbar = schemas.NumberSchema
             foo_bar = schemas.NumberSchema
-            foobar = schemas.NumberSchema
-            foobar = schemas.NumberSchema
-            foobar = schemas.NumberSchema
+            foo__bar = schemas.NumberSchema
+            foo_rbar = schemas.NumberSchema
+            foo_tbar = schemas.NumberSchema
+            foo_fbar = schemas.NumberSchema
             __annotations__ = {
-                "foo
-bar": foobar,
-                "foo"bar": foobar,
-                "foo\bar": foo_bar,
-                "foobar": foobar,
-                "foo	bar": foobar,
-                "foobar": foobar,
+                "foo\nbar": foo_nbar,
+                "foo\"bar": foo_bar,
+                "foo\\bar": foo__bar,
+                "foo\rbar": foo_rbar,
+                "foo\tbar": foo_tbar,
+                "foo\fbar": foo_fbar,
             }
         additional_properties = schemas.AnyTypeSchema
 
     
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo
-bar"]) -> MetaOapg.properties.foobar: ...
+    def __getitem__(self, name: typing.Literal["foo\nbar"]) -> MetaOapg.properties.foo_nbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo"bar"]) -> MetaOapg.properties.foobar: ...
+    def __getitem__(self, name: typing.Literal["foo\"bar"]) -> MetaOapg.properties.foo_bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\bar"]) -> MetaOapg.properties.foo_bar: ...
+    def __getitem__(self, name: typing.Literal["foo\\bar"]) -> MetaOapg.properties.foo__bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foobar"]) -> MetaOapg.properties.foobar: ...
+    def __getitem__(self, name: typing.Literal["foo\rbar"]) -> MetaOapg.properties.foo_rbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo	bar"]) -> MetaOapg.properties.foobar: ...
+    def __getitem__(self, name: typing.Literal["foo\tbar"]) -> MetaOapg.properties.foo_tbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foobar"]) -> MetaOapg.properties.foobar: ...
+    def __getitem__(self, name: typing.Literal["foo\fbar"]) -> MetaOapg.properties.foo_fbar: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor

@@ -34,17 +34,16 @@ class PropertyNamedRefThatIsNotAReference(
 
     class MetaOapg:
         class properties:
-            $ref = schemas.StrSchema
+            ref = schemas.StrSchema
             __annotations__ = {
-                "$ref": $ref,
+                "$ref": ref,
             }
         additional_properties = schemas.AnyTypeSchema
 
     
-    $ref: MetaOapg.properties.$ref
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["$ref"]) -> MetaOapg.properties.$ref: ...
+    def __getitem__(self, name: typing.Literal["$ref"]) -> MetaOapg.properties.ref: ...
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
@@ -53,14 +52,12 @@ class PropertyNamedRefThatIsNotAReference(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-        $ref: typing.Union[MetaOapg.properties.$ref, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'PropertyNamedRefThatIsNotAReference':
         return super().__new__(
             cls,
             *args,
-            $ref=$ref,
             _configuration=_configuration,
             **kwargs,
         )
