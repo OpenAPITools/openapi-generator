@@ -33,16 +33,12 @@ class ArrayWithValidationsInItems(
 
 
     class MetaOapg:
-        max_items = 2
         
         
         class items(
             schemas.Int64Schema
         ):
-        
-        
-            class MetaOapg:
-                inclusive_maximum = 7
+            pass
 
     def __new__(
         cls,

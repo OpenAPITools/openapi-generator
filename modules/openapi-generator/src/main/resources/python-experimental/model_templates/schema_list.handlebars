@@ -17,7 +17,9 @@ class {{> model_templates/classname }}(
 
 
     class MetaOapg:
+{{#unless isStub}}
         {{> model_templates/validations }}
+{{/unless}}
 {{#with items}}
 {{#if complexType}}
 

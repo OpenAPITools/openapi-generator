@@ -45,26 +45,13 @@ class Apple(
             class cultivar(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
-                    }]
+                pass
             
             
             class origin(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'^[A-Z\s]*$',  # noqa: E501
-                        'flags': (
-                            re.IGNORECASE
-                        )
-                    }]
+                pass
             __annotations__ = {
                 "cultivar": cultivar,
                 "origin": origin,

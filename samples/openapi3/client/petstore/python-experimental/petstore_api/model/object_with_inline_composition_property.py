@@ -48,10 +48,7 @@ class ObjectWithInlineCompositionProperty(
                     class all_of_0(
                         schemas.StrSchema
                     ):
-                    
-                    
-                        class MetaOapg:
-                            min_length = 1
+                        pass
                     
                     @classmethod
                     @property

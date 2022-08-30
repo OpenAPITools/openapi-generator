@@ -44,76 +44,44 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             class integer(
                 schemas.IntSchema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 100
-                    inclusive_minimum = 10
+                pass
             
             
             class int32(
                 schemas.Int32Schema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 200
-                    inclusive_minimum = 20
+                pass
             int64 = schemas.Int64Schema
             
             
             class number(
                 schemas.NumberSchema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 543.2
-                    inclusive_minimum = 32.1
+                pass
             
             
             class float(
                 schemas.Float32Schema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 987.6
+                pass
             
             
             class double(
                 schemas.Float64Schema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 123.4
-                    inclusive_minimum = 67.8
+                pass
             
             
             class string(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'[a-z]',  # noqa: E501
-                        'flags': (
-                            re.IGNORECASE
-                        )
-                    }]
+                pass
             
             
             class pattern_without_delimiter(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'^[A-Z].*',  # noqa: E501
-                    }]
+                pass
             byte = schemas.StrSchema
             binary = schemas.BinarySchema
             date = schemas.DateSchema
@@ -123,11 +91,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             class password(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    max_length = 64
-                    min_length = 10
+                pass
             callback = schemas.StrSchema
             __annotations__ = {
                 "integer": integer,

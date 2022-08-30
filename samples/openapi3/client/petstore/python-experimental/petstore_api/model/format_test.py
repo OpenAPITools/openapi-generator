@@ -45,12 +45,7 @@ class FormatTest(
             class number(
                 schemas.NumberSchema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 543.2
-                    inclusive_minimum = 32.1
-                    multiple_of = 32.5
+                pass
             byte = schemas.StrSchema
             date = schemas.DateSchema
             
@@ -58,55 +53,34 @@ class FormatTest(
             class password(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    max_length = 64
-                    min_length = 10
+                pass
             
             
             class integer(
                 schemas.IntSchema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 100
-                    inclusive_minimum = 10
-                    multiple_of = 2
+                pass
             int32 = schemas.Int32Schema
             
             
             class int32withValidations(
                 schemas.Int32Schema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 200
-                    inclusive_minimum = 20
+                pass
             int64 = schemas.Int64Schema
             
             
             class float(
                 schemas.Float32Schema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 987.6
-                    inclusive_minimum = 54.3
+                pass
             float32 = schemas.Float32Schema
             
             
             class double(
                 schemas.Float64Schema
             ):
-            
-            
-                class MetaOapg:
-                    inclusive_maximum = 123.4
-                    inclusive_minimum = 67.8
+                pass
             float64 = schemas.Float64Schema
             
             
@@ -116,7 +90,6 @@ class FormatTest(
             
             
                 class MetaOapg:
-                    unique_items = True
                     items = schemas.NumberSchema
             
                 def __new__(
@@ -137,15 +110,7 @@ class FormatTest(
             class string(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'[a-z]',  # noqa: E501
-                        'flags': (
-                            re.IGNORECASE
-                        )
-                    }]
+                pass
             binary = schemas.BinarySchema
             dateTime = schemas.DateTimeSchema
             uuid = schemas.UUIDSchema
@@ -155,26 +120,13 @@ class FormatTest(
             class pattern_with_digits(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'^\d{10}$',  # noqa: E501
-                    }]
+                pass
             
             
             class pattern_with_digits_and_delimiter(
                 schemas.StrSchema
             ):
-            
-            
-                class MetaOapg:
-                    regex=[{
-                        'pattern': r'^image_\d{1,3}$',  # noqa: E501
-                        'flags': (
-                            re.IGNORECASE
-                        )
-                    }]
+                pass
             noneProp = schemas.NoneSchema
             __annotations__ = {
                 "number": number,

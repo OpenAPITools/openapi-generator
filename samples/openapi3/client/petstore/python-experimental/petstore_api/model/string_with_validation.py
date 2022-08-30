@@ -30,7 +30,4 @@ class StringWithValidation(
 
     Do not edit the class manually.
     """
-
-
-    class MetaOapg:
-        min_length = 7
+    pass

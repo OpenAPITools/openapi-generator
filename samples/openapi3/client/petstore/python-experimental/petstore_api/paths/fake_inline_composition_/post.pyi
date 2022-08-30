@@ -38,10 +38,7 @@ class CompositionAtRootSchema(
         class all_of_0(
             schemas.StrSchema
         ):
-        
-        
-            class MetaOapg:
-                min_length = 1
+            pass
         
         @classmethod
         @property
@@ -98,10 +95,7 @@ class CompositionInPropertySchema(
                     class all_of_0(
                         schemas.StrSchema
                     ):
-                    
-                    
-                        class MetaOapg:
-                            min_length = 1
+                        pass
                     
                     @classmethod
                     @property
@@ -190,10 +184,7 @@ class SchemaForRequestBodyApplicationJson(
         class all_of_0(
             schemas.StrSchema
         ):
-        
-        
-            class MetaOapg:
-                min_length = 1
+            pass
         
         @classmethod
         @property
@@ -250,10 +241,7 @@ class SchemaForRequestBodyMultipartFormData(
                     class all_of_0(
                         schemas.StrSchema
                     ):
-                    
-                    
-                        class MetaOapg:
-                            min_length = 1
+                        pass
                     
                     @classmethod
                     @property
@@ -329,10 +317,7 @@ class SchemaFor200ResponseBodyApplicationJson(
         class all_of_0(
             schemas.StrSchema
         ):
-        
-        
-            class MetaOapg:
-                min_length = 1
+            pass
         
         @classmethod
         @property
@@ -389,10 +374,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
                     class all_of_0(
                         schemas.StrSchema
                     ):
-                    
-                    
-                        class MetaOapg:
-                            min_length = 1
+                        pass
                     
                     @classmethod
                     @property

@@ -17,12 +17,21 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
+{{#unless isStub}}
 {{#if hasValidation}}
 
 
     class MetaOapg:
         {{> model_templates/validations }}
 {{/if}}
+{{/unless}}
 {{#if isEnum}}
     {{> model_templates/enums }}
+{{/if}}
+{{#if isStub}}
+{{#if hasValidation}}
+{{#unless isEnum}}
+    pass
+{{/unless}}
+{{/if}}
 {{/if}}

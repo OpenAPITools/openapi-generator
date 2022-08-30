@@ -31,11 +31,6 @@ from petstore_api.model.order import Order
 class OrderIdSchema(
     schemas.Int64Schema
 ):
-
-
-    class MetaOapg:
-        inclusive_maximum = 5
-        inclusive_minimum = 1
 request_path_order_id = api_client.PathParameter(
     name="order_id",
     style=api_client.ParameterStyle.SIMPLE,

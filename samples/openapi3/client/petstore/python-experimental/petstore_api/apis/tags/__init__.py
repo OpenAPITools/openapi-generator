@@ -11,5 +11,3 @@ class TagValues(str, enum.Enum):
     USER = "user"
     ANOTHERFAKE = "$another-fake?"
     DEFAULT = "default"
-    FAKE = "fake"
-    FAKE_CLASSNAME_TAGS_123 = "fake_classname_tags 123#$%^"

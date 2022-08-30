@@ -47,8 +47,6 @@ class ComposedOneOfDifferentTypes(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
-                max_properties = 4
-                min_properties = 4
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
                 # dict_instance[name] accessor
@@ -74,8 +72,6 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                max_items = 4
-                min_items = 4
                 items = schemas.AnyTypeSchema
         
             def __new__(
@@ -96,12 +92,7 @@ class ComposedOneOfDifferentTypes(
         class one_of_6(
             schemas.DateTimeSchema
         ):
-        
-        
-            class MetaOapg:
-                regex=[{
-                    'pattern': r'^2020.*',  # noqa: E501
-                }]
+            pass
         
         @classmethod
         @property

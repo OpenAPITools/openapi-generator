@@ -18,7 +18,9 @@ class {{> model_templates/classname }}(
 
     class MetaOapg:
         {{> model_templates/dict_partial }}
+{{#unless isStub}}
         {{> model_templates/validations }}
+{{/unless}}
     {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}
