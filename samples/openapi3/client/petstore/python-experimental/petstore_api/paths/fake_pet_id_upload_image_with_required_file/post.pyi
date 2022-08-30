@@ -27,12 +27,6 @@ from petstore_api.model.api_response import ApiResponse
 
 # path params
 PetIdSchema = schemas.Int64Schema
-request_path_pet_id = api_client.PathParameter(
-    name="petId",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=PetIdSchema,
-    required=True,
-)
 # body param
 
 

@@ -28,43 +28,6 @@ RequiredStringGroupSchema = schemas.IntSchema
 RequiredInt64GroupSchema = schemas.Int64Schema
 StringGroupSchema = schemas.IntSchema
 Int64GroupSchema = schemas.Int64Schema
-request_query_required_string_group = api_client.QueryParameter(
-    name="required_string_group",
-    style=api_client.ParameterStyle.FORM,
-    schema=RequiredStringGroupSchema,
-    required=True,
-    explode=True,
-)
-request_query_required_int64_group = api_client.QueryParameter(
-    name="required_int64_group",
-    style=api_client.ParameterStyle.FORM,
-    schema=RequiredInt64GroupSchema,
-    required=True,
-    explode=True,
-)
-request_query_string_group = api_client.QueryParameter(
-    name="string_group",
-    style=api_client.ParameterStyle.FORM,
-    schema=StringGroupSchema,
-    explode=True,
-)
-request_query_int64_group = api_client.QueryParameter(
-    name="int64_group",
-    style=api_client.ParameterStyle.FORM,
-    schema=Int64GroupSchema,
-    explode=True,
-)
 # header params
 RequiredBooleanGroupSchema = schemas.BoolSchema
 BooleanGroupSchema = schemas.BoolSchema
-request_header_required_boolean_group = api_client.HeaderParameter(
-    name="required_boolean_group",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=RequiredBooleanGroupSchema,
-    required=True,
-)
-request_header_boolean_group = api_client.HeaderParameter(
-    name="boolean_group",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=BooleanGroupSchema,
-)

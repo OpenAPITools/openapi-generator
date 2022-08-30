@@ -27,12 +27,5 @@ from petstore_api.model.user import User
 
 # query params
 QuerySchema = schemas.StrSchema
-request_query_query = api_client.QueryParameter(
-    name="query",
-    style=api_client.ParameterStyle.FORM,
-    schema=QuerySchema,
-    required=True,
-    explode=True,
-)
 # body param
 SchemaForRequestBodyApplicationJson = User

@@ -24,9 +24,3 @@ from petstore_api import schemas  # noqa: F401
 
 # path params
 OrderIdSchema = schemas.StrSchema
-request_path_order_id = api_client.PathParameter(
-    name="order_id",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=OrderIdSchema,
-    required=True,
-)

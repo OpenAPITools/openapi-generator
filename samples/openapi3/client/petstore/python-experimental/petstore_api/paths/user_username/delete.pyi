@@ -24,9 +24,3 @@ from petstore_api import schemas  # noqa: F401
 
 # path params
 UsernameSchema = schemas.StrSchema
-request_path_username = api_client.PathParameter(
-    name="username",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=UsernameSchema,
-    required=True,
-)

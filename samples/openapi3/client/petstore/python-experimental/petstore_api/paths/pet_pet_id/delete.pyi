@@ -25,16 +25,5 @@ from petstore_api import schemas  # noqa: F401
 
 # header params
 ApiKeySchema = schemas.StrSchema
-request_header_api_key = api_client.HeaderParameter(
-    name="api_key",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ApiKeySchema,
-)
 # path params
 PetIdSchema = schemas.Int64Schema
-request_path_pet_id = api_client.PathParameter(
-    name="petId",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=PetIdSchema,
-    required=True,
-)

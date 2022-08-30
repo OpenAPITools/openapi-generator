@@ -31,11 +31,6 @@ from petstore_api.model.order import Order
 class OrderIdSchema(
     schemas.Int64Schema
 ):
-request_path_order_id = api_client.PathParameter(
-    name="order_id",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=OrderIdSchema,
-    required=True,
-)
+    pass
 SchemaFor200ResponseBodyApplicationXml = Order
 SchemaFor200ResponseBodyApplicationJson = Order

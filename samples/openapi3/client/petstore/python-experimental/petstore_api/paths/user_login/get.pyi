@@ -26,20 +26,6 @@ from petstore_api import schemas  # noqa: F401
 # query params
 UsernameSchema = schemas.StrSchema
 PasswordSchema = schemas.StrSchema
-request_query_username = api_client.QueryParameter(
-    name="username",
-    style=api_client.ParameterStyle.FORM,
-    schema=UsernameSchema,
-    required=True,
-    explode=True,
-)
-request_query_password = api_client.QueryParameter(
-    name="password",
-    style=api_client.ParameterStyle.FORM,
-    schema=PasswordSchema,
-    required=True,
-    explode=True,
-)
 XRateLimitSchema = schemas.Int32Schema
 XExpiresAfterSchema = schemas.DateTimeSchema
 SchemaFor200ResponseBodyApplicationXml = schemas.StrSchema

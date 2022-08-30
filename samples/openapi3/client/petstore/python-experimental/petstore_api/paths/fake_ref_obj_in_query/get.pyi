@@ -26,9 +26,3 @@ from petstore_api.model.foo import Foo
 
 # query params
 MapBeanSchema = Foo
-request_query_map_bean = api_client.QueryParameter(
-    name="mapBean",
-    style=api_client.ParameterStyle.DEEP_OBJECT,
-    schema=MapBeanSchema,
-    explode=True,
-)

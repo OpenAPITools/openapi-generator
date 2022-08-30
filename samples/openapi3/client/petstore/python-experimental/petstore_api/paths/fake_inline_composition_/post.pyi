@@ -157,18 +157,6 @@ class CompositionInPropertySchema(
             _configuration=_configuration,
             **kwargs,
         )
-request_query_composition_at_root = api_client.QueryParameter(
-    name="compositionAtRoot",
-    style=api_client.ParameterStyle.FORM,
-    schema=CompositionAtRootSchema,
-    explode=True,
-)
-request_query_composition_in_property = api_client.QueryParameter(
-    name="compositionInProperty",
-    style=api_client.ParameterStyle.FORM,
-    schema=CompositionInPropertySchema,
-    explode=True,
-)
 # body param
 
 

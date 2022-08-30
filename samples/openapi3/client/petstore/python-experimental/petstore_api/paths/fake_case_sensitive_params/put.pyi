@@ -26,24 +26,3 @@ from petstore_api import schemas  # noqa: F401
 SomeVarSchema = schemas.StrSchema
 SomeVarSchema = schemas.StrSchema
 SomeVarSchema = schemas.StrSchema
-request_query_some_var = api_client.QueryParameter(
-    name="someVar",
-    style=api_client.ParameterStyle.FORM,
-    schema=SomeVarSchema,
-    required=True,
-    explode=True,
-)
-request_query_some_var2 = api_client.QueryParameter(
-    name="SomeVar",
-    style=api_client.ParameterStyle.FORM,
-    schema=SomeVarSchema,
-    required=True,
-    explode=True,
-)
-request_query_some_var3 = api_client.QueryParameter(
-    name="some_var",
-    style=api_client.ParameterStyle.FORM,
-    schema=SomeVarSchema,
-    required=True,
-    explode=True,
-)

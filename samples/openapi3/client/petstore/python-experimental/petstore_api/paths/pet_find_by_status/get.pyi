@@ -75,12 +75,6 @@ class StatusSchema(
 
     def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
-request_query_status = api_client.QueryParameter(
-    name="status",
-    style=api_client.ParameterStyle.FORM,
-    schema=StatusSchema,
-    required=True,
-)
 
 
 class SchemaFor200ResponseBodyApplicationXml(

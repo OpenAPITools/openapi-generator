@@ -49,12 +49,6 @@ class TagsSchema(
 
     def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
-request_query_tags = api_client.QueryParameter(
-    name="tags",
-    style=api_client.ParameterStyle.FORM,
-    schema=TagsSchema,
-    required=True,
-)
 
 
 class SchemaFor200ResponseBodyApplicationXml(

@@ -27,11 +27,5 @@ from petstore_api.model.user import User
 
 # path params
 UsernameSchema = schemas.StrSchema
-request_path_username = api_client.PathParameter(
-    name="username",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=UsernameSchema,
-    required=True,
-)
 SchemaFor200ResponseBodyApplicationXml = User
 SchemaFor200ResponseBodyApplicationJson = User

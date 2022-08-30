@@ -58,10 +58,10 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
-{{/unless}}
 {{#each queryParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if headerParams}}
 # header params
@@ -98,10 +98,10 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
     pass
 
 
-{{/unless}}
 {{#each headerParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if pathParams}}
 # path params
@@ -138,10 +138,10 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
     pass
 
 
-{{/unless}}
 {{#each pathParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if cookieParams}}
 # cookie params
@@ -178,10 +178,10 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
     pass
 
 
-{{/unless}}
 {{#each cookieParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#with bodyParam}}
 # body param

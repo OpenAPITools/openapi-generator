@@ -29,133 +29,23 @@ ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-request_query__1 = api_client.QueryParameter(
-    name="1",
-    style=api_client.ParameterStyle.FORM,
-    schema=Model1Schema,
-    explode=True,
-)
-request_query_a_b = api_client.QueryParameter(
-    name="aB",
-    style=api_client.ParameterStyle.FORM,
-    schema=ABSchema,
-    explode=True,
-)
-request_query_ab = api_client.QueryParameter(
-    name="Ab",
-    style=api_client.ParameterStyle.FORM,
-    schema=AbSchema,
-    explode=True,
-)
-request_query__self = api_client.QueryParameter(
-    name="self",
-    style=api_client.ParameterStyle.FORM,
-    schema=ModelSelfSchema,
-    explode=True,
-)
-request_query_a_b2 = api_client.QueryParameter(
-    name="A-B",
-    style=api_client.ParameterStyle.FORM,
-    schema=ABSchema,
-    explode=True,
-)
 # header params
 Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-request_header__2 = api_client.HeaderParameter(
-    name="1",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=Model1Schema,
-)
-request_header_a_b3 = api_client.HeaderParameter(
-    name="aB",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ABSchema,
-)
-request_header__self2 = api_client.HeaderParameter(
-    name="self",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelSelfSchema,
-)
-request_header_a_b4 = api_client.HeaderParameter(
-    name="A-B",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ABSchema,
-)
 # path params
 Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-request_path__3 = api_client.PathParameter(
-    name="1",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=Model1Schema,
-    required=True,
-)
-request_path_a_b5 = api_client.PathParameter(
-    name="aB",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ABSchema,
-    required=True,
-)
-request_path_ab2 = api_client.PathParameter(
-    name="Ab",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=AbSchema,
-    required=True,
-)
-request_path__self3 = api_client.PathParameter(
-    name="self",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelSelfSchema,
-    required=True,
-)
-request_path_a_b6 = api_client.PathParameter(
-    name="A-B",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ABSchema,
-    required=True,
-)
 # cookie params
 Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-request_cookie__4 = api_client.CookieParameter(
-    name="1",
-    style=api_client.ParameterStyle.FORM,
-    schema=Model1Schema,
-    explode=True,
-)
-request_cookie_a_b7 = api_client.CookieParameter(
-    name="aB",
-    style=api_client.ParameterStyle.FORM,
-    schema=ABSchema,
-    explode=True,
-)
-request_cookie_ab3 = api_client.CookieParameter(
-    name="Ab",
-    style=api_client.ParameterStyle.FORM,
-    schema=AbSchema,
-    explode=True,
-)
-request_cookie__self4 = api_client.CookieParameter(
-    name="self",
-    style=api_client.ParameterStyle.FORM,
-    schema=ModelSelfSchema,
-    explode=True,
-)
-request_cookie_a_b8 = api_client.CookieParameter(
-    name="A-B",
-    style=api_client.ParameterStyle.FORM,
-    schema=ABSchema,
-    explode=True,
-)
 # body param
 SchemaForRequestBodyApplicationJson = schemas.AnyTypeSchema
 SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema

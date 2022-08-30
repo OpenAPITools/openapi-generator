@@ -61,9 +61,3 @@ class MapBeanSchema(
             _configuration=_configuration,
             **kwargs,
         )
-request_query_map_bean = api_client.QueryParameter(
-    name="mapBean",
-    style=api_client.ParameterStyle.DEEP_OBJECT,
-    schema=MapBeanSchema,
-    explode=True,
-)
