@@ -151,9 +151,6 @@ paths:
           type: array
           items:
             type: string
-            enum:
-              - item0
-              - item2
           default:
             - item0
 

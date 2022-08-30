@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
  **fn1** | **kotlin.Double**|  | [default to 71.0]
  **fn2** | **kotlin.Double**|  | [optional]
  **fn3** | **kotlin.Double**|  |
- **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | [enum: item0, item2]
+ **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
 
 ### Return type
 

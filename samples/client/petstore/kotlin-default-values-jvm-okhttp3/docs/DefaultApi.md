@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
  **fn1** | **java.math.BigDecimal**|  | [default to 71.0]
  **fn2** | **java.math.BigDecimal**|  | [optional]
  **fn3** | **java.math.BigDecimal**|  |
- **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | [enum: item0, item2]
+ **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
 
 ### Return type
 
