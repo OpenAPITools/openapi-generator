@@ -30,33 +30,3 @@ request_path_id = api_client.PathParameter(
     schema=IdSchema,
     required=True,
 )
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-)
-
-
-@dataclass
-class ApiResponseForDefault(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_default = api_client.OpenApiResponse(
-    response_cls=ApiResponseForDefault,
-)
-_status_code_to_response = {
-    '200': _response_for_200,
-    'default': _response_for_default,
-}
-
-

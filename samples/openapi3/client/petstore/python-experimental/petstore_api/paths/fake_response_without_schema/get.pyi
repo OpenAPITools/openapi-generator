@@ -23,31 +23,3 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        schemas.Unset,
-        schemas.Unset,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-    content={
-        'application/json': api_client.MediaType(),
-        'application/xml': api_client.MediaType(),
-    },
-)
-_status_code_to_response = {
-    '200': _response_for_200,
-}
-_all_accept_content_types = (
-    'application/json',
-    'application/xml',
-)
-
-

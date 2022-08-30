@@ -28,33 +28,3 @@ from petstore_api.model.pet import Pet
 # body param
 SchemaForRequestBodyApplicationJson = Pet
 SchemaForRequestBodyApplicationXml = Pet
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-)
-
-
-@dataclass
-class ApiResponseFor405(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_405 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor405,
-)
-_status_code_to_response = {
-    '200': _response_for_200,
-    '405': _response_for_405,
-}
-
-

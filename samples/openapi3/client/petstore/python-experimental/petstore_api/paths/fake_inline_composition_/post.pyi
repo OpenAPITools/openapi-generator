@@ -454,33 +454,3 @@ class SchemaFor200ResponseBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor200ResponseBodyApplicationJson,
-        SchemaFor200ResponseBodyMultipartFormData,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationJson),
-        'multipart/form-data': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyMultipartFormData),
-    },
-)
-_status_code_to_response = {
-    '200': _response_for_200,
-}
-_all_accept_content_types = (
-    'application/json',
-    'multipart/form-data',
-)
-
-

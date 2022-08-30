@@ -38,20 +38,3 @@ request_path_pet_id = api_client.PathParameter(
     schema=PetIdSchema,
     required=True,
 )
-
-
-@dataclass
-class ApiResponseFor400(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_400 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor400,
-)
-_status_code_to_response = {
-    '400': _response_for_400,
-}
-
-

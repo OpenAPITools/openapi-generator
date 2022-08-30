@@ -27,20 +27,3 @@ from petstore_api.model.user import User
 
 # body param
 SchemaForRequestBodyApplicationJson = User
-
-
-@dataclass
-class ApiResponseForDefault(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_default = api_client.OpenApiResponse(
-    response_cls=ApiResponseForDefault,
-)
-_status_code_to_response = {
-    'default': _response_for_default,
-}
-
-

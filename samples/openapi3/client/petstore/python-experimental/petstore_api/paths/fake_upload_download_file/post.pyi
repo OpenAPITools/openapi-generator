@@ -26,29 +26,3 @@ from petstore_api import schemas  # noqa: F401
 # body param
 SchemaForRequestBodyApplicationOctetStream = schemas.BinarySchema
 SchemaFor200ResponseBodyApplicationOctetStream = schemas.BinarySchema
-
-
-@dataclass
-class ApiResponseFor200(api_client.ApiResponse):
-    response: urllib3.HTTPResponse
-    body: typing.Union[
-        SchemaFor200ResponseBodyApplicationOctetStream,
-    ]
-    headers: schemas.Unset = schemas.unset
-
-
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
-    content={
-        'application/octet-stream': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationOctetStream),
-    },
-)
-_status_code_to_response = {
-    '200': _response_for_200,
-}
-_all_accept_content_types = (
-    'application/octet-stream',
-)
-
-

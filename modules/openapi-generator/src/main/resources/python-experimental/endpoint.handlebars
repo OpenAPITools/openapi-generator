@@ -255,6 +255,7 @@ _servers = (
 {{#with schema}}
 {{> model_templates/schema }}
 {{/with}}
+{{#unless ../isStub}}
 {{paramName}}_parameter = api_client.HeaderParameter(
     name="{{baseName}}",
 {{#if style}}
@@ -272,12 +273,14 @@ _servers = (
     explode=True,
 {{/if}}
 )
+{{/unless}}
 {{/each}}
 {{#each content}}
 {{#with this.schema}}
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless ../isStub}}
 {{#if responseHeaders}}
 ResponseHeadersFor{{code}} = typing.TypedDict(
     'ResponseHeadersFor{{code}}',
@@ -360,7 +363,9 @@ _response_for_{{code}} = api_client.OpenApiResponse(
     ]
 {{/if}}
 )
+{{/unless}}
 {{/each}}
+{{#unless ../isStub}}
 _status_code_to_response = {
 {{#each responses}}
 {{#if isDefault}}
@@ -381,7 +386,6 @@ _all_accept_content_types = (
 {{/each}}
 
 
-{{#unless ../isStub}}
 class BaseApi(api_client.Api):
 
     def _{{operationId}}(
