@@ -57,7 +57,7 @@ class User(
                     additional_properties = schemas.AnyTypeSchema
             
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
             
@@ -86,7 +86,7 @@ class User(
                     not_schema = schemas.NoneSchema
             
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
             
@@ -120,60 +120,60 @@ class User(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    id: MetaOapg.properties.id
-    username: MetaOapg.properties.username
-    firstName: MetaOapg.properties.firstName
-    lastName: MetaOapg.properties.lastName
-    email: MetaOapg.properties.email
-    password: MetaOapg.properties.password
-    phone: MetaOapg.properties.phone
-    userStatus: MetaOapg.properties.userStatus
-    objectWithNoDeclaredProps: MetaOapg.properties.objectWithNoDeclaredProps
-    objectWithNoDeclaredPropsNullable: MetaOapg.properties.objectWithNoDeclaredPropsNullable
-    anyTypeProp: MetaOapg.properties.anyTypeProp
-    anyTypeExceptNullProp: MetaOapg.properties.anyTypeExceptNullProp
-    anyTypePropNullable: MetaOapg.properties.anyTypePropNullable
+    id: typing.Union[MetaOapg.properties.id, schemas.Unset]
+    username: typing.Union[MetaOapg.properties.username, schemas.Unset]
+    firstName: typing.Union[MetaOapg.properties.firstName, schemas.Unset]
+    lastName: typing.Union[MetaOapg.properties.lastName, schemas.Unset]
+    email: typing.Union[MetaOapg.properties.email, schemas.Unset]
+    password: typing.Union[MetaOapg.properties.password, schemas.Unset]
+    phone: typing.Union[MetaOapg.properties.phone, schemas.Unset]
+    userStatus: typing.Union[MetaOapg.properties.userStatus, schemas.Unset]
+    objectWithNoDeclaredProps: typing.Union[MetaOapg.properties.objectWithNoDeclaredProps, schemas.Unset]
+    objectWithNoDeclaredPropsNullable: typing.Union[MetaOapg.properties.objectWithNoDeclaredPropsNullable, schemas.Unset]
+    anyTypeProp: typing.Union[MetaOapg.properties.anyTypeProp, schemas.Unset]
+    anyTypeExceptNullProp: typing.Union[MetaOapg.properties.anyTypeExceptNullProp, schemas.Unset]
+    anyTypePropNullable: typing.Union[MetaOapg.properties.anyTypePropNullable, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    def __getitem__(self, name: typing.Literal["id"]) -> typing.Union[MetaOapg.properties.id, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["username"]) -> MetaOapg.properties.username: ...
+    def __getitem__(self, name: typing.Literal["username"]) -> typing.Union[MetaOapg.properties.username, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["firstName"]) -> MetaOapg.properties.firstName: ...
+    def __getitem__(self, name: typing.Literal["firstName"]) -> typing.Union[MetaOapg.properties.firstName, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["lastName"]) -> MetaOapg.properties.lastName: ...
+    def __getitem__(self, name: typing.Literal["lastName"]) -> typing.Union[MetaOapg.properties.lastName, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["email"]) -> MetaOapg.properties.email: ...
+    def __getitem__(self, name: typing.Literal["email"]) -> typing.Union[MetaOapg.properties.email, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    def __getitem__(self, name: typing.Literal["password"]) -> typing.Union[MetaOapg.properties.password, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["phone"]) -> MetaOapg.properties.phone: ...
+    def __getitem__(self, name: typing.Literal["phone"]) -> typing.Union[MetaOapg.properties.phone, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["userStatus"]) -> MetaOapg.properties.userStatus: ...
+    def __getitem__(self, name: typing.Literal["userStatus"]) -> typing.Union[MetaOapg.properties.userStatus, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["objectWithNoDeclaredProps"]) -> MetaOapg.properties.objectWithNoDeclaredProps: ...
+    def __getitem__(self, name: typing.Literal["objectWithNoDeclaredProps"]) -> typing.Union[MetaOapg.properties.objectWithNoDeclaredProps, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["objectWithNoDeclaredPropsNullable"]) -> MetaOapg.properties.objectWithNoDeclaredPropsNullable: ...
+    def __getitem__(self, name: typing.Literal["objectWithNoDeclaredPropsNullable"]) -> typing.Union[MetaOapg.properties.objectWithNoDeclaredPropsNullable, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["anyTypeProp"]) -> MetaOapg.properties.anyTypeProp: ...
+    def __getitem__(self, name: typing.Literal["anyTypeProp"]) -> typing.Union[MetaOapg.properties.anyTypeProp, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["anyTypeExceptNullProp"]) -> MetaOapg.properties.anyTypeExceptNullProp: ...
+    def __getitem__(self, name: typing.Literal["anyTypeExceptNullProp"]) -> typing.Union[MetaOapg.properties.anyTypeExceptNullProp, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["anyTypePropNullable"]) -> MetaOapg.properties.anyTypePropNullable: ...
+    def __getitem__(self, name: typing.Literal["anyTypePropNullable"]) -> typing.Union[MetaOapg.properties.anyTypePropNullable, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

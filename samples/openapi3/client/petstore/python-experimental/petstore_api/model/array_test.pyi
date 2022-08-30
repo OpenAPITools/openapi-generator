@@ -158,20 +158,20 @@ class ArrayTest(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    array_of_string: MetaOapg.properties.array_of_string
-    array_array_of_integer: MetaOapg.properties.array_array_of_integer
-    array_array_of_model: MetaOapg.properties.array_array_of_model
+    array_of_string: typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]
+    array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]
+    array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_of_string"]) -> MetaOapg.properties.array_of_string: ...
+    def __getitem__(self, name: typing.Literal["array_of_string"]) -> typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_array_of_integer"]) -> MetaOapg.properties.array_array_of_integer: ...
+    def __getitem__(self, name: typing.Literal["array_array_of_integer"]) -> typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> MetaOapg.properties.array_array_of_model: ...
+    def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

@@ -369,16 +369,16 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    enum_form_string_array: MetaOapg.properties.enum_form_string_array
-    enum_form_string: MetaOapg.properties.enum_form_string
+    enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]
+    enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
+    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
+    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

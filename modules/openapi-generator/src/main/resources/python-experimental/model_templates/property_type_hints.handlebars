@@ -23,9 +23,9 @@
 {{#unless required}}
 {{#unless nameInSnakeCase}}
 {{#if complexType}}
-{{baseName}}: '{{complexType}}'
+{{baseName}}: typing.Union['{{complexType}}', schemas.Unset]
 {{else}}
-{{baseName}}: MetaOapg.properties.{{baseName}}
+{{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]
 {{/if}}
 {{/unless}}
 {{/unless}}

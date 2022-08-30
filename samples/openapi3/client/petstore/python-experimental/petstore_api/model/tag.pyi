@@ -42,16 +42,16 @@ class Tag(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    id: MetaOapg.properties.id
-    name: MetaOapg.properties.name
+    id: typing.Union[MetaOapg.properties.id, schemas.Unset]
+    name: typing.Union[MetaOapg.properties.name, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    def __getitem__(self, name: typing.Literal["id"]) -> typing.Union[MetaOapg.properties.id, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+    def __getitem__(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

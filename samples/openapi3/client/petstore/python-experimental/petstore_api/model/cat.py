@@ -49,12 +49,12 @@ class Cat(
                     }
                 additional_properties = schemas.AnyTypeSchema
             
-            declawed: MetaOapg.properties.declawed
+            declawed: typing.Union[MetaOapg.properties.declawed, schemas.Unset]
             
             @typing.overload
-            def __getitem__(self, name: typing.Literal["declawed"]) -> MetaOapg.properties.declawed: ...
+            def __getitem__(self, name: typing.Literal["declawed"]) -> typing.Union[MetaOapg.properties.declawed, schemas.Unset]: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
                 return super().__getitem__(name)
         
@@ -90,7 +90,7 @@ class Cat(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

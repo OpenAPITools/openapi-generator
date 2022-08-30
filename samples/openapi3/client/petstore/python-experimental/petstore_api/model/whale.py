@@ -62,19 +62,19 @@ class Whale(
         additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
-    hasBaleen: MetaOapg.properties.hasBaleen
-    hasTeeth: MetaOapg.properties.hasTeeth
+    hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset]
+    hasTeeth: typing.Union[MetaOapg.properties.hasTeeth, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["hasBaleen"]) -> MetaOapg.properties.hasBaleen: ...
+    def __getitem__(self, name: typing.Literal["hasBaleen"]) -> typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["hasTeeth"]) -> MetaOapg.properties.hasTeeth: ...
+    def __getitem__(self, name: typing.Literal["hasTeeth"]) -> typing.Union[MetaOapg.properties.hasTeeth, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

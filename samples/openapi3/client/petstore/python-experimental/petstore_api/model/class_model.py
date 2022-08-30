@@ -43,12 +43,12 @@ class ClassModel(
         additional_properties = schemas.AnyTypeSchema
 
     
-    _class: MetaOapg.properties._class
+    _class: typing.Union[MetaOapg.properties._class, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["_class"]) -> MetaOapg.properties._class: ...
+    def __getitem__(self, name: typing.Literal["_class"]) -> typing.Union[MetaOapg.properties._class, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

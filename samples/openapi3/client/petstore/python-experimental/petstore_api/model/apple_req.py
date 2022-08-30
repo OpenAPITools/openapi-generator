@@ -46,7 +46,7 @@ class AppleReq(
         additional_properties = None
     
     cultivar: MetaOapg.properties.cultivar
-    mealy: MetaOapg.properties.mealy
+    mealy: typing.Union[MetaOapg.properties.mealy, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...

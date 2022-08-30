@@ -61,7 +61,7 @@ class AdditionalPropertiesWithArrayOfEnums(
             def __getitem__(self, i: int) -> 'EnumClass':
                 return super().__getitem__(i)
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

@@ -45,15 +45,15 @@ class Model200Response(
         additional_properties = schemas.AnyTypeSchema
 
     
-    name: MetaOapg.properties.name
+    name: typing.Union[MetaOapg.properties.name, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+    def __getitem__(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["class"]) -> MetaOapg.properties._class: ...
+    def __getitem__(self, name: typing.Literal["class"]) -> typing.Union[MetaOapg.properties._class, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

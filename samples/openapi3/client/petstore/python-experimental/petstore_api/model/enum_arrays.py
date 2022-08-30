@@ -104,16 +104,16 @@ class EnumArrays(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    just_symbol: MetaOapg.properties.just_symbol
-    array_enum: MetaOapg.properties.array_enum
+    just_symbol: typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]
+    array_enum: typing.Union[MetaOapg.properties.array_enum, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["just_symbol"]) -> MetaOapg.properties.just_symbol: ...
+    def __getitem__(self, name: typing.Literal["just_symbol"]) -> typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_enum"]) -> MetaOapg.properties.array_enum: ...
+    def __getitem__(self, name: typing.Literal["array_enum"]) -> typing.Union[MetaOapg.properties.array_enum, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

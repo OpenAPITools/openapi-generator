@@ -62,12 +62,12 @@ class ArrayOfNumberOnly(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    ArrayNumber: MetaOapg.properties.ArrayNumber
+    ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> MetaOapg.properties.ArrayNumber: ...
+    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

@@ -44,7 +44,7 @@ class AdditionalPropertiesClass(
                 class MetaOapg:
                     additional_properties = schemas.StrSchema
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
             
@@ -78,7 +78,7 @@ class AdditionalPropertiesClass(
                         class MetaOapg:
                             additional_properties = schemas.StrSchema
                         
-                        def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                        def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                             # dict_instance[name] accessor
                             return super().__getitem__(name)
                     
@@ -95,7 +95,7 @@ class AdditionalPropertiesClass(
                                 **kwargs,
                             )
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
             
@@ -145,7 +145,7 @@ class AdditionalPropertiesClass(
                 class MetaOapg:
                     additional_properties = schemas.StrSchema
                 
-                def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+                def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
             
@@ -173,40 +173,40 @@ class AdditionalPropertiesClass(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    map_property: MetaOapg.properties.map_property
-    map_of_map_property: MetaOapg.properties.map_of_map_property
-    anytype_1: MetaOapg.properties.anytype_1
-    map_with_undeclared_properties_anytype_1: MetaOapg.properties.map_with_undeclared_properties_anytype_1
-    map_with_undeclared_properties_anytype_2: MetaOapg.properties.map_with_undeclared_properties_anytype_2
-    map_with_undeclared_properties_anytype_3: MetaOapg.properties.map_with_undeclared_properties_anytype_3
-    empty_map: MetaOapg.properties.empty_map
-    map_with_undeclared_properties_string: MetaOapg.properties.map_with_undeclared_properties_string
+    map_property: typing.Union[MetaOapg.properties.map_property, schemas.Unset]
+    map_of_map_property: typing.Union[MetaOapg.properties.map_of_map_property, schemas.Unset]
+    anytype_1: typing.Union[MetaOapg.properties.anytype_1, schemas.Unset]
+    map_with_undeclared_properties_anytype_1: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_1, schemas.Unset]
+    map_with_undeclared_properties_anytype_2: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_2, schemas.Unset]
+    map_with_undeclared_properties_anytype_3: typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_3, schemas.Unset]
+    empty_map: typing.Union[MetaOapg.properties.empty_map, schemas.Unset]
+    map_with_undeclared_properties_string: typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_property"]) -> MetaOapg.properties.map_property: ...
+    def __getitem__(self, name: typing.Literal["map_property"]) -> typing.Union[MetaOapg.properties.map_property, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_of_map_property"]) -> MetaOapg.properties.map_of_map_property: ...
+    def __getitem__(self, name: typing.Literal["map_of_map_property"]) -> typing.Union[MetaOapg.properties.map_of_map_property, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["anytype_1"]) -> MetaOapg.properties.anytype_1: ...
+    def __getitem__(self, name: typing.Literal["anytype_1"]) -> typing.Union[MetaOapg.properties.anytype_1, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_1"]) -> MetaOapg.properties.map_with_undeclared_properties_anytype_1: ...
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_1"]) -> typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_1, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_2"]) -> MetaOapg.properties.map_with_undeclared_properties_anytype_2: ...
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_2"]) -> typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_2, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_3"]) -> MetaOapg.properties.map_with_undeclared_properties_anytype_3: ...
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_anytype_3"]) -> typing.Union[MetaOapg.properties.map_with_undeclared_properties_anytype_3, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["empty_map"]) -> MetaOapg.properties.empty_map: ...
+    def __getitem__(self, name: typing.Literal["empty_map"]) -> typing.Union[MetaOapg.properties.empty_map, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_string"]) -> MetaOapg.properties.map_with_undeclared_properties_string: ...
+    def __getitem__(self, name: typing.Literal["map_with_undeclared_properties_string"]) -> typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

@@ -49,12 +49,12 @@ class Dog(
                     }
                 additional_properties = schemas.AnyTypeSchema
             
-            breed: MetaOapg.properties.breed
+            breed: typing.Union[MetaOapg.properties.breed, schemas.Unset]
             
             @typing.overload
-            def __getitem__(self, name: typing.Literal["breed"]) -> MetaOapg.properties.breed: ...
+            def __getitem__(self, name: typing.Literal["breed"]) -> typing.Union[MetaOapg.properties.breed, schemas.Unset]: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
                 return super().__getitem__(name)
         
@@ -90,7 +90,7 @@ class Dog(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

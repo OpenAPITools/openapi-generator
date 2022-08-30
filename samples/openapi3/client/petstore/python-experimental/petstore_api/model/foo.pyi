@@ -40,12 +40,12 @@ class Foo(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    bar: MetaOapg.properties.bar
+    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

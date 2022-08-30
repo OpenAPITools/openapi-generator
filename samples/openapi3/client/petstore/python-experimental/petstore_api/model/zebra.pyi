@@ -86,15 +86,15 @@ class Zebra(
         additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
-    type: MetaOapg.properties.type
+    type: typing.Union[MetaOapg.properties.type, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["type"]) -> MetaOapg.properties.type: ...
+    def __getitem__(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

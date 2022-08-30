@@ -43,16 +43,16 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    name: MetaOapg.properties.name
-    status: MetaOapg.properties.status
+    name: typing.Union[MetaOapg.properties.name, schemas.Unset]
+    status: typing.Union[MetaOapg.properties.status, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+    def __getitem__(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["status"]) -> MetaOapg.properties.status: ...
+    def __getitem__(self, name: typing.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

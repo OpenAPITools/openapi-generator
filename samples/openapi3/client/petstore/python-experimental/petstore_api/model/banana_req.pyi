@@ -46,7 +46,7 @@ class BananaReq(
         additional_properties = None
     
     lengthCm: MetaOapg.properties.lengthCm
-    sweet: MetaOapg.properties.sweet
+    sweet: typing.Union[MetaOapg.properties.sweet, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...

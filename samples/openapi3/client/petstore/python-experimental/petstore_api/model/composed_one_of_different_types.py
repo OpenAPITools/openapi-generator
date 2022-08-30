@@ -50,7 +50,7 @@ class ComposedOneOfDifferentTypes(
                 max_properties = 4
                 min_properties = 4
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
                 return super().__getitem__(name)
         
@@ -125,7 +125,7 @@ class ComposedOneOfDifferentTypes(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

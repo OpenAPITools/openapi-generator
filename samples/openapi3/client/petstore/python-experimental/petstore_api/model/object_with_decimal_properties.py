@@ -48,20 +48,20 @@ class ObjectWithDecimalProperties(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    length: MetaOapg.properties.length
-    width: MetaOapg.properties.width
-    cost: 'Money'
+    length: typing.Union[MetaOapg.properties.length, schemas.Unset]
+    width: typing.Union[MetaOapg.properties.width, schemas.Unset]
+    cost: typing.Union['Money', schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["length"]) -> MetaOapg.properties.length: ...
+    def __getitem__(self, name: typing.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["width"]) -> MetaOapg.properties.width: ...
+    def __getitem__(self, name: typing.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["cost"]) -> 'Money': ...
+    def __getitem__(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

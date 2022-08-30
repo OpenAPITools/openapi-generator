@@ -50,7 +50,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                     def additional_properties(cls) -> typing.Type['Animal']:
                         return Animal
                 
-                def __getitem__(self, name: str) -> 'Animal':
+                def __getitem__(self, name: str) -> typing.Union['Animal', schemas.Unset]:
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
             
@@ -73,20 +73,20 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    uuid: MetaOapg.properties.uuid
-    dateTime: MetaOapg.properties.dateTime
-    map: MetaOapg.properties.map
+    uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset]
+    dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
+    map: typing.Union[MetaOapg.properties.map, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
+    def __getitem__(self, name: typing.Literal["uuid"]) -> typing.Union[MetaOapg.properties.uuid, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map"]) -> MetaOapg.properties.map: ...
+    def __getitem__(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

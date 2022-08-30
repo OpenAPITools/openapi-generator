@@ -51,18 +51,18 @@ class Name(
 
     
     name: MetaOapg.properties.name
-    snake_case: MetaOapg.properties.snake_case
+    snake_case: typing.Union[MetaOapg.properties.snake_case, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["snake_case"]) -> MetaOapg.properties.snake_case: ...
+    def __getitem__(self, name: typing.Literal["snake_case"]) -> typing.Union[MetaOapg.properties.snake_case, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties._property: ...
+    def __getitem__(self, name: typing.Literal["property"]) -> typing.Union[MetaOapg.properties._property, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

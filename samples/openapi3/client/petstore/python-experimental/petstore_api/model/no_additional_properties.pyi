@@ -46,7 +46,7 @@ class NoAdditionalProperties(
         additional_properties = None
     
     id: MetaOapg.properties.id
-    petId: MetaOapg.properties.petId
+    petId: typing.Union[MetaOapg.properties.petId, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...

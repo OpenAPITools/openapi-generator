@@ -61,12 +61,12 @@ class HealthCheckResult(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    NullableMessage: MetaOapg.properties.NullableMessage
+    NullableMessage: typing.Union[MetaOapg.properties.NullableMessage, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["NullableMessage"]) -> MetaOapg.properties.NullableMessage: ...
+    def __getitem__(self, name: typing.Literal["NullableMessage"]) -> typing.Union[MetaOapg.properties.NullableMessage, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

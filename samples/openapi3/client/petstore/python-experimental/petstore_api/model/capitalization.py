@@ -50,32 +50,32 @@ class Capitalization(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    smallCamel: MetaOapg.properties.smallCamel
-    CapitalCamel: MetaOapg.properties.CapitalCamel
-    small_Snake: MetaOapg.properties.small_Snake
-    Capital_Snake: MetaOapg.properties.Capital_Snake
-    SCA_ETH_Flow_Points: MetaOapg.properties.SCA_ETH_Flow_Points
-    ATT_NAME: MetaOapg.properties.ATT_NAME
+    smallCamel: typing.Union[MetaOapg.properties.smallCamel, schemas.Unset]
+    CapitalCamel: typing.Union[MetaOapg.properties.CapitalCamel, schemas.Unset]
+    small_Snake: typing.Union[MetaOapg.properties.small_Snake, schemas.Unset]
+    Capital_Snake: typing.Union[MetaOapg.properties.Capital_Snake, schemas.Unset]
+    SCA_ETH_Flow_Points: typing.Union[MetaOapg.properties.SCA_ETH_Flow_Points, schemas.Unset]
+    ATT_NAME: typing.Union[MetaOapg.properties.ATT_NAME, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["smallCamel"]) -> MetaOapg.properties.smallCamel: ...
+    def __getitem__(self, name: typing.Literal["smallCamel"]) -> typing.Union[MetaOapg.properties.smallCamel, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["CapitalCamel"]) -> MetaOapg.properties.CapitalCamel: ...
+    def __getitem__(self, name: typing.Literal["CapitalCamel"]) -> typing.Union[MetaOapg.properties.CapitalCamel, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["small_Snake"]) -> MetaOapg.properties.small_Snake: ...
+    def __getitem__(self, name: typing.Literal["small_Snake"]) -> typing.Union[MetaOapg.properties.small_Snake, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["Capital_Snake"]) -> MetaOapg.properties.Capital_Snake: ...
+    def __getitem__(self, name: typing.Literal["Capital_Snake"]) -> typing.Union[MetaOapg.properties.Capital_Snake, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["SCA_ETH_Flow_Points"]) -> MetaOapg.properties.SCA_ETH_Flow_Points: ...
+    def __getitem__(self, name: typing.Literal["SCA_ETH_Flow_Points"]) -> typing.Union[MetaOapg.properties.SCA_ETH_Flow_Points, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["ATT_NAME"]) -> MetaOapg.properties.ATT_NAME: ...
+    def __getitem__(self, name: typing.Literal["ATT_NAME"]) -> typing.Union[MetaOapg.properties.ATT_NAME, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 

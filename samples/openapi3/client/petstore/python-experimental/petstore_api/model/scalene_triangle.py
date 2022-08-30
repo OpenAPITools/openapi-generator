@@ -63,12 +63,12 @@ class ScaleneTriangle(
                     }
                 additional_properties = schemas.AnyTypeSchema
             
-            triangleType: MetaOapg.properties.triangleType
+            triangleType: typing.Union[MetaOapg.properties.triangleType, schemas.Unset]
             
             @typing.overload
-            def __getitem__(self, name: typing.Literal["triangleType"]) -> MetaOapg.properties.triangleType: ...
+            def __getitem__(self, name: typing.Literal["triangleType"]) -> typing.Union[MetaOapg.properties.triangleType, schemas.Unset]: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
                 return super().__getitem__(name)
         
@@ -104,7 +104,7 @@ class ScaleneTriangle(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
         return super().__getitem__(name)
 
