@@ -30,4 +30,9 @@ class DateTimeWithValidations(
 
     Do not edit the class manually.
     """
-    pass
+
+
+    class MetaOapg:
+        regex=[{
+            'pattern': r'^2020.*',  # noqa: E501
+        }]

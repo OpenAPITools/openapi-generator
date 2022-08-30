@@ -34,6 +34,7 @@ class BySmallNumber(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        multiple_of = 0.00010
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

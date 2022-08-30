@@ -30,4 +30,7 @@ class InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf(
 
     Do not edit the class manually.
     """
-    pass
+
+
+    class MetaOapg:
+        multiple_of = 0.123456789

@@ -34,6 +34,7 @@ class MinimumValidationWithSignedInteger(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        inclusive_minimum = -2
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

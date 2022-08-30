@@ -34,6 +34,7 @@ class UniqueitemsValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        unique_items = True
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

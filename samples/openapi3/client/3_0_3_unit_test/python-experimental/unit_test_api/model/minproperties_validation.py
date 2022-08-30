@@ -34,6 +34,7 @@ class MinpropertiesValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        min_properties = 1
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

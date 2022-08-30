@@ -30,4 +30,7 @@ class IntegerMin15(
 
     Do not edit the class manually.
     """
-    pass
+
+
+    class MetaOapg:
+        inclusive_minimum = 15

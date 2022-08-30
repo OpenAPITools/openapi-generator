@@ -34,6 +34,7 @@ class Maxproperties0MeansTheObjectIsEmpty(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        max_properties = 0
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

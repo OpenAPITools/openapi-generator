@@ -34,6 +34,7 @@ class MaximumValidationWithUnsignedInteger(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        inclusive_maximum = 300
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

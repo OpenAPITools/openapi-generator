@@ -34,6 +34,9 @@ class PatternValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        regex=[{
+            'pattern': r'^a*$',  # noqa: E501
+        }]
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

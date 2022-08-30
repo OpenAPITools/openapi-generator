@@ -34,6 +34,7 @@ class MaximumValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        inclusive_maximum = 3.0
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

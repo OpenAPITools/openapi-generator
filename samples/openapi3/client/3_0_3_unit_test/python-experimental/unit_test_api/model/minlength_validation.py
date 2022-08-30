@@ -34,6 +34,7 @@ class MinlengthValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        min_length = 2
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

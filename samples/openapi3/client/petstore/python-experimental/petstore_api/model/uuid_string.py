@@ -30,4 +30,7 @@ class UUIDString(
 
     Do not edit the class manually.
     """
-    pass
+
+
+    class MetaOapg:
+        min_length = 1

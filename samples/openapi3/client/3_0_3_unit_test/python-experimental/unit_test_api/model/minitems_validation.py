@@ -34,6 +34,7 @@ class MinitemsValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        min_items = 1
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

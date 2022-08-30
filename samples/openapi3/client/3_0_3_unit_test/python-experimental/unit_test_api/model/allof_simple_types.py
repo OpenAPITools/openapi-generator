@@ -43,6 +43,7 @@ class AllofSimpleTypes(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                inclusive_maximum = 30
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
@@ -70,6 +71,7 @@ class AllofSimpleTypes(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                inclusive_minimum = 20
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:

@@ -30,4 +30,8 @@ class NumberWithValidations(
 
     Do not edit the class manually.
     """
-    pass
+
+
+    class MetaOapg:
+        inclusive_maximum = 20
+        inclusive_minimum = 10

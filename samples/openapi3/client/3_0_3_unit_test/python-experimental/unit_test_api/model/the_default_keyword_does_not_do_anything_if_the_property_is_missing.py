@@ -39,7 +39,10 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
             class alpha(
                 schemas.NumberSchema
             ):
-                pass
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 3
             __annotations__ = {
                 "alpha": alpha,
             }

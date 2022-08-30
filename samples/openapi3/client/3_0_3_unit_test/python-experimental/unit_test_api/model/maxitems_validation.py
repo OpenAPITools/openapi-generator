@@ -34,6 +34,7 @@ class MaxitemsValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        max_items = 2
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

@@ -30,4 +30,7 @@ class IntegerMax10(
 
     Do not edit the class manually.
     """
-    pass
+
+
+    class MetaOapg:
+        inclusive_maximum = 10

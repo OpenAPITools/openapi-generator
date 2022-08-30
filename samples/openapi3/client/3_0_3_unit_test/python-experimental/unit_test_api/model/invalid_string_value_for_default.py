@@ -39,7 +39,10 @@ class InvalidStringValueForDefault(
             class bar(
                 schemas.StrSchema
             ):
-                pass
+            
+            
+                class MetaOapg:
+                    min_length = 4
             __annotations__ = {
                 "bar": bar,
             }

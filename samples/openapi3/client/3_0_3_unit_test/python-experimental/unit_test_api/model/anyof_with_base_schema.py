@@ -43,6 +43,7 @@ class AnyofWithBaseSchema(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                max_length = 2
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
@@ -70,6 +71,7 @@ class AnyofWithBaseSchema(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                min_length = 4
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:

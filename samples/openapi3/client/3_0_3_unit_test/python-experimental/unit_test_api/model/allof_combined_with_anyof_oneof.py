@@ -43,6 +43,7 @@ class AllofCombinedWithAnyofOneof(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                multiple_of = 2
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
@@ -70,6 +71,7 @@ class AllofCombinedWithAnyofOneof(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                multiple_of = 5
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:
@@ -97,6 +99,7 @@ class AllofCombinedWithAnyofOneof(
         
             class MetaOapg:
                 additional_properties = schemas.AnyTypeSchema
+                multiple_of = 3
         
             
             def __getitem__(self, name: str) -> MetaOapg.additional_properties:

@@ -34,6 +34,7 @@ class ByNumber(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        multiple_of = 1.5
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:

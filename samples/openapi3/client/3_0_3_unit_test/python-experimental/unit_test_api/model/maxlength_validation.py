@@ -34,6 +34,7 @@ class MaxlengthValidation(
 
     class MetaOapg:
         additional_properties = schemas.AnyTypeSchema
+        max_length = 2
 
     
     def __getitem__(self, name: str) -> MetaOapg.additional_properties:
