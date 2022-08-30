@@ -42,18 +42,23 @@ class AdditionalpropertiesAllowsASchemaWhichShouldValidate(
             }
         additional_properties = schemas.BoolSchema
     
-    foo: MetaOapg.properties.foo
-    bar: MetaOapg.properties.bar
+    foo: typing.Union[MetaOapg.properties.foo, schemas.Unset]
+    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+    def __getitem__(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

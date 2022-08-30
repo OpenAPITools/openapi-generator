@@ -48,14 +48,19 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
             }
         additional_properties = schemas.AnyTypeSchema
     
-    alpha: MetaOapg.properties.alpha
+    alpha: typing.Union[MetaOapg.properties.alpha, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["alpha"]) -> MetaOapg.properties.alpha: ...
+    def __getitem__(self, name: typing.Literal["alpha"]) -> typing.Union[MetaOapg.properties.alpha, schemas.Unset]: ...
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

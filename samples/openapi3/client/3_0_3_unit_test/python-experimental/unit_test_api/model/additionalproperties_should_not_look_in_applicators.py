@@ -50,14 +50,19 @@ class AdditionalpropertiesShouldNotLookInApplicators(
                 additional_properties = schemas.AnyTypeSchema
         
             
-            foo: MetaOapg.properties.foo
+            foo: typing.Union[MetaOapg.properties.foo, schemas.Unset]
             
             @typing.overload
-            def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+            def __getitem__(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
-                return super().__getitem__(name)
+                if name not in self.MetaOapg.properties.__annotations__:
+                    return super().__getitem__(name)
+                try:
+                    return super().__getitem__(name)
+                except KeyError:
+                    return schemas.unset
         
             def __new__(
                 cls,
@@ -90,9 +95,14 @@ class AdditionalpropertiesShouldNotLookInApplicators(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

@@ -39,9 +39,14 @@ class RefInAdditionalproperties(
         def additional_properties(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
             return PropertyNamedRefThatIsNotAReference
     
-    def __getitem__(self, name: str) -> 'PropertyNamedRefThatIsNotAReference':
+    def __getitem__(self, name: str) -> typing.Union['PropertyNamedRefThatIsNotAReference', schemas.Unset]:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,

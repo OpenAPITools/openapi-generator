@@ -59,9 +59,14 @@ class OneofWithRequired(
             @typing.overload
             def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.additional_properties: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
-                return super().__getitem__(name)
+                if name not in self.MetaOapg.properties.__annotations__:
+                    return super().__getitem__(name)
+                try:
+                    return super().__getitem__(name)
+                except KeyError:
+                    return schemas.unset
         
             def __new__(
                 cls,
@@ -99,9 +104,14 @@ class OneofWithRequired(
             @typing.overload
             def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.additional_properties: ...
             
-            def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
                 # dict_instance[name] accessor
-                return super().__getitem__(name)
+                if name not in self.MetaOapg.properties.__annotations__:
+                    return super().__getitem__(name)
+                try:
+                    return super().__getitem__(name)
+                except KeyError:
+                    return schemas.unset
         
             def __new__(
                 cls,
@@ -133,9 +143,14 @@ class OneofWithRequired(
             ]
 
     
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties:
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
         # dict_instance[name] accessor
-        return super().__getitem__(name)
+        if name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
