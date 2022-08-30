@@ -30,7 +30,7 @@ from . import path
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -70,7 +70,7 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -110,7 +110,7 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
@@ -150,7 +150,7 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
     {
@@ -190,7 +190,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 
 
 request_body_{{paramName}} = api_client.RequestBody(
@@ -206,7 +206,7 @@ request_body_{{paramName}} = api_client.RequestBody(
 )
 {{/unless}}
 {{/with}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 {{#each authMethods}}
 {{#if @first}}
 _auth = [
@@ -255,7 +255,7 @@ _servers = (
 {{#with schema}}
 {{> model_templates/schema }}
 {{/with}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 {{paramName}}_parameter = api_client.HeaderParameter(
     name="{{baseName}}",
 {{#if style}}
@@ -280,7 +280,7 @@ _servers = (
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 {{#if responseHeaders}}
 ResponseHeadersFor{{code}} = typing.TypedDict(
     'ResponseHeadersFor{{code}}',
@@ -365,7 +365,7 @@ _response_for_{{code}} = api_client.OpenApiResponse(
 )
 {{/unless}}
 {{/each}}
-{{#unless ../isStub}}
+{{#unless isStub}}
 _status_code_to_response = {
 {{#each responses}}
 {{#if isDefault}}
