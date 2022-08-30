@@ -42,6 +42,14 @@ object schema properties as classes
     keyword in one schema, and include a format constraint in another schema
     - So if you need to access a string format based type, use as_date/as_datetime/as_decimal/as_uuid/
     - So if you need to access a number format based type, use as_int/as_float
+7. If object(dict) properties are accessed and they do not exist, then two things could happen
+    - When accessed with model_instance.someProp or model_instance["someProp"] and someProp is not in the payload,
+    then two possible results can be returned. If someProp is defined in any of the validated schemas
+    where it will have to be optional, then the value schemas.unset will be returned.
+    If someProp was not defined as an explicit property in any of those schemas, then a KeyError will be raised.
+    - This was done so type hints for optional properties could show that schemas.Unset is a valid value.
+    - So you will need to update code to handle thrown KeyErrors or schema.unset values
+
 
 ### Object property spec case
 This was done because when payloads are ingested, they can be validated against N number of schemas.

@@ -59,9 +59,12 @@ class OneofWithRequired(
             @typing.overload
             def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.additional_properties: ...
             
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+            @typing.overload
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+            
+            def __getitem__(self, name: typing.Union[str, typing.Literal["bar"], typing.Literal["foo"], ]):
                 # dict_instance[name] accessor
-                if name not in self.MetaOapg.properties.__annotations__:
+                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                     return super().__getitem__(name)
                 try:
                     return super().__getitem__(name)
@@ -104,9 +107,12 @@ class OneofWithRequired(
             @typing.overload
             def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.additional_properties: ...
             
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+            @typing.overload
+            def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+            
+            def __getitem__(self, name: typing.Union[str, typing.Literal["foo"], typing.Literal["baz"], ]):
                 # dict_instance[name] accessor
-                if name not in self.MetaOapg.properties.__annotations__:
+                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                     return super().__getitem__(name)
                 try:
                     return super().__getitem__(name)
@@ -143,9 +149,9 @@ class OneofWithRequired(
             ]
 
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
-        if name not in self.MetaOapg.properties.__annotations__:
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
         try:
             return super().__getitem__(name)

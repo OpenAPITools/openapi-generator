@@ -46,9 +46,9 @@ class AllofSimpleTypes(
                 inclusive_maximum = 30
         
             
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+            def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                 # dict_instance[name] accessor
-                if name not in self.MetaOapg.properties.__annotations__:
+                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                     return super().__getitem__(name)
                 try:
                     return super().__getitem__(name)
@@ -79,9 +79,9 @@ class AllofSimpleTypes(
                 inclusive_minimum = 20
         
             
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+            def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                 # dict_instance[name] accessor
-                if name not in self.MetaOapg.properties.__annotations__:
+                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
                     return super().__getitem__(name)
                 try:
                     return super().__getitem__(name)
@@ -118,9 +118,9 @@ class AllofSimpleTypes(
             ]
 
     
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]:
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
         # dict_instance[name] accessor
-        if name not in self.MetaOapg.properties.__annotations__:
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
         try:
             return super().__getitem__(name)
