@@ -27,24 +27,6 @@ from . import path
 
 # header params
 ApiKeySchema = schemas.StrSchema
-RequestRequiredHeaderParams = typing.TypedDict(
-    'RequestRequiredHeaderParams',
-    {
-    }
-)
-RequestOptionalHeaderParams = typing.TypedDict(
-    'RequestOptionalHeaderParams',
-    {
-        'api_key': typing.Union[ApiKeySchema, str, ],
-    },
-    total=False
-)
-
-
-class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
-    pass
-
-
 request_header_api_key = api_client.HeaderParameter(
     name="api_key",
     style=api_client.ParameterStyle.SIMPLE,
@@ -52,24 +34,6 @@ request_header_api_key = api_client.HeaderParameter(
 )
 # path params
 PetIdSchema = schemas.Int64Schema
-RequestRequiredPathParams = typing.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'petId': typing.Union[PetIdSchema, int, ],
-    }
-)
-RequestOptionalPathParams = typing.TypedDict(
-    'RequestOptionalPathParams',
-    {
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
 request_path_pet_id = api_client.PathParameter(
     name="petId",
     style=api_client.ParameterStyle.SIMPLE,
@@ -94,119 +58,5 @@ _response_for_400 = api_client.OpenApiResponse(
 _status_code_to_response = {
     '400': _response_for_400,
 }
-
-
-class BaseApi(api_client.Api):
-
-    def _delete_pet(
-        self: api_client.Api,
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
-        Deletes a pet
-        :param skip_deserialization: If true then api_response.response will be set but
-            api_response.body and api_response.headers will not be deserialized into schema
-            class instances
-        """
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
-        used_path = path.value
-
-        _path_params = {}
-        for parameter in (
-            request_path_pet_id,
-        ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
-
-        _headers = HTTPHeaderDict()
-        for parameter in (
-            request_header_api_key,
-        ):
-            parameter_data = header_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _headers.extend(serialized_data)
-        # TODO add cookie handling
-
-        response = self.api_client.call_api(
-            resource_path=used_path,
-            method='delete'.upper(),
-            headers=_headers,
-            auth_settings=_auth,
-            stream=stream,
-            timeout=timeout,
-        )
-
-        if skip_deserialization:
-            api_response = api_client.ApiResponseWithoutDeserialization(response=response)
-        else:
-            response_for_status = _status_code_to_response.get(str(response.status))
-            if response_for_status:
-                api_response = response_for_status.deserialize(response, self.api_client.configuration)
-            else:
-                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
-
-        if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
-
-        return api_response
-
-
-class DeletePet(BaseApi):
-    # this class is used by api classes that refer to endpoints with operationId fn names
-
-    def delete_pet(
-        self: BaseApi,
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        return self._delete_pet(
-            header_params=header_params,
-            path_params=path_params,
-            stream=stream,
-            timeout=timeout,
-            skip_deserialization=skip_deserialization
-        )
-
-
-class ApiFordelete(BaseApi):
-    # this class is used by api classes that refer to endpoints by path and http method names
-
-    def delete(
-        self: BaseApi,
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        return self._delete_pet(
-            header_params=header_params,
-            path_params=path_params,
-            stream=stream,
-            timeout=timeout,
-            skip_deserialization=skip_deserialization
-        )
 
 

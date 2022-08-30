@@ -29,24 +29,6 @@ from . import path
 
 # path params
 PetIdSchema = schemas.Int64Schema
-RequestRequiredPathParams = typing.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'petId': typing.Union[PetIdSchema, int, ],
-    }
-)
-RequestOptionalPathParams = typing.TypedDict(
-    'RequestOptionalPathParams',
-    {
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
 request_path_pet_id = api_client.PathParameter(
     name="petId",
     style=api_client.ParameterStyle.SIMPLE,
@@ -103,14 +85,6 @@ class SchemaForRequestBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
-
-
-request_body_body = api_client.RequestBody(
-    content={
-        'multipart/form-data': api_client.MediaType(
-            schema=SchemaForRequestBodyMultipartFormData),
-    },
-)
 _auth = [
     'petstore_auth',
 ]
@@ -139,137 +113,5 @@ _status_code_to_response = {
 _all_accept_content_types = (
     'application/json',
 )
-
-
-class BaseApi(api_client.Api):
-
-    def _upload_file_with_required_file(
-        self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
-        uploads an image (required)
-        :param skip_deserialization: If true then api_response.response will be set but
-            api_response.body and api_response.headers will not be deserialized into schema
-            class instances
-        """
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
-        used_path = path.value
-
-        _path_params = {}
-        for parameter in (
-            request_path_pet_id,
-        ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
-
-        _headers = HTTPHeaderDict()
-        # TODO add cookie handling
-        if accept_content_types:
-            for accept_content_type in accept_content_types:
-                _headers.add('Accept', accept_content_type)
-
-        _fields = None
-        _body = None
-        if body is not schemas.unset:
-            serialized_data = request_body_body.serialize(body, content_type)
-            _headers.add('Content-Type', content_type)
-            if 'fields' in serialized_data:
-                _fields = serialized_data['fields']
-            elif 'body' in serialized_data:
-                _body = serialized_data['body']
-        response = self.api_client.call_api(
-            resource_path=used_path,
-            method='post'.upper(),
-            headers=_headers,
-            fields=_fields,
-            body=_body,
-            auth_settings=_auth,
-            stream=stream,
-            timeout=timeout,
-        )
-
-        if skip_deserialization:
-            api_response = api_client.ApiResponseWithoutDeserialization(response=response)
-        else:
-            response_for_status = _status_code_to_response.get(str(response.status))
-            if response_for_status:
-                api_response = response_for_status.deserialize(response, self.api_client.configuration)
-            else:
-                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
-
-        if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
-
-        return api_response
-
-
-class UploadFileWithRequiredFile(BaseApi):
-    # this class is used by api classes that refer to endpoints with operationId fn names
-
-    def upload_file_with_required_file(
-        self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        return self._upload_file_with_required_file(
-            body=body,
-            path_params=path_params,
-            content_type=content_type,
-            accept_content_types=accept_content_types,
-            stream=stream,
-            timeout=timeout,
-            skip_deserialization=skip_deserialization
-        )
-
-
-class ApiForpost(BaseApi):
-    # this class is used by api classes that refer to endpoints by path and http method names
-
-    def post(
-        self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        return self._upload_file_with_required_file(
-            body=body,
-            path_params=path_params,
-            content_type=content_type,
-            accept_content_types=accept_content_types,
-            stream=stream,
-            timeout=timeout,
-            skip_deserialization=skip_deserialization
-        )
 
 

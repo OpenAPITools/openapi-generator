@@ -165,25 +165,6 @@ class CompositionInPropertySchema(
             _configuration=_configuration,
             **kwargs,
         )
-RequestRequiredQueryParams = typing.TypedDict(
-    'RequestRequiredQueryParams',
-    {
-    }
-)
-RequestOptionalQueryParams = typing.TypedDict(
-    'RequestOptionalQueryParams',
-    {
-        'compositionAtRoot': typing.Union[CompositionAtRootSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-        'compositionInProperty': typing.Union[CompositionInPropertySchema, dict, frozendict.frozendict, ],
-    },
-    total=False
-)
-
-
-class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
-    pass
-
-
 request_query_composition_at_root = api_client.QueryParameter(
     name="compositionAtRoot",
     style=api_client.ParameterStyle.FORM,
@@ -336,16 +317,6 @@ class SchemaForRequestBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
-
-
-request_body_any_type = api_client.RequestBody(
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaForRequestBodyApplicationJson),
-        'multipart/form-data': api_client.MediaType(
-            schema=SchemaForRequestBodyMultipartFormData),
-    },
-)
 
 
 class SchemaFor200ResponseBodyApplicationJson(
@@ -513,137 +484,5 @@ _all_accept_content_types = (
     'application/json',
     'multipart/form-data',
 )
-
-
-class BaseApi(api_client.Api):
-
-    def _inline_composition(
-        self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        query_params: RequestQueryParams = frozendict.frozendict(),
-        content_type: str = 'application/json',
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        """
-        testing composed schemas at inline locations
-        :param skip_deserialization: If true then api_response.response will be set but
-            api_response.body and api_response.headers will not be deserialized into schema
-            class instances
-        """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
-        used_path = path.value
-
-        prefix_separator_iterator = None
-        for parameter in (
-            request_query_composition_at_root,
-            request_query_composition_in_property,
-        ):
-            parameter_data = query_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            if prefix_separator_iterator is None:
-                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
-            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
-            for serialized_value in serialized_data.values():
-                used_path += serialized_value
-
-        _headers = HTTPHeaderDict()
-        # TODO add cookie handling
-        if accept_content_types:
-            for accept_content_type in accept_content_types:
-                _headers.add('Accept', accept_content_type)
-
-        _fields = None
-        _body = None
-        if body is not schemas.unset:
-            serialized_data = request_body_any_type.serialize(body, content_type)
-            _headers.add('Content-Type', content_type)
-            if 'fields' in serialized_data:
-                _fields = serialized_data['fields']
-            elif 'body' in serialized_data:
-                _body = serialized_data['body']
-        response = self.api_client.call_api(
-            resource_path=used_path,
-            method='post'.upper(),
-            headers=_headers,
-            fields=_fields,
-            body=_body,
-            stream=stream,
-            timeout=timeout,
-        )
-
-        if skip_deserialization:
-            api_response = api_client.ApiResponseWithoutDeserialization(response=response)
-        else:
-            response_for_status = _status_code_to_response.get(str(response.status))
-            if response_for_status:
-                api_response = response_for_status.deserialize(response, self.api_client.configuration)
-            else:
-                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
-
-        if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
-
-        return api_response
-
-
-class InlineComposition(BaseApi):
-    # this class is used by api classes that refer to endpoints with operationId fn names
-
-    def inline_composition(
-        self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        query_params: RequestQueryParams = frozendict.frozendict(),
-        content_type: str = 'application/json',
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        return self._inline_composition(
-            body=body,
-            query_params=query_params,
-            content_type=content_type,
-            accept_content_types=accept_content_types,
-            stream=stream,
-            timeout=timeout,
-            skip_deserialization=skip_deserialization
-        )
-
-
-class ApiForpost(BaseApi):
-    # this class is used by api classes that refer to endpoints by path and http method names
-
-    def post(
-        self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        query_params: RequestQueryParams = frozendict.frozendict(),
-        content_type: str = 'application/json',
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
-        return self._inline_composition(
-            body=body,
-            query_params=query_params,
-            content_type=content_type,
-            accept_content_types=accept_content_types,
-            stream=stream,
-            timeout=timeout,
-            skip_deserialization=skip_deserialization
-        )
 
 
