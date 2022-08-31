@@ -46,10 +46,11 @@ class User(
             
             
             class objectWithNoDeclaredPropsNullable(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneFrozenDictMixin
             ):
             
             
@@ -184,7 +185,7 @@ class User(
     def __getitem__(self, name: typing.Literal["anyTypePropNullable"]) -> typing.Union[MetaOapg.properties.anyTypePropNullable, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
     
     def __getitem__(self, name: typing.Union[str, typing.Literal["id"], typing.Literal["username"], typing.Literal["firstName"], typing.Literal["lastName"], typing.Literal["email"], typing.Literal["password"], typing.Literal["phone"], typing.Literal["userStatus"], typing.Literal["objectWithNoDeclaredProps"], typing.Literal["objectWithNoDeclaredPropsNullable"], typing.Literal["anyTypeProp"], typing.Literal["anyTypeExceptNullProp"], typing.Literal["anyTypePropNullable"], ]):
         # dict_instance[name] accessor

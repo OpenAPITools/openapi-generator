@@ -40,7 +40,8 @@ class NullableClass(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, decimal.Decimal, ]),
                 schemas.IntBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneDecimalMixin
             ):
             
             
@@ -60,7 +61,8 @@ class NullableClass(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, decimal.Decimal, ]),
                 schemas.NumberBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneDecimalMixin
             ):
             
             
@@ -80,7 +82,8 @@ class NullableClass(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, schemas.BoolClass, ]),
                 schemas.BoolBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneBoolMixin
             ):
             
             
@@ -100,7 +103,8 @@ class NullableClass(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.StrBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneStrMixin
             ):
             
             
@@ -120,7 +124,8 @@ class NullableClass(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.DateBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneStrMixin
             ):
             
             
@@ -140,7 +145,8 @@ class NullableClass(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.DateTimeBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneStrMixin
             ):
             
             
@@ -157,10 +163,11 @@ class NullableClass(
             
             
             class array_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[tuple, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, tuple, ]),
                 schemas.ListBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneTupleMixin
             ):
             
             
@@ -181,10 +188,11 @@ class NullableClass(
             
             
             class array_and_items_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[tuple, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, tuple, ]),
                 schemas.ListBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneTupleMixin
             ):
             
             
@@ -192,10 +200,11 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
-                        schemas.Schema
+                        schemas.Schema,
+                        schemas.NoneFrozenDictMixin
                     ):
                     
                     
@@ -247,10 +256,11 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
-                        schemas.Schema
+                        schemas.Schema,
+                        schemas.NoneFrozenDictMixin
                     ):
                     
                     
@@ -296,10 +306,11 @@ class NullableClass(
             
             
             class object_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneFrozenDictMixin
             ):
             
             
@@ -331,10 +342,11 @@ class NullableClass(
             
             
             class object_and_items_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneFrozenDictMixin
             ):
             
             
@@ -342,10 +354,11 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
-                        schemas.Schema
+                        schemas.Schema,
+                        schemas.NoneFrozenDictMixin
                     ):
                     
                     
@@ -408,10 +421,11 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
-                        schemas.Schema
+                        schemas.Schema,
+                        schemas.NoneFrozenDictMixin
                     ):
                     
                     
@@ -479,10 +493,11 @@ class NullableClass(
         
         
         class additional_properties(
-            schemas.SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict, schemas.NoneClass, ]),
+            schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
             schemas.DictBase,
             schemas.NoneBase,
-            schemas.Schema
+            schemas.Schema,
+            schemas.NoneFrozenDictMixin
         ):
         
         
@@ -562,7 +577,7 @@ class NullableClass(
     def __getitem__(self, name: typing.Literal["object_items_nullable"]) -> typing.Union[MetaOapg.properties.object_items_nullable, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
     
     def __getitem__(self, name: typing.Union[str, typing.Literal["integer_prop"], typing.Literal["number_prop"], typing.Literal["boolean_prop"], typing.Literal["string_prop"], typing.Literal["date_prop"], typing.Literal["datetime_prop"], typing.Literal["array_nullable_prop"], typing.Literal["array_and_items_nullable_prop"], typing.Literal["array_items_nullable"], typing.Literal["object_nullable_prop"], typing.Literal["object_and_items_nullable_prop"], typing.Literal["object_items_nullable"], ]):
         # dict_instance[name] accessor

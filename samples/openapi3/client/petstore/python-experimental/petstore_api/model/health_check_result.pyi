@@ -42,7 +42,8 @@ class HealthCheckResult(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.StrBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneStrMixin
             ):
             
             
@@ -67,7 +68,7 @@ class HealthCheckResult(
     def __getitem__(self, name: typing.Literal["NullableMessage"]) -> typing.Union[MetaOapg.properties.NullableMessage, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> MetaOapg.additional_properties: ...
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
     
     def __getitem__(self, name: typing.Union[str, typing.Literal["NullableMessage"], ]):
         # dict_instance[name] accessor

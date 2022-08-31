@@ -485,20 +485,78 @@ class Schema:
         """
         pass
 
+"""
+import itertools
+data_types = ('None', 'FrozenDict', 'Tuple', 'Str', 'Decimal', 'Bool')
+[v for v in itertools.combinations(data_types, 2)]
+"""
 if typing.TYPE_CHECKING:
+    # qty 1 mixin
+    NoneMixin = NoneClass
+    FrozenDictMixin = frozendict.frozendict
+    TupleMixin = tuple
     StrMixin = str
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
-    NoneMixin = NoneClass
-    TupleMixin = tuple
-    FrozenDictMixin = frozendict.frozendict
+    # qty 2 mixin
+    class NoneFrozenDictMixin(NoneClass, frozendict.frozendict):
+        pass
+    class NoneTupleMixin(NoneClass, tuple):
+        pass
+    class NoneStrMixin(NoneClass, str):
+        pass
+    class NoneDecimalMixin(NoneClass, decimal.Decimal):
+        pass
+    class NoneBoolMixin(NoneClass, bool):
+        passs
+    class FrozenDictTupleMixin(frozendict.frozendict, tuple):
+        pass
+    class FrozenDictStrMixin(frozendict.frozendict, str):
+        pass
+    class FrozenDictDecimalMixin(frozendict.frozendict, decimal.Decimal):
+        pass
+    class FrozenDictBoolMixin(frozendict.frozendict, bool):
+        pass
+    class TupleStrMixin(tuple, str):
+        pass
+    class TupleDecimalMixin(tuple, decimal.Decimal):
+        pass
+    class TupleBoolMixin(tuple, bool):
+        pass
+    class StrDecimalMixin(str, decimal.Decimal):
+        pass
+    class StrBoolMixin(str, bool):
+        pass
+    class DecimalBoolMixin(decimal.Decimal, bool):
+        pass
+    # qty 6
+    class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, bool):
+        pass
 else:
+    # qty 1 mixin
+    NoneMixin = object
+    FrozenDictMixin = object
+    TupleMixin = object
     StrMixin = object
     DecimalMixin = object
     BoolMixin = object
-    NoneMixin = object
-    TupleMixin = object
-    FrozenDictMixin = object
+    # qty 2 mixin
+    NoneFrozenDictMixin = object
+    NoneTupleMixin = object
+    NoneStrMixin = object
+    NoneDecimalMixin = object
+    NoneBoolMixin = object
+    FrozenDictTupleMixin = object
+    FrozenDictStrMixin = object
+    FrozenDictDecimalMixin = object
+    FrozenDictBoolMixin = object
+    TupleStrMixin = object
+    TupleDecimalMixin = object
+    TupleBoolMixin = object
+    StrDecimalMixin = object
+    StrBoolMixin = object
+    DecimalBoolMixin = object
+    NoneFrozenDictTupleStrDecimalBoolMixin = object
 
 
 class ValidatorBase:
@@ -2084,7 +2142,8 @@ class AnyTypeSchema(
     StrBase,
     BoolBase,
     NoneBase,
-    Schema
+    Schema,
+    NoneFrozenDictTupleStrDecimalBoolMixin
 ):
     pass
 

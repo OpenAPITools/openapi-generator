@@ -39,7 +39,7 @@ def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[Me
 {{#or vars getRequiredVarsMap}}
 
 @typing.overload
-def __getitem__(self, name: str) -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}: ...
+def __getitem__(self, name: str) -> {{#with additionalProperties}}typing.Union[{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}, schemas.Unset]{{/with}}: ...
 {{/or}}
 
 def __getitem__(self, name: typing.Union[str, {{#each getRequiredVarsMap}}{{#with this}}typing.Literal["{{{baseName}}}"], {{/with}}{{/each}}{{#each vars}}{{#unless required}}typing.Literal["{{{baseName}}}"], {{/unless}}{{/each}}]){{#not vars}}{{#not getRequiredVarsMap}} -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}{{/not}}{{/not}}:
