@@ -264,7 +264,7 @@ public class EnumTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
-  public EnumTest() { 
+  public EnumTest() {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -504,10 +504,10 @@ public class EnumTest implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonPrimitive()) {
+      if ((jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonNull()) && !jsonObj.get("enum_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `enum_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string").toString()));
       }
-      if (jsonObj.get("enum_string_required") != null && !jsonObj.get("enum_string_required").isJsonPrimitive()) {
+      if ((jsonObj.get("enum_string_required") != null && !jsonObj.get("enum_string_required").isJsonNull()) && !jsonObj.get("enum_string_required").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `enum_string_required` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string_required").toString()));
       }
   }

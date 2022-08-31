@@ -1,12 +1,11 @@
 # coding: utf-8
 
-from collections import defaultdict
 from decimal import Decimal
-import typing
-from unittest.mock import patch
+from unittest.mock import patch, call
 import unittest
 
-import petstore_api
+import frozendict
+
 from petstore_api.model.string_with_validation import StringWithValidation
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.number_with_validations import NumberWithValidations
@@ -26,11 +25,12 @@ from petstore_api.model.banana import Banana
 
 from petstore_api.schemas import (
     AnyTypeSchema,
+    BoolClass,
+    NoneClass,
     StrSchema,
     NumberSchema,
     Schema,
     ValidationMetadata,
-    frozendict,
 )
 
 
@@ -40,29 +40,29 @@ class TestValidateResults(unittest.TestCase):
         path_to_schemas = StringWithValidation._validate(
             "abcdefg", validation_metadata=vm
         )
-        assert path_to_schemas == {("args[0]",): set([StringWithValidation, str])}
+        assert path_to_schemas == {("args[0]",): {StringWithValidation, str}}
 
     def test_number_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = NumberWithValidations._validate(
             Decimal(11), validation_metadata=vm
         )
-        assert path_to_schemas == {("args[0]",): set([NumberWithValidations, Decimal])}
+        assert path_to_schemas == {("args[0]",): {NumberWithValidations, Decimal}}
 
     def test_str_enum_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = StringEnum._validate("placed", validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([StringEnum])}
+        assert path_to_schemas == {("args[0]",): {str, StringEnum}}
 
     def test_nullable_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = StringEnum._validate(None, validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([StringEnum])}
+        path_to_schemas = StringEnum._validate(NoneClass.NONE, validation_metadata=vm)
+        assert path_to_schemas == {("args[0]",): {NoneClass, StringEnum}}
 
     def test_empty_list_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = ArrayHoldingAnyType._validate((), validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([ArrayHoldingAnyType, tuple])}
+        assert path_to_schemas == {("args[0]",): {ArrayHoldingAnyType, tuple}}
 
     def test_list_validate(self):
         vm = ValidationMetadata()
@@ -70,74 +70,74 @@ class TestValidateResults(unittest.TestCase):
             (Decimal(1), "a"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([ArrayHoldingAnyType, tuple]),
-            ("args[0]", 0): set([AnyTypeSchema, Decimal]),
-            ("args[0]", 1): set([AnyTypeSchema, str]),
+            ("args[0]",): {ArrayHoldingAnyType, tuple},
+            ("args[0]", 0): {AnyTypeSchema, Decimal},
+            ("args[0]", 1): {AnyTypeSchema, str},
         }
 
     def test_empty_dict_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = Foo._validate(frozendict({}), validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([Foo, frozendict])}
+        path_to_schemas = Foo._validate(frozendict.frozendict({}), validation_metadata=vm)
+        assert path_to_schemas == {("args[0]",): {Foo, frozendict.frozendict}}
 
     def test_dict_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Foo._validate(
-            frozendict({"bar": "a", "additional": Decimal(0)}),
+            frozendict.frozendict({"bar": "a", "additional": Decimal(0)}),
             validation_metadata=vm,
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Foo, frozendict]),
-            ("args[0]", "bar"): set([StrSchema, str]),
-            ("args[0]", "additional"): set([AnyTypeSchema, Decimal]),
+            ("args[0]",): {Foo, frozendict.frozendict},
+            ("args[0]", "bar"): {StrSchema, str},
+            ("args[0]", "additional"): {AnyTypeSchema, Decimal},
         }
 
     def test_discriminated_dict_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Animal._validate(
-            frozendict(className="Dog", color="black"), validation_metadata=vm
+            frozendict.frozendict(className="Dog", color="black"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Animal, Dog, Dog._composed_schemas['allOf'][1], frozendict]),
-            ("args[0]", "className"): set([StrSchema, AnyTypeSchema, str]),
-            ("args[0]", "color"): set([StrSchema, AnyTypeSchema, str]),
+            ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of[1], frozendict.frozendict},
+            ("args[0]", "className"): {StrSchema, AnyTypeSchema, str},
+            ("args[0]", "color"): {StrSchema, AnyTypeSchema, str},
         }
 
     def test_bool_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = BooleanEnum._validate(True, validation_metadata=vm)
-        assert path_to_schemas == {("args[0]",): set([BooleanEnum])}
+        path_to_schemas = BooleanEnum._validate(BoolClass.TRUE, validation_metadata=vm)
+        assert path_to_schemas == {("args[0]",): {BoolClass, BooleanEnum}}
 
     def test_oneof_composition_pig_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = Pig._validate(
-            frozendict(className="DanishPig"), validation_metadata=vm
+            frozendict.frozendict(className="DanishPig"), validation_metadata=vm
         )
         assert path_to_schemas == {
-            ("args[0]",): set([Pig, DanishPig, frozendict]),
-            ("args[0]", "className"): set([DanishPig.className, AnyTypeSchema, str]),
+            ("args[0]",): {Pig, DanishPig, frozendict.frozendict},
+            ("args[0]", "className"): {DanishPig.MetaOapg.properties.className, AnyTypeSchema, str},
         }
 
     def test_anyof_composition_gm_fruit_validate(self):
         vm = ValidationMetadata()
         path_to_schemas = GmFruit._validate(
-            frozendict(cultivar="GoldenDelicious", lengthCm=Decimal(10)),
+            frozendict.frozendict(cultivar="GoldenDelicious", lengthCm=Decimal(10)),
             validation_metadata=vm,
         )
         assert path_to_schemas == {
-            ("args[0]",): set([GmFruit, Apple, Banana, frozendict]),
-            ("args[0]", "cultivar"): set([Apple.cultivar, AnyTypeSchema, str]),
-            ("args[0]", "lengthCm"): set([AnyTypeSchema, NumberSchema, Decimal]),
+            ("args[0]",): {GmFruit, Apple, Banana, frozendict.frozendict},
+            ("args[0]", "cultivar"): {Apple.MetaOapg.properties.cultivar, AnyTypeSchema, str},
+            ("args[0]", "lengthCm"): {AnyTypeSchema, NumberSchema, Decimal},
         }
 
 
 class TestValidateCalls(unittest.TestCase):
     def test_empty_list_validate(self):
-        return_value = {("args[0]",): set([ArrayHoldingAnyType, tuple])}
+        return_value = {("args[0]",): {ArrayHoldingAnyType, tuple}}
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:
-            instance = ArrayHoldingAnyType([])
+            ArrayHoldingAnyType([])
             assert mock_validate.call_count == 1
 
         with patch.object(
@@ -147,11 +147,11 @@ class TestValidateCalls(unittest.TestCase):
             assert mock_validate.call_count == 1
 
     def test_empty_dict_validate(self):
-        return_value = {("args[0]",): set([Foo, frozendict])}
+        return_value = {("args[0]",): {Foo, frozendict.frozendict}}
         with patch.object(
             Schema, "_validate", return_value=return_value
         ) as mock_validate:
-            instance = Foo({})
+            Foo({})
             assert mock_validate.call_count == 1
 
         with patch.object(
@@ -161,237 +161,118 @@ class TestValidateCalls(unittest.TestCase):
             assert mock_validate.call_count == 1
 
     def test_list_validate_direct_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                ArrayWithValidationsInItems,
-                ((Decimal("7"),),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-            1: [
-                ArrayWithValidationsInItems._items,
-                (Decimal("7"),),
-                ValidationMetadata(path_to_item=("args[0]", 0)),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(
-                set, [(("args[0]",), set([ArrayWithValidationsInItems, tuple]))]
-            ),
-            1: defaultdict(
-                set,
-                [(("args[0]", 0), set([ArrayWithValidationsInItems._items, Decimal]))],
-            ),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        results = [
+            {("args[0]",): {ArrayWithValidationsInItems, tuple}},
+            {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems([7])
+            calls = [
+                call(
+                    (Decimal("7"),),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",))
+                ),
+                call(
+                    Decimal("7"),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", 0))
+                )
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
     def test_list_validate_direct_instantiation_cast_item(self):
-        # validation is skipped if items are of the correct type
-        expected_call_by_index = {
-            0: [
-                ArrayWithValidationsInItems,
-                ((Decimal("7"),),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(
-                set, [(("args[0]",), set([ArrayWithValidationsInItems, tuple]))]
-            ),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        item = ArrayWithValidationsInItems._items(7)
-        with patch.object(Schema, "_validate", new=new_validate):
+        # item validation is skipped if items are of the correct type
+        item = ArrayWithValidationsInItems.MetaOapg.items(7)
+        return_value = {("args[0]",): {ArrayWithValidationsInItems, tuple}}
+        with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             ArrayWithValidationsInItems([item])
+            mock_validate.assert_called_once_with(
+                tuple([Decimal('7')]),
+                validation_metadata=ValidationMetadata(
+                    validated_path_to_schemas={('args[0]', 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
+                )
+            )
 
     def test_list_validate_from_openai_data_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                ArrayWithValidationsInItems,
-                ((Decimal("7"),),),
-                ValidationMetadata(path_to_item=("args[0]",), from_server=True),
-            ],
-            1: [
-                ArrayWithValidationsInItems._items,
-                (Decimal("7"),),
-                ValidationMetadata(path_to_item=("args[0]", 0), from_server=True),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(
-                set, [(("args[0]",), set([ArrayWithValidationsInItems, tuple]))]
-            ),
-            1: defaultdict(
-                set,
-                [(("args[0]", 0), set([ArrayWithValidationsInItems._items, Decimal]))],
-            ),
-        }
 
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        results = [
+            {("args[0]",): {ArrayWithValidationsInItems, tuple}},
+            {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems._from_openapi_data([7])
+            calls = [
+                call(
+                    (Decimal("7"),),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",), from_server=True)
+                ),
+                call(
+                    Decimal("7"),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", 0), from_server=True)
+                )
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
     def test_dict_validate_direct_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                Foo,
-                (frozendict({"bar": "a"}),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-            1: [
-                StrSchema,
-                ("a",),
-                ValidationMetadata(path_to_item=("args[0]", "bar")),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(set, [(("args[0]",), set([Foo, frozendict]))]),
-            1: defaultdict(set, [(("args[0]", "bar"), set([StrSchema, str]))]),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        call_results = [
+            {("args[0]",): {Foo, frozendict.frozendict}},
+            {("args[0]", "bar"): {StrSchema, str}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=call_results) as mock_validate:
             Foo(bar="a")
+            calls = [
+                call(
+                    frozendict.frozendict({"bar": "a"}),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",)),
+                ),
+                call(
+                    "a",
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", "bar")),
+                ),
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
     def test_dict_validate_direct_instantiation_cast_item(self):
-        expected_call_by_index = {
-            0: [
-                Foo,
-                (frozendict({"bar": "a"}),),
-                ValidationMetadata(path_to_item=("args[0]",)),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(set, [(("args[0]",), set([Foo, frozendict]))]),
-        }
-
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
         bar = StrSchema("a")
-        with patch.object(Schema, "_validate", new=new_validate):
+        return_value = {
+            ("args[0]",): {Foo, frozendict.frozendict}
+        }
+        # only the Foo dict is validated because the bar property value was already validated
+        with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
             Foo(bar=bar)
+            mock_validate.assert_called_once_with(
+                frozendict.frozendict(dict(bar='a')),
+                validation_metadata=ValidationMetadata(
+                    validated_path_to_schemas={('args[0]', 'bar'): {str, StrSchema}}
+                )
+            )
 
     def test_dict_validate_from_openapi_data_instantiation(self):
-        expected_call_by_index = {
-            0: [
-                Foo,
-                (frozendict({"bar": "a"}),),
-                ValidationMetadata(path_to_item=("args[0]",), from_server=True),
-            ],
-            1: [
-                StrSchema,
-                ("a",),
-                ValidationMetadata(
-                    path_to_item=("args[0]", "bar"), from_server=True
-                ),
-            ],
-        }
-        call_index = 0
-        result_by_call_index = {
-            0: defaultdict(set, [(("args[0]",), set([Foo, frozendict]))]),
-            1: defaultdict(set, [(("args[0]", "bar"), set([StrSchema, str]))]),
-        }
 
-        @classmethod
-        def new_validate(
-            cls,
-            *args,
-            validation_metadata: typing.Optional[ValidationMetadata] = None,
-        ):
-            nonlocal call_index
-            assert [cls, args, validation_metadata] == expected_call_by_index[
-                call_index
-            ]
-            result = result_by_call_index.get(call_index)
-            call_index += 1
-            if result is None:
-                raise petstore_api.ApiValueError("boom")
-            return result
-
-        with patch.object(Schema, "_validate", new=new_validate):
+        return_values = [
+            {("args[0]",): {Foo, frozendict.frozendict}},
+            {("args[0]", 'bar'): {StrSchema, str}}
+        ]
+        with patch.object(Schema, "_validate", side_effect=return_values) as mock_validate:
             Foo._from_openapi_data({"bar": "a"})
+            calls = [
+                call(
+                    frozendict.frozendict({"bar": "a"}),
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]",), from_server=True),
+                ),
+                call(
+                    "a",
+                    validation_metadata=ValidationMetadata(path_to_item=("args[0]", "bar"), from_server=True),
+                ),
+            ]
+            mock_validate.assert_has_calls(
+                calls
+            )
 
 
 if __name__ == "__main__":

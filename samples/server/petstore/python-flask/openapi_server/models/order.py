@@ -49,12 +49,12 @@ class Order(Model):
             'complete': 'complete'
         }
 
-        self._id = id
-        self._pet_id = pet_id
-        self._quantity = quantity
-        self._ship_date = ship_date
-        self._status = status
-        self._complete = complete
+        self.id = id
+        self.pet_id = pet_id
+        self.quantity = quantity
+        self.ship_date = ship_date
+        self.status = status
+        self.complete = complete
 
     @classmethod
     def from_dict(cls, dikt) -> 'Order':

@@ -629,16 +629,16 @@ impl AnyOfObject {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum AnyOfObjectAnyOf {
     #[serde(rename = "FOO")]
-    FOO,
+    Foo,
     #[serde(rename = "BAR")]
-    BAR,
+    Bar,
 }
 
 impl std::fmt::Display for AnyOfObjectAnyOf {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            AnyOfObjectAnyOf::FOO => write!(f, "{}", "FOO"),
-            AnyOfObjectAnyOf::BAR => write!(f, "{}", "BAR"),
+            AnyOfObjectAnyOf::Foo => write!(f, "{}", "FOO"),
+            AnyOfObjectAnyOf::Bar => write!(f, "{}", "BAR"),
         }
     }
 }
@@ -648,8 +648,8 @@ impl std::str::FromStr for AnyOfObjectAnyOf {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => std::result::Result::Ok(AnyOfObjectAnyOf::FOO),
-            "BAR" => std::result::Result::Ok(AnyOfObjectAnyOf::BAR),
+            "FOO" => std::result::Result::Ok(AnyOfObjectAnyOf::Foo),
+            "BAR" => std::result::Result::Ok(AnyOfObjectAnyOf::Bar),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -949,19 +949,19 @@ impl DuplicateXmlObject {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumWithStarObject {
     #[serde(rename = "FOO")]
-    FOO,
+    Foo,
     #[serde(rename = "BAR")]
-    BAR,
+    Bar,
     #[serde(rename = "*")]
-    STAR,
+    Star,
 }
 
 impl std::fmt::Display for EnumWithStarObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            EnumWithStarObject::FOO => write!(f, "{}", "FOO"),
-            EnumWithStarObject::BAR => write!(f, "{}", "BAR"),
-            EnumWithStarObject::STAR => write!(f, "{}", "*"),
+            EnumWithStarObject::Foo => write!(f, "{}", "FOO"),
+            EnumWithStarObject::Bar => write!(f, "{}", "BAR"),
+            EnumWithStarObject::Star => write!(f, "{}", "*"),
         }
     }
 }
@@ -971,9 +971,9 @@ impl std::str::FromStr for EnumWithStarObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => std::result::Result::Ok(EnumWithStarObject::FOO),
-            "BAR" => std::result::Result::Ok(EnumWithStarObject::BAR),
-            "*" => std::result::Result::Ok(EnumWithStarObject::STAR),
+            "FOO" => std::result::Result::Ok(EnumWithStarObject::Foo),
+            "BAR" => std::result::Result::Ok(EnumWithStarObject::Bar),
+            "*" => std::result::Result::Ok(EnumWithStarObject::Star),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -1212,19 +1212,19 @@ impl Model12345AnyOfObject {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum Model12345AnyOfObjectAnyOf {
     #[serde(rename = "FOO")]
-    FOO,
+    Foo,
     #[serde(rename = "BAR")]
-    BAR,
+    Bar,
     #[serde(rename = "*")]
-    STAR,
+    Star,
 }
 
 impl std::fmt::Display for Model12345AnyOfObjectAnyOf {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            Model12345AnyOfObjectAnyOf::FOO => write!(f, "{}", "FOO"),
-            Model12345AnyOfObjectAnyOf::BAR => write!(f, "{}", "BAR"),
-            Model12345AnyOfObjectAnyOf::STAR => write!(f, "{}", "*"),
+            Model12345AnyOfObjectAnyOf::Foo => write!(f, "{}", "FOO"),
+            Model12345AnyOfObjectAnyOf::Bar => write!(f, "{}", "BAR"),
+            Model12345AnyOfObjectAnyOf::Star => write!(f, "{}", "*"),
         }
     }
 }
@@ -1234,9 +1234,9 @@ impl std::str::FromStr for Model12345AnyOfObjectAnyOf {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::FOO),
-            "BAR" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::BAR),
-            "*" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::STAR),
+            "FOO" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::Foo),
+            "BAR" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::Bar),
+            "*" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::Star),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -2580,16 +2580,16 @@ impl Result {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum StringEnum {
     #[serde(rename = "FOO")]
-    FOO,
+    Foo,
     #[serde(rename = "BAR")]
-    BAR,
+    Bar,
 }
 
 impl std::fmt::Display for StringEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            StringEnum::FOO => write!(f, "{}", "FOO"),
-            StringEnum::BAR => write!(f, "{}", "BAR"),
+            StringEnum::Foo => write!(f, "{}", "FOO"),
+            StringEnum::Bar => write!(f, "{}", "BAR"),
         }
     }
 }
@@ -2599,8 +2599,8 @@ impl std::str::FromStr for StringEnum {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => std::result::Result::Ok(StringEnum::FOO),
-            "BAR" => std::result::Result::Ok(StringEnum::BAR),
+            "FOO" => std::result::Result::Ok(StringEnum::Foo),
+            "BAR" => std::result::Result::Ok(StringEnum::Bar),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }

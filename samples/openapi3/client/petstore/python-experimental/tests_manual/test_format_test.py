@@ -14,9 +14,11 @@ from decimal import Decimal
 import datetime
 import unittest
 
+import frozendict
+
 import petstore_api
 from petstore_api.model.format_test import FormatTest
-from petstore_api.schemas import BinarySchema, BytesSchema, frozendict, Singleton
+from petstore_api.schemas import BinarySchema, BytesSchema, Singleton
 
 
 class TestFormatTest(unittest.TestCase):
@@ -108,7 +110,7 @@ class TestFormatTest(unittest.TestCase):
         assert isinstance(model.binary, BinarySchema)
         assert isinstance(model.binary, BytesSchema)
         assert isinstance(model.binary, bytes)
-        assert model == frozendict(
+        assert model == frozendict.frozendict(
             binary=b'123',
             number=Decimal(32.5),
             byte='a',

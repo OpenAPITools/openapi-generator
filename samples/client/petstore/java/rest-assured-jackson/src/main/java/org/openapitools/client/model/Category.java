@@ -43,7 +43,7 @@ public class Category {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name = "default-name";
 
-  public Category() { 
+  public Category() {
   }
 
   public Category id(Long id) {

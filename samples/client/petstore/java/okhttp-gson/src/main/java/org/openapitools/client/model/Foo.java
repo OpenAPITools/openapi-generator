@@ -53,7 +53,7 @@ public class Foo {
   @SerializedName(SERIALIZED_NAME_BAR)
   private String bar = "bar";
 
-  public Foo() { 
+  public Foo() {
   }
 
   public Foo bar(String bar) {
@@ -181,7 +181,7 @@ public class Foo {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Foo is not found in the empty JSON string", Foo.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonPrimitive()) {
+      if ((jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonNull()) && !jsonObj.get("bar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `bar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("bar").toString()));
       }
   }

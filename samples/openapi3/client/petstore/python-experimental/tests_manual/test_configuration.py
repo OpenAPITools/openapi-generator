@@ -17,14 +17,14 @@ from urllib3._collections import HTTPHeaderDict
 
 import petstore_api
 from petstore_api.api_client import ApiClient
-from petstore_api.api import pet_api
+from petstore_api.apis.tags import pet_api
 
 
 class ConfigurationTests(unittest.TestCase):
 
     def test_configuration(self):
         config = petstore_api.Configuration()
-        config.host = 'http://localhost/'
+        config.host = 'https://localhost/'
 
         config.disabled_client_side_validations = ("multipleOf,maximum,exclusiveMaximum,minimum,exclusiveMinimum,"
             "maxLength,minLength,pattern,maxItems,minItems")
@@ -34,7 +34,7 @@ class ConfigurationTests(unittest.TestCase):
 
     def test_servers(self):
         config = petstore_api.Configuration(server_index=1, server_variables={'version': 'v1'})
-        client = pet_api.ApiClient(configuration=config)
+        client = ApiClient(configuration=config)
         api = pet_api.PetApi(client)
 
         with patch.object(ApiClient, 'request') as mock_request:
@@ -42,13 +42,13 @@ class ConfigurationTests(unittest.TestCase):
             api.add_pet({'name': 'pet', 'photoUrls': []})
             mock_request.assert_called_with(
                 'POST',
-                'http://path-server-test.petstore.local/v2/pet',
+                'https://path-server-test.petstore.local/v2/pet',
                 headers=HTTPHeaderDict({
                     'Content-Type': 'application/json',
                     'User-Agent': 'OpenAPI-Generator/1.0.0/python'
                 }),
                 fields=None,
-                body=b'{"name":"pet","photoUrls":[]}',
+                body=b'{"photoUrls":[],"name":"pet"}',
                 stream=False,
                 timeout=None,
             )

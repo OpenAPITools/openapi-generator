@@ -106,7 +106,7 @@ public class BigCatAllOf implements Parcelable {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCatAllOf() { 
+  public BigCatAllOf() {
   }
 
   public BigCatAllOf kind(KindEnum kind) {
@@ -226,7 +226,7 @@ public class BigCatAllOf implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `BigCatAllOf` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("kind") != null && !jsonObj.get("kind").isJsonPrimitive()) {
+      if ((jsonObj.get("kind") != null && !jsonObj.get("kind").isJsonNull()) && !jsonObj.get("kind").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `kind` to be a primitive type in the JSON string but got `%s`", jsonObj.get("kind").toString()));
       }
   }

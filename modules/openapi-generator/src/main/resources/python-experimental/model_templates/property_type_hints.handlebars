@@ -1,0 +1,38 @@
+{{#or getRequiredVarsMap vars}}
+
+{{/or}}
+{{#if getRequiredVarsMap}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+{{#unless nameInSnakeCase}}
+{{#if complexType}}
+{{baseName}}: '{{complexType}}'
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+{{baseName}}: MetaOapg.additional_properties
+{{else}}
+{{baseName}}: MetaOapg.properties.{{baseName}}
+{{/if}}
+{{/if}}
+{{/unless}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+{{#unless required}}
+{{#unless nameInSnakeCase}}
+{{#if complexType}}
+{{baseName}}: typing.Union['{{complexType}}', schemas.Unset]
+{{else}}
+{{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]
+{{/if}}
+{{/unless}}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#if additionalProperties}}
+{{> model_templates/property_getitems_with_addprops }}
+{{else}}
+{{> model_templates/property_getitems_without_addprops }}
+{{/if}}

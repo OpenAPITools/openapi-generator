@@ -4,12 +4,13 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.Test
 import java.io.File
+import java.nio.file.Files.createTempDirectory
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class GenerateTaskDslTest : TestBase() {
-    override var temp: File = createTempDir(javaClass.simpleName)
+    override var temp: File = createTempDirectory(javaClass.simpleName).toFile()
 
     private val defaultBuildGradle = """
         plugins {
@@ -61,7 +62,7 @@ class GenerateTaskDslTest : TestBase() {
                 "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
         ).map {
             val f = File(temp, it)
-            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation.")
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation: $f")
         }
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
@@ -110,7 +111,7 @@ class GenerateTaskDslTest : TestBase() {
                 "build/java/src/main/java/org/openapitools/example/api/PetsApiClassSuffix.java"
         ).map {
             val f = File(temp, it)
-            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation. - " + f)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation. - $f")
         }
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,

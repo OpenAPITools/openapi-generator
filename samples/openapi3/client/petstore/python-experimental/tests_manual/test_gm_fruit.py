@@ -10,14 +10,14 @@
 """
 
 
-import sys
 import unittest
 
-import petstore_api
+import frozendict
+
 from petstore_api.model import apple
 from petstore_api.model import banana
 from petstore_api.model.gm_fruit import GmFruit
-from petstore_api.schemas import frozendict
+from petstore_api import schemas
 
 class TestGmFruit(unittest.TestCase):
     """GmFruit unit test stubs"""
@@ -37,10 +37,7 @@ class TestGmFruit(unittest.TestCase):
         color = 'yellow'
         cultivar = 'banaple'
         fruit = GmFruit(lengthCm=length_cm, color=color, cultivar=cultivar)
-        assert isinstance(fruit, GmFruit)
-        assert isinstance(fruit, banana.Banana)
-        assert isinstance(fruit, apple.Apple)
-        assert isinstance(fruit, frozendict)
+        assert isinstance(fruit, (banana.Banana, apple.Apple, GmFruit, frozendict.frozendict))
         # check its properties
         self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
@@ -58,24 +55,24 @@ class TestGmFruit(unittest.TestCase):
             }
         )
 
+        # known variable from Apple is unset if it is not in the payload
+        fruit_origin = fruit.origin
+        assert fruit_origin is schemas.unset
+        fruit_origin = fruit["origin"]
+        assert fruit_origin is schemas.unset
+
         with self.assertRaises(KeyError):
-            invalid_variable = fruit['origin']
+            fruit['unknown_variable']
         # with getattr
         self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 
         # make sure that the ModelComposed class properties are correct
-        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas,
-            {
-                'anyOf': [
-                    apple.Apple,
-                    banana.Banana,
-                ],
-                'allOf': [],
-                'oneOf': [],
-                'not': None
-            }
+            GmFruit.MetaOapg.any_of,
+            [
+                apple.Apple,
+                banana.Banana,
+            ],
         )
 
         # including extra parameters works
@@ -88,7 +85,6 @@ class TestGmFruit(unittest.TestCase):
 
         # including input parameters for both anyOf instances works
         color = 'orange'
-        color_stored = b'orange'
         fruit = GmFruit(
             color=color,
             cultivar=cultivar,

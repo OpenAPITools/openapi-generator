@@ -18,6 +18,10 @@ from {{packageName}} import api_client, exceptions
 {{> model_templates/imports_schema_types }}
 {{> model_templates/imports_schemas }}
 
+{{#unless isStub}}
+from . import path
+
+{{/unless}}
 {{#with operation}}
 {{#if queryParams}}
 # query params
@@ -26,12 +30,13 @@ from {{packageName}} import api_client, exceptions
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
 {{#each queryParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -41,7 +46,7 @@ RequestOptionalQueryParams = typing.TypedDict(
     {
 {{#each queryParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -56,6 +61,7 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{#each queryParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if headerParams}}
 # header params
@@ -64,12 +70,13 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
 {{#each headerParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -79,7 +86,7 @@ RequestOptionalHeaderParams = typing.TypedDict(
     {
 {{#each headerParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -94,6 +101,7 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{#each headerParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if pathParams}}
 # path params
@@ -102,12 +110,13 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
 {{#each pathParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -117,7 +126,7 @@ RequestOptionalPathParams = typing.TypedDict(
     {
 {{#each pathParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -132,6 +141,7 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{#each pathParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if cookieParams}}
 # cookie params
@@ -140,12 +150,13 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
     {
 {{#each cookieParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -155,7 +166,7 @@ RequestOptionalCookieParams = typing.TypedDict(
     {
 {{#each cookieParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -170,6 +181,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{#each cookieParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#with bodyParam}}
 # body param
@@ -178,6 +190,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 
 
 request_body_{{paramName}} = api_client.RequestBody(
@@ -191,9 +204,9 @@ request_body_{{paramName}} = api_client.RequestBody(
     required=True,
 {{/if}}
 )
+{{/unless}}
 {{/with}}
-_path = '{{{path}}}'
-_method = '{{httpMethod}}'
+{{#unless isStub}}
 {{#each authMethods}}
 {{#if @first}}
 _auth = [
@@ -236,11 +249,13 @@ _servers = (
 )
 {{/if}}
 {{/each}}
+{{/unless}}
 {{#each responses}}
 {{#each responseHeaders}}
 {{#with schema}}
 {{> model_templates/schema }}
 {{/with}}
+{{#unless isStub}}
 {{paramName}}_parameter = api_client.HeaderParameter(
     name="{{baseName}}",
 {{#if style}}
@@ -258,12 +273,14 @@ _servers = (
     explode=True,
 {{/if}}
 )
+{{/unless}}
 {{/each}}
 {{#each content}}
 {{#with this.schema}}
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 {{#if responseHeaders}}
 ResponseHeadersFor{{code}} = typing.TypedDict(
     'ResponseHeadersFor{{code}}',
@@ -289,7 +306,7 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{#if this.schema}}
         {{this.schema.baseName}},
 {{else}}
-        Unset,
+        schemas.Unset,
 {{/if}}
 {{/each}}
     ]
@@ -298,25 +315,25 @@ class ApiResponseFor{{code}}(api_client.ApiResponse):
 {{#or responseHeaders content}}
 {{#if responseHeaders}}
     headers: ResponseHeadersFor{{code}}
-    body: Unset = unset
+    body: schemas.Unset = schemas.unset
 {{else}}
     body: typing.Union[
 {{#each content}}
 {{#if this.schema}}
         {{this.schema.baseName}},
 {{else}}
-        Unset,
+        schemas.Unset,
 {{/if}}
 {{/each}}
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 {{/if}}
 {{/or}}
 {{/and}}
 {{#unless responseHeaders}}
 {{#unless content}}
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 {{/unless}}
 {{/unless}}
 
@@ -346,7 +363,9 @@ _response_for_{{code}} = api_client.OpenApiResponse(
     ]
 {{/if}}
 )
+{{/unless}}
 {{/each}}
+{{#unless isStub}}
 _status_code_to_response = {
 {{#each responses}}
 {{#if isDefault}}
@@ -367,55 +386,10 @@ _all_accept_content_types = (
 {{/each}}
 
 
-class {{operationIdCamelCase}}(api_client.Api):
+class BaseApi(api_client.Api):
 
-    def {{operationId}}(
-        self: api_client.Api,
-    {{#if bodyParam}}
-    {{#with bodyParam}}
-        {{baseName}}: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
-    {{/with}}
-    {{/if}}
-    {{#if queryParams}}
-        query_params: RequestQueryParams = frozendict(),
-    {{/if}}
-    {{#if headerParams}}
-        header_params: RequestHeaderParams = frozendict(),
-    {{/if}}
-    {{#if pathParams}}
-        path_params: RequestPathParams = frozendict(),
-    {{/if}}
-    {{#if cookieParams}}
-        cookie_params: RequestCookieParams = frozendict(),
-    {{/if}}
-    {{#with bodyParam}}
-    {{#each content}}
-    {{#if @first}}
-        content_type: str = '{{{@key}}}',
-    {{/if}}
-    {{/each}}
-    {{/with}}
-    {{#if produces}}
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-    {{/if}}
-    {{#if servers}}
-        host_index: typing.Optional[int] = None,
-    {{/if}}
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-    {{#each responses}}
-        {{#if isDefault}}
-        ApiResponseForDefault,
-        {{else}}
-            {{#if is2xx}}
-        ApiResponseFor{{code}},
-            {{/if}}
-        {{/if}}
-    {{/each}}
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    def _{{operationId}}(
+    {{> endpoint_args selfType="api_client.Api" }}
         """
     {{#if summary}}
         {{summary}}
@@ -436,7 +410,7 @@ class {{operationIdCamelCase}}(api_client.Api):
     {{#if cookieParams}}
         self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
     {{/if}}
-        used_path = _path
+        used_path = path.value
     {{#if pathParams}}
 
         _path_params = {}
@@ -445,8 +419,8 @@ class {{operationIdCamelCase}}(api_client.Api):
             request_path_{{paramName}},
     {{/each}}
         ):
-            parameter_data = path_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = path_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _path_params.update(serialized_data)
@@ -462,8 +436,8 @@ class {{operationIdCamelCase}}(api_client.Api):
             request_query_{{paramName}},
     {{/each}}
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -482,8 +456,8 @@ class {{operationIdCamelCase}}(api_client.Api):
             request_header_{{paramName}},
     {{/each}}
         ):
-            parameter_data = header_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
@@ -497,7 +471,7 @@ class {{operationIdCamelCase}}(api_client.Api):
     {{#with bodyParam}}
 
     {{#if required}}
-        if body is unset:
+        if body is schemas.unset:
             raise exceptions.ApiValueError(
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
     {{/if}}
@@ -506,7 +480,7 @@ class {{operationIdCamelCase}}(api_client.Api):
     {{#if required}}
         {{> endpoint_body_serialization }}
     {{else}}
-        if body is not unset:
+        if body is not schemas.unset:
             {{> endpoint_body_serialization }}
     {{/if}}
     {{/with}}
@@ -517,7 +491,7 @@ class {{operationIdCamelCase}}(api_client.Api):
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method=_method,
+            method='{{httpMethod}}'.upper(),
     {{#or headerParams bodyParam produces}}
             headers=_headers,
     {{/or}}
@@ -556,4 +530,27 @@ class {{operationIdCamelCase}}(api_client.Api):
             raise exceptions.ApiException(api_response=api_response)
 
         return api_response
+
+
+class {{operationIdCamelCase}}(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def {{operationId}}(
+    {{> endpoint_args selfType="BaseApi" }}
+        return self._{{operationId}}(
+            {{> endpoint_args_passed }}
+        )
+
+
+class ApiFor{{httpMethod}}(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def {{httpMethod}}(
+    {{> endpoint_args selfType="BaseApi" }}
+        return self._{{operationId}}(
+            {{> endpoint_args_passed }}
+        )
+
+
+{{/unless}}
 {{/with}}

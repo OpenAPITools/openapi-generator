@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,42 +20,7 @@ import ApiClient from '../ApiClient';
  */
 class Order {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {Number} petId
-     * @type {Number}
-     */
-    petId;
-    /**
-     * @member {Number} quantity
-     * @type {Number}
-     */
-    quantity;
-    /**
-     * @member {Date} shipDate
-     * @type {Date}
-     */
-    shipDate;
-    /**
-     * @member {Order.StatusEnum} status
-     * @type {Order.StatusEnum}
-     */
-    status;
-    /**
-     * @member {Boolean} complete
-     * @type {Boolean}
-     * @default false
-     */
-    complete = false;
-
-    
-
-    /**
      * Constructs a new <code>Order</code>.
-     * An order for a pets from the pet store
      * @alias module:model/Order
      */
     constructor() { 
@@ -103,7 +68,44 @@ class Order {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+Order.prototype['id'] = undefined;
+
+/**
+ * @member {Number} petId
+ */
+Order.prototype['petId'] = undefined;
+
+/**
+ * @member {Number} quantity
+ */
+Order.prototype['quantity'] = undefined;
+
+/**
+ * @member {Date} shipDate
+ */
+Order.prototype['shipDate'] = undefined;
+
+/**
+ * Order Status
+ * @member {module:model/Order.StatusEnum} status
+ */
+Order.prototype['status'] = undefined;
+
+/**
+ * @member {Boolean} complete
+ * @default false
+ */
+Order.prototype['complete'] = false;
+
+
+
 
 
 /**

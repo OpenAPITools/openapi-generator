@@ -62,11 +62,14 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FakeApi* | [**FakeDataFile**](docs/FakeApi.md#FakeDataFile) | **GET** /fake/data_file | test data_file to ensure it's escaped correctly
+*FakeApi* | [**FakeRegularExpression**](docs/FakeApi.md#FakeRegularExpression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
 *PetApi* | [**AddPet**](docs/PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**FindPetsByTags**](docs/PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**GetPetById**](docs/PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**GetPetByIdStreaming**](docs/PetApi.md#GetPetByIdStreaming) | **GET** /pet/{petId}?streaming | Find pet by ID (streaming)
+*PetApi* | [**TestHeader**](docs/PetApi.md#TestHeader) | **GET** /pet_header_test | Header test
 *PetApi* | [**UpdatePet**](docs/PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -89,6 +92,7 @@ Class | Method | HTTP request | Description
  - [AllofTagApiResponse](docs/AllofTagApiResponse.md)
  - [Animal](docs/Animal.md)
  - [AnyOfPig](docs/AnyOfPig.md)
+ - [AnyOfPrimitiveTypeTest](docs/AnyOfPrimitiveTypeTest.md)
  - [BasquePig](docs/BasquePig.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -96,7 +100,10 @@ Class | Method | HTTP request | Description
  - [DanishPig](docs/DanishPig.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [NestedOneOf](docs/NestedOneOf.md)
+ - [OneOfPrimitiveTypeTest](docs/OneOfPrimitiveTypeTest.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
@@ -104,10 +111,16 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [UpdatePetRequest](docs/UpdatePetRequest.md)
  - [User](docs/User.md)
+ - [Whale](docs/Whale.md)
+ - [Zebra](docs/Zebra.md)
 
 
 ## Documentation for Authorization
 
+
+### BearerToken
+
+- **Type**: Bearer authentication
 
 ### api_key
 
@@ -115,18 +128,17 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+### http_auth
+
+- **Type**: HTTP basic authentication
+
 ### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
 - **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
-
-
-
-## Author
-
+  - `write:pets`: modify pets in your account
+  - `read:pets`: read your pets
 
 

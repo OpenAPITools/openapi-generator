@@ -32,6 +32,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * Animal
@@ -64,7 +66,7 @@ public class Animal {
   @XmlElement(name = "color")
   private String color = "red";
 
-  public Animal() { 
+  public Animal() {
   }
 
   public Animal className(String className) {
