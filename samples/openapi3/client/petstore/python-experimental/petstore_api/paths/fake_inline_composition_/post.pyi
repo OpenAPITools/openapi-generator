@@ -478,11 +478,15 @@ class SchemaFor200ResponseBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
+_all_accept_content_types = (
+    'application/json',
+    'multipart/form-data',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def inline_composition_oapg(
+    def _inline_composition_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -501,7 +505,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -574,7 +578,7 @@ class InlineComposition(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.inline_composition_oapg(
+        return self._inline_composition_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,
@@ -601,7 +605,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.inline_composition_oapg(
+        return self._inline_composition_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,

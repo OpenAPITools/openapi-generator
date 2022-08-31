@@ -30,7 +30,7 @@ SomeVarSchema = schemas.StrSchema
 
 class BaseApi(api_client.Api):
 
-    def case_sensitive_params_oapg(
+    def _case_sensitive_params_oapg(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
@@ -45,7 +45,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -99,7 +99,7 @@ class CaseSensitiveParams(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.case_sensitive_params_oapg(
+        return self._case_sensitive_params_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,
@@ -120,7 +120,7 @@ class ApiForput(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.case_sensitive_params_oapg(
+        return self._case_sensitive_params_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,

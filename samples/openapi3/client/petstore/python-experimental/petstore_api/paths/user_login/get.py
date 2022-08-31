@@ -131,7 +131,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def login_user_oapg(
+    def _login_user_oapg(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -148,7 +148,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -208,7 +208,7 @@ class LoginUser(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.login_user_oapg(
+        return self._login_user_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -231,7 +231,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.login_user_oapg(
+        return self._login_user_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,

@@ -389,7 +389,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def {{operationId}}_oapg(
+    def _{{operationId}}_oapg(
     {{> endpoint_args selfType="api_client.Api" }}
         """
     {{#if summary}}
@@ -400,16 +400,16 @@ class BaseApi(api_client.Api):
             class instances
         """
     {{#if queryParams}}
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
     {{/if}}
     {{#if headerParams}}
-        self.verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
     {{/if}}
     {{#if pathParams}}
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
     {{/if}}
     {{#if cookieParams}}
-        self.verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
+        self._verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
     {{/if}}
         used_path = path.value
     {{#if pathParams}}
@@ -487,7 +487,7 @@ class BaseApi(api_client.Api):
     {{/with}}
     {{#if servers}}
 
-        host = self.get_host_oapg('{{operationId}}', _servers, host_index)
+        host = self._get_host_oapg('{{operationId}}', _servers, host_index)
     {{/if}}
 
         response = self.api_client.call_api(
@@ -538,7 +538,7 @@ class {{operationIdCamelCase}}(BaseApi):
 
     def {{operationId}}(
     {{> endpoint_args selfType="BaseApi" }}
-        return self.{{operationId}}_oapg(
+        return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
 
@@ -548,7 +548,7 @@ class ApiFor{{httpMethod}}(BaseApi):
 
     def {{httpMethod}}(
     {{> endpoint_args selfType="BaseApi" }}
-        return self.{{operationId}}_oapg(
+        return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
 

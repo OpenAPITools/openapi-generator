@@ -33,7 +33,7 @@ SchemaForRequestBodyApplicationJson = User
 
 class BaseApi(api_client.Api):
 
-    def body_with_query_params_oapg(
+    def _body_with_query_params_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -50,7 +50,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -120,7 +120,7 @@ class BodyWithQueryParams(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.body_with_query_params_oapg(
+        return self._body_with_query_params_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,
@@ -145,7 +145,7 @@ class ApiForput(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.body_with_query_params_oapg(
+        return self._body_with_query_params_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,

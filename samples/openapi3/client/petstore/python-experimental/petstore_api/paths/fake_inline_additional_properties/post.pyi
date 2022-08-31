@@ -59,7 +59,7 @@ class SchemaForRequestBodyApplicationJson(
 
 class BaseApi(api_client.Api):
 
-    def inline_additional_properties_oapg(
+    def _inline_additional_properties_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
@@ -131,7 +131,7 @@ class InlineAdditionalProperties(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.inline_additional_properties_oapg(
+        return self._inline_additional_properties_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -154,7 +154,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.inline_additional_properties_oapg(
+        return self._inline_additional_properties_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

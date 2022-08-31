@@ -73,7 +73,7 @@ class MapBeanSchema(
 
 class BaseApi(api_client.Api):
 
-    def object_in_query_oapg(
+    def _object_in_query_oapg(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
@@ -89,7 +89,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -141,7 +141,7 @@ class ObjectInQuery(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.object_in_query_oapg(
+        return self._object_in_query_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,
@@ -162,7 +162,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.object_in_query_oapg(
+        return self._object_in_query_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,

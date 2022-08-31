@@ -151,7 +151,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def upload_file_with_required_file_oapg(
+    def _upload_file_with_required_file_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -170,7 +170,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -243,7 +243,7 @@ class UploadFileWithRequiredFile(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_file_with_required_file_oapg(
+        return self._upload_file_with_required_file_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,
@@ -270,7 +270,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_file_with_required_file_oapg(
+        return self._upload_file_with_required_file_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,

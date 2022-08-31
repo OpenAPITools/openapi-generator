@@ -49,11 +49,14 @@ ABSchema = schemas.StrSchema
 # body param
 SchemaForRequestBodyApplicationJson = schemas.AnyTypeSchema
 SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def parameter_collisions_oapg(
+    def _parameter_collisions_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -75,10 +78,10 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
-        self.verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
-        self.verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
         used_path = path.value
 
         _path_params = {}
@@ -185,7 +188,7 @@ class ParameterCollisions(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.parameter_collisions_oapg(
+        return self._parameter_collisions_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
@@ -218,7 +221,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.parameter_collisions_oapg(
+        return self._parameter_collisions_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,

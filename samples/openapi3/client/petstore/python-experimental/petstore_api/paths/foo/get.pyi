@@ -75,11 +75,14 @@ class SchemaFor0ResponseBodyApplicationJson(
             _configuration=_configuration,
             **kwargs,
         )
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def foo_get_oapg(
+    def _foo_get_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -142,7 +145,7 @@ class FooGet(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.foo_get_oapg(
+        return self._foo_get_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -163,7 +166,7 @@ class ApiForget(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.foo_get_oapg(
+        return self._foo_get_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

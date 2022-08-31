@@ -26,7 +26,7 @@ from petstore_api import schemas  # noqa: F401
 
 class BaseApi(api_client.Api):
 
-    def logout_user_oapg(
+    def _logout_user_oapg(
         self: api_client.Api,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -82,7 +82,7 @@ class LogoutUser(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.logout_user_oapg(
+        return self._logout_user_oapg(
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization
@@ -101,7 +101,7 @@ class ApiForget(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.logout_user_oapg(
+        return self._logout_user_oapg(
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization

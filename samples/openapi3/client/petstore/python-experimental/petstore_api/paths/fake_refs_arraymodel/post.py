@@ -66,7 +66,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def array_model_oapg(
+    def _array_model_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -140,7 +140,7 @@ class ArrayModel(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.array_model_oapg(
+        return self._array_model_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -165,7 +165,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.array_model_oapg(
+        return self._array_model_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

@@ -70,7 +70,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def classname_oapg(
+    def _classname_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -148,7 +148,7 @@ class Classname(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.classname_oapg(
+        return self._classname_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -173,7 +173,7 @@ class ApiForpatch(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.classname_oapg(
+        return self._classname_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

@@ -28,11 +28,14 @@ from petstore_api.model.array_of_enums import ArrayOfEnums
 # body param
 SchemaForRequestBodyApplicationJson = ArrayOfEnums
 SchemaFor200ResponseBodyApplicationJson = ArrayOfEnums
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def array_of_enums_oapg(
+    def _array_of_enums_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -107,7 +110,7 @@ class ArrayOfEnums(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.array_of_enums_oapg(
+        return self._array_of_enums_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -132,7 +135,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.array_of_enums_oapg(
+        return self._array_of_enums_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

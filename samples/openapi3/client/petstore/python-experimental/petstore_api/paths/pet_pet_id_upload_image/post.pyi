@@ -83,11 +83,14 @@ class SchemaForRequestBodyMultipartFormData(
             **kwargs,
         )
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def upload_image_oapg(
+    def _upload_image_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -106,7 +109,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -179,7 +182,7 @@ class UploadImage(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_image_oapg(
+        return self._upload_image_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,
@@ -206,7 +209,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_image_oapg(
+        return self._upload_image_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,

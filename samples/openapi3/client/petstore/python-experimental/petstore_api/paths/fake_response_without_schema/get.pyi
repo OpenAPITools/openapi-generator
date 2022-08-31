@@ -23,11 +23,15 @@ import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
+_all_accept_content_types = (
+    'application/json',
+    'application/xml',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def response_without_schema_oapg(
+    def _response_without_schema_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -87,7 +91,7 @@ class ResponseWithoutSchema(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.response_without_schema_oapg(
+        return self._response_without_schema_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -108,7 +112,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.response_without_schema_oapg(
+        return self._response_without_schema_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

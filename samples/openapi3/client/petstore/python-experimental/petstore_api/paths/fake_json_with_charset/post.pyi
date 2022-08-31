@@ -26,11 +26,14 @@ from petstore_api import schemas  # noqa: F401
 # body param
 SchemaForRequestBodyApplicationJsonCharsetutf8 = schemas.AnyTypeSchema
 SchemaFor200ResponseBodyApplicationJsonCharsetutf8 = schemas.AnyTypeSchema
+_all_accept_content_types = (
+    'application/json; charset=utf-8',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def json_with_charset_oapg(
+    def _json_with_charset_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json; charset=utf-8',
@@ -105,7 +108,7 @@ class JsonWithCharset(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.json_with_charset_oapg(
+        return self._json_with_charset_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -130,7 +133,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.json_with_charset_oapg(
+        return self._json_with_charset_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

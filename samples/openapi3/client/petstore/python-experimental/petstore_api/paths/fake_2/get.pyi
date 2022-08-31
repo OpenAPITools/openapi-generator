@@ -334,7 +334,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 class BaseApi(api_client.Api):
 
-    def enum_parameters_oapg(
+    def _enum_parameters_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -352,8 +352,8 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
-        self.verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -433,7 +433,7 @@ class EnumParameters(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.enum_parameters_oapg(
+        return self._enum_parameters_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
@@ -459,7 +459,7 @@ class ApiForget(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.enum_parameters_oapg(
+        return self._enum_parameters_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,

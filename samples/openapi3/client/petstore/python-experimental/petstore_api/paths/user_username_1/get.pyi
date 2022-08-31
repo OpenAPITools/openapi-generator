@@ -29,11 +29,15 @@ from petstore_api.model.user import User
 UsernameSchema = schemas.StrSchema
 SchemaFor200ResponseBodyApplicationXml = User
 SchemaFor200ResponseBodyApplicationJson = User
+_all_accept_content_types = (
+    'application/xml',
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def get_user_by_name_oapg(
+    def _get_user_by_name_oapg(
         self: api_client.Api,
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -50,7 +54,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -109,7 +113,7 @@ class GetUserByName(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.get_user_by_name_oapg(
+        return self._get_user_by_name_oapg(
             path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -132,7 +136,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.get_user_by_name_oapg(
+        return self._get_user_by_name_oapg(
             path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,

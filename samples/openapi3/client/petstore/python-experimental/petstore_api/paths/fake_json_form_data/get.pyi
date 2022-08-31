@@ -86,7 +86,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 class BaseApi(api_client.Api):
 
-    def json_form_data_oapg(
+    def _json_form_data_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
@@ -156,7 +156,7 @@ class JsonFormData(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.json_form_data_oapg(
+        return self._json_form_data_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -179,7 +179,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.json_form_data_oapg(
+        return self._json_form_data_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

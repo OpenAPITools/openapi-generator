@@ -29,11 +29,15 @@ from petstore_api.model.pet import Pet
 PetIdSchema = schemas.Int64Schema
 SchemaFor200ResponseBodyApplicationXml = Pet
 SchemaFor200ResponseBodyApplicationJson = Pet
+_all_accept_content_types = (
+    'application/xml',
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def get_pet_by_id_oapg(
+    def _get_pet_by_id_oapg(
         self: api_client.Api,
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -50,7 +54,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -110,7 +114,7 @@ class GetPetById(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.get_pet_by_id_oapg(
+        return self._get_pet_by_id_oapg(
             path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -133,7 +137,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.get_pet_by_id_oapg(
+        return self._get_pet_by_id_oapg(
             path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,

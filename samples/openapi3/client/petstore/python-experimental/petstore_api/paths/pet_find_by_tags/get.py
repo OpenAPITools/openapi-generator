@@ -178,7 +178,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def find_pets_by_tags_oapg(
+    def _find_pets_by_tags_oapg(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -195,7 +195,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -255,7 +255,7 @@ class FindPetsByTags(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.find_pets_by_tags_oapg(
+        return self._find_pets_by_tags_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -278,7 +278,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.find_pets_by_tags_oapg(
+        return self._find_pets_by_tags_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,

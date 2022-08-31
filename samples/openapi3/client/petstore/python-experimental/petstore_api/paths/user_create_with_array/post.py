@@ -83,7 +83,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def create_users_with_array_input_oapg(
+    def _create_users_with_array_input_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
         content_type: str = 'application/json',
@@ -159,7 +159,7 @@ class CreateUsersWithArrayInput(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.create_users_with_array_input_oapg(
+        return self._create_users_with_array_input_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -182,7 +182,7 @@ class ApiForpost(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.create_users_with_array_input_oapg(
+        return self._create_users_with_array_input_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

@@ -26,11 +26,14 @@ from petstore_api import schemas  # noqa: F401
 # body param
 SchemaForRequestBodyApplicationOctetStream = schemas.BinarySchema
 SchemaFor200ResponseBodyApplicationOctetStream = schemas.BinarySchema
+_all_accept_content_types = (
+    'application/octet-stream',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def upload_download_file_oapg(
+    def _upload_download_file_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
         content_type: str = 'application/octet-stream',
@@ -107,7 +110,7 @@ class UploadDownloadFile(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_download_file_oapg(
+        return self._upload_download_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -132,7 +135,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_download_file_oapg(
+        return self._upload_download_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

@@ -28,11 +28,14 @@ from petstore_api.model.client import Client
 # body param
 SchemaForRequestBodyApplicationJson = Client
 SchemaFor200ResponseBodyApplicationJson = Client
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def call_123_test_special_tags_oapg(
+    def _call_123_test_special_tags_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -109,7 +112,7 @@ class Call123TestSpecialTags(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.call_123_test_special_tags_oapg(
+        return self._call_123_test_special_tags_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -134,7 +137,7 @@ class ApiForpatch(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.call_123_test_special_tags_oapg(
+        return self._call_123_test_special_tags_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

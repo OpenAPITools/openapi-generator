@@ -67,7 +67,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def mammal_oapg(
+    def _mammal_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -143,7 +143,7 @@ class Mammal(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.mammal_oapg(
+        return self._mammal_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -168,7 +168,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.mammal_oapg(
+        return self._mammal_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

@@ -28,11 +28,14 @@ from petstore_api.model.composed_one_of_different_types import ComposedOneOfDiff
 # body param
 SchemaForRequestBodyApplicationJson = ComposedOneOfDifferentTypes
 SchemaFor200ResponseBodyApplicationJson = ComposedOneOfDifferentTypes
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def composed_one_of_different_types_oapg(
+    def _composed_one_of_different_types_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -106,7 +109,7 @@ class ComposedOneOfDifferentTypes(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.composed_one_of_different_types_oapg(
+        return self._composed_one_of_different_types_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -131,7 +134,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.composed_one_of_different_types_oapg(
+        return self._composed_one_of_different_types_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

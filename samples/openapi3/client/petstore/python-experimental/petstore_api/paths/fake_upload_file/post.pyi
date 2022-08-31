@@ -84,11 +84,14 @@ class SchemaForRequestBodyMultipartFormData(
             **kwargs,
         )
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def upload_file_oapg(
+    def _upload_file_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'multipart/form-data',
@@ -163,7 +166,7 @@ class UploadFile(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_file_oapg(
+        return self._upload_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -188,7 +191,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.upload_file_oapg(
+        return self._upload_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

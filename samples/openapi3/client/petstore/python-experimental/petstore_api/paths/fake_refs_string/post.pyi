@@ -26,11 +26,14 @@ from petstore_api import schemas  # noqa: F401
 # body param
 SchemaForRequestBodyApplicationJson = schemas.StrSchema
 SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def string_oapg(
+    def _string_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, str, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -104,7 +107,7 @@ class String(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.string_oapg(
+        return self._string_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -129,7 +132,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.string_oapg(
+        return self._string_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

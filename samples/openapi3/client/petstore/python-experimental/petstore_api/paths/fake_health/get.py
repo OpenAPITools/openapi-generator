@@ -56,7 +56,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def fake_health_get_oapg(
+    def _fake_health_get_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -116,7 +116,7 @@ class FakeHealthGet(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.fake_health_get_oapg(
+        return self._fake_health_get_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -137,7 +137,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.fake_health_get_oapg(
+        return self._fake_health_get_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

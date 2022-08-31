@@ -221,7 +221,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 class BaseApi(api_client.Api):
 
-    def endpoint_parameters_oapg(
+    def _endpoint_parameters_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
@@ -290,7 +290,7 @@ class EndpointParameters(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.endpoint_parameters_oapg(
+        return self._endpoint_parameters_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -312,7 +312,7 @@ class ApiForpost(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.endpoint_parameters_oapg(
+        return self._endpoint_parameters_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

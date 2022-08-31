@@ -28,11 +28,14 @@ from petstore_api.model.string_enum import StringEnum
 # body param
 SchemaForRequestBodyApplicationJson = StringEnum
 SchemaFor200ResponseBodyApplicationJson = StringEnum
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def string_enum_oapg(
+    def _string_enum_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -106,7 +109,7 @@ class StringEnum(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.string_enum_oapg(
+        return self._string_enum_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -131,7 +134,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.string_enum_oapg(
+        return self._string_enum_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

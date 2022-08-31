@@ -28,11 +28,14 @@ from petstore_api.model.additional_properties_with_array_of_enums import Additio
 # body param
 SchemaForRequestBodyApplicationJson = AdditionalPropertiesWithArrayOfEnums
 SchemaFor200ResponseBodyApplicationJson = AdditionalPropertiesWithArrayOfEnums
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
 
-    def additional_properties_with_array_of_enums_oapg(
+    def _additional_properties_with_array_of_enums_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -107,7 +110,7 @@ class AdditionalPropertiesWithArrayOfEnums(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.additional_properties_with_array_of_enums_oapg(
+        return self._additional_properties_with_array_of_enums_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -132,7 +135,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.additional_properties_with_array_of_enums_oapg(
+        return self._additional_properties_with_array_of_enums_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

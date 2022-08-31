@@ -87,7 +87,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def get_inventory_oapg(
+    def _get_inventory_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -148,7 +148,7 @@ class GetInventory(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.get_inventory_oapg(
+        return self._get_inventory_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -169,7 +169,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.get_inventory_oapg(
+        return self._get_inventory_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

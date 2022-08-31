@@ -82,7 +82,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def delete_user_oapg(
+    def _delete_user_oapg(
         self: api_client.Api,
         path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
@@ -97,7 +97,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -148,7 +148,7 @@ class DeleteUser(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.delete_user_oapg(
+        return self._delete_user_oapg(
             path_params=path_params,
             stream=stream,
             timeout=timeout,
@@ -168,7 +168,7 @@ class ApiFordelete(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self.delete_user_oapg(
+        return self._delete_user_oapg(
             path_params=path_params,
             stream=stream,
             timeout=timeout,
