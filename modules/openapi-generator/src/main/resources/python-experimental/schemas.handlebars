@@ -317,7 +317,7 @@ class Schema:
         2. value is an instance of the the correct schema type
             the value is NOT validated by valiadate_oapg, valiadate_oapg only checks that the instance is of the correct schema type
             for this value, valiadate_oapg does NOT return an entry for it in _path_to_schemas
-            and in list/dict _get_items,_get_properties the value will be directly assigned
+            and in list/dict get_items_oapg,get_properties_oapg the value will be directly assigned
             because value is of the correct type, and validation was run earlier when the instance was created
         """
         _path_to_schemas = {}
@@ -361,11 +361,11 @@ class Schema:
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
     ):
         # We have a Dynamic class and we are making an instance of it
-        if issubclass(cls, frozendict.frozendict):
-            properties = cls._get_properties(arg, path_to_item, path_to_schemas)
+        if issubclass(cls, frozendict.frozendict) and issubclass(cls, DictBase):
+            properties = cls.get_properties_oapg(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
-        elif issubclass(cls, tuple):
-            items = cls._get_items(arg, path_to_item, path_to_schemas)
+        elif issubclass(cls, tuple) and issubclass(cls, ListBase):
+            items = cls.get_items_oapg(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, items)
         """
         str = openapi str, date, and datetime
@@ -500,30 +500,30 @@ if typing.TYPE_CHECKING:
         pass
     class NoneDecimalMixin(NoneClass, decimal.Decimal):
         pass
-    class NoneBoolMixin(NoneClass, bool):
-        passs
+    class NoneBoolMixin(NoneClass, BoolClass):
+        pass
     class FrozenDictTupleMixin(frozendict.frozendict, tuple):
         pass
     class FrozenDictStrMixin(frozendict.frozendict, str):
         pass
     class FrozenDictDecimalMixin(frozendict.frozendict, decimal.Decimal):
         pass
-    class FrozenDictBoolMixin(frozendict.frozendict, bool):
+    class FrozenDictBoolMixin(frozendict.frozendict, BoolClass):
         pass
     class TupleStrMixin(tuple, str):
         pass
     class TupleDecimalMixin(tuple, decimal.Decimal):
         pass
-    class TupleBoolMixin(tuple, bool):
+    class TupleBoolMixin(tuple, BoolClass):
         pass
     class StrDecimalMixin(str, decimal.Decimal):
         pass
-    class StrBoolMixin(str, bool):
+    class StrBoolMixin(str, BoolClass):
         pass
-    class DecimalBoolMixin(decimal.Decimal, bool):
+    class DecimalBoolMixin(decimal.Decimal, BoolClass):
         pass
     # qty 6
-    class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, bool):
+    class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
         pass
 else:
     # qty 1 mixin
@@ -1240,14 +1240,14 @@ class ListBase(ValidatorBase):
         return _path_to_schemas
 
     @classmethod
-    def _get_items(
+    def get_items_oapg(
         cls: 'Schema',
         arg: typing.List[typing.Any],
         path_to_item: typing.Tuple[typing.Union[str, int], ...],
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
     ):
         '''
-        ListBase _get_items
+        ListBase get_items_oapg
         '''
         list_items = arg
         cast_items = []
@@ -1516,14 +1516,14 @@ class DictBase(Discriminable, ValidatorBase):
         return _path_to_schemas
 
     @classmethod
-    def _get_properties(
+    def get_properties_oapg(
         cls,
         arg: typing.Dict[str, typing.Any],
         path_to_item: typing.Tuple[typing.Union[str, int], ...],
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
     ):
         """
-        DictBase _get_properties, this is how properties are set
+        DictBase get_properties_oapg, this is how properties are set
         These values already passed validation
         """
         dict_items = {}
