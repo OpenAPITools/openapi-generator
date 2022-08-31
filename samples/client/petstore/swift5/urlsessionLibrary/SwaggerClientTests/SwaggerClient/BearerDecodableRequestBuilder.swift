@@ -11,7 +11,7 @@ import PetstoreClient
 
 class BearerRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        BearerRequestBuilder<T>.self
+        URLSessionRequestBuilder<T>.self
     }
 
     func getNonDecodableBuilderAuthenticated<T>() -> RequestBuilder<T>.Type {
@@ -19,7 +19,7 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
     }
     
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        BearerDecodableRequestBuilder<T>.self
+        URLSessionDecodableRequestBuilder<T>.self
     }
 
     func getBuilderAuthenticated<T: Decodable>() -> RequestBuilder<T>.Type {

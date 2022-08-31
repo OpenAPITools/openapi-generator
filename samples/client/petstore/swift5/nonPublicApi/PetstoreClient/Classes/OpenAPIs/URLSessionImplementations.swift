@@ -20,7 +20,15 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
         return URLSessionRequestBuilder<T>.self
     }
 
+    func getNonDecodableBuilderAuthenticated<T>() -> RequestBuilder<T>.Type {
+        return URLSessionRequestBuilder<T>.self
+    }
+
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+        return URLSessionDecodableRequestBuilder<T>.self
+    }
+
+    func getBuilderAuthenticated<T: Decodable>() -> RequestBuilder<T>.Type {
         return URLSessionDecodableRequestBuilder<T>.self
     }
 }

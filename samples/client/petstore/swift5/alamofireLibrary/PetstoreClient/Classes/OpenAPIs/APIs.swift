@@ -66,6 +66,16 @@ open class RequestBuilder<T> {
 }
 
 public protocol RequestBuilderFactory {
+
+    /// builder for unauthenticated requests returning non-decodable data
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
+
+    /// builder for authenticated requests returning non-decodable data
+    func getNonDecodableBuilderAuthenticated<T>() -> RequestBuilder<T>.Type
+
+    /// builder for unauthenticated requests returning decodable data
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
+
+    /// builder for authenticated requests returning decodable data
+    func getBuilderAuthenticated<T: Decodable>() -> RequestBuilder<T>.Type
 }

@@ -12,8 +12,16 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
         return AlamofireRequestBuilder<T>.self
     }
 
+    func getNonDecodableBuilderAuthenticated<T>() -> RequestBuilder<T>.Type {
+         return AlamofireRequestBuilder<T>.self
+    }
+
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
         return AlamofireDecodableRequestBuilder<T>.self
+    }
+
+    func getBuilderAuthenticated<T: Decodable>() -> RequestBuilder<T>.Type {
+         return AlamofireDecodableRequestBuilder<T>.self
     }
 }
 
