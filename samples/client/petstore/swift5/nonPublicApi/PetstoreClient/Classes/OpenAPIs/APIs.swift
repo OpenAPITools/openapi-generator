@@ -28,17 +28,19 @@ internal class RequestBuilder<T> {
     internal let method: String
     internal let URLString: String
     internal let requestTask: RequestTask = RequestTask()
+    internal let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
     /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
+        self.requiresAuthentication = requiresAuthentication
 
         addHeaders(PetstoreClientAPI.customHeaders)
     }
