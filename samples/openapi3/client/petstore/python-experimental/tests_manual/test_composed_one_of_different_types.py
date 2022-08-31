@@ -58,7 +58,7 @@ class TestComposedOneOfDifferentTypes(unittest.TestCase):
         assert inst.is_none() is True
 
         # date
-        inst = ComposedOneOfDifferentTypes._from_openapi_data('2019-01-10')
+        inst = ComposedOneOfDifferentTypes.from_openapi_data_oapg('2019-01-10')
         assert isinstance(inst, ComposedOneOfDifferentTypes)
         assert isinstance(inst, DateSchema)
         assert isinstance(inst, str)
@@ -76,7 +76,7 @@ class TestComposedOneOfDifferentTypes(unittest.TestCase):
         assert inst.as_date.day == 10
 
         # date-time
-        inst = ComposedOneOfDifferentTypes._from_openapi_data('2020-01-02T03:04:05Z')
+        inst = ComposedOneOfDifferentTypes.from_openapi_data_oapg('2020-01-02T03:04:05Z')
         assert isinstance(inst, ComposedOneOfDifferentTypes)
         assert isinstance(inst, DateTimeSchema)
         assert isinstance(inst, str)

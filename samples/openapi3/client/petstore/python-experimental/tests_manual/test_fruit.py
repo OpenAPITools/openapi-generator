@@ -100,7 +100,7 @@ class TestFruit(unittest.TestCase):
             additional_date='2021-01-02',
         )
 
-        fruit = Fruit._from_openapi_data(**kwargs)
+        fruit = Fruit.from_openapi_data_oapg(**kwargs)
         self.assertEqual(
             fruit,
             kwargs
