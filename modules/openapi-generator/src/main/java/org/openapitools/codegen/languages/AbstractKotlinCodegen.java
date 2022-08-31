@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -778,7 +779,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // Fallback, replace unknowns with underscore.
-        word = word.replaceAll("\\W+", "_");
+        word = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS).matcher(word).replaceAll("_");
         if (word.matches("\\d.*")) {
             word = "_" + word;
         }
