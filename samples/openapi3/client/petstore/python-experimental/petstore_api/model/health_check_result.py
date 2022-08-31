@@ -42,7 +42,8 @@ class HealthCheckResult(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.StrBase,
                 schemas.NoneBase,
-                schemas.Schema
+                schemas.Schema,
+                schemas.NoneStrMixin
             ):
             
             
