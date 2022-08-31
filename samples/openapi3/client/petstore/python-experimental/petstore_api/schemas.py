@@ -529,6 +529,9 @@ if typing.TYPE_CHECKING:
         pass
     class DecimalBoolMixin(decimal.Decimal, bool):
         pass
+    # qty 6
+    class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, bool):
+        pass
 else:
     # qty 1 mixin
     NoneMixin = object
@@ -553,6 +556,7 @@ else:
     StrDecimalMixin = object
     StrBoolMixin = object
     DecimalBoolMixin = object
+    NoneFrozenDictTupleStrDecimalBoolMixin = object
 
 
 class ValidatorBase:
@@ -2138,7 +2142,8 @@ class AnyTypeSchema(
     StrBase,
     BoolBase,
     NoneBase,
-    Schema
+    Schema,
+    NoneFrozenDictTupleStrDecimalBoolMixin
 ):
     pass
 
