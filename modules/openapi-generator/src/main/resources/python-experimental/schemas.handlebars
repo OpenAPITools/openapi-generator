@@ -317,7 +317,7 @@ class Schema:
         2. value is an instance of the the correct schema type
             the value is NOT validated by _validate_oapg, _validate_oapg only checks that the instance is of the correct schema type
             for this value, _validate_oapg does NOT return an entry for it in _path_to_schemas
-            and in list/dict get_items_oapg,get_properties_oapg the value will be directly assigned
+            and in list/dict _get_items_oapg,_get_properties_oapg the value will be directly assigned
             because value is of the correct type, and validation was run earlier when the instance was created
         """
         _path_to_schemas = {}
@@ -362,10 +362,10 @@ class Schema:
     ):
         # We have a Dynamic class and we are making an instance of it
         if issubclass(cls, frozendict.frozendict) and issubclass(cls, DictBase):
-            properties = cls.get_properties_oapg(arg, path_to_item, path_to_schemas)
+            properties = cls._get_properties_oapg(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, properties)
         elif issubclass(cls, tuple) and issubclass(cls, ListBase):
-            items = cls.get_items_oapg(arg, path_to_item, path_to_schemas)
+            items = cls._get_items_oapg(arg, path_to_item, path_to_schemas)
             return super(Schema, cls).__new__(cls, items)
         """
         str = openapi str, date, and datetime
@@ -437,28 +437,31 @@ class Schema:
             kwargs (str, int/float/decimal.Decimal/str/list/tuple/dict/frozendict.frozendict/bool/None): dict values
             _configuration: contains the Configuration that enables json schema validation keywords
                 like minItems, minLength etc
+
+        Note: double underscores are used here because pycharm thinks that these variables
+        are instance properties if they are named normally :(
         """
-        kwargs = cls.__remove_unsets(kwargs)
-        if not args and not kwargs:
+        __kwargs = cls.__remove_unsets(kwargs)
+        if not args and not __kwargs:
             raise TypeError(
                 'No input given. args or kwargs must be given.'
             )
-        if not kwargs and args and not isinstance(args[0], dict):
-            arg = args[0]
+        if not __kwargs and args and not isinstance(args[0], dict):
+            __arg = args[0]
         else:
-            arg = cls.__get_input_dict(*args, **kwargs)
-        from_server = False
-        validated_path_to_schemas = {}
-        arg = cast_to_allowed_types(
-            arg, from_server, validated_path_to_schemas)
-        validation_metadata = ValidationMetadata(
-            configuration=_configuration, from_server=from_server, validated_path_to_schemas=validated_path_to_schemas)
-        path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
-        new_cls = path_to_schemas[validation_metadata.path_to_item]
-        return new_cls._get_new_instance_without_conversion_oapg(
-            arg,
-            validation_metadata.path_to_item,
-            path_to_schemas
+            __arg = cls.__get_input_dict(*args, **kwargs)
+        __from_server = False
+        __validated_path_to_schemas = {}
+        __arg = cast_to_allowed_types(
+            __arg, __from_server, __validated_path_to_schemas)
+        __validation_metadata = ValidationMetadata(
+            configuration=_configuration, from_server=__from_server, validated_path_to_schemas=__validated_path_to_schemas)
+        __path_to_schemas = cls.__get_new_cls(__arg, __validation_metadata)
+        __new_cls = __path_to_schemas[__validation_metadata.path_to_item]
+        return __new_cls._get_new_instance_without_conversion_oapg(
+            __arg,
+            __validation_metadata.path_to_item,
+            __path_to_schemas
         )
 
     def __init__(
@@ -1242,14 +1245,14 @@ class ListBase(ValidatorBase):
         return _path_to_schemas
 
     @classmethod
-    def get_items_oapg(
+    def _get_items_oapg(
         cls: 'Schema',
         arg: typing.List[typing.Any],
         path_to_item: typing.Tuple[typing.Union[str, int], ...],
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
     ):
         '''
-        ListBase get_items_oapg
+        ListBase _get_items_oapg
         '''
         list_items = arg
         cast_items = []
@@ -1281,7 +1284,7 @@ class Discriminable:
     MetaOapg: MetaOapgTyped
 
     @classmethod
-    def ensure_discriminator_value_present_oapg(cls, disc_property_name: str, validation_metadata: ValidationMetadata, *args):
+    def _ensure_discriminator_value_present_oapg(cls, disc_property_name: str, validation_metadata: ValidationMetadata, *args):
         if not args or args and disc_property_name not in args[0]:
             # The input data does not contain the discriminator property
             raise ApiValueError(
@@ -1492,7 +1495,7 @@ class DictBase(Discriminable, ValidatorBase):
             return _path_to_schemas
         # discriminator exists
         disc_prop_name = list(discriminator.keys())[0]
-        cls.ensure_discriminator_value_present_oapg(disc_prop_name, validation_metadata, arg)
+        cls._ensure_discriminator_value_present_oapg(disc_prop_name, validation_metadata, arg)
         discriminated_cls = cls.get_discriminated_class_oapg(
             disc_property_name=disc_prop_name, disc_payload_value=arg[disc_prop_name])
         if discriminated_cls is None:
@@ -1518,14 +1521,14 @@ class DictBase(Discriminable, ValidatorBase):
         return _path_to_schemas
 
     @classmethod
-    def get_properties_oapg(
+    def _get_properties_oapg(
         cls,
         arg: typing.Dict[str, typing.Any],
         path_to_item: typing.Tuple[typing.Union[str, int], ...],
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
     ):
         """
-        DictBase get_properties_oapg, this is how properties are set
+        DictBase _get_properties_oapg, this is how properties are set
         These values already passed validation
         """
         dict_items = {}
@@ -1762,7 +1765,7 @@ class ComposedBase(Discriminable):
         discriminated_cls = None
         if discriminator and arg and isinstance(arg, frozendict.frozendict):
             disc_property_name = list(discriminator.keys())[0]
-            cls.ensure_discriminator_value_present_oapg(disc_property_name, updated_vm, arg)
+            cls._ensure_discriminator_value_present_oapg(disc_property_name, updated_vm, arg)
             # get discriminated_cls by looking at the dict in the current class
             discriminated_cls = cls.get_discriminated_class_oapg(
                 disc_property_name=disc_property_name, disc_payload_value=arg[disc_property_name])
