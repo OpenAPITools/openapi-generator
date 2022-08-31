@@ -13,6 +13,7 @@
 #' @field shipDate  character [optional]
 #' @field status  character [optional]
 #' @field complete  character [optional]
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +26,7 @@ Order <- R6::R6Class(
     `shipDate` = NULL,
     `status` = NULL,
     `complete` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new Order class.
     #'
     #' @description
@@ -36,10 +38,11 @@ Order <- R6::R6Class(
     #' @param shipDate shipDate
     #' @param status Order Status
     #' @param complete complete. Default to FALSE.
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, ...
+        `id` = NULL, `petId` = NULL, `quantity` = NULL, `shipDate` = NULL, `status` = NULL, `complete` = FALSE, additional_properties = NULL, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -64,6 +67,11 @@ Order <- R6::R6Class(
       if (!is.null(`complete`)) {
         stopifnot(is.logical(`complete`), length(`complete`) == 1)
         self$`complete` <- `complete`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -98,6 +106,9 @@ Order <- R6::R6Class(
       if (!is.null(self$`complete`)) {
         OrderObject[["complete"]] <-
           self$`complete`
+      }
+      for (key in names(self$additional_properties)) {
+        OrderObject[[key]] <- self$additional_properties[[key]]
       }
 
       OrderObject
@@ -191,7 +202,12 @@ Order <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of Order
     #'

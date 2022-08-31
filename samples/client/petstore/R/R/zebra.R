@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field type  character [optional]
 #' @field className  character
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,6 +18,7 @@ Zebra <- R6::R6Class(
   public = list(
     `type` = NULL,
     `className` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new Zebra class.
     #'
     #' @description
@@ -24,10 +26,11 @@ Zebra <- R6::R6Class(
     #'
     #' @param className className
     #' @param type type
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `type` = NULL, ...
+        `className`, `type` = NULL, additional_properties = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
@@ -36,6 +39,11 @@ Zebra <- R6::R6Class(
       if (!is.null(`type`)) {
         stopifnot(is.character(`type`), length(`type`) == 1)
         self$`type` <- `type`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -54,6 +62,9 @@ Zebra <- R6::R6Class(
       if (!is.null(self$`className`)) {
         ZebraObject[["className"]] <-
           self$`className`
+      }
+      for (key in names(self$additional_properties)) {
+        ZebraObject[[key]] <- self$additional_properties[[key]]
       }
 
       ZebraObject
@@ -103,7 +114,12 @@ Zebra <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of Zebra
     #'

@@ -3,6 +3,17 @@ install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 library(jsonlite)
 
+t <- Tag$new()
+t$id <- 123
+t$additional_properties <- c("abc" = 849, "array" = list('a', 'b', 'c'))
+t$additional_properties
+t$additional_properties["abc"]
+t$additional_properties["array"]
+print(t$toJSON())
+print(t$toJSONString())
+
+print("done tag")
+
   whale_json <- '{"className": "whale", "hasBaleen": true, "hasTeeth": true}'
   zebra_json <- '{"className": "zebra", "type": "plains"}'
 

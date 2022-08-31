@@ -15,6 +15,7 @@
 #' @field password  character [optional]
 #' @field phone  character [optional]
 #' @field userStatus  integer [optional]
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -29,6 +30,7 @@ User <- R6::R6Class(
     `password` = NULL,
     `phone` = NULL,
     `userStatus` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new User class.
     #'
     #' @description
@@ -42,10 +44,11 @@ User <- R6::R6Class(
     #' @param password password
     #' @param phone phone
     #' @param userStatus User Status
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id` = NULL, `username` = NULL, `firstName` = NULL, `lastName` = NULL, `email` = NULL, `password` = NULL, `phone` = NULL, `userStatus` = NULL, ...
+        `id` = NULL, `username` = NULL, `firstName` = NULL, `lastName` = NULL, `email` = NULL, `password` = NULL, `phone` = NULL, `userStatus` = NULL, additional_properties = NULL, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -78,6 +81,11 @@ User <- R6::R6Class(
       if (!is.null(`userStatus`)) {
         stopifnot(is.numeric(`userStatus`), length(`userStatus`) == 1)
         self$`userStatus` <- `userStatus`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -120,6 +128,9 @@ User <- R6::R6Class(
       if (!is.null(self$`userStatus`)) {
         UserObject[["userStatus"]] <-
           self$`userStatus`
+      }
+      for (key in names(self$additional_properties)) {
+        UserObject[[key]] <- self$additional_properties[[key]]
       }
 
       UserObject
@@ -235,7 +246,12 @@ User <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of User
     #'

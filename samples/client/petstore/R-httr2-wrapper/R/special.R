@@ -13,6 +13,7 @@
 #' @field 123_number  character [optional]
 #' @field array[test]  character [optional]
 #' @field empty_string  character [optional]
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -25,6 +26,7 @@ Special <- R6::R6Class(
     `123_number` = NULL,
     `array[test]` = NULL,
     `empty_string` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new Special class.
     #'
     #' @description
@@ -36,10 +38,11 @@ Special <- R6::R6Class(
     #' @param 123_number 123_number
     #' @param array[test] array[test]
     #' @param empty_string empty_string
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, ...
+        `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...
     ) {
       if (!is.null(`item_self`)) {
         stopifnot(is.numeric(`item_self`), length(`item_self`) == 1)
@@ -64,6 +67,11 @@ Special <- R6::R6Class(
       if (!is.null(`empty_string`)) {
         stopifnot(is.character(`empty_string`), length(`empty_string`) == 1)
         self$`empty_string` <- `empty_string`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -98,6 +106,9 @@ Special <- R6::R6Class(
       if (!is.null(self$`empty_string`)) {
         SpecialObject[["empty_string"]] <-
           self$`empty_string`
+      }
+      for (key in names(self$additional_properties)) {
+        SpecialObject[[key]] <- self$additional_properties[[key]]
       }
 
       SpecialObject
@@ -191,7 +202,12 @@ Special <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of Special
     #'

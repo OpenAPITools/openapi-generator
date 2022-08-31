@@ -13,3 +13,4 @@ additionalProperties:
   operationIdNaming: snake_case
   generateWrapper: true
   useOneOfDiscriminatorLookup: true
+  disallowAdditionalPropertiesIfNotPresent: false

@@ -10,6 +10,7 @@
 #' @field className  character
 #' @field color  character [optional]
 #' @field breed  character [optional]
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -20,6 +21,7 @@ Dog <- R6::R6Class(
     `className` = NULL,
     `color` = NULL,
     `breed` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new Dog class.
     #'
     #' @description
@@ -28,10 +30,11 @@ Dog <- R6::R6Class(
     #' @param className className
     #' @param color color. Default to "red".
     #' @param breed breed
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `color` = "red", `breed` = NULL, ...
+        `className`, `color` = "red", `breed` = NULL, additional_properties = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
@@ -44,6 +47,11 @@ Dog <- R6::R6Class(
       if (!is.null(`breed`)) {
         stopifnot(is.character(`breed`), length(`breed`) == 1)
         self$`breed` <- `breed`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -66,6 +74,9 @@ Dog <- R6::R6Class(
       if (!is.null(self$`breed`)) {
         DogObject[["breed"]] <-
           self$`breed`
+      }
+      for (key in names(self$additional_properties)) {
+        DogObject[[key]] <- self$additional_properties[[key]]
       }
 
       DogObject
@@ -126,7 +137,12 @@ Dog <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of Dog
     #'

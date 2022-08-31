@@ -55,7 +55,6 @@ NestedOneOf <- R6::R6Class(
         NestedOneOfObject[["nested_pig"]] <-
           self$`nested_pig`$toJSON()
       }
-
       NestedOneOfObject
     },
     #' Deserialize JSON string into an instance of NestedOneOf
@@ -105,7 +104,7 @@ NestedOneOf <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of NestedOneOf
     #'
