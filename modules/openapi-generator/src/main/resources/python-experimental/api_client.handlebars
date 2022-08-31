@@ -1263,7 +1263,7 @@ class Api:
         self.api_client = api_client
 
     @staticmethod
-    def _verify_typed_dict_inputs(cls: typing.Type[typing.TypedDict], data: typing.Dict[str, typing.Any]):
+    def verify_typed_dict_inputs_oapg(cls: typing.Type[typing.TypedDict], data: typing.Dict[str, typing.Any]):
         """
         Ensures that:
         - required keys are present
@@ -1305,7 +1305,7 @@ class Api:
                 )
             )
 
-    def get_host(
+    def get_host_oapg(
         self,
         operation_id: str,
         servers: typing.Tuple[typing.Dict[str, str], ...] = tuple(),

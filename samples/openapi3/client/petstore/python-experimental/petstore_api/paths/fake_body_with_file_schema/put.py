@@ -57,7 +57,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _body_with_file_schema(
+    def body_with_file_schema_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -128,7 +128,7 @@ class BodyWithFileSchema(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._body_with_file_schema(
+        return self.body_with_file_schema_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -151,7 +151,7 @@ class ApiForput(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._body_with_file_schema(
+        return self.body_with_file_schema_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

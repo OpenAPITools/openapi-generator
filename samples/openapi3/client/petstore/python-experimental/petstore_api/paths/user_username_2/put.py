@@ -96,7 +96,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _update_user(
+    def update_user_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -113,7 +113,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -182,7 +182,7 @@ class UpdateUser(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_user(
+        return self.update_user_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,
@@ -206,7 +206,7 @@ class ApiForput(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_user(
+        return self.update_user_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,

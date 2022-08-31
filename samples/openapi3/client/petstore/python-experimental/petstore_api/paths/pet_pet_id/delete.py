@@ -98,7 +98,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _delete_pet(
+    def delete_pet_oapg(
         self: api_client.Api,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -114,8 +114,8 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self.verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -179,7 +179,7 @@ class DeletePet(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._delete_pet(
+        return self.delete_pet_oapg(
             header_params=header_params,
             path_params=path_params,
             stream=stream,
@@ -201,7 +201,7 @@ class ApiFordelete(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._delete_pet(
+        return self.delete_pet_oapg(
             header_params=header_params,
             path_params=path_params,
             stream=stream,

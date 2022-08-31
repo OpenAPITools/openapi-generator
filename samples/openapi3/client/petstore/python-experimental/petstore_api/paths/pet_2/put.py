@@ -100,7 +100,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _update_pet(
+    def update_pet_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
@@ -133,7 +133,7 @@ class BaseApi(api_client.Api):
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
             _body = serialized_data['body']
-        host = self.get_host('update_pet', _servers, host_index)
+        host = self.get_host_oapg('update_pet', _servers, host_index)
 
         response = self.api_client.call_api(
             resource_path=used_path,
@@ -176,7 +176,7 @@ class UpdatePet(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_pet(
+        return self.update_pet_oapg(
             body=body,
             content_type=content_type,
             host_index=host_index,
@@ -200,7 +200,7 @@ class ApiForput(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_pet(
+        return self.update_pet_oapg(
             body=body,
             content_type=content_type,
             host_index=host_index,

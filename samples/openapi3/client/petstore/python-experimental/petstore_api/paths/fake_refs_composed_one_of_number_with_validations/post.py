@@ -66,7 +66,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _composed_one_of_different_types(
+    def composed_one_of_different_types_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -140,7 +140,7 @@ class ComposedOneOfDifferentTypes(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._composed_one_of_different_types(
+        return self.composed_one_of_different_types_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -165,7 +165,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._composed_one_of_different_types(
+        return self.composed_one_of_different_types_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

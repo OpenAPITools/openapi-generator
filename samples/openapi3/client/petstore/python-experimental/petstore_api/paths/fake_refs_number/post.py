@@ -66,7 +66,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _number_with_validations(
+    def number_with_validations_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
@@ -140,7 +140,7 @@ class NumberWithValidations(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._number_with_validations(
+        return self.number_with_validations_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -165,7 +165,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._number_with_validations(
+        return self.number_with_validations_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

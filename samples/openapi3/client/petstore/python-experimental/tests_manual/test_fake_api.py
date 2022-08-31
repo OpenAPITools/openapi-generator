@@ -36,6 +36,7 @@ class TestFakeApi(ApiTestMixin):
     """FakeApi unit test stubs"""
     configuration = petstore_api.Configuration()
     api = FakeApi(api_client=api_client.ApiClient(configuration=configuration))
+    api.
 
     def test_array_model(self):
         from petstore_api.model import animal_farm, animal

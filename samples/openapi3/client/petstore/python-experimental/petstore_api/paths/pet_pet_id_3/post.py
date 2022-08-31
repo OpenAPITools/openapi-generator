@@ -136,7 +136,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _update_pet_with_form(
+    def update_pet_with_form_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -153,7 +153,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self.verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -221,7 +221,7 @@ class UpdatePetWithForm(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_pet_with_form(
+        return self.update_pet_with_form_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,
@@ -245,7 +245,7 @@ class ApiForpost(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_pet_with_form(
+        return self.update_pet_with_form_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,

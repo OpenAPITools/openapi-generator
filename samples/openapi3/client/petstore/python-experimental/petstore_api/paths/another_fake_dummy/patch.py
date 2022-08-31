@@ -67,7 +67,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _call_123_test_special_tags(
+    def call_123_test_special_tags_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -144,7 +144,7 @@ class Call123TestSpecialTags(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._call_123_test_special_tags(
+        return self.call_123_test_special_tags_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -169,7 +169,7 @@ class ApiForpatch(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._call_123_test_special_tags(
+        return self.call_123_test_special_tags_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

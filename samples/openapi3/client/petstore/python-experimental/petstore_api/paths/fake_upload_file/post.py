@@ -122,7 +122,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _upload_file(
+    def upload_file_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'multipart/form-data',
@@ -197,7 +197,7 @@ class UploadFile(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._upload_file(
+        return self.upload_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -222,7 +222,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._upload_file(
+        return self.upload_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

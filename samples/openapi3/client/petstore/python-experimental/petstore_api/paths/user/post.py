@@ -57,7 +57,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _create_user(
+    def create_user_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -133,7 +133,7 @@ class CreateUser(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._create_user(
+        return self.create_user_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -156,7 +156,7 @@ class ApiForpost(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._create_user(
+        return self.create_user_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
