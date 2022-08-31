@@ -859,7 +859,7 @@ class UUIDBase(StrBase):
         return uuid.UUID(self)
 
     @classmethod
-    def __valiadate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
+    def __validate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
         if isinstance(arg, str):
             try:
                 uuid.UUID(arg)
@@ -878,7 +878,7 @@ class UUIDBase(StrBase):
         """
         UUIDBase validate_oapg
         """
-        cls.__valiadate_format(arg, validation_metadata=validation_metadata)
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
         return super().validate_oapg(arg, validation_metadata=validation_metadata)
 
 
@@ -925,7 +925,7 @@ class DateBase(StrBase):
         return DEFAULT_ISOPARSER.parse_isodate(self)
 
     @classmethod
-    def __valiadate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
+    def __validate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
         if isinstance(arg, str):
             try:
                 DEFAULT_ISOPARSER.parse_isodate(arg)
@@ -945,7 +945,7 @@ class DateBase(StrBase):
         """
         DateBase validate_oapg
         """
-        cls.__valiadate_format(arg, validation_metadata=validation_metadata)
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
         return super().validate_oapg(arg, validation_metadata=validation_metadata)
 
 
@@ -956,7 +956,7 @@ class DateTimeBase:
         return DEFAULT_ISOPARSER.parse_isodatetime(self)
 
     @classmethod
-    def __valiadate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
+    def __validate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
         if isinstance(arg, str):
             try:
                 DEFAULT_ISOPARSER.parse_isodatetime(arg)
@@ -976,7 +976,7 @@ class DateTimeBase:
         """
         DateTimeBase validate_oapg
         """
-        cls.__valiadate_format(arg, validation_metadata=validation_metadata)
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
         return super().validate_oapg(arg, validation_metadata=validation_metadata)
 
 
@@ -993,7 +993,7 @@ class DecimalBase(StrBase):
         return decimal.Decimal(self)
 
     @classmethod
-    def __valiadate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
+    def __validate_format(cls, arg: typing.Optional[str], validation_metadata: ValidationMetadata):
         if isinstance(arg, str):
             try:
                 decimal.Decimal(arg)
@@ -1013,7 +1013,7 @@ class DecimalBase(StrBase):
         """
         DecimalBase validate_oapg
         """
-        cls.__valiadate_format(arg, validation_metadata=validation_metadata)
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
         return super().validate_oapg(arg, validation_metadata=validation_metadata)
 
 
@@ -1286,7 +1286,7 @@ class Discriminable:
     MetaOapg: MetaOapgTyped
 
     @classmethod
-    def _ensure_discriminator_value_present(cls, disc_property_name: str, validation_metadata: ValidationMetadata, *args):
+    def ensure_discriminator_value_present_oapg(cls, disc_property_name: str, validation_metadata: ValidationMetadata, *args):
         if not args or args and disc_property_name not in args[0]:
             # The input data does not contain the discriminator property
             raise ApiValueError(
@@ -1295,7 +1295,7 @@ class Discriminable:
             )
 
     @classmethod
-    def _get_discriminated_class(cls, disc_property_name: str, disc_payload_value: str):
+    def get_discriminated_class_oapg(cls, disc_property_name: str, disc_payload_value: str):
         """
         Used in schemas with discriminators
         """
@@ -1317,17 +1317,17 @@ class Discriminable:
             return None
         # TODO stop traveling if a cycle is hit
         for allof_cls in getattr(cls.MetaOapg, 'all_of', []):
-            discriminated_cls = allof_cls._get_discriminated_class(
+            discriminated_cls = allof_cls.get_discriminated_class_oapg(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
         for oneof_cls in getattr(cls.MetaOapg, 'one_of', []):
-            discriminated_cls = oneof_cls._get_discriminated_class(
+            discriminated_cls = oneof_cls.get_discriminated_class_oapg(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
         for anyof_cls in getattr(cls.MetaOapg, 'any_of', []):
-            discriminated_cls = anyof_cls._get_discriminated_class(
+            discriminated_cls = anyof_cls.get_discriminated_class_oapg(
                 disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
             if discriminated_cls is not None:
                 return discriminated_cls
@@ -1497,8 +1497,8 @@ class DictBase(Discriminable, ValidatorBase):
             return _path_to_schemas
         # discriminator exists
         disc_prop_name = list(discriminator.keys())[0]
-        cls._ensure_discriminator_value_present(disc_prop_name, validation_metadata, arg)
-        discriminated_cls = cls._get_discriminated_class(
+        cls.ensure_discriminator_value_present_oapg(disc_prop_name, validation_metadata, arg)
+        discriminated_cls = cls.get_discriminated_class_oapg(
             disc_property_name=disc_prop_name, disc_payload_value=arg[disc_prop_name])
         if discriminated_cls is None:
             raise ApiValueError(
@@ -1767,9 +1767,9 @@ class ComposedBase(Discriminable):
         discriminated_cls = None
         if discriminator and arg and isinstance(arg, frozendict.frozendict):
             disc_property_name = list(discriminator.keys())[0]
-            cls._ensure_discriminator_value_present(disc_property_name, updated_vm, arg)
+            cls.ensure_discriminator_value_present_oapg(disc_property_name, updated_vm, arg)
             # get discriminated_cls by looking at the dict in the current class
-            discriminated_cls = cls._get_discriminated_class(
+            discriminated_cls = cls.get_discriminated_class_oapg(
                 disc_property_name=disc_property_name, disc_payload_value=arg[disc_property_name])
             if discriminated_cls is None:
                 raise ApiValueError(
@@ -1839,10 +1839,6 @@ class ComposedSchema(
     NoneBase,
     Schema
 ):
-
-    # subclass properties
-    _composed_schemas = {}
-
     @classmethod
     def _from_openapi_data(cls, *args: typing.Any, _configuration: typing.Optional[Configuration] = None, **kwargs):
         if not args:
@@ -1911,7 +1907,7 @@ class IntBase(NumberBase):
             return self._as_int
 
     @classmethod
-    def __valiadate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
         if isinstance(arg, decimal.Decimal):
 
             denominator = arg.as_integer_ratio()[-1]
@@ -1930,7 +1926,7 @@ class IntBase(NumberBase):
         IntBase validate_oapg
         TODO what about types = (int, number) -> IntBase, NumberBase? We could drop int and keep number only
         """
-        cls.__valiadate_format(arg, validation_metadata=validation_metadata)
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
         return super().validate_oapg(arg, validation_metadata=validation_metadata)
 
 
