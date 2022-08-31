@@ -14,7 +14,15 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
         BearerRequestBuilder<T>.self
     }
 
+    func getNonDecodableBuilderAuthenticated<T>() -> RequestBuilder<T>.Type {
+        BearerRequestBuilder<T>.self
+    }
+    
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+        BearerDecodableRequestBuilder<T>.self
+    }
+
+    func getBuilderAuthenticated<T: Decodable>() -> RequestBuilder<T>.Type {
         BearerDecodableRequestBuilder<T>.self
     }
 }

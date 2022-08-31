@@ -464,7 +464,7 @@ extension {{projectName}}API {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
+        let localVariableRequestBuilder: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.{{#returnType}}getBuilder{{#authMethods}}Authenticated{{/authMethods}}(){{/returnType}}{{^returnType}}getNonDecodableBuilder{{#authMethods}}Authenticated{{/authMethods}}(){{/returnType}}
 
         return localVariableRequestBuilder.init(method: "{{httpMethod}}", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
