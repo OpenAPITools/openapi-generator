@@ -1,10 +1,10 @@
 # OpenAPI\Client\DefaultApi
 
-All URIs are relative to http://localhost.
+All URIs are relative to http://localhost, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**operation()**](DefaultApi.md#operation) | **GET** / | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**operation()**](DefaultApi.md#operation) | **GET** / |  |
 
 
 ## `operation()`

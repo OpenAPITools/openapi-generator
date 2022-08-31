@@ -22,7 +22,6 @@ package org.openapitools.client.models
 
 import org.openapitools.client.models.ModelWithNullableObjectPropertyNonNullableProperty
 import org.openapitools.client.models.ModelWithNullableObjectPropertyPropertyWithNullAndTwoTypes
-import org.openapitools.client.models.Null
 import org.openapitools.client.models.PropertyType
 
 import com.squareup.moshi.Json
