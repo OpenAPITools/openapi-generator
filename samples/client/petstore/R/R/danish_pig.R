@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field className  character
 #' @field size  integer
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,6 +18,7 @@ DanishPig <- R6::R6Class(
   public = list(
     `className` = NULL,
     `size` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new DanishPig class.
     #'
     #' @description
@@ -24,10 +26,11 @@ DanishPig <- R6::R6Class(
     #'
     #' @param className className
     #' @param size size
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `size`, ...
+        `className`, `size`, additional_properties = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
@@ -36,6 +39,11 @@ DanishPig <- R6::R6Class(
       if (!missing(`size`)) {
         stopifnot(is.numeric(`size`), length(`size`) == 1)
         self$`size` <- `size`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -54,6 +62,9 @@ DanishPig <- R6::R6Class(
       if (!is.null(self$`size`)) {
         DanishPigObject[["size"]] <-
           self$`size`
+      }
+      for (key in names(self$additional_properties)) {
+        DanishPigObject[[key]] <- self$additional_properties[[key]]
       }
 
       DanishPigObject
@@ -103,7 +114,12 @@ DanishPig <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of DanishPig
     #'

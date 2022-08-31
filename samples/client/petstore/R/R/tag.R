@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field id  integer [optional]
 #' @field name  character [optional]
+#' @field additional_properties named list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,6 +18,7 @@ Tag <- R6::R6Class(
   public = list(
     `id` = NULL,
     `name` = NULL,
+    `additional_properties` = NULL,
     #' Initialize a new Tag class.
     #'
     #' @description
@@ -24,10 +26,11 @@ Tag <- R6::R6Class(
     #'
     #' @param id id
     #' @param name name
+    #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `id` = NULL, `name` = NULL, ...
+        `id` = NULL, `name` = NULL, additional_properties = NULL, ...
     ) {
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -36,6 +39,11 @@ Tag <- R6::R6Class(
       if (!is.null(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
     #' To JSON string
@@ -54,6 +62,9 @@ Tag <- R6::R6Class(
       if (!is.null(self$`name`)) {
         TagObject[["name"]] <-
           self$`name`
+      }
+      for (key in names(self$additional_properties)) {
+        TagObject[[key]] <- self$additional_properties[[key]]
       }
 
       TagObject
@@ -103,7 +114,12 @@ Tag <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
     },
     #' Deserialize JSON string into an instance of Tag
     #'

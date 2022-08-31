@@ -3,6 +3,14 @@ install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 library(jsonlite)
 
+t <- Tag$new()
+t$id <- 123
+#t$additional_properties <- c("abc" = 849)
+print(t$toJSON())
+print(t$toJSONString())
+
+print("done tag")
+
 t <- OneOfPrimitiveTypeTest$new()
 
 #t$fromJSONString("[1,2,3]")

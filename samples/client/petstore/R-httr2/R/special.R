@@ -99,7 +99,6 @@ Special <- R6::R6Class(
         SpecialObject[["empty_string"]] <-
           self$`empty_string`
       }
-
       SpecialObject
     },
     #' Deserialize JSON string into an instance of Special
@@ -191,7 +190,7 @@ Special <- R6::R6Class(
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
     #' Deserialize JSON string into an instance of Special
     #'

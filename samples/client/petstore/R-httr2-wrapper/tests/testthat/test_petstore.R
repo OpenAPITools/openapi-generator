@@ -21,6 +21,17 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
+test_that("Additional Properties test", {
+  # test tag
+  t <- Tag$new(id = 393, name = "something")
+  t$additional_properties <- c("a1" = 998, "b2" = "bbccdd")  
+  expect_equal(t$toJSONString(), "{\"id\":393,\"name\":\"something\",\"a1\":\"998\",\"b2\":\"bbccdd\"}")
+
+  # test tag with additional_properties in `new`
+  t <- Tag$new(id = 393, name = "something", additional_properties = list("nested_object" = list("inside_item" = 8989)))
+  expect_equal(t$toJSONString(), "{\"id\":393,\"name\":\"something\",\"nested_object\":{\"inside_item\":8989}}")
+})
+
 test_that("Test toJSON toJSONString fromJSON fromJSONString print", {
   # test pet
   expect_equal(pet_id, 123321)
