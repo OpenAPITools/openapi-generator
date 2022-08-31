@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import io  # noqa: F401
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing
@@ -67,7 +68,7 @@ class BaseApi(api_client.Api):
 
     def _upload_download_file_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, bytes, io.FileIO, io.BufferedReader, ],
         content_type: str = 'application/octet-stream',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -132,7 +133,7 @@ class UploadDownloadFile(BaseApi):
 
     def upload_download_file(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, bytes, io.FileIO, io.BufferedReader, ],
         content_type: str = 'application/octet-stream',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -157,7 +158,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, ],
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, bytes, io.FileIO, io.BufferedReader, ],
         content_type: str = 'application/octet-stream',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,

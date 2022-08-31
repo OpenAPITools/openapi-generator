@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import io  # noqa: F401
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing

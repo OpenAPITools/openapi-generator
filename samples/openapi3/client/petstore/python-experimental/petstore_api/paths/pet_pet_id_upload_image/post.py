@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import io  # noqa: F401
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing
@@ -96,7 +97,7 @@ class SchemaForRequestBodyMultipartFormData(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
-        file: typing.Union[MetaOapg.properties.file, schemas.Unset] = schemas.unset,
+        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyMultipartFormData':

@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import io  # noqa: F401
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing
@@ -49,7 +50,7 @@ class SchemaForRequestBodyMultipartFormData(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, ]], typing.List[typing.Union[MetaOapg.items, ]]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]], typing.List[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'files':
                     return super().__new__(

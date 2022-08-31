@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import io  # noqa: F401
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing
@@ -228,7 +229,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
         int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
-        binary: typing.Union[MetaOapg.properties.binary, schemas.Unset] = schemas.unset,
+        binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
         dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,

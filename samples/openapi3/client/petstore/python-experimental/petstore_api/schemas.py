@@ -361,8 +361,8 @@ class Schema:
         return path_to_schemas
 
     @classmethod
-    def _get_new_instance_without_conversion(
-        cls: 'Schema',
+    def get_new_instance_without_conversion_oapg(
+        cls,
         arg: typing.Any,
         path_to_item: typing.Tuple[typing.Union[str, int], ...],
         path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Type['Schema']]
@@ -415,7 +415,7 @@ class Schema:
             from_server=from_server, configuration=_configuration, validated_path_to_schemas=validated_path_to_schemas)
         path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
         new_cls = path_to_schemas[validation_metadata.path_to_item]
-        new_inst = new_cls._get_new_instance_without_conversion(
+        new_inst = new_cls.get_new_instance_without_conversion_oapg(
             arg,
             validation_metadata.path_to_item,
             path_to_schemas
@@ -462,7 +462,7 @@ class Schema:
             configuration=_configuration, from_server=from_server, validated_path_to_schemas=validated_path_to_schemas)
         path_to_schemas = cls.__get_new_cls(arg, validation_metadata)
         new_cls = path_to_schemas[validation_metadata.path_to_item]
-        return new_cls._get_new_instance_without_conversion(
+        return new_cls.get_new_instance_without_conversion_oapg(
             arg,
             validation_metadata.path_to_item,
             path_to_schemas
@@ -499,6 +499,8 @@ if typing.TYPE_CHECKING:
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
     # qty 2 mixin
+    class BinaryMixin(bytes, FileIO):
+        pass
     class NoneFrozenDictMixin(NoneClass, frozendict.frozendict):
         pass
     class NoneTupleMixin(NoneClass, tuple):
@@ -1272,7 +1274,7 @@ class ListBase(ValidatorBase):
                 cast_items.append(value)
                 continue
 
-            new_value = item_cls._get_new_instance_without_conversion(
+            new_value = item_cls.get_new_instance_without_conversion_oapg(
                 value,
                 item_path_to_item,
                 path_to_schemas
@@ -1552,7 +1554,7 @@ class DictBase(Discriminable, ValidatorBase):
                 dict_items[property_name_js] = value
                 continue
 
-            new_value = property_cls._get_new_instance_without_conversion(
+            new_value = property_cls.get_new_instance_without_conversion_oapg(
                 value,
                 property_path_to_item,
                 path_to_schemas
@@ -1576,7 +1578,7 @@ class DictBase(Discriminable, ValidatorBase):
 
 
 def cast_to_allowed_types(
-    arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, Schema],
+    arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, Schema, io.FileIO, io.BufferedReader],
     from_server: bool,
     validated_path_to_schemas: typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]],
     path_to_item: typing.Tuple[typing.Union[str, int], ...] = tuple(['args[0]']),
@@ -2102,6 +2104,7 @@ class BinarySchema(
     ComposedBase,
     BinaryBase,
     Schema,
+    BinaryMixin
 ):
     class MetaOapg:
         one_of = [
