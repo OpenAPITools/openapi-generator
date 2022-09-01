@@ -51,7 +51,7 @@ class TestDateTimeWithValidations(unittest.TestCase):
         }
         for input_value, expected_datetime in input_value_to_datetime.items():
             inst = DateTimeWithValidations.from_openapi_data_oapg(input_value)
-            assert inst.as_datetime == expected_datetime
+            assert inst.as_datetime_oapg == expected_datetime
 
         # value error is raised if an invalid string is passed in
         with self.assertRaisesRegex(

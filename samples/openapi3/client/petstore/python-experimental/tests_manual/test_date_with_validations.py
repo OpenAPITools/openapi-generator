@@ -48,7 +48,7 @@ class TestDateWithValidations(unittest.TestCase):
         expected_date = date(2020, 1, 1)
         for valid_value in valid_values:
             inst = DateWithValidations.from_openapi_data_oapg(valid_value)
-            assert inst.as_date == expected_date
+            assert inst.as_date_oapg == expected_date
 
         # value error is raised if an invalid string is passed in
         with self.assertRaisesRegex(

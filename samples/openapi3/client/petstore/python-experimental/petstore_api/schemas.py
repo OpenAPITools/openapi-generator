@@ -2039,7 +2039,7 @@ class UUIDSchema(UUIDBase, StrSchema):
 
 class DateSchema(DateBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str, datetime], **kwargs: Configuration):
+    def __new__(cls, arg: typing.Union[str, date], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 

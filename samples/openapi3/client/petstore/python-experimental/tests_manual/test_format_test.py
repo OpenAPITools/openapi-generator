@@ -103,7 +103,7 @@ class TestFormatTest(unittest.TestCase):
         model = FormatTest(noneProp=None, **required_args)
         assert isinstance(model.noneProp, Singleton)
         self.assertFalse(model.noneProp)
-        self.assertTrue(model.noneProp.is_none())
+        self.assertTrue(model.noneProp.is_none_oapg())
 
         # binary check
         model = FormatTest(binary=b'123', **required_args)
