@@ -10,7 +10,8 @@
 #' @field className  character
 #' @field color  character [optional]
 #' @field declawed  character [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -21,7 +22,8 @@ Cat <- R6::R6Class(
     `className` = NULL,
     `color` = NULL,
     `declawed` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("className", "color", "declawed"),
+    `additional_properties` = list(),
     #' Initialize a new Cat class.
     #'
     #' @description
@@ -100,6 +102,13 @@ Cat <- R6::R6Class(
       if (!is.null(this_object$`declawed`)) {
         self$`declawed` <- this_object$`declawed`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -157,6 +166,13 @@ Cat <- R6::R6Class(
       self$`className` <- this_object$`className`
       self$`color` <- this_object$`color`
       self$`declawed` <- this_object$`declawed`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Cat

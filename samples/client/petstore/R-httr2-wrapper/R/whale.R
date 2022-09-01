@@ -10,7 +10,8 @@
 #' @field hasBaleen  character [optional]
 #' @field hasTeeth  character [optional]
 #' @field className  character
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -20,7 +21,8 @@ Whale <- R6::R6Class(
     `hasBaleen` = NULL,
     `hasTeeth` = NULL,
     `className` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("hasBaleen", "hasTeeth", "className"),
+    `additional_properties` = list(),
     #' Initialize a new Whale class.
     #'
     #' @description
@@ -99,6 +101,13 @@ Whale <- R6::R6Class(
       if (!is.null(this_object$`className`)) {
         self$`className` <- this_object$`className`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -156,6 +165,13 @@ Whale <- R6::R6Class(
       self$`hasBaleen` <- this_object$`hasBaleen`
       self$`hasTeeth` <- this_object$`hasTeeth`
       self$`className` <- this_object$`className`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Whale

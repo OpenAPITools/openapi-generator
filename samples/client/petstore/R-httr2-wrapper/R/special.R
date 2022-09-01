@@ -13,7 +13,8 @@
 #' @field 123_number  character [optional]
 #' @field array[test]  character [optional]
 #' @field empty_string  character [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -26,7 +27,8 @@ Special <- R6::R6Class(
     `123_number` = NULL,
     `array[test]` = NULL,
     `empty_string` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("item_self", "item_private", "item_super", "123_number", "array[test]", "empty_string"),
+    `additional_properties` = list(),
     #' Initialize a new Special class.
     #'
     #' @description
@@ -141,6 +143,13 @@ Special <- R6::R6Class(
       if (!is.null(this_object$`empty_string`)) {
         self$`empty_string` <- this_object$`empty_string`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -225,6 +234,13 @@ Special <- R6::R6Class(
       self$`123_number` <- this_object$`123_number`
       self$`array[test]` <- this_object$`array[test]`
       self$`empty_string` <- this_object$`empty_string`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Special

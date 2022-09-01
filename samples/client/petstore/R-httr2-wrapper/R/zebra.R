@@ -9,7 +9,8 @@
 #' @format An \code{R6Class} generator object
 #' @field type  character [optional]
 #' @field className  character
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -18,7 +19,8 @@ Zebra <- R6::R6Class(
   public = list(
     `type` = NULL,
     `className` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("type", "className"),
+    `additional_properties` = list(),
     #' Initialize a new Zebra class.
     #'
     #' @description
@@ -85,6 +87,13 @@ Zebra <- R6::R6Class(
       if (!is.null(this_object$`className`)) {
         self$`className` <- this_object$`className`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -133,6 +142,13 @@ Zebra <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`type` <- this_object$`type`
       self$`className` <- this_object$`className`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Zebra

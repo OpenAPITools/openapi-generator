@@ -9,7 +9,8 @@
 #' @format An \code{R6Class} generator object
 #' @field jsonData  \link{Pet} [optional]
 #' @field binaryDataN2Information  data.frame [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -18,7 +19,8 @@ UpdatePetRequest <- R6::R6Class(
   public = list(
     `jsonData` = NULL,
     `binaryDataN2Information` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("jsonData", "binaryDataN2Information"),
+    `additional_properties` = list(),
     #' Initialize a new UpdatePetRequest class.
     #'
     #' @description
@@ -86,6 +88,13 @@ UpdatePetRequest <- R6::R6Class(
       if (!is.null(this_object$`binaryDataN2Information`)) {
         self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -134,6 +143,13 @@ UpdatePetRequest <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`jsonData` <- Pet$new()$fromJSON(jsonlite::toJSON(this_object$jsonData, auto_unbox = TRUE, digits = NA))
       self$`binaryDataN2Information` <- this_object$`binaryDataN2Information`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to UpdatePetRequest

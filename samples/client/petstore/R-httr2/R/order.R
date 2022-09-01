@@ -11,7 +11,7 @@
 #' @field petId  integer [optional]
 #' @field quantity  integer [optional]
 #' @field shipDate  character [optional]
-#' @field status  character [optional]
+#' @field status Order Status character [optional]
 #' @field complete  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
