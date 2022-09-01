@@ -92,31 +92,31 @@ class ParameterStyle(enum.Enum):
 
 
 class PrefixSeparatorIterator:
-     # A class to store prefixes and separators for rfc6570 expansions
+    # A class to store prefixes and separators for rfc6570 expansions
 
-     def __init__(self, prefix: str, separator: str):
-         self.prefix = prefix
-         self.separator = separator
-         self.first = True
-         if separator in {'.', '|', '%20'}:
-             item_separator = separator
-         else:
-             item_separator = ','
-         self.item_separator = item_separator
+    def __init__(self, prefix: str, separator: str):
+        self.prefix = prefix
+        self.separator = separator
+        self.first = True
+        if separator in {'.', '|', '%20'}:
+            item_separator = separator
+        else:
+            item_separator = ','
+        self.item_separator = item_separator
 
-     def __iter__(self):
-         return self
+    def __iter__(self):
+        return self
 
-     def __next__(self):
-         if self.first:
-             self.first = False
-             return self.prefix
-         return self.separator
+    def __next__(self):
+        if self.first:
+            self.first = False
+            return self.prefix
+        return self.separator
 
 
 class ParameterSerializerBase:
     @classmethod
-    def get_default_explode(cls, style: ParameterStyle) -> bool:
+    def _get_default_explode(cls, style: ParameterStyle) -> bool:
         return False
 
     @staticmethod
@@ -146,7 +146,7 @@ class ParameterSerializerBase:
         raise ApiValueError('Unable to generate a ref6570 item representation of {}'.format(in_data))
 
     @staticmethod
-    def to_dict(name: str, value: str):
+    def _to_dict(name: str, value: str):
         return {name: value}
 
     @classmethod
@@ -228,7 +228,7 @@ class ParameterSerializerBase:
         )
 
     @classmethod
-    def ref6570_expansion(
+    def _ref6570_expansion(
         cls,
         variable_name: str,
         in_data: typing.Any,
@@ -280,12 +280,12 @@ class ParameterSerializerBase:
 
 class StyleFormSerializer(ParameterSerializerBase):
     @classmethod
-    def get_default_explode(cls, style: ParameterStyle) -> bool:
+    def _get_default_explode(cls, style: ParameterStyle) -> bool:
         if style is ParameterStyle.FORM:
             return True
-        return super().get_default_explode(style)
+        return super()._get_default_explode(style)
 
-    def serialize_form(
+    def _serialize_form(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
@@ -295,7 +295,7 @@ class StyleFormSerializer(ParameterSerializerBase):
     ) -> str:
         if prefix_separator_iterator is None:
             prefix_separator_iterator = PrefixSeparatorIterator('?', '&')
-        return self.ref6570_expansion(
+        return self._ref6570_expansion(
             variable_name=name,
             in_data=in_data,
             explode=explode,
@@ -306,7 +306,7 @@ class StyleFormSerializer(ParameterSerializerBase):
 
 class StyleSimpleSerializer(ParameterSerializerBase):
 
-    def serialize_simple(
+    def _serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
         name: str,
@@ -314,7 +314,7 @@ class StyleSimpleSerializer(ParameterSerializerBase):
         percent_encode: bool
     ) -> str:
         prefix_separator_iterator = PrefixSeparatorIterator('', ',')
-        return self.ref6570_expansion(
+        return self._ref6570_expansion(
             variable_name=name,
             in_data=in_data,
             explode=explode,
@@ -431,40 +431,40 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
         in_data: typing.Union[None, int, float, str, bool, dict, list]
     ) -> typing.Dict[str, str]:
         prefix_separator_iterator = PrefixSeparatorIterator('.', '.')
-        value = self.ref6570_expansion(
+        value = self._ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
-        return self.to_dict(self.name, value)
+        return self._to_dict(self.name, value)
 
     def __serialize_matrix(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
     ) -> typing.Dict[str, str]:
         prefix_separator_iterator = PrefixSeparatorIterator(';', ';')
-        value = self.ref6570_expansion(
+        value = self._ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
-        return self.to_dict(self.name, value)
+        return self._to_dict(self.name, value)
 
     def __serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
     ) -> typing.Dict[str, str]:
-        value = self.serialize_simple(
+        value = self._serialize_simple(
             in_data=in_data,
             name=self.name,
             explode=self.explode,
             percent_encode=True
         )
-        return self.to_dict(self.name, value)
+        return self._to_dict(self.name, value)
 
     def serialize(
         self,
@@ -496,7 +496,7 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
                 value = self._serialize_json(cast_in_data)
-                return self.to_dict(self.name, value)
+                return self._to_dict(self.name, value)
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
@@ -513,7 +513,7 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
         content: typing.Optional[typing.Dict[str, typing.Type[Schema]]] = None
     ):
         used_style = ParameterStyle.FORM if style is None and content is None and schema else style
-        used_explode = self.get_default_explode(used_style) if explode is None else explode
+        used_explode = self._get_default_explode(used_style) if explode is None else explode
 
         super().__init__(
             name,
@@ -533,14 +533,14 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
     ) -> typing.Dict[str, str]:
         if prefix_separator_iterator is None:
             prefix_separator_iterator = self.get_prefix_separator_iterator()
-        value = self.ref6570_expansion(
+        value = self._ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
-        return self.to_dict(self.name, value)
+        return self._to_dict(self.name, value)
 
     def __serialize_pipe_delimited(
         self,
@@ -549,14 +549,14 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
     ) -> typing.Dict[str, str]:
         if prefix_separator_iterator is None:
             prefix_separator_iterator = self.get_prefix_separator_iterator()
-        value = self.ref6570_expansion(
+        value = self._ref6570_expansion(
             variable_name=self.name,
             in_data=in_data,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
-        return self.to_dict(self.name, value)
+        return self._to_dict(self.name, value)
 
     def __serialize_form(
         self,
@@ -565,14 +565,14 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
     ) -> typing.Dict[str, str]:
         if prefix_separator_iterator is None:
             prefix_separator_iterator = self.get_prefix_separator_iterator()
-        value = self.serialize_form(
+        value = self._serialize_form(
             in_data,
             name=self.name,
             explode=self.explode,
             percent_encode=True,
             prefix_separator_iterator=prefix_separator_iterator
         )
-        return self.to_dict(self.name, value)
+        return self._to_dict(self.name, value)
 
     def get_prefix_separator_iterator(self) -> typing.Optional[PrefixSeparatorIterator]:
         if not self.schema:
@@ -620,7 +620,7 @@ class QueryParameter(ParameterBase, StyleFormSerializer):
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
                 value = self._serialize_json(cast_in_data)
-                return self.to_dict(self.name, value)
+                return self._to_dict(self.name, value)
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
@@ -637,7 +637,7 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
         content: typing.Optional[typing.Dict[str, typing.Type[Schema]]] = None
     ):
         used_style = ParameterStyle.FORM if style is None and content is None and schema else style
-        used_explode = self.get_default_explode(used_style) if explode is None else explode
+        used_explode = self._get_default_explode(used_style) if explode is None else explode
 
         super().__init__(
             name,
@@ -667,21 +667,21 @@ class CookieParameter(ParameterBase, StyleFormSerializer):
                 TODO add escaping of comma, space, equals
                 or turn encoding on
                 """
-                value = self.serialize_form(
+                value = self._serialize_form(
                     cast_in_data,
                     explode=self.explode,
                     name=self.name,
                     percent_encode=False,
                     prefix_separator_iterator=PrefixSeparatorIterator('', '&')
                 )
-                return self.to_dict(self.name, value)
+                return self._to_dict(self.name, value)
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
             if content_type == self._json_content_type:
                 value = self._serialize_json(cast_in_data)
-                return self.to_dict(self.name, value)
+                return self._to_dict(self.name, value)
             raise NotImplementedError('Serialization of {} has not yet been implemented'.format(content_type))
 
 
@@ -730,7 +730,7 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
                     returns headers: dict
             """
             if self.style:
-                value = self.serialize_simple(cast_in_data, self.name, self.explode, False)
+                value = self._serialize_simple(cast_in_data, self.name, self.explode, False)
                 return self.__to_headers(((self.name, value),))
         # self.content will be length one
         for content_type, schema in self.content.items():
@@ -1429,7 +1429,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             raise ValueError(
                 f'Unable to serialize {in_data} to application/x-www-form-urlencoded because it is not a dict of data')
         cast_in_data = self.__json_encoder.default(in_data)
-        value = self.serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
+        value = self._serialize_form(cast_in_data, name='', explode=True, percent_encode=False)
         return dict(body=value)
 
     def serialize(
