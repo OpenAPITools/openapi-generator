@@ -739,7 +739,7 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
 
 
 class BoolBase:
-    def is_true(self) -> bool:
+    def is_true_oapg(self) -> bool:
         """
         A replacement for x is True
         True if the instance is a BoolClass True Singleton
@@ -748,7 +748,7 @@ class BoolBase:
             return False
         return bool(self)
 
-    def is_false(self) -> bool:
+    def is_false_oapg(self) -> bool:
         """
         A replacement for x is False
         True if the instance is a BoolClass False Singleton
@@ -759,7 +759,7 @@ class BoolBase:
 
 
 class NoneBase:
-    def is_none(self) -> bool:
+    def is_none_oapg(self) -> bool:
         """
         A replacement for x is None
         True if the instance is a NoneClass None Singleton
@@ -773,23 +773,23 @@ class StrBase(ValidatorBase):
     MetaOapg: MetaOapgTyped
 
     @property
-    def as_str(self) -> str:
+    def as_str_oapg(self) -> str:
         return self
 
     @property
-    def as_date(self) -> date:
+    def as_date_oapg(self) -> date:
         raise Exception('not implemented')
 
     @property
-    def as_datetime(self) -> datetime:
+    def as_datetime_oapg(self) -> datetime:
         raise Exception('not implemented')
 
     @property
-    def as_decimal(self) -> decimal.Decimal:
+    def as_decimal_oapg(self) -> decimal.Decimal:
         raise Exception('not implemented')
 
     @property
-    def as_uuid(self) -> uuid.UUID:
+    def as_uuid_oapg(self) -> uuid.UUID:
         raise Exception('not implemented')
 
     @classmethod
@@ -860,7 +860,7 @@ class StrBase(ValidatorBase):
 class UUIDBase(StrBase):
     @property
     @functools.cache
-    def as_uuid(self) -> uuid.UUID:
+    def as_uuid_oapg(self) -> uuid.UUID:
         return uuid.UUID(self)
 
     @classmethod
@@ -926,7 +926,7 @@ DEFAULT_ISOPARSER = CustomIsoparser()
 class DateBase(StrBase):
     @property
     @functools.cache
-    def as_date(self) -> date:
+    def as_date_oapg(self) -> date:
         return DEFAULT_ISOPARSER.parse_isodate(self)
 
     @classmethod
@@ -957,7 +957,7 @@ class DateBase(StrBase):
 class DateTimeBase:
     @property
     @functools.cache
-    def as_datetime(self) -> datetime:
+    def as_datetime_oapg(self) -> datetime:
         return DEFAULT_ISOPARSER.parse_isodatetime(self)
 
     @classmethod
@@ -994,7 +994,7 @@ class DecimalBase(StrBase):
 
     @property
     @functools.cache
-    def as_decimal(self) -> decimal.Decimal:
+    def as_decimal_oapg(self) -> decimal.Decimal:
         return decimal.Decimal(self)
 
     @classmethod
@@ -1026,7 +1026,7 @@ class NumberBase(ValidatorBase):
     MetaOapg: MetaOapgTyped
 
     @property
-    def as_int(self) -> int:
+    def as_int_oapg(self) -> int:
         try:
             return self._as_int
         except AttributeError:
@@ -1046,7 +1046,7 @@ class NumberBase(ValidatorBase):
             return self._as_int
 
     @property
-    def as_float(self) -> float:
+    def as_float_oapg(self) -> float:
         try:
             return self._as_float
         except AttributeError:
@@ -1904,7 +1904,7 @@ class NumberSchema(
 
 class IntBase(NumberBase):
     @property
-    def as_int(self) -> int:
+    def as_int_oapg(self) -> int:
         try:
             return self._as_int
         except AttributeError:
