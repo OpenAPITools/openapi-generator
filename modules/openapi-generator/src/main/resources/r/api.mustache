@@ -430,18 +430,9 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      if (is.null(self$api_client$username) || is.null(self$api_client$password)) {
-        {{#useDefaultExceptionHandling}}
-        stop("username, password in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.")
-        {{/useDefaultExceptionHandling}}
-        {{#useRlangExceptionHandling}}
-        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`.",
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(status = 0,
-                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint `{{{operationId}}}`."))
-        {{/useRlangExceptionHandling}}
+      if (!is.null(self$api_client$username) || !is.null(self$api_client$password)) {
+        header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       }
-      header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       {{/isBasicBasic}}
       {{#isBasicBearer}}
       # Bearer token
