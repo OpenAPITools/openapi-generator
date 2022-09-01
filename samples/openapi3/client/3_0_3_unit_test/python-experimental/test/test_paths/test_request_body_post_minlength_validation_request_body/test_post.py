@@ -42,7 +42,7 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 "f"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -56,7 +56,7 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
                 "💩"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -69,7 +69,7 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
             payload = (
                 "foo"
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -99,7 +99,7 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
             payload = (
                 1
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -129,7 +129,7 @@ class TestRequestBodyPostMinlengthValidationRequestBody(ApiTestMixin, unittest.T
             payload = (
                 "fo"
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

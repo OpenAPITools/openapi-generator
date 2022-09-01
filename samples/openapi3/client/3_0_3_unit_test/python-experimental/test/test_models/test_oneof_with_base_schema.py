@@ -23,7 +23,7 @@ class TestOneofWithBaseSchema(unittest.TestCase):
     def test_both_oneof_valid_fails(self):
         # both oneOf valid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            OneofWithBaseSchema._from_openapi_data(
+            OneofWithBaseSchema.from_openapi_data_oapg(
                 "foo",
                 _configuration=self._configuration
             )
@@ -31,14 +31,14 @@ class TestOneofWithBaseSchema(unittest.TestCase):
     def test_mismatch_base_schema_fails(self):
         # mismatch base schema
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            OneofWithBaseSchema._from_openapi_data(
+            OneofWithBaseSchema.from_openapi_data_oapg(
                 3,
                 _configuration=self._configuration
             )
 
     def test_one_oneof_valid_passes(self):
         # one oneOf valid
-        OneofWithBaseSchema._from_openapi_data(
+        OneofWithBaseSchema.from_openapi_data_oapg(
             "foobar",
             _configuration=self._configuration
         )

@@ -22,7 +22,7 @@ class TestTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(unittest.Test
 
     def test_missing_properties_are_not_filled_in_with_the_default_passes(self):
         # missing properties are not filled in with the default
-        TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing._from_openapi_data(
+        TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing.from_openapi_data_oapg(
             {
             },
             _configuration=self._configuration
@@ -30,7 +30,7 @@ class TestTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(unittest.Test
 
     def test_an_explicit_property_value_is_checked_against_maximum_passing_passes(self):
         # an explicit property value is checked against maximum (passing)
-        TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing._from_openapi_data(
+        TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing.from_openapi_data_oapg(
             {
                 "alpha":
                     1,
@@ -41,7 +41,7 @@ class TestTheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(unittest.Test
     def test_an_explicit_property_value_is_checked_against_maximum_failing_fails(self):
         # an explicit property value is checked against maximum (failing)
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing._from_openapi_data(
+            TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing.from_openapi_data_oapg(
                 {
                     "alpha":
                         5,

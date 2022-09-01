@@ -22,7 +22,7 @@ class TestDateTimeFormat(unittest.TestCase):
 
     def test_all_string_formats_ignore_objects_passes(self):
         # all string formats ignore objects
-        DateTimeFormat._from_openapi_data(
+        DateTimeFormat.from_openapi_data_oapg(
             {
             },
             _configuration=self._configuration
@@ -30,28 +30,28 @@ class TestDateTimeFormat(unittest.TestCase):
 
     def test_all_string_formats_ignore_booleans_passes(self):
         # all string formats ignore booleans
-        DateTimeFormat._from_openapi_data(
+        DateTimeFormat.from_openapi_data_oapg(
             False,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_integers_passes(self):
         # all string formats ignore integers
-        DateTimeFormat._from_openapi_data(
+        DateTimeFormat.from_openapi_data_oapg(
             12,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_floats_passes(self):
         # all string formats ignore floats
-        DateTimeFormat._from_openapi_data(
+        DateTimeFormat.from_openapi_data_oapg(
             13.7,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_arrays_passes(self):
         # all string formats ignore arrays
-        DateTimeFormat._from_openapi_data(
+        DateTimeFormat.from_openapi_data_oapg(
             [
             ],
             _configuration=self._configuration
@@ -59,7 +59,7 @@ class TestDateTimeFormat(unittest.TestCase):
 
     def test_all_string_formats_ignore_nulls_passes(self):
         # all string formats ignore nulls
-        DateTimeFormat._from_openapi_data(
+        DateTimeFormat.from_openapi_data_oapg(
             None,
             _configuration=self._configuration
         )

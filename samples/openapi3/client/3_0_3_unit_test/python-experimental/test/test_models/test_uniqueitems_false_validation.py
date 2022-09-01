@@ -22,7 +22,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_non_unique_array_of_integers_is_valid_passes(self):
         # non-unique array of integers is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 1,
                 1,
@@ -32,7 +32,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_unique_array_of_objects_is_valid_passes(self):
         # unique array of objects is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 {
                     "foo":
@@ -48,7 +48,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_non_unique_array_of_nested_objects_is_valid_passes(self):
         # non-unique array of nested objects is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 {
                     "foo":
@@ -76,7 +76,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_non_unique_array_of_objects_is_valid_passes(self):
         # non-unique array of objects is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 {
                     "foo":
@@ -92,7 +92,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_1_and_true_are_unique_passes(self):
         # 1 and true are unique
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 1,
                 True,
@@ -102,7 +102,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_unique_array_of_integers_is_valid_passes(self):
         # unique array of integers is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 1,
                 2,
@@ -112,7 +112,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_non_unique_array_of_arrays_is_valid_passes(self):
         # non-unique array of arrays is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 [
                     "foo",
@@ -126,7 +126,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_numbers_are_unique_if_mathematically_unequal_passes(self):
         # numbers are unique if mathematically unequal
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 1.0,
                 1.0,
@@ -137,7 +137,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_false_is_not_equal_to_zero_passes(self):
         # false is not equal to zero
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 0,
                 False,
@@ -147,7 +147,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_unique_array_of_nested_objects_is_valid_passes(self):
         # unique array of nested objects is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 {
                     "foo":
@@ -175,7 +175,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_0_and_false_are_unique_passes(self):
         # 0 and false are unique
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 0,
                 False,
@@ -185,7 +185,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_unique_array_of_arrays_is_valid_passes(self):
         # unique array of arrays is valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 [
                     "foo",
@@ -199,7 +199,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_true_is_not_equal_to_one_passes(self):
         # true is not equal to one
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 1,
                 True,
@@ -209,7 +209,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_non_unique_heterogeneous_types_are_valid_passes(self):
         # non-unique heterogeneous types are valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 {
                 },
@@ -227,7 +227,7 @@ class TestUniqueitemsFalseValidation(unittest.TestCase):
 
     def test_unique_heterogeneous_types_are_valid_passes(self):
         # unique heterogeneous types are valid
-        UniqueitemsFalseValidation._from_openapi_data(
+        UniqueitemsFalseValidation.from_openapi_data_oapg(
             [
                 {
                 },

@@ -22,7 +22,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
 
     def test_ignores_arrays_passes(self):
         # ignores arrays
-        ObjectPropertiesValidation._from_openapi_data(
+        ObjectPropertiesValidation.from_openapi_data_oapg(
             [
             ],
             _configuration=self._configuration
@@ -30,7 +30,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
 
     def test_ignores_other_non_objects_passes(self):
         # ignores other non-objects
-        ObjectPropertiesValidation._from_openapi_data(
+        ObjectPropertiesValidation.from_openapi_data_oapg(
             12,
             _configuration=self._configuration
         )
@@ -38,7 +38,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
     def test_one_property_invalid_is_invalid_fails(self):
         # one property invalid is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            ObjectPropertiesValidation._from_openapi_data(
+            ObjectPropertiesValidation.from_openapi_data_oapg(
                 {
                     "foo":
                         1,
@@ -51,7 +51,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
 
     def test_both_properties_present_and_valid_is_valid_passes(self):
         # both properties present and valid is valid
-        ObjectPropertiesValidation._from_openapi_data(
+        ObjectPropertiesValidation.from_openapi_data_oapg(
             {
                 "foo":
                     1,
@@ -63,7 +63,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
 
     def test_doesn_t_invalidate_other_properties_passes(self):
         # doesn&#x27;t invalidate other properties
-        ObjectPropertiesValidation._from_openapi_data(
+        ObjectPropertiesValidation.from_openapi_data_oapg(
             {
                 "quux":
                     [
@@ -75,7 +75,7 @@ class TestObjectPropertiesValidation(unittest.TestCase):
     def test_both_properties_invalid_is_invalid_fails(self):
         # both properties invalid is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            ObjectPropertiesValidation._from_openapi_data(
+            ObjectPropertiesValidation.from_openapi_data_oapg(
                 {
                     "foo":
                         [

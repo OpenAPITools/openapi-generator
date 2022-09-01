@@ -3,11 +3,7 @@
 {{>partial_header}}
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 {{#with operation}}
 {{#or headerParams bodyParam produces}}
 from urllib3._collections import HTTPHeaderDict
@@ -375,6 +371,7 @@ _status_code_to_response = {
 {{/if}}
 {{/each}}
 }
+{{/unless}}
 {{#each produces}}
 {{#if @first}}
 _all_accept_content_types = (
@@ -388,7 +385,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _{{operationId}}(
+    def _{{operationId}}_oapg(
     {{> endpoint_args selfType="api_client.Api" }}
         """
     {{#if summary}}
@@ -399,16 +396,16 @@ class BaseApi(api_client.Api):
             class instances
         """
     {{#if queryParams}}
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
     {{/if}}
     {{#if headerParams}}
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
     {{/if}}
     {{#if pathParams}}
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
     {{/if}}
     {{#if cookieParams}}
-        self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
+        self._verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
     {{/if}}
         used_path = path.value
     {{#if pathParams}}
@@ -486,7 +483,7 @@ class BaseApi(api_client.Api):
     {{/with}}
     {{#if servers}}
 
-        host = self.get_host('{{operationId}}', _servers, host_index)
+        host = self._get_host_oapg('{{operationId}}', _servers, host_index)
     {{/if}}
 
         response = self.api_client.call_api(
@@ -537,7 +534,7 @@ class {{operationIdCamelCase}}(BaseApi):
 
     def {{operationId}}(
     {{> endpoint_args selfType="BaseApi" }}
-        return self._{{operationId}}(
+        return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
 
@@ -547,10 +544,9 @@ class ApiFor{{httpMethod}}(BaseApi):
 
     def {{httpMethod}}(
     {{> endpoint_args selfType="BaseApi" }}
-        return self._{{operationId}}(
+        return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
 
 
-{{/unless}}
 {{/with}}

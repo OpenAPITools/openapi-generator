@@ -23,21 +23,21 @@ class TestEnumWith1DoesNotMatchTrue(unittest.TestCase):
     def test_true_is_invalid_fails(self):
         # true is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            EnumWith1DoesNotMatchTrue._from_openapi_data(
+            EnumWith1DoesNotMatchTrue.from_openapi_data_oapg(
                 True,
                 _configuration=self._configuration
             )
 
     def test_integer_one_is_valid_passes(self):
         # integer one is valid
-        EnumWith1DoesNotMatchTrue._from_openapi_data(
+        EnumWith1DoesNotMatchTrue.from_openapi_data_oapg(
             1,
             _configuration=self._configuration
         )
 
     def test_float_one_is_valid_passes(self):
         # float one is valid
-        EnumWith1DoesNotMatchTrue._from_openapi_data(
+        EnumWith1DoesNotMatchTrue.from_openapi_data_oapg(
             1.0,
             _configuration=self._configuration
         )

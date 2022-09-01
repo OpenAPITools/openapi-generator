@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -228,7 +228,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
         int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
-        binary: typing.Union[MetaOapg.properties.binary, schemas.Unset] = schemas.unset,
+        binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
         dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
@@ -298,7 +298,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _endpoint_parameters(
+    def _endpoint_parameters_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
@@ -367,7 +367,7 @@ class EndpointParameters(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._endpoint_parameters(
+        return self._endpoint_parameters_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -389,7 +389,7 @@ class ApiForpost(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._endpoint_parameters(
+        return self._endpoint_parameters_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

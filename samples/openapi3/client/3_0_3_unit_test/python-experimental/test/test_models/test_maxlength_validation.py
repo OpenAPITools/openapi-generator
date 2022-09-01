@@ -23,35 +23,35 @@ class TestMaxlengthValidation(unittest.TestCase):
     def test_too_long_is_invalid_fails(self):
         # too long is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            MaxlengthValidation._from_openapi_data(
+            MaxlengthValidation.from_openapi_data_oapg(
                 "foo",
                 _configuration=self._configuration
             )
 
     def test_ignores_non_strings_passes(self):
         # ignores non-strings
-        MaxlengthValidation._from_openapi_data(
+        MaxlengthValidation.from_openapi_data_oapg(
             100,
             _configuration=self._configuration
         )
 
     def test_shorter_is_valid_passes(self):
         # shorter is valid
-        MaxlengthValidation._from_openapi_data(
+        MaxlengthValidation.from_openapi_data_oapg(
             "f",
             _configuration=self._configuration
         )
 
     def test_two_supplementary_unicode_code_points_is_long_enough_passes(self):
         # two supplementary Unicode code points is long enough
-        MaxlengthValidation._from_openapi_data(
+        MaxlengthValidation.from_openapi_data_oapg(
             "💩💩",
             _configuration=self._configuration
         )
 
     def test_exact_length_is_valid_passes(self):
         # exact length is valid
-        MaxlengthValidation._from_openapi_data(
+        MaxlengthValidation.from_openapi_data_oapg(
             "fo",
             _configuration=self._configuration
         )

@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -96,7 +96,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _update_user(
+    def _update_user_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -113,7 +113,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
@@ -182,7 +182,7 @@ class UpdateUser(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_user(
+        return self._update_user_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,
@@ -206,7 +206,7 @@ class ApiForput(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_user(
+        return self._update_user_oapg(
             body=body,
             path_params=path_params,
             content_type=content_type,

@@ -22,7 +22,7 @@ class TestRefInAdditionalproperties(unittest.TestCase):
 
     def test_property_named_ref_valid_passes(self):
         # property named $ref valid
-        RefInAdditionalproperties._from_openapi_data(
+        RefInAdditionalproperties.from_openapi_data_oapg(
             {
                 "someProp":
                     {
@@ -36,7 +36,7 @@ class TestRefInAdditionalproperties(unittest.TestCase):
     def test_property_named_ref_invalid_fails(self):
         # property named $ref invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            RefInAdditionalproperties._from_openapi_data(
+            RefInAdditionalproperties.from_openapi_data_oapg(
                 {
                     "someProp":
                         {

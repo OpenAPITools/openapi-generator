@@ -43,7 +43,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -57,7 +57,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -71,7 +71,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -84,7 +84,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
             payload = (
                 1.0
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -115,7 +115,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 1.1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -129,7 +129,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -142,7 +142,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
             payload = (
                 1
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -173,7 +173,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 "1"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -188,7 +188,7 @@ class TestRequestBodyPostIntegerTypeMatchesIntegersRequestBody(ApiTestMixin, uni
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )

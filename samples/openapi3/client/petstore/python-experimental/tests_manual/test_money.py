@@ -23,7 +23,7 @@ class TestMoney(unittest.TestCase):
             currency='usd',
             amount='10.99'
         )
-        self.assertEqual(price.amount.as_decimal, decimal.Decimal('10.99'))
+        self.assertEqual(price.amount.as_decimal_oapg, decimal.Decimal('10.99'))
         self.assertEqual(
             price,
             dict(currency='usd', amount='10.99')

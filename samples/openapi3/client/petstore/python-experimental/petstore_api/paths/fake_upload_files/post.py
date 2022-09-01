@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -49,7 +49,7 @@ class SchemaForRequestBodyMultipartFormData(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, ]], typing.List[typing.Union[MetaOapg.items, ]]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]], typing.List[typing.Union[MetaOapg.items, bytes, io.FileIO, io.BufferedReader, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'files':
                     return super().__new__(
@@ -133,7 +133,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _upload_files(
+    def _upload_files_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'multipart/form-data',
@@ -208,7 +208,7 @@ class UploadFiles(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._upload_files(
+        return self._upload_files_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -233,7 +233,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._upload_files(
+        return self._upload_files_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

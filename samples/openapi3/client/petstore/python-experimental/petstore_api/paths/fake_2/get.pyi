@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -330,3 +330,143 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             _configuration=_configuration,
             **kwargs,
         )
+
+
+class BaseApi(api_client.Api):
+
+    def _enum_parameters_oapg(
+        self: api_client.Api,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        content_type: str = 'application/x-www-form-urlencoded',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+        """
+        To test enum parameters
+        :param skip_deserialization: If true then api_response.response will be set but
+            api_response.body and api_response.headers will not be deserialized into schema
+            class instances
+        """
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        used_path = path.value
+
+        prefix_separator_iterator = None
+        for parameter in (
+            request_query_enum_query_string_array,
+            request_query_enum_query_string,
+            request_query_enum_query_integer,
+            request_query_enum_query_double,
+        ):
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
+                continue
+            if prefix_separator_iterator is None:
+                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
+            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
+            for serialized_value in serialized_data.values():
+                used_path += serialized_value
+
+        _headers = HTTPHeaderDict()
+        for parameter in (
+            request_header_enum_header_string_array,
+            request_header_enum_header_string,
+        ):
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
+                continue
+            serialized_data = parameter.serialize(parameter_data)
+            _headers.extend(serialized_data)
+        # TODO add cookie handling
+
+        _fields = None
+        _body = None
+        if body is not schemas.unset:
+            serialized_data = request_body_body.serialize(body, content_type)
+            _headers.add('Content-Type', content_type)
+            if 'fields' in serialized_data:
+                _fields = serialized_data['fields']
+            elif 'body' in serialized_data:
+                _body = serialized_data['body']
+        response = self.api_client.call_api(
+            resource_path=used_path,
+            method='get'.upper(),
+            headers=_headers,
+            fields=_fields,
+            body=_body,
+            stream=stream,
+            timeout=timeout,
+        )
+
+        if skip_deserialization:
+            api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+        else:
+            response_for_status = _status_code_to_response.get(str(response.status))
+            if response_for_status:
+                api_response = response_for_status.deserialize(response, self.api_client.configuration)
+            else:
+                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+
+        if not 200 <= response.status <= 299:
+            raise exceptions.ApiException(api_response=api_response)
+
+        return api_response
+
+
+class EnumParameters(BaseApi):
+    # this class is used by api classes that refer to endpoints with operationId fn names
+
+    def enum_parameters(
+        self: BaseApi,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        content_type: str = 'application/x-www-form-urlencoded',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+        return self._enum_parameters_oapg(
+            body=body,
+            query_params=query_params,
+            header_params=header_params,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization
+        )
+
+
+class ApiForget(BaseApi):
+    # this class is used by api classes that refer to endpoints by path and http method names
+
+    def get(
+        self: BaseApi,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        content_type: str = 'application/x-www-form-urlencoded',
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+        return self._enum_parameters_oapg(
+            body=body,
+            query_params=query_params,
+            header_params=header_params,
+            content_type=content_type,
+            stream=stream,
+            timeout=timeout,
+            skip_deserialization=skip_deserialization
+        )
+
+

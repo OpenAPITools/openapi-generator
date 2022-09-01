@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -87,7 +87,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _add_pet(
+    def _add_pet_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
@@ -121,7 +121,7 @@ class BaseApi(api_client.Api):
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
             _body = serialized_data['body']
-        host = self.get_host('add_pet', _servers, host_index)
+        host = self._get_host_oapg('add_pet', _servers, host_index)
 
         response = self.api_client.call_api(
             resource_path=used_path,
@@ -165,7 +165,7 @@ class AddPet(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._add_pet(
+        return self._add_pet_oapg(
             body=body,
             content_type=content_type,
             host_index=host_index,
@@ -190,7 +190,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._add_pet(
+        return self._add_pet_oapg(
             body=body,
             content_type=content_type,
             host_index=host_index,

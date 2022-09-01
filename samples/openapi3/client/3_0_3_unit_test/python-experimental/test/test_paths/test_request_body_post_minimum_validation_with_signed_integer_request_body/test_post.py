@@ -41,7 +41,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             payload = (
                 -2
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -71,7 +71,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             payload = (
                 0
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -102,7 +102,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 -3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -116,7 +116,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
                 -2.0001
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -129,7 +129,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             payload = (
                 -2.0
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -159,7 +159,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             payload = (
                 -1
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -189,7 +189,7 @@ class TestRequestBodyPostMinimumValidationWithSignedIntegerRequestBody(ApiTestMi
             payload = (
                 "x"
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

@@ -7,15 +7,15 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -88,7 +88,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _case_sensitive_params(
+    def _case_sensitive_params_oapg(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
@@ -103,7 +103,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -157,7 +157,7 @@ class CaseSensitiveParams(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._case_sensitive_params(
+        return self._case_sensitive_params_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,
@@ -178,7 +178,7 @@ class ApiForput(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._case_sensitive_params(
+        return self._case_sensitive_params_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,

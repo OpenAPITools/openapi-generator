@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -85,7 +85,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _place_order(
+    def _place_order_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
@@ -162,7 +162,7 @@ class PlaceOrder(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._place_order(
+        return self._place_order_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -187,7 +187,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._place_order(
+        return self._place_order_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

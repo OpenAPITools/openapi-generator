@@ -22,14 +22,14 @@ class TestAnyofWithOneEmptySchema(unittest.TestCase):
 
     def test_string_is_valid_passes(self):
         # string is valid
-        AnyofWithOneEmptySchema._from_openapi_data(
+        AnyofWithOneEmptySchema.from_openapi_data_oapg(
             "foo",
             _configuration=self._configuration
         )
 
     def test_number_is_valid_passes(self):
         # number is valid
-        AnyofWithOneEmptySchema._from_openapi_data(
+        AnyofWithOneEmptySchema.from_openapi_data_oapg(
             123,
             _configuration=self._configuration
         )

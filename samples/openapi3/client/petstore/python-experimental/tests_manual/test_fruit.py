@@ -100,7 +100,7 @@ class TestFruit(unittest.TestCase):
             additional_date='2021-01-02',
         )
 
-        fruit = Fruit._from_openapi_data(**kwargs)
+        fruit = Fruit.from_openapi_data_oapg(**kwargs)
         self.assertEqual(
             fruit,
             kwargs
@@ -145,7 +145,7 @@ class TestFruit(unittest.TestCase):
         fruit = apple.Apple(None)
         assert isinstance(fruit, Singleton)
         assert isinstance(fruit, apple.Apple)
-        assert fruit.is_none() is True
+        assert fruit.is_none_oapg() is True
 
         # 'banana' is not nullable.
         # TODO cast this into ApiTypeError?
@@ -158,7 +158,8 @@ class TestFruit(unittest.TestCase):
         assert isinstance(fruit, Singleton)
         assert isinstance(fruit, apple.Apple)
         assert isinstance(fruit, Fruit)
-        assert fruit.is_none() is True
+        assert fruit.is_none_oapg() is True
+
 
 if __name__ == '__main__':
     unittest.main()

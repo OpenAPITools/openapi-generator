@@ -37,36 +37,36 @@ from petstore_api.schemas import (
 class TestValidateResults(unittest.TestCase):
     def test_str_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = StringWithValidation._validate(
+        path_to_schemas = StringWithValidation._validate_oapg(
             "abcdefg", validation_metadata=vm
         )
         assert path_to_schemas == {("args[0]",): {StringWithValidation, str}}
 
     def test_number_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = NumberWithValidations._validate(
+        path_to_schemas = NumberWithValidations._validate_oapg(
             Decimal(11), validation_metadata=vm
         )
         assert path_to_schemas == {("args[0]",): {NumberWithValidations, Decimal}}
 
     def test_str_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = StringEnum._validate("placed", validation_metadata=vm)
+        path_to_schemas = StringEnum._validate_oapg("placed", validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {str, StringEnum}}
 
     def test_nullable_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = StringEnum._validate(NoneClass.NONE, validation_metadata=vm)
+        path_to_schemas = StringEnum._validate_oapg(NoneClass.NONE, validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {NoneClass, StringEnum}}
 
     def test_empty_list_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = ArrayHoldingAnyType._validate((), validation_metadata=vm)
+        path_to_schemas = ArrayHoldingAnyType._validate_oapg((), validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {ArrayHoldingAnyType, tuple}}
 
     def test_list_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = ArrayHoldingAnyType._validate(
+        path_to_schemas = ArrayHoldingAnyType._validate_oapg(
             (Decimal(1), "a"), validation_metadata=vm
         )
         assert path_to_schemas == {
@@ -77,12 +77,12 @@ class TestValidateResults(unittest.TestCase):
 
     def test_empty_dict_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = Foo._validate(frozendict.frozendict({}), validation_metadata=vm)
+        path_to_schemas = Foo._validate_oapg(frozendict.frozendict({}), validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {Foo, frozendict.frozendict}}
 
     def test_dict_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = Foo._validate(
+        path_to_schemas = Foo._validate_oapg(
             frozendict.frozendict({"bar": "a", "additional": Decimal(0)}),
             validation_metadata=vm,
         )
@@ -94,7 +94,7 @@ class TestValidateResults(unittest.TestCase):
 
     def test_discriminated_dict_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = Animal._validate(
+        path_to_schemas = Animal._validate_oapg(
             frozendict.frozendict(className="Dog", color="black"), validation_metadata=vm
         )
         assert path_to_schemas == {
@@ -105,12 +105,12 @@ class TestValidateResults(unittest.TestCase):
 
     def test_bool_enum_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = BooleanEnum._validate(BoolClass.TRUE, validation_metadata=vm)
+        path_to_schemas = BooleanEnum._validate_oapg(BoolClass.TRUE, validation_metadata=vm)
         assert path_to_schemas == {("args[0]",): {BoolClass, BooleanEnum}}
 
     def test_oneof_composition_pig_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = Pig._validate(
+        path_to_schemas = Pig._validate_oapg(
             frozendict.frozendict(className="DanishPig"), validation_metadata=vm
         )
         assert path_to_schemas == {
@@ -120,7 +120,7 @@ class TestValidateResults(unittest.TestCase):
 
     def test_anyof_composition_gm_fruit_validate(self):
         vm = ValidationMetadata()
-        path_to_schemas = GmFruit._validate(
+        path_to_schemas = GmFruit._validate_oapg(
             frozendict.frozendict(cultivar="GoldenDelicious", lengthCm=Decimal(10)),
             validation_metadata=vm,
         )
@@ -135,29 +135,29 @@ class TestValidateCalls(unittest.TestCase):
     def test_empty_list_validate(self):
         return_value = {("args[0]",): {ArrayHoldingAnyType, tuple}}
         with patch.object(
-            Schema, "_validate", return_value=return_value
+            Schema, "_validate_oapg", return_value=return_value
         ) as mock_validate:
             ArrayHoldingAnyType([])
             assert mock_validate.call_count == 1
 
         with patch.object(
-            Schema, "_validate", return_value=return_value
+            Schema, "_validate_oapg", return_value=return_value
         ) as mock_validate:
-            ArrayHoldingAnyType._from_openapi_data([])
+            ArrayHoldingAnyType.from_openapi_data_oapg([])
             assert mock_validate.call_count == 1
 
     def test_empty_dict_validate(self):
         return_value = {("args[0]",): {Foo, frozendict.frozendict}}
         with patch.object(
-            Schema, "_validate", return_value=return_value
+            Schema, "_validate_oapg", return_value=return_value
         ) as mock_validate:
             Foo({})
             assert mock_validate.call_count == 1
 
         with patch.object(
-            Schema, "_validate", return_value=return_value
+            Schema, "_validate_oapg", return_value=return_value
         ) as mock_validate:
-            Foo._from_openapi_data({})
+            Foo.from_openapi_data_oapg({})
             assert mock_validate.call_count == 1
 
     def test_list_validate_direct_instantiation(self):
@@ -165,7 +165,7 @@ class TestValidateCalls(unittest.TestCase):
             {("args[0]",): {ArrayWithValidationsInItems, tuple}},
             {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
         ]
-        with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
+        with patch.object(Schema, "_validate_oapg", side_effect=results) as mock_validate:
             ArrayWithValidationsInItems([7])
             calls = [
                 call(
@@ -185,7 +185,7 @@ class TestValidateCalls(unittest.TestCase):
         # item validation is skipped if items are of the correct type
         item = ArrayWithValidationsInItems.MetaOapg.items(7)
         return_value = {("args[0]",): {ArrayWithValidationsInItems, tuple}}
-        with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
+        with patch.object(Schema, "_validate_oapg", return_value=return_value) as mock_validate:
             ArrayWithValidationsInItems([item])
             mock_validate.assert_called_once_with(
                 tuple([Decimal('7')]),
@@ -200,8 +200,8 @@ class TestValidateCalls(unittest.TestCase):
             {("args[0]",): {ArrayWithValidationsInItems, tuple}},
             {("args[0]", 0): {ArrayWithValidationsInItems.MetaOapg.items, Decimal}}
         ]
-        with patch.object(Schema, "_validate", side_effect=results) as mock_validate:
-            ArrayWithValidationsInItems._from_openapi_data([7])
+        with patch.object(Schema, "_validate_oapg", side_effect=results) as mock_validate:
+            ArrayWithValidationsInItems.from_openapi_data_oapg([7])
             calls = [
                 call(
                     (Decimal("7"),),
@@ -221,7 +221,7 @@ class TestValidateCalls(unittest.TestCase):
             {("args[0]",): {Foo, frozendict.frozendict}},
             {("args[0]", "bar"): {StrSchema, str}}
         ]
-        with patch.object(Schema, "_validate", side_effect=call_results) as mock_validate:
+        with patch.object(Schema, "_validate_oapg", side_effect=call_results) as mock_validate:
             Foo(bar="a")
             calls = [
                 call(
@@ -243,7 +243,7 @@ class TestValidateCalls(unittest.TestCase):
             ("args[0]",): {Foo, frozendict.frozendict}
         }
         # only the Foo dict is validated because the bar property value was already validated
-        with patch.object(Schema, "_validate", return_value=return_value) as mock_validate:
+        with patch.object(Schema, "_validate_oapg", return_value=return_value) as mock_validate:
             Foo(bar=bar)
             mock_validate.assert_called_once_with(
                 frozendict.frozendict(dict(bar='a')),
@@ -258,8 +258,8 @@ class TestValidateCalls(unittest.TestCase):
             {("args[0]",): {Foo, frozendict.frozendict}},
             {("args[0]", 'bar'): {StrSchema, str}}
         ]
-        with patch.object(Schema, "_validate", side_effect=return_values) as mock_validate:
-            Foo._from_openapi_data({"bar": "a"})
+        with patch.object(Schema, "_validate_oapg", side_effect=return_values) as mock_validate:
+            Foo.from_openapi_data_oapg({"bar": "a"})
             calls = [
                 call(
                     frozendict.frozendict({"bar": "a"}),

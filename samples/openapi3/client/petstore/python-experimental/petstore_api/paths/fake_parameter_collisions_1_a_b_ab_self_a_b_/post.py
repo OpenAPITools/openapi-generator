@@ -7,16 +7,16 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -284,7 +284,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _parameter_collisions(
+    def _parameter_collisions_oapg(
         self: api_client.Api,
         body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -306,10 +306,10 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
-        self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
         used_path = path.value
 
         _path_params = {}
@@ -416,7 +416,7 @@ class ParameterCollisions(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._parameter_collisions(
+        return self._parameter_collisions_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
@@ -449,7 +449,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._parameter_collisions(
+        return self._parameter_collisions_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
