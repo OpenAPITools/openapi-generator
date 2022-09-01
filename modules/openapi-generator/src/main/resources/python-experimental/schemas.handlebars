@@ -449,7 +449,7 @@ class Schema:
         if not __kwargs and args and not isinstance(args[0], dict):
             __arg = args[0]
         else:
-            __arg = cls.__get_input_dict(*args, **kwargs)
+            __arg = cls.__get_input_dict(*args, **__kwargs)
         __from_server = False
         __validated_path_to_schemas = {}
         __arg = cast_to_allowed_types(
@@ -539,6 +539,7 @@ else:
     DecimalMixin = object
     BoolMixin = object
     # qty 2 mixin
+    BinaryMixin = object
     NoneFrozenDictMixin = object
     NoneTupleMixin = object
     NoneStrMixin = object

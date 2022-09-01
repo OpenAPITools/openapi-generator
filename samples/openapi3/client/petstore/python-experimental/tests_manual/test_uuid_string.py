@@ -28,7 +28,7 @@ class TestUUIDString(unittest.TestCase):
         self.assertTrue(isinstance(u, schemas.UUIDSchema))
         self.assertTrue(isinstance(u, schemas.StrSchema))
         self.assertTrue(isinstance(u, str))
-        self.assertEqual(u.as_uuid, uuid.UUID(uuid_value))
+        self.assertEqual(u.as_uuid_oapg, uuid.UUID(uuid_value))
 
         # passing in a uuid also works
         u = UUIDString(uuid.UUID(uuid_value))
@@ -37,7 +37,7 @@ class TestUUIDString(unittest.TestCase):
         self.assertTrue(isinstance(u, schemas.UUIDSchema))
         self.assertTrue(isinstance(u, schemas.StrSchema))
         self.assertTrue(isinstance(u, str))
-        self.assertEqual(u.as_uuid, uuid.UUID(uuid_value))
+        self.assertEqual(u.as_uuid_oapg, uuid.UUID(uuid_value))
 
         # an invalid value does not work
         with self.assertRaises(exceptions.ApiValueError):

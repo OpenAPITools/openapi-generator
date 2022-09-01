@@ -157,7 +157,7 @@ class TestAnyTypeSchema(unittest.TestCase):
         assert isinstance(m, AnyTypeSchema)
         assert isinstance(m, NoneSchema)
         assert isinstance(m, NoneClass)
-        self.assertTrue(m.is_none())
+        self.assertTrue(m.is_none_oapg())
 
     def testDateSchema(self):
         class Model(ComposedSchema):
@@ -203,7 +203,7 @@ class TestAnyTypeSchema(unittest.TestCase):
         assert isinstance(m, DecimalSchema)
         assert isinstance(m, str)
         assert m == '12.34'
-        assert m.as_decimal == Decimal('12.34')
+        assert m.as_decimal_oapg == Decimal('12.34')
 
 
 if __name__ == '__main__':

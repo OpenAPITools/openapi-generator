@@ -673,7 +673,7 @@ class TestFakeApi(ApiTestMixin):
 
             assert isinstance(api_response.body, schemas.AnyTypeSchema)
             assert isinstance(api_response.body, schemas.NoneClass)
-            assert api_response.body.is_none()
+            assert api_response.body.is_none_oapg()
 
     def test_response_without_schema(self):
         # received response is not loaded into body because there is no deserialization schema defined
