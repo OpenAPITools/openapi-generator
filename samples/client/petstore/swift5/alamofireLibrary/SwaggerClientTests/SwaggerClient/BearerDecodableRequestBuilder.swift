@@ -22,7 +22,7 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
 
 class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
     override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
-        if self.isRequestAuthenticated {
+        if self.requiresAuthentication {
 
             let bearerTokenHandler = BearerTokenHandler()
             let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
@@ -36,7 +36,7 @@ class BearerRequestBuilder<T>: AlamofireRequestBuilder<T> {
 
 class BearerDecodableRequestBuilder<T: Decodable>: AlamofireDecodableRequestBuilder<T> {
     override func createAlamofireSession(interceptor: RequestInterceptor? = nil) -> Session {
-        if self.isRequestAuthenticated {
+        if self.requiresAuthentication {
 
             let bearerTokenHandler = BearerTokenHandler()
             let alamofireSession = super.createAlamofireSession(interceptor: bearerTokenHandler)
