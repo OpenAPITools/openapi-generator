@@ -23,7 +23,7 @@ class TestMaxpropertiesValidation(unittest.TestCase):
     def test_too_long_is_invalid_fails(self):
         # too long is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            MaxpropertiesValidation._from_openapi_data(
+            MaxpropertiesValidation.from_openapi_data_oapg(
                 {
                     "foo":
                         1,
@@ -37,7 +37,7 @@ class TestMaxpropertiesValidation(unittest.TestCase):
 
     def test_ignores_arrays_passes(self):
         # ignores arrays
-        MaxpropertiesValidation._from_openapi_data(
+        MaxpropertiesValidation.from_openapi_data_oapg(
             [
                 1,
                 2,
@@ -48,21 +48,21 @@ class TestMaxpropertiesValidation(unittest.TestCase):
 
     def test_ignores_other_non_objects_passes(self):
         # ignores other non-objects
-        MaxpropertiesValidation._from_openapi_data(
+        MaxpropertiesValidation.from_openapi_data_oapg(
             12,
             _configuration=self._configuration
         )
 
     def test_ignores_strings_passes(self):
         # ignores strings
-        MaxpropertiesValidation._from_openapi_data(
+        MaxpropertiesValidation.from_openapi_data_oapg(
             "foobar",
             _configuration=self._configuration
         )
 
     def test_shorter_is_valid_passes(self):
         # shorter is valid
-        MaxpropertiesValidation._from_openapi_data(
+        MaxpropertiesValidation.from_openapi_data_oapg(
             {
                 "foo":
                     1,
@@ -72,7 +72,7 @@ class TestMaxpropertiesValidation(unittest.TestCase):
 
     def test_exact_length_is_valid_passes(self):
         # exact length is valid
-        MaxpropertiesValidation._from_openapi_data(
+        MaxpropertiesValidation.from_openapi_data_oapg(
             {
                 "foo":
                     1,

@@ -396,15 +396,6 @@ class ParameterBase:
         self.schema = schema
         self.content = content
 
-    @staticmethod
-    def _remove_empty_and_cast(
-        in_data: typing.Tuple[typing.Tuple[str, str]],
-    ) -> typing.Dict[str, str]:
-        data = tuple(t for t in in_data if t)
-        if not data:
-            return dict()
-        return dict(data)
-
     def _serialize_json(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
@@ -435,7 +426,7 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
             content=content
         )
 
-    def _serialize_label(
+    def __serialize_label(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
     ) -> typing.Dict[str, str]:
@@ -449,7 +440,7 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
         )
         return self.to_dict(self.name, value)
 
-    def _serialize_matrix(
+    def __serialize_matrix(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list]
     ) -> typing.Dict[str, str]:
@@ -463,7 +454,7 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
         )
         return self.to_dict(self.name, value)
 
-    def _serialize_simple(
+    def __serialize_simple(
         self,
         in_data: typing.Union[None, int, float, str, bool, dict, list],
     ) -> typing.Dict[str, str]:
@@ -494,11 +485,11 @@ class PathParameter(ParameterBase, StyleSimpleSerializer):
             """
             if self.style:
                 if self.style is ParameterStyle.SIMPLE:
-                    return self._serialize_simple(cast_in_data)
+                    return self.__serialize_simple(cast_in_data)
                 elif self.style is ParameterStyle.LABEL:
-                    return self._serialize_label(cast_in_data)
+                    return self.__serialize_label(cast_in_data)
                 elif self.style is ParameterStyle.MATRIX:
-                    return self._serialize_matrix(cast_in_data)
+                    return self.__serialize_matrix(cast_in_data)
         # self.content will be length one
         for content_type, schema in self.content.items():
             cast_in_data = schema(in_data)
@@ -725,12 +716,6 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
         headers.extend(data)
         return headers
 
-    def _serialize_simple(
-        self,
-        in_data: typing.Union[None, int, float, str, bool, dict, list],
-    ) -> str:
-        return self.serialize_simple(in_data, self.name, self.explode, False)
-
     def serialize(
         self,
         in_data: typing.Union[
@@ -745,7 +730,7 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
                     returns headers: dict
             """
             if self.style:
-                value = self._serialize_simple(cast_in_data)
+                value = self.serialize_simple(cast_in_data, self.name, self.explode, False)
                 return self.__to_headers(((self.name, value),))
         # self.content will be length one
         for content_type, schema in self.content.items():

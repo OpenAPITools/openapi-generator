@@ -42,7 +42,7 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
                 [
                 ]
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -72,7 +72,7 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
             payload = (
                 12
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -109,7 +109,7 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -127,7 +127,7 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
                         "baz",
                 }
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -161,7 +161,7 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
                         ],
                 }
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -199,7 +199,7 @@ class TestRequestBodyPostObjectPropertiesValidationRequestBody(ApiTestMixin, uni
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )

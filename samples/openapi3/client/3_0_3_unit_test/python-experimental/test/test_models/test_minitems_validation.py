@@ -23,7 +23,7 @@ class TestMinitemsValidation(unittest.TestCase):
     def test_too_short_is_invalid_fails(self):
         # too short is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            MinitemsValidation._from_openapi_data(
+            MinitemsValidation.from_openapi_data_oapg(
                 [
                 ],
                 _configuration=self._configuration
@@ -31,14 +31,14 @@ class TestMinitemsValidation(unittest.TestCase):
 
     def test_ignores_non_arrays_passes(self):
         # ignores non-arrays
-        MinitemsValidation._from_openapi_data(
+        MinitemsValidation.from_openapi_data_oapg(
             "",
             _configuration=self._configuration
         )
 
     def test_longer_is_valid_passes(self):
         # longer is valid
-        MinitemsValidation._from_openapi_data(
+        MinitemsValidation.from_openapi_data_oapg(
             [
                 1,
                 2,
@@ -48,7 +48,7 @@ class TestMinitemsValidation(unittest.TestCase):
 
     def test_exact_length_is_valid_passes(self):
         # exact length is valid
-        MinitemsValidation._from_openapi_data(
+        MinitemsValidation.from_openapi_data_oapg(
             [
                 1,
             ],

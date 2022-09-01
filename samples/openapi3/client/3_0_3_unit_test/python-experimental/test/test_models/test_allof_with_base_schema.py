@@ -22,7 +22,7 @@ class TestAllofWithBaseSchema(unittest.TestCase):
 
     def test_valid_passes(self):
         # valid
-        AllofWithBaseSchema._from_openapi_data(
+        AllofWithBaseSchema.from_openapi_data_oapg(
             {
                 "foo":
                     "quux",
@@ -37,7 +37,7 @@ class TestAllofWithBaseSchema(unittest.TestCase):
     def test_mismatch_first_allof_fails(self):
         # mismatch first allOf
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            AllofWithBaseSchema._from_openapi_data(
+            AllofWithBaseSchema.from_openapi_data_oapg(
                 {
                     "bar":
                         2,
@@ -50,7 +50,7 @@ class TestAllofWithBaseSchema(unittest.TestCase):
     def test_mismatch_base_schema_fails(self):
         # mismatch base schema
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            AllofWithBaseSchema._from_openapi_data(
+            AllofWithBaseSchema.from_openapi_data_oapg(
                 {
                     "foo":
                         "quux",
@@ -63,7 +63,7 @@ class TestAllofWithBaseSchema(unittest.TestCase):
     def test_mismatch_both_fails(self):
         # mismatch both
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            AllofWithBaseSchema._from_openapi_data(
+            AllofWithBaseSchema.from_openapi_data_oapg(
                 {
                     "bar":
                         2,
@@ -74,7 +74,7 @@ class TestAllofWithBaseSchema(unittest.TestCase):
     def test_mismatch_second_allof_fails(self):
         # mismatch second allOf
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            AllofWithBaseSchema._from_openapi_data(
+            AllofWithBaseSchema.from_openapi_data_oapg(
                 {
                     "foo":
                         "quux",

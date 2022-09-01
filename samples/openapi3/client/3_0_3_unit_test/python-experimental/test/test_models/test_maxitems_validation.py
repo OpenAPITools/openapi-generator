@@ -23,7 +23,7 @@ class TestMaxitemsValidation(unittest.TestCase):
     def test_too_long_is_invalid_fails(self):
         # too long is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            MaxitemsValidation._from_openapi_data(
+            MaxitemsValidation.from_openapi_data_oapg(
                 [
                     1,
                     2,
@@ -34,14 +34,14 @@ class TestMaxitemsValidation(unittest.TestCase):
 
     def test_ignores_non_arrays_passes(self):
         # ignores non-arrays
-        MaxitemsValidation._from_openapi_data(
+        MaxitemsValidation.from_openapi_data_oapg(
             "foobar",
             _configuration=self._configuration
         )
 
     def test_shorter_is_valid_passes(self):
         # shorter is valid
-        MaxitemsValidation._from_openapi_data(
+        MaxitemsValidation.from_openapi_data_oapg(
             [
                 1,
             ],
@@ -50,7 +50,7 @@ class TestMaxitemsValidation(unittest.TestCase):
 
     def test_exact_length_is_valid_passes(self):
         # exact length is valid
-        MaxitemsValidation._from_openapi_data(
+        MaxitemsValidation.from_openapi_data_oapg(
             [
                 1,
                 2,

@@ -41,7 +41,7 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
             payload = (
                 False
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -72,7 +72,7 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
                 0.0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -86,7 +86,7 @@ class TestRequestBodyPostEnumWithFalseDoesNotMatch0RequestBody(ApiTestMixin, uni
                 0
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
