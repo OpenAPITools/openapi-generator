@@ -719,13 +719,9 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet"
       # HTTP basic auth
-      if (is.null(self$api_client$username) || is.null(self$api_client$password)) {
-        rlang::abort(message = "username, password in `api_client` must be set for authentication in the endpoint `add_pet`.",
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(status = 0,
-                                                     reason = "username, password in `api_client` must be set for authentication in the endpoint `add_pet`."))
+      if (!is.null(self$api_client$username) || !is.null(self$api_client$password)) {
+        header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
       }
-      header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
 
       # The Accept request HTTP header
       local_var_accepts <- list("application/xml", "application/json")
