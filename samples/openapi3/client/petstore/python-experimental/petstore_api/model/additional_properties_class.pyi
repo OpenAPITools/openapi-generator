@@ -183,13 +183,11 @@ class AdditionalPropertiesClass(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 ) -> 'empty_map':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
-                        **kwargs,
                     )
             
             
@@ -288,6 +286,7 @@ class AdditionalPropertiesClass(
         empty_map: typing.Union[MetaOapg.properties.empty_map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         map_with_undeclared_properties_string: typing.Union[MetaOapg.properties.map_with_undeclared_properties_string, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'AdditionalPropertiesClass':
         return super().__new__(
             cls,
@@ -301,4 +300,5 @@ class AdditionalPropertiesClass(
             empty_map=empty_map,
             map_with_undeclared_properties_string=map_with_undeclared_properties_string,
             _configuration=_configuration,
+            **kwargs,
         )

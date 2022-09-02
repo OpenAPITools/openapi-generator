@@ -57,12 +57,14 @@ class MapBeanSchema(
         *args: typing.Union[dict, frozendict.frozendict, ],
         keyword: typing.Union[MetaOapg.properties.keyword, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'MapBeanSchema':
         return super().__new__(
             cls,
             *args,
             keyword=keyword,
             _configuration=_configuration,
+            **kwargs,
         )
 
 

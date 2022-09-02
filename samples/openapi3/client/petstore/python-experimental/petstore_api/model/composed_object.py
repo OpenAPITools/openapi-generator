@@ -56,9 +56,11 @@ class ComposedObject(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ComposedObject':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )

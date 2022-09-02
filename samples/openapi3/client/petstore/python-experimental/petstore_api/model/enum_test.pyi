@@ -230,6 +230,7 @@ class EnumTest(
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'EnumTest':
         return super().__new__(
             cls,
@@ -244,6 +245,7 @@ class EnumTest(
             IntegerEnumWithDefaultValue=IntegerEnumWithDefaultValue,
             IntegerEnumOneValue=IntegerEnumOneValue,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.integer_enum import IntegerEnum

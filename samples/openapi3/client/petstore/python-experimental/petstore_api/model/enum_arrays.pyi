@@ -128,6 +128,7 @@ class EnumArrays(
         just_symbol: typing.Union[MetaOapg.properties.just_symbol, str, schemas.Unset] = schemas.unset,
         array_enum: typing.Union[MetaOapg.properties.array_enum, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'EnumArrays':
         return super().__new__(
             cls,
@@ -135,4 +136,5 @@ class EnumArrays(
             just_symbol=just_symbol,
             array_enum=array_enum,
             _configuration=_configuration,
+            **kwargs,
         )

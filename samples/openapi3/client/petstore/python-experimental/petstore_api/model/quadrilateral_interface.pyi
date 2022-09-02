@@ -85,6 +85,7 @@ class QuadrilateralInterface(
         shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
         quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,
@@ -92,4 +93,5 @@ class QuadrilateralInterface(
             shapeType=shapeType,
             quadrilateralType=quadrilateralType,
             _configuration=_configuration,
+            **kwargs,
         )

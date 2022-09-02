@@ -63,12 +63,14 @@ class SchemaFor0ResponseBodyApplicationJson(
         *args: typing.Union[dict, frozendict.frozendict, ],
         string: typing.Union['Foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaFor0ResponseBodyApplicationJson':
         return super().__new__(
             cls,
             *args,
             string=string,
             _configuration=_configuration,
+            **kwargs,
         )
 _all_accept_content_types = (
     'application/json',

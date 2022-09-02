@@ -72,7 +72,6 @@ class BananaReq(
         lengthCm: typing.Union[MetaOapg.properties.lengthCm, decimal.Decimal, int, float, ],
         sweet: typing.Union[MetaOapg.properties.sweet, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'BananaReq':
         return super().__new__(
             cls,
@@ -80,5 +79,4 @@ class BananaReq(
             lengthCm=lengthCm,
             sweet=sweet,
             _configuration=_configuration,
-            **kwargs,
         )

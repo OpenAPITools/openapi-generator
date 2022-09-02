@@ -54,18 +54,17 @@ class User(
             ):
             
             
-                class MetaOapg:
-            
-            
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs,
                 ) -> 'objectWithNoDeclaredPropsNullable':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
+                        **kwargs,
                     )
             anyTypeProp = schemas.AnyTypeSchema
             
@@ -83,11 +82,13 @@ class User(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs,
                 ) -> 'anyTypeExceptNullProp':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
+                        **kwargs,
                     )
             anyTypePropNullable = schemas.AnyTypeSchema
             __annotations__ = {
@@ -186,6 +187,7 @@ class User(
         anyTypeExceptNullProp: typing.Union[MetaOapg.properties.anyTypeExceptNullProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         anyTypePropNullable: typing.Union[MetaOapg.properties.anyTypePropNullable, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'User':
         return super().__new__(
             cls,
@@ -204,4 +206,5 @@ class User(
             anyTypeExceptNullProp=anyTypeExceptNullProp,
             anyTypePropNullable=anyTypePropNullable,
             _configuration=_configuration,
+            **kwargs,
         )

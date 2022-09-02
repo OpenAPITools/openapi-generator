@@ -72,12 +72,14 @@ class GrandparentAnimal(
         *args: typing.Union[dict, frozendict.frozendict, ],
         pet_type: typing.Union[MetaOapg.properties.pet_type, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,
             *args,
             pet_type=pet_type,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.child_cat import ChildCat

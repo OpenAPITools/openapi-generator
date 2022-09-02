@@ -62,10 +62,12 @@ class Banana(
         *args: typing.Union[dict, frozendict.frozendict, ],
         lengthCm: typing.Union[MetaOapg.properties.lengthCm, decimal.Decimal, int, float, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Banana':
         return super().__new__(
             cls,
             *args,
             lengthCm=lengthCm,
             _configuration=_configuration,
+            **kwargs,
         )

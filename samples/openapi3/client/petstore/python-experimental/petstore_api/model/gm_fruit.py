@@ -76,12 +76,14 @@ class GmFruit(
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'GmFruit':
         return super().__new__(
             cls,
             *args,
             color=color,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.apple import Apple

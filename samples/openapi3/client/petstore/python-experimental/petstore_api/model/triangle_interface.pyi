@@ -85,6 +85,7 @@ class TriangleInterface(
         shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
         triangleType: typing.Union[MetaOapg.properties.triangleType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'TriangleInterface':
         return super().__new__(
             cls,
@@ -92,4 +93,5 @@ class TriangleInterface(
             shapeType=shapeType,
             triangleType=triangleType,
             _configuration=_configuration,
+            **kwargs,
         )

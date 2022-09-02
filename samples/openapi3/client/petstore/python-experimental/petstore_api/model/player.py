@@ -72,6 +72,7 @@ class Player(
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         enemyPlayer: typing.Union['Player', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Player':
         return super().__new__(
             cls,
@@ -79,4 +80,5 @@ class Player(
             name=name,
             enemyPlayer=enemyPlayer,
             _configuration=_configuration,
+            **kwargs,
         )

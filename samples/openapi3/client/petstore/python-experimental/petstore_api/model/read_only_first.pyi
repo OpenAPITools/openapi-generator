@@ -66,6 +66,7 @@ class ReadOnlyFirst(
         bar: typing.Union[MetaOapg.properties.bar, str, schemas.Unset] = schemas.unset,
         baz: typing.Union[MetaOapg.properties.baz, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ReadOnlyFirst':
         return super().__new__(
             cls,
@@ -73,4 +74,5 @@ class ReadOnlyFirst(
             bar=bar,
             baz=baz,
             _configuration=_configuration,
+            **kwargs,
         )

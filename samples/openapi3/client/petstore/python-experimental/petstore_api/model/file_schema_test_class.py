@@ -96,6 +96,7 @@ class FileSchemaTestClass(
         file: typing.Union['File', schemas.Unset] = schemas.unset,
         files: typing.Union[MetaOapg.properties.files, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,
@@ -103,6 +104,7 @@ class FileSchemaTestClass(
             file=file,
             files=files,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.file import File

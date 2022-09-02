@@ -90,6 +90,7 @@ class Whale(
         hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, bool, schemas.Unset] = schemas.unset,
         hasTeeth: typing.Union[MetaOapg.properties.hasTeeth, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Whale':
         return super().__new__(
             cls,
@@ -98,4 +99,5 @@ class Whale(
             hasBaleen=hasBaleen,
             hasTeeth=hasTeeth,
             _configuration=_configuration,
+            **kwargs,
         )

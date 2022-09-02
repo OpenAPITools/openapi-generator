@@ -40,9 +40,11 @@ class AnyTypeNotString(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'AnyTypeNotString':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )

@@ -79,6 +79,7 @@ class ObjectModelWithRefProps(
         myString: typing.Union[MetaOapg.properties.myString, str, schemas.Unset] = schemas.unset,
         myBoolean: typing.Union[MetaOapg.properties.myBoolean, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ObjectModelWithRefProps':
         return super().__new__(
             cls,
@@ -87,6 +88,7 @@ class ObjectModelWithRefProps(
             myString=myString,
             myBoolean=myBoolean,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.number_with_validations import NumberWithValidations

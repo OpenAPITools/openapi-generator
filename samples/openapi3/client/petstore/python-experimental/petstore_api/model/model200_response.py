@@ -67,10 +67,12 @@ class Model200Response(
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         name: typing.Union[MetaOapg.properties.name, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Model200Response':
         return super().__new__(
             cls,
             *args,
             name=name,
             _configuration=_configuration,
+            **kwargs,
         )

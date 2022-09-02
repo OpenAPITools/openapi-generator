@@ -77,6 +77,7 @@ class ObjectWithDecimalProperties(
         width: typing.Union[MetaOapg.properties.width, str, schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,
@@ -85,6 +86,7 @@ class ObjectWithDecimalProperties(
             width=width,
             cost=cost,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.money import Money

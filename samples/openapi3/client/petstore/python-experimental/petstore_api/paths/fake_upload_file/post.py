@@ -72,6 +72,7 @@ class SchemaForRequestBodyMultipartFormData(
         file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, ],
         additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -79,6 +80,7 @@ class SchemaForRequestBodyMultipartFormData(
             file=file,
             additionalMetadata=additionalMetadata,
             _configuration=_configuration,
+            **kwargs,
         )
 
 

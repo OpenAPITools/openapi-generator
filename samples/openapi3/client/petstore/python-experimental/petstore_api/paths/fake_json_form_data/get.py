@@ -71,6 +71,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         param: typing.Union[MetaOapg.properties.param, str, ],
         param2: typing.Union[MetaOapg.properties.param2, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -78,6 +79,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             param=param,
             param2=param2,
             _configuration=_configuration,
+            **kwargs,
         )
 
 

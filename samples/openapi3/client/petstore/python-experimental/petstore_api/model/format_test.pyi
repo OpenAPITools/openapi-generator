@@ -270,6 +270,7 @@ class FormatTest(
         pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, str, schemas.Unset] = schemas.unset,
         noneProp: typing.Union[MetaOapg.properties.noneProp, None, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'FormatTest':
         return super().__new__(
             cls,
@@ -295,4 +296,5 @@ class FormatTest(
             pattern_with_digits_and_delimiter=pattern_with_digits_and_delimiter,
             noneProp=noneProp,
             _configuration=_configuration,
+            **kwargs,
         )

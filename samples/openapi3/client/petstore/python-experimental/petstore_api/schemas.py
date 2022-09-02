@@ -2152,7 +2152,7 @@ class AnyTypeSchema(
 
 
 class NotAnyTypeSchema(
-    schemas.ComposedSchema,
+    ComposedSchema,
 ):
     """
     Does not allow inputs in of AnyType
@@ -2160,13 +2160,13 @@ class NotAnyTypeSchema(
     """
 
     class MetaOapg:
-        not_schema = schemas.AnyTypeSchema
+        not_schema = AnyTypeSchema
 
     def __new__(
         cls,
         *args,
-        _configuration: typing.Optional[schemas.Configuration] = None,
-    ) > 'NotAnyTypeSchema':
+        _configuration: typing.Optional[Configuration] = None,
+    ) -> 'NotAnyTypeSchema':
         return super().__new__(
             cls,
             *args,

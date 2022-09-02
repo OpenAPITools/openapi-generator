@@ -72,11 +72,13 @@ class ObjectWithInlineCompositionProperty(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs,
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
+                        **kwargs,
                     )
             __annotations__ = {
                 "someProp": someProp,
@@ -102,10 +104,12 @@ class ObjectWithInlineCompositionProperty(
         *args: typing.Union[dict, frozendict.frozendict, ],
         someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ObjectWithInlineCompositionProperty':
         return super().__new__(
             cls,
             *args,
             someProp=someProp,
             _configuration=_configuration,
+            **kwargs,
         )

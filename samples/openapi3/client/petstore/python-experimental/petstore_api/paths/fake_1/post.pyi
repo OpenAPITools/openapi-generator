@@ -193,6 +193,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
         callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -211,6 +212,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             password=password,
             callback=callback,
             _configuration=_configuration,
+            **kwargs,
         )
 
 

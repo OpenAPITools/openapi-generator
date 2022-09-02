@@ -103,10 +103,12 @@ class ArrayOfArrayOfNumberOnly(
         *args: typing.Union[dict, frozendict.frozendict, ],
         ArrayArrayNumber: typing.Union[MetaOapg.properties.ArrayArrayNumber, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ArrayOfArrayOfNumberOnly':
         return super().__new__(
             cls,
             *args,
             ArrayArrayNumber=ArrayArrayNumber,
             _configuration=_configuration,
+            **kwargs,
         )

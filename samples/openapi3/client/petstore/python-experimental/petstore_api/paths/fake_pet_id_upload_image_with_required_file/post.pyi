@@ -72,6 +72,7 @@ class SchemaForRequestBodyMultipartFormData(
         requiredFile: typing.Union[MetaOapg.properties.requiredFile, bytes, io.FileIO, io.BufferedReader, ],
         additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -79,6 +80,7 @@ class SchemaForRequestBodyMultipartFormData(
             requiredFile=requiredFile,
             additionalMetadata=additionalMetadata,
             _configuration=_configuration,
+            **kwargs,
         )
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
 _all_accept_content_types = (

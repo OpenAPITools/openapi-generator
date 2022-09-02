@@ -61,10 +61,12 @@ class SpecialModelName(
         *args: typing.Union[dict, frozendict.frozendict, ],
         a: typing.Union[MetaOapg.properties.a, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SpecialModelName':
         return super().__new__(
             cls,
             *args,
             a=a,
             _configuration=_configuration,
+            **kwargs,
         )

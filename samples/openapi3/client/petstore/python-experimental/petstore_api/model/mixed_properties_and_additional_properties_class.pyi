@@ -107,6 +107,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
         map: typing.Union[MetaOapg.properties.map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
             cls,
@@ -115,6 +116,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             dateTime=dateTime,
             map=map,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.animal import Animal

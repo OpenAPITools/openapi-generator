@@ -82,12 +82,14 @@ class SchemaForRequestBodyMultipartFormData(
         *args: typing.Union[dict, frozendict.frozendict, ],
         files: typing.Union[MetaOapg.properties.files, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
             *args,
             files=files,
             _configuration=_configuration,
+            **kwargs,
         )
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
 _all_accept_content_types = (

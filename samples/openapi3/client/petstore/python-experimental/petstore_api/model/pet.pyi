@@ -178,6 +178,7 @@ class Pet(
         tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Pet':
         return super().__new__(
             cls,
@@ -189,6 +190,7 @@ class Pet(
             tags=tags,
             status=status,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.category import Category

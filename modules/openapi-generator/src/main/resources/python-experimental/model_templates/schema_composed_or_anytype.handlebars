@@ -31,7 +31,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or hasValidation composedSchemas isMap isAnyType getItems}}
+{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
 
 
     class MetaOapg:
@@ -46,7 +46,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
         {{> model_templates/schema }}
 {{/if}}
 {{/with}}
-{{#or isMap isAnyType}}
+{{#or additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
         {{> model_templates/dict_partial }}
 {{/or}}
 {{#unless isStub}}

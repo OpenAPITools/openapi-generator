@@ -59,10 +59,12 @@ class NumberOnly(
         *args: typing.Union[dict, frozendict.frozendict, ],
         JustNumber: typing.Union[MetaOapg.properties.JustNumber, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'NumberOnly':
         return super().__new__(
             cls,
             *args,
             JustNumber=JustNumber,
             _configuration=_configuration,
+            **kwargs,
         )

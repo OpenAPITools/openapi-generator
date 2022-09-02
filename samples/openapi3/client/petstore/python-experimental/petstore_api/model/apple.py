@@ -96,10 +96,12 @@ class Apple(
         *args: typing.Union[dict, frozendict.frozendict, None, ],
         origin: typing.Union[MetaOapg.properties.origin, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Apple':
         return super().__new__(
             cls,
             *args,
             origin=origin,
             _configuration=_configuration,
+            **kwargs,
         )

@@ -67,12 +67,14 @@ class Dog(
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 breed: typing.Union[MetaOapg.properties.breed, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs,
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
                     breed=breed,
                     _configuration=_configuration,
+                    **kwargs,
                 )
         
         @classmethod
@@ -96,11 +98,13 @@ class Dog(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Dog':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.animal import Animal

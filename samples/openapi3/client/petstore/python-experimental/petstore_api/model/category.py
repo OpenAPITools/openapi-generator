@@ -69,6 +69,7 @@ class Category(
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Category':
         return super().__new__(
             cls,
@@ -76,4 +77,5 @@ class Category(
             name=name,
             id=id,
             _configuration=_configuration,
+            **kwargs,
         )

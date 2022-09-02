@@ -77,6 +77,7 @@ class Name(
         name: typing.Union[MetaOapg.properties.name, int, ],
         snake_case: typing.Union[MetaOapg.properties.snake_case, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Name':
         return super().__new__(
             cls,
@@ -84,4 +85,5 @@ class Name(
             name=name,
             snake_case=snake_case,
             _configuration=_configuration,
+            **kwargs,
         )

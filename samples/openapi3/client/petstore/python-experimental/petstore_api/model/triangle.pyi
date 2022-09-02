@@ -67,11 +67,13 @@ class Triangle(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Triangle':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.equilateral_triangle import EquilateralTriangle

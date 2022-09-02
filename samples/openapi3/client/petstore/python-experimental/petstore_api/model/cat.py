@@ -67,12 +67,14 @@ class Cat(
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 declawed: typing.Union[MetaOapg.properties.declawed, bool, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs,
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
                     declawed=declawed,
                     _configuration=_configuration,
+                    **kwargs,
                 )
         
         @classmethod
@@ -96,11 +98,13 @@ class Cat(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Cat':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.animal import Animal

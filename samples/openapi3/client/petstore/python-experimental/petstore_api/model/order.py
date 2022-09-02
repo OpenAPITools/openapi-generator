@@ -120,6 +120,7 @@ class Order(
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         complete: typing.Union[MetaOapg.properties.complete, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Order':
         return super().__new__(
             cls,
@@ -131,4 +132,5 @@ class Order(
             status=status,
             complete=complete,
             _configuration=_configuration,
+            **kwargs,
         )

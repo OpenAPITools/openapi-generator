@@ -72,9 +72,11 @@ class ObjectWithDifficultlyNamedProps(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ObjectWithDifficultlyNamedProps':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )

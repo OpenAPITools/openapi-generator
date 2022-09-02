@@ -72,7 +72,6 @@ class AppleReq(
         cultivar: typing.Union[MetaOapg.properties.cultivar, str, ],
         mealy: typing.Union[MetaOapg.properties.mealy, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'AppleReq':
         return super().__new__(
             cls,
@@ -80,5 +79,4 @@ class AppleReq(
             cultivar=cultivar,
             mealy=mealy,
             _configuration=_configuration,
-            **kwargs,
         )

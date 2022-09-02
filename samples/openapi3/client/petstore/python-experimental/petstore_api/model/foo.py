@@ -59,10 +59,12 @@ class Foo(
         *args: typing.Union[dict, frozendict.frozendict, ],
         bar: typing.Union[MetaOapg.properties.bar, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Foo':
         return super().__new__(
             cls,
             *args,
             bar=bar,
             _configuration=_configuration,
+            **kwargs,
         )

@@ -224,6 +224,7 @@ class MapTest(
         direct_map: typing.Union[MetaOapg.properties.direct_map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         indirect_map: typing.Union['StringBooleanMap', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'MapTest':
         return super().__new__(
             cls,
@@ -233,6 +234,7 @@ class MapTest(
             direct_map=direct_map,
             indirect_map=indirect_map,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.string_boolean_map import StringBooleanMap

@@ -74,6 +74,7 @@ class Money(
         amount: typing.Union[MetaOapg.properties.amount, str, ],
         currency: 'Currency',
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Money':
         return super().__new__(
             cls,
@@ -81,6 +82,7 @@ class Money(
             amount=amount,
             currency=currency,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.currency import Currency

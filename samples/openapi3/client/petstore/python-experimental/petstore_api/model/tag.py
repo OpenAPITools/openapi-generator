@@ -66,6 +66,7 @@ class Tag(
         id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Tag':
         return super().__new__(
             cls,
@@ -73,4 +74,5 @@ class Tag(
             id=id,
             name=name,
             _configuration=_configuration,
+            **kwargs,
         )

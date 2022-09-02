@@ -79,6 +79,7 @@ class Animal(
         className: typing.Union[MetaOapg.properties.className, str, ],
         color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Animal':
         return super().__new__(
             cls,
@@ -86,6 +87,7 @@ class Animal(
             className=className,
             color=color,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.cat import Cat

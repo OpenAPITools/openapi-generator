@@ -81,10 +81,12 @@ class HealthCheckResult(
         *args: typing.Union[dict, frozendict.frozendict, ],
         NullableMessage: typing.Union[MetaOapg.properties.NullableMessage, None, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'HealthCheckResult':
         return super().__new__(
             cls,
             *args,
             NullableMessage=NullableMessage,
             _configuration=_configuration,
+            **kwargs,
         )

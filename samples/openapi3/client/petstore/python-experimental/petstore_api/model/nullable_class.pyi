@@ -208,18 +208,17 @@ class NullableClass(
                     ):
                     
                     
-                        class MetaOapg:
-                    
-                    
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
+                            **kwargs,
                         ) -> 'items':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
+                                **kwargs,
                             )
             
             
@@ -252,18 +251,17 @@ class NullableClass(
                     ):
                     
                     
-                        class MetaOapg:
-                    
-                    
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
+                            **kwargs,
                         ) -> 'items':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
+                                **kwargs,
                             )
             
                 def __new__(
@@ -338,18 +336,17 @@ class NullableClass(
                     ):
                     
                     
-                        class MetaOapg:
-                    
-                    
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
+                            **kwargs,
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
+                                **kwargs,
                             )
             
                 
@@ -393,18 +390,17 @@ class NullableClass(
                     ):
                     
                     
-                        class MetaOapg:
-                    
-                    
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
+                            **kwargs,
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
+                                **kwargs,
                             )
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
@@ -453,18 +449,17 @@ class NullableClass(
         ):
         
         
-            class MetaOapg:
-        
-        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, None, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs,
             ) -> 'additional_properties':
                 return super().__new__(
                     cls,
                     *args,
                     _configuration=_configuration,
+                    **kwargs,
                 )
     
     integer_prop: typing.Union[MetaOapg.properties.integer_prop, schemas.Unset]

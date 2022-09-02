@@ -81,12 +81,14 @@ class SimpleQuadrilateral(
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs,
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
                     quadrilateralType=quadrilateralType,
                     _configuration=_configuration,
+                    **kwargs,
                 )
         
         @classmethod
@@ -110,11 +112,13 @@ class SimpleQuadrilateral(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SimpleQuadrilateral':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface

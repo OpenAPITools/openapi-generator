@@ -81,12 +81,14 @@ class IsoscelesTriangle(
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 triangleType: typing.Union[MetaOapg.properties.triangleType, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs,
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
                     *args,
                     triangleType=triangleType,
                     _configuration=_configuration,
+                    **kwargs,
                 )
         
         @classmethod
@@ -110,11 +112,13 @@ class IsoscelesTriangle(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'IsoscelesTriangle':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.triangle_interface import TriangleInterface

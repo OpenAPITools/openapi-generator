@@ -76,10 +76,12 @@ class BasquePig(
         *args: typing.Union[dict, frozendict.frozendict, ],
         className: typing.Union[MetaOapg.properties.className, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'BasquePig':
         return super().__new__(
             cls,
             *args,
             className=className,
             _configuration=_configuration,
+            **kwargs,
         )

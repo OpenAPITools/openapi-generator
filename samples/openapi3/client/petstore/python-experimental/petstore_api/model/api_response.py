@@ -73,6 +73,7 @@ class ApiResponse(
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         message: typing.Union[MetaOapg.properties.message, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ApiResponse':
         return super().__new__(
             cls,
@@ -81,4 +82,5 @@ class ApiResponse(
             type=type,
             message=message,
             _configuration=_configuration,
+            **kwargs,
         )

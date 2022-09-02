@@ -62,10 +62,12 @@ class ClassModel(
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _class: typing.Union[MetaOapg.properties._class, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ClassModel':
         return super().__new__(
             cls,
             *args,
             _class=_class,
             _configuration=_configuration,
+            **kwargs,
         )

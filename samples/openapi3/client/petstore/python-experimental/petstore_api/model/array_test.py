@@ -187,6 +187,7 @@ class ArrayTest(
         array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
         array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ArrayTest':
         return super().__new__(
             cls,
@@ -195,6 +196,7 @@ class ArrayTest(
             array_array_of_integer=array_array_of_integer,
             array_array_of_model=array_array_of_model,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.read_only_first import ReadOnlyFirst

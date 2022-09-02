@@ -50,11 +50,13 @@ class ComposedOneOfDifferentTypes(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs,
             ) -> 'one_of_4':
                 return super().__new__(
                     cls,
                     *args,
                     _configuration=_configuration,
+                    **kwargs,
                 )
         
         
@@ -112,11 +114,13 @@ class ComposedOneOfDifferentTypes(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'ComposedOneOfDifferentTypes':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 from petstore_api.model.animal import Animal

@@ -64,11 +64,13 @@ class CompositionAtRootSchema(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'CompositionAtRootSchema':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 
@@ -117,11 +119,13 @@ class CompositionInPropertySchema(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs,
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
+                        **kwargs,
                     )
             __annotations__ = {
                 "someProp": someProp,
@@ -147,12 +151,14 @@ class CompositionInPropertySchema(
         *args: typing.Union[dict, frozendict.frozendict, ],
         someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'CompositionInPropertySchema':
         return super().__new__(
             cls,
             *args,
             someProp=someProp,
             _configuration=_configuration,
+            **kwargs,
         )
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
@@ -224,11 +230,13 @@ class SchemaForRequestBodyApplicationJson(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 
@@ -277,11 +285,13 @@ class SchemaForRequestBodyMultipartFormData(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs,
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
+                        **kwargs,
                     )
             __annotations__ = {
                 "someProp": someProp,
@@ -307,12 +317,14 @@ class SchemaForRequestBodyMultipartFormData(
         *args: typing.Union[dict, frozendict.frozendict, ],
         someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
             *args,
             someProp=someProp,
             _configuration=_configuration,
+            **kwargs,
         )
 
 
@@ -362,11 +374,13 @@ class SchemaFor200ResponseBodyApplicationJson(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
+            **kwargs,
         )
 
 
@@ -415,11 +429,13 @@ class SchemaFor200ResponseBodyMultipartFormData(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs,
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
+                        **kwargs,
                     )
             __annotations__ = {
                 "someProp": someProp,
@@ -445,12 +461,14 @@ class SchemaFor200ResponseBodyMultipartFormData(
         *args: typing.Union[dict, frozendict.frozendict, ],
         someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'SchemaFor200ResponseBodyMultipartFormData':
         return super().__new__(
             cls,
             *args,
             someProp=someProp,
             _configuration=_configuration,
+            **kwargs,
         )
 
 

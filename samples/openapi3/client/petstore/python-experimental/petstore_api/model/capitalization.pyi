@@ -94,6 +94,7 @@ class Capitalization(
         SCA_ETH_Flow_Points: typing.Union[MetaOapg.properties.SCA_ETH_Flow_Points, str, schemas.Unset] = schemas.unset,
         ATT_NAME: typing.Union[MetaOapg.properties.ATT_NAME, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs,
     ) -> 'Capitalization':
         return super().__new__(
             cls,
@@ -105,4 +106,5 @@ class Capitalization(
             SCA_ETH_Flow_Points=SCA_ETH_Flow_Points,
             ATT_NAME=ATT_NAME,
             _configuration=_configuration,
+            **kwargs,
         )
