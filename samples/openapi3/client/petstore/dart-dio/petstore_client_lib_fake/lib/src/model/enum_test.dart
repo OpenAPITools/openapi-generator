@@ -105,6 +105,10 @@ class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
                 ..add(r'outerEnum')
                 ..add(serializers.serialize(object.outerEnum,
                     specifiedType: const FullType.nullable(OuterEnum)));
+        } else {
+            result
+                ..add(r'outerEnum')
+                ..add(null);
         }
         if (object.outerEnumInteger != null) {
             result
