@@ -1,5 +1,9 @@
 {{#if composedSchemas}}
+    {{#if getIsBooleanSchemaFalse}}
+{{> model_templates/var_equals_cls }}
+    {{else}}
 {{> model_templates/schema_composed_or_anytype }}
+    {{/if}}
 {{/if}}
 {{#unless composedSchemas}}
     {{#if getHasMultipleTypes}}

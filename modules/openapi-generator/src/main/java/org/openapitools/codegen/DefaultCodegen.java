@@ -2804,7 +2804,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.equals(trueSchema)) {
             m.setIsBooleanSchemaTrue(true);
         } else if (schema.equals(falseSchema)) {
-            m.setIsBooleanSchemaTrue(true);
+            m.setIsBooleanSchemaFalse(true);
         }
         // unalias schema
         schema = unaliasSchema(schema);
@@ -3635,7 +3635,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.equals(trueSchema)) {
             property.setIsBooleanSchemaTrue(true);
         } else if (p.equals(falseSchema)) {
-            property.setIsBooleanSchemaTrue(true);
+            property.setIsBooleanSchemaFalse(true);
         }
 
         // unalias schema

@@ -2151,6 +2151,29 @@ class AnyTypeSchema(
     pass
 
 
+class NotAnyTypeSchema(
+    schemas.ComposedSchema,
+):
+    """
+    Does not allow inputs in of AnyType
+    Note: validations on this class are never run because the code knows that no inputs will ever validate
+    """
+
+    class MetaOapg:
+        not_schema = schemas.AnyTypeSchema
+
+    def __new__(
+        cls,
+        *args,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) > 'NotAnyTypeSchema':
+        return super().__new__(
+            cls,
+            *args,
+            _configuration=_configuration,
+        )
+
+
 class DictSchema(
     SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict]),
     DictBase,

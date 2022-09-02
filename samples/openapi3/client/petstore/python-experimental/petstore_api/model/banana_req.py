@@ -43,27 +43,7 @@ class BananaReq(
                 "lengthCm": lengthCm,
                 "sweet": sweet,
             }
-        
-        
-        class additional_properties(
-            schemas.ComposedSchema,
-        ):
-        
-        
-            class MetaOapg:
-                not_schema = schemas.AnyTypeSchema
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-            ) -> 'additional_properties':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                )
+        additional_properties = schemas.NotAnyTypeSchema
     
     lengthCm: MetaOapg.properties.lengthCm
     sweet: typing.Union[MetaOapg.properties.sweet, schemas.Unset]

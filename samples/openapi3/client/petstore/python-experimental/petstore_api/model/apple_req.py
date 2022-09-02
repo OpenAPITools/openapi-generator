@@ -43,27 +43,7 @@ class AppleReq(
                 "cultivar": cultivar,
                 "mealy": mealy,
             }
-        
-        
-        class additional_properties(
-            schemas.ComposedSchema,
-        ):
-        
-        
-            class MetaOapg:
-                not_schema = schemas.AnyTypeSchema
-        
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-            ) -> 'additional_properties':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                )
+        additional_properties = schemas.NotAnyTypeSchema
     
     cultivar: MetaOapg.properties.cultivar
     mealy: typing.Union[MetaOapg.properties.mealy, schemas.Unset]
