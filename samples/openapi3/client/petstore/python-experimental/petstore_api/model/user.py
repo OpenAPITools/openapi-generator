@@ -42,25 +42,7 @@ class User(
             password = schemas.StrSchema
             phone = schemas.StrSchema
             userStatus = schemas.Int32Schema
-            
-            
-            class objectWithNoDeclaredProps(
-                schemas.DictSchema
-            ):
-            
-            
-                class MetaOapg:
-            
-                def __new__(
-                    cls,
-                    *args: typing.Union[dict, frozendict.frozendict, ],
-                    _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'objectWithNoDeclaredProps':
-                    return super().__new__(
-                        cls,
-                        *args,
-                        _configuration=_configuration,
-                    )
+            objectWithNoDeclaredProps = schemas.DictSchema
             
             
             class objectWithNoDeclaredPropsNullable(

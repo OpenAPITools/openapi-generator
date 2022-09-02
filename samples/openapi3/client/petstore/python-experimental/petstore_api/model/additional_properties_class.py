@@ -127,44 +127,8 @@ class AdditionalPropertiesClass(
                         **kwargs,
                     )
             anytype_1 = schemas.AnyTypeSchema
-            
-            
-            class map_with_undeclared_properties_anytype_1(
-                schemas.DictSchema
-            ):
-            
-            
-                class MetaOapg:
-            
-                def __new__(
-                    cls,
-                    *args: typing.Union[dict, frozendict.frozendict, ],
-                    _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'map_with_undeclared_properties_anytype_1':
-                    return super().__new__(
-                        cls,
-                        *args,
-                        _configuration=_configuration,
-                    )
-            
-            
-            class map_with_undeclared_properties_anytype_2(
-                schemas.DictSchema
-            ):
-            
-            
-                class MetaOapg:
-            
-                def __new__(
-                    cls,
-                    *args: typing.Union[dict, frozendict.frozendict, ],
-                    _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'map_with_undeclared_properties_anytype_2':
-                    return super().__new__(
-                        cls,
-                        *args,
-                        _configuration=_configuration,
-                    )
+            map_with_undeclared_properties_anytype_1 = schemas.DictSchema
+            map_with_undeclared_properties_anytype_2 = schemas.DictSchema
             
             
             class map_with_undeclared_properties_anytype_3(

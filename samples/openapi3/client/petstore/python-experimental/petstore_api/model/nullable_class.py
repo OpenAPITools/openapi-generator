@@ -172,25 +172,7 @@ class NullableClass(
             
             
                 class MetaOapg:
-                    
-                    
-                    class items(
-                        schemas.DictSchema
-                    ):
-                    
-                    
-                        class MetaOapg:
-                    
-                        def __new__(
-                            cls,
-                            *args: typing.Union[dict, frozendict.frozendict, ],
-                            _configuration: typing.Optional[schemas.Configuration] = None,
-                        ) -> 'items':
-                            return super().__new__(
-                                cls,
-                                *args,
-                                _configuration=_configuration,
-                            )
+                    items = schemas.DictSchema
             
             
                 def __new__(
@@ -309,25 +291,7 @@ class NullableClass(
             
             
                 class MetaOapg:
-                    
-                    
-                    class additional_properties(
-                        schemas.DictSchema
-                    ):
-                    
-                    
-                        class MetaOapg:
-                    
-                        def __new__(
-                            cls,
-                            *args: typing.Union[dict, frozendict.frozendict, ],
-                            _configuration: typing.Optional[schemas.Configuration] = None,
-                        ) -> 'additional_properties':
-                            return super().__new__(
-                                cls,
-                                *args,
-                                _configuration=_configuration,
-                            )
+                    additional_properties = schemas.DictSchema
             
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:

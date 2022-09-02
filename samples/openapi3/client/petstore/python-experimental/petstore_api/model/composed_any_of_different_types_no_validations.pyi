@@ -33,49 +33,13 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
 
     class MetaOapg:
-        
-        
-        class any_of_0(
-            schemas.DictSchema
-        ):
-        
-        
-            class MetaOapg:
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict.frozendict, ],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-            ) -> 'any_of_0':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                )
+        any_of_0 = schemas.DictSchema
         any_of_1 = schemas.DateSchema
         any_of_2 = schemas.DateTimeSchema
         any_of_3 = schemas.BinarySchema
         any_of_4 = schemas.StrSchema
         any_of_5 = schemas.StrSchema
-        
-        
-        class any_of_6(
-            schemas.DictSchema
-        ):
-        
-        
-            class MetaOapg:
-        
-            def __new__(
-                cls,
-                *args: typing.Union[dict, frozendict.frozendict, ],
-                _configuration: typing.Optional[schemas.Configuration] = None,
-            ) -> 'any_of_6':
-                return super().__new__(
-                    cls,
-                    *args,
-                    _configuration=_configuration,
-                )
+        any_of_6 = schemas.DictSchema
         any_of_7 = schemas.BoolSchema
         any_of_8 = schemas.NoneSchema
         
