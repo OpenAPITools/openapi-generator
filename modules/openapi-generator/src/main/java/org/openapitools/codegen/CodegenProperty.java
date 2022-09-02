@@ -208,7 +208,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     @Override
     public void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue) {
-        this.isBooleanSchemaTrue = isBooleanSchemaTrue;
+        this.isBooleanSchemaTrue = true;
     }
 
     @Override

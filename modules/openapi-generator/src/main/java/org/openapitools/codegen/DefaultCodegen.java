@@ -92,6 +92,8 @@ public class DefaultCodegen implements CodegenConfig {
     private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
+    protected static Schema falseSchema;
+    protected static Schema trueSchema = new Schema();
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -144,6 +146,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
+        falseSchema = new Schema();
+        falseSchema.setNot(new Schema());
     }
 
     protected GeneratorMetadata generatorMetadata;
@@ -2796,6 +2800,12 @@ public class DefaultCodegen implements CodegenConfig {
             typeAliases = getAllAliases(allDefinitions);
         }
 
+        CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
+        if (schema.equals(trueSchema)) {
+            m.setIsBooleanSchemaTrue(true);
+        } else if (schema.equals(falseSchema)) {
+            m.setIsBooleanSchemaTrue(true);
+        }
         // unalias schema
         schema = unaliasSchema(schema);
         if (schema == null) {
@@ -2803,7 +2813,6 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         ModelUtils.syncValidationProperties(schema, m);
         if (openAPI != null) {
             HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(xSchemaTestExamplesRefPrefix + name);
@@ -3621,10 +3630,17 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
             return cpc;
         }
+
+        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+        if (p.equals(trueSchema)) {
+            property.setIsBooleanSchemaTrue(true);
+        } else if (p.equals(falseSchema)) {
+            property.setIsBooleanSchemaTrue(true);
+        }
+
         // unalias schema
         p = unaliasSchema(p);
 
-        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
