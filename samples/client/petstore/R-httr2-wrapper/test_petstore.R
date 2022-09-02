@@ -9,8 +9,10 @@ t$additional_properties <- c("abc" = 849, "array" = list('a', 'b', 'c'))
 t$additional_properties
 t$additional_properties["abc"]
 t$additional_properties["array"]
-print(t$toJSON())
-print(t$toJSONString())
+
+print(t)
+#print(t$toJSON())
+#print(t$toJSONString())
 
 print("done tag")
 
