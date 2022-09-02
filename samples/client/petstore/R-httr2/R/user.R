@@ -14,7 +14,7 @@
 #' @field email  character [optional]
 #' @field password  character [optional]
 #' @field phone  character [optional]
-#' @field userStatus  integer [optional]
+#' @field userStatus User Status integer [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export

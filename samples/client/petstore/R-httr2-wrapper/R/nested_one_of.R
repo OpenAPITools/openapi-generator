@@ -9,7 +9,8 @@
 #' @format An \code{R6Class} generator object
 #' @field size  integer [optional]
 #' @field nested_pig  \link{Pig} [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -18,7 +19,8 @@ NestedOneOf <- R6::R6Class(
   public = list(
     `size` = NULL,
     `nested_pig` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("size", "nested_pig"),
+    `additional_properties` = list(),
     #' Initialize a new NestedOneOf class.
     #'
     #' @description
@@ -87,6 +89,13 @@ NestedOneOf <- R6::R6Class(
         nested_pig_object$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
         self$`nested_pig` <- nested_pig_object
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -135,6 +144,13 @@ NestedOneOf <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`size` <- this_object$`size`
       self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to NestedOneOf

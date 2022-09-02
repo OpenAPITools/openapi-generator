@@ -12,8 +12,9 @@
 #' @field name  character
 #' @field photoUrls  list(character)
 #' @field tags  list(\link{Tag}) [optional]
-#' @field status  character [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field status pet status in the store character [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -26,7 +27,8 @@ Pet <- R6::R6Class(
     `photoUrls` = NULL,
     `tags` = NULL,
     `status` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("id", "category", "name", "photoUrls", "tags", "status"),
+    `additional_properties` = list(),
     #' Initialize a new Pet class.
     #'
     #' @description
@@ -145,6 +147,13 @@ Pet <- R6::R6Class(
       if (!is.null(this_object$`status`)) {
         self$`status` <- this_object$`status`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -229,6 +238,13 @@ Pet <- R6::R6Class(
       self$`photoUrls` <- ApiClient$new()$deserializeObj(this_object$`photoUrls`, "array[character]", loadNamespace("petstore"))
       self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[Tag]", loadNamespace("petstore"))
       self$`status` <- this_object$`status`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Pet

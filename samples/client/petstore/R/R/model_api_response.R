@@ -10,7 +10,8 @@
 #' @field code  integer [optional]
 #' @field type  character [optional]
 #' @field message  character [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -20,7 +21,8 @@ ModelApiResponse <- R6::R6Class(
     `code` = NULL,
     `type` = NULL,
     `message` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("code", "type", "message"),
+    `additional_properties` = list(),
     #' Initialize a new ModelApiResponse class.
     #'
     #' @description
@@ -99,6 +101,13 @@ ModelApiResponse <- R6::R6Class(
       if (!is.null(this_object$`message`)) {
         self$`message` <- this_object$`message`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -156,6 +165,13 @@ ModelApiResponse <- R6::R6Class(
       self$`code` <- this_object$`code`
       self$`type` <- this_object$`type`
       self$`message` <- this_object$`message`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to ModelApiResponse

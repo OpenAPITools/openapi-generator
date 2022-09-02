@@ -8,10 +8,11 @@
 #' @description {{classname}} Class
 #' @format An \code{R6Class} generator object
 {{#vars}}
-#' @field {{name}} {{title}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
+#' @field {{name}} {{{description}}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 {{/isAdditionalPropertiesTrue}}
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -26,7 +27,8 @@
     `{{{name}}}` = NULL,
     {{/vars}}
     {{#isAdditionalPropertiesTrue}}
-    `additional_properties` = NULL,
+    `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
+    `additional_properties` = list(),
     {{/isAdditionalPropertiesTrue}}
     #' Initialize a new {{{classname}}} class.
     #'
@@ -218,6 +220,15 @@
         {{/isContainer}}
       }
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
       self
     },
     #' To JSON string
@@ -320,6 +331,15 @@
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
       self
     },
     #' Validate JSON input with respect to {{classname}}

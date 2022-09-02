@@ -11,9 +11,10 @@
 #' @field petId  integer [optional]
 #' @field quantity  integer [optional]
 #' @field shipDate  character [optional]
-#' @field status  character [optional]
+#' @field status Order Status character [optional]
 #' @field complete  character [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -26,7 +27,8 @@ Order <- R6::R6Class(
     `shipDate` = NULL,
     `status` = NULL,
     `complete` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("id", "petId", "quantity", "shipDate", "status", "complete"),
+    `additional_properties` = list(),
     #' Initialize a new Order class.
     #'
     #' @description
@@ -141,6 +143,13 @@ Order <- R6::R6Class(
       if (!is.null(this_object$`complete`)) {
         self$`complete` <- this_object$`complete`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -225,6 +234,13 @@ Order <- R6::R6Class(
       self$`shipDate` <- this_object$`shipDate`
       self$`status` <- this_object$`status`
       self$`complete` <- this_object$`complete`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Order

@@ -14,8 +14,9 @@
 #' @field email  character [optional]
 #' @field password  character [optional]
 #' @field phone  character [optional]
-#' @field userStatus  integer [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field userStatus User Status integer [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -30,7 +31,8 @@ User <- R6::R6Class(
     `password` = NULL,
     `phone` = NULL,
     `userStatus` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"),
+    `additional_properties` = list(),
     #' Initialize a new User class.
     #'
     #' @description
@@ -169,6 +171,13 @@ User <- R6::R6Class(
       if (!is.null(this_object$`userStatus`)) {
         self$`userStatus` <- this_object$`userStatus`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -271,6 +280,13 @@ User <- R6::R6Class(
       self$`password` <- this_object$`password`
       self$`phone` <- this_object$`phone`
       self$`userStatus` <- this_object$`userStatus`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to User

@@ -30,6 +30,15 @@ test_that("Additional Properties test", {
   # test tag with additional_properties in `new`
   t <- Tag$new(id = 393, name = "something", additional_properties = list("nested_object" = list("inside_item" = 8989)))
   expect_equal(t$toJSONString(), "{\"id\":393,\"name\":\"something\",\"nested_object\":{\"inside_item\":8989}}")
+
+  # test fromJSONString
+  json <- "{\"id\":393,\"name\":\"something\",\"a1\":\"998\",\"b2\":\"bbccdd\"}"
+  t2 <- Tag$new() 
+  t2$fromJSONString(json)
+  expect_equal(t2$id, 393)
+  expect_equal(t2$name, "something")
+  expect_equal(t2$additional_properties[["a1"]], "998")
+  expect_equal(t2$additional_properties[["b2"]], "bbccdd")
 })
 
 test_that("Test toJSON toJSONString fromJSON fromJSONString print", {

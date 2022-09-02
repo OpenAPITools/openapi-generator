@@ -9,7 +9,8 @@
 #' @format An \code{R6Class} generator object
 #' @field className  character
 #' @field color  character [optional]
-#' @field additional_properties named list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -18,7 +19,8 @@ Animal <- R6::R6Class(
   public = list(
     `className` = NULL,
     `color` = NULL,
-    `additional_properties` = NULL,
+    `_field_list` = c("className", "color"),
+    `additional_properties` = list(),
     #' Initialize a new Animal class.
     #'
     #' @description
@@ -85,6 +87,13 @@ Animal <- R6::R6Class(
       if (!is.null(this_object$`color`)) {
         self$`color` <- this_object$`color`
       }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' To JSON string
@@ -133,6 +142,13 @@ Animal <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
       self$`color` <- this_object$`color`
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
       self
     },
     #' Validate JSON input with respect to Animal
