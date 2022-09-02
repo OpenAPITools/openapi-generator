@@ -76,7 +76,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 "dateTime": dateTime,
                 "map": map,
             }
-        additional_properties = None
     
     uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset]
     dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]

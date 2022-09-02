@@ -43,7 +43,6 @@ class ParentPet(
                     'ChildCat': ChildCat,
                 }
             }
-        additional_properties = None
         
         @classmethod
         @property

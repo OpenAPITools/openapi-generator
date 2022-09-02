@@ -60,7 +60,6 @@ class HealthCheckResult(
             __annotations__ = {
                 "NullableMessage": NullableMessage,
             }
-        additional_properties = None
     
     NullableMessage: typing.Union[MetaOapg.properties.NullableMessage, schemas.Unset]
     

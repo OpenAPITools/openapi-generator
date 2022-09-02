@@ -46,7 +46,6 @@ class ObjectWithDecimalProperties(
                 "width": width,
                 "cost": cost,
             }
-        additional_properties = None
     
     length: typing.Union[MetaOapg.properties.length, schemas.Unset]
     width: typing.Union[MetaOapg.properties.width, schemas.Unset]

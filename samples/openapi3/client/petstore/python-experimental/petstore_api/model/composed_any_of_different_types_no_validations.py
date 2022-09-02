@@ -33,7 +33,6 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class any_of_0(
@@ -42,7 +41,6 @@ class ComposedAnyOfDifferentTypesNoValidations(
         
         
             class MetaOapg:
-                additional_properties = None
         
             def __new__(
                 cls,
@@ -67,7 +65,6 @@ class ComposedAnyOfDifferentTypesNoValidations(
         
         
             class MetaOapg:
-                additional_properties = None
         
             def __new__(
                 cls,

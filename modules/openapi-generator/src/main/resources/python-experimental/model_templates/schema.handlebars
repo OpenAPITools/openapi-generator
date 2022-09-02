@@ -7,7 +7,7 @@
     {{else}}
         {{#or isMap isArray isAnyType}}
             {{#if isMap}}
-                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping}}
+                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping }}
 {{> model_templates/schema_dict }}
                 {{else}}
                     {{#if additionalPropertiesIsAnyType}}

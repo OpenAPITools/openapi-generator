@@ -43,7 +43,6 @@ class Pig(
                     'DanishPig': DanishPig,
                 }
             }
-        additional_properties = None
         
         @classmethod
         @property

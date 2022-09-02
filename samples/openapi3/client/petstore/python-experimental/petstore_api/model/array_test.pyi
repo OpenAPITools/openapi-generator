@@ -156,7 +156,6 @@ class ArrayTest(
                 "array_array_of_integer": array_array_of_integer,
                 "array_array_of_model": array_array_of_model,
             }
-        additional_properties = None
     
     array_of_string: typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]
     array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]

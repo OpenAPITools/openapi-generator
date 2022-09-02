@@ -291,7 +291,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "enum_form_string_array": enum_form_string_array,
                 "enum_form_string": enum_form_string,
             }
-        additional_properties = None
     
     enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]
     enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]

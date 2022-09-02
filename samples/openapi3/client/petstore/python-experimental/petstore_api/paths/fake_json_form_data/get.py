@@ -45,7 +45,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "param": param,
                 "param2": param2,
             }
-        additional_properties = None
     
     param: MetaOapg.properties.param
     param2: MetaOapg.properties.param2

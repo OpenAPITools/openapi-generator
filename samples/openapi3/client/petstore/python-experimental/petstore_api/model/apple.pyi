@@ -57,7 +57,6 @@ class Apple(
                 "cultivar": cultivar,
                 "origin": origin,
             }
-        additional_properties = None
 
     
     cultivar: MetaOapg.properties.cultivar

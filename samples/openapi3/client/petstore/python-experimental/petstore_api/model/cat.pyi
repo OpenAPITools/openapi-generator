@@ -33,7 +33,6 @@ class Cat(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_1(
@@ -47,7 +46,6 @@ class Cat(
                     __annotations__ = {
                         "declawed": declawed,
                     }
-                additional_properties = None
             
             declawed: typing.Union[MetaOapg.properties.declawed, schemas.Unset]
             

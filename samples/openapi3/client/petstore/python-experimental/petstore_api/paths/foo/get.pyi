@@ -42,7 +42,6 @@ class SchemaFor0ResponseBodyApplicationJson(
             __annotations__ = {
                 "string": string,
             }
-        additional_properties = None
     
     string: typing.Union['Foo', schemas.Unset]
     

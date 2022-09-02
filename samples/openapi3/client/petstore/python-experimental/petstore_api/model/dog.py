@@ -33,7 +33,6 @@ class Dog(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_1(
@@ -47,7 +46,6 @@ class Dog(
                     __annotations__ = {
                         "breed": breed,
                     }
-                additional_properties = None
             
             breed: typing.Union[MetaOapg.properties.breed, schemas.Unset]
             

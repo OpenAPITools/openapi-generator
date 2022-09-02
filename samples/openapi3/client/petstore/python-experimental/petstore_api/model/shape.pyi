@@ -43,7 +43,6 @@ class Shape(
                     'Triangle': Triangle,
                 }
             }
-        additional_properties = None
         
         @classmethod
         @property

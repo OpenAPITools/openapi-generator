@@ -42,7 +42,6 @@ class ObjectWithInlineCompositionProperty(
             
             
                 class MetaOapg:
-                    additional_properties = None
                     
                     
                     class all_of_0(
@@ -82,7 +81,6 @@ class ObjectWithInlineCompositionProperty(
             __annotations__ = {
                 "someProp": someProp,
             }
-        additional_properties = None
     
     someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     

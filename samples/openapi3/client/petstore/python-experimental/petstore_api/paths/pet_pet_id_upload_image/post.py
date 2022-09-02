@@ -69,7 +69,6 @@ class SchemaForRequestBodyMultipartFormData(
                 "additionalMetadata": additionalMetadata,
                 "file": file,
             }
-        additional_properties = None
     
     additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]
     file: typing.Union[MetaOapg.properties.file, schemas.Unset]

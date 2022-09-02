@@ -33,7 +33,6 @@ class ChildCat(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_1(
@@ -47,7 +46,6 @@ class ChildCat(
                     __annotations__ = {
                         "name": name,
                     }
-                additional_properties = None
             
             name: typing.Union[MetaOapg.properties.name, schemas.Unset]
             

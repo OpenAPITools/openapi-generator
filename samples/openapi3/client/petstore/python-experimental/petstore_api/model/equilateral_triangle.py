@@ -33,7 +33,6 @@ class EquilateralTriangle(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_1(
@@ -61,7 +60,6 @@ class EquilateralTriangle(
                     __annotations__ = {
                         "triangleType": triangleType,
                     }
-                additional_properties = None
             
             triangleType: typing.Union[MetaOapg.properties.triangleType, schemas.Unset]
             

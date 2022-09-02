@@ -41,7 +41,6 @@ class Banana(
             __annotations__ = {
                 "lengthCm": lengthCm,
             }
-        additional_properties = None
     
     lengthCm: MetaOapg.properties.lengthCm
     

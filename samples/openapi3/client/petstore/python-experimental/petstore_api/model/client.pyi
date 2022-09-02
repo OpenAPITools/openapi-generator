@@ -38,7 +38,6 @@ class Client(
             __annotations__ = {
                 "client": client,
             }
-        additional_properties = None
     
     client: typing.Union[MetaOapg.properties.client, schemas.Unset]
     

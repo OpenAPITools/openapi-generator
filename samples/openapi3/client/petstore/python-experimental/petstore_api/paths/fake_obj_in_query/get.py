@@ -38,7 +38,6 @@ class MapBeanSchema(
             __annotations__ = {
                 "keyword": keyword,
             }
-        additional_properties = None
     
     keyword: typing.Union[MetaOapg.properties.keyword, schemas.Unset]
     

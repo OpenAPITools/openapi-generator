@@ -38,7 +38,6 @@ class Foo(
             __annotations__ = {
                 "bar": bar,
             }
-        additional_properties = None
     
     bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
     

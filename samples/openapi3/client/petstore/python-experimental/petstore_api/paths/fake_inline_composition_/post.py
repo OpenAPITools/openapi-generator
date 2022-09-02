@@ -34,7 +34,6 @@ class CompositionAtRootSchema(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_0(
@@ -88,7 +87,6 @@ class CompositionInPropertySchema(
             
             
                 class MetaOapg:
-                    additional_properties = None
                     
                     
                     class all_of_0(
@@ -128,7 +126,6 @@ class CompositionInPropertySchema(
             __annotations__ = {
                 "someProp": someProp,
             }
-        additional_properties = None
     
     someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     
@@ -197,7 +194,6 @@ class SchemaForRequestBodyApplicationJson(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_0(
@@ -251,7 +247,6 @@ class SchemaForRequestBodyMultipartFormData(
             
             
                 class MetaOapg:
-                    additional_properties = None
                     
                     
                     class all_of_0(
@@ -291,7 +286,6 @@ class SchemaForRequestBodyMultipartFormData(
             __annotations__ = {
                 "someProp": someProp,
             }
-        additional_properties = None
     
     someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     
@@ -338,7 +332,6 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_0(
@@ -392,7 +385,6 @@ class SchemaFor200ResponseBodyMultipartFormData(
             
             
                 class MetaOapg:
-                    additional_properties = None
                     
                     
                     class all_of_0(
@@ -432,7 +424,6 @@ class SchemaFor200ResponseBodyMultipartFormData(
             __annotations__ = {
                 "someProp": someProp,
             }
-        additional_properties = None
     
     someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     

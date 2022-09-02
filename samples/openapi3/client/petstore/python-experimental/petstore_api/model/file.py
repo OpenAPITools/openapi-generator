@@ -40,7 +40,6 @@ class File(
             __annotations__ = {
                 "sourceURI": sourceURI,
             }
-        additional_properties = None
     
     sourceURI: typing.Union[MetaOapg.properties.sourceURI, schemas.Unset]
     

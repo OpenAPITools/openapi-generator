@@ -70,7 +70,6 @@ class FileSchemaTestClass(
                 "file": file,
                 "files": files,
             }
-        additional_properties = None
     
     file: typing.Union['File', schemas.Unset]
     files: typing.Union[MetaOapg.properties.files, schemas.Unset]

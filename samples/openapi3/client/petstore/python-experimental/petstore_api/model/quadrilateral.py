@@ -43,7 +43,6 @@ class Quadrilateral(
                     'SimpleQuadrilateral': SimpleQuadrilateral,
                 }
             }
-        additional_properties = None
         
         @classmethod
         @property

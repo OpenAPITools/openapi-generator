@@ -58,6 +58,3 @@ def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
 {{> model_templates/schema }}
 {{/if}}
 {{/with}}
-{{#unless additionalProperties}}
-additional_properties = None
-{{/unless}}

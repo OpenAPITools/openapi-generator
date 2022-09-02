@@ -53,7 +53,6 @@ class Animal(
                 "className": className,
                 "color": color,
             }
-        additional_properties = None
     
     className: MetaOapg.properties.className
     color: typing.Union[MetaOapg.properties.color, schemas.Unset]

@@ -188,7 +188,6 @@ class MapTest(
                 "direct_map": direct_map,
                 "indirect_map": indirect_map,
             }
-        additional_properties = None
     
     map_map_of_string: typing.Union[MetaOapg.properties.map_map_of_string, schemas.Unset]
     map_of_enum_string: typing.Union[MetaOapg.properties.map_of_enum_string, schemas.Unset]

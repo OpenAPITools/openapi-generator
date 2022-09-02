@@ -48,7 +48,6 @@ class ObjectModelWithRefProps(
                 "myString": myString,
                 "myBoolean": myBoolean,
             }
-        additional_properties = None
     
     myNumber: typing.Union['NumberWithValidations', schemas.Unset]
     myString: typing.Union[MetaOapg.properties.myString, schemas.Unset]

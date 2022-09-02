@@ -40,7 +40,6 @@ class SpecialModelName(
             __annotations__ = {
                 "a": a,
             }
-        additional_properties = None
     
     a: typing.Union[MetaOapg.properties.a, schemas.Unset]
     

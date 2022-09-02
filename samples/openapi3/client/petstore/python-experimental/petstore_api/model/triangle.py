@@ -44,7 +44,6 @@ class Triangle(
                     'ScaleneTriangle': ScaleneTriangle,
                 }
             }
-        additional_properties = None
         
         @classmethod
         @property

@@ -63,7 +63,6 @@ class SchemaForRequestBodyMultipartFormData(
             __annotations__ = {
                 "files": files,
             }
-        additional_properties = None
     
     files: typing.Union[MetaOapg.properties.files, schemas.Unset]
     

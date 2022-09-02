@@ -42,7 +42,6 @@ class ApiResponse(
                 "type": type,
                 "message": message,
             }
-        additional_properties = None
     
     code: typing.Union[MetaOapg.properties.code, schemas.Unset]
     type: typing.Union[MetaOapg.properties.type, schemas.Unset]

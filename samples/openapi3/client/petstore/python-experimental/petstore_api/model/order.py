@@ -74,7 +74,6 @@ class Order(
                 "status": status,
                 "complete": complete,
             }
-        additional_properties = None
     
     id: typing.Union[MetaOapg.properties.id, schemas.Unset]
     petId: typing.Union[MetaOapg.properties.petId, schemas.Unset]

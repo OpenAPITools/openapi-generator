@@ -45,7 +45,6 @@ class ShapeOrNull(
                     'Triangle': Triangle,
                 }
             }
-        additional_properties = None
         one_of_0 = schemas.NoneSchema
         
         @classmethod

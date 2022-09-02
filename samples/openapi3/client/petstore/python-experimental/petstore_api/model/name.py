@@ -47,7 +47,6 @@ class Name(
                 "snake_case": snake_case,
                 "property": _property,
             }
-        additional_properties = None
 
     
     name: MetaOapg.properties.name

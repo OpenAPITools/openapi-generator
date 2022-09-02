@@ -50,7 +50,6 @@ class User(
             
             
                 class MetaOapg:
-                    additional_properties = None
             
                 def __new__(
                     cls,
@@ -74,7 +73,6 @@ class User(
             
             
                 class MetaOapg:
-                    additional_properties = None
             
             
                 def __new__(
@@ -96,7 +94,6 @@ class User(
             
             
                 class MetaOapg:
-                    additional_properties = None
                     not_schema = schemas.NoneSchema
             
             
@@ -126,7 +123,6 @@ class User(
                 "anyTypeExceptNullProp": anyTypeExceptNullProp,
                 "anyTypePropNullable": anyTypePropNullable,
             }
-        additional_properties = None
     
     id: typing.Union[MetaOapg.properties.id, schemas.Unset]
     username: typing.Union[MetaOapg.properties.username, schemas.Unset]

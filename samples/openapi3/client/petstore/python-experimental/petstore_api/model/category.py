@@ -43,7 +43,6 @@ class Category(
                 "name": name,
                 "id": id,
             }
-        additional_properties = None
     
     name: MetaOapg.properties.name
     id: typing.Union[MetaOapg.properties.id, schemas.Unset]

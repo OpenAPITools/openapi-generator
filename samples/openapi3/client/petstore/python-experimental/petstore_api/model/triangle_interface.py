@@ -58,7 +58,6 @@ class TriangleInterface(
                 "shapeType": shapeType,
                 "triangleType": triangleType,
             }
-        additional_properties = None
 
     
     shapeType: MetaOapg.properties.shapeType

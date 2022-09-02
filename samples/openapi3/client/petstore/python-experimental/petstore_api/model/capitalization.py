@@ -48,7 +48,6 @@ class Capitalization(
                 "SCA_ETH_Flow_Points": SCA_ETH_Flow_Points,
                 "ATT_NAME": ATT_NAME,
             }
-        additional_properties = None
     
     smallCamel: typing.Union[MetaOapg.properties.smallCamel, schemas.Unset]
     CapitalCamel: typing.Union[MetaOapg.properties.CapitalCamel, schemas.Unset]

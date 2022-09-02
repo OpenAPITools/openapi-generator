@@ -58,7 +58,6 @@ class QuadrilateralInterface(
                 "shapeType": shapeType,
                 "quadrilateralType": quadrilateralType,
             }
-        additional_properties = None
 
     
     shapeType: MetaOapg.properties.shapeType

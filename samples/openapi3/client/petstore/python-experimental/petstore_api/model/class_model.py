@@ -40,7 +40,6 @@ class ClassModel(
             __annotations__ = {
                 "_class": _class,
             }
-        additional_properties = None
 
     
     _class: typing.Union[MetaOapg.properties._class, schemas.Unset]

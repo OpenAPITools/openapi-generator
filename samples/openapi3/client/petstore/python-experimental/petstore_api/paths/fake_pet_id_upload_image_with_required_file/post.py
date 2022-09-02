@@ -72,7 +72,6 @@ class SchemaForRequestBodyMultipartFormData(
                 "additionalMetadata": additionalMetadata,
                 "requiredFile": requiredFile,
             }
-        additional_properties = None
     
     requiredFile: MetaOapg.properties.requiredFile
     additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]

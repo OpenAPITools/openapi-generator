@@ -59,7 +59,6 @@ class Whale(
                 "hasBaleen": hasBaleen,
                 "hasTeeth": hasTeeth,
             }
-        additional_properties = None
     
     className: MetaOapg.properties.className
     hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset]

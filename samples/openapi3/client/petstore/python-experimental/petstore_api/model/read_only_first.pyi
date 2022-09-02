@@ -40,7 +40,6 @@ class ReadOnlyFirst(
                 "bar": bar,
                 "baz": baz,
             }
-        additional_properties = None
     
     bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
     baz: typing.Union[MetaOapg.properties.baz, schemas.Unset]

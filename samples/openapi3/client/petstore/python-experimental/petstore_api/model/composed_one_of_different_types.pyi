@@ -35,7 +35,6 @@ class ComposedOneOfDifferentTypes(
 
 
     class MetaOapg:
-        additional_properties = None
         one_of_2 = schemas.NoneSchema
         one_of_3 = schemas.DateSchema
         
@@ -46,7 +45,6 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                additional_properties = None
         
             def __new__(
                 cls,

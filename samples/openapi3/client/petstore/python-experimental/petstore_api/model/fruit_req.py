@@ -33,7 +33,6 @@ class FruitReq(
 
 
     class MetaOapg:
-        additional_properties = None
         one_of_0 = schemas.NoneSchema
         
         @classmethod

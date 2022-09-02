@@ -169,7 +169,6 @@ class EnumTest(
                 "IntegerEnumWithDefaultValue": IntegerEnumWithDefaultValue,
                 "IntegerEnumOneValue": IntegerEnumOneValue,
             }
-        additional_properties = None
     
     enum_string_required: MetaOapg.properties.enum_string_required
     enum_string: typing.Union[MetaOapg.properties.enum_string, schemas.Unset]

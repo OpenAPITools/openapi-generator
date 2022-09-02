@@ -135,7 +135,6 @@ class AdditionalPropertiesClass(
             
             
                 class MetaOapg:
-                    additional_properties = None
             
                 def __new__(
                     cls,
@@ -155,7 +154,6 @@ class AdditionalPropertiesClass(
             
             
                 class MetaOapg:
-                    additional_properties = None
             
                 def __new__(
                     cls,
@@ -214,7 +212,6 @@ class AdditionalPropertiesClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                             not_schema = schemas.AnyTypeSchema
                     
                     
@@ -291,7 +288,6 @@ class AdditionalPropertiesClass(
                 "empty_map": empty_map,
                 "map_with_undeclared_properties_string": map_with_undeclared_properties_string,
             }
-        additional_properties = None
     
     map_property: typing.Union[MetaOapg.properties.map_property, schemas.Unset]
     map_of_map_property: typing.Union[MetaOapg.properties.map_of_map_property, schemas.Unset]

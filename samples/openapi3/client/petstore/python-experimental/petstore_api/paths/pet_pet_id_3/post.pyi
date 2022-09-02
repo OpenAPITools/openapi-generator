@@ -41,7 +41,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "name": name,
                 "status": status,
             }
-        additional_properties = None
     
     name: typing.Union[MetaOapg.properties.name, schemas.Unset]
     status: typing.Union[MetaOapg.properties.status, schemas.Unset]

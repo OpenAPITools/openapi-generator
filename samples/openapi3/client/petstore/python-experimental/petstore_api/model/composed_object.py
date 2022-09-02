@@ -34,7 +34,6 @@ class ComposedObject(
 
 
     class MetaOapg:
-        additional_properties = None
         all_of_0 = schemas.AnyTypeSchema
         
         @classmethod

@@ -38,7 +38,6 @@ class GmFruit(
             __annotations__ = {
                 "color": color,
             }
-        additional_properties = None
         
         @classmethod
         @property

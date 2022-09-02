@@ -46,7 +46,6 @@ class Player(
                 "name": name,
                 "enemyPlayer": enemyPlayer,
             }
-        additional_properties = None
     
     name: typing.Union[MetaOapg.properties.name, schemas.Unset]
     enemyPlayer: typing.Union['Player', schemas.Unset]

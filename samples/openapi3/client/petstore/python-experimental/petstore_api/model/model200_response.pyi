@@ -42,7 +42,6 @@ class Model200Response(
                 "name": name,
                 "class": _class,
             }
-        additional_properties = None
 
     
     name: typing.Union[MetaOapg.properties.name, schemas.Unset]

@@ -38,7 +38,6 @@ class NumberOnly(
             __annotations__ = {
                 "JustNumber": JustNumber,
             }
-        additional_properties = None
     
     JustNumber: typing.Union[MetaOapg.properties.JustNumber, schemas.Unset]
     

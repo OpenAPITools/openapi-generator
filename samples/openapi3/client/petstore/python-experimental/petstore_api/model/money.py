@@ -48,7 +48,6 @@ class Money(
                 "amount": amount,
                 "currency": currency,
             }
-        additional_properties = None
     
     amount: MetaOapg.properties.amount
     currency: 'Currency'

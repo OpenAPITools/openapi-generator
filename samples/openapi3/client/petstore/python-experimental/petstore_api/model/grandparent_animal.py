@@ -51,7 +51,6 @@ class GrandparentAnimal(
             __annotations__ = {
                 "pet_type": pet_type,
             }
-        additional_properties = None
     
     pet_type: MetaOapg.properties.pet_type
     

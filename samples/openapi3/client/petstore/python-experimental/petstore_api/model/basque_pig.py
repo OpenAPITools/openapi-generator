@@ -55,7 +55,6 @@ class BasquePig(
             __annotations__ = {
                 "className": className,
             }
-        additional_properties = None
     
     className: MetaOapg.properties.className
     

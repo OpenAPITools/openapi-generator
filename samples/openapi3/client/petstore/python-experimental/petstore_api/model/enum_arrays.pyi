@@ -102,7 +102,6 @@ class EnumArrays(
                 "just_symbol": just_symbol,
                 "array_enum": array_enum,
             }
-        additional_properties = None
     
     just_symbol: typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]
     array_enum: typing.Union[MetaOapg.properties.array_enum, schemas.Unset]

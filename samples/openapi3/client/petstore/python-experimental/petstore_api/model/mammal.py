@@ -44,7 +44,6 @@ class Mammal(
                     'zebra': Zebra,
                 }
             }
-        additional_properties = None
         
         @classmethod
         @property

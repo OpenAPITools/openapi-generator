@@ -33,7 +33,6 @@ class ObjectInterface(
 
 
     class MetaOapg:
-        additional_properties = None
 
     def __new__(
         cls,

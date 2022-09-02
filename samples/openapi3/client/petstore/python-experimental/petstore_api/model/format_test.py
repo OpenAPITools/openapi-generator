@@ -199,7 +199,6 @@ class FormatTest(
                 "pattern_with_digits_and_delimiter": pattern_with_digits_and_delimiter,
                 "noneProp": noneProp,
             }
-        additional_properties = None
     
     date: MetaOapg.properties.date
     number: MetaOapg.properties.number

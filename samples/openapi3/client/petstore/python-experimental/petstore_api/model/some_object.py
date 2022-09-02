@@ -33,7 +33,6 @@ class SomeObject(
 
 
     class MetaOapg:
-        additional_properties = None
         
         @classmethod
         @property

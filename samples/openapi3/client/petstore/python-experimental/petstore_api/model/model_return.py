@@ -40,7 +40,6 @@ class ModelReturn(
             __annotations__ = {
                 "return": _return,
             }
-        additional_properties = None
 
     
     

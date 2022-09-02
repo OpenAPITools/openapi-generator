@@ -40,7 +40,6 @@ class Tag(
                 "id": id,
                 "name": name,
             }
-        additional_properties = None
     
     id: typing.Union[MetaOapg.properties.id, schemas.Unset]
     name: typing.Union[MetaOapg.properties.name, schemas.Unset]

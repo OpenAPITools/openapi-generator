@@ -132,7 +132,6 @@ class Pet(
                 "tags": tags,
                 "status": status,
             }
-        additional_properties = None
     
     photoUrls: MetaOapg.properties.photoUrls
     name: MetaOapg.properties.name

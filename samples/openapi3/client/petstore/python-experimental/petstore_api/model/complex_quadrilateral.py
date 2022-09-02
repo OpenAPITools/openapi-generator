@@ -33,7 +33,6 @@ class ComplexQuadrilateral(
 
 
     class MetaOapg:
-        additional_properties = None
         
         
         class all_of_1(
@@ -61,7 +60,6 @@ class ComplexQuadrilateral(
                     __annotations__ = {
                         "quadrilateralType": quadrilateralType,
                     }
-                additional_properties = None
             
             quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, schemas.Unset]
             

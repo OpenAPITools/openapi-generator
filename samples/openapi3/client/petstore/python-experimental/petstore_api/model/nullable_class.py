@@ -180,7 +180,6 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                     
                         def __new__(
                             cls,
@@ -228,7 +227,6 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                     
                     
                         def __new__(
@@ -273,7 +271,6 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                     
                     
                         def __new__(
@@ -320,7 +317,6 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                     
                         def __new__(
                             cls,
@@ -379,7 +375,6 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                     
                     
                         def __new__(
@@ -435,7 +430,6 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = None
                     
                     
                         def __new__(
@@ -496,7 +490,6 @@ class NullableClass(
         
         
             class MetaOapg:
-                additional_properties = None
         
         
             def __new__(

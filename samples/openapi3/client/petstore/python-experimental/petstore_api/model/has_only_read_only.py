@@ -40,7 +40,6 @@ class HasOnlyReadOnly(
                 "bar": bar,
                 "foo": foo,
             }
-        additional_properties = None
     
     bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
     foo: typing.Union[MetaOapg.properties.foo, schemas.Unset]

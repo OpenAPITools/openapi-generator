@@ -51,7 +51,6 @@ class AppleReq(
         
         
             class MetaOapg:
-                additional_properties = None
                 not_schema = schemas.AnyTypeSchema
         
         

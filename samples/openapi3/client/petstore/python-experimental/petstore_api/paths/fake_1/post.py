@@ -147,7 +147,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "password": password,
                 "callback": callback,
             }
-        additional_properties = None
     
     number: MetaOapg.properties.number
     pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter

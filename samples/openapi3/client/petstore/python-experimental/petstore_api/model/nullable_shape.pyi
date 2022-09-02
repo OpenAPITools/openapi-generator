@@ -35,7 +35,6 @@ class NullableShape(
 
 
     class MetaOapg:
-        additional_properties = None
         one_of_2 = schemas.NoneSchema
         
         @classmethod

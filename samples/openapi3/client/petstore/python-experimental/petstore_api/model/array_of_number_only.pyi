@@ -60,7 +60,6 @@ class ArrayOfNumberOnly(
             __annotations__ = {
                 "ArrayNumber": ArrayNumber,
             }
-        additional_properties = None
     
     ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]
     

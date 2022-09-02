@@ -47,7 +47,6 @@ class ObjectWithDifficultlyNamedProps(
                 "$special[property.name]": special_property_name,
                 "123Number": _123_number,
             }
-        additional_properties = None
     
     
     @typing.overload
