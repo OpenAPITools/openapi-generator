@@ -50,7 +50,10 @@ class ReadOnlyFirst(
     @typing.overload
     def __getitem__(self, name: typing.Literal["baz"]) -> typing.Union[MetaOapg.properties.baz, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Literal["bar", "baz", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["bar", "baz", ], str]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

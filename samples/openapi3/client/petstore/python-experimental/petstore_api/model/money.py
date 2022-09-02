@@ -58,7 +58,10 @@ class Money(
     @typing.overload
     def __getitem__(self, name: typing.Literal["currency"]) -> 'Currency': ...
     
-    def __getitem__(self, name: typing.Literal["amount", "currency", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["amount", "currency", ], str]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

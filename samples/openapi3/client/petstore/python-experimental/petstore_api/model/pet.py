@@ -158,7 +158,10 @@ class Pet(
     @typing.overload
     def __getitem__(self, name: typing.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Literal["name", "photoUrls", "id", "category", "tags", "status", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["name", "photoUrls", "id", "category", "tags", "status", ], str]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

@@ -61,7 +61,10 @@ class Name(
     @typing.overload
     def __getitem__(self, name: typing.Literal["property"]) -> typing.Union[MetaOapg.properties._property, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Literal["name", "snake_case", "property", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["name", "snake_case", "property", ], str]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

@@ -54,10 +54,7 @@ class BananaReq(
     @typing.overload
     def __getitem__(self, name: typing.Literal["sweet"]) -> typing.Union[MetaOapg.properties.sweet, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["lengthCm"], typing.Literal["sweet"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["lengthCm"], typing.Literal["sweet"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

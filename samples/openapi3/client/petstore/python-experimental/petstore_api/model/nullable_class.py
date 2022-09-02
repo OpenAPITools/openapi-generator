@@ -514,7 +514,7 @@ class NullableClass(
     @typing.overload
     def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["integer_prop"], typing.Literal["number_prop"], typing.Literal["boolean_prop"], typing.Literal["string_prop"], typing.Literal["date_prop"], typing.Literal["datetime_prop"], typing.Literal["array_nullable_prop"], typing.Literal["array_and_items_nullable_prop"], typing.Literal["array_items_nullable"], typing.Literal["object_nullable_prop"], typing.Literal["object_and_items_nullable_prop"], typing.Literal["object_items_nullable"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["integer_prop"], typing.Literal["number_prop"], typing.Literal["boolean_prop"], typing.Literal["string_prop"], typing.Literal["date_prop"], typing.Literal["datetime_prop"], typing.Literal["array_nullable_prop"], typing.Literal["array_and_items_nullable_prop"], typing.Literal["array_items_nullable"], typing.Literal["object_nullable_prop"], typing.Literal["object_and_items_nullable_prop"], typing.Literal["object_items_nullable"], str, ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

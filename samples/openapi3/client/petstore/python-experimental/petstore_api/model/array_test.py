@@ -170,7 +170,10 @@ class ArrayTest(
     @typing.overload
     def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ], str]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)

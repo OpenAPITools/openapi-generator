@@ -47,7 +47,10 @@ class ClassModel(
     @typing.overload
     def __getitem__(self, name: typing.Literal["_class"]) -> typing.Union[MetaOapg.properties._class, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Literal["_class", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["_class", ], str]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
