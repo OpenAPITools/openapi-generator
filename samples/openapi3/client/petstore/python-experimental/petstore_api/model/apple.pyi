@@ -57,7 +57,7 @@ class Apple(
                 "cultivar": cultivar,
                 "origin": origin,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
 
     
     cultivar: MetaOapg.properties.cultivar
@@ -69,10 +69,7 @@ class Apple(
     @typing.overload
     def __getitem__(self, name: typing.Literal["origin"]) -> typing.Union[MetaOapg.properties.origin, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["cultivar"], typing.Literal["origin"], ]):
+    def __getitem__(self, name: typing.Literal["cultivar", "origin", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -80,18 +77,17 @@ class Apple(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, None, ],
         origin: typing.Union[MetaOapg.properties.origin, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Apple':
         return super().__new__(
             cls,
             *args,
             origin=origin,
             _configuration=_configuration,
-            **kwargs,
         )

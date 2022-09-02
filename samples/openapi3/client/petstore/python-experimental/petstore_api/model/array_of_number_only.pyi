@@ -60,17 +60,14 @@ class ArrayOfNumberOnly(
             __annotations__ = {
                 "ArrayNumber": ArrayNumber,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["ArrayNumber"], ]):
+    def __getitem__(self, name: typing.Literal["ArrayNumber", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -78,18 +75,17 @@ class ArrayOfNumberOnly(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,
             *args,
             ArrayNumber=ArrayNumber,
             _configuration=_configuration,
-            **kwargs,
         )

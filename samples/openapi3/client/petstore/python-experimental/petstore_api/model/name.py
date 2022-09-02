@@ -47,7 +47,7 @@ class Name(
                 "snake_case": snake_case,
                 "property": _property,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
 
     
     name: MetaOapg.properties.name
@@ -62,10 +62,7 @@ class Name(
     @typing.overload
     def __getitem__(self, name: typing.Literal["property"]) -> typing.Union[MetaOapg.properties._property, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["name"], typing.Literal["snake_case"], typing.Literal["property"], ]):
+    def __getitem__(self, name: typing.Literal["name", "snake_case", "property", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -73,6 +70,7 @@ class Name(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -80,7 +78,6 @@ class Name(
         name: typing.Union[MetaOapg.properties.name, int, ],
         snake_case: typing.Union[MetaOapg.properties.snake_case, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Name':
         return super().__new__(
             cls,
@@ -88,5 +85,4 @@ class Name(
             name=name,
             snake_case=snake_case,
             _configuration=_configuration,
-            **kwargs,
         )

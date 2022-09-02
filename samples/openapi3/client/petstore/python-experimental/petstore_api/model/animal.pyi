@@ -53,7 +53,7 @@ class Animal(
                 "className": className,
                 "color": color,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     className: MetaOapg.properties.className
     color: typing.Union[MetaOapg.properties.color, schemas.Unset]
@@ -64,10 +64,7 @@ class Animal(
     @typing.overload
     def __getitem__(self, name: typing.Literal["color"]) -> typing.Union[MetaOapg.properties.color, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["className"], typing.Literal["color"], ]):
+    def __getitem__(self, name: typing.Literal["className", "color", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -75,6 +72,7 @@ class Animal(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -82,7 +80,6 @@ class Animal(
         className: typing.Union[MetaOapg.properties.className, str, ],
         color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Animal':
         return super().__new__(
             cls,
@@ -90,7 +87,6 @@ class Animal(
             className=className,
             color=color,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.cat import Cat

@@ -76,7 +76,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 "dateTime": dateTime,
                 "map": map,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset]
     dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
@@ -91,10 +91,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
     @typing.overload
     def __getitem__(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["uuid"], typing.Literal["dateTime"], typing.Literal["map"], ]):
+    def __getitem__(self, name: typing.Literal["uuid", "dateTime", "map", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -102,6 +99,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -110,7 +108,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
         map: typing.Union[MetaOapg.properties.map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
             cls,
@@ -119,7 +116,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             dateTime=dateTime,
             map=map,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.animal import Animal

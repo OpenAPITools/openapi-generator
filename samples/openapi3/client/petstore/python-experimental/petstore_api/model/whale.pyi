@@ -59,7 +59,7 @@ class Whale(
                 "hasBaleen": hasBaleen,
                 "hasTeeth": hasTeeth,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     className: MetaOapg.properties.className
     hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, schemas.Unset]
@@ -74,10 +74,7 @@ class Whale(
     @typing.overload
     def __getitem__(self, name: typing.Literal["hasTeeth"]) -> typing.Union[MetaOapg.properties.hasTeeth, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["className"], typing.Literal["hasBaleen"], typing.Literal["hasTeeth"], ]):
+    def __getitem__(self, name: typing.Literal["className", "hasBaleen", "hasTeeth", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -85,6 +82,7 @@ class Whale(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -93,7 +91,6 @@ class Whale(
         hasBaleen: typing.Union[MetaOapg.properties.hasBaleen, bool, schemas.Unset] = schemas.unset,
         hasTeeth: typing.Union[MetaOapg.properties.hasTeeth, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Whale':
         return super().__new__(
             cls,
@@ -102,5 +99,4 @@ class Whale(
             hasBaleen=hasBaleen,
             hasTeeth=hasTeeth,
             _configuration=_configuration,
-            **kwargs,
         )

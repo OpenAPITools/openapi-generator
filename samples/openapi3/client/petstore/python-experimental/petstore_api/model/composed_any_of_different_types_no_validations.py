@@ -33,14 +33,52 @@ class ComposedAnyOfDifferentTypesNoValidations(
 
 
     class MetaOapg:
-        additional_properties = schemas.AnyTypeSchema
-        any_of_0 = schemas.DictSchema
+        additional_properties = None
+        
+        
+        class any_of_0(
+            schemas.DictSchema
+        ):
+        
+        
+            class MetaOapg:
+                additional_properties = None
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+            ) -> 'any_of_0':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _configuration=_configuration,
+                )
         any_of_1 = schemas.DateSchema
         any_of_2 = schemas.DateTimeSchema
         any_of_3 = schemas.BinarySchema
         any_of_4 = schemas.StrSchema
         any_of_5 = schemas.StrSchema
-        any_of_6 = schemas.DictSchema
+        
+        
+        class any_of_6(
+            schemas.DictSchema
+        ):
+        
+        
+            class MetaOapg:
+                additional_properties = None
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+            ) -> 'any_of_6':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _configuration=_configuration,
+                )
         any_of_7 = schemas.BoolSchema
         any_of_8 = schemas.NoneSchema
         
@@ -103,25 +141,14 @@ class ComposedAnyOfDifferentTypesNoValidations(
                 cls.any_of_15,
             ]
 
-    
-    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ComposedAnyOfDifferentTypesNoValidations':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
-            **kwargs,
         )

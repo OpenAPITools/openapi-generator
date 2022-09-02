@@ -102,7 +102,7 @@ class EnumArrays(
                 "just_symbol": just_symbol,
                 "array_enum": array_enum,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     just_symbol: typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]
     array_enum: typing.Union[MetaOapg.properties.array_enum, schemas.Unset]
@@ -113,10 +113,7 @@ class EnumArrays(
     @typing.overload
     def __getitem__(self, name: typing.Literal["array_enum"]) -> typing.Union[MetaOapg.properties.array_enum, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["just_symbol"], typing.Literal["array_enum"], ]):
+    def __getitem__(self, name: typing.Literal["just_symbol", "array_enum", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -124,6 +121,7 @@ class EnumArrays(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -131,7 +129,6 @@ class EnumArrays(
         just_symbol: typing.Union[MetaOapg.properties.just_symbol, str, schemas.Unset] = schemas.unset,
         array_enum: typing.Union[MetaOapg.properties.array_enum, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'EnumArrays':
         return super().__new__(
             cls,
@@ -139,5 +136,4 @@ class EnumArrays(
             just_symbol=just_symbol,
             array_enum=array_enum,
             _configuration=_configuration,
-            **kwargs,
         )

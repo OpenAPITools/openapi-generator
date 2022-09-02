@@ -51,17 +51,14 @@ class GrandparentAnimal(
             __annotations__ = {
                 "pet_type": pet_type,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     pet_type: MetaOapg.properties.pet_type
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["pet_type"], ]):
+    def __getitem__(self, name: typing.Literal["pet_type", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -69,20 +66,19 @@ class GrandparentAnimal(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         pet_type: typing.Union[MetaOapg.properties.pet_type, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,
             *args,
             pet_type=pet_type,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.child_cat import ChildCat

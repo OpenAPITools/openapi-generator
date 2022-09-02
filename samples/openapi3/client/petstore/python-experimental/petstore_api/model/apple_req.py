@@ -43,7 +43,28 @@ class AppleReq(
                 "cultivar": cultivar,
                 "mealy": mealy,
             }
-        additional_properties = None
+        
+        
+        class additional_properties(
+            schemas.ComposedSchema,
+        ):
+        
+        
+            class MetaOapg:
+                additional_properties = None
+                not_schema = schemas.AnyTypeSchema
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+            ) -> 'additional_properties':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _configuration=_configuration,
+                )
     
     cultivar: MetaOapg.properties.cultivar
     mealy: typing.Union[MetaOapg.properties.mealy, schemas.Unset]
@@ -54,7 +75,10 @@ class AppleReq(
     @typing.overload
     def __getitem__(self, name: typing.Literal["mealy"]) -> typing.Union[MetaOapg.properties.mealy, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Literal["cultivar", "mealy", ]):
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["cultivar"], typing.Literal["mealy"], ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -62,7 +86,6 @@ class AppleReq(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
-    
 
     def __new__(
         cls,
@@ -70,6 +93,7 @@ class AppleReq(
         cultivar: typing.Union[MetaOapg.properties.cultivar, str, ],
         mealy: typing.Union[MetaOapg.properties.mealy, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'AppleReq':
         return super().__new__(
             cls,
@@ -77,4 +101,5 @@ class AppleReq(
             cultivar=cultivar,
             mealy=mealy,
             _configuration=_configuration,
+            **kwargs,
         )

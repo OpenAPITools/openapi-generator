@@ -188,7 +188,7 @@ class MapTest(
                 "direct_map": direct_map,
                 "indirect_map": indirect_map,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     map_map_of_string: typing.Union[MetaOapg.properties.map_map_of_string, schemas.Unset]
     map_of_enum_string: typing.Union[MetaOapg.properties.map_of_enum_string, schemas.Unset]
@@ -207,10 +207,7 @@ class MapTest(
     @typing.overload
     def __getitem__(self, name: typing.Literal["indirect_map"]) -> typing.Union['StringBooleanMap', schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["map_map_of_string"], typing.Literal["map_of_enum_string"], typing.Literal["direct_map"], typing.Literal["indirect_map"], ]):
+    def __getitem__(self, name: typing.Literal["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -218,6 +215,7 @@ class MapTest(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -227,7 +225,6 @@ class MapTest(
         direct_map: typing.Union[MetaOapg.properties.direct_map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         indirect_map: typing.Union['StringBooleanMap', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'MapTest':
         return super().__new__(
             cls,
@@ -237,7 +234,6 @@ class MapTest(
             direct_map=direct_map,
             indirect_map=indirect_map,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.string_boolean_map import StringBooleanMap

@@ -47,7 +47,7 @@ class ObjectWithDifficultlyNamedProps(
                 "$special[property.name]": special_property_name,
                 "123Number": _123_number,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     
     @typing.overload
@@ -59,10 +59,7 @@ class ObjectWithDifficultlyNamedProps(
     @typing.overload
     def __getitem__(self, name: typing.Literal["123Number"]) -> typing.Union[MetaOapg.properties._123_number, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["123-list"], typing.Literal["$special[property.name]"], typing.Literal["123Number"], ]):
+    def __getitem__(self, name: typing.Literal["123-list", "$special[property.name]", "123Number", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -70,16 +67,15 @@ class ObjectWithDifficultlyNamedProps(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithDifficultlyNamedProps':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
-            **kwargs,
         )

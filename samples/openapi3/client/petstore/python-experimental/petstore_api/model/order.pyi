@@ -74,7 +74,7 @@ class Order(
                 "status": status,
                 "complete": complete,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     id: typing.Union[MetaOapg.properties.id, schemas.Unset]
     petId: typing.Union[MetaOapg.properties.petId, schemas.Unset]
@@ -101,10 +101,7 @@ class Order(
     @typing.overload
     def __getitem__(self, name: typing.Literal["complete"]) -> typing.Union[MetaOapg.properties.complete, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["id"], typing.Literal["petId"], typing.Literal["quantity"], typing.Literal["shipDate"], typing.Literal["status"], typing.Literal["complete"], ]):
+    def __getitem__(self, name: typing.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -112,6 +109,7 @@ class Order(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -123,7 +121,6 @@ class Order(
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         complete: typing.Union[MetaOapg.properties.complete, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Order':
         return super().__new__(
             cls,
@@ -135,5 +132,4 @@ class Order(
             status=status,
             complete=complete,
             _configuration=_configuration,
-            **kwargs,
         )

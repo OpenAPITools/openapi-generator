@@ -1019,7 +1019,6 @@ Name | Type | Description | Notes
 **dateTime** | **datetime** | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
 **password** | **str** | None | [optional] 
 **callback** | **str** | None | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1129,7 +1128,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enum_form_string_array** | **[str]** | Form parameter enum test (string array) | [optional] 
 **enum_form_string** | **str** | Form parameter enum test (string) | [optional]  if omitted the server will use the default value of "-efg"
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams
@@ -1575,10 +1573,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 #### SchemaForRequestBodyMultipartFormData
 
@@ -1586,7 +1583,6 @@ Name | Type | Description | Notes
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams
@@ -1599,10 +1595,9 @@ compositionInProperty | CompositionInPropertySchema | | optional
 
 #### CompositionAtRootSchema
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 #### CompositionInPropertySchema
 
@@ -1610,7 +1605,6 @@ Name | Type | Description | Notes
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1628,10 +1622,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 #### SchemaFor200ResponseBodyMultipartFormData
 
@@ -1639,7 +1632,6 @@ Name | Type | Description | Notes
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -1705,7 +1697,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **param** | **str** | field1 | 
 **param2** | **str** | field2 | 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -2044,7 +2035,6 @@ mapBean | MapBeanSchema | | optional
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **keyword** | **str** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -3042,7 +3032,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file** | **file_type** | file to upload | 
 **additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -3131,7 +3120,6 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **files** | **[file_type]** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 

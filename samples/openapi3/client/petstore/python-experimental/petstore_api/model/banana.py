@@ -41,17 +41,14 @@ class Banana(
             __annotations__ = {
                 "lengthCm": lengthCm,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     lengthCm: MetaOapg.properties.lengthCm
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["lengthCm"], ]):
+    def __getitem__(self, name: typing.Literal["lengthCm", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -59,18 +56,17 @@ class Banana(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         lengthCm: typing.Union[MetaOapg.properties.lengthCm, decimal.Decimal, int, float, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Banana':
         return super().__new__(
             cls,
             *args,
             lengthCm=lengthCm,
             _configuration=_configuration,
-            **kwargs,
         )

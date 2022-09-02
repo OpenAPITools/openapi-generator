@@ -45,7 +45,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "param": param,
                 "param2": param2,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     param: MetaOapg.properties.param
     param2: MetaOapg.properties.param2
@@ -56,10 +56,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     @typing.overload
     def __getitem__(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["param"], typing.Literal["param2"], ]):
+    def __getitem__(self, name: typing.Literal["param", "param2", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -67,6 +64,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -74,7 +72,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         param: typing.Union[MetaOapg.properties.param, str, ],
         param2: typing.Union[MetaOapg.properties.param2, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -82,7 +79,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             param=param,
             param2=param2,
             _configuration=_configuration,
-            **kwargs,
         )
 
 

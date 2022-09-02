@@ -55,17 +55,14 @@ class BasquePig(
             __annotations__ = {
                 "className": className,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     className: MetaOapg.properties.className
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["className"], ]):
+    def __getitem__(self, name: typing.Literal["className", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -73,18 +70,17 @@ class BasquePig(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         className: typing.Union[MetaOapg.properties.className, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'BasquePig':
         return super().__new__(
             cls,
             *args,
             className=className,
             _configuration=_configuration,
-            **kwargs,
         )

@@ -40,7 +40,7 @@ class Tag(
                 "id": id,
                 "name": name,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     id: typing.Union[MetaOapg.properties.id, schemas.Unset]
     name: typing.Union[MetaOapg.properties.name, schemas.Unset]
@@ -51,10 +51,7 @@ class Tag(
     @typing.overload
     def __getitem__(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["id"], typing.Literal["name"], ]):
+    def __getitem__(self, name: typing.Literal["id", "name", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -62,6 +59,7 @@ class Tag(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -69,7 +67,6 @@ class Tag(
         id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Tag':
         return super().__new__(
             cls,
@@ -77,5 +74,4 @@ class Tag(
             id=id,
             name=name,
             _configuration=_configuration,
-            **kwargs,
         )

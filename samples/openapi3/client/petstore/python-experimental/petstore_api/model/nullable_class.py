@@ -172,7 +172,26 @@ class NullableClass(
             
             
                 class MetaOapg:
-                    items = schemas.DictSchema
+                    
+                    
+                    class items(
+                        schemas.DictSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            additional_properties = None
+                    
+                        def __new__(
+                            cls,
+                            *args: typing.Union[dict, frozendict.frozendict, ],
+                            _configuration: typing.Optional[schemas.Configuration] = None,
+                        ) -> 'items':
+                            return super().__new__(
+                                cls,
+                                *args,
+                                _configuration=_configuration,
+                            )
             
             
                 def __new__(
@@ -209,29 +228,18 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = schemas.AnyTypeSchema
+                            additional_properties = None
                     
-                        
-                        def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                            # dict_instance[name] accessor
-                            if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                                return super().__getitem__(name)
-                            try:
-                                return super().__getitem__(name)
-                            except KeyError:
-                                return schemas.unset
                     
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'items':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
-                                **kwargs,
                             )
             
             
@@ -265,29 +273,18 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = schemas.AnyTypeSchema
+                            additional_properties = None
                     
-                        
-                        def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                            # dict_instance[name] accessor
-                            if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                                return super().__getitem__(name)
-                            try:
-                                return super().__getitem__(name)
-                            except KeyError:
-                                return schemas.unset
                     
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'items':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
-                                **kwargs,
                             )
             
                 def __new__(
@@ -315,7 +312,26 @@ class NullableClass(
             
             
                 class MetaOapg:
-                    additional_properties = schemas.DictSchema
+                    
+                    
+                    class additional_properties(
+                        schemas.DictSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            additional_properties = None
+                    
+                        def __new__(
+                            cls,
+                            *args: typing.Union[dict, frozendict.frozendict, ],
+                            _configuration: typing.Optional[schemas.Configuration] = None,
+                        ) -> 'additional_properties':
+                            return super().__new__(
+                                cls,
+                                *args,
+                                _configuration=_configuration,
+                            )
             
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
@@ -363,29 +379,18 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = schemas.AnyTypeSchema
+                            additional_properties = None
                     
-                        
-                        def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                            # dict_instance[name] accessor
-                            if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                                return super().__getitem__(name)
-                            try:
-                                return super().__getitem__(name)
-                            except KeyError:
-                                return schemas.unset
                     
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
-                                **kwargs,
                             )
             
                 
@@ -430,29 +435,18 @@ class NullableClass(
                     
                     
                         class MetaOapg:
-                            additional_properties = schemas.AnyTypeSchema
+                            additional_properties = None
                     
-                        
-                        def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                            # dict_instance[name] accessor
-                            if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                                return super().__getitem__(name)
-                            try:
-                                return super().__getitem__(name)
-                            except KeyError:
-                                return schemas.unset
                     
                         def __new__(
                             cls,
                             *args: typing.Union[dict, frozendict.frozendict, None, ],
                             _configuration: typing.Optional[schemas.Configuration] = None,
-                            **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                         ) -> 'additional_properties':
                             return super().__new__(
                                 cls,
                                 *args,
                                 _configuration=_configuration,
-                                **kwargs,
                             )
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
@@ -502,29 +496,18 @@ class NullableClass(
         
         
             class MetaOapg:
-                additional_properties = schemas.AnyTypeSchema
+                additional_properties = None
         
-            
-            def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, None, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'additional_properties':
                 return super().__new__(
                     cls,
                     *args,
                     _configuration=_configuration,
-                    **kwargs,
                 )
     
     integer_prop: typing.Union[MetaOapg.properties.integer_prop, schemas.Unset]

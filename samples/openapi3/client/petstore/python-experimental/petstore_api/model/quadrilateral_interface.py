@@ -58,7 +58,7 @@ class QuadrilateralInterface(
                 "shapeType": shapeType,
                 "quadrilateralType": quadrilateralType,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
 
     
     shapeType: MetaOapg.properties.shapeType
@@ -70,10 +70,7 @@ class QuadrilateralInterface(
     @typing.overload
     def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["shapeType"], typing.Literal["quadrilateralType"], ]):
+    def __getitem__(self, name: typing.Literal["shapeType", "quadrilateralType", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -81,6 +78,7 @@ class QuadrilateralInterface(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -88,7 +86,6 @@ class QuadrilateralInterface(
         shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
         quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,
@@ -96,5 +93,4 @@ class QuadrilateralInterface(
             shapeType=shapeType,
             quadrilateralType=quadrilateralType,
             _configuration=_configuration,
-            **kwargs,
         )

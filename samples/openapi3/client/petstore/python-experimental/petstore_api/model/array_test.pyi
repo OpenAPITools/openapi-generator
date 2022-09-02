@@ -156,7 +156,7 @@ class ArrayTest(
                 "array_array_of_integer": array_array_of_integer,
                 "array_array_of_model": array_array_of_model,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     array_of_string: typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]
     array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]
@@ -171,10 +171,7 @@ class ArrayTest(
     @typing.overload
     def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["array_of_string"], typing.Literal["array_array_of_integer"], typing.Literal["array_array_of_model"], ]):
+    def __getitem__(self, name: typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -182,6 +179,7 @@ class ArrayTest(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -190,7 +188,6 @@ class ArrayTest(
         array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
         array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ArrayTest':
         return super().__new__(
             cls,
@@ -199,7 +196,6 @@ class ArrayTest(
             array_array_of_integer=array_array_of_integer,
             array_array_of_model=array_array_of_model,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.read_only_first import ReadOnlyFirst

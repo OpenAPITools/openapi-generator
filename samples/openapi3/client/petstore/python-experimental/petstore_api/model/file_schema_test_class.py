@@ -70,7 +70,7 @@ class FileSchemaTestClass(
                 "file": file,
                 "files": files,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     file: typing.Union['File', schemas.Unset]
     files: typing.Union[MetaOapg.properties.files, schemas.Unset]
@@ -81,10 +81,7 @@ class FileSchemaTestClass(
     @typing.overload
     def __getitem__(self, name: typing.Literal["files"]) -> typing.Union[MetaOapg.properties.files, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["file"], typing.Literal["files"], ]):
+    def __getitem__(self, name: typing.Literal["file", "files", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -92,6 +89,7 @@ class FileSchemaTestClass(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -99,7 +97,6 @@ class FileSchemaTestClass(
         file: typing.Union['File', schemas.Unset] = schemas.unset,
         files: typing.Union[MetaOapg.properties.files, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,
@@ -107,7 +104,6 @@ class FileSchemaTestClass(
             file=file,
             files=files,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.file import File

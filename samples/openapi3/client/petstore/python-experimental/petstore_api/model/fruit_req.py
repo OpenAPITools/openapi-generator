@@ -33,7 +33,7 @@ class FruitReq(
 
 
     class MetaOapg:
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
         one_of_0 = schemas.NoneSchema
         
         @classmethod
@@ -53,27 +53,16 @@ class FruitReq(
                 BananaReq,
             ]
 
-    
-    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'FruitReq':
         return super().__new__(
             cls,
             *args,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.apple_req import AppleReq

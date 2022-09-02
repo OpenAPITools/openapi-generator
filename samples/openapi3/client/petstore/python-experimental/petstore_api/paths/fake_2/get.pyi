@@ -291,7 +291,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "enum_form_string_array": enum_form_string_array,
                 "enum_form_string": enum_form_string,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]
     enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]
@@ -302,10 +302,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     @typing.overload
     def __getitem__(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["enum_form_string_array"], typing.Literal["enum_form_string"], ]):
+    def __getitem__(self, name: typing.Literal["enum_form_string_array", "enum_form_string", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -313,6 +310,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -320,7 +318,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, tuple, schemas.Unset] = schemas.unset,
         enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -328,7 +325,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             enum_form_string_array=enum_form_string_array,
             enum_form_string=enum_form_string,
             _configuration=_configuration,
-            **kwargs,
         )
 
 

@@ -199,7 +199,7 @@ class FormatTest(
                 "pattern_with_digits_and_delimiter": pattern_with_digits_and_delimiter,
                 "noneProp": noneProp,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     date: MetaOapg.properties.date
     number: MetaOapg.properties.number
@@ -223,16 +223,16 @@ class FormatTest(
     noneProp: typing.Union[MetaOapg.properties.noneProp, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
+    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
+    def __getitem__(self, name: typing.Literal["date"]) -> MetaOapg.properties.date: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> MetaOapg.properties.password: ...
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["integer"]) -> typing.Union[MetaOapg.properties.integer, schemas.Unset]: ...
@@ -285,10 +285,7 @@ class FormatTest(
     @typing.overload
     def __getitem__(self, name: typing.Literal["noneProp"]) -> typing.Union[MetaOapg.properties.noneProp, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["date"], typing.Literal["number"], typing.Literal["password"], typing.Literal["byte"], typing.Literal["integer"], typing.Literal["int32"], typing.Literal["int32withValidations"], typing.Literal["int64"], typing.Literal["float"], typing.Literal["float32"], typing.Literal["double"], typing.Literal["float64"], typing.Literal["arrayWithUniqueItems"], typing.Literal["string"], typing.Literal["binary"], typing.Literal["dateTime"], typing.Literal["uuid"], typing.Literal["uuidNoExample"], typing.Literal["pattern_with_digits"], typing.Literal["pattern_with_digits_and_delimiter"], typing.Literal["noneProp"], ]):
+    def __getitem__(self, name: typing.Literal["number", "byte", "date", "password", "integer", "int32", "int32withValidations", "int64", "float", "float32", "double", "float64", "arrayWithUniqueItems", "string", "binary", "dateTime", "uuid", "uuidNoExample", "pattern_with_digits", "pattern_with_digits_and_delimiter", "noneProp", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -296,6 +293,7 @@ class FormatTest(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -321,7 +319,6 @@ class FormatTest(
         pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, str, schemas.Unset] = schemas.unset,
         noneProp: typing.Union[MetaOapg.properties.noneProp, None, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'FormatTest':
         return super().__new__(
             cls,
@@ -347,5 +344,4 @@ class FormatTest(
             pattern_with_digits_and_delimiter=pattern_with_digits_and_delimiter,
             noneProp=noneProp,
             _configuration=_configuration,
-            **kwargs,
         )

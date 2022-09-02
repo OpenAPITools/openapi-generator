@@ -42,7 +42,7 @@ class ApiResponse(
                 "type": type,
                 "message": message,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     code: typing.Union[MetaOapg.properties.code, schemas.Unset]
     type: typing.Union[MetaOapg.properties.type, schemas.Unset]
@@ -57,10 +57,7 @@ class ApiResponse(
     @typing.overload
     def __getitem__(self, name: typing.Literal["message"]) -> typing.Union[MetaOapg.properties.message, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["code"], typing.Literal["type"], typing.Literal["message"], ]):
+    def __getitem__(self, name: typing.Literal["code", "type", "message", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -68,6 +65,7 @@ class ApiResponse(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -76,7 +74,6 @@ class ApiResponse(
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         message: typing.Union[MetaOapg.properties.message, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ApiResponse':
         return super().__new__(
             cls,
@@ -85,5 +82,4 @@ class ApiResponse(
             type=type,
             message=message,
             _configuration=_configuration,
-            **kwargs,
         )

@@ -38,17 +38,14 @@ class Client(
             __annotations__ = {
                 "client": client,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     client: typing.Union[MetaOapg.properties.client, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["client"]) -> typing.Union[MetaOapg.properties.client, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["client"], ]):
+    def __getitem__(self, name: typing.Literal["client", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -56,18 +53,17 @@ class Client(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         client: typing.Union[MetaOapg.properties.client, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Client':
         return super().__new__(
             cls,
             *args,
             client=client,
             _configuration=_configuration,
-            **kwargs,
         )

@@ -46,7 +46,7 @@ class ObjectWithDecimalProperties(
                 "width": width,
                 "cost": cost,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     length: typing.Union[MetaOapg.properties.length, schemas.Unset]
     width: typing.Union[MetaOapg.properties.width, schemas.Unset]
@@ -61,10 +61,7 @@ class ObjectWithDecimalProperties(
     @typing.overload
     def __getitem__(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["length"], typing.Literal["width"], typing.Literal["cost"], ]):
+    def __getitem__(self, name: typing.Literal["length", "width", "cost", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -72,6 +69,7 @@ class ObjectWithDecimalProperties(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -80,7 +78,6 @@ class ObjectWithDecimalProperties(
         width: typing.Union[MetaOapg.properties.width, str, schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,
@@ -89,7 +86,6 @@ class ObjectWithDecimalProperties(
             width=width,
             cost=cost,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.money import Money

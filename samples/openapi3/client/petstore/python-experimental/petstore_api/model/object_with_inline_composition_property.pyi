@@ -42,7 +42,7 @@ class ObjectWithInlineCompositionProperty(
             
             
                 class MetaOapg:
-                    additional_properties = schemas.AnyTypeSchema
+                    additional_properties = None
                     
                     
                     class all_of_0(
@@ -65,42 +65,28 @@ class ObjectWithInlineCompositionProperty(
                             cls.all_of_0,
                         ]
             
-                
-                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                    # dict_instance[name] accessor
-                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                        return super().__getitem__(name)
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
             
                 def __new__(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 ) -> 'someProp':
                     return super().__new__(
                         cls,
                         *args,
                         _configuration=_configuration,
-                        **kwargs,
                     )
             __annotations__ = {
                 "someProp": someProp,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     someProp: typing.Union[MetaOapg.properties.someProp, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["someProp"], ]):
+    def __getitem__(self, name: typing.Literal["someProp", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -108,18 +94,17 @@ class ObjectWithInlineCompositionProperty(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'ObjectWithInlineCompositionProperty':
         return super().__new__(
             cls,
             *args,
             someProp=someProp,
             _configuration=_configuration,
-            **kwargs,
         )

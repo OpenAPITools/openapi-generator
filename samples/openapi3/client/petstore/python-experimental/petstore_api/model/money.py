@@ -48,7 +48,7 @@ class Money(
                 "amount": amount,
                 "currency": currency,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     amount: MetaOapg.properties.amount
     currency: 'Currency'
@@ -59,10 +59,7 @@ class Money(
     @typing.overload
     def __getitem__(self, name: typing.Literal["currency"]) -> 'Currency': ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["amount"], typing.Literal["currency"], ]):
+    def __getitem__(self, name: typing.Literal["amount", "currency", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -70,6 +67,7 @@ class Money(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -77,7 +75,6 @@ class Money(
         amount: typing.Union[MetaOapg.properties.amount, str, ],
         currency: 'Currency',
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'Money':
         return super().__new__(
             cls,
@@ -85,7 +82,6 @@ class Money(
             amount=amount,
             currency=currency,
             _configuration=_configuration,
-            **kwargs,
         )
 
 from petstore_api.model.currency import Currency

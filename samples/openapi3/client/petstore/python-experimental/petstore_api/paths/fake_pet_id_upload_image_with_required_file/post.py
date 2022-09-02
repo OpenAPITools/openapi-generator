@@ -72,21 +72,18 @@ class SchemaForRequestBodyMultipartFormData(
                 "additionalMetadata": additionalMetadata,
                 "requiredFile": requiredFile,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     requiredFile: MetaOapg.properties.requiredFile
     additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["requiredFile"]) -> MetaOapg.properties.requiredFile: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["requiredFile"]) -> MetaOapg.properties.requiredFile: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["requiredFile"], typing.Literal["additionalMetadata"], ]):
+    def __getitem__(self, name: typing.Literal["additionalMetadata", "requiredFile", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -94,6 +91,7 @@ class SchemaForRequestBodyMultipartFormData(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -101,7 +99,6 @@ class SchemaForRequestBodyMultipartFormData(
         requiredFile: typing.Union[MetaOapg.properties.requiredFile, bytes, io.FileIO, io.BufferedReader, ],
         additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -109,7 +106,6 @@ class SchemaForRequestBodyMultipartFormData(
             requiredFile=requiredFile,
             additionalMetadata=additionalMetadata,
             _configuration=_configuration,
-            **kwargs,
         )
 
 

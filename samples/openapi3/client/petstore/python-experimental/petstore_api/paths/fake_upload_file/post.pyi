@@ -44,21 +44,18 @@ class SchemaForRequestBodyMultipartFormData(
                 "additionalMetadata": additionalMetadata,
                 "file": file,
             }
-        additional_properties = schemas.AnyTypeSchema
+        additional_properties = None
     
     file: MetaOapg.properties.file
     additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["file"], typing.Literal["additionalMetadata"], ]):
+    def __getitem__(self, name: typing.Literal["additionalMetadata", "file", ]):
         # dict_instance[name] accessor
         if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
             return super().__getitem__(name)
@@ -66,6 +63,7 @@ class SchemaForRequestBodyMultipartFormData(
             return super().__getitem__(name)
         except KeyError:
             return schemas.unset
+    
 
     def __new__(
         cls,
@@ -73,7 +71,6 @@ class SchemaForRequestBodyMultipartFormData(
         file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, ],
         additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -81,7 +78,6 @@ class SchemaForRequestBodyMultipartFormData(
             file=file,
             additionalMetadata=additionalMetadata,
             _configuration=_configuration,
-            **kwargs,
         )
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
 _all_accept_content_types = (
