@@ -54,8 +54,6 @@ class MapTest(
                         
                         def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                             # dict_instance[name] accessor
-                            if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                                return super().__getitem__(name)
                             try:
                                 return super().__getitem__(name)
                             except KeyError:
@@ -76,8 +74,6 @@ class MapTest(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                        return super().__getitem__(name)
                     try:
                         return super().__getitem__(name)
                     except KeyError:
@@ -127,8 +123,6 @@ class MapTest(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                        return super().__getitem__(name)
                     try:
                         return super().__getitem__(name)
                     except KeyError:
@@ -158,8 +152,6 @@ class MapTest(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                        return super().__getitem__(name)
                     try:
                         return super().__getitem__(name)
                     except KeyError:
@@ -211,8 +203,6 @@ class MapTest(
     
     def __getitem__(self, name: typing.Union[typing.Literal["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -227,7 +217,7 @@ class MapTest(
         direct_map: typing.Union[MetaOapg.properties.direct_map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         indirect_map: typing.Union['StringBooleanMap', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'MapTest':
         return super().__new__(
             cls,

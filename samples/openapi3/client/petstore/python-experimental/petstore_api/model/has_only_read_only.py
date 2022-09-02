@@ -55,8 +55,6 @@ class HasOnlyReadOnly(
     
     def __getitem__(self, name: typing.Union[typing.Literal["bar", "foo", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -69,7 +67,7 @@ class HasOnlyReadOnly(
         bar: typing.Union[MetaOapg.properties.bar, str, schemas.Unset] = schemas.unset,
         foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'HasOnlyReadOnly':
         return super().__new__(
             cls,

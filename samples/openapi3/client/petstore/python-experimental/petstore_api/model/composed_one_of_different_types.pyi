@@ -50,7 +50,7 @@ class ComposedOneOfDifferentTypes(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs,
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'one_of_4':
                 return super().__new__(
                     cls,
@@ -114,7 +114,7 @@ class ComposedOneOfDifferentTypes(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ComposedOneOfDifferentTypes':
         return super().__new__(
             cls,

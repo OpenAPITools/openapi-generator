@@ -241,8 +241,6 @@ class FormatTest(
     
     def __getitem__(self, name: typing.Union[typing.Literal["number", "byte", "date", "password", "integer", "int32", "int32withValidations", "int64", "float", "float32", "double", "float64", "arrayWithUniqueItems", "string", "binary", "dateTime", "uuid", "uuidNoExample", "pattern_with_digits", "pattern_with_digits_and_delimiter", "noneProp", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -273,7 +271,7 @@ class FormatTest(
         pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, str, schemas.Unset] = schemas.unset,
         noneProp: typing.Union[MetaOapg.properties.noneProp, None, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'FormatTest':
         return super().__new__(
             cls,

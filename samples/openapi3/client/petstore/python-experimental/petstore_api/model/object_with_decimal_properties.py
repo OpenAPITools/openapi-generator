@@ -65,8 +65,6 @@ class ObjectWithDecimalProperties(
     
     def __getitem__(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -80,7 +78,7 @@ class ObjectWithDecimalProperties(
         width: typing.Union[MetaOapg.properties.width, str, schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,

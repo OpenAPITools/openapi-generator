@@ -79,8 +79,6 @@ class Capitalization(
     
     def __getitem__(self, name: typing.Union[typing.Literal["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -97,7 +95,7 @@ class Capitalization(
         SCA_ETH_Flow_Points: typing.Union[MetaOapg.properties.SCA_ETH_Flow_Points, str, schemas.Unset] = schemas.unset,
         ATT_NAME: typing.Union[MetaOapg.properties.ATT_NAME, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Capitalization':
         return super().__new__(
             cls,

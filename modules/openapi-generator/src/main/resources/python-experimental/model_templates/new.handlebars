@@ -46,7 +46,7 @@ def __new__(
 {{/unless}}
 {{else}}
 {{#or isMap isAnyType}}
-    **kwargs,
+    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
 {{/or}}
 {{/with}}
 ) -> '{{> model_templates/classname }}':

@@ -212,8 +212,6 @@ class EnumTest(
     
     def __getitem__(self, name: typing.Union[typing.Literal["enum_string_required", "enum_string", "enum_integer", "enum_number", "stringEnum", "IntegerEnum", "StringEnumWithDefaultValue", "IntegerEnumWithDefaultValue", "IntegerEnumOneValue", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -233,7 +231,7 @@ class EnumTest(
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'EnumTest':
         return super().__new__(
             cls,

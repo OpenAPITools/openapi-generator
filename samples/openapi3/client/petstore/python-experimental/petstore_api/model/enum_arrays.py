@@ -117,8 +117,6 @@ class EnumArrays(
     
     def __getitem__(self, name: typing.Union[typing.Literal["just_symbol", "array_enum", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -131,7 +129,7 @@ class EnumArrays(
         just_symbol: typing.Union[MetaOapg.properties.just_symbol, str, schemas.Unset] = schemas.unset,
         array_enum: typing.Union[MetaOapg.properties.array_enum, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'EnumArrays':
         return super().__new__(
             cls,

@@ -57,8 +57,6 @@ class Cat(
             
             def __getitem__(self, name: typing.Union[typing.Literal["declawed", ], str]):
                 # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
                 try:
                     return super().__getitem__(name)
                 except KeyError:
@@ -70,7 +68,7 @@ class Cat(
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 declawed: typing.Union[MetaOapg.properties.declawed, bool, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs,
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -101,7 +99,7 @@ class Cat(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Cat':
         return super().__new__(
             cls,

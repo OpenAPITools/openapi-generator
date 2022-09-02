@@ -58,8 +58,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     def __getitem__(self, name: typing.Union[typing.Literal["param", "param2", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -72,7 +70,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         param: typing.Union[MetaOapg.properties.param, str, ],
         param2: typing.Union[MetaOapg.properties.param2, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

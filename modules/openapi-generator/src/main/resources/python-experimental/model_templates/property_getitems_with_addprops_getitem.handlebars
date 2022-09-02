@@ -1,7 +1,5 @@
 def __getitem__(self, name: typing.Union[{{#each getRequiredVarsMap}}{{#with this}}typing.Literal["{{{baseName}}}"], {{/with}}{{/each}}{{#each vars}}{{#unless required}}typing.Literal["{{{baseName}}}"], {{/unless}}{{/each}}{{#with additionalProperties}}{{#unless getIsBooleanSchemaFalse}}str, {{/unless}}{{/with}}]){{#not vars}}{{#not getRequiredVarsMap}}{{#with additionalProperties}}{{#unless getIsBooleanSchemaFalse}} -> {{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/unless}}{{/with}}{{/not}}{{/not}}:
     # dict_instance[name] accessor
-    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-        return super().__getitem__(name)
     try:
         return super().__getitem__(name)
     except KeyError:

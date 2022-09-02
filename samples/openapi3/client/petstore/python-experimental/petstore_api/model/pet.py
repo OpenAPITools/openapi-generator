@@ -163,8 +163,6 @@ class Pet(
     
     def __getitem__(self, name: typing.Union[typing.Literal["name", "photoUrls", "id", "category", "tags", "status", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -181,7 +179,7 @@ class Pet(
         tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Pet':
         return super().__new__(
             cls,

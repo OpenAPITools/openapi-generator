@@ -2187,6 +2187,13 @@ class DictSchema(
     def __new__(cls, *args: typing.Union[dict, frozendict.frozendict], **kwargs: typing.Union[dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, bytes, Schema, Unset, ValidationMetadata]):
         return super().__new__(cls, *args, **kwargs)
 
+    def __getitem__(self, name: str):
+        # dict_instance[name] accessor
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return unset
+
 
 schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema}
 

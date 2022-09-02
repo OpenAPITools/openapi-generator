@@ -63,8 +63,6 @@ class ObjectWithDifficultlyNamedProps(
     
     def __getitem__(self, name: typing.Union[typing.Literal["123-list", "$special[property.name]", "123Number", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -75,7 +73,7 @@ class ObjectWithDifficultlyNamedProps(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectWithDifficultlyNamedProps':
         return super().__new__(
             cls,

@@ -93,8 +93,6 @@ class ArrayOfArrayOfNumberOnly(
     
     def __getitem__(self, name: typing.Union[typing.Literal["ArrayArrayNumber", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -106,7 +104,7 @@ class ArrayOfArrayOfNumberOnly(
         *args: typing.Union[dict, frozendict.frozendict, ],
         ArrayArrayNumber: typing.Union[MetaOapg.properties.ArrayArrayNumber, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayOfArrayOfNumberOnly':
         return super().__new__(
             cls,

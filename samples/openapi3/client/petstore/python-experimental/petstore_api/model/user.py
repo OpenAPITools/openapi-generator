@@ -58,7 +58,7 @@ class User(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
                 ) -> 'objectWithNoDeclaredPropsNullable':
                     return super().__new__(
                         cls,
@@ -82,7 +82,7 @@ class User(
                     cls,
                     *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                    **kwargs,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
                 ) -> 'anyTypeExceptNullProp':
                     return super().__new__(
                         cls,
@@ -165,8 +165,6 @@ class User(
     
     def __getitem__(self, name: typing.Union[typing.Literal["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus", "objectWithNoDeclaredProps", "objectWithNoDeclaredPropsNullable", "anyTypeProp", "anyTypeExceptNullProp", "anyTypePropNullable", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -190,7 +188,7 @@ class User(
         anyTypeExceptNullProp: typing.Union[MetaOapg.properties.anyTypeExceptNullProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         anyTypePropNullable: typing.Union[MetaOapg.properties.anyTypePropNullable, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'User':
         return super().__new__(
             cls,

@@ -55,8 +55,6 @@ class SchemaFor0ResponseBodyApplicationJson(
     
     def __getitem__(self, name: typing.Union[typing.Literal["string", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -68,7 +66,7 @@ class SchemaFor0ResponseBodyApplicationJson(
         *args: typing.Union[dict, frozendict.frozendict, ],
         string: typing.Union['Foo', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaFor0ResponseBodyApplicationJson':
         return super().__new__(
             cls,

@@ -175,8 +175,6 @@ class ArrayTest(
     
     def __getitem__(self, name: typing.Union[typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
         try:
             return super().__getitem__(name)
         except KeyError:
@@ -190,7 +188,7 @@ class ArrayTest(
         array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
         array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayTest':
         return super().__new__(
             cls,
