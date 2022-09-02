@@ -188,6 +188,14 @@ public interface IJsonSchemaValidationProperties {
 
     void setHasMultipleTypes(boolean hasMultipleTypes);
 
+    boolean getIsBooleanSchemaTrue();
+
+    void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue);
+
+    boolean getIsBooleanSchemaFalse();
+
+    void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse);
+
     boolean getSchemaIsFromAdditionalProperties();
 
     void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties);
