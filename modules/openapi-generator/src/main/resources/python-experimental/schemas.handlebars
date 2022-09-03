@@ -1564,14 +1564,33 @@ class DictBase(Discriminable, ValidatorBase):
             raise AttributeError('property setting not supported on immutable instances')
 
     def __getattr__(self, name: str):
-        # for instance.name access
-        if isinstance(self, frozendict.frozendict):
-            # if an attribute does not exist
-            try:
-                return self[name]
-            except KeyError as ex:
-                raise AttributeError(str(ex))
-        return super().__getattr__(self, name)
+        """
+        for instance.name access
+
+        For type hints to accurately show that properties are optional
+        - values that do not exist in the dict but are present in properties must NOT throw AttributeError
+        - values that are not known about can throw AttributeErrors
+        """
+        if not isinstance(self, frozendict.frozendict):
+            return super().__getattr__(name)
+        # if an attribute does not exist
+        attribute_error = AttributeError(f"'{self}' has no attribute '{name}'")
+        try:
+            value = self[name]
+        except KeyError as _ex:
+            raise attribute_error
+        return value
+
+    def __getitem__(self, name: str) -> typing.Union['AnyTypeSchema', Unset]:
+        # dict_instance[name] accessor
+        if not isinstance(self, frozendict.frozendict):
+            return super().__getattr__(name)
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return unset
 
 
 def cast_to_allowed_types(
@@ -2179,13 +2198,6 @@ class DictSchema(
 
     def __new__(cls, *args: typing.Union[dict, frozendict.frozendict], **kwargs: typing.Union[dict, frozendict.frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, bytes, Schema, Unset, ValidationMetadata]):
         return super().__new__(cls, *args, **kwargs)
-
-    def __getitem__(self, name: str):
-        # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return unset
 
 
 schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema}

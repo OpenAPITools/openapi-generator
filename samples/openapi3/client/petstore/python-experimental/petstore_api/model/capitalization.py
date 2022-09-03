@@ -79,10 +79,7 @@ class Capitalization(
     
     def __getitem__(self, name: typing.Union[typing.Literal["smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

@@ -175,10 +175,7 @@ class ArrayTest(
     
     def __getitem__(self, name: typing.Union[typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

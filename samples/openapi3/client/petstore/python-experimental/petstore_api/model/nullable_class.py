@@ -294,10 +294,7 @@ class NullableClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -350,10 +347,7 @@ class NullableClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -401,10 +395,7 @@ class NullableClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -510,10 +501,7 @@ class NullableClass(
     
     def __getitem__(self, name: typing.Union[typing.Literal["integer_prop"], typing.Literal["number_prop"], typing.Literal["boolean_prop"], typing.Literal["string_prop"], typing.Literal["date_prop"], typing.Literal["datetime_prop"], typing.Literal["array_nullable_prop"], typing.Literal["array_and_items_nullable_prop"], typing.Literal["array_items_nullable"], typing.Literal["object_nullable_prop"], typing.Literal["object_and_items_nullable_prop"], typing.Literal["object_items_nullable"], str, ]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
 
     def __new__(
         cls,

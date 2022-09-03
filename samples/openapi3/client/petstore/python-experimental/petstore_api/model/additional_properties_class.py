@@ -46,10 +46,7 @@ class AdditionalPropertiesClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -83,10 +80,7 @@ class AdditionalPropertiesClass(
                         
                         def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                             # dict_instance[name] accessor
-                            try:
-                                return super().__getitem__(name)
-                            except KeyError:
-                                return schemas.unset
+                            return super().__getitem__(name)
                     
                         def __new__(
                             cls,
@@ -103,10 +97,7 @@ class AdditionalPropertiesClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -135,10 +126,7 @@ class AdditionalPropertiesClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -184,10 +172,7 @@ class AdditionalPropertiesClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -250,10 +235,7 @@ class AdditionalPropertiesClass(
     
     def __getitem__(self, name: typing.Union[typing.Literal["map_property", "map_of_map_property", "anytype_1", "map_with_undeclared_properties_anytype_1", "map_with_undeclared_properties_anytype_2", "map_with_undeclared_properties_anytype_3", "empty_map", "map_with_undeclared_properties_string", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

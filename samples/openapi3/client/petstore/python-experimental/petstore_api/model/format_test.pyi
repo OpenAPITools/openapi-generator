@@ -241,10 +241,7 @@ class FormatTest(
     
     def __getitem__(self, name: typing.Union[typing.Literal["number", "byte", "date", "password", "integer", "int32", "int32withValidations", "int64", "float", "float32", "double", "float64", "arrayWithUniqueItems", "string", "binary", "dateTime", "uuid", "uuidNoExample", "pattern_with_digits", "pattern_with_digits_and_delimiter", "noneProp", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

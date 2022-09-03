@@ -52,10 +52,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> 'Animal':
                     # dict_instance[name] accessor
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
             
                 def __new__(
                     cls,
@@ -93,10 +90,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
     
     def __getitem__(self, name: typing.Union[typing.Literal["uuid", "dateTime", "map", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

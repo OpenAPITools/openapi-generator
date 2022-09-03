@@ -171,10 +171,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     
     def __getitem__(self, name: typing.Union[typing.Literal["integer", "int32", "int64", "number", "float", "double", "string", "pattern_without_delimiter", "byte", "binary", "date", "dateTime", "password", "callback", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

@@ -110,10 +110,7 @@ class Drawing(
     
     def __getitem__(self, name: typing.Union[typing.Literal["mainShape"], typing.Literal["shapeOrNull"], typing.Literal["nullableShape"], typing.Literal["shapes"], str, ]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
 
     def __new__(
         cls,

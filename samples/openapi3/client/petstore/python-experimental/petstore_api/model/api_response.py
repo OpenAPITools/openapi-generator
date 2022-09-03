@@ -61,10 +61,7 @@ class ApiResponse(
     
     def __getitem__(self, name: typing.Union[typing.Literal["code", "type", "message", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

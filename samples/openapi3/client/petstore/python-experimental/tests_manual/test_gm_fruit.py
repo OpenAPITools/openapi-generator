@@ -37,7 +37,10 @@ class TestGmFruit(unittest.TestCase):
         color = 'yellow'
         cultivar = 'banaple'
         fruit = GmFruit(lengthCm=length_cm, color=color, cultivar=cultivar)
-        assert isinstance(fruit, (banana.Banana, apple.Apple, GmFruit, frozendict.frozendict))
+        assert isinstance(fruit, banana.Banana)
+        assert isinstance(fruit, apple.Apple)
+        assert isinstance(fruit, frozendict.frozendict)
+        assert isinstance(fruit, GmFruit)
         # check its properties
         self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
@@ -45,6 +48,7 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
         self.assertEqual(getattr(fruit, 'color'), color)
+
         # check the dict representation
         self.assertEqual(
             fruit,
@@ -56,13 +60,14 @@ class TestGmFruit(unittest.TestCase):
         )
 
         # known variable from Apple is unset if it is not in the payload
-        fruit_origin = fruit.origin
-        assert fruit_origin is schemas.unset
-        fruit_origin = fruit["origin"]
-        assert fruit_origin is schemas.unset
+        fruit_origin_by_get_item = fruit["origin"]
+        assert fruit_origin_by_get_item is schemas.unset
+        with self.assertRaises(AttributeError):
+            fruit.origin
+        assert hasattr(fruit, 'origin') is False
 
-        with self.assertRaises(KeyError):
-            fruit['unknown_variable']
+        unknown_variable = fruit['unknown_variable']
+        assert unknown_variable is schemas.unset
         # with getattr
         self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 

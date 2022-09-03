@@ -141,10 +141,7 @@ class CompositionInPropertySchema(
     
     def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(
@@ -308,10 +305,7 @@ class SchemaForRequestBodyMultipartFormData(
     
     def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(
@@ -453,10 +447,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
     
     def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(

@@ -56,10 +56,7 @@ class AppleReq(
     
     def __getitem__(self, name: typing.Union[typing.Literal["cultivar"], typing.Literal["mealy"], ]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
 
     def __new__(
         cls,

@@ -105,10 +105,7 @@ class Order(
     
     def __getitem__(self, name: typing.Union[typing.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
         # dict_instance[name] accessor
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
 
     def __new__(
