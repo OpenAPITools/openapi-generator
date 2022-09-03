@@ -781,45 +781,49 @@ fail:
     {{^required}}if ({{{name}}}) { {{/required}}
     {{#isPrimitiveType}}
     cJSON *{{{name}}}_local_map = NULL;
-    if(!cJSON_IsObject({{{name}}})) {
+    if(!cJSON_IsObject({{{name}}}) && !cJSON_IsNull({{{name}}}))
+    {
         goto end;//primitive map container
     }
-    {{{name}}}List = list_createList();
-    keyValuePair_t *localMapKeyPair;
-    cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
+    if(cJSON_IsObject({{{name}}}))
     {
-		cJSON *localMapObject = {{{name}}}_local_map;
-        {{#items}}
-        {{#isString}}
-        if(!cJSON_IsString(localMapObject))
+        {{{name}}}List = list_createList();
+        keyValuePair_t *localMapKeyPair;
+        cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
         {
-            goto end;
+            cJSON *localMapObject = {{{name}}}_local_map;
+            {{#items}}
+            {{#isString}}
+            if(!cJSON_IsString(localMapObject))
+            {
+                goto end;
+            }
+            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+            {{/isString}}
+            {{#isByteArray}}
+            if(!cJSON_IsString(localMapObject))
+            {
+                goto end;
+            }
+            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+            {{/isByteArray}}
+            {{#isBoolean}}
+            if(!cJSON_IsBool(localMapObject))
+            {
+                goto end;
+            }
+            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string), &localMapObject->valueint);
+            {{/isBoolean}}
+            {{#isNumeric}}
+            if(!cJSON_IsNumber(localMapObject))
+            {
+                goto end;
+            }
+            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
+            {{/isNumeric}}
+		    {{/items}}
+            list_addElement({{{name}}}List , localMapKeyPair);
         }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
-        {{/isString}}
-        {{#isByteArray}}
-        if(!cJSON_IsString(localMapObject))
-        {
-            goto end;
-        }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
-        {{/isByteArray}}
-        {{#isBoolean}}
-        if(!cJSON_IsBool(localMapObject))
-        {
-            goto end;
-        }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string), &localMapObject->valueint);
-        {{/isBoolean}}
-        {{#isNumeric}}
-        if(!cJSON_IsNumber(localMapObject))
-        {
-            goto end;
-        }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
-        {{/isNumeric}}
-		{{/items}}
-        list_addElement({{{name}}}List , localMapKeyPair);
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
