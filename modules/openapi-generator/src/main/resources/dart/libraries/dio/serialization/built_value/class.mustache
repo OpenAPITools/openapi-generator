@@ -70,13 +70,17 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                 specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
         {{/required}}
         {{^required}}
+        {{! Non-required properties are only serialized if not null or nullable. }}
         if (object.{{{name}}} != null) {
-            {{! Non-required properties are only serialized if not null. }}
             result
                 ..add(r'{{baseName}}')
                 ..add(serializers.serialize(object.{{{name}}},
                     specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
-        }
+        }{{#isNullable}} else {
+            result
+                ..add(r'{{baseName}}')
+                ..add(null);
+        }{{/isNullable}}
         {{/required}}
         {{/vars}}
         return result;

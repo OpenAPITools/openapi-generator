@@ -42,6 +42,10 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
                 ..add(r'NullableMessage')
                 ..add(serializers.serialize(object.nullableMessage,
                     specifiedType: const FullType.nullable(String)));
+        } else {
+            result
+                ..add(r'NullableMessage')
+                ..add(null);
         }
         return result;
     }

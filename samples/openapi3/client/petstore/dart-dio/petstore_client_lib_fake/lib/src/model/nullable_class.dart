@@ -89,48 +89,80 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
                 ..add(r'integer_prop')
                 ..add(serializers.serialize(object.integerProp,
                     specifiedType: const FullType.nullable(int)));
+        } else {
+            result
+                ..add(r'integer_prop')
+                ..add(null);
         }
         if (object.numberProp != null) {
             result
                 ..add(r'number_prop')
                 ..add(serializers.serialize(object.numberProp,
                     specifiedType: const FullType.nullable(num)));
+        } else {
+            result
+                ..add(r'number_prop')
+                ..add(null);
         }
         if (object.booleanProp != null) {
             result
                 ..add(r'boolean_prop')
                 ..add(serializers.serialize(object.booleanProp,
                     specifiedType: const FullType.nullable(bool)));
+        } else {
+            result
+                ..add(r'boolean_prop')
+                ..add(null);
         }
         if (object.stringProp != null) {
             result
                 ..add(r'string_prop')
                 ..add(serializers.serialize(object.stringProp,
                     specifiedType: const FullType.nullable(String)));
+        } else {
+            result
+                ..add(r'string_prop')
+                ..add(null);
         }
         if (object.dateProp != null) {
             result
                 ..add(r'date_prop')
                 ..add(serializers.serialize(object.dateProp,
                     specifiedType: const FullType.nullable(Date)));
+        } else {
+            result
+                ..add(r'date_prop')
+                ..add(null);
         }
         if (object.datetimeProp != null) {
             result
                 ..add(r'datetime_prop')
                 ..add(serializers.serialize(object.datetimeProp,
                     specifiedType: const FullType.nullable(DateTime)));
+        } else {
+            result
+                ..add(r'datetime_prop')
+                ..add(null);
         }
         if (object.arrayNullableProp != null) {
             result
                 ..add(r'array_nullable_prop')
                 ..add(serializers.serialize(object.arrayNullableProp,
                     specifiedType: const FullType.nullable(BuiltList, [FullType(JsonObject)])));
+        } else {
+            result
+                ..add(r'array_nullable_prop')
+                ..add(null);
         }
         if (object.arrayAndItemsNullableProp != null) {
             result
                 ..add(r'array_and_items_nullable_prop')
                 ..add(serializers.serialize(object.arrayAndItemsNullableProp,
                     specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)])));
+        } else {
+            result
+                ..add(r'array_and_items_nullable_prop')
+                ..add(null);
         }
         if (object.arrayItemsNullable != null) {
             result
@@ -143,12 +175,20 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
                 ..add(r'object_nullable_prop')
                 ..add(serializers.serialize(object.objectNullableProp,
                     specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(JsonObject)])));
+        } else {
+            result
+                ..add(r'object_nullable_prop')
+                ..add(null);
         }
         if (object.objectAndItemsNullableProp != null) {
             result
                 ..add(r'object_and_items_nullable_prop')
                 ..add(serializers.serialize(object.objectAndItemsNullableProp,
                     specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])));
+        } else {
+            result
+                ..add(r'object_and_items_nullable_prop')
+                ..add(null);
         }
         if (object.objectItemsNullable != null) {
             result
