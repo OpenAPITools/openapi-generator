@@ -195,26 +195,29 @@ Pig <- R6::R6Class(
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
+    },
+    #' Print the object
+    #'
+    #' @description
+    #' Print the object
+    #'
+    #' @export
+    print = function() {
+      print(jsonlite::prettify(self$toJSONString()))
+      invisible(self)
     }
   ),
   # Lock the class to prevent modifications to the method or field
   lock_class = TRUE
 )
-
-# Unlock the class to allow modifications of the method or field
-Pig$unlock()
-
-#' Print the object
-#'
-#' @description
-#' Print the object
-#'
-#' @export
-Pig$set("public", "print", function(...) {
-  print(jsonlite::prettify(self$toJSONString()))
-  invisible(self)
-})
-
-# Lock the class to prevent modifications to the method or field
-Pig$lock()
+## Uncomment below to unlock the class to allow modifications of the method or field
+#Pig$unlock()
+#
+## Below is an example to define the print fnuction
+#Pig$set("public", "print", function(...) {
+#  print(jsonlite::prettify(self$toJSONString()))
+#  invisible(self)
+#})
+## Uncomment below to lock the class to prevent modifications to the method or field
+#Pig$lock()
 

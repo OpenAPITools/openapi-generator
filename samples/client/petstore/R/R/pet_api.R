@@ -7,7 +7,7 @@
 #'
 #' @docType class
 #' @title Pet operations
-#' @description 
+#' @description PetApi
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'

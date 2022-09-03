@@ -7,7 +7,7 @@
 #'
 #' @docType class
 #' @title Store operations
-#' @description 
+#' @description StoreApi
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'

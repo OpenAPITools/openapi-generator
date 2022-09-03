@@ -7,7 +7,7 @@
 #'
 #' @docType class
 #' @title Fake operations
-#' @description 
+#' @description FakeApi
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
