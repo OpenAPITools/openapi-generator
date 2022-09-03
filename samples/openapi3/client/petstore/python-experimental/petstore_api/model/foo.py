@@ -39,15 +39,25 @@ class Foo(
                 "bar": bar,
             }
     
-    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["bar", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["bar", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

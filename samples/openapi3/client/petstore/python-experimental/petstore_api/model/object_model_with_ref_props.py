@@ -49,23 +49,37 @@ class ObjectModelWithRefProps(
                 "myBoolean": myBoolean,
             }
     
-    myNumber: typing.Union['NumberWithValidations', schemas.Unset]
-    myString: typing.Union[MetaOapg.properties.myString, schemas.Unset]
-    myBoolean: typing.Union[MetaOapg.properties.myBoolean, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["myNumber"]) -> typing.Union['NumberWithValidations', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["myNumber"]) -> 'NumberWithValidations': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["myString"]) -> typing.Union[MetaOapg.properties.myString, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["myString"]) -> MetaOapg.properties.myString: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["myBoolean"]) -> typing.Union[MetaOapg.properties.myBoolean, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["myBoolean"]) -> MetaOapg.properties.myBoolean: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["myNumber", "myString", "myBoolean", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["myNumber"]) -> typing.Union['NumberWithValidations', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["myString"]) -> typing.Union[MetaOapg.properties.myString, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["myBoolean"]) -> typing.Union[MetaOapg.properties.myBoolean, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["myNumber", "myString", "myBoolean", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

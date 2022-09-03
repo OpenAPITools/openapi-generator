@@ -62,9 +62,7 @@ class TestGmFruit(unittest.TestCase):
         # known variable from Apple is unset if it is not in the payload
         fruit_origin_by_get_item = fruit["origin"]
         assert fruit_origin_by_get_item is schemas.unset
-        with self.assertRaises(AttributeError):
-            fruit.origin
-        assert hasattr(fruit, 'origin') is False
+        assert fruit.origin is schemas.unset
 
         unknown_variable = fruit['unknown_variable']
         assert unknown_variable is schemas.unset

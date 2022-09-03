@@ -46,17 +46,25 @@ class NoAdditionalProperties(
         additional_properties = schemas.NotAnyTypeSchema
     
     id: MetaOapg.properties.id
-    petId: typing.Union[MetaOapg.properties.petId, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["petId"]) -> typing.Union[MetaOapg.properties.petId, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["petId"]) -> MetaOapg.properties.petId: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["id"], typing.Literal["petId"], ]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["petId"]) -> typing.Union[MetaOapg.properties.petId, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["id"], typing.Literal["petId"], ]):
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,

@@ -41,19 +41,31 @@ class ReadOnlyFirst(
                 "baz": baz,
             }
     
-    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
-    baz: typing.Union[MetaOapg.properties.baz, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["baz"]) -> typing.Union[MetaOapg.properties.baz, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.properties.baz: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["bar", "baz", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["baz"]) -> typing.Union[MetaOapg.properties.baz, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["bar", "baz", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

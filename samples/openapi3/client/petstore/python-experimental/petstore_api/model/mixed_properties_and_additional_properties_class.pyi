@@ -53,6 +53,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 def __getitem__(self, name: typing.Union[str, ]) -> 'Animal':
                     # dict_instance[name] accessor
                     return super().__getitem__(name)
+                
+                def get_item_oapg(self, name: typing.Union[str, ]) -> 'Animal':
+                    return super().get_item_oapg(name)
             
                 def __new__(
                     cls,
@@ -72,23 +75,37 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 "map": map,
             }
     
-    uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset]
-    dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
-    map: typing.Union[MetaOapg.properties.map, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["uuid"]) -> typing.Union[MetaOapg.properties.uuid, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["map"]) -> MetaOapg.properties.map: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["uuid", "dateTime", "map", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["uuid"]) -> typing.Union[MetaOapg.properties.uuid, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["uuid", "dateTime", "map", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

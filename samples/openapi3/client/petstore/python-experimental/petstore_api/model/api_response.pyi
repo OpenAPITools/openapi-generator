@@ -43,23 +43,37 @@ class ApiResponse(
                 "message": message,
             }
     
-    code: typing.Union[MetaOapg.properties.code, schemas.Unset]
-    type: typing.Union[MetaOapg.properties.type, schemas.Unset]
-    message: typing.Union[MetaOapg.properties.message, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["code"]) -> typing.Union[MetaOapg.properties.code, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["code"]) -> MetaOapg.properties.code: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["type"]) -> MetaOapg.properties.type: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["message"]) -> typing.Union[MetaOapg.properties.message, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["message"]) -> MetaOapg.properties.message: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["code", "type", "message", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["code"]) -> typing.Union[MetaOapg.properties.code, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["message"]) -> typing.Union[MetaOapg.properties.message, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["code", "type", "message", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

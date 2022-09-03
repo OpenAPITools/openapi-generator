@@ -18,19 +18,6 @@
 {{/with}}
 {{/each}}
 {{/if}}
-{{#if vars}}
-{{#each vars}}
-{{#unless required}}
-{{#unless nameInSnakeCase}}
-{{#if complexType}}
-{{baseName}}: typing.Union['{{complexType}}', schemas.Unset]
-{{else}}
-{{baseName}}: typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]
-{{/if}}
-{{/unless}}
-{{/unless}}
-{{/each}}
-{{/if}}
 {{#if additionalProperties}}
 {{> model_templates/property_getitems_with_addprops }}
 {{else}}

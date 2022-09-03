@@ -70,9 +70,23 @@ class TriangleInterface(
     def __getitem__(self, name: typing.Literal["triangleType"]) -> MetaOapg.properties.triangleType: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["shapeType", "triangleType", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["shapeType"]) -> MetaOapg.properties.shapeType: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["triangleType"]) -> MetaOapg.properties.triangleType: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["shapeType", "triangleType", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

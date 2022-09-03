@@ -1570,30 +1570,32 @@ class DictBase(Discriminable, ValidatorBase):
         if not isinstance(self, FileIO):
             raise AttributeError('property setting not supported on immutable instances')
 
-    def __getattr__(self, name: str):
+    def __getattr__(self, name: str) typing.Union['AnyTypeSchema']:
         """
         for instance.name access
-
-        For type hints to accurately show that properties are optional
-        - values that do not exist in the dict but are present in properties must NOT throw AttributeError
-        - values that are not known about can throw AttributeErrors
+        Properties are only type hinted for required properties
+        so that hasattr(instance, 'optionalProp') is False when that key is not present
         """
         if not isinstance(self, frozendict.frozendict):
             return super().__getattr__(name)
-        # if an attribute does not exist
-        attribute_error = AttributeError(f"'{self}' has no attribute '{name}'")
         try:
             value = self[name]
-        except KeyError as _ex:
-            raise attribute_error
-        return value
+        except KeyError as ex:
+            raise AttributeError(str(ex))
 
-    def __getitem__(self, name: str) -> typing.Union['AnyTypeSchema', Unset]:
-        # dict_instance[name] accessor
+    def __getitem__(self, name: str) -> typing.Union['AnyTypeSchema']:
+        """
+        dict_instance[name] accessor
+        key errors thrown
+        """
         if not isinstance(self, frozendict.frozendict):
             return super().__getattr__(name)
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
+        return super().__getitem__(name)
+
+    def get_item_oapg(self, name: str) -> typing.Union['AnyTypeSchema', Unset]:
+        # dict_instance[name] accessor
+        if not isinstance(self, frozendict.frozendict):
+            raise NotImplementedError()
         try:
             return super().__getitem__(name)
         except KeyError:

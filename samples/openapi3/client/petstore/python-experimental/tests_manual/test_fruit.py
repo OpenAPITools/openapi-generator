@@ -15,17 +15,11 @@ import petstore_api
 from petstore_api.model import apple
 from petstore_api.model import banana
 from petstore_api.model.fruit import Fruit
-from petstore_api.schemas import Singleton
+from petstore_api import schemas
 
 
 class TestFruit(unittest.TestCase):
     """Fruit unit test stubs"""
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
 
     def testFruit(self):
         """Test Fruit"""
@@ -55,30 +49,9 @@ class TestFruit(unittest.TestCase):
         with self.assertRaises(TypeError):
             fruit['color'] = 'some value'
 
-        # Assert that we can call the builtin hasattr() function.
-        # hasattr should return False for non-existent attribute.
-        # Internally hasattr catches the AttributeError exception.
-        self.assertFalse(hasattr(fruit, 'invalid_variable'))
-
-        # Assert that we can call the builtin hasattr() function.
-        # hasattr should return True for existent attribute.
-        self.assertTrue(hasattr(fruit, 'color'))
-
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(KeyError):
-            fruit['cultivar']
-        # with getattr
-        # Per Python doc, if the named attribute does not exist,
-        # default is returned if provided.
-        self.assertEqual(getattr(fruit, 'cultivar', 'some value'), 'some value')
-        self.assertEqual(fruit.get('cultivar'), None)
-        self.assertEqual(fruit.get('cultivar', 'some value'), 'some value')
-
-        # Per Python doc, if the named attribute does not exist,
-        # default is returned if provided, otherwise AttributeError is raised.
-        with self.assertRaises(AttributeError):
-            getattr(fruit, 'cultivar')
+        assert fruit['cultivar'] is schemas.unset
 
         # make sure that the ModelComposed class properties are correct
         self.assertEqual(
@@ -143,7 +116,7 @@ class TestFruit(unittest.TestCase):
     def testFruitNullValue(self):
         # Since 'apple' is nullable, validate we can create an apple with the 'null' value.
         fruit = apple.Apple(None)
-        assert isinstance(fruit, Singleton)
+        assert isinstance(fruit, schemas.Singleton)
         assert isinstance(fruit, apple.Apple)
         assert fruit.is_none_oapg() is True
 
@@ -155,7 +128,7 @@ class TestFruit(unittest.TestCase):
         # Since 'fruit' has oneOf 'apple', 'banana' and 'apple' is nullable,
         # validate we can create a fruit with the 'null' value.
         fruit = Fruit(None)
-        assert isinstance(fruit, Singleton)
+        assert isinstance(fruit, schemas.Singleton)
         assert isinstance(fruit, apple.Apple)
         assert isinstance(fruit, Fruit)
         assert fruit.is_none_oapg() is True

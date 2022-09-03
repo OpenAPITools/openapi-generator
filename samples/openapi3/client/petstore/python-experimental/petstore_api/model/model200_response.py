@@ -44,18 +44,31 @@ class Model200Response(
             }
 
     
-    name: typing.Union[MetaOapg.properties.name, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["class"]) -> typing.Union[MetaOapg.properties._class, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["class"]) -> MetaOapg.properties._class: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["name", "class", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["class"]) -> typing.Union[MetaOapg.properties._class, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["name", "class", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

@@ -56,9 +56,23 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["param", "param2", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["param"]) -> MetaOapg.properties.param: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["param", "param2", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

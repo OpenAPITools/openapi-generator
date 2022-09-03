@@ -61,15 +61,25 @@ class ArrayOfNumberOnly(
                 "ArrayNumber": ArrayNumber,
             }
     
-    ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> MetaOapg.properties.ArrayNumber: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["ArrayNumber", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["ArrayNumber", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

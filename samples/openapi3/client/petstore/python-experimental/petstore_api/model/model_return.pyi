@@ -44,12 +44,23 @@ class ModelReturn(
     
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["return"]) -> typing.Union[MetaOapg.properties._return, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["return"]) -> MetaOapg.properties._return: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["return", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["return"]) -> typing.Union[MetaOapg.properties._return, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["return", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

@@ -46,17 +46,25 @@ class AppleReq(
         additional_properties = schemas.NotAnyTypeSchema
     
     cultivar: MetaOapg.properties.cultivar
-    mealy: typing.Union[MetaOapg.properties.mealy, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["mealy"]) -> typing.Union[MetaOapg.properties.mealy, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["mealy"]) -> MetaOapg.properties.mealy: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["cultivar"], typing.Literal["mealy"], ]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["mealy"]) -> typing.Union[MetaOapg.properties.mealy, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["cultivar"], typing.Literal["mealy"], ]):
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,

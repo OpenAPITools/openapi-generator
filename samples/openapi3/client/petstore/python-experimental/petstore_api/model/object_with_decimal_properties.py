@@ -47,23 +47,37 @@ class ObjectWithDecimalProperties(
                 "cost": cost,
             }
     
-    length: typing.Union[MetaOapg.properties.length, schemas.Unset]
-    width: typing.Union[MetaOapg.properties.width, schemas.Unset]
-    cost: typing.Union['Money', schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["length"]) -> MetaOapg.properties.length: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["width"]) -> MetaOapg.properties.width: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["cost"]) -> 'Money': ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     

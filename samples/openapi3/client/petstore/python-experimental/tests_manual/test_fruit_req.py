@@ -16,7 +16,7 @@ import petstore_api
 from petstore_api.model import apple_req
 from petstore_api.model import banana_req
 from petstore_api.model.fruit_req import FruitReq
-from petstore_api.schemas import NoneSchema, Singleton
+from petstore_api import schemas
 
 
 class TestFruitReq(unittest.TestCase):
@@ -56,20 +56,19 @@ class TestFruitReq(unittest.TestCase):
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(KeyError):
-            fruit['cultivar']
+        cultivar_value = fruit['cultivar']
+        assert cultivar_value is schemas.unset
 
         # with getattr
         self.assertEqual(getattr(fruit, 'cultivar', 'some value'), 'some value')
 
-        with self.assertRaises(AttributeError):
-            getattr(fruit, 'cultivar')
+        assert getattr(fruit, 'cultivar') is schemas.unset
 
         # make sure that the ModelComposed class properties are correct
         self.assertEqual(
             FruitReq.MetaOapg.one_of,
             [
-                NoneSchema,
+                schemas.NoneSchema,
                 apple_req.AppleReq,
                 banana_req.BananaReq,
             ],
@@ -107,9 +106,9 @@ class TestFruitReq(unittest.TestCase):
 
         # we can pass in None
         fruit = FruitReq(None)
-        assert isinstance(fruit, Singleton)
+        assert isinstance(fruit, schemas.Singleton)
         assert isinstance(fruit, FruitReq)
-        assert isinstance(fruit, NoneSchema)
+        assert isinstance(fruit, schemas.NoneSchema)
         assert fruit.is_none_oapg() is True
 
 
