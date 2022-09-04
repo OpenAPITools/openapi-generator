@@ -7,7 +7,6 @@ import 'package:openapi/src/model/bar.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/one_of.dart';
-import 'package:one_of/one_of.dart';
 
 part 'bar_ref_or_value.g.dart';
 

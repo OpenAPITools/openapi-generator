@@ -7,7 +7,6 @@ import 'dart:core';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/one_of.dart';
-import 'package:one_of/one_of.dart';
 
 part 'example.g.dart';
 
