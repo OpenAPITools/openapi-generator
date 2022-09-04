@@ -3,10 +3,11 @@
     isEnum is only true for inline variables that are enums.
     If an enum is declared as a definition, isEnum is false and the enum is generated from the
     enum.mustache template.
+    enumName only exists for inline enums
 }}
 {{#vars}}
     {{^isModel}}
-    {{#enumName}} {{! enumName only exists for inline enums }}
+    {{#enumName}}
         {{^isContainer}}
 
 {{>serialization/built_value/enum_inline}}
