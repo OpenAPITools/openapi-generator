@@ -48,45 +48,64 @@ class PropertiesWithEscapedCharacters(
                 "foo\tbar": foo_tbar,
                 "foo\fbar": foo_fbar,
             }
-        additional_properties = schemas.AnyTypeSchema
 
     
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["foo\nbar"]) -> MetaOapg.properties.foo_nbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\nbar"]) -> typing.Union[MetaOapg.properties.foo_nbar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["foo\"bar"]) -> MetaOapg.properties.foo_bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\"bar"]) -> typing.Union[MetaOapg.properties.foo_bar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["foo\\bar"]) -> MetaOapg.properties.foo__bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\bar"]) -> typing.Union[MetaOapg.properties.foo__bar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["foo\rbar"]) -> MetaOapg.properties.foo_rbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\rbar"]) -> typing.Union[MetaOapg.properties.foo_rbar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["foo\tbar"]) -> MetaOapg.properties.foo_tbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\tbar"]) -> typing.Union[MetaOapg.properties.foo_tbar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["foo\fbar"]) -> MetaOapg.properties.foo_fbar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\fbar"]) -> typing.Union[MetaOapg.properties.foo_fbar, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["foo\nbar"], typing.Literal["foo\"bar"], typing.Literal["foo\\bar"], typing.Literal["foo\rbar"], typing.Literal["foo\tbar"], typing.Literal["foo\fbar"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["foo\nbar", "foo\"bar", "foo\\bar", "foo\rbar", "foo\tbar", "foo\fbar", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo\nbar"]) -> typing.Union[MetaOapg.properties.foo_nbar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo\"bar"]) -> typing.Union[MetaOapg.properties.foo_bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo\\bar"]) -> typing.Union[MetaOapg.properties.foo__bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo\rbar"]) -> typing.Union[MetaOapg.properties.foo_rbar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo\tbar"]) -> typing.Union[MetaOapg.properties.foo_tbar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo\fbar"]) -> typing.Union[MetaOapg.properties.foo_fbar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["foo\nbar", "foo\"bar", "foo\\bar", "foo\rbar", "foo\tbar", "foo\fbar", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'PropertiesWithEscapedCharacters':
         return super().__new__(
             cls,

@@ -7270,9 +7270,6 @@ public class DefaultCodegen implements CodegenConfig {
                 // required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
                 // required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
                 if (supportsAdditionalPropertiesWithComposedSchema && !disallowAdditionalPropertiesIfNotPresent) {
-                    if (property.getAdditionalProperties() == null) {
-                        throw new RuntimeException("additionalProperties is unset and should be set in" + schema.toString());
-                    }
                     CodegenProperty cp;
                     if (schema.getAdditionalProperties() == null) {
                         // additionalProperties is null

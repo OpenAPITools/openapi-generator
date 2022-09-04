@@ -33,7 +33,6 @@ class AllofSimpleTypes(
 
 
     class MetaOapg:
-        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_0(
@@ -42,24 +41,14 @@ class AllofSimpleTypes(
         
         
             class MetaOapg:
-                additional_properties = schemas.AnyTypeSchema
                 inclusive_maximum = 30
         
-            
-            def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'all_of_0':
                 return super().__new__(
                     cls,
@@ -75,24 +64,14 @@ class AllofSimpleTypes(
         
         
             class MetaOapg:
-                additional_properties = schemas.AnyTypeSchema
                 inclusive_minimum = 20
         
-            
-            def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-                # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -117,21 +96,12 @@ class AllofSimpleTypes(
                 cls.all_of_1,
             ]
 
-    
-    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'AllofSimpleTypes':
         return super().__new__(
             cls,

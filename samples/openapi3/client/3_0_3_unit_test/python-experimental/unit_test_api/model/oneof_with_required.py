@@ -34,7 +34,6 @@ class OneofWithRequired(
 
 
     class MetaOapg:
-        additional_properties = schemas.AnyTypeSchema
         
         
         class one_of_0(
@@ -47,35 +46,16 @@ class OneofWithRequired(
                     "bar",
                     "foo",
                 }
-                additional_properties = schemas.AnyTypeSchema
         
             
-            bar: MetaOapg.additional_properties
-            foo: MetaOapg.additional_properties
-            
-            @typing.overload
-            def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.additional_properties: ...
-            
-            @typing.overload
-            def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.additional_properties: ...
-            
-            @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-            
-            def __getitem__(self, name: typing.Union[str, typing.Literal["bar"], typing.Literal["foo"], ]):
-                # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
+            bar: schemas.AnyTypeSchema
+            foo: schemas.AnyTypeSchema
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'one_of_0':
                 return super().__new__(
                     cls,
@@ -95,35 +75,16 @@ class OneofWithRequired(
                     "foo",
                     "baz",
                 }
-                additional_properties = schemas.AnyTypeSchema
         
             
-            foo: MetaOapg.additional_properties
-            baz: MetaOapg.additional_properties
-            
-            @typing.overload
-            def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.additional_properties: ...
-            
-            @typing.overload
-            def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.additional_properties: ...
-            
-            @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-            
-            def __getitem__(self, name: typing.Union[str, typing.Literal["foo"], typing.Literal["baz"], ]):
-                # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
+            foo: schemas.AnyTypeSchema
+            baz: schemas.AnyTypeSchema
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'one_of_1':
                 return super().__new__(
                     cls,
@@ -148,21 +109,12 @@ class OneofWithRequired(
                 cls.one_of_1,
             ]
 
-    
-    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'OneofWithRequired':
         return super().__new__(
             cls,

@@ -1,22 +1,10 @@
-{{#or getRequiredVarsMap vars}}
-
-{{/or}}
 {{#if getRequiredVarsMap}}
-{{#each getRequiredVarsMap}}
-{{#with this}}
-{{#unless nameInSnakeCase}}
-{{#if complexType}}
-{{baseName}}: '{{complexType}}'
+
+{{#if additionalProperties}}
+{{> model_templates/property_type_hints_required }}
 {{else}}
-{{#if schemaIsFromAdditionalProperties}}
-{{baseName}}: MetaOapg.additional_properties
-{{else}}
-{{baseName}}: MetaOapg.properties.{{baseName}}
+{{> model_templates/property_type_hints_required addPropsUnset=true }}
 {{/if}}
-{{/if}}
-{{/unless}}
-{{/with}}
-{{/each}}
 {{/if}}
 {{#if additionalProperties}}
 {{> model_templates/property_getitems_with_addprops }}

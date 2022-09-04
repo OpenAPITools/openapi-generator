@@ -1,0 +1,19 @@
+{{#each getRequiredVarsMap}}
+{{#with this}}
+{{#unless nameInSnakeCase}}
+{{#if complexType}}
+{{baseName}}: '{{complexType}}'
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+{{#if addPropsUnset}}
+{{baseName}}: schemas.AnyTypeSchema
+{{else}}
+{{baseName}}: MetaOapg.additional_properties
+{{/if}}
+{{else}}
+{{baseName}}: MetaOapg.properties.{{baseName}}
+{{/if}}
+{{/if}}
+{{/unless}}
+{{/with}}
+{{/each}}
