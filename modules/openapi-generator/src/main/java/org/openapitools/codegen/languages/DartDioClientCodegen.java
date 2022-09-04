@@ -386,6 +386,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 CodegenModel relatedModel = objs.get(type);
                 //fill the property's VendorExtensions with the type's VendorExtensions
                 prop.getVendorExtensions().put(kIsParent, relatedModel.getVendorExtensions().get(kIsParent));
+                prop.isEnum = relatedModel.isEnum;
                 
             }            
         }

@@ -6,7 +6,7 @@
 }}
 {{#vars}}
     {{^isModel}}
-    {{#isEnum}}
+    {{#enumName}} {{! enumName only exists for inline enums }}
         {{^isContainer}}
 
 {{>serialization/built_value/enum_inline}}
@@ -17,6 +17,6 @@
 {{>serialization/built_value/enum_inline}}
             {{/mostInnerItems}}
         {{/isContainer}}
-    {{/isEnum}}
+    {{/enumName}}
     {{/isModel}}
 {{/vars}}
