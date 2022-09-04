@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:openapi/src/model/foo_ref_or_value.dart';
 import 'package:openapi/src/model/entity.dart';
 import 'package:built_value/built_value.dart';

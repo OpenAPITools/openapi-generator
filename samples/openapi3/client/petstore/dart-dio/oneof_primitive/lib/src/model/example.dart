@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:openapi/src/model/child.dart';
 import 'dart:core';
 import 'package:built_value/built_value.dart';

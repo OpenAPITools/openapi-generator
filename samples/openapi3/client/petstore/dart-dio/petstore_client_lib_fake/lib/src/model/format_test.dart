@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'dart:typed_data';
 import 'package:openapi/src/model/date.dart';
 import 'package:built_value/built_value.dart';

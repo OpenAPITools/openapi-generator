@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:openapi/src/model/extensible.dart';
 import 'package:openapi/src/model/bar_ref.dart';
 import 'package:openapi/src/model/addressable.dart';
