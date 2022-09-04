@@ -85,14 +85,14 @@ class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
       case 'Foo':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
-          specifiedType: FullType(Foo).
+          specifiedType: FullType(Foo),
         ) as Foo;
         oneOfType = Foo;
         break;
       case 'FooRef':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
-          specifiedType: FullType(FooRef).
+          specifiedType: FullType(FooRef),
         ) as FooRef;
         oneOfType = FooRef;
         break;

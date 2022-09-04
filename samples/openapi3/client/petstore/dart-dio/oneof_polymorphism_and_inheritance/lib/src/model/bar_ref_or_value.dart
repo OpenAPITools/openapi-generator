@@ -85,14 +85,14 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
       case 'Bar':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
-          specifiedType: FullType(Bar).
+          specifiedType: FullType(Bar),
         ) as Bar;
         oneOfType = Bar;
         break;
       case 'BarRef':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
-          specifiedType: FullType(BarRef).
+          specifiedType: FullType(BarRef),
         ) as BarRef;
         oneOfType = BarRef;
         break;

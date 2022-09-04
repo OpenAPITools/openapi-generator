@@ -12,10 +12,10 @@ part 'animal.g.dart';
 /// Animal
 ///
 /// Properties:
-/// * [className]
-/// * [color]
+/// * [className] 
+/// * [color] 
 @BuiltValue(instantiable: false)
-abstract class Animal {
+abstract class Animal  {
   @BuiltValueField(wireName: r'className')
   String get className;
 
@@ -178,3 +178,4 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
     return result.build();
   }
 }
+
