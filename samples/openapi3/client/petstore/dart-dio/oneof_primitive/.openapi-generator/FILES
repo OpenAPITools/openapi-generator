@@ -19,3 +19,6 @@ lib/src/model/date.dart
 lib/src/model/example.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/child_test.dart
+test/default_api_test.dart
+test/example_test.dart
