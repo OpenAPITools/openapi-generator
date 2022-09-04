@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**_123List** | **String** |  |  [optional] |
+|**_123list** | **String** |  |  [optional] |
 
 
 ## Implemented Interfaces

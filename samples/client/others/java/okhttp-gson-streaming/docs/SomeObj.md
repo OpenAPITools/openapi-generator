@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**$Type** | [**TypeEnum**](#TypeEnum) |  |  [optional] |
+|**$type** | [**TypeEnum**](#TypeEnum) |  |  [optional] |
 |**id** | **Long** |  |  [optional] |
 |**name** | **String** |  |  [optional] |
 |**active** | **Boolean** |  |  [optional] |

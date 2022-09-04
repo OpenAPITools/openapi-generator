@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**$SpecialPropertyName** | **Long** |  |  [optional] |
+|**$specialPropertyName** | **Long** |  |  [optional] |
 
 
 ## Implemented Interfaces

@@ -12,22 +12,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ModelList  {
   
   @ApiModelProperty(value = "")
-  private String _123List;
+  private String _123list;
  /**
-   * Get _123List
-   * @return _123List
+   * Get _123list
+   * @return _123list
   **/
   @JsonProperty("123-list")
-  public String get123List() {
-    return _123List;
+  public String get123list() {
+    return _123list;
   }
 
-  public void set123List(String _123List) {
-    this._123List = _123List;
+  public void set123list(String _123list) {
+    this._123list = _123list;
   }
 
-  public ModelList _123List(String _123List) {
-    this._123List = _123List;
+  public ModelList _123list(String _123list) {
+    this._123list = _123list;
     return this;
   }
 
@@ -40,12 +40,12 @@ public class ModelList  {
       return false;
     }
     ModelList _list = (ModelList) o;
-    return Objects.equals(_123List, _list._123List);
+    return Objects.equals(_123list, _list._123list);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_123List);
+    return Objects.hash(_123list);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class ModelList  {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelList {\n");
     
-    sb.append("    _123List: ").append(toIndentedString(_123List)).append("\n");
+    sb.append("    _123list: ").append(toIndentedString(_123list)).append("\n");
     sb.append("}");
     return sb.toString();
   }

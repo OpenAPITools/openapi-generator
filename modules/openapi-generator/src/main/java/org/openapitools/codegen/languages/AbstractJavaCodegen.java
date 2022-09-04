@@ -83,6 +83,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
 
+    public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
+
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -131,6 +133,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+
+    protected boolean camelCaseDollarSign = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -264,6 +268,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
+        cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -551,6 +556,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setImplicitHeadersRegex(additionalProperties.get(IMPLICIT_HEADERS_REGEX).toString());
         }
 
+        if (additionalProperties.containsKey(CAMEL_CASE_DOLLAR_SIGN)) {
+            this.setCamelCaseDollarSign(Boolean.parseBoolean(additionalProperties.get(CAMEL_CASE_DOLLAR_SIGN).toString()));
+        }
+
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
         }
@@ -797,7 +806,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, LOWERCASE_FIRST_CHAR);
+        if (camelCaseDollarSign) {
+            name = camelize(name, LOWERCASE_FIRST_CHAR);
+        } else {
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
+        }
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -1888,6 +1901,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setImplicitHeadersRegex(String implicitHeadersRegex) {
         this.implicitHeadersRegex = implicitHeadersRegex;
+    }
+
+    public void setCamelCaseDollarSign(boolean camelCaseDollarSign) {
+        this.camelCaseDollarSign = camelCaseDollarSign;
     }
 
     @Override

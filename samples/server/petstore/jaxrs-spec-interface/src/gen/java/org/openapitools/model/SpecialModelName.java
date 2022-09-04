@@ -19,12 +19,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("$special[model.name]")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class SpecialModelName  implements Serializable {
-  private @Valid Long $SpecialPropertyName;
+  private @Valid Long $specialPropertyName;
 
   /**
    **/
-  public SpecialModelName $SpecialPropertyName(Long $SpecialPropertyName) {
-    this.$SpecialPropertyName = $SpecialPropertyName;
+  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
     return this;
   }
 
@@ -32,12 +32,12 @@ public class SpecialModelName  implements Serializable {
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
-    return $SpecialPropertyName;
+    return $specialPropertyName;
   }
 
   @JsonProperty("$special[property.name]")
-  public void set$SpecialPropertyName(Long $SpecialPropertyName) {
-    this.$SpecialPropertyName = $SpecialPropertyName;
+  public void set$SpecialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
   }
 
 
@@ -49,13 +49,13 @@ public class SpecialModelName  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $SpecialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$SpecialPropertyName, $SpecialModelName.$SpecialPropertyName);
+    SpecialModelName $specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($SpecialPropertyName);
+    return Objects.hash($specialPropertyName);
   }
 
   @Override
@@ -63,7 +63,7 @@ public class SpecialModelName  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     
-    sb.append("    $SpecialPropertyName: ").append(toIndentedString($SpecialPropertyName)).append("\n");
+    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

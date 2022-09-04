@@ -28,32 +28,32 @@ import javax.validation.Valid;
  * ModelList
  */
 @JsonPropertyOrder({
-  ModelList.JSON_PROPERTY_123_LIST
+  ModelList.JSON_PROPERTY_123LIST
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ModelList  implements Serializable {
-  public static final String JSON_PROPERTY_123_LIST = "123-list";
-  @JsonProperty(JSON_PROPERTY_123_LIST)
-  private String _123List;
+  public static final String JSON_PROPERTY_123LIST = "123-list";
+  @JsonProperty(JSON_PROPERTY_123LIST)
+  private String _123list;
 
-  public ModelList _123List(String _123List) {
-    this._123List = _123List;
+  public ModelList _123list(String _123list) {
+    this._123list = _123list;
     return this;
   }
 
   /**
-   * Get _123List
-   * @return _123List
+   * Get _123list
+   * @return _123list
    **/
   @JsonProperty(value = "123-list")
   @ApiModelProperty(value = "")
   
-  public String get123List() {
-    return _123List;
+  public String get123list() {
+    return _123list;
   }
 
-  public void set123List(String _123List) {
-    this._123List = _123List;
+  public void set123list(String _123list) {
+    this._123list = _123list;
   }
 
 
@@ -66,12 +66,12 @@ public class ModelList  implements Serializable {
       return false;
     }
     ModelList _list = (ModelList) o;
-    return Objects.equals(this._123List, _list._123List);
+    return Objects.equals(this._123list, _list._123list);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_123List);
+    return Objects.hash(_123list);
   }
 
   @Override
@@ -79,7 +79,7 @@ public class ModelList  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelList {\n");
     
-    sb.append("    _123List: ").append(toIndentedString(_123List)).append("\n");
+    sb.append("    _123list: ").append(toIndentedString(_123list)).append("\n");
     sb.append("}");
     return sb.toString();
   }

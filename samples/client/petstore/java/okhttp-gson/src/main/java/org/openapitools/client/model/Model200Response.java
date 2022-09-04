@@ -151,10 +151,10 @@ public class Model200Response {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Model200Response _200Response = (Model200Response) o;
-    return Objects.equals(this.name, _200Response.name) &&
-        Objects.equals(this.propertyClass, _200Response.propertyClass)&&
-        Objects.equals(this.additionalProperties, _200Response.additionalProperties);
+    Model200Response _200response = (Model200Response) o;
+    return Objects.equals(this.name, _200response.name) &&
+        Objects.equals(this.propertyClass, _200response.propertyClass)&&
+        Objects.equals(this.additionalProperties, _200response.additionalProperties);
   }
 
   @Override

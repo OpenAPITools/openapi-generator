@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
-  private Long $SpecialPropertyName;
+  private Long $specialPropertyName;
 
   public static final String SERIALIZED_NAME_SPECIAL_MODEL_NAME = "_special_model.name_";
   @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
@@ -60,26 +60,26 @@ public class SpecialModelName {
   public SpecialModelName() {
   }
 
-  public SpecialModelName $SpecialPropertyName(Long $SpecialPropertyName) {
+  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     
-    this.$SpecialPropertyName = $SpecialPropertyName;
+    this.$specialPropertyName = $specialPropertyName;
     return this;
   }
 
    /**
-   * Get $SpecialPropertyName
-   * @return $SpecialPropertyName
+   * Get $specialPropertyName
+   * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public Long get$SpecialPropertyName() {
-    return $SpecialPropertyName;
+    return $specialPropertyName;
   }
 
 
-  public void set$SpecialPropertyName(Long $SpecialPropertyName) {
-    this.$SpecialPropertyName = $SpecialPropertyName;
+  public void set$SpecialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
   }
 
 
@@ -151,21 +151,21 @@ public class SpecialModelName {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$SpecialPropertyName, specialModelName.$SpecialPropertyName) &&
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
         Objects.equals(this.specialModelName, specialModelName.specialModelName)&&
         Objects.equals(this.additionalProperties, specialModelName.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($SpecialPropertyName, specialModelName, additionalProperties);
+    return Objects.hash($specialPropertyName, specialModelName, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
-    sb.append("    $SpecialPropertyName: ").append(toIndentedString($SpecialPropertyName)).append("\n");
+    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("    specialModelName: ").append(toIndentedString(specialModelName)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");

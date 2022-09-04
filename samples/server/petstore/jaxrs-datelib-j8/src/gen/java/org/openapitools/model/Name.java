@@ -31,7 +31,7 @@ import javax.validation.Valid;
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
   Name.JSON_PROPERTY_PROPERTY,
-  Name.JSON_PROPERTY_123_NUMBER
+  Name.JSON_PROPERTY_123NUMBER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Name  implements Serializable {
@@ -47,9 +47,9 @@ public class Name  implements Serializable {
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   private String property;
 
-  public static final String JSON_PROPERTY_123_NUMBER = "123Number";
-  @JsonProperty(JSON_PROPERTY_123_NUMBER)
-  private Integer _123Number;
+  public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -111,24 +111,24 @@ public class Name  implements Serializable {
     this.property = property;
   }
 
-  public Name _123Number(Integer _123Number) {
-    this._123Number = _123Number;
+  public Name _123number(Integer _123number) {
+    this._123number = _123number;
     return this;
   }
 
   /**
-   * Get _123Number
-   * @return _123Number
+   * Get _123number
+   * @return _123number
    **/
   @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
-  public Integer get123Number() {
-    return _123Number;
+  public Integer get123number() {
+    return _123number;
   }
 
-  public void set123Number(Integer _123Number) {
-    this._123Number = _123Number;
+  public void set123number(Integer _123number) {
+    this._123number = _123number;
   }
 
 
@@ -144,12 +144,12 @@ public class Name  implements Serializable {
     return Objects.equals(this.name, name.name) &&
         Objects.equals(this.snakeCase, name.snakeCase) &&
         Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123Number, name._123Number);
+        Objects.equals(this._123number, name._123number);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123Number);
+    return Objects.hash(name, snakeCase, property, _123number);
   }
 
   @Override
@@ -160,7 +160,7 @@ public class Name  implements Serializable {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");
-    sb.append("    _123Number: ").append(toIndentedString(_123Number)).append("\n");
+    sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
     sb.append("}");
     return sb.toString();
   }

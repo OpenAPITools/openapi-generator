@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SomeObj {
   /**
-   * Gets or Sets $Type
+   * Gets or Sets $type
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
@@ -96,7 +96,7 @@ public class SomeObj {
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  private TypeEnum $Type = TypeEnum.SOMEOBJIDENTIFIER;
+  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -117,26 +117,26 @@ public class SomeObj {
   public SomeObj() {
   }
 
-  public SomeObj $Type(TypeEnum $Type) {
+  public SomeObj $type(TypeEnum $type) {
     
-    this.$Type = $Type;
+    this.$type = $type;
     return this;
   }
 
    /**
-   * Get $Type
-   * @return $Type
+   * Get $type
+   * @return $type
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public TypeEnum get$Type() {
-    return $Type;
+    return $type;
   }
 
 
-  public void set$Type(TypeEnum $Type) {
-    this.$Type = $Type;
+  public void set$Type(TypeEnum $type) {
+    this.$type = $type;
   }
 
 
@@ -242,7 +242,7 @@ public class SomeObj {
       return false;
     }
     SomeObj someObj = (SomeObj) o;
-    return Objects.equals(this.$Type, someObj.$Type) &&
+    return Objects.equals(this.$type, someObj.$type) &&
         Objects.equals(this.id, someObj.id) &&
         Objects.equals(this.name, someObj.name) &&
         Objects.equals(this.active, someObj.active) &&
@@ -251,14 +251,14 @@ public class SomeObj {
 
   @Override
   public int hashCode() {
-    return Objects.hash($Type, id, name, active, type);
+    return Objects.hash($type, id, name, active, type);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SomeObj {\n");
-    sb.append("    $Type: ").append(toIndentedString($Type)).append("\n");
+    sb.append("    $type: ").append(toIndentedString($type)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    active: ").append(toIndentedString(active)).append("\n");
