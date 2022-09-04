@@ -98,6 +98,7 @@ Class | Method | HTTP request | Description
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [DanishPig](docs/DanishPig.md)
+ - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [Mammal](docs/Mammal.md)

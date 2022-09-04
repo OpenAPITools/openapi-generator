@@ -1001,3 +1001,11 @@ components:
           type: string
       required:
         - className
+    Date:
+      description: to test the model name `Date`
+      type: object
+      properties:
+        className:
+          type: string
+      required:
+        - className
