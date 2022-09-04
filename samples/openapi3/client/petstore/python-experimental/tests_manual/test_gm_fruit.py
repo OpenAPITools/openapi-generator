@@ -42,12 +42,8 @@ class TestGmFruit(unittest.TestCase):
         assert isinstance(fruit, frozendict.frozendict)
         assert isinstance(fruit, GmFruit)
         # check its properties
-        self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
-        self.assertEqual(getattr(fruit, 'lengthCm'), length_cm)
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
 
         # check the dict representation
         self.assertEqual(
@@ -96,15 +92,9 @@ class TestGmFruit(unittest.TestCase):
             cultivar=cultivar,
             length_cm=length_cm
         )
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-        self.assertEqual(fruit.length_cm, length_cm)
         self.assertEqual(fruit['length_cm'], length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
 
         # make an instance of GmFruit, a composed schema anyOf model
         # apple test
@@ -113,16 +103,9 @@ class TestGmFruit(unittest.TestCase):
         origin = 'California'
         fruit = GmFruit(color=color, cultivar=cultivar, origin=origin)
         # check its properties
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-
-        self.assertEqual(fruit.origin, origin)
         self.assertEqual(fruit['origin'], origin)
-        self.assertEqual(getattr(fruit, 'origin'), origin)
 
         # check the dict representation
         self.assertEqual(
