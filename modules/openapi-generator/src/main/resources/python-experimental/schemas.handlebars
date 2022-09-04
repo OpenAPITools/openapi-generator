@@ -1860,7 +1860,8 @@ class ComposedSchema(
     StrBase,
     BoolBase,
     NoneBase,
-    Schema
+    Schema,
+    NoneFrozenDictTupleStrDecimalBoolMixin
 ):
     @classmethod
     def from_openapi_data_oapg(cls, *args: typing.Any, _configuration: typing.Optional[Configuration] = None, **kwargs):

@@ -30,13 +30,11 @@ class TestFruit(unittest.TestCase):
         color = 'yellow'
         fruit = Fruit(lengthCm=length_cm, color=color)
         # check its properties
-        self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
         self.assertEqual(fruit.get('lengthCm'), length_cm)
-        self.assertEqual(getattr(fruit, 'lengthCm'), length_cm)
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
+        self.assertEqual(fruit.get('color'), color)
+
         # check the dict representation
         self.assertEqual(
             fruit,
@@ -100,12 +98,8 @@ class TestFruit(unittest.TestCase):
         cultivar = 'golden delicious'
         fruit = Fruit(color=color, cultivar=cultivar)
         # check its properties
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
         # check the dict representation
         self.assertEqual(
             fruit,
