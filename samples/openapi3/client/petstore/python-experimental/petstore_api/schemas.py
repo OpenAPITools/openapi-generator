@@ -1570,7 +1570,7 @@ class DictBase(Discriminable, ValidatorBase):
         if not isinstance(self, FileIO):
             raise AttributeError('property setting not supported on immutable instances')
 
-    def __getattr__(self, name: str) typing.Union['AnyTypeSchema']:
+    def __getattr__(self, name: str) -> 'AnyTypeSchema':
         """
         for instance.name access
         Properties are only type hinted for required properties
@@ -1580,10 +1580,11 @@ class DictBase(Discriminable, ValidatorBase):
             return super().__getattr__(name)
         try:
             value = self[name]
+            return value
         except KeyError as ex:
             raise AttributeError(str(ex))
 
-    def __getitem__(self, name: str) -> typing.Union['AnyTypeSchema']:
+    def __getitem__(self, name: str) -> 'AnyTypeSchema':
         """
         dict_instance[name] accessor
         key errors thrown

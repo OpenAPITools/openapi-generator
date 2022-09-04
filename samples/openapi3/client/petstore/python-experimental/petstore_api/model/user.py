@@ -198,8 +198,7 @@ class User(
     def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus", "objectWithNoDeclaredProps", "objectWithNoDeclaredPropsNullable", "anyTypeProp", "anyTypeExceptNullProp", "anyTypePropNullable", ], str]):
-        # dict_instance[name] accessor
-        return super().__getitem__(name)
+        return super().get_item_oapg(name)
     
 
     def __new__(

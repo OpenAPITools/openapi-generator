@@ -295,8 +295,7 @@ class FormatTest(
     def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["number", "byte", "date", "password", "integer", "int32", "int32withValidations", "int64", "float", "float32", "double", "float64", "arrayWithUniqueItems", "string", "binary", "dateTime", "uuid", "uuidNoExample", "pattern_with_digits", "pattern_with_digits_and_delimiter", "noneProp", ], str]):
-        # dict_instance[name] accessor
-        return super().__getitem__(name)
+        return super().get_item_oapg(name)
     
 
     def __new__(

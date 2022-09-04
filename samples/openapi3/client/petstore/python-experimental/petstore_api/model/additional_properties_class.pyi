@@ -273,8 +273,7 @@ class AdditionalPropertiesClass(
     def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["map_property", "map_of_map_property", "anytype_1", "map_with_undeclared_properties_anytype_1", "map_with_undeclared_properties_anytype_2", "map_with_undeclared_properties_anytype_3", "empty_map", "map_with_undeclared_properties_string", ], str]):
-        # dict_instance[name] accessor
-        return super().__getitem__(name)
+        return super().get_item_oapg(name)
     
 
     def __new__(
