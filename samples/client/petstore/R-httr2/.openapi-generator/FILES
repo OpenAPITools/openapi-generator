@@ -17,6 +17,7 @@ R/cat.R
 R/cat_all_of.R
 R/category.R
 R/danish_pig.R
+R/date.R
 R/dog.R
 R/dog_all_of.R
 R/fake_api.R
@@ -46,6 +47,7 @@ docs/Cat.md
 docs/CatAllOf.md
 docs/Category.md
 docs/DanishPig.md
+docs/Date.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/FakeApi.md

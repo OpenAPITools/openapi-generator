@@ -176,7 +176,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
+        // no need for import mapping as R doesn't reqiure api,model import
+        // https://github.com/OpenAPITools/openapi-generator/issues/2217
         importMapping.clear();
+
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
                 .defaultValue("openapi"));
@@ -587,31 +590,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
         }
-
-        // remove model imports to avoid error
-        List<Map<String, String>> imports = objs.getImports();
-        final String prefix = modelPackage();
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
-                iterator.remove();
-        }
-
-        // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports != null) {
-            ListIterator<Map<String, String>> listIterator = imports.listIterator();
-            while (listIterator.hasNext()) {
-                String _import = listIterator.next().get("import");
-                // if the import package happens to be found in the importMapping (key)
-                // add the corresponding import package to the list
-                if (importMapping.containsKey(_import)) {
-                    listIterator.add(createMapping("import", importMapping.get(_import)));
-                }
-            }
-        }
-
         return postProcessModelsEnum(objs);
     }
 
