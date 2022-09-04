@@ -226,7 +226,9 @@ ApiClient  <- R6::R6Class(
       }
 
       ## add query parameters
-      req <- req %>% req_url_query(!!!query_params)
+      for (query_param in query_params) {
+        req <- req %>% req_url_query(!!!query_param)
+      }
 
       # has file upload?
       if (!is.null(file_params) && length(file_params) != 0) {
