@@ -69,4 +69,3 @@ docs/Whale.md
 docs/Zebra.md
 git_push.sh
 tests/testthat.R
-tests/testthat/test_date.R
