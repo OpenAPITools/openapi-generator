@@ -37,11 +37,17 @@ def __new__(
 {{/each}}
     _configuration: typing.Optional[schemas.Configuration] = None,
 {{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
 {{#if complexType}}
     **kwargs: '{{complexType}}',
 {{else}}
     **kwargs: typing.Union[MetaOapg.additional_properties, {{> model_templates/schema_python_types }}],
 {{/if}}
+{{/unless}}
+{{else}}
+{{#or isMap isAnyType}}
+    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+{{/or}}
 {{/with}}
 ) -> '{{> model_templates/classname }}':
     return super().__new__(
@@ -75,6 +81,12 @@ def __new__(
 {{/each}}
         _configuration=_configuration,
 {{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
         **kwargs,
+{{/unless}}
+{{else}}
+{{#or isMap isAnyType}}
+        **kwargs,
+{{/or}}
 {{/with}}
     )

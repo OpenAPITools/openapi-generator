@@ -55,7 +55,6 @@ class DanishPig(
             __annotations__ = {
                 "className": className,
             }
-        additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
     
@@ -63,23 +62,29 @@ class DanishPig(
     def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["className"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["className", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["className", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         className: typing.Union[MetaOapg.properties.className, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'DanishPig':
         return super().__new__(
             cls,

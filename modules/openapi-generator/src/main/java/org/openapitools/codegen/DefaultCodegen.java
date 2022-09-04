@@ -92,6 +92,8 @@ public class DefaultCodegen implements CodegenConfig {
     private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
+    protected static Schema falseSchema;
+    protected static Schema trueSchema = new Schema();
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -144,6 +146,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
+        falseSchema = new Schema();
+        falseSchema.setNot(new Schema());
     }
 
     protected GeneratorMetadata generatorMetadata;
@@ -2796,6 +2800,12 @@ public class DefaultCodegen implements CodegenConfig {
             typeAliases = getAllAliases(allDefinitions);
         }
 
+        CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
+        if (schema.equals(trueSchema)) {
+            m.setIsBooleanSchemaTrue(true);
+        } else if (schema.equals(falseSchema)) {
+            m.setIsBooleanSchemaFalse(true);
+        }
         // unalias schema
         schema = unaliasSchema(schema);
         if (schema == null) {
@@ -2803,7 +2813,6 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         ModelUtils.syncValidationProperties(schema, m);
         if (openAPI != null) {
             HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(xSchemaTestExamplesRefPrefix + name);
@@ -3606,7 +3615,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name     name of the property
      * @param p        OAS property schema
      * @param required true if the property is required in the next higher object schema, false otherwise
-     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
+     * @param schemaIsFromAdditionalProperties true if the property is a required property defined by additional properties schema
+     *                                         If this is the actual additionalProperties schema not defining a required property, then
+     *                                         the value should be false
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
@@ -3621,10 +3632,17 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
             return cpc;
         }
+
+        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+        if (p.equals(trueSchema)) {
+            property.setIsBooleanSchemaTrue(true);
+        } else if (p.equals(falseSchema)) {
+            property.setIsBooleanSchemaFalse(true);
+        }
+
         // unalias schema
         p = unaliasSchema(p);
 
-        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
@@ -7254,9 +7272,6 @@ public class DefaultCodegen implements CodegenConfig {
                 // required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
                 // required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
                 if (supportsAdditionalPropertiesWithComposedSchema && !disallowAdditionalPropertiesIfNotPresent) {
-                    if (property.getAdditionalProperties() == null) {
-                        throw new RuntimeException("additionalProperties is unset and should be set in" + schema.toString());
-                    }
                     CodegenProperty cp;
                     if (schema.getAdditionalProperties() == null) {
                         // additionalProperties is null
@@ -7851,4 +7866,34 @@ public class DefaultCodegen implements CodegenConfig {
     Into strings that can be rendered in the language that the generator will output to
     */
     protected String handleSpecialCharacters(String name) { return name; }
+
+    /**
+     * Used to ensure that null or Schema is returned given an input Boolean/Schema/null
+     * This will be used in openapi 3.1.0 spec processing to ensure that Booleans become Schemas
+     * Because our generators only understand Schemas
+     * Note: use getIsBooleanSchemaTrue or getIsBooleanSchemaFalse on the IJsonSchemaValidationProperties
+     * if you need to be able to detect if the original schema's value was true or false
+     *
+     * @param schema the input Boolean or Schema data to convert to a Schema
+     * @return Schema the input data converted to a Schema if possible
+     */
+    protected Schema getSchemaFromBooleanOrSchema(Object schema) {
+        if (schema instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema)) {
+                return trueSchema;
+            } else if (Boolean.FALSE.equals(schema)) {
+                return falseSchema;
+            }
+            // null case
+            return null;
+        } else if (schema instanceof Schema) {
+            if (schema == null) {
+                return null;
+            }
+            return (Schema) schema;
+        } else if (schema == null) {
+            return null;
+        }
+        throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
+    }
 }

@@ -40,28 +40,33 @@ class ReadOnlyFirst(
                 "bar": bar,
                 "baz": baz,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
-    baz: typing.Union[MetaOapg.properties.baz, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["baz"]) -> typing.Union[MetaOapg.properties.baz, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["baz"]) -> MetaOapg.properties.baz: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["bar"], typing.Literal["baz"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["bar", "baz", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["baz"]) -> typing.Union[MetaOapg.properties.baz, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["bar", "baz", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -69,7 +74,7 @@ class ReadOnlyFirst(
         bar: typing.Union[MetaOapg.properties.bar, str, schemas.Unset] = schemas.unset,
         baz: typing.Union[MetaOapg.properties.baz, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ReadOnlyFirst':
         return super().__new__(
             cls,

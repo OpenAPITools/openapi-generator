@@ -43,26 +43,28 @@ class BananaReq(
                 "lengthCm": lengthCm,
                 "sweet": sweet,
             }
-        additional_properties = None
+        additional_properties = schemas.NotAnyTypeSchema
     
     lengthCm: MetaOapg.properties.lengthCm
-    sweet: typing.Union[MetaOapg.properties.sweet, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["sweet"]) -> typing.Union[MetaOapg.properties.sweet, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["sweet"]) -> MetaOapg.properties.sweet: ...
     
-    def __getitem__(self, name: typing.Literal["lengthCm", "sweet", ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["lengthCm"], typing.Literal["sweet"], ]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
     
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["sweet"]) -> typing.Union[MetaOapg.properties.sweet, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["lengthCm"], typing.Literal["sweet"], ]):
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,

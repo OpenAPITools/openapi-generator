@@ -291,28 +291,33 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "enum_form_string_array": enum_form_string_array,
                 "enum_form_string": enum_form_string,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]
-    enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["enum_form_string_array"], typing.Literal["enum_form_string"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_form_string_array"]) -> typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -320,7 +325,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, tuple, schemas.Unset] = schemas.unset,
         enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,

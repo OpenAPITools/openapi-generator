@@ -60,31 +60,34 @@ class ArrayOfNumberOnly(
             __annotations__ = {
                 "ArrayNumber": ArrayNumber,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> MetaOapg.properties.ArrayNumber: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["ArrayNumber"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["ArrayNumber", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["ArrayNumber", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,

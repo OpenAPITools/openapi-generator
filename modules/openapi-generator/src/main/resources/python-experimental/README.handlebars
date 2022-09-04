@@ -50,13 +50,16 @@ object schema properties as classes
     keyword in one schema, and include a format constraint in another schema
     - So if you need to access a string format based type, use as_date_oapg/as_datetime_oapg/as_decimal_oapg/as_uuid_oapg
     - So if you need to access a number format based type, use as_int_oapg/as_float_oapg
-7. If object(dict) properties are accessed and they do not exist, then two things could happen
-    - When accessed with model_instance.someProp or model_instance["someProp"] and someProp is not in the payload,
-    then two possible results can be returned. If someProp is defined in any of the validated schemas
-    where it will have to be optional, then the value schemas.unset will be returned.
-    If someProp was not defined as an explicit property in any of those schemas, then a KeyError will be raised.
-    - This was done so type hints for optional properties could show that schemas.Unset is a valid value.
-    - So you will need to update code to handle thrown KeyErrors or schema.unset values
+7. Property access on AnyType(type unset) or object(dict) schemas
+    - Only required keys with valid python names are properties like .someProp and have type hints
+    - All optional keys may not exist, so properties are not defined for them
+    - One can access optional values with dict_instance['optionalProp'] and KeyError will be raised if it does not exist
+    - Use get_item_oapg if you need a way to always get a value whether or not the key exists
+        - If the key does not exist, schemas.unset is returned from calling dict_instance.get_item_oapg('optionalProp')
+        - All required and optional keys have type hints for this method, and @typing.overload is used
+        - A type hint is also generated for additionalProperties accessed using this method
+    - So you will need to update you code to use some_instance['optionalProp'] to access optional property
+    and additionalProperty values
 
 ### Why are Oapg and _oapg used in class and method names?
 Classes can have arbitrarily named properties set on them

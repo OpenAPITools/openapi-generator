@@ -47,35 +47,46 @@ class ObjectWithDifficultlyNamedProps(
                 "$special[property.name]": special_property_name,
                 "123Number": _123_number,
             }
-        additional_properties = schemas.AnyTypeSchema
     
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> typing.Union[MetaOapg.properties.special_property_name, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.special_property_name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123Number"]) -> typing.Union[MetaOapg.properties._123_number, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties._123_number: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["123-list"], typing.Literal["$special[property.name]"], typing.Literal["123Number"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["123-list", "$special[property.name]", "123Number", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["$special[property.name]"]) -> typing.Union[MetaOapg.properties.special_property_name, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["123Number"]) -> typing.Union[MetaOapg.properties._123_number, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["123-list", "$special[property.name]", "123Number", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectWithDifficultlyNamedProps':
         return super().__new__(
             cls,

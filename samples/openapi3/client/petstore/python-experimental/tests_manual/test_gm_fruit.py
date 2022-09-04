@@ -37,14 +37,14 @@ class TestGmFruit(unittest.TestCase):
         color = 'yellow'
         cultivar = 'banaple'
         fruit = GmFruit(lengthCm=length_cm, color=color, cultivar=cultivar)
-        assert isinstance(fruit, (banana.Banana, apple.Apple, GmFruit, frozendict.frozendict))
+        assert isinstance(fruit, banana.Banana)
+        assert isinstance(fruit, apple.Apple)
+        assert isinstance(fruit, frozendict.frozendict)
+        assert isinstance(fruit, GmFruit)
         # check its properties
-        self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
-        self.assertEqual(getattr(fruit, 'lengthCm'), length_cm)
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
+
         # check the dict representation
         self.assertEqual(
             fruit,
@@ -55,14 +55,16 @@ class TestGmFruit(unittest.TestCase):
             }
         )
 
-        # known variable from Apple is unset if it is not in the payload
-        fruit_origin = fruit.origin
-        assert fruit_origin is schemas.unset
-        fruit_origin = fruit["origin"]
-        assert fruit_origin is schemas.unset
+        # unset key access raises KeyError
+        with self.assertRaises(KeyError):
+            fruit["origin"]
+        with self.assertRaises(AttributeError):
+            fruit.origin
+        assert fruit.get_item_oapg("origin") is schemas.unset
 
         with self.assertRaises(KeyError):
             fruit['unknown_variable']
+        assert fruit.get_item_oapg("unknown_variable") is schemas.unset
         # with getattr
         self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 
@@ -76,7 +78,7 @@ class TestGmFruit(unittest.TestCase):
         )
 
         # including extra parameters works
-        fruit = GmFruit(
+        GmFruit(
             color=color,
             length_cm=length_cm,
             cultivar=cultivar,
@@ -90,15 +92,9 @@ class TestGmFruit(unittest.TestCase):
             cultivar=cultivar,
             length_cm=length_cm
         )
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-        self.assertEqual(fruit.length_cm, length_cm)
         self.assertEqual(fruit['length_cm'], length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
 
         # make an instance of GmFruit, a composed schema anyOf model
         # apple test
@@ -107,16 +103,9 @@ class TestGmFruit(unittest.TestCase):
         origin = 'California'
         fruit = GmFruit(color=color, cultivar=cultivar, origin=origin)
         # check its properties
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-
-        self.assertEqual(fruit.origin, origin)
         self.assertEqual(fruit['origin'], origin)
-        self.assertEqual(getattr(fruit, 'origin'), origin)
 
         # check the dict representation
         self.assertEqual(
@@ -127,6 +116,7 @@ class TestGmFruit(unittest.TestCase):
                 'origin': origin,
             }
         )
+
 
 if __name__ == '__main__':
     unittest.main()

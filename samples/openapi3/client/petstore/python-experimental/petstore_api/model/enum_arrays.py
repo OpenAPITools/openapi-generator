@@ -102,28 +102,33 @@ class EnumArrays(
                 "just_symbol": just_symbol,
                 "array_enum": array_enum,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    just_symbol: typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]
-    array_enum: typing.Union[MetaOapg.properties.array_enum, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["just_symbol"]) -> typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["just_symbol"]) -> MetaOapg.properties.just_symbol: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_enum"]) -> typing.Union[MetaOapg.properties.array_enum, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["array_enum"]) -> MetaOapg.properties.array_enum: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["just_symbol"], typing.Literal["array_enum"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["just_symbol", "array_enum", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["just_symbol"]) -> typing.Union[MetaOapg.properties.just_symbol, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["array_enum"]) -> typing.Union[MetaOapg.properties.array_enum, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["just_symbol", "array_enum", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -131,7 +136,7 @@ class EnumArrays(
         just_symbol: typing.Union[MetaOapg.properties.just_symbol, str, schemas.Unset] = schemas.unset,
         array_enum: typing.Union[MetaOapg.properties.array_enum, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'EnumArrays':
         return super().__new__(
             cls,

@@ -25,28 +25,84 @@ def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.proper
 
 @typing.overload
 {{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union['{{complexType}}', schemas.Unset]: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{name}}, schemas.Unset]: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
 {{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
 {{/if}}
 {{/if}}
 {{/unless}}
 {{/each}}
 {{/if}}
 {{#or vars getRequiredVarsMap}}
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
 
 @typing.overload
-def __getitem__(self, name: str) -> {{#with additionalProperties}}typing.Union[{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}, schemas.Unset]{{/with}}: ...
-{{/or}}
+def __getitem__(self, name: str) -> typing.Union[{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}, schemas.Unset]: ...
+{{/unless}}
+{{/with}}
 
-def __getitem__(self, name: typing.Union[str, {{#each getRequiredVarsMap}}{{#with this}}typing.Literal["{{{baseName}}}"], {{/with}}{{/each}}{{#each vars}}{{#unless required}}typing.Literal["{{{baseName}}}"], {{/unless}}{{/each}}]){{#not vars}}{{#not getRequiredVarsMap}} -> {{#with additionalProperties}}{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/with}}{{/not}}{{/not}}:
-    # dict_instance[name] accessor
-    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-        return super().__getitem__(name)
-    try:
-        return super().__getitem__(name)
-    except KeyError:
-        return schemas.unset
+{{> model_templates/property_getitems_with_addprops_getitem methodName="__getitem__" }}
+{{else}}
+{{#not additionalProperties.getIsBooleanSchemaFalse}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="__getitem__" }}
+{{/not}}
+{{/or}}
+{{#if getRequiredVarsMap}}
+{{#each getRequiredVarsMap}}
+{{#with this}}
+
+@typing.overload
+{{#if complexType}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+{{else}}
+{{#if schemaIsFromAdditionalProperties}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.additional_properties: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+{{else}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+{{/if}}
+{{/if}}
+{{/if}}
+{{/with}}
+{{/each}}
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+{{#unless required}}
+
+@typing.overload
+{{#if complexType}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union['{{complexType}}', schemas.Unset]: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{name}}, schemas.Unset]: ...
+{{else}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> typing.Union[MetaOapg.properties.{{baseName}}, schemas.Unset]: ...
+{{/if}}
+{{/if}}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#or vars getRequiredVarsMap}}
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
+
+@typing.overload
+def get_item_oapg(self, name: str) -> typing.Union[{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}, schemas.Unset]: ...
+{{/unless}}
+{{/with}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="get_item_oapg" }}
+{{else}}
+{{#not additionalProperties.getIsBooleanSchemaFalse}}
+
+{{> model_templates/property_getitems_with_addprops_getitem methodName="get_item_oapg" }}
+{{/not}}
+{{/or}}

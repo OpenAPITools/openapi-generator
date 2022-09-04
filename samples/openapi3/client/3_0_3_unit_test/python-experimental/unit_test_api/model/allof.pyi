@@ -33,7 +33,6 @@ class Allof(
 
 
     class MetaOapg:
-        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_0(
@@ -50,7 +49,6 @@ class Allof(
                     __annotations__ = {
                         "bar": bar,
                     }
-                additional_properties = schemas.AnyTypeSchema
         
             
             bar: MetaOapg.properties.bar
@@ -59,23 +57,29 @@ class Allof(
             def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
             
             @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+            def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
             
-            def __getitem__(self, name: typing.Union[str, typing.Literal["bar"], ]):
+            def __getitem__(self, name: typing.Union[typing.Literal["bar", ], str]):
                 # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
+                return super().__getitem__(name)
+            
+            
+            @typing.overload
+            def get_item_oapg(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
+            
+            @typing.overload
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+            
+            def get_item_oapg(self, name: typing.Union[typing.Literal["bar", ], str]):
+                return super().get_item_oapg(name)
+            
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 bar: typing.Union[MetaOapg.properties.bar, int, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'all_of_0':
                 return super().__new__(
                     cls,
@@ -100,7 +104,6 @@ class Allof(
                     __annotations__ = {
                         "foo": foo,
                     }
-                additional_properties = schemas.AnyTypeSchema
         
             
             foo: MetaOapg.properties.foo
@@ -109,23 +112,29 @@ class Allof(
             def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
             
             @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+            def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
             
-            def __getitem__(self, name: typing.Union[str, typing.Literal["foo"], ]):
+            def __getitem__(self, name: typing.Union[typing.Literal["foo", ], str]):
                 # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
+                return super().__getitem__(name)
+            
+            
+            @typing.overload
+            def get_item_oapg(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+            
+            @typing.overload
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+            
+            def get_item_oapg(self, name: typing.Union[typing.Literal["foo", ], str]):
+                return super().get_item_oapg(name)
+            
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
                 foo: typing.Union[MetaOapg.properties.foo, str, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -151,21 +160,12 @@ class Allof(
                 cls.all_of_1,
             ]
 
-    
-    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Allof':
         return super().__new__(
             cls,

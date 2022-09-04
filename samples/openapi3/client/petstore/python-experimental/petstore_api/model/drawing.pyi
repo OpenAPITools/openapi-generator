@@ -88,34 +88,42 @@ class Drawing(
         def additional_properties(cls) -> typing.Type['Fruit']:
             return Fruit
     
-    mainShape: typing.Union['Shape', schemas.Unset]
-    shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset]
-    nullableShape: typing.Union['NullableShape', schemas.Unset]
-    shapes: typing.Union[MetaOapg.properties.shapes, schemas.Unset]
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["mainShape"]) -> 'Shape': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["mainShape"]) -> typing.Union['Shape', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["shapeOrNull"]) -> 'ShapeOrNull': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["shapeOrNull"]) -> typing.Union['ShapeOrNull', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["nullableShape"]) -> 'NullableShape': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["nullableShape"]) -> typing.Union['NullableShape', schemas.Unset]: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["shapes"]) -> typing.Union[MetaOapg.properties.shapes, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["shapes"]) -> MetaOapg.properties.shapes: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> typing.Union['Fruit', schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["mainShape"], typing.Literal["shapeOrNull"], typing.Literal["nullableShape"], typing.Literal["shapes"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["mainShape"], typing.Literal["shapeOrNull"], typing.Literal["nullableShape"], typing.Literal["shapes"], str, ]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["mainShape"]) -> typing.Union['Shape', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["shapeOrNull"]) -> typing.Union['ShapeOrNull', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["nullableShape"]) -> typing.Union['NullableShape', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["shapes"]) -> typing.Union[MetaOapg.properties.shapes, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union['Fruit', schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["mainShape"], typing.Literal["shapeOrNull"], typing.Literal["nullableShape"], typing.Literal["shapes"], str, ]):
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,

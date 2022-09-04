@@ -42,32 +42,39 @@ class ApiResponse(
                 "type": type,
                 "message": message,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    code: typing.Union[MetaOapg.properties.code, schemas.Unset]
-    type: typing.Union[MetaOapg.properties.type, schemas.Unset]
-    message: typing.Union[MetaOapg.properties.message, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["code"]) -> typing.Union[MetaOapg.properties.code, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["code"]) -> MetaOapg.properties.code: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["type"]) -> MetaOapg.properties.type: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["message"]) -> typing.Union[MetaOapg.properties.message, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["message"]) -> MetaOapg.properties.message: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["code"], typing.Literal["type"], typing.Literal["message"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["code", "type", "message", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["code"]) -> typing.Union[MetaOapg.properties.code, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["message"]) -> typing.Union[MetaOapg.properties.message, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["code", "type", "message", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -76,7 +83,7 @@ class ApiResponse(
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         message: typing.Union[MetaOapg.properties.message, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ApiResponse':
         return super().__new__(
             cls,

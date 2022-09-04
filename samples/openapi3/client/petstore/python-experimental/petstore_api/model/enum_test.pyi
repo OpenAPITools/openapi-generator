@@ -169,56 +169,77 @@ class EnumTest(
                 "IntegerEnumWithDefaultValue": IntegerEnumWithDefaultValue,
                 "IntegerEnumOneValue": IntegerEnumOneValue,
             }
-        additional_properties = schemas.AnyTypeSchema
     
     enum_string_required: MetaOapg.properties.enum_string_required
-    enum_string: typing.Union[MetaOapg.properties.enum_string, schemas.Unset]
-    enum_integer: typing.Union[MetaOapg.properties.enum_integer, schemas.Unset]
-    enum_number: typing.Union[MetaOapg.properties.enum_number, schemas.Unset]
-    stringEnum: typing.Union['StringEnum', schemas.Unset]
-    IntegerEnum: typing.Union['IntegerEnum', schemas.Unset]
-    StringEnumWithDefaultValue: typing.Union['StringEnumWithDefaultValue', schemas.Unset]
-    IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset]
-    IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["enum_string_required"]) -> MetaOapg.properties.enum_string_required: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_string"]) -> typing.Union[MetaOapg.properties.enum_string, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["enum_string"]) -> MetaOapg.properties.enum_string: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_integer"]) -> typing.Union[MetaOapg.properties.enum_integer, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["enum_integer"]) -> MetaOapg.properties.enum_integer: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_number"]) -> typing.Union[MetaOapg.properties.enum_number, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["enum_number"]) -> MetaOapg.properties.enum_number: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["stringEnum"]) -> typing.Union['StringEnum', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["stringEnum"]) -> 'StringEnum': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["IntegerEnum"]) -> typing.Union['IntegerEnum', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["IntegerEnum"]) -> 'IntegerEnum': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["StringEnumWithDefaultValue"]) -> typing.Union['StringEnumWithDefaultValue', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["StringEnumWithDefaultValue"]) -> 'StringEnumWithDefaultValue': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["IntegerEnumWithDefaultValue"]) -> typing.Union['IntegerEnumWithDefaultValue', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["IntegerEnumWithDefaultValue"]) -> 'IntegerEnumWithDefaultValue': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["IntegerEnumOneValue"]) -> typing.Union['IntegerEnumOneValue', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["IntegerEnumOneValue"]) -> 'IntegerEnumOneValue': ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["enum_string_required"], typing.Literal["enum_string"], typing.Literal["enum_integer"], typing.Literal["enum_number"], typing.Literal["stringEnum"], typing.Literal["IntegerEnum"], typing.Literal["StringEnumWithDefaultValue"], typing.Literal["IntegerEnumWithDefaultValue"], typing.Literal["IntegerEnumOneValue"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["enum_string_required", "enum_string", "enum_integer", "enum_number", "stringEnum", "IntegerEnum", "StringEnumWithDefaultValue", "IntegerEnumWithDefaultValue", "IntegerEnumOneValue", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_string_required"]) -> MetaOapg.properties.enum_string_required: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_string"]) -> typing.Union[MetaOapg.properties.enum_string, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_integer"]) -> typing.Union[MetaOapg.properties.enum_integer, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_number"]) -> typing.Union[MetaOapg.properties.enum_number, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["stringEnum"]) -> typing.Union['StringEnum', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["IntegerEnum"]) -> typing.Union['IntegerEnum', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["StringEnumWithDefaultValue"]) -> typing.Union['StringEnumWithDefaultValue', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["IntegerEnumWithDefaultValue"]) -> typing.Union['IntegerEnumWithDefaultValue', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["IntegerEnumOneValue"]) -> typing.Union['IntegerEnumOneValue', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["enum_string_required", "enum_string", "enum_integer", "enum_number", "stringEnum", "IntegerEnum", "StringEnumWithDefaultValue", "IntegerEnumWithDefaultValue", "IntegerEnumOneValue", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -233,7 +254,7 @@ class EnumTest(
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', schemas.Unset] = schemas.unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'EnumTest':
         return super().__new__(
             cls,

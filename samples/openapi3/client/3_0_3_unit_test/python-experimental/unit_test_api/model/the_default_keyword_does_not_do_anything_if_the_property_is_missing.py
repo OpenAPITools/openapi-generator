@@ -46,31 +46,34 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
             __annotations__ = {
                 "alpha": alpha,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    alpha: typing.Union[MetaOapg.properties.alpha, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["alpha"]) -> typing.Union[MetaOapg.properties.alpha, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["alpha"]) -> MetaOapg.properties.alpha: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["alpha"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["alpha", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["alpha"]) -> typing.Union[MetaOapg.properties.alpha, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["alpha", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         alpha: typing.Union[MetaOapg.properties.alpha, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing':
         return super().__new__(
             cls,

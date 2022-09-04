@@ -40,29 +40,34 @@ class AdditionalpropertiesAreAllowedByDefault(
                 "foo": foo,
                 "bar": bar,
             }
-        additional_properties = schemas.AnyTypeSchema
 
     
-    foo: typing.Union[MetaOapg.properties.foo, schemas.Unset]
-    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["foo"], typing.Literal["bar"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["foo", "bar", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["foo", "bar", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -70,7 +75,7 @@ class AdditionalpropertiesAreAllowedByDefault(
         foo: typing.Union[MetaOapg.properties.foo, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         bar: typing.Union[MetaOapg.properties.bar, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'AdditionalpropertiesAreAllowedByDefault':
         return super().__new__(
             cls,

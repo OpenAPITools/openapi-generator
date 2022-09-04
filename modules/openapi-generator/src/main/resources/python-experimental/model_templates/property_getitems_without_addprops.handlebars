@@ -3,23 +3,43 @@
 
 @typing.overload
 {{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}'{{complexType}}'{{#unless required}}, schemas.Unset]{{/unless}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{name}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
 {{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{baseName}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
 {{/if}}
 {{/if}}
 {{/each}}
 
-def __getitem__(self, name: typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}]):
+@typing.overload
+def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+
+def __getitem__(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
     # dict_instance[name] accessor
-    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-        return super().__getitem__(name)
-    try:
-        return super().__getitem__(name)
-    except KeyError:
-        return schemas.unset
+    return super().__getitem__(name)
+
+{{/if}}
+{{#if vars}}
+{{#each vars}}
+
+@typing.overload
+{{#if complexType}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}'{{complexType}}'{{#unless required}}, schemas.Unset]{{/unless}}: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{name}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+{{else}}
+def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{baseName}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+{{/if}}
+{{/if}}
+{{/each}}
+
+@typing.overload
+def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+
+def get_item_oapg(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
+    return super().get_item_oapg(name)
 
 {{/if}}

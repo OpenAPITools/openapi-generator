@@ -771,7 +771,7 @@ class MediaType:
 @dataclass
 class ApiResponse:
     response: urllib3.HTTPResponse
-    body: typing.Union[Unset, typing.Type[Schema]]
+    body: typing.Union[Unset, Schema]
     headers: typing.Union[Unset, typing.List[HeaderParameter]]
 
     def __init__(

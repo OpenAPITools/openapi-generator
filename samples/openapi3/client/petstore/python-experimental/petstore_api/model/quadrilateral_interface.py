@@ -58,7 +58,6 @@ class QuadrilateralInterface(
                 "shapeType": shapeType,
                 "quadrilateralType": quadrilateralType,
             }
-        additional_properties = schemas.AnyTypeSchema
 
     
     shapeType: MetaOapg.properties.shapeType
@@ -71,16 +70,25 @@ class QuadrilateralInterface(
     def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["shapeType"], typing.Literal["quadrilateralType"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["shapeType", "quadrilateralType", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["shapeType"]) -> MetaOapg.properties.shapeType: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["shapeType", "quadrilateralType", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -88,7 +96,7 @@ class QuadrilateralInterface(
         shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
         quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,

@@ -24,7 +24,7 @@ Name | Type | Description | Notes
 **pattern_with_digits** | **str** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **pattern_with_digits_and_delimiter** | **str** | A string starting with &#x27;image_&#x27; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
 **noneProp** | **none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

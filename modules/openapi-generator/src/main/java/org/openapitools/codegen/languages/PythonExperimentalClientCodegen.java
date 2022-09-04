@@ -2227,52 +2227,24 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return modelNameToSchemaCache;
     }
 
+    /**
+     * Use cases:
+     * additional properties is unset: do nothing
+     * additional properties is true: add definiton to property
+     * additional properties is false: add definiton to property
+     * additional properties is schema: add definiton to property
+     *
+     * @param schema the schema that may contain an additional property schema
+     * @param property the property for the above schema
+     */
     @Override
     protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
-        if (schema.equals(new Schema())) {
-            // if we are trying to set additionalProperties on an empty schema stop recursing
+        Schema addPropsSchema = getSchemaFromBooleanOrSchema(schema.getAdditionalProperties());
+        if (addPropsSchema == null) {
             return;
         }
-        boolean additionalPropertiesIsAnyType = false;
-        CodegenModel m = null;
-        if (property instanceof CodegenModel) {
-            m = (CodegenModel) property;
-        }
-        CodegenProperty addPropProp = null;
-        boolean isAdditionalPropertiesTrue = false;
-        if (schema.getAdditionalProperties() == null) {
-            if (!disallowAdditionalPropertiesIfNotPresent) {
-                isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("",  new Schema());
-                addPropProp.nameInSnakeCase = null;
-                additionalPropertiesIsAnyType = true;
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty("",  new Schema());
-                addPropProp.nameInSnakeCase = null;
-                additionalPropertiesIsAnyType = true;
-            }
-        } else {
-            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            addPropProp.nameInSnakeCase = null;
-            if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
-                additionalPropertiesIsAnyType = true;
-            }
-        }
-        if (additionalPropertiesIsAnyType) {
-            property.setAdditionalPropertiesIsAnyType(true);
-        }
-        if (m != null && isAdditionalPropertiesTrue) {
-            m.isAdditionalPropertiesTrue = true;
-        }
-        if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {
-            return;
-        }
-        if (addPropProp != null) {
-            property.setAdditionalProperties(addPropProp);
-        }
+        CodegenProperty addPropProp = fromProperty("",  addPropsSchema, false, false);
+        property.setAdditionalProperties(addPropProp);
     }
 
     /**

@@ -52,12 +52,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 
                 def __getitem__(self, name: typing.Union[str, ]) -> 'Animal':
                     # dict_instance[name] accessor
-                    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                        return super().__getitem__(name)
-                    try:
-                        return super().__getitem__(name)
-                    except KeyError:
-                        return schemas.unset
+                    return super().__getitem__(name)
+                
+                def get_item_oapg(self, name: typing.Union[str, ]) -> 'Animal':
+                    return super().get_item_oapg(name)
             
                 def __new__(
                     cls,
@@ -76,32 +74,39 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 "dateTime": dateTime,
                 "map": map,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    uuid: typing.Union[MetaOapg.properties.uuid, schemas.Unset]
-    dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
-    map: typing.Union[MetaOapg.properties.map, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["uuid"]) -> typing.Union[MetaOapg.properties.uuid, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> MetaOapg.properties.dateTime: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["map"]) -> MetaOapg.properties.map: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["uuid"], typing.Literal["dateTime"], typing.Literal["map"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["uuid", "dateTime", "map", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["uuid"]) -> typing.Union[MetaOapg.properties.uuid, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["map"]) -> typing.Union[MetaOapg.properties.map, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["uuid", "dateTime", "map", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -110,7 +115,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
         map: typing.Union[MetaOapg.properties.map, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
             cls,

@@ -40,45 +40,14 @@ class SchemaForRequestBodyApplicationJson(
             "foo\rbar",
             "foo\\bar",
         }
-        additional_properties = schemas.AnyTypeSchema
 
     
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\\"bar"]) -> MetaOapg.additional_properties: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\nbar"]) -> MetaOapg.additional_properties: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\fbar"]) -> MetaOapg.additional_properties: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\tbar"]) -> MetaOapg.additional_properties: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\rbar"]) -> MetaOapg.additional_properties: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing.Literal["foo\\\\bar"]) -> MetaOapg.additional_properties: ...
-    
-    @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
-    
-    def __getitem__(self, name: typing.Union[str, typing.Literal["foo\\\"bar"], typing.Literal["foo\\nbar"], typing.Literal["foo\\fbar"], typing.Literal["foo\\tbar"], typing.Literal["foo\\rbar"], typing.Literal["foo\\\\bar"], ]):
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,

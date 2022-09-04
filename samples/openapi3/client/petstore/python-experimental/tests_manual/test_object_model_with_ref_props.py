@@ -35,13 +35,13 @@ class TestObjectModelWithRefProps(unittest.TestCase):
         assert isinstance(inst, ObjectModelWithRefProps)
         assert isinstance(inst, frozendict.frozendict)
         assert set(inst.keys()) == {"myNumber", "myString", "myBoolean"}
-        assert inst.myNumber == 15.0
-        assert isinstance(inst.myNumber, NumberWithValidations)
-        assert inst.myString == 'a'
-        assert isinstance(inst.myString, ObjectModelWithRefProps.MetaOapg.properties.myString)
-        assert bool(inst.myBoolean) is True
-        assert isinstance(inst.myBoolean, ObjectModelWithRefProps.MetaOapg.properties.myBoolean)
-        assert isinstance(inst.myBoolean, BoolClass)
+        assert inst["myNumber"] == 15.0
+        assert isinstance(inst["myNumber"], NumberWithValidations)
+        assert inst["myString"] == 'a'
+        assert isinstance(inst["myString"], ObjectModelWithRefProps.MetaOapg.properties.myString)
+        assert bool(inst["myBoolean"]) is True
+        assert isinstance(inst["myBoolean"], ObjectModelWithRefProps.MetaOapg.properties.myBoolean)
+        assert isinstance(inst["myBoolean"], BoolClass)
 
 
 if __name__ == '__main__':

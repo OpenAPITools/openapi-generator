@@ -1564,14 +1564,38 @@ class DictBase(Discriminable, ValidatorBase):
             raise AttributeError('property setting not supported on immutable instances')
 
     def __getattr__(self, name: str):
-        # for instance.name access
-        if isinstance(self, frozendict.frozendict):
-            # if an attribute does not exist
-            try:
-                return self[name]
-            except KeyError as ex:
-                raise AttributeError(str(ex))
-        return super().__getattr__(self, name)
+        """
+        for instance.name access
+        Properties are only type hinted for required properties
+        so that hasattr(instance, 'optionalProp') is False when that key is not present
+        """
+        if not isinstance(self, frozendict.frozendict):
+            return super().__getattr__(name)
+        if name not in self.__class__.__annotations__:
+            raise AttributeError(f"{self} has no attribute '{name}'")
+        try:
+            value = self[name]
+            return value
+        except KeyError as ex:
+            raise AttributeError(str(ex))
+
+    def __getitem__(self, name: str):
+        """
+        dict_instance[name] accessor
+        key errors thrown
+        """
+        if not isinstance(self, frozendict.frozendict):
+            return super().__getattr__(name)
+        return super().__getitem__(name)
+
+    def get_item_oapg(self, name: str) -> typing.Union['AnyTypeSchema', Unset]:
+        # dict_instance[name] accessor
+        if not isinstance(self, frozendict.frozendict):
+            raise NotImplementedError()
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return unset
 
 
 def cast_to_allowed_types(
@@ -1836,7 +1860,8 @@ class ComposedSchema(
     StrBase,
     BoolBase,
     NoneBase,
-    Schema
+    Schema,
+    NoneFrozenDictTupleStrDecimalBoolMixin
 ):
     @classmethod
     def from_openapi_data_oapg(cls, *args: typing.Any, _configuration: typing.Optional[Configuration] = None, **kwargs):
@@ -2142,6 +2167,29 @@ class AnyTypeSchema(
     NoneFrozenDictTupleStrDecimalBoolMixin
 ):
     pass
+
+
+class NotAnyTypeSchema(
+    ComposedSchema,
+):
+    """
+    Does not allow inputs in of AnyType
+    Note: validations on this class are never run because the code knows that no inputs will ever validate
+    """
+
+    class MetaOapg:
+        not_schema = AnyTypeSchema
+
+    def __new__(
+        cls,
+        *args,
+        _configuration: typing.Optional[Configuration] = None,
+    ) -> 'NotAnyTypeSchema':
+        return super().__new__(
+            cls,
+            *args,
+            _configuration=_configuration,
+        )
 
 
 class DictSchema(

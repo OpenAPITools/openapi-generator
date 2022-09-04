@@ -51,7 +51,6 @@ class GrandparentAnimal(
             __annotations__ = {
                 "pet_type": pet_type,
             }
-        additional_properties = schemas.AnyTypeSchema
     
     pet_type: MetaOapg.properties.pet_type
     
@@ -59,23 +58,29 @@ class GrandparentAnimal(
     def __getitem__(self, name: typing.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["pet_type"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["pet_type", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["pet_type", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         pet_type: typing.Union[MetaOapg.properties.pet_type, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,

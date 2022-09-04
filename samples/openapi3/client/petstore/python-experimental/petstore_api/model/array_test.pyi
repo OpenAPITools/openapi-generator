@@ -156,32 +156,39 @@ class ArrayTest(
                 "array_array_of_integer": array_array_of_integer,
                 "array_array_of_model": array_array_of_model,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    array_of_string: typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]
-    array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]
-    array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_of_string"]) -> typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["array_of_string"]) -> MetaOapg.properties.array_of_string: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_array_of_integer"]) -> typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["array_array_of_integer"]) -> MetaOapg.properties.array_array_of_integer: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["array_array_of_model"]) -> MetaOapg.properties.array_array_of_model: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["array_of_string"], typing.Literal["array_array_of_integer"], typing.Literal["array_array_of_model"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["array_of_string"]) -> typing.Union[MetaOapg.properties.array_of_string, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["array_array_of_integer"]) -> typing.Union[MetaOapg.properties.array_array_of_integer, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["array_array_of_model"]) -> typing.Union[MetaOapg.properties.array_array_of_model, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["array_of_string", "array_array_of_integer", "array_array_of_model", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -190,7 +197,7 @@ class ArrayTest(
         array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
         array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayTest':
         return super().__new__(
             cls,

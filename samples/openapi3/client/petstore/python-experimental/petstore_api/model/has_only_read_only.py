@@ -40,28 +40,33 @@ class HasOnlyReadOnly(
                 "bar": bar,
                 "foo": foo,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    bar: typing.Union[MetaOapg.properties.bar, schemas.Unset]
-    foo: typing.Union[MetaOapg.properties.foo, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["bar"], typing.Literal["foo"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["bar", "foo", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["bar"]) -> typing.Union[MetaOapg.properties.bar, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["bar", "foo", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -69,7 +74,7 @@ class HasOnlyReadOnly(
         bar: typing.Union[MetaOapg.properties.bar, str, schemas.Unset] = schemas.unset,
         foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'HasOnlyReadOnly':
         return super().__new__(
             cls,

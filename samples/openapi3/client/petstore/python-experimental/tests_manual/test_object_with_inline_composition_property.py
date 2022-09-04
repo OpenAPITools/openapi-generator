@@ -23,11 +23,11 @@ class TestObjectWithInlineCompositionProperty(unittest.TestCase):
         model = ObjectWithInlineCompositionProperty(someProp='a')
         self.assertTrue(
             isinstance(
-                model.someProp,
+                model["someProp"],
                 ObjectWithInlineCompositionProperty.MetaOapg.properties.someProp
             )
         )
-        self.assertTrue(isinstance(model.someProp, schemas.StrSchema))
+        self.assertTrue(isinstance(model["someProp"], schemas.StrSchema))
 
         # error thrown on length < 1
         with self.assertRaises(exceptions.ApiValueError):

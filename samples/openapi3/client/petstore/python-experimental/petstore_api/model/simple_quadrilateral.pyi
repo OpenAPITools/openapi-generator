@@ -33,7 +33,6 @@ class SimpleQuadrilateral(
 
 
     class MetaOapg:
-        additional_properties = schemas.AnyTypeSchema
         
         
         class all_of_1(
@@ -61,31 +60,34 @@ class SimpleQuadrilateral(
                     __annotations__ = {
                         "quadrilateralType": quadrilateralType,
                     }
-                additional_properties = schemas.AnyTypeSchema
-            
-            quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, schemas.Unset]
             
             @typing.overload
-            def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> typing.Union[MetaOapg.properties.quadrilateralType, schemas.Unset]: ...
+            def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
             
             @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+            def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
             
-            def __getitem__(self, name: typing.Union[str, typing.Literal["quadrilateralType"], ]):
+            def __getitem__(self, name: typing.Union[typing.Literal["quadrilateralType", ], str]):
                 # dict_instance[name] accessor
-                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-                    return super().__getitem__(name)
-                try:
-                    return super().__getitem__(name)
-                except KeyError:
-                    return schemas.unset
+                return super().__getitem__(name)
+            
+            
+            @typing.overload
+            def get_item_oapg(self, name: typing.Literal["quadrilateralType"]) -> typing.Union[MetaOapg.properties.quadrilateralType, schemas.Unset]: ...
+            
+            @typing.overload
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+            
+            def get_item_oapg(self, name: typing.Union[typing.Literal["quadrilateralType", ], str]):
+                return super().get_item_oapg(name)
+            
         
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -111,21 +113,12 @@ class SimpleQuadrilateral(
                 cls.all_of_1,
             ]
 
-    
-    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
-        # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SimpleQuadrilateral':
         return super().__new__(
             cls,

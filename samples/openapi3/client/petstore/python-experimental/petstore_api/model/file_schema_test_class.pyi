@@ -70,28 +70,33 @@ class FileSchemaTestClass(
                 "file": file,
                 "files": files,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    file: typing.Union['File', schemas.Unset]
-    files: typing.Union[MetaOapg.properties.files, schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["file"]) -> typing.Union['File', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["file"]) -> 'File': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["files"]) -> typing.Union[MetaOapg.properties.files, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["files"]) -> MetaOapg.properties.files: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["file"], typing.Literal["files"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["file", "files", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["file"]) -> typing.Union['File', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["files"]) -> typing.Union[MetaOapg.properties.files, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["file", "files", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -99,7 +104,7 @@ class FileSchemaTestClass(
         file: typing.Union['File', schemas.Unset] = schemas.unset,
         files: typing.Union[MetaOapg.properties.files, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,

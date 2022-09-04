@@ -20,13 +20,15 @@ class TestAdditionalPropertiesClass(unittest.TestCase):
 
     def test_additional_properties_class(self):
         inst = AdditionalPropertiesClass({})
-        map_property_by_getitem = inst["map_property"]
-        assert map_property_by_getitem is schemas.unset
-        map_property_by_attribute = inst.map_property
-        assert map_property_by_attribute is schemas.unset
+        with self.assertRaises(KeyError):
+            inst["map_property"]
+        assert inst.get_item_oapg("map_property") is schemas.unset
+        with self.assertRaises(AttributeError):
+            inst.map_property
 
         inst = AdditionalPropertiesClass(map_property={})
-        assert inst.map_property == {}
+        map_property = inst["map_property"]
+        assert map_property == {}
 
 
 if __name__ == '__main__':

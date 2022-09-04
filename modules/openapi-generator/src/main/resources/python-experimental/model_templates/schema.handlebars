@@ -1,5 +1,9 @@
 {{#if composedSchemas}}
+    {{#if getIsBooleanSchemaFalse}}
+{{> model_templates/var_equals_cls }}
+    {{else}}
 {{> model_templates/schema_composed_or_anytype }}
+    {{/if}}
 {{/if}}
 {{#unless composedSchemas}}
     {{#if getHasMultipleTypes}}
@@ -7,14 +11,10 @@
     {{else}}
         {{#or isMap isArray isAnyType}}
             {{#if isMap}}
-                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping}}
+                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping additionalProperties }}
 {{> model_templates/schema_dict }}
                 {{else}}
-                    {{#if additionalPropertiesIsAnyType}}
 {{> model_templates/var_equals_cls }}
-                    {{else}}
-{{> model_templates/schema_dict }}
-                    {{/if}}
                 {{/or}}
             {{/if}}
             {{#if isArray}}

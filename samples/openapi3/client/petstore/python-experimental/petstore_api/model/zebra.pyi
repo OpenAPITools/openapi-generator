@@ -86,25 +86,31 @@ class Zebra(
         additional_properties = schemas.AnyTypeSchema
     
     className: MetaOapg.properties.className
-    type: typing.Union[MetaOapg.properties.type, schemas.Unset]
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["type"]) -> MetaOapg.properties.type: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["className"], typing.Literal["type"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["className"], typing.Literal["type"], str, ]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["className"], typing.Literal["type"], str, ]):
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,

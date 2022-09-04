@@ -46,32 +46,39 @@ class ObjectWithDecimalProperties(
                 "width": width,
                 "cost": cost,
             }
-        additional_properties = schemas.AnyTypeSchema
-    
-    length: typing.Union[MetaOapg.properties.length, schemas.Unset]
-    width: typing.Union[MetaOapg.properties.width, schemas.Unset]
-    cost: typing.Union['Money', schemas.Unset]
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["length"]) -> MetaOapg.properties.length: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["width"]) -> MetaOapg.properties.width: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
+    def __getitem__(self, name: typing.Literal["cost"]) -> 'Money': ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
     
-    def __getitem__(self, name: typing.Union[str, typing.Literal["length"], typing.Literal["width"], typing.Literal["cost"], ]):
+    def __getitem__(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
         # dict_instance[name] accessor
-        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
-            return super().__getitem__(name)
-        try:
-            return super().__getitem__(name)
-        except KeyError:
-            return schemas.unset
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
@@ -80,7 +87,7 @@ class ObjectWithDecimalProperties(
         width: typing.Union[MetaOapg.properties.width, str, schemas.Unset] = schemas.unset,
         cost: typing.Union['Money', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,
