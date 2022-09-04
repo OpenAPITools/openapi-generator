@@ -116,10 +116,10 @@ class TestDrawing(unittest.TestCase):
         self.assertEqual(len(inst["shapes"]), 1)
         from petstore_api.model.triangle_interface import TriangleInterface
         shapes = inst["shapes"]
-        assert isinstance(inst["shapes"][0], shape.Shape)
-        assert isinstance(inst["shapes"][0], Triangle)
-        assert isinstance(inst["shapes"][0], EquilateralTriangle)
-        assert isinstance(inst["shapes"][0], TriangleInterface)
+        assert isinstance(shapes[0], shape.Shape)
+        assert isinstance(shapes[0], Triangle)
+        assert isinstance(shapes[0], EquilateralTriangle)
+        assert isinstance(shapes[0], TriangleInterface)
 
     def test_deserialize_oneof_reference_with_null_type(self):
         """
@@ -158,7 +158,8 @@ class TestDrawing(unittest.TestCase):
         assert isinstance(inst, Drawing)
         self.assertFalse('mainShape' in inst)
         self.assertTrue('nullableShape' in inst)
-        self.assertTrue(isinstance(inst.nullableShape, NoneClass))
+        self.assertTrue(isinstance(inst["nullableShape"], NoneClass))
+
 
 if __name__ == '__main__':
     unittest.main()
