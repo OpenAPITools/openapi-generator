@@ -3615,7 +3615,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name     name of the property
      * @param p        OAS property schema
      * @param required true if the property is required in the next higher object schema, false otherwise
-     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
+     * @param schemaIsFromAdditionalProperties true if the property is a required property defined by additional properties schema
+     *                                         If this is the actual additionalProperties schema not defining a required property, then
+     *                                         the value should be false
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
@@ -7864,4 +7866,34 @@ public class DefaultCodegen implements CodegenConfig {
     Into strings that can be rendered in the language that the generator will output to
     */
     protected String handleSpecialCharacters(String name) { return name; }
+
+    /**
+     * Used to ensure that null or Schema is returned given an input Boolean/Schema/null
+     * This will be used in openapi 3.1.0 spec processing to ensure that Booleans become Schemas
+     * Because our generators only understand Schemas
+     * Note: use getIsBooleanSchemaTrue or getIsBooleanSchemaFalse on the IJsonSchemaValidationProperties
+     * if you need to be able to detect if the original schema's value was true or false
+     *
+     * @param schema the input Boolean or Schema data to convert to a Schema
+     * @return Schema the input data converted to a Schema if possible
+     */
+    protected Schema getSchemaFromBooleanOrSchema(Object schema) {
+        if (schema instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema)) {
+                return trueSchema;
+            } else if (Boolean.FALSE.equals(schema)) {
+                return falseSchema;
+            }
+            // null case
+            return null;
+        } else if (schema instanceof Schema) {
+            if (schema == null) {
+                return null;
+            }
+            return (Schema) schema;
+        } else if (schema == null) {
+            return null;
+        }
+        throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
+    }
 }

@@ -2239,27 +2239,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     @Override
     protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
-        if (schema.getAdditionalProperties() == null) {
+        Schema addPropsSchema = getSchemaFromBooleanOrSchema(schema.getAdditionalProperties());
+        if (addPropsSchema == null) {
             return;
         }
-        CodegenProperty addPropProp;
-        if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                addPropProp = fromProperty("",  trueSchema);
-                addPropProp.nameInSnakeCase = null;
-                property.setAdditionalProperties(addPropProp);
-            } else if (Boolean.FALSE.equals(schema.getAdditionalProperties())) {
-                // false is equivalent to not AnyType
-                addPropProp = fromProperty("",  falseSchema);
-                addPropProp.nameInSnakeCase = null;
-                property.setAdditionalProperties(addPropProp);
-            }
-        } else {
-            Schema addPropsSchema = (Schema) schema.getAdditionalProperties();
-            addPropProp = fromProperty("", addPropsSchema);
-            addPropProp.nameInSnakeCase = null;
-            property.setAdditionalProperties(addPropProp);
-        }
+        CodegenProperty addPropProp = fromProperty("",  addPropsSchema, false, false);
+        property.setAdditionalProperties(addPropProp);
     }
 
     /**
