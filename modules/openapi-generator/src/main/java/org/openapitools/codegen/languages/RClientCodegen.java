@@ -589,6 +589,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
+
+            // apply the same fix, enhancement for allVars
+            for (CodegenProperty var : cm.allVars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
+                }
+
+                // create extension x-r-doc-type to store the data type in r doc format
+                var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
+            }
         }
         return postProcessModelsEnum(objs);
     }
