@@ -39,7 +39,8 @@ class TestDateTimeWithValidations(unittest.TestCase):
         # when passing data in with from_openapi_data_oapg one must use str
         with self.assertRaisesRegex(
             petstore_api.ApiTypeError,
-            r"Invalid type. Required value type is str and passed type was datetime at \['args\[0\]'\]"
+            r"Invalid type. Required value type is str and passed "
+            r"type was <class 'datetime.datetime'> at \('args\[0\]',\)"
         ):
             DateTimeWithValidations.from_openapi_data_oapg(datetime(2020, 1, 1))
 

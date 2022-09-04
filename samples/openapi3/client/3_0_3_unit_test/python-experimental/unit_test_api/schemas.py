@@ -2213,7 +2213,7 @@ class DictSchema(
         return super().__new__(cls, *args, **kwargs)
 
 
-schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema}
+schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema, AnyTypeSchema}
 
 
 @functools.cache

@@ -71,8 +71,6 @@ def update(d: dict, u: dict):
     if not u:
         return d
     for k, v in u.items():
-        if not v:
-            continue
         if k not in d:
             d[k] = v
         else:
@@ -285,7 +283,7 @@ class Schema:
         return path_to_schemas
 
     @staticmethod
-    def __process_schema_classes(
+    def _process_schema_classes_oapg(
         schema_classes: typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]
     ):
         """
@@ -294,6 +292,8 @@ class Schema:
         """
         if len(schema_classes) < 2:
             return
+        if len(schema_classes) > 2 and AnyTypeSchemaUnset in schema_classes:
+            schema_classes.remove(AnyTypeSchemaUnset)
         x_schema = schema_type_classes & schema_classes
         if not x_schema:
             return
@@ -345,7 +345,7 @@ class Schema:
                 Singleton already added
             3. N number of schema classes, classes in path_to_schemas: BoolClass/NoneClass/tuple/frozendict.frozendict/str/Decimal/bytes/FileIo
             """
-            cls.__process_schema_classes(schema_classes)
+            cls._process_schema_classes_oapg(schema_classes)
             enum_schema = any(
                 hasattr(this_cls, '_enum_value_to_name') for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(cls.__inheritable_primitive_types_set)
@@ -1352,7 +1352,8 @@ class DictBase(Discriminable, ValidatorBase):
             - accepted because additionalProperties exists
         Exceptions will be raised if:
         - invalid arguments were passed in
-            - a var_name is invalid if additionProperties == None and var_name not in _properties
+            - a var_name is invalid if additional_properties == NotAnyTypeSchema
+            and var_name not in properties.__annotations__
         - required properties were not passed in
 
         Args:
@@ -1364,7 +1365,7 @@ class DictBase(Discriminable, ValidatorBase):
         seen_required_properties = set()
         invalid_arguments = []
         required_property_names = getattr(cls.MetaOapg, 'required', set())
-        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchemaUnset)
         properties = getattr(cls.MetaOapg, 'properties', {})
         property_annotations = getattr(properties, '__annotations__', {})
         for property_name in arg:
@@ -1372,7 +1373,7 @@ class DictBase(Discriminable, ValidatorBase):
                 seen_required_properties.add(property_name)
             elif property_name in property_annotations:
                 continue
-            elif additional_properties:
+            elif additional_properties is not NotAnyTypeSchema:
                 continue
             else:
                 invalid_arguments.append(property_name)
@@ -1413,13 +1414,25 @@ class DictBase(Discriminable, ValidatorBase):
             ApiTypeError - for missing required arguments, or for invalid properties
         """
         path_to_schemas = {}
-        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchemaUnset)
         properties = getattr(cls.MetaOapg, 'properties', {})
         property_annotations = getattr(properties, '__annotations__', {})
         for property_name, value in arg.items():
+            path_to_item = validation_metadata.path_to_item+(property_name,)
             if property_name in property_annotations:
                 schema = property_annotations[property_name]
-            elif additional_properties:
+            elif additional_properties is not NotAnyTypeSchema:
+                if additional_properties is AnyTypeSchemaUnset:
+                    """
+                    additionalProperties was not defined so any type is allowed in
+                    cast_to_allowed_values was already run
+                    AnyTypeSchemaUnset is not used for validation because there is no
+                    additionalProperties definition in the source spec
+                    """
+                    if path_to_item not in path_to_schemas:
+                        base_type = type(value)
+                        path_to_schemas[path_to_item] = {AnyTypeSchemaUnset, base_type}
+                    continue
                 schema = additional_properties
             else:
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
@@ -1431,7 +1444,7 @@ class DictBase(Discriminable, ValidatorBase):
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
-                path_to_item=validation_metadata.path_to_item+(property_name,),
+                path_to_item=path_to_item,
                 validated_path_to_schemas=validation_metadata.validated_path_to_schemas
             )
             if arg_validation_metadata.validation_ran_earlier(schema):
@@ -1542,7 +1555,7 @@ class DictBase(Discriminable, ValidatorBase):
         dict_items = {}
         # if we have definitions for property schemas convert values using it
         # otherwise accept anything
-        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchema)
+        additional_properties = getattr(cls.MetaOapg, 'additional_properties', AnyTypeSchemaUnset)
         for property_name_js, value in arg.items():
             if hasattr(cls.MetaOapg, 'properties'):
                 property_cls = getattr(cls.MetaOapg.properties, property_name_js, additional_properties)
@@ -1605,6 +1618,10 @@ class DictBase(Discriminable, ValidatorBase):
             return unset
 
 
+from_server_types = {
+    str, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, io.FileIO, io.BufferedReader
+}
+
 def cast_to_allowed_types(
     arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, Schema, io.FileIO, io.BufferedReader],
     from_server: bool,
@@ -1640,6 +1657,7 @@ def cast_to_allowed_types(
             schema_classes.add(cls)
         validated_path_to_schemas[path_to_item] = schema_classes
 
+    type_error = ApiTypeError(f"Invalid type. Required value type is str and passed type was {type(arg)} at {path_to_item}")
     if isinstance(arg, str):
         return str(arg)
     elif isinstance(arg, (dict, frozendict.frozendict)):
@@ -1668,13 +1686,11 @@ def cast_to_allowed_types(
     elif isinstance(arg, (date, datetime)):
         if not from_server:
             return arg.isoformat()
-        # ApiTypeError will be thrown later by _validate_type
-        return arg
+        raise type_error
     elif isinstance(arg, uuid.UUID):
         if not from_server:
             return str(arg)
-        # ApiTypeError will be thrown later by _validate_type
-        return arg
+        raise type_error
     elif isinstance(arg, decimal.Decimal):
         return decimal.Decimal(arg)
     elif isinstance(arg, bytes):
@@ -2173,6 +2189,12 @@ class AnyTypeSchema(
     Schema,
     NoneFrozenDictTupleStrDecimalBoolMixin
 ):
+    # Python representation of a schema defined as true or {}
+    pass
+
+
+class AnyTypeSchemaUnset(AnyTypeSchema):
+    # Used when additionalProperties/items was not explicitly defined and a defining schema is needed
     pass
 
 
@@ -2180,6 +2202,7 @@ class NotAnyTypeSchema(
     ComposedSchema,
 ):
     """
+    Python representation of a schema defined as false or {'not': {}}
     Does not allow inputs in of AnyType
     Note: validations on this class are never run because the code knows that no inputs will ever validate
     """
@@ -2213,7 +2236,7 @@ class DictSchema(
         return super().__new__(cls, *args, **kwargs)
 
 
-schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema}
+schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema, AnyTypeSchema}
 
 
 @functools.cache

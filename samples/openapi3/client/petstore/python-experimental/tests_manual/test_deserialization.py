@@ -308,9 +308,8 @@ class DeserializationTests(unittest.TestCase):
             },
         )
         with self.assertRaisesRegex(
-            petstore_api.exceptions.ApiValueError,
-            r"Invalid value 'abc' was passed in to NotAnyTypeSchema. "
-            r"Value is invalid because it is disallowed by AnyTypeSchema"
+            petstore_api.exceptions.ApiTypeError,
+            r"BananaReq was passed 1 invalid argument: \['unknown-group'\]"
         ):
             data = {
                 'lengthCm': 21.2,
