@@ -1578,10 +1578,11 @@ class DictBase(Discriminable, ValidatorBase):
         """
         if not isinstance(self, frozendict.frozendict):
             return super().__getattr__(name)
+        if name not in self.__class__.__annotations__:
+            raise AttributeError(f"{self} has no attribute '{name}'")
         try:
             value = self[name]
             return value
-            # TODO if attr is not required then raise AttributeError
         except KeyError as ex:
             raise AttributeError(str(ex))
 
