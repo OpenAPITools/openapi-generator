@@ -7,8 +7,7 @@ import 'package:openapi/src/model/foo_ref.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/one_of.dart';
-import 'package:one_of/any_of.dart';
-// ignore_for_file: unused_element, unused_import
+import 'package:one_of/one_of.dart';
 
 part 'foo_ref_or_value.g.dart';
 
@@ -22,79 +21,86 @@ part 'foo_ref_or_value.g.dart';
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
 abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilder> {
+  /// One Of [Foo], [FooRef]
+  OneOf get oneOf;
 
-    /// One Of [Foo], [FooRef]
-    OneOf get oneOf;
+  static const String discriminatorFieldName = r'atType';
 
+  static const Map<String, Type> discriminatorMapping = {
+    r'Foo': Foo,
+    r'FooRef': FooRef,
+  };
 
-    static const String discriminatorFieldName = r'atType';
-    static const Map<String, Type> discriminatorMapping = {
-        r'Foo': Foo,
-        r'FooRef': FooRef,
-    };
-    
-    FooRefOrValue._();
-    
-    factory FooRefOrValue([void updates(FooRefOrValueBuilder b)]) = _$FooRefOrValue;
+  FooRefOrValue._();
 
-    @BuiltValueHook(initializeBuilder: true)
-    static void _defaults(FooRefOrValueBuilder b) => b;
+  factory FooRefOrValue([void updates(FooRefOrValueBuilder b)]) = _$FooRefOrValue;
 
-    @BuiltValueSerializer(custom: true)
-    static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(FooRefOrValueBuilder b) => b;
 
-
+  @BuiltValueSerializer(custom: true)
+  static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();
 }
 
 class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
-    @override
-    final Iterable<Type> types = const [FooRefOrValue, _$FooRefOrValue];
+  @override
+  final Iterable<Type> types = const [FooRefOrValue, _$FooRefOrValue];
 
-    @override
-    final String wireName = r'FooRefOrValue';
+  @override
+  final String wireName = r'FooRefOrValue';
 
-    Iterable<Object?> _serializeProperties(Serializers serializers, FooRefOrValue object,
-        {FullType specifiedType = FullType.unspecified}) sync* {        
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    FooRefOrValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+  }
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    FooRefOrValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final oneOf = object.oneOf;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
+  }
+
+  @override
+  FooRefOrValue deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = FooRefOrValueBuilder();
+    Object? oneOfDataSrc;
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final discIndex = serializedList.indexOf(FooRefOrValue.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
+    oneOfDataSrc = serialized;
+    final oneOfTypes = [Foo, FooRef, ];
+    Object oneOfResult;
+    Type oneOfType;
+    switch (discValue) {
+      case 'Foo':
+        oneOfResult = serializers.deserialize(
+          oneOfDataSrc,
+          specifiedType: FullType(Foo).
+        ) as Foo;
+        oneOfType = Foo;
+        break;
+      case 'FooRef':
+        oneOfResult = serializers.deserialize(
+          oneOfDataSrc,
+          specifiedType: FullType(FooRef).
+        ) as FooRef;
+        oneOfType = FooRef;
+        break;
+      default:
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-
-    @override
-    Object serialize(Serializers serializers, FooRefOrValue object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final oneOf = object.oneOf;
-        return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
-    }
-
-
-    
-    @override
-    FooRefOrValue deserialize(Serializers serializers, Object serialized,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = FooRefOrValueBuilder();
-        Object? oneOfDataSrc;
-        final serializedList = (serialized as Iterable<Object?>).toList();    
-        final discIndex = serializedList.indexOf(FooRefOrValue.discriminatorFieldName) + 1;
-        final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;    
-        oneOfDataSrc = serialized;
-        final oneOfTypes = [Foo, FooRef, ];
-        Object oneOfResult;
-        Type oneOfType;
-        switch (discValue) {
-            case 'Foo':                
-                oneOfResult = serializers.deserialize(oneOfDataSrc, specifiedType: FullType(Foo)) as Foo;
-                oneOfType = Foo;
-                break;
-            case 'FooRef':                
-                oneOfResult = serializers.deserialize(oneOfDataSrc, specifiedType: FullType(FooRef)) as FooRef;
-                oneOfType = FooRef;
-                break;
-            default:      
-                throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
-        }    
-        result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
-        return result.build();
-    }
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
+    return result.build();
+  }
 }
-
-
-
 
