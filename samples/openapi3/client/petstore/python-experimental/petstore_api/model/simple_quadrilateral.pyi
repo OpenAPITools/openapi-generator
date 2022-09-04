@@ -61,7 +61,6 @@ class SimpleQuadrilateral(
                         "quadrilateralType": quadrilateralType,
                     }
             
-            
             @typing.overload
             def __getitem__(self, name: typing.Literal["quadrilateralType"]) -> MetaOapg.properties.quadrilateralType: ...
             

@@ -47,7 +47,6 @@ class Cat(
                         "declawed": declawed,
                     }
             
-            
             @typing.overload
             def __getitem__(self, name: typing.Literal["declawed"]) -> MetaOapg.properties.declawed: ...
             

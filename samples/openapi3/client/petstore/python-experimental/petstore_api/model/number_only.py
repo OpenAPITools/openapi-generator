@@ -39,7 +39,6 @@ class NumberOnly(
                 "JustNumber": JustNumber,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["JustNumber"]) -> MetaOapg.properties.JustNumber: ...
     

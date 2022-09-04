@@ -42,7 +42,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "status": status,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     

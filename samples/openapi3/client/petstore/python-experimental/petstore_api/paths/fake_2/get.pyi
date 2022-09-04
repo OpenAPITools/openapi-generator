@@ -292,7 +292,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 "enum_form_string": enum_form_string,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
     

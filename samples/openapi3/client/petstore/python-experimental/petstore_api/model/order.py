@@ -75,7 +75,6 @@ class Order(
                 "complete": complete,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
     

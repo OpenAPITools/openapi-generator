@@ -41,7 +41,6 @@ class Tag(
                 "name": name,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
     

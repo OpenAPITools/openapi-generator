@@ -47,7 +47,6 @@ class Dog(
                         "breed": breed,
                     }
             
-            
             @typing.overload
             def __getitem__(self, name: typing.Literal["breed"]) -> MetaOapg.properties.breed: ...
             

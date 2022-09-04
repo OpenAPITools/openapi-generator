@@ -181,7 +181,6 @@ class MapTest(
                 "indirect_map": indirect_map,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["map_map_of_string"]) -> MetaOapg.properties.map_map_of_string: ...
     

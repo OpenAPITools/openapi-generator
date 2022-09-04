@@ -61,7 +61,6 @@ class ScaleneTriangle(
                         "triangleType": triangleType,
                     }
             
-            
             @typing.overload
             def __getitem__(self, name: typing.Literal["triangleType"]) -> MetaOapg.properties.triangleType: ...
             

@@ -41,7 +41,6 @@ class ReadOnlyFirst(
                 "baz": baz,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     

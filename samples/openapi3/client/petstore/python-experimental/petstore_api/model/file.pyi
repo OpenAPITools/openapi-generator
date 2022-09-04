@@ -41,7 +41,6 @@ class File(
                 "sourceURI": sourceURI,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["sourceURI"]) -> MetaOapg.properties.sourceURI: ...
     

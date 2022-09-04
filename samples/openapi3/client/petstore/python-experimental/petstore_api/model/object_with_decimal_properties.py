@@ -47,7 +47,6 @@ class ObjectWithDecimalProperties(
                 "cost": cost,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["length"]) -> MetaOapg.properties.length: ...
     

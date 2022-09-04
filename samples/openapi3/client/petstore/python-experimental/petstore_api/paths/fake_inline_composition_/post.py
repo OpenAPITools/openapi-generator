@@ -131,7 +131,6 @@ class CompositionInPropertySchema(
                 "someProp": someProp,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     
@@ -304,7 +303,6 @@ class SchemaForRequestBodyMultipartFormData(
                 "someProp": someProp,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     
@@ -454,7 +452,6 @@ class SchemaFor200ResponseBodyMultipartFormData(
             __annotations__ = {
                 "someProp": someProp,
             }
-    
     
     @typing.overload
     def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...

@@ -41,7 +41,6 @@ class SpecialModelName(
                 "a": a,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["a"]) -> MetaOapg.properties.a: ...
     

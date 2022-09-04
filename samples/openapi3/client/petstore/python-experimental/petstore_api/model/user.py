@@ -107,7 +107,6 @@ class User(
                 "anyTypePropNullable": anyTypePropNullable,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
     

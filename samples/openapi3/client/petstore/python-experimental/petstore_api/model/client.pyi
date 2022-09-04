@@ -39,7 +39,6 @@ class Client(
                 "client": client,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["client"]) -> MetaOapg.properties.client: ...
     

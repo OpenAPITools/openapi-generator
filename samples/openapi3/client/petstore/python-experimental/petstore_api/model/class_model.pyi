@@ -42,7 +42,6 @@ class ClassModel(
             }
 
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["_class"]) -> MetaOapg.properties._class: ...
     

@@ -75,7 +75,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(
                 "map": map,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["uuid"]) -> MetaOapg.properties.uuid: ...
     

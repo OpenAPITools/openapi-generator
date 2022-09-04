@@ -81,7 +81,6 @@ class ObjectWithInlineCompositionProperty(
                 "someProp": someProp,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     

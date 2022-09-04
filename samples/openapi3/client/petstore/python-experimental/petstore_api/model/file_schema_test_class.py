@@ -71,7 +71,6 @@ class FileSchemaTestClass(
                 "files": files,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["file"]) -> 'File': ...
     

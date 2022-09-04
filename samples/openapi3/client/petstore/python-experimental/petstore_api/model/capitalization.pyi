@@ -49,7 +49,6 @@ class Capitalization(
                 "ATT_NAME": ATT_NAME,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["smallCamel"]) -> MetaOapg.properties.smallCamel: ...
     

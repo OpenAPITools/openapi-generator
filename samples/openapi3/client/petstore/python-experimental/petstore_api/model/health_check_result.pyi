@@ -61,7 +61,6 @@ class HealthCheckResult(
                 "NullableMessage": NullableMessage,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["NullableMessage"]) -> MetaOapg.properties.NullableMessage: ...
     

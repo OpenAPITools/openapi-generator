@@ -212,7 +212,6 @@ class AdditionalPropertiesClass(
                 "map_with_undeclared_properties_string": map_with_undeclared_properties_string,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["map_property"]) -> MetaOapg.properties.map_property: ...
     

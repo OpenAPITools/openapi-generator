@@ -456,7 +456,6 @@ class NullableClass(
                     **kwargs,
                 )
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["integer_prop"]) -> MetaOapg.properties.integer_prop: ...
     

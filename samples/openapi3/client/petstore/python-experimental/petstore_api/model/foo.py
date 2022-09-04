@@ -39,7 +39,6 @@ class Foo(
                 "bar": bar,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
     

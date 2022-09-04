@@ -70,7 +70,6 @@ class SchemaForRequestBodyMultipartFormData(
                 "file": file,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> MetaOapg.properties.additionalMetadata: ...
     

@@ -56,7 +56,6 @@ class GmFruit(
             ]
 
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["color"]) -> MetaOapg.properties.color: ...
     

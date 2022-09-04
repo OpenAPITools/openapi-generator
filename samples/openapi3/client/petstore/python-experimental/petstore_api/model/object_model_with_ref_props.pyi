@@ -49,7 +49,6 @@ class ObjectModelWithRefProps(
                 "myBoolean": myBoolean,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["myNumber"]) -> 'NumberWithValidations': ...
     

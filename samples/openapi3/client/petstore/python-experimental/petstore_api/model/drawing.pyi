@@ -88,7 +88,6 @@ class Drawing(
         def additional_properties(cls) -> typing.Type['Fruit']:
             return Fruit
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["mainShape"]) -> 'Shape': ...
     

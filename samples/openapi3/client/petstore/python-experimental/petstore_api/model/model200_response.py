@@ -44,7 +44,6 @@ class Model200Response(
             }
 
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
     

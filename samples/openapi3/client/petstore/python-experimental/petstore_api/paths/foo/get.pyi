@@ -43,7 +43,6 @@ class SchemaFor0ResponseBodyApplicationJson(
                 "string": string,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["string"]) -> 'Foo': ...
     

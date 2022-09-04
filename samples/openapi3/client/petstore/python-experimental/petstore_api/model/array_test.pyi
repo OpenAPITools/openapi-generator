@@ -157,7 +157,6 @@ class ArrayTest(
                 "array_array_of_model": array_array_of_model,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["array_of_string"]) -> MetaOapg.properties.array_of_string: ...
     

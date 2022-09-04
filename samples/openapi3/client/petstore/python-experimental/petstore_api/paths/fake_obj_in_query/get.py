@@ -39,7 +39,6 @@ class MapBeanSchema(
                 "keyword": keyword,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["keyword"]) -> MetaOapg.properties.keyword: ...
     

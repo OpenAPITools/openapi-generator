@@ -103,7 +103,6 @@ class EnumArrays(
                 "array_enum": array_enum,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["just_symbol"]) -> MetaOapg.properties.just_symbol: ...
     

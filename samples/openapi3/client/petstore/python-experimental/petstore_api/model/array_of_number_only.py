@@ -61,7 +61,6 @@ class ArrayOfNumberOnly(
                 "ArrayNumber": ArrayNumber,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> MetaOapg.properties.ArrayNumber: ...
     

@@ -43,7 +43,6 @@ class ApiResponse(
                 "message": message,
             }
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["code"]) -> MetaOapg.properties.code: ...
     

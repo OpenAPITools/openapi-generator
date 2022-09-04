@@ -42,7 +42,6 @@ class ModelReturn(
             }
 
     
-    
     @typing.overload
     def __getitem__(self, name: typing.Literal["return"]) -> MetaOapg.properties._return: ...
     
