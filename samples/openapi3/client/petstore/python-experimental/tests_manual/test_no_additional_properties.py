@@ -35,8 +35,11 @@ class TestNoAdditionalProperties(unittest.TestCase):
         id_by_property = inst.id
         assert id_by_property == 1
         assert isinstance(id_by_property, (schemas.Int64Schema, decimal.Decimal))
-        assert inst.petId is schemas.unset
-        assert inst["petId"] is schemas.unset
+        with self.assertRaises(AttributeError):
+            inst.petId
+        with self.assertRaises(KeyError):
+            inst["petId"]
+        assert inst.get_item_oapg("petId") is schemas.unset
 
         # works with required + optional
         inst = NoAdditionalProperties(id=1, petId=2)

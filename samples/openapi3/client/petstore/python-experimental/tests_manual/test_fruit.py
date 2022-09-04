@@ -51,7 +51,9 @@ class TestFruit(unittest.TestCase):
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        assert fruit['cultivar'] is schemas.unset
+        with self.assertRaises(KeyError):
+            assert fruit['cultivar']
+        assert fruit.get_item_oapg('cultivar') is schemas.unset
 
         # make sure that the ModelComposed class properties are correct
         self.assertEqual(

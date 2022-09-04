@@ -59,13 +59,16 @@ class TestGmFruit(unittest.TestCase):
             }
         )
 
-        # known variable from Apple is unset if it is not in the payload
-        fruit_origin_by_get_item = fruit["origin"]
-        assert fruit_origin_by_get_item is schemas.unset
-        assert fruit.origin is schemas.unset
+        # unset key access raises KeyError
+        with self.assertRaises(KeyError):
+            fruit["origin"]
+        with self.assertRaises(AttributeError):
+            fruit.origin
+        assert fruit.get_item_oapg("origin") is schemas.unset
 
-        unknown_variable = fruit['unknown_variable']
-        assert unknown_variable is schemas.unset
+        with self.assertRaises(KeyError):
+            fruit['unknown_variable']
+        assert fruit.get_item_oapg("unknown_variable") is schemas.unset
         # with getattr
         self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 
@@ -79,7 +82,7 @@ class TestGmFruit(unittest.TestCase):
         )
 
         # including extra parameters works
-        fruit = GmFruit(
+        GmFruit(
             color=color,
             length_cm=length_cm,
             cultivar=cultivar,
@@ -130,6 +133,7 @@ class TestGmFruit(unittest.TestCase):
                 'origin': origin,
             }
         )
+
 
 if __name__ == '__main__':
     unittest.main()
