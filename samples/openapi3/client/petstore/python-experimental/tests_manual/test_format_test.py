@@ -14,9 +14,11 @@ from decimal import Decimal
 import datetime
 import unittest
 
+import frozendict
+
 import petstore_api
 from petstore_api.model.format_test import FormatTest
-from petstore_api.schemas import BinarySchema, BytesSchema, frozendict, Singleton
+from petstore_api.schemas import BinarySchema, BytesSchema, Singleton
 
 
 class TestFormatTest(unittest.TestCase):
@@ -101,14 +103,14 @@ class TestFormatTest(unittest.TestCase):
         model = FormatTest(noneProp=None, **required_args)
         assert isinstance(model.noneProp, Singleton)
         self.assertFalse(model.noneProp)
-        self.assertTrue(model.noneProp.is_none())
+        self.assertTrue(model.noneProp.is_none_oapg())
 
         # binary check
         model = FormatTest(binary=b'123', **required_args)
         assert isinstance(model.binary, BinarySchema)
         assert isinstance(model.binary, BytesSchema)
         assert isinstance(model.binary, bytes)
-        assert model == frozendict(
+        assert model == frozendict.frozendict(
             binary=b'123',
             number=Decimal(32.5),
             byte='a',

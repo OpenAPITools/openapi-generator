@@ -21,10 +21,31 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
-test_that("Test toJSON toJSONString fromJSON fromJSONString", {
+test_that("Additional Properties test", {
+  # test tag
+  t <- Tag$new(id = 393, name = "something")
+  t$additional_properties <- c("a1" = 998, "b2" = "bbccdd")  
+  expect_equal(t$toJSONString(), "{\"id\":393,\"name\":\"something\",\"a1\":\"998\",\"b2\":\"bbccdd\"}")
+
+  # test tag with additional_properties in `new`
+  t <- Tag$new(id = 393, name = "something", additional_properties = list("nested_object" = list("inside_item" = 8989)))
+  expect_equal(t$toJSONString(), "{\"id\":393,\"name\":\"something\",\"nested_object\":{\"inside_item\":8989}}")
+
+  # test fromJSONString
+  json <- "{\"id\":393,\"name\":\"something\",\"a1\":\"998\",\"b2\":\"bbccdd\"}"
+  t2 <- Tag$new() 
+  t2$fromJSONString(json)
+  expect_equal(t2$id, 393)
+  expect_equal(t2$name, "something")
+  expect_equal(t2$additional_properties[["a1"]], "998")
+  expect_equal(t2$additional_properties[["b2"]], "bbccdd")
+})
+
+test_that("Test toJSON toJSONString fromJSON fromJSONString print", {
   # test pet
   expect_equal(pet_id, 123321)
   expect_equal(pet$toJSONString(), '{"id":123321,"category":{"id":450,"name":"test_cat"},"name":"name_test","photoUrls":["photo_test","second test"],"tags":[{"id":123,"name":"tag_test"},{"id":456,"name":"unknown"}],"status":"available"}')
+  print(pet) # should not return anything and output the result to the console
 
   # tests for other pet objects
   pet0 <- Pet$new()
@@ -293,6 +314,22 @@ test_that ("Tests validations", {
 
 })
 
+test_that("Tests oneOf discriminator mapping", {
+  whale_json <- '{"className": "whale", "hasBaleen": true, "hasTeeth": true}'
+  zebra_json <- '{"className": "zebra", "type": "plains"}'
+
+  mammal <- Mammal$new()
+  mammal$fromJSON(whale_json)
+  expect_equal(mammal$actual_type, "Whale")
+  expect_equal(mammal$actual_instance$hasBaleen, TRUE)
+  expect_equal(mammal$actual_instance$hasTeeth, TRUE)
+
+  mammal$fromJSON(zebra_json)
+  expect_equal(mammal$actual_type, "Zebra")
+  expect_equal(mammal$actual_instance$type, "plains")
+
+})
+
 test_that("Tests oneOf", {
   basque_pig_json <-
   '{"className": "BasquePig", "color": "red"}'
@@ -332,8 +369,8 @@ test_that("Tests oneOf", {
   expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
-  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  Failed to lookup discriminator value for Pig. Error message: EXPR must be a length 1 vector. Input: \\{\\}, The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  Failed to lookup discriminator value for Pig. Error message: EXPR must be a length 1 vector. Input: \\{\\}, The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
   # class name test
   expect_equal(get(class(basque_pig$actual_instance)[[1]], pos = -1)$classname, "BasquePig")

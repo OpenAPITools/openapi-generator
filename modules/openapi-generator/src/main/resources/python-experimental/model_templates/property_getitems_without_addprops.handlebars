@@ -1,0 +1,25 @@
+{{#if vars}}
+{{#each vars}}
+
+@typing.overload
+{{#if complexType}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}'{{complexType}}'{{#unless required}}, schemas.Unset]{{/unless}}: ...
+{{else}}
+{{#if nameInSnakeCase}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{name}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+{{else}}
+def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{baseName}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+{{/if}}
+{{/if}}
+{{/each}}
+
+def __getitem__(self, name: typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}]):
+    # dict_instance[name] accessor
+    if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+        return super().__getitem__(name)
+    try:
+        return super().__getitem__(name)
+    except KeyError:
+        return schemas.unset
+
+{{/if}}

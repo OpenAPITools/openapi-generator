@@ -3,11 +3,7 @@
 {{>partial_header}}
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 {{#with operation}}
 {{#or headerParams bodyParam produces}}
 from urllib3._collections import HTTPHeaderDict
@@ -18,8 +14,10 @@ from {{packageName}} import api_client, exceptions
 {{> model_templates/imports_schema_types }}
 {{> model_templates/imports_schemas }}
 
+{{#unless isStub}}
 from . import path
 
+{{/unless}}
 {{#with operation}}
 {{#if queryParams}}
 # query params
@@ -28,12 +26,13 @@ from . import path
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
 {{#each queryParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -43,7 +42,7 @@ RequestOptionalQueryParams = typing.TypedDict(
     {
 {{#each queryParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -58,6 +57,7 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{#each queryParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if headerParams}}
 # header params
@@ -66,12 +66,13 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
 {{#each headerParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -81,7 +82,7 @@ RequestOptionalHeaderParams = typing.TypedDict(
     {
 {{#each headerParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -96,6 +97,7 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{#each headerParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if pathParams}}
 # path params
@@ -104,12 +106,13 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
 {{#each pathParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -119,7 +122,7 @@ RequestOptionalPathParams = typing.TypedDict(
     {
 {{#each pathParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -134,6 +137,7 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{#each pathParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#if cookieParams}}
 # cookie params
@@ -142,12 +146,13 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
     {
 {{#each cookieParams}}
 {{#if required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/if}}
 {{/each}}
     }
@@ -157,7 +162,7 @@ RequestOptionalCookieParams = typing.TypedDict(
     {
 {{#each cookieParams}}
 {{#unless required}}
-        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+        '{{baseName}}': {{#with schema}}typing.Union[{{baseName}}, {{> model_templates/schema_python_types }}],{{/with}}
 {{/unless}}
 {{/each}}
     },
@@ -172,6 +177,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{#each cookieParams}}
 {{> endpoint_parameter }}
 {{/each}}
+{{/unless}}
 {{/if}}
 {{#with bodyParam}}
 # body param
@@ -180,6 +186,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 
 
 request_body_{{paramName}} = api_client.RequestBody(
@@ -193,7 +200,9 @@ request_body_{{paramName}} = api_client.RequestBody(
     required=True,
 {{/if}}
 )
+{{/unless}}
 {{/with}}
+{{#unless isStub}}
 {{#each authMethods}}
 {{#if @first}}
 _auth = [
@@ -236,11 +245,13 @@ _servers = (
 )
 {{/if}}
 {{/each}}
+{{/unless}}
 {{#each responses}}
 {{#each responseHeaders}}
 {{#with schema}}
 {{> model_templates/schema }}
 {{/with}}
+{{#unless isStub}}
 {{paramName}}_parameter = api_client.HeaderParameter(
     name="{{baseName}}",
 {{#if style}}
@@ -258,12 +269,14 @@ _servers = (
     explode=True,
 {{/if}}
 )
+{{/unless}}
 {{/each}}
 {{#each content}}
 {{#with this.schema}}
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
+{{#unless isStub}}
 {{#if responseHeaders}}
 ResponseHeadersFor{{code}} = typing.TypedDict(
     'ResponseHeadersFor{{code}}',
@@ -346,7 +359,9 @@ _response_for_{{code}} = api_client.OpenApiResponse(
     ]
 {{/if}}
 )
+{{/unless}}
 {{/each}}
+{{#unless isStub}}
 _status_code_to_response = {
 {{#each responses}}
 {{#if isDefault}}
@@ -356,6 +371,7 @@ _status_code_to_response = {
 {{/if}}
 {{/each}}
 }
+{{/unless}}
 {{#each produces}}
 {{#if @first}}
 _all_accept_content_types = (
@@ -369,7 +385,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _{{operationId}}(
+    def _{{operationId}}_oapg(
     {{> endpoint_args selfType="api_client.Api" }}
         """
     {{#if summary}}
@@ -380,16 +396,16 @@ class BaseApi(api_client.Api):
             class instances
         """
     {{#if queryParams}}
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
     {{/if}}
     {{#if headerParams}}
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
     {{/if}}
     {{#if pathParams}}
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
     {{/if}}
     {{#if cookieParams}}
-        self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
+        self._verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
     {{/if}}
         used_path = path.value
     {{#if pathParams}}
@@ -467,7 +483,7 @@ class BaseApi(api_client.Api):
     {{/with}}
     {{#if servers}}
 
-        host = self.get_host('{{operationId}}', _servers, host_index)
+        host = self._get_host_oapg('{{operationId}}', _servers, host_index)
     {{/if}}
 
         response = self.api_client.call_api(
@@ -518,7 +534,7 @@ class {{operationIdCamelCase}}(BaseApi):
 
     def {{operationId}}(
     {{> endpoint_args selfType="BaseApi" }}
-        return self._{{operationId}}(
+        return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
 
@@ -528,7 +544,7 @@ class ApiFor{{httpMethod}}(BaseApi):
 
     def {{httpMethod}}(
     {{> endpoint_args selfType="BaseApi" }}
-        return self._{{operationId}}(
+        return self._{{operationId}}_oapg(
             {{> endpoint_args_passed }}
         )
 

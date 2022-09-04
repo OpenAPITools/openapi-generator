@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -65,9 +67,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _call_123_test_special_tags(
+    def _call_123_test_special_tags_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -132,7 +134,7 @@ class Call123TestSpecialTags(BaseApi):
 
     def call_123_test_special_tags(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -142,7 +144,7 @@ class Call123TestSpecialTags(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._call_123_test_special_tags(
+        return self._call_123_test_special_tags_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -157,7 +159,7 @@ class ApiForpatch(BaseApi):
 
     def patch(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -167,7 +169,7 @@ class ApiForpatch(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._call_123_test_special_tags(
+        return self._call_123_test_special_tags_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

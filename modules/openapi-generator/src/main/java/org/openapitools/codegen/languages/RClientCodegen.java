@@ -76,6 +76,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String errorObjectType;
     protected String operationIdNaming;
     protected boolean generateWrapper;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -215,6 +216,20 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         setLibrary(HTTR);
 
         cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
+
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
     }
 
     @Override
@@ -263,6 +278,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.get(GENERATE_WRAPPER).toString()));
         } else {
             this.setGenerateWrapper(false);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -621,6 +647,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setGenerateWrapper(final boolean generateWrapper) {
         this.generateWrapper = generateWrapper;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setOperationIdNaming(final String operationIdNaming) {

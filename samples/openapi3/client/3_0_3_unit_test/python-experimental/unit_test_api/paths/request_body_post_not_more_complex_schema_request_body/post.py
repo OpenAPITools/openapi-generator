@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from unit_test_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
@@ -27,34 +29,50 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationJson(
-    schemas.ComposedSchema
+    schemas.ComposedSchema,
 ):
 
-    @classmethod
-    @property
-    @functools.cache
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
+
+    class MetaOapg:
+        additional_properties = schemas.AnyTypeSchema
         
         
         class not_schema(
             schemas.DictSchema
         ):
-            foo = schemas.StrSchema
         
+        
+            class MetaOapg:
+                class properties:
+                    foo = schemas.StrSchema
+                    __annotations__ = {
+                        "foo": foo,
+                    }
+                additional_properties = schemas.AnyTypeSchema
+            
+            foo: typing.Union[MetaOapg.properties.foo, schemas.Unset]
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["foo"]) -> typing.Union[MetaOapg.properties.foo, schemas.Unset]: ...
+            
+            @typing.overload
+            def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+            
+            def __getitem__(self, name: typing.Union[str, typing.Literal["foo"], ]):
+                # dict_instance[name] accessor
+                if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+                    return super().__getitem__(name)
+                try:
+                    return super().__getitem__(name)
+                except KeyError:
+                    return schemas.unset
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict, ],
-                foo: typing.Union[foo, schemas.Unset] = schemas.unset,
+                *args: typing.Union[dict, frozendict.frozendict, ],
+                foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Type[schemas.Schema],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
             ) -> 'not_schema':
                 return super().__new__(
                     cls,
@@ -63,22 +81,22 @@ class SchemaForRequestBodyApplicationJson(
                     _configuration=_configuration,
                     **kwargs,
                 )
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                not_schema
-        }
+
+    
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -114,9 +132,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _post_not_more_complex_schema_request_body(
+    def _post_not_more_complex_schema_request_body_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -176,7 +194,7 @@ class PostNotMoreComplexSchemaRequestBody(BaseApi):
 
     def post_not_more_complex_schema_request_body(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -185,7 +203,7 @@ class PostNotMoreComplexSchemaRequestBody(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._post_not_more_complex_schema_request_body(
+        return self._post_not_more_complex_schema_request_body_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -199,7 +217,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -208,7 +226,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._post_not_more_complex_schema_request_body(
+        return self._post_not_more_complex_schema_request_body_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

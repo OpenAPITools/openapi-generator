@@ -41,7 +41,7 @@ class TestRequestBodyPostByNumberRequestBody(ApiTestMixin, unittest.TestCase):
             payload = (
                 4.5
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -72,7 +72,7 @@ class TestRequestBodyPostByNumberRequestBody(ApiTestMixin, unittest.TestCase):
                 35
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -85,7 +85,7 @@ class TestRequestBodyPostByNumberRequestBody(ApiTestMixin, unittest.TestCase):
             payload = (
                 0
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

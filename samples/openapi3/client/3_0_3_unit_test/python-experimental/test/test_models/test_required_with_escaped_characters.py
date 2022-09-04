@@ -23,7 +23,7 @@ class TestRequiredWithEscapedCharacters(unittest.TestCase):
     def test_object_with_some_properties_missing_is_invalid_fails(self):
         # object with some properties missing is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            RequiredWithEscapedCharacters._from_openapi_data(
+            RequiredWithEscapedCharacters.from_openapi_data_oapg(
                 {
                     "foo\nbar":
                         "1",
@@ -35,7 +35,7 @@ class TestRequiredWithEscapedCharacters(unittest.TestCase):
 
     def test_object_with_all_properties_present_is_valid_passes(self):
         # object with all properties present is valid
-        RequiredWithEscapedCharacters._from_openapi_data(
+        RequiredWithEscapedCharacters.from_openapi_data_oapg(
             {
                 "foo\nbar":
                     1,

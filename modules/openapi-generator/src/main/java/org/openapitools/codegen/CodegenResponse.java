@@ -67,6 +67,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private Integer maxProperties;
     private Integer minProperties;
     private boolean uniqueItems;
+    private Boolean uniqueItemsBoolean;
     private Integer maxItems;
     private Integer minItems;
     private Integer maxLength;
@@ -91,6 +92,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
+    private boolean schemaIsFromAdditionalProperties;
 
     @Override
     public int hashCode() {
@@ -103,7 +105,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, responseHeaders, content,
-                requiredVarsMap, ref);
+                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties);
     }
 
     @Override
@@ -149,9 +151,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 is5xx == that.is5xx &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
+                getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(content, that.getContent()) &&
@@ -300,6 +304,17 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public void setUniqueItems(boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
+
+    @Override
+    public Boolean getUniqueItemsBoolean() {
+        return uniqueItemsBoolean;
+    }
+
+    @Override
+    public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
+        this.uniqueItemsBoolean = uniqueItemsBoolean;
+    }
+
 
     @Override
     public Integer getMinProperties() {
@@ -519,6 +534,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", uniqueItemsBoolean=").append(uniqueItemsBoolean);
         sb.append(", maxItems=").append(maxItems);
         sb.append(", minItems=").append(minItems);
         sb.append(", maxLength=").append(maxLength);
@@ -545,6 +561,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", content=").append(content);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
+        sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
         sb.append('}');
         return sb.toString();
     }
@@ -684,4 +701,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public void setRef(String ref) { this.ref=ref; }
+
+    @Override
+    public boolean getSchemaIsFromAdditionalProperties() {
+        return schemaIsFromAdditionalProperties;
+    }
+
+    @Override
+    public void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties) {
+        this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
+    }
 }

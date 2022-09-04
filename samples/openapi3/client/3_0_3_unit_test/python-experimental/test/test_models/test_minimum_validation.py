@@ -22,7 +22,7 @@ class TestMinimumValidation(unittest.TestCase):
 
     def test_boundary_point_is_valid_passes(self):
         # boundary point is valid
-        MinimumValidation._from_openapi_data(
+        MinimumValidation.from_openapi_data_oapg(
             1.1,
             _configuration=self._configuration
         )
@@ -30,21 +30,21 @@ class TestMinimumValidation(unittest.TestCase):
     def test_below_the_minimum_is_invalid_fails(self):
         # below the minimum is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            MinimumValidation._from_openapi_data(
+            MinimumValidation.from_openapi_data_oapg(
                 0.6,
                 _configuration=self._configuration
             )
 
     def test_above_the_minimum_is_valid_passes(self):
         # above the minimum is valid
-        MinimumValidation._from_openapi_data(
+        MinimumValidation.from_openapi_data_oapg(
             2.6,
             _configuration=self._configuration
         )
 
     def test_ignores_non_numbers_passes(self):
         # ignores non-numbers
-        MinimumValidation._from_openapi_data(
+        MinimumValidation.from_openapi_data_oapg(
             "x",
             _configuration=self._configuration
         )

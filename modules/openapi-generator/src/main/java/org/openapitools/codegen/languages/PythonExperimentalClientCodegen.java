@@ -110,6 +110,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         loadDeepObjectIntoItems = false;
         importBaseType = false;
         addSchemaImportsFromV3SpecLocations = true;
+        sortModelPropertiesByRequiredFlag = Boolean.TRUE;
+        sortParamsByRequiredFlag = Boolean.TRUE;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
@@ -280,6 +282,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
 
         modelTemplateFiles.put("model." + templateExtension, ".py");
+        /*
+        This stub file exists to allow pycharm to read and use typing.overload decorators for it to see that
+        dict_instance["someProp"] is of type SomeClass.properties.someProp
+        See https://youtrack.jetbrains.com/issue/PY-42137/PyCharm-type-hinting-doesnt-work-well-with-overload-decorator
+         */
+        modelTemplateFiles.put("model_stub." + templateExtension, ".pyi");
         apiTemplateFiles.put("api." + templateExtension, ".py");
         modelTestTemplateFiles.put("model_test." + templateExtension, ".py");
         modelDocTemplateFiles.put("model_doc." + templateExtension, ".md");
@@ -552,6 +560,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             endpointMap.put("packageName", packageName);
             outputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".py"));
             pathsFiles.add(Arrays.asList(endpointMap, "endpoint.handlebars", outputFilename));
+            /*
+            This stub file exists to allow pycharm to read and use typing.overload decorators for it to see that
+            dict_instance["someProp"] is of type SomeClass.properties.someProp
+            See https://youtrack.jetbrains.com/issue/PY-42137/PyCharm-type-hinting-doesnt-work-well-with-overload-decorator
+             */
+            String stubOutputFilename = packageFilename(Arrays.asList("paths", pathModuleName, co.httpMethod + ".pyi"));
+            pathsFiles.add(Arrays.asList(endpointMap, "endpoint_stub.handlebars", stubOutputFilename));
 
             Map<String, Object> endpointTestMap = new HashMap<>();
             endpointTestMap.put("operation", co);
@@ -989,12 +1004,16 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * This method is used by fromResponse
      *
      * @param name name of the property
-     * @param p    OAS property object
+     * @param p OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        CodegenProperty cp = super.fromProperty(name, p, required);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        // fix needed for values with /n /t etc in them
+        String fixedName = handleSpecialCharacters(name);
+        CodegenProperty cp = super.fromProperty(fixedName, p, required, schemaIsFromAdditionalProperties);
 
         if (cp.isAnyType && cp.isNullable) {
             cp.isNullable = false;
@@ -1011,9 +1030,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // set cp.nameInSnakeCase to a value so we can tell that we are in this use case
         // we handle this in the schema templates
         // templates use its presence to handle these badly named variables / keys
-        if ((isReservedWord(name) || !isValidPythonVarOrClassName(name)) && !name.equals(cp.name)) {
+        if ((isReservedWord(cp.baseName) || !isValidPythonVarOrClassName(cp.baseName)) && !cp.baseName.equals(cp.name)) {
             cp.nameInSnakeCase = cp.name;
-            cp.baseName = (String) processTestExampleData(name);
         } else {
             cp.nameInSnakeCase = null;
         }
@@ -1030,10 +1048,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     private void setAdditionalPropsAndItemsVarNames(IJsonSchemaValidationProperties item) {
         if (item.getAdditionalProperties() != null) {
-            item.getAdditionalProperties().setBaseName("_additional_properties");
+            item.getAdditionalProperties().setBaseName("additional_properties");
         }
         if (item.getItems() != null) {
-            item.getItems().setBaseName("_items");
+            item.getItems().setBaseName("items");
         }
     }
 

@@ -21,7 +21,12 @@ class TestObjectWithInlineCompositionProperty(unittest.TestCase):
     def test_ObjectWithInlineCompositionProperty(self):
         """Test ObjectWithInlineCompositionProperty"""
         model = ObjectWithInlineCompositionProperty(someProp='a')
-        self.assertTrue(isinstance(model.someProp, ObjectWithInlineCompositionProperty.someProp))
+        self.assertTrue(
+            isinstance(
+                model.someProp,
+                ObjectWithInlineCompositionProperty.MetaOapg.properties.someProp
+            )
+        )
         self.assertTrue(isinstance(model.someProp, schemas.StrSchema))
 
         # error thrown on length < 1

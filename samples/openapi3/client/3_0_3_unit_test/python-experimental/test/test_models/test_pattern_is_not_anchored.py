@@ -22,7 +22,7 @@ class TestPatternIsNotAnchored(unittest.TestCase):
 
     def test_matches_a_substring_passes(self):
         # matches a substring
-        PatternIsNotAnchored._from_openapi_data(
+        PatternIsNotAnchored.from_openapi_data_oapg(
             "xxaayy",
             _configuration=self._configuration
         )

@@ -1,0 +1,28 @@
+#!/bin/bash
+set -u
+set -e
+#set -x
+
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+echo "Running ${SCRIPTPATH}"
+
+echo Running @TEST_SERVER_EXECUTABLE@
+@TEST_SERVER_EXECUTABLE@ &
+pid=$!
+
+
+function kill_test_server()
+{
+    kill -9 $pid
+}
+
+trap kill_test_server EXIT
+
+echo Running Java client tests
+cd "@CMAKE_CURRENT_LIST_DIR@/../../java_client"
+./gradlew --no-daemon clean test --tests "test_@TARGET_NAME@.*" -i
+
+set +e
+kill $pid
+
+echo Done running @TEST_SERVER_EXECUTABLE@

@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -32,10 +34,27 @@ class SchemaForRequestBodyApplicationJson(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['User']:
-        return User
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['User']:
+            return User
+
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple['User'], typing.List['User']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaForRequestBodyApplicationJson':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> 'User':
+        return super().__getitem__(i)
 
 
 request_body_user = api_client.RequestBody(
@@ -64,9 +83,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _create_users_with_list_input(
+    def _create_users_with_list_input_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -131,7 +150,7 @@ class CreateUsersWithListInput(BaseApi):
 
     def create_users_with_list_input(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -140,7 +159,7 @@ class CreateUsersWithListInput(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._create_users_with_list_input(
+        return self._create_users_with_list_input_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -154,7 +173,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -163,7 +182,7 @@ class ApiForpost(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._create_users_with_list_input(
+        return self._create_users_with_list_input_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

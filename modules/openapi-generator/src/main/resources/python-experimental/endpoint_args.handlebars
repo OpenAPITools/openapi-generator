@@ -1,20 +1,20 @@
     self: {{selfType}},
 {{#if bodyParam}}
 {{#with bodyParam}}
-    body: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, schemas.Unset] = schemas.unset{{else}}]{{/unless}},
+    body: typing.Union[{{#each content}}{{#with this.schema}}{{baseName}}, {{> model_templates/schema_python_types }}{{/with}}{{/each}}{{#unless required}}schemas.Unset] = schemas.unset{{else}}]{{/unless}},
 {{/with}}
 {{/if}}
 {{#if queryParams}}
-    query_params: RequestQueryParams = frozendict(),
+    query_params: RequestQueryParams = frozendict.frozendict(),
 {{/if}}
 {{#if headerParams}}
-    header_params: RequestHeaderParams = frozendict(),
+    header_params: RequestHeaderParams = frozendict.frozendict(),
 {{/if}}
 {{#if pathParams}}
-    path_params: RequestPathParams = frozendict(),
+    path_params: RequestPathParams = frozendict.frozendict(),
 {{/if}}
 {{#if cookieParams}}
-    cookie_params: RequestCookieParams = frozendict(),
+    cookie_params: RequestCookieParams = frozendict.frozendict(),
 {{/if}}
 {{#with bodyParam}}
 {{#each content}}

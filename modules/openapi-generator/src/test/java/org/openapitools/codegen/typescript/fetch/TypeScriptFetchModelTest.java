@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -45,6 +46,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 */
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 

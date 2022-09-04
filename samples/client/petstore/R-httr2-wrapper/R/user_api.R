@@ -7,7 +7,7 @@
 #'
 #' @docType class
 #' @title User operations
-#' @description petstore.User
+#' @description UserApi
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
@@ -135,7 +135,7 @@
 #' \item response headers :
 #'
 #' \tabular{ll}{
-#' Set-Cookie \tab Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. \cr
+#' Set-Cookie \tab Cookie authentication key for use with the `api_key` apiKey authentication. \cr
 #' X-Rate-Limit \tab calls per hour allowed by the user \cr
 #' X-Expires-After \tab date in UTC when token expires \cr
 #' }
@@ -197,156 +197,180 @@
 #' ####################  create_user  ####################
 #'
 #' library(petstore)
-#' var.user <- User$new() # User | Created user object
+#' var_user <- User$new() # User | Created user object
 #'
 #' #Create user
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$create_user(var.user),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$user_api$create_user(var_user),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `create_user`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  create_users_with_array_input  ####################
 #'
 #' library(petstore)
-#' var.user <- [User$new()] # array[User] | List of user object
+#' var_user <- [User$new()] # array[User] | List of user object
 #'
 #' #Creates list of users with given input array
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$create_users_with_array_input(var.user),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$user_api$create_users_with_array_input(var_user),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `create_users_with_array_input`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  create_users_with_list_input  ####################
 #'
 #' library(petstore)
-#' var.user <- [User$new()] # array[User] | List of user object
+#' var_user <- [User$new()] # array[User] | List of user object
 #'
 #' #Creates list of users with given input array
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$create_users_with_list_input(var.user),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$user_api$create_users_with_list_input(var_user),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `create_users_with_list_input`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  delete_user  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | The name that needs to be deleted
+#' var_username <- "username_example" # character | The name that needs to be deleted
 #'
 #' #Delete user
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$delete_user(var.username),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$user_api$delete_user(var_username),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `delete_user`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  get_user_by_name  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
+#' var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 #'
 #' #Get user by user name
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$get_user_by_name(var.username),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$user_api$get_user_by_name(var_username, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$user_api$get_user_by_name(var_username),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `get_user_by_name`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' ####################  login_user  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | The user name for login
-#' var.password <- "password_example" # character | The password for login in clear text
+#' var_username <- "username_example" # character | The user name for login
+#' var_password <- "password_example" # character | The password for login in clear text
 #'
 #' #Logs user into the system
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$login_user(var.username, var.password),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$user_api$login_user(var_username, var_password, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$user_api$login_user(var_username, var_password),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `login_user`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' ####################  logout_user  ####################
@@ -354,51 +378,55 @@
 #' library(petstore)
 #'
 #' #Logs out current logged in user session
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$logout_user(),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$user_api$logout_user(),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `logout_user`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  update_user  ####################
 #'
 #' library(petstore)
-#' var.username <- "username_example" # character | name that need to be deleted
-#' var.user <- User$new() # User | Updated user object
+#' var_username <- "username_example" # character | name that need to be deleted
+#' var_user <- User$new() # User | Updated user object
 #'
 #' #Updated user
-#' api.instance <- UserApi$new()
+#' api_instance <- petstore_api$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$update_user(var.username, var.user),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$user_api$update_user(var_username, var_user),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `update_user`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' }

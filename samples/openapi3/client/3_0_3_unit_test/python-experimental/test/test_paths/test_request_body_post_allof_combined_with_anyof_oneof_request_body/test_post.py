@@ -42,7 +42,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 2
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -56,7 +56,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 5
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -70,7 +70,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 15
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -84,7 +84,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 6
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -97,7 +97,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
             payload = (
                 30
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -128,7 +128,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 10
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -142,7 +142,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 3
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -156,7 +156,7 @@ class TestRequestBodyPostAllofCombinedWithAnyofOneofRequestBody(ApiTestMixin, un
                 1
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )

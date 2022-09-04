@@ -1995,6 +1995,8 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+        - COUNT_1M
+        - COUNT_50M
     Enum_Test:
       type: object
       required:

@@ -432,7 +432,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertTrue(property.getUniqueItems());
+        Assert.assertTrue(property.getUniqueItemsBoolean());
     }
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {

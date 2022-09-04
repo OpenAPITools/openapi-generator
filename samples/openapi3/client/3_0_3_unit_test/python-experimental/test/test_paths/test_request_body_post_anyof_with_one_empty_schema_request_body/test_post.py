@@ -41,7 +41,7 @@ class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unitte
             payload = (
                 "foo"
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -71,7 +71,7 @@ class TestRequestBodyPostAnyofWithOneEmptySchemaRequestBody(ApiTestMixin, unitte
             payload = (
                 123
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

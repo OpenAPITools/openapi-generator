@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,26 +20,7 @@ import ApiClient from '../ApiClient';
  */
 class ApiResponse {
     /**
-     * @member {Number} code
-     * @type {Number}
-     */
-    code;
-    /**
-     * @member {String} type
-     * @type {String}
-     */
-    type;
-    /**
-     * @member {String} message
-     * @type {String}
-     */
-    message;
-
-    
-
-    /**
      * Constructs a new <code>ApiResponse</code>.
-     * Describes the result of uploading an image resource
      * @alias module:model/ApiResponse
      */
     constructor() { 
@@ -78,7 +59,27 @@ class ApiResponse {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} code
+ */
+ApiResponse.prototype['code'] = undefined;
+
+/**
+ * @member {String} type
+ */
+ApiResponse.prototype['type'] = undefined;
+
+/**
+ * @member {String} message
+ */
+ApiResponse.prototype['message'] = undefined;
+
+
+
 
 
 

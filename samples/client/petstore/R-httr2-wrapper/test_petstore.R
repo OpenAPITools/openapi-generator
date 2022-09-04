@@ -3,6 +3,25 @@ install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 library(jsonlite)
 
+t <- Tag$new()
+t$id <- 123
+t$additional_properties <- c("abc" = 849, "array" = list('a', 'b', 'c'))
+t$additional_properties
+t$additional_properties["abc"]
+t$additional_properties["array"]
+
+print(t)
+#print(t$toJSON())
+#print(t$toJSONString())
+
+print("done tag")
+
+  whale_json <- '{"className": "whale", "hasBaleen": true, "hasTeeth": true}'
+  zebra_json <- '{"className": "zebra", "type": "plains"}'
+
+  mammal <- Mammal$new()
+  mammal$fromJSON(whale_json)
+
 api_client <- ApiClient$new()
 api_client$username <- "username999"
 api_client$password <- "password888"
@@ -19,7 +38,9 @@ cat(api_wrapper$pet_api$api_client$password)
 print("DONE")
 
 var_pet <- Pet$new("name_example", list("photoUrls_example"), 56, Category$new(56, "name_example"), list(Tag$new(56, "name_example")), "available") # Pet | Pet object that needs to be added to the store
+print(var_pet)
 
+print("DONE print")
 #Add a new pet to the store
 api_instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth

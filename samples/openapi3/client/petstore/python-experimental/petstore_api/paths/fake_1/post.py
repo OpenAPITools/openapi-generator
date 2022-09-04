@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -29,134 +31,210 @@ from . import path
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     schemas.DictSchema
 ):
-    _required_property_names = {
-        "number",
-        "pattern_without_delimiter",
-        "byte",
-        "double",
-    }
-    
-    
-    class integer(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=100,
-            inclusive_minimum=10,
-        ),
-        schemas.IntSchema
-    ):
-        pass
-    
-    
-    class int32(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=200,
-            inclusive_minimum=20,
-        ),
-        schemas.Int32Schema
-    ):
-        pass
-    int64 = schemas.Int64Schema
-    
-    
-    class number(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=543.2,
-            inclusive_minimum=32.1,
-        ),
-        schemas.NumberSchema
-    ):
-        pass
-    
-    
-    class _float(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=987.6,
-        ),
-        schemas.Float32Schema
-    ):
-        pass
-    locals()["float"] = _float
-    del locals()['_float']
-    """
-    NOTE:
-    openapi/json-schema allows properties to have invalid python names
-    The above local assignment allows the code to keep those invalid python names
-    This allows properties to have names like 'some-name', '1 bad name'
-    Properties with these names are omitted from the __new__ + _from_openapi_data signatures
-    - __new__ these properties can be passed in as **kwargs
-    - _from_openapi_data these are passed in in a dict in the first positional argument *arg
-    If the property is required and was not passed in, an exception will be thrown
-    """
-    
-    
-    class double(
-        schemas.SchemaValidatorClsFactory(
-            inclusive_maximum=123.4,
-            inclusive_minimum=67.8,
-        ),
-        schemas.Float64Schema
-    ):
-        pass
-    
-    
-    class string(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'[a-z]',  # noqa: E501
-                'flags': (
-                    re.IGNORECASE
-                )
-            }],
-        ),
-        schemas.StrSchema
-    ):
-        pass
-    
-    
-    class pattern_without_delimiter(
-        schemas.SchemaValidatorClsFactory(
-            regex=[{
-                'pattern': r'^[A-Z].*',  # noqa: E501
-            }],
-        ),
-        schemas.StrSchema
-    ):
-        pass
-    byte = schemas.StrSchema
-    binary = schemas.BinarySchema
-    date = schemas.DateSchema
-    dateTime = schemas.DateTimeSchema
-    
-    
-    class password(
-        schemas.SchemaValidatorClsFactory(
-            max_length=64,
-            min_length=10,
-        ),
-        schemas.StrSchema
-    ):
-        pass
-    callback = schemas.StrSchema
 
+
+    class MetaOapg:
+        required = {
+            "number",
+            "pattern_without_delimiter",
+            "byte",
+            "double",
+        }
+        class properties:
+            
+            
+            class integer(
+                schemas.IntSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 100
+                    inclusive_minimum = 10
+            
+            
+            class int32(
+                schemas.Int32Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 200
+                    inclusive_minimum = 20
+            int64 = schemas.Int64Schema
+            
+            
+            class number(
+                schemas.NumberSchema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 543.2
+                    inclusive_minimum = 32.1
+            
+            
+            class _float(
+                schemas.Float32Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 987.6
+            
+            
+            class double(
+                schemas.Float64Schema
+            ):
+            
+            
+                class MetaOapg:
+                    inclusive_maximum = 123.4
+                    inclusive_minimum = 67.8
+            
+            
+            class string(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'[a-z]',  # noqa: E501
+                        'flags': (
+                            re.IGNORECASE
+                        )
+                    }]
+            
+            
+            class pattern_without_delimiter(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    regex=[{
+                        'pattern': r'^[A-Z].*',  # noqa: E501
+                    }]
+            byte = schemas.StrSchema
+            binary = schemas.BinarySchema
+            date = schemas.DateSchema
+            dateTime = schemas.DateTimeSchema
+            
+            
+            class password(
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    max_length = 64
+                    min_length = 10
+            callback = schemas.StrSchema
+            __annotations__ = {
+                "integer": integer,
+                "int32": int32,
+                "int64": int64,
+                "number": number,
+                "float": _float,
+                "double": double,
+                "string": string,
+                "pattern_without_delimiter": pattern_without_delimiter,
+                "byte": byte,
+                "binary": binary,
+                "date": date,
+                "dateTime": dateTime,
+                "password": password,
+                "callback": callback,
+            }
+        additional_properties = schemas.AnyTypeSchema
+    
+    number: MetaOapg.properties.number
+    pattern_without_delimiter: MetaOapg.properties.pattern_without_delimiter
+    byte: MetaOapg.properties.byte
+    double: MetaOapg.properties.double
+    integer: typing.Union[MetaOapg.properties.integer, schemas.Unset]
+    int32: typing.Union[MetaOapg.properties.int32, schemas.Unset]
+    int64: typing.Union[MetaOapg.properties.int64, schemas.Unset]
+    string: typing.Union[MetaOapg.properties.string, schemas.Unset]
+    binary: typing.Union[MetaOapg.properties.binary, schemas.Unset]
+    date: typing.Union[MetaOapg.properties.date, schemas.Unset]
+    dateTime: typing.Union[MetaOapg.properties.dateTime, schemas.Unset]
+    password: typing.Union[MetaOapg.properties.password, schemas.Unset]
+    callback: typing.Union[MetaOapg.properties.callback, schemas.Unset]
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["number"]) -> MetaOapg.properties.number: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["pattern_without_delimiter"]) -> MetaOapg.properties.pattern_without_delimiter: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["byte"]) -> MetaOapg.properties.byte: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["double"]) -> MetaOapg.properties.double: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["integer"]) -> typing.Union[MetaOapg.properties.integer, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int32"]) -> typing.Union[MetaOapg.properties.int32, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["int64"]) -> typing.Union[MetaOapg.properties.int64, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["float"]) -> typing.Union[MetaOapg.properties._float, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string"]) -> typing.Union[MetaOapg.properties.string, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["binary"]) -> typing.Union[MetaOapg.properties.binary, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["date"]) -> typing.Union[MetaOapg.properties.date, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["dateTime"]) -> typing.Union[MetaOapg.properties.dateTime, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["password"]) -> typing.Union[MetaOapg.properties.password, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["callback"]) -> typing.Union[MetaOapg.properties.callback, schemas.Unset]: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> typing.Union[MetaOapg.additional_properties, schemas.Unset]: ...
+    
+    def __getitem__(self, name: typing.Union[str, typing.Literal["number"], typing.Literal["pattern_without_delimiter"], typing.Literal["byte"], typing.Literal["double"], typing.Literal["integer"], typing.Literal["int32"], typing.Literal["int64"], typing.Literal["float"], typing.Literal["string"], typing.Literal["binary"], typing.Literal["date"], typing.Literal["dateTime"], typing.Literal["password"], typing.Literal["callback"], ]):
+        # dict_instance[name] accessor
+        if not hasattr(self.MetaOapg, 'properties') or name not in self.MetaOapg.properties.__annotations__:
+            return super().__getitem__(name)
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            return schemas.unset
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        number: number,
-        pattern_without_delimiter: pattern_without_delimiter,
-        byte: byte,
-        double: double,
-        integer: typing.Union[integer, schemas.Unset] = schemas.unset,
-        int32: typing.Union[int32, schemas.Unset] = schemas.unset,
-        int64: typing.Union[int64, schemas.Unset] = schemas.unset,
-        string: typing.Union[string, schemas.Unset] = schemas.unset,
-        binary: typing.Union[binary, schemas.Unset] = schemas.unset,
-        date: typing.Union[date, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[dateTime, schemas.Unset] = schemas.unset,
-        password: typing.Union[password, schemas.Unset] = schemas.unset,
-        callback: typing.Union[callback, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
+        pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
+        byte: typing.Union[MetaOapg.properties.byte, str, ],
+        double: typing.Union[MetaOapg.properties.double, float, ],
+        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
+        binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
+        date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
+        callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -220,9 +298,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _endpoint_parameters(
+    def _endpoint_parameters_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -281,7 +359,7 @@ class EndpointParameters(BaseApi):
 
     def endpoint_parameters(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -289,7 +367,7 @@ class EndpointParameters(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._endpoint_parameters(
+        return self._endpoint_parameters_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -303,7 +381,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -311,7 +389,7 @@ class ApiForpost(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._endpoint_parameters(
+        return self._endpoint_parameters_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

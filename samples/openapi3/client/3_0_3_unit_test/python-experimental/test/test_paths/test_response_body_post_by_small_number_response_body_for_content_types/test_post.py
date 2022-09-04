@@ -81,7 +81,7 @@ class TestResponseBodyPostBySmallNumberResponseBodyForContentTypes(ApiTestMixin,
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, post.SchemaFor200ResponseBodyApplicationJson)
-            deserialized_response_body = post.SchemaFor200ResponseBodyApplicationJson._from_openapi_data(
+            deserialized_response_body = post.SchemaFor200ResponseBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

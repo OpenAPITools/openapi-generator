@@ -2470,15 +2470,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private static class NamedSchema {
-        private NamedSchema(String name, Schema s, boolean required) {
+        private NamedSchema(String name, Schema s, boolean required, boolean schemaIsFromAdditionalProperties) {
             this.name = name;
             this.schema = s;
             this.required = required;
+            this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
         }
 
         private String name;
         private Schema schema;
         private boolean required;
+        private boolean schemaIsFromAdditionalProperties;
 
         @Override
         public boolean equals(Object o) {
@@ -2487,12 +2489,13 @@ public class DefaultCodegen implements CodegenConfig {
             NamedSchema that = (NamedSchema) o;
             return Objects.equals(required, that.required)  &&
                     Objects.equals(name, that.name) &&
-                    Objects.equals(schema, that.schema);
+                    Objects.equals(schema, that.schema) &&
+                    Objects.equals(schemaIsFromAdditionalProperties, that.schemaIsFromAdditionalProperties);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, schema, required);
+            return Objects.hash(name, schema, required, schemaIsFromAdditionalProperties);
         }
     }
 
@@ -3570,10 +3573,25 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     name of the property
      * @param p        OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @return Codegen Property object
+     */
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        return fromProperty(name, p, required, false);
+    }
+
+
+    /**
+     * TODO remove this in 7.0.0 as a breaking change
+     * This method was kept when required was added to the fromProperty signature
+     * to ensure that the change was non-breaking
+     *
+     * @param name     name of the property
+     * @param p        OAS property schema
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
-        return fromProperty(name, p, false);
+        return fromProperty(name, p, false, false);
     }
 
     /**
@@ -3588,15 +3606,16 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name     name of the property
      * @param p        OAS property schema
      * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
      * @return Codegen Property object
      */
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
         if (p == null) {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
         LOGGER.debug("debugging fromProperty for {} : {}", name, p);
-        NamedSchema ns = new NamedSchema(name, p, required);
+        NamedSchema ns = new NamedSchema(name, p, required, schemaIsFromAdditionalProperties);
         CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
         if (cpc != null) {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
@@ -3606,6 +3625,7 @@ public class DefaultCodegen implements CodegenConfig {
         p = unaliasSchema(p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+        property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
 
@@ -5582,7 +5602,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
         if (property.isArray) {
-            if (property.getUniqueItems()) { // set
+            if (Boolean.TRUE.equals(property.getUniqueItemsBoolean())) { // set
                 addImport(model.imports, typeMapping.get("set"));
             } else { // array
                 addImport(model.imports, typeMapping.get("array"));
@@ -5936,7 +5956,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (String lib : supportedLibraries.keySet()) {
             sb.append("\n").append(lib).append(" - ").append(supportedLibraries.get(lib));
         }
-        return new CliOption("library", sb.toString());
+        return new CliOption(CodegenConstants.LIBRARY, sb.toString());
     }
 
     /**
@@ -6926,6 +6946,10 @@ public class DefaultCodegen implements CodegenConfig {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
+            if (codegenProperty == null) {
+               throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
+            }
+
             if (!addSchemaImportsFromV3SpecLocations) {
                 imports.add(codegenProperty.baseType);
             }
@@ -6941,6 +6965,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 mostInnerItem = innerCp;
                 innerCp = innerCp.items;
+            }
+
+            if (mostInnerItem == null) {
+                throw new RuntimeException("mostInnerItem (codegen property of array item) cannot be null. " + arraySchema);
             }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
@@ -7212,6 +7240,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (cp.baseName.equals(requiredPropertyName)) {
                         found = true;
                         requiredVarsMap.put(requiredPropertyName, cp);
+                        break;
                     }
                 }
                 if (found == false) {
@@ -7230,12 +7259,14 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     CodegenProperty cp;
                     if (schema.getAdditionalProperties() == null) {
-                        cp = fromProperty(usedRequiredPropertyName, new Schema(), true);
+                        // additionalProperties is null
+                        cp = fromProperty(usedRequiredPropertyName, new Schema(), true, true);
                     } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                        cp = fromProperty(requiredPropertyName, new Schema(), true);
+                        // additionalProperties is True
+                        cp = fromProperty(requiredPropertyName, new Schema(), true, true);
                     } else {
-                        CodegenProperty addPropsProp = property.getAdditionalProperties();
-                        cp = addPropsProp;
+                        // additionalProperties is schema
+                        cp = fromProperty(requiredPropertyName, (Schema) schema.getAdditionalProperties(), true, true);
                     }
                     requiredVarsMap.put(usedRequiredPropertyName, cp);
                 }
