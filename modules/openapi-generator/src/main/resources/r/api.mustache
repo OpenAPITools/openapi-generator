@@ -381,7 +381,14 @@
 
       {{/headerParams}}
       {{#queryParams}}
+      {{#isArray}}
+      for (query_item in `{{{paramName}}}`) {
+        query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
+      }
+      {{/isArray}}
+      {{^isArray}}
       query_params["{{baseName}}"] <- `{{paramName}}`
+      {{/isArray}}
 
       {{/queryParams}}
       {{#hasFormParams}}

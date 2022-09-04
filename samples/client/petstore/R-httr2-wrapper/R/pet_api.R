@@ -944,7 +944,9 @@ PetApi <- R6::R6Class(
       }
 
 
-      query_params["status"] <- `status`
+      for (query_item in `status`) {
+        query_params[["status"]] <- c(query_params[["status"]], list(`status` = query_item))
+      }
 
       local_var_url_path <- "/pet/findByStatus"
       # OAuth-related settings
@@ -1062,7 +1064,9 @@ PetApi <- R6::R6Class(
       }
 
 
-      query_params["tags"] <- `tags`
+      for (query_item in `tags`) {
+        query_params[["tags"]] <- c(query_params[["tags"]], list(`tags` = query_item))
+      }
 
       local_var_url_path <- "/pet/findByTags"
       # OAuth-related settings

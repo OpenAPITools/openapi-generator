@@ -3,6 +3,32 @@ install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 library(jsonlite)
 
+var_tags <- list("innerzzzzzzz", "second_example", "345") # array[character] | Tags to filter by
+
+# Finds Pets by tags
+api_instance <- petstore_api$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$pet_api$find_pets_by_tags(var_tags, data_file = "result.txt"),
+             api_instance$pet_api$find_pets_by_tags(var_tags),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `find_pets_by_tags`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object$toJSONString())
+} else {
+  # deserialized response object
+  print("The response is ...")
+  dput(result)
+}
+
+invokeRestart("abort")
+
 t <- Tag$new()
 t$id <- 123
 t$additional_properties <- c("abc" = 849, "array" = list('a', 'b', 'c'))
