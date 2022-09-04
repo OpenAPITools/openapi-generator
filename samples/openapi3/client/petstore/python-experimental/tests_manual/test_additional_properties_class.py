@@ -27,7 +27,6 @@ class TestAdditionalPropertiesClass(unittest.TestCase):
             inst.map_property
 
         inst = AdditionalPropertiesClass(map_property={})
-        assert inst.map_property == {}
         map_property = inst["map_property"]
         assert map_property == {}
 

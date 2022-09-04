@@ -628,7 +628,7 @@ class TestFakeApi(ApiTestMixin):
            ),
        )
        self.assertEqual(api_response.body, {'someProp': single_char_str})
-       self.assertTrue(isinstance(api_response.body.someProp, schemas.StrSchema))
+       self.assertTrue(isinstance(api_response.body["someProp"], schemas.StrSchema))
 
        # error thrown when a str is input which doesn't meet the composed schema length constraint
        invalid_value = ''
