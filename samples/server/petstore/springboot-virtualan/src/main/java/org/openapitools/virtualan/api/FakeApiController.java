@@ -11,6 +11,8 @@ import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
 import org.openapitools.virtualan.model.User;
 import org.openapitools.virtualan.model.XmlItem;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

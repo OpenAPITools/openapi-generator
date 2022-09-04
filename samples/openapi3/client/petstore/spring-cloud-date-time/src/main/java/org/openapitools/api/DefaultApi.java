@@ -37,6 +37,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.apiDocumentation.base-path:}")
 public interface DefaultApi {
 
+
     /**
      * GET /thingy/{date}
      *

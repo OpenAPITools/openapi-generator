@@ -100,6 +100,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
 public interface {{classname}} {
+
 {{#jdk8-default-interface}}
     {{^isDelegate}}
         {{^reactive}}
@@ -118,6 +119,18 @@ public interface {{classname}} {
 {{/jdk8-default-interface}}
 {{#operation}}
 
+    {{#allParams}}
+        {{#isEnum}}
+            {{^isContainer}}
+{{>enumClass}}
+            {{/isContainer}}
+            {{#isContainer}}
+                {{#mostInnerItems}}
+{{>enumClass}}
+                {{/mostInnerItems}}
+            {{/isContainer}}
+        {{/isEnum}}
+    {{/allParams}}
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}

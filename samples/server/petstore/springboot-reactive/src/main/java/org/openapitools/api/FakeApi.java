@@ -17,6 +17,8 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,6 +40,7 @@ import javax.annotation.Generated;
 @Api(value = "fake", description = "the fake API")
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeApi {
+
 
     default FakeApiDelegate getDelegate() {
         return new FakeApiDelegate() {};
@@ -342,6 +345,257 @@ public interface FakeApi {
     }
 
 
+  /**
+   * Gets or Sets enumHeaderStringArray
+   */
+  public enum EnumHeaderStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumHeaderStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumHeaderStringArrayEnum fromValue(String value) {
+      for (EnumHeaderStringArrayEnum b : EnumHeaderStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Header parameter enum test (string)
+   */
+  public enum EnumHeaderStringEnum {
+    _ABC("_abc"),
+    
+    _EFG("-efg"),
+    
+    _XYZ_("(xyz)");
+
+    private String value;
+
+    EnumHeaderStringEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumHeaderStringEnum fromValue(String value) {
+      for (EnumHeaderStringEnum b : EnumHeaderStringEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Gets or Sets enumQueryStringArray
+   */
+  public enum EnumQueryStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumQueryStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryStringArrayEnum fromValue(String value) {
+      for (EnumQueryStringArrayEnum b : EnumQueryStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Query parameter enum test (string)
+   */
+  public enum EnumQueryStringEnum {
+    _ABC("_abc"),
+    
+    _EFG("-efg"),
+    
+    _XYZ_("(xyz)");
+
+    private String value;
+
+    EnumQueryStringEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryStringEnum fromValue(String value) {
+      for (EnumQueryStringEnum b : EnumQueryStringEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Query parameter enum test (double)
+   */
+  public enum EnumQueryIntegerEnum {
+    NUMBER_1(1),
+    
+    NUMBER_MINUS_2(-2);
+
+    private Integer value;
+
+    EnumQueryIntegerEnum(Integer value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryIntegerEnum fromValue(Integer value) {
+      for (EnumQueryIntegerEnum b : EnumQueryIntegerEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Query parameter enum test (double)
+   */
+  public enum EnumQueryDoubleEnum {
+    NUMBER_1_DOT_1(1.1),
+    
+    NUMBER_MINUS_1_DOT_2(-1.2);
+
+    private Double value;
+
+    EnumQueryDoubleEnum(Double value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Double getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumQueryDoubleEnum fromValue(Double value) {
+      for (EnumQueryDoubleEnum b : EnumQueryDoubleEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
+   * Form parameter enum test (string)
+   */
+  public enum EnumFormStringEnum {
+    _ABC("_abc"),
+    
+    _EFG("-efg"),
+    
+    _XYZ_("(xyz)");
+
+    private String value;
+
+    EnumFormStringEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumFormStringEnum fromValue(String value) {
+      for (EnumFormStringEnum b : EnumFormStringEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
@@ -373,12 +627,12 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default Mono<ResponseEntity<Void>> testEnumParameters(
-        @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
-        @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") EnumHeaderStringEnum enumHeaderString,
+        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") EnumQueryStringEnum enumQueryString,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) EnumQueryIntegerEnum enumQueryInteger,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) EnumQueryDoubleEnum enumQueryDouble,
         @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString,
         @ApiIgnore final ServerWebExchange exchange
@@ -508,11 +762,11 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List&lt;String&gt; pipe,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List&lt;String&gt; ioutil,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List&lt;String&gt; http,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List&lt;String&gt; url,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List&lt;String&gt; context,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, exchange);

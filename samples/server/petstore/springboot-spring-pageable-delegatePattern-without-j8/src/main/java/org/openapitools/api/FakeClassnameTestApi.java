@@ -24,6 +24,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeClassnameTestApi {
 
+
     default FakeClassnameTestApiDelegate getDelegate() {
         return new FakeClassnameTestApiDelegate() {};
     }

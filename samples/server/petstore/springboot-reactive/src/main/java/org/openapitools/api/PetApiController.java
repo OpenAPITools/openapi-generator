@@ -4,6 +4,8 @@ import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

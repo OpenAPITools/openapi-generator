@@ -31,6 +31,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface AnotherFakeApi {
 
+
     default AnotherFakeApiDelegate getDelegate() {
         return new AnotherFakeApiDelegate() {};
     }

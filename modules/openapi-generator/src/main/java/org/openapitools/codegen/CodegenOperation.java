@@ -52,7 +52,7 @@ public class CodegenOperation {
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
     public List<CodegenCallback> callbacks = new ArrayList<>();
-    public Set<String> imports = new HashSet<String>();
+    public Set<String> imports = new HashSet<>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
     public ExternalDocumentation externalDocs;

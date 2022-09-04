@@ -3,6 +3,8 @@ package org.openapitools.virtualan.api;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

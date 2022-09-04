@@ -676,6 +676,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (operations != null) {
             final List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
+                if (operation.allParams.stream().anyMatch(it -> it.isEnum)) {
+                    objs.getImports().add(importFromMapping("JsonCreator"));
+                    objs.getImports().add(importFromMapping("JsonValue"));
+                }
                 final List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     for (final CodegenResponse resp : responses) {
@@ -715,6 +719,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         return objs;
+    }
+
+    private Map<String, String> importFromMapping(String value) {
+        HashMap<String, String> e = new HashMap<>();
+        e.put("import", importMapping.get(value));
+        return e;
     }
 
     private interface DataTypeAssigner {
@@ -888,6 +898,11 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUnhandledException(boolean unhandledException) {
         this.unhandledException = unhandledException;
+    }
+
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        super.updateModelForObject(m, schema); // PONY
     }
 
     @Override

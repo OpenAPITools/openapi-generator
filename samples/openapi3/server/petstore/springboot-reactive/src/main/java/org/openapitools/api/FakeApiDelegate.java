@@ -11,6 +11,8 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
-
+import static org.openapitools.api.FakeApi.*;
 /**
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
@@ -239,14 +241,14 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    default Mono<ResponseEntity<Void>> testEnumParameters(List<String> enumHeaderStringArray,
-        String enumHeaderString,
-        List<String> enumQueryStringArray,
-        String enumQueryString,
-        Integer enumQueryInteger,
-        Double enumQueryDouble,
-        List<String> enumFormStringArray,
-        String enumFormString,
+    default Mono<ResponseEntity<Void>> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        EnumHeaderStringEnum enumHeaderString,
+        List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        EnumQueryStringEnum enumQueryString,
+        EnumQueryIntegerEnum enumQueryInteger,
+        EnumQueryDoubleEnum enumQueryDouble,
+        List<EnumFormStringArrayEnum> enumFormStringArray,
+        EnumFormStringEnum enumFormString,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -324,11 +326,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List<String> pipe,
-        List<String> ioutil,
-        List<String> http,
-        List<String> url,
-        List<String> context,
+    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List&lt;String&gt; pipe,
+        List&lt;String&gt; ioutil,
+        List&lt;String&gt; http,
+        List&lt;String&gt; url,
+        List&lt;String&gt; context,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

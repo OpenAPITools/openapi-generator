@@ -36,6 +36,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.byRefOrValue.base-path:}")
 public interface FooApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

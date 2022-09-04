@@ -33,6 +33,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface UserApi {
 
+
     default UserApiDelegate getDelegate() {
         return new UserApiDelegate() {};
     }

@@ -35,6 +35,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.apiDocumentation.base-path:}")
 public interface NullableApi {
 
+
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }

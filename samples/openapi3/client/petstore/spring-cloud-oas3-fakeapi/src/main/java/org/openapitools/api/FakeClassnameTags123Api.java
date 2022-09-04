@@ -35,6 +35,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeClassnameTags123Api {
 
+
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case

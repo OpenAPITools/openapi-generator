@@ -25,6 +25,7 @@ import javax.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface StoreApi {
 
+
     default StoreApiDelegate getDelegate() {
         return new StoreApiDelegate() {};
     }
