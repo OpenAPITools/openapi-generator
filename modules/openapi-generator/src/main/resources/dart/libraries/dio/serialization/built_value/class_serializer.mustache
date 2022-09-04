@@ -130,7 +130,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
       case '{{mappingName}}':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
-          specifiedType: FullType({{modelName}}).
+          specifiedType: FullType({{modelName}}),
         ) as {{modelName}};
         oneOfType = {{modelName}};
         break;
