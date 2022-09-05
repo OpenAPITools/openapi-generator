@@ -76,6 +76,10 @@ from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDe
 from petstore_api.model.integer_max10 import IntegerMax10
 from petstore_api.model.integer_min15 import IntegerMin15
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+from petstore_api.model.json_patch_request import JSONPatchRequest
+from petstore_api.model.json_patch_request_add_replace_test import JSONPatchRequestAddReplaceTest
+from petstore_api.model.json_patch_request_move_copy import JSONPatchRequestMoveCopy
+from petstore_api.model.json_patch_request_remove import JSONPatchRequestRemove
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass

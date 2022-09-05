@@ -26,6 +26,7 @@ from petstore_api.paths.fake_3.delete import GroupParameters
 from petstore_api.paths.fake_inline_additional_properties.post import InlineAdditionalProperties
 from petstore_api.paths.fake_inline_composition_.post import InlineComposition
 from petstore_api.paths.fake_json_form_data.get import JsonFormData
+from petstore_api.paths.fake_json_patch.patch import JsonPatch
 from petstore_api.paths.fake_json_with_charset.post import JsonWithCharset
 from petstore_api.paths.fake_refs_mammal.post import Mammal
 from petstore_api.paths.fake_refs_number.post import NumberWithValidations
@@ -60,6 +61,7 @@ class FakeApi(
     InlineAdditionalProperties,
     InlineComposition,
     JsonFormData,
+    JsonPatch,
     JsonWithCharset,
     Mammal,
     NumberWithValidations,
