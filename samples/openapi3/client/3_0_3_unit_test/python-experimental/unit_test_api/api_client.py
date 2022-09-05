@@ -800,24 +800,25 @@ class ApiResponseWithoutDeserialization(ApiResponse):
 
 
 class JSONDetector:
-    @staticmethod
-    def _content_type_is_json(content_type: str) -> bool:
-        content_type_piece = content_type
-        if ';' in content_type:
-            # application/json; charset=UTF-8
-            content_type_piece = content_type.split(';')[0]
-        elif '-' in content_type:
-            """
-            application/json-patch+json
-            application/json-seq
-            """
-            content_type_piece = content_type.split('-')[0]
-        if content_type_piece == 'application/json':
+    """
+    Works for:
+    application/json
+    application/json; charset=UTF-8
+    application/json-patch+json
+    application/geo+json
+    """
+    __json_content_type_pattern = re.compile("application/[^+]*[+]?(json);?.*")
+
+    @classmethod
+    def _content_type_is_json(cls, content_type: str) -> bool:
+        if cls.__json_content_type_pattern.match(content_type):
             return True
         return False
 
 
 class OpenApiResponse(JSONDetector):
+    __filename_content_disposition_pattern = re.compile('filename="(.+?)"')
+
     def __init__(
         self,
         response_cls: typing.Type[ApiResponse] = ApiResponse,
@@ -835,11 +836,11 @@ class OpenApiResponse(JSONDetector):
         # python must be >= 3.9 so we can pass in bytes into json.loads
         return json.loads(response.data)
 
-    @staticmethod
-    def __file_name_from_content_disposition(content_disposition: typing.Optional[str]) -> typing.Optional[str]:
+    @classmethod
+    def __file_name_from_content_disposition(cls, content_disposition: typing.Optional[str]) -> typing.Optional[str]:
         if content_disposition is None:
             return None
-        match = re.search('filename="(.+?)"', content_disposition)
+        match = cls.__filename_content_disposition_pattern.search(content_disposition)
         if not match:
             return None
         return match.group(1)
