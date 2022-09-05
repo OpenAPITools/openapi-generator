@@ -74,6 +74,10 @@ docs/models/IntegerEnumWithDefaultValue.md
 docs/models/IntegerMax10.md
 docs/models/IntegerMin15.md
 docs/models/IsoscelesTriangle.md
+docs/models/JSONPatchRequest.md
+docs/models/JSONPatchRequestAddReplaceTest.md
+docs/models/JSONPatchRequestMoveCopy.md
+docs/models/JSONPatchRequestRemove.md
 docs/models/Mammal.md
 docs/models/MapTest.md
 docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -264,6 +268,14 @@ petstore_api/model/integer_min15.py
 petstore_api/model/integer_min15.pyi
 petstore_api/model/isosceles_triangle.py
 petstore_api/model/isosceles_triangle.pyi
+petstore_api/model/json_patch_request.py
+petstore_api/model/json_patch_request.pyi
+petstore_api/model/json_patch_request_add_replace_test.py
+petstore_api/model/json_patch_request_add_replace_test.pyi
+petstore_api/model/json_patch_request_move_copy.py
+petstore_api/model/json_patch_request_move_copy.pyi
+petstore_api/model/json_patch_request_remove.py
+petstore_api/model/json_patch_request_remove.pyi
 petstore_api/model/mammal.py
 petstore_api/model/mammal.pyi
 petstore_api/model/map_test.py

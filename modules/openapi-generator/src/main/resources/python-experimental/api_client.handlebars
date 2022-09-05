@@ -797,12 +797,17 @@ class ApiResponseWithoutDeserialization(ApiResponse):
 
 class JSONDetector:
     @staticmethod
-    def content_type_is_json(content_type: str) -> bool:
-        """
-        for when content_type strings also include charset info like:
-        application/json; charset=UTF-8
-        """
-        content_type_piece = content_type.split(';')[0]
+    def _content_type_is_json(content_type: str) -> bool:
+        content_type_piece = content_type
+        if ';' in content_type:
+            # application/json; charset=UTF-8
+            content_type_piece = content_type.split(';')[0]
+        elif '-' in content_type:
+            """
+            application/json-patch+json
+            application/json-seq
+            """
+            content_type_piece = content_type.split('-')[0]
         if content_type_piece == 'application/json':
             return True
         return False
@@ -905,7 +910,7 @@ class OpenApiResponse(JSONDetector):
                     body=unset
                 )
 
-            if self.content_type_is_json(content_type):
+            if self._content_type_is_json(content_type):
                 body_data = self.__deserialize_json(response)
             elif content_type == 'application/octet-stream':
                 body_data = self.__deserialize_application_octet_stream(response)
@@ -1463,7 +1468,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             cast_in_data = media_type.schema(in_data)
         # TODO check for and use encoding if it exists
         # and content_type is multipart or application/x-www-form-urlencoded
-        if self.content_type_is_json(content_type):
+        if self._content_type_is_json(content_type):
             return self.__serialize_json(cast_in_data)
         elif content_type == 'text/plain':
             return self.__serialize_text_plain(cast_in_data)
