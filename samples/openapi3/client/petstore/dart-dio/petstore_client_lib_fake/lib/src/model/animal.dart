@@ -2,6 +2,9 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
+import 'package:openapi/src/model/dog.dart';
+import 'package:openapi/src/model/cat.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -12,74 +15,168 @@ part 'animal.g.dart';
 /// Properties:
 /// * [className] 
 /// * [color] 
-abstract class Animal implements Built<Animal, AnimalBuilder> {
-    @BuiltValueField(wireName: r'className')
-    String get className;
+@BuiltValue(instantiable: false)
+abstract class Animal  {
+  @BuiltValueField(wireName: r'className')
+  String get className;
 
-    @BuiltValueField(wireName: r'color')
-    String? get color;
+  @BuiltValueField(wireName: r'color')
+  String? get color;
 
-    Animal._();
+  static const String discriminatorFieldName = r'className';
 
-    @BuiltValueHook(initializeBuilder: true)
-    static void _defaults(AnimalBuilder b) => b
-        ..color = 'red';
+  static const Map<String, Type> discriminatorMapping = {
+    r'Cat': Cat,
+    r'Dog': Dog,
+  };
 
-    factory Animal([void updates(AnimalBuilder b)]) = _$Animal;
-
-    @BuiltValueSerializer(custom: true)
-    static Serializer<Animal> get serializer => _$AnimalSerializer();
+  @BuiltValueSerializer(custom: true)
+  static Serializer<Animal> get serializer => _$AnimalSerializer();
 }
 
-class _$AnimalSerializer implements StructuredSerializer<Animal> {
-    @override
-    final Iterable<Type> types = const [Animal, _$Animal];
+class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
+  @override
+  final Iterable<Type> types = const [Animal];
 
-    @override
-    final String wireName = r'Animal';
+  @override
+  final String wireName = r'Animal';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, Animal object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
-        result
-            ..add(r'className')
-            ..add(serializers.serialize(object.className,
-                specifiedType: const FullType(String)));
-        if (object.color != null) {
-            result
-                ..add(r'color')
-                ..add(serializers.serialize(object.color,
-                    specifiedType: const FullType(String)));
-        }
-        return result;
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    Animal object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
+    if (object.color != null) {
+      yield r'color';
+      yield serializers.serialize(
+        object.color,
+        specifiedType: const FullType(String),
+      );
     }
+  }
 
-    @override
-    Animal deserialize(Serializers serializers, Iterable<Object?> serialized,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = AnimalBuilder();
-
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
-            switch (key) {
-                case r'className':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.className = valueDes;
-                    break;
-                case r'color':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.color = valueDes;
-                    break;
-            }
-        }
-        return result.build();
+  @override
+  Object serialize(
+    Serializers serializers,
+    Animal object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    if (object is Cat) {
+      return serializers.serialize(object, specifiedType: FullType(Cat))!;
     }
+    if (object is Dog) {
+      return serializers.serialize(object, specifiedType: FullType(Dog))!;
+    }
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  @override
+  Animal deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final discIndex = serializedList.indexOf(Animal.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
+    switch (discValue) {
+      case 'Cat':
+        return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
+      case 'Dog':
+        return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
+      default:
+        return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;
+    }
+  }
+}
+
+/// a concrete implementation of [Animal], since [Animal] is not instantiable
+@BuiltValue(instantiable: true)
+abstract class $Animal implements Animal, Built<$Animal, $AnimalBuilder> {
+  $Animal._();
+
+  factory $Animal([void Function($AnimalBuilder)? updates]) = _$$Animal;
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults($AnimalBuilder b) => b;
+
+  @BuiltValueSerializer(custom: true)
+  static Serializer<$Animal> get serializer => _$$AnimalSerializer();
+}
+
+class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
+  @override
+  final Iterable<Type> types = const [$Animal, _$$Animal];
+
+  @override
+  final String wireName = r'$Animal';
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    $Animal object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return serializers.serialize(object, specifiedType: FullType(Animal))!;
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required AnimalBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
+          break;
+        case r'color':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.color = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  $Animal deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = $AnimalBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

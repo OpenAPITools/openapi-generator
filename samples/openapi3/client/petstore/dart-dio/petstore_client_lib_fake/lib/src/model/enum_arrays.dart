@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -13,78 +14,117 @@ part 'enum_arrays.g.dart';
 /// Properties:
 /// * [justSymbol] 
 /// * [arrayEnum] 
+@BuiltValue()
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
-    @BuiltValueField(wireName: r'just_symbol')
-    EnumArraysJustSymbolEnum? get justSymbol;
-    // enum justSymbolEnum {  >=,  $,  };
+  @BuiltValueField(wireName: r'just_symbol')
+  EnumArraysJustSymbolEnum? get justSymbol;
+  // enum justSymbolEnum {  >=,  $,  };
 
-    @BuiltValueField(wireName: r'array_enum')
-    BuiltList<EnumArraysArrayEnumEnum>? get arrayEnum;
-    // enum arrayEnumEnum {  fish,  crab,  };
+  @BuiltValueField(wireName: r'array_enum')
+  BuiltList<EnumArraysArrayEnumEnum>? get arrayEnum;
+  // enum arrayEnumEnum {  fish,  crab,  };
 
-    EnumArrays._();
+  EnumArrays._();
 
-    @BuiltValueHook(initializeBuilder: true)
-    static void _defaults(EnumArraysBuilder b) => b;
+  factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
 
-    factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(EnumArraysBuilder b) => b;
 
-    @BuiltValueSerializer(custom: true)
-    static Serializer<EnumArrays> get serializer => _$EnumArraysSerializer();
+  @BuiltValueSerializer(custom: true)
+  static Serializer<EnumArrays> get serializer => _$EnumArraysSerializer();
 }
 
-class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
-    @override
-    final Iterable<Type> types = const [EnumArrays, _$EnumArrays];
+class _$EnumArraysSerializer implements PrimitiveSerializer<EnumArrays> {
+  @override
+  final Iterable<Type> types = const [EnumArrays, _$EnumArrays];
 
-    @override
-    final String wireName = r'EnumArrays';
+  @override
+  final String wireName = r'EnumArrays';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, EnumArrays object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
-        if (object.justSymbol != null) {
-            result
-                ..add(r'just_symbol')
-                ..add(serializers.serialize(object.justSymbol,
-                    specifiedType: const FullType(EnumArraysJustSymbolEnum)));
-        }
-        if (object.arrayEnum != null) {
-            result
-                ..add(r'array_enum')
-                ..add(serializers.serialize(object.arrayEnum,
-                    specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])));
-        }
-        return result;
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    EnumArrays object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    if (object.justSymbol != null) {
+      yield r'just_symbol';
+      yield serializers.serialize(
+        object.justSymbol,
+        specifiedType: const FullType(EnumArraysJustSymbolEnum),
+      );
     }
-
-    @override
-    EnumArrays deserialize(Serializers serializers, Iterable<Object?> serialized,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = EnumArraysBuilder();
-
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
-            switch (key) {
-                case r'just_symbol':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(EnumArraysJustSymbolEnum)) as EnumArraysJustSymbolEnum;
-                    result.justSymbol = valueDes;
-                    break;
-                case r'array_enum':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])) as BuiltList<EnumArraysArrayEnumEnum>;
-                    result.arrayEnum.replace(valueDes);
-                    break;
-            }
-        }
-        return result.build();
+    if (object.arrayEnum != null) {
+      yield r'array_enum';
+      yield serializers.serialize(
+        object.arrayEnum,
+        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]),
+      );
     }
+  }
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    EnumArrays object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required EnumArraysBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'just_symbol':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(EnumArraysJustSymbolEnum),
+          ) as EnumArraysJustSymbolEnum;
+          result.justSymbol = valueDes;
+          break;
+        case r'array_enum':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]),
+          ) as BuiltList<EnumArraysArrayEnumEnum>;
+          result.arrayEnum.replace(valueDes);
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  EnumArrays deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = EnumArraysBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 
 class EnumArraysJustSymbolEnum extends EnumClass {
