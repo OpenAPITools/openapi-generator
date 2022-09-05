@@ -12,6 +12,7 @@
 # sys.setrecursionlimit(n)
 
 from petstore_api.model.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.model.additional_properties_validator import AdditionalPropertiesValidator
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 from petstore_api.model.address import Address
 from petstore_api.model.animal import Animal
