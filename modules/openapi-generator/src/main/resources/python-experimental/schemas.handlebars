@@ -1584,10 +1584,6 @@ class DictBase(Discriminable, ValidatorBase):
             return unset
 
 
-from_server_types = {
-    str, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, io.FileIO, io.BufferedReader
-}
-
 def cast_to_allowed_types(
     arg: typing.Union[str, date, datetime, uuid.UUID, decimal.Decimal, int, float, None, dict, frozendict.frozendict, list, tuple, bytes, Schema, io.FileIO, io.BufferedReader],
     from_server: bool,
