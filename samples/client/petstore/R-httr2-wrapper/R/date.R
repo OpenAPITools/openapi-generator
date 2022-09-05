@@ -8,6 +8,7 @@
 #' @description Date Class
 #' @format An \code{R6Class} generator object
 #' @field className  character
+#' @field percent_description using \% in the description character [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -17,7 +18,8 @@ Date <- R6::R6Class(
   "Date",
   public = list(
     `className` = NULL,
-    `_field_list` = c("className"),
+    `percent_description` = NULL,
+    `_field_list` = c("className", "percent_description"),
     `additional_properties` = list(),
     #' Initialize a new Date class.
     #'
@@ -25,15 +27,20 @@ Date <- R6::R6Class(
     #' Initialize a new Date class.
     #'
     #' @param className className
+    #' @param percent_description using \% in the description
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, additional_properties = NULL, ...
+        `className`, `percent_description` = NULL, additional_properties = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
+      }
+      if (!is.null(`percent_description`)) {
+        stopifnot(is.character(`percent_description`), length(`percent_description`) == 1)
+        self$`percent_description` <- `percent_description`
       }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
@@ -54,6 +61,10 @@ Date <- R6::R6Class(
         DateObject[["className"]] <-
           self$`className`
       }
+      if (!is.null(self$`percent_description`)) {
+        DateObject[["percent_description"]] <-
+          self$`percent_description`
+      }
       for (key in names(self$additional_properties)) {
         DateObject[[key]] <- self$additional_properties[[key]]
       }
@@ -72,6 +83,9 @@ Date <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`className`)) {
         self$`className` <- this_object$`className`
+      }
+      if (!is.null(this_object$`percent_description`)) {
+        self$`percent_description` <- this_object$`percent_description`
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -98,6 +112,14 @@ Date <- R6::R6Class(
                     ',
           self$`className`
           )
+        },
+        if (!is.null(self$`percent_description`)) {
+          sprintf(
+          '"percent_description":
+            "%s"
+                    ',
+          self$`percent_description`
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -119,6 +141,7 @@ Date <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
+      self$`percent_description` <- this_object$`percent_description`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields

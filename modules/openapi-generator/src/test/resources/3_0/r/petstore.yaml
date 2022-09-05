@@ -1007,5 +1007,8 @@ components:
       properties:
         className:
           type: string
+        percent_description:
+          description: using % in the description
+          type: string
       required:
         - className
