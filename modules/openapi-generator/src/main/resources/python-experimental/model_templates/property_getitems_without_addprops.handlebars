@@ -14,7 +14,7 @@ def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.proper
 {{/each}}
 
 @typing.overload
-def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
 
 def __getitem__(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
     # dict_instance[name] accessor
@@ -37,7 +37,7 @@ def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless req
 {{/each}}
 
 @typing.overload
-def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
 
 def get_item_oapg(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
     return super().get_item_oapg(name)

@@ -843,8 +843,6 @@ class TestParameter(unittest.TestCase):
                 name=name,
                 schema=schemas.AnyTypeSchema,
             )
-            print(parameter.explode)
-            print(test_case.payload)
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 
@@ -905,7 +903,6 @@ class TestParameter(unittest.TestCase):
                 name=name,
                 schema=schemas.AnyTypeSchema,
             )
-            print(test_case.payload)
             serialization = parameter.serialize(test_case.payload)
             self.assertEqual(serialization, test_case.expected_serialization)
 

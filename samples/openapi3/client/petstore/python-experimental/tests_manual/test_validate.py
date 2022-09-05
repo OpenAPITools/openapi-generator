@@ -1,5 +1,5 @@
 # coding: utf-8
-
+import decimal
 from decimal import Decimal
 from unittest.mock import patch, call
 import unittest
@@ -22,6 +22,7 @@ from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.gm_fruit import GmFruit
 from petstore_api.model.apple import Apple
 from petstore_api.model.banana import Banana
+from petstore_api import schemas
 
 from petstore_api.schemas import (
     AnyTypeSchema,
@@ -89,7 +90,7 @@ class TestValidateResults(unittest.TestCase):
         assert path_to_schemas == {
             ("args[0]",): {Foo, frozendict.frozendict},
             ("args[0]", "bar"): {StrSchema, str},
-            ("args[0]", "additional"): {AnyTypeSchema, Decimal},
+            ("args[0]", "additional"): {schemas.UnsetAnyTypeSchema, decimal.Decimal},
         }
 
     def test_discriminated_dict_validate(self):
@@ -97,10 +98,12 @@ class TestValidateResults(unittest.TestCase):
         path_to_schemas = Animal._validate_oapg(
             frozendict.frozendict(className="Dog", color="black"), validation_metadata=vm
         )
+        for path, schema_classes in path_to_schemas.items():
+            Animal._process_schema_classes_oapg(schema_classes)
         assert path_to_schemas == {
             ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of[1], frozendict.frozendict},
-            ("args[0]", "className"): {StrSchema, AnyTypeSchema, str},
-            ("args[0]", "color"): {StrSchema, AnyTypeSchema, str},
+            ("args[0]", "className"): {StrSchema, str},
+            ("args[0]", "color"): {StrSchema, str},
         }
 
     def test_bool_enum_validate(self):
@@ -113,9 +116,11 @@ class TestValidateResults(unittest.TestCase):
         path_to_schemas = Pig._validate_oapg(
             frozendict.frozendict(className="DanishPig"), validation_metadata=vm
         )
+        for path, schema_classes in path_to_schemas.items():
+            Pig._process_schema_classes_oapg(schema_classes)
         assert path_to_schemas == {
             ("args[0]",): {Pig, DanishPig, frozendict.frozendict},
-            ("args[0]", "className"): {DanishPig.MetaOapg.properties.className, AnyTypeSchema, str},
+            ("args[0]", "className"): {DanishPig.MetaOapg.properties.className, str},
         }
 
     def test_anyof_composition_gm_fruit_validate(self):
@@ -124,10 +129,12 @@ class TestValidateResults(unittest.TestCase):
             frozendict.frozendict(cultivar="GoldenDelicious", lengthCm=Decimal(10)),
             validation_metadata=vm,
         )
+        for path, schema_classes in path_to_schemas.items():
+            GmFruit._process_schema_classes_oapg(schema_classes)
         assert path_to_schemas == {
             ("args[0]",): {GmFruit, Apple, Banana, frozendict.frozendict},
-            ("args[0]", "cultivar"): {Apple.MetaOapg.properties.cultivar, AnyTypeSchema, str},
-            ("args[0]", "lengthCm"): {AnyTypeSchema, NumberSchema, Decimal},
+            ("args[0]", "cultivar"): {Apple.MetaOapg.properties.cultivar, str},
+            ("args[0]", "lengthCm"): {NumberSchema, Decimal},
         }
 
 
