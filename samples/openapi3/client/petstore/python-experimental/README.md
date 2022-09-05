@@ -13,7 +13,7 @@ Python &gt;&#x3D;3.9
 v3.9 is needed so one can combine classmethod and property decorators to define
 object schema properties as classes
 
-## Migration from other generators like python and python-experimental
+## Migration from other generators like python and python-legacy
 
 ### Changes
 1. This generator uses spec case for all (object) property names and parameter names.
