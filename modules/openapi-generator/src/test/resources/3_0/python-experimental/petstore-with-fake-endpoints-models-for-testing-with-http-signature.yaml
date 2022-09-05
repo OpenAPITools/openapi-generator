@@ -1558,7 +1558,7 @@ paths:
           content:
             application/json: {}
             application/xml: {}
-  /fake/json-patch:
+  /fake/jsonPatch:
     patch:
       summary: json patch
       description: json patch route with a requestBody

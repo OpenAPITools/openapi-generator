@@ -97,7 +97,7 @@ PathToApi = typing.TypedDict(
         PathValues.FAKE_REF_OBJ_IN_QUERY: FakeRefObjInQuery,
         PathValues.FAKE_JSON_WITH_CHARSET: FakeJsonWithCharset,
         PathValues.FAKE_RESPONSE_WITHOUT_SCHEMA: FakeResponseWithoutSchema,
-        PathValues.FAKE_JSONPATCH: FakeJsonPatch,
+        PathValues.FAKE_JSON_PATCH: FakeJsonPatch,
         PathValues.FAKE_DELETE_COFFEE_ID: FakeDeleteCoffeeId,
     }
 )
@@ -149,7 +149,7 @@ path_to_api = PathToApi(
         PathValues.FAKE_REF_OBJ_IN_QUERY: FakeRefObjInQuery,
         PathValues.FAKE_JSON_WITH_CHARSET: FakeJsonWithCharset,
         PathValues.FAKE_RESPONSE_WITHOUT_SCHEMA: FakeResponseWithoutSchema,
-        PathValues.FAKE_JSONPATCH: FakeJsonPatch,
+        PathValues.FAKE_JSON_PATCH: FakeJsonPatch,
         PathValues.FAKE_DELETE_COFFEE_ID: FakeDeleteCoffeeId,
     }
 )

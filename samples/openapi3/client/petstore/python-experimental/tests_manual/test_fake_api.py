@@ -727,6 +727,43 @@ class TestFakeApi(ApiTestMixin):
             assert isinstance(api_response.body, schemas.Unset)
             assert isinstance(api_response.headers, schemas.Unset)
 
+    def test_json_patch(self):
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            from petstore_api.model import json_patch_request
+            from petstore_api.model import json_patch_request_add_replace_test
+
+            mock_request.return_value = self.response("")
+            body = json_patch_request.JSONPatchRequest(
+                [
+                    json_patch_request_add_replace_test.JSONPatchRequestAddReplaceTest(
+                        op='add',
+                        path='/a/b/c',
+                        value='foo',
+                    )
+                ]
+            )
+            api_response = self.api.json_patch(body)
+            json_body = [
+                {
+                    'op': 'add',
+                    'path': '/a/b/c',
+                    'value': 'foo'
+                }
+            ]
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/jsonPatch',
+                body=self.json_bytes(json_body),
+                method='PATCH',
+                content_type='application/json-patch+json',
+                accept_content_type=None,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
+            assert isinstance(api_response.headers, schemas.Unset)
+            assert api_response.response.status == 200
+
 
 if __name__ == '__main__':
     unittest.main()

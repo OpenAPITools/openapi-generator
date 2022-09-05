@@ -182,7 +182,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**inline_additional_properties**](docs/apis/tags/FakeApi.md#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**inline_composition**](docs/apis/tags/FakeApi.md#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
 *FakeApi* | [**json_form_data**](docs/apis/tags/FakeApi.md#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**json_patch**](docs/apis/tags/FakeApi.md#json_patch) | **patch** /fake/json-patch | json patch
+*FakeApi* | [**json_patch**](docs/apis/tags/FakeApi.md#json_patch) | **patch** /fake/jsonPatch | json patch
 *FakeApi* | [**json_with_charset**](docs/apis/tags/FakeApi.md#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
 *FakeApi* | [**mammal**](docs/apis/tags/FakeApi.md#mammal) | **post** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/apis/tags/FakeApi.md#number_with_validations) | **post** /fake/refs/number | 

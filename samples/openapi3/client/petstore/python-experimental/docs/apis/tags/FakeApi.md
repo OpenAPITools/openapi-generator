@@ -22,7 +22,7 @@ Method | HTTP request | Description
 [**inline_additional_properties**](#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
 [**inline_composition**](#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
 [**json_form_data**](#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
-[**json_patch**](#json_patch) | **patch** /fake/json-patch | json patch
+[**json_patch**](#json_patch) | **patch** /fake/jsonPatch | json patch
 [**json_with_charset**](#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
 [**mammal**](#mammal) | **post** /fake/refs/mammal | 
 [**number_with_validations**](#number_with_validations) | **post** /fake/refs/number | 

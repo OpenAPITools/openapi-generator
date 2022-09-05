@@ -4,4 +4,4 @@
 
 from petstore_api.paths import PathValues
 
-path = PathValues.FAKE_JSONPATCH
+path = PathValues.FAKE_JSON_PATCH
