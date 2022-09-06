@@ -227,7 +227,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         date: typing.Union[MetaOapg.properties.date, str, date, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, str, datetime, schemas.Unset] = schemas.unset,
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
         callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,

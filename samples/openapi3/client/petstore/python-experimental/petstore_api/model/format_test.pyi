@@ -315,7 +315,7 @@ class FormatTest(
         arrayWithUniqueItems: typing.Union[MetaOapg.properties.arrayWithUniqueItems, tuple, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, str, datetime, schemas.Unset] = schemas.unset,
         uuid: typing.Union[MetaOapg.properties.uuid, uuid.UUID, str, schemas.Unset] = schemas.unset,
         uuidNoExample: typing.Union[MetaOapg.properties.uuidNoExample, uuid.UUID, str, schemas.Unset] = schemas.unset,
         pattern_with_digits: typing.Union[MetaOapg.properties.pattern_with_digits, str, schemas.Unset] = schemas.unset,

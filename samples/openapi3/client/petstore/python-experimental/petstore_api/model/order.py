@@ -132,7 +132,7 @@ class Order(
         id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
         petId: typing.Union[MetaOapg.properties.petId, int, schemas.Unset] = schemas.unset,
         quantity: typing.Union[MetaOapg.properties.quantity, int, schemas.Unset] = schemas.unset,
-        shipDate: typing.Union[MetaOapg.properties.shipDate, datetime, str, schemas.Unset] = schemas.unset,
+        shipDate: typing.Union[MetaOapg.properties.shipDate, str, datetime, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         complete: typing.Union[MetaOapg.properties.complete, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
