@@ -2786,6 +2786,29 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Sets the booleans that define the model's type
+     *
+     * @param model the model to update
+     * @param p the model's schema
+     */
+    protected void updateModelForString(CodegenModel model, Schema schema) {
+        // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
+        if (ModelUtils.isDateTimeSchema(schema)) {
+            // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false); // for backward compatibility with 2.x
+            model.isDateTime = Boolean.TRUE;
+        } else if (ModelUtils.isDateSchema(schema)) {
+            // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false); // for backward compatibility with 2.x
+            model.isDate = Boolean.TRUE;
+        } else if (ModelUtils.isUUIDSchema(schema)) {
+            // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false);
+            model.setIsUuid(true);
+        }
+    }
+
+    /**
      * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
@@ -2885,20 +2908,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         } else if (ModelUtils.isStringSchema(schema)) {
-            // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
-            if (ModelUtils.isDateTimeSchema(schema)) {
-                // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.setIsString(false); // for backward compatibility with 2.x
-                m.isDateTime = Boolean.TRUE;
-            } else if (ModelUtils.isDateSchema(schema)) {
-                // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.setIsString(false); // for backward compatibility with 2.x
-                m.isDate = Boolean.TRUE;
-            } else if (ModelUtils.isUUIDSchema(schema)) {
-                // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.setIsString(false);
-                m.setIsUuid(true);
-            }
+            updateModelForString(m, schema);
         } else if (ModelUtils.isNumberSchema(schema)) {
             // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
             m.isNumeric = Boolean.TRUE;

@@ -2238,6 +2238,26 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     }
 
+    /**
+     * Sets the booleans that define the model's type
+     *
+     * @param model the model to update
+     * @param p the model's schema
+     */
+    protected void updateModelForString(CodegenModel model, Schema schema) {
+        if (ModelUtils.isDateTimeSchema(schema)) {
+            // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false); // for backward compatibility with 2.x
+            model.isDateTime = Boolean.TRUE;
+        } else if (ModelUtils.isDateSchema(schema)) {
+            // isString stays true, format stores what this is a date
+        } else if (ModelUtils.isUUIDSchema(schema)) {
+            // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false);
+            model.setIsUuid(true);
+        }
+    }
+
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
         if (ModelUtils.isByteArraySchema(p)) {
             property.isByteArray = true;
@@ -2253,8 +2273,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
-            property.setIsString(false); // so the templates only see isDate
-            property.isDate = true;
+            // isString stays true, format stores what this is a date
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
             property.setIsString(false); // so the templates only see isDateTime
             property.isDateTime = true;

@@ -5,6 +5,9 @@ schemas.List{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 schemas.Dict{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if isString}}
+{{#eq format "date"}}
+schemas.Date{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
 schemas.Str{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if isByteArray}}
@@ -31,9 +34,6 @@ schemas.Float64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{#if getIsUuid}}
 schemas.UUID{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
-{{#if isDate}}
-schemas.Date{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
-{{/if}}
 {{#if isDateTime}}
 schemas.DateTime{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
@@ -51,5 +51,5 @@ schemas.None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if getHasMultipleTypes}}
 schemas.Schema,
-schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#or isString isByteArray isDate isDateTime isDecimal}}Str{{/or}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
+schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#or isString isByteArray isDateTime isDecimal}}Str{{/or}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
 {{/if}}
