@@ -22,7 +22,7 @@ class TestNulCharactersInStrings(unittest.TestCase):
 
     def test_match_string_with_nul_passes(self):
         # match string with nul
-        NulCharactersInStrings._from_openapi_data(
+        NulCharactersInStrings.from_openapi_data_oapg(
             "hello\x00there",
             _configuration=self._configuration
         )
@@ -30,7 +30,7 @@ class TestNulCharactersInStrings(unittest.TestCase):
     def test_do_not_match_string_lacking_nul_fails(self):
         # do not match string lacking nul
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            NulCharactersInStrings._from_openapi_data(
+            NulCharactersInStrings.from_openapi_data_oapg(
                 "hellothere",
                 _configuration=self._configuration
             )

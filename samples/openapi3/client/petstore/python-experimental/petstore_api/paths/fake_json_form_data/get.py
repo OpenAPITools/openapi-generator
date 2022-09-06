@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,23 +29,60 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
-    DictSchema
+    schemas.DictSchema
 ):
-    _required_property_names = {
-        "param",
-        "param2",
-    }
-    param = StrSchema
-    param2 = StrSchema
 
+
+    class MetaOapg:
+        required = {
+            "param",
+            "param2",
+        }
+        class properties:
+            param = schemas.StrSchema
+            param2 = schemas.StrSchema
+            __annotations__ = {
+                "param": param,
+                "param2": param2,
+            }
+    
+    param: MetaOapg.properties.param
+    param2: MetaOapg.properties.param2
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["param"]) -> MetaOapg.properties.param: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["param", "param2", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["param"]) -> MetaOapg.properties.param: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["param2"]) -> MetaOapg.properties.param2: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["param", "param2", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        param: param,
-        param2: param2,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        param: typing.Union[MetaOapg.properties.param, str, ],
+        param2: typing.Union[MetaOapg.properties.param2, str, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -111,8 +105,8 @@ request_body_body = api_client.RequestBody(
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -125,9 +119,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _json_form_data(
+    def _json_form_data_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -149,7 +143,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -186,7 +180,7 @@ class JsonFormData(BaseApi):
 
     def json_form_data(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -195,7 +189,7 @@ class JsonFormData(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._json_form_data(
+        return self._json_form_data_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -209,7 +203,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -218,7 +212,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._json_form_data(
+        return self._json_form_data_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

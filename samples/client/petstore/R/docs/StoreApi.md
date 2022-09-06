@@ -23,7 +23,7 @@ library(petstore)
 
 var_order_id <- "order_id_example" # character | ID of the order that needs to be deleted
 
-#Delete purchase order by ID
+# Delete purchase order by ID
 api_instance <- StoreApi$new()
 result <- tryCatch(
              api_instance$DeleteOrder(var_order_id),
@@ -34,7 +34,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `DeleteOrder`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -76,7 +76,7 @@ Returns a map of status codes to quantities
 library(petstore)
 
 
-#Returns pet inventories by status
+# Returns pet inventories by status
 api_instance <- StoreApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -91,7 +91,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `GetInventory`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -134,7 +134,7 @@ library(petstore)
 
 var_order_id <- 56 # integer | ID of pet that needs to be fetched
 
-#Find purchase order by ID
+# Find purchase order by ID
 api_instance <- StoreApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -147,7 +147,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `GetOrderById`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -195,7 +195,7 @@ library(petstore)
 
 var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 
-#Place an order for a pet
+# Place an order for a pet
 api_instance <- StoreApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -208,7 +208,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `PlaceOrder`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")

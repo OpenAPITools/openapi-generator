@@ -7,101 +7,40 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from unit_test_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from unit_test_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from unit_test_api import schemas  # noqa: F401
 
 from . import path
 
 
 
 class SchemaFor200ResponseBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema,
 ):
 
-    @classmethod
-    @property
-    @functools.cache
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
-        NotSchema = IntSchema
-        return {
-            'allOf': [
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                NotSchema
-        }
+
+    class MetaOapg:
+        not_schema = schemas.IntSchema
+
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -117,7 +56,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -137,7 +76,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _post_not_response_body_for_content_types(
+    def _post_not_response_body_for_content_types_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -196,7 +135,7 @@ class PostNotResponseBodyForContentTypes(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._post_not_response_body_for_content_types(
+        return self._post_not_response_body_for_content_types_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -217,7 +156,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._post_not_response_body_for_content_types(
+        return self._post_not_response_body_for_content_types_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

@@ -167,7 +167,7 @@ public class InlineModelResolver {
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
      *
-     * @param schema target schema
+     * @param schema         target schema
      * @param visitedSchemas Visited schemas
      */
     private boolean isModelNeeded(Schema schema, Set<Schema> visitedSchemas) {
@@ -189,6 +189,17 @@ public class InlineModelResolver {
         if (schema instanceof ComposedSchema) {
             // allOf, anyOf, oneOf
             ComposedSchema m = (ComposedSchema) schema;
+
+            if (m.getAllOf() != null && m.getAllOf().size() == 1 && m.getReadOnly() != null && m.getReadOnly()) {
+                // Check if this composed schema only contains an allOf and a readOnly.
+                ComposedSchema c = new ComposedSchema();
+                c.setAllOf(m.getAllOf());
+                c.setReadOnly(true);
+                if (m.equals(c)) {
+                    return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
+                }
+            }
+
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
                 // check to ensure at least of the allOf item is model
                 for (Schema inner : m.getAllOf()) {
@@ -429,6 +440,10 @@ public class InlineModelResolver {
         if (requestBody.get$ref() != null) {
             String ref = ModelUtils.getSimpleRef(requestBody.get$ref());
             requestBody = openAPI.getComponents().getRequestBodies().get(ref);
+
+            if (requestBody == null) {
+                return;
+            }
         }
 
         flattenContent(requestBody.getContent(),

@@ -12,12 +12,13 @@
 
 import unittest
 
+import frozendict
+
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
 from petstore_api.model.scalene_triangle import ScaleneTriangle
 from petstore_api.model.triangle import Triangle
 from petstore_api.model.triangle_interface import TriangleInterface
-from petstore_api.schemas import frozendict
 
 
 class TestTriangle(unittest.TestCase):
@@ -31,7 +32,7 @@ class TestTriangle(unittest.TestCase):
             assert isinstance(tri, tri_class)
             assert isinstance(tri, Triangle)
             assert isinstance(tri, TriangleInterface)
-            assert isinstance(tri, frozendict)
+            assert isinstance(tri, frozendict.frozendict)
 
 
 if __name__ == '__main__':

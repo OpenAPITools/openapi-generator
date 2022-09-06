@@ -7,75 +7,32 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
 # query params
-UsernameSchema = StrSchema
-PasswordSchema = StrSchema
+UsernameSchema = schemas.StrSchema
+PasswordSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'username': UsernameSchema,
-        'password': PasswordSchema,
+        'username': typing.Union[UsernameSchema, str, ],
+        'password': typing.Union[PasswordSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
@@ -104,20 +61,20 @@ request_query_password = api_client.QueryParameter(
     required=True,
     explode=True,
 )
-XRateLimitSchema = Int32Schema
+XRateLimitSchema = schemas.Int32Schema
 x_rate_limit_parameter = api_client.HeaderParameter(
     name="X-Rate-Limit",
     style=api_client.ParameterStyle.SIMPLE,
     schema=XRateLimitSchema,
 )
-XExpiresAfterSchema = DateTimeSchema
+XExpiresAfterSchema = schemas.DateTimeSchema
 x_expires_after_parameter = api_client.HeaderParameter(
     name="X-Expires-After",
     style=api_client.ParameterStyle.SIMPLE,
     schema=XExpiresAfterSchema,
 )
-SchemaFor200ResponseBodyApplicationXml = StrSchema
-SchemaFor200ResponseBodyApplicationJson = StrSchema
+SchemaFor200ResponseBodyApplicationXml = schemas.StrSchema
+SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
 ResponseHeadersFor200 = typing.TypedDict(
     'ResponseHeadersFor200',
     {
@@ -155,8 +112,8 @@ _response_for_200 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -174,9 +131,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _login_user(
+    def _login_user_oapg(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -191,7 +148,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -199,8 +156,8 @@ class BaseApi(api_client.Api):
             request_query_username,
             request_query_password,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -242,7 +199,7 @@ class LoginUser(BaseApi):
 
     def login_user(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -251,7 +208,7 @@ class LoginUser(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._login_user(
+        return self._login_user_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -265,7 +222,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -274,7 +231,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._login_user(
+        return self._login_user_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,

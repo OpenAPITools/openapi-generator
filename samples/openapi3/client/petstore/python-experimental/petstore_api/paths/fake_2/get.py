@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,40 +29,57 @@ from . import path
 
 
 class EnumQueryStringArraySchema(
-    ListSchema
+    schemas.ListSchema
 ):
-    
-    
-    class _items(
-        _SchemaEnumMaker(
-            enum_value_to_name={
-                ">": "GREATER_THAN",
-                "$": "DOLLAR",
-            }
-        ),
-        StrSchema
-    ):
+
+
+    class MetaOapg:
         
-        @classmethod
-        @property
-        def GREATER_THAN(cls):
-            return cls(">")
         
-        @classmethod
-        @property
-        def DOLLAR(cls):
-            return cls("$")
+        class items(
+            schemas.SchemaEnumMakerClsFactory(
+                enum_value_to_name={
+                    ">": "GREATER_THAN",
+                    "$": "DOLLAR",
+                }
+            ),
+            schemas.StrSchema
+        ):
+            
+            @classmethod
+            @property
+            def GREATER_THAN(cls):
+                return cls(">")
+            
+            @classmethod
+            @property
+            def DOLLAR(cls):
+                return cls("$")
+
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'EnumQueryStringArraySchema':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class EnumQueryStringSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
         }
     ),
-    StrSchema
+    schemas.StrSchema
 ):
     
     @classmethod
@@ -125,13 +99,13 @@ class EnumQueryStringSchema(
 
 
 class EnumQueryIntegerSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1: "POSITIVE_1",
             -2: "NEGATIVE_2",
         }
     ),
-    Int32Schema
+    schemas.Int32Schema
 ):
     
     @classmethod
@@ -146,13 +120,13 @@ class EnumQueryIntegerSchema(
 
 
 class EnumQueryDoubleSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             1.1: "POSITIVE_1_PT_1",
             -1.2: "NEGATIVE_1_PT_2",
         }
     ),
-    Float64Schema
+    schemas.Float64Schema
 ):
     
     @classmethod
@@ -172,10 +146,10 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'enum_query_string_array': EnumQueryStringArraySchema,
-        'enum_query_string': EnumQueryStringSchema,
-        'enum_query_integer': EnumQueryIntegerSchema,
-        'enum_query_double': EnumQueryDoubleSchema,
+        'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, tuple, ],
+        'enum_query_string': typing.Union[EnumQueryStringSchema, str, ],
+        'enum_query_integer': typing.Union[EnumQueryIntegerSchema, int, ],
+        'enum_query_double': typing.Union[EnumQueryDoubleSchema, float, ],
     },
     total=False
 )
@@ -213,40 +187,57 @@ request_query_enum_query_double = api_client.QueryParameter(
 
 
 class EnumHeaderStringArraySchema(
-    ListSchema
+    schemas.ListSchema
 ):
-    
-    
-    class _items(
-        _SchemaEnumMaker(
-            enum_value_to_name={
-                ">": "GREATER_THAN",
-                "$": "DOLLAR",
-            }
-        ),
-        StrSchema
-    ):
+
+
+    class MetaOapg:
         
-        @classmethod
-        @property
-        def GREATER_THAN(cls):
-            return cls(">")
         
-        @classmethod
-        @property
-        def DOLLAR(cls):
-            return cls("$")
+        class items(
+            schemas.SchemaEnumMakerClsFactory(
+                enum_value_to_name={
+                    ">": "GREATER_THAN",
+                    "$": "DOLLAR",
+                }
+            ),
+            schemas.StrSchema
+        ):
+            
+            @classmethod
+            @property
+            def GREATER_THAN(cls):
+                return cls(">")
+            
+            @classmethod
+            @property
+            def DOLLAR(cls):
+                return cls("$")
+
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'EnumHeaderStringArraySchema':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 class EnumHeaderStringSchema(
-    _SchemaEnumMaker(
+    schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
         }
     ),
-    StrSchema
+    schemas.StrSchema
 ):
     
     @classmethod
@@ -271,8 +262,8 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'enum_header_string_array': EnumHeaderStringArraySchema,
-        'enum_header_string': EnumHeaderStringSchema,
+        'enum_header_string_array': typing.Union[EnumHeaderStringArraySchema, tuple, ],
+        'enum_header_string': typing.Union[EnumHeaderStringSchema, str, ],
     },
     total=False
 )
@@ -296,70 +287,121 @@ request_header_enum_header_string = api_client.HeaderParameter(
 
 
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
-    DictSchema
+    schemas.DictSchema
 ):
-    
-    
-    class enum_form_string_array(
-        ListSchema
-    ):
-        
-        
-        class _items(
-            _SchemaEnumMaker(
-                enum_value_to_name={
-                    ">": "GREATER_THAN",
-                    "$": "DOLLAR",
-                }
-            ),
-            StrSchema
-        ):
-            
-            @classmethod
-            @property
-            def GREATER_THAN(cls):
-                return cls(">")
-            
-            @classmethod
-            @property
-            def DOLLAR(cls):
-                return cls("$")
-    
-    
-    class enum_form_string(
-        _SchemaEnumMaker(
-            enum_value_to_name={
-                "_abc": "_ABC",
-                "-efg": "EFG",
-                "(xyz)": "XYZ",
-            }
-        ),
-        StrSchema
-    ):
-        
-        @classmethod
-        @property
-        def _ABC(cls):
-            return cls("_abc")
-        
-        @classmethod
-        @property
-        def EFG(cls):
-            return cls("-efg")
-        
-        @classmethod
-        @property
-        def XYZ(cls):
-            return cls("(xyz)")
 
+
+    class MetaOapg:
+        class properties:
+            
+            
+            class enum_form_string_array(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class items(
+                        schemas.SchemaEnumMakerClsFactory(
+                            enum_value_to_name={
+                                ">": "GREATER_THAN",
+                                "$": "DOLLAR",
+                            }
+                        ),
+                        schemas.StrSchema
+                    ):
+                        
+                        @classmethod
+                        @property
+                        def GREATER_THAN(cls):
+                            return cls(">")
+                        
+                        @classmethod
+                        @property
+                        def DOLLAR(cls):
+                            return cls("$")
+            
+                def __new__(
+                    cls,
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'enum_form_string_array':
+                    return super().__new__(
+                        cls,
+                        arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
+            
+            
+            class enum_form_string(
+                schemas.SchemaEnumMakerClsFactory(
+                    enum_value_to_name={
+                        "_abc": "_ABC",
+                        "-efg": "EFG",
+                        "(xyz)": "XYZ",
+                    }
+                ),
+                schemas.StrSchema
+            ):
+                
+                @classmethod
+                @property
+                def _ABC(cls):
+                    return cls("_abc")
+                
+                @classmethod
+                @property
+                def EFG(cls):
+                    return cls("-efg")
+                
+                @classmethod
+                @property
+                def XYZ(cls):
+                    return cls("(xyz)")
+            __annotations__ = {
+                "enum_form_string_array": enum_form_string_array,
+                "enum_form_string": enum_form_string,
+            }
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_form_string_array"]) -> typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        enum_form_string_array: typing.Union[enum_form_string_array, Unset] = unset,
-        enum_form_string: typing.Union[enum_form_string, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, tuple, schemas.Unset] = schemas.unset,
+        enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, str, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
@@ -382,8 +424,8 @@ request_body_body = api_client.RequestBody(
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -394,8 +436,8 @@ _response_for_400 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_404 = api_client.OpenApiResponse(
@@ -409,11 +451,11 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _enum_parameters(
+    def _enum_parameters_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -427,8 +469,8 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -438,8 +480,8 @@ class BaseApi(api_client.Api):
             request_query_enum_query_integer,
             request_query_enum_query_double,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -452,8 +494,8 @@ class BaseApi(api_client.Api):
             request_header_enum_header_string_array,
             request_header_enum_header_string,
         ):
-            parameter_data = header_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
@@ -461,7 +503,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -498,9 +540,9 @@ class EnumParameters(BaseApi):
 
     def enum_parameters(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -508,7 +550,7 @@ class EnumParameters(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._enum_parameters(
+        return self._enum_parameters_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
@@ -524,9 +566,9 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
         content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -534,7 +576,7 @@ class ApiForget(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._enum_parameters(
+        return self._enum_parameters_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,

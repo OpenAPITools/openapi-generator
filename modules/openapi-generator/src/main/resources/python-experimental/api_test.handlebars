@@ -59,7 +59,7 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
 
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, {{httpMethod}}.{{schema.baseName}})
-            deserialized_response_body = {{httpMethod}}.{{schema.baseName}}._from_openapi_data(
+            deserialized_response_body = {{httpMethod}}.{{schema.baseName}}.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -106,7 +106,7 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
 {{/with}}
             )
 {{#if valid}}
-            body = {{httpMethod}}.{{schema.baseName}}._from_openapi_data(
+            body = {{httpMethod}}.{{schema.baseName}}.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -120,7 +120,7 @@ class Test{{operationIdSnakeCase}}(ApiTestMixin, unittest.TestCase):
             assert isinstance(api_response.body, schemas.Unset)
 {{else}}
             with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
-                body = {{httpMethod}}.{{schema.baseName}}._from_openapi_data(
+                body = {{httpMethod}}.{{schema.baseName}}.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )

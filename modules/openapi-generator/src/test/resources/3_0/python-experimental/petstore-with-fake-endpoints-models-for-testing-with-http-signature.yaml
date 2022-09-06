@@ -31,8 +31,8 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
-      - url: 'http://petstore.swagger.io/v2'
-      - url: 'http://path-server-test.petstore.local/v2'
+      - url: 'https://petstore.swagger.io/v2'
+      - url: 'https://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -1558,6 +1558,21 @@ paths:
           content:
             application/json: {}
             application/xml: {}
+  /fake/jsonPatch:
+    patch:
+      summary: json patch
+      description: json patch route with a requestBody
+      operationId: jsonPatch
+      tags:
+        - fake
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/JSONPatchRequest'
+      responses:
+        '200':
+          description: OK
   /fake/deleteCoffee/{id}:
     delete:
       operationId: deleteCoffee
@@ -1995,6 +2010,8 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+        - COUNT_1M
+        - COUNT_50M
     Enum_Test:
       type: object
       required:
@@ -2830,3 +2847,73 @@ components:
     AnyTypeNotString:
       not:
         type: string
+    JSONPatchRequest:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/JSONPatchRequestAddReplaceTest'
+          - $ref: '#/components/schemas/JSONPatchRequestRemove'
+          - $ref: '#/components/schemas/JSONPatchRequestMoveCopy'
+    JSONPatchRequestAddReplaceTest:
+      type: object
+      additionalProperties: false
+      required:
+        - value
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        value:
+          description: The value to add, replace or test.
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - add
+            - replace
+            - test
+    JSONPatchRequestRemove:
+      type: object
+      additionalProperties: false
+      required:
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - remove
+    JSONPatchRequestMoveCopy:
+      type: object
+      additionalProperties: false
+      required:
+        - from
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - move
+            - copy
+    AdditionalPropertiesValidator:
+      type: object
+      allOf:
+        - type: object
+          additionalProperties: true
+        - type: object
+          additionalProperties:
+            minLength: 3
+        - type: object
+          additionalProperties:
+            maxLength: 5

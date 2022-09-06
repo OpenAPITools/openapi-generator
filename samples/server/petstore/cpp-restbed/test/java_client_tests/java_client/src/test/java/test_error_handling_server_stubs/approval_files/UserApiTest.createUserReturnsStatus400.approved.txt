@@ -1,0 +1,3 @@
+Status code: 400 BAD_REQUEST
+Reason:
+Response headers: [Connection:"close"]

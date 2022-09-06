@@ -7,63 +7,20 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -71,17 +28,44 @@ from . import path
 
 
 class MapBeanSchema(
-    DictSchema
+    schemas.DictSchema
 ):
-    keyword = StrSchema
 
+
+    class MetaOapg:
+        class properties:
+            keyword = schemas.StrSchema
+            __annotations__ = {
+                "keyword": keyword,
+            }
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["keyword"]) -> MetaOapg.properties.keyword: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["keyword", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["keyword"]) -> typing.Union[MetaOapg.properties.keyword, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["keyword", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        keyword: typing.Union[keyword, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        keyword: typing.Union[MetaOapg.properties.keyword, str, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'MapBeanSchema':
         return super().__new__(
             cls,
@@ -98,7 +82,7 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'mapBean': MapBeanSchema,
+        'mapBean': typing.Union[MapBeanSchema, dict, frozendict.frozendict, ],
     },
     total=False
 )
@@ -119,8 +103,8 @@ request_query_map_bean = api_client.QueryParameter(
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -133,9 +117,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _object_in_query(
+    def _object_in_query_oapg(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -149,15 +133,15 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
         for parameter in (
             request_query_map_bean,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -193,7 +177,7 @@ class ObjectInQuery(BaseApi):
 
     def object_in_query(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -201,7 +185,7 @@ class ObjectInQuery(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._object_in_query(
+        return self._object_in_query_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,
@@ -214,7 +198,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -222,7 +206,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._object_in_query(
+        return self._object_in_query_oapg(
             query_params=query_params,
             stream=stream,
             timeout=timeout,

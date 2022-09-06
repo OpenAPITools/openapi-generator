@@ -22,7 +22,7 @@ class TestAdditionalpropertiesAllowsASchemaWhichShouldValidate(unittest.TestCase
 
     def test_no_additional_properties_is_valid_passes(self):
         # no additional properties is valid
-        AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
+        AdditionalpropertiesAllowsASchemaWhichShouldValidate.from_openapi_data_oapg(
             {
                 "foo":
                     1,
@@ -33,7 +33,7 @@ class TestAdditionalpropertiesAllowsASchemaWhichShouldValidate(unittest.TestCase
     def test_an_additional_invalid_property_is_invalid_fails(self):
         # an additional invalid property is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
+            AdditionalpropertiesAllowsASchemaWhichShouldValidate.from_openapi_data_oapg(
                 {
                     "foo":
                         1,
@@ -47,7 +47,7 @@ class TestAdditionalpropertiesAllowsASchemaWhichShouldValidate(unittest.TestCase
 
     def test_an_additional_valid_property_is_valid_passes(self):
         # an additional valid property is valid
-        AdditionalpropertiesAllowsASchemaWhichShouldValidate._from_openapi_data(
+        AdditionalpropertiesAllowsASchemaWhichShouldValidate.from_openapi_data_oapg(
             {
                 "foo":
                     1,

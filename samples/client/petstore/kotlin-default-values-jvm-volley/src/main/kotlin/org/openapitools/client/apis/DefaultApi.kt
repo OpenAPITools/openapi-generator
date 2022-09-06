@@ -63,9 +63,10 @@ class DefaultApi (
      * @param fn1  (default to 71.0)
      * @param fn2  (optional)
      * @param fn3 
+     * @param fn4 
      * @return void
      */
-    suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), pn1: java.math.BigDecimal, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), qn2: java.math.BigDecimal? = null, qn3: java.math.BigDecimal, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), hn2: java.math.BigDecimal? = null, hn3: java.math.BigDecimal, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), fn2: java.math.BigDecimal? = null, fn3: java.math.BigDecimal): Unit {
+    suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), pn1: java.math.BigDecimal, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), qn2: java.math.BigDecimal? = null, qn3: java.math.BigDecimal, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), hn2: java.math.BigDecimal? = null, hn3: java.math.BigDecimal, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), fn2: java.math.BigDecimal? = null, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>): Unit {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf("multipart/form-data")
@@ -87,7 +88,8 @@ class DefaultApi (
             "fn0" to IRequestFactory.parameterToString(fn0),
             "fn1" to IRequestFactory.parameterToString(fn1),
             "fn2" to IRequestFactory.parameterToString(fn2),
-            "fn3" to IRequestFactory.parameterToString(fn3)
+            "fn3" to IRequestFactory.parameterToString(fn3),
+            "fn4" to IRequestFactory.parameterToString(fn4)
         )
 
 

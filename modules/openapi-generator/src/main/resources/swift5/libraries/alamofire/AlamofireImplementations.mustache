@@ -21,8 +21,8 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
 private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T>: RequestBuilder<T> {
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
     }
 
     /**
@@ -116,6 +116,8 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
                         case let data as Data:
                             mpForm.append(data, withName: k)
+                        case let uuid as UUID:
+                            mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }

@@ -48,10 +48,5 @@ void main() {
       // TODO
     });
 
-    // UserType userType
-    test('to test the property `userType`', () async {
-      // TODO
-    });
-
   });
 }

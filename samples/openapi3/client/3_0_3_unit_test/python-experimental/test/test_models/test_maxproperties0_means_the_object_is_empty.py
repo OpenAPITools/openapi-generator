@@ -22,7 +22,7 @@ class TestMaxproperties0MeansTheObjectIsEmpty(unittest.TestCase):
 
     def test_no_properties_is_valid_passes(self):
         # no properties is valid
-        Maxproperties0MeansTheObjectIsEmpty._from_openapi_data(
+        Maxproperties0MeansTheObjectIsEmpty.from_openapi_data_oapg(
             {
             },
             _configuration=self._configuration
@@ -31,7 +31,7 @@ class TestMaxproperties0MeansTheObjectIsEmpty(unittest.TestCase):
     def test_one_property_is_invalid_fails(self):
         # one property is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            Maxproperties0MeansTheObjectIsEmpty._from_openapi_data(
+            Maxproperties0MeansTheObjectIsEmpty.from_openapi_data_oapg(
                 {
                     "foo":
                         1,

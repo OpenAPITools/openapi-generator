@@ -77,6 +77,7 @@ Method | HTTP request | Description
 [**post_ref_in_allof_request_body**](#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
 [**post_ref_in_anyof_request_body**](#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
 [**post_ref_in_items_request_body**](#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
+[**post_ref_in_not_request_body**](#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
 [**post_ref_in_oneof_request_body**](#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
 [**post_ref_in_property_request_body**](#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
 [**post_required_default_validation_request_body**](#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
@@ -1698,10 +1699,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -1772,10 +1772,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -2367,10 +2366,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -2662,10 +2660,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -2736,10 +2733,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -2810,10 +2806,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -4002,10 +3997,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -4076,10 +4070,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -4444,10 +4437,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}** |  | 
 
 ### Return Types, Responses
 
@@ -5438,6 +5430,80 @@ No authorization required
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
+# **post_ref_in_not_request_body**
+<a name="post_ref_in_not_request_body"></a>
+> post_ref_in_not_request_body(body)
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import operation_request_body_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
+
+    # example passing only required values which don't have defaults set
+    body = None
+    try:
+        api_response = api_instance.post_ref_in_not_request_body(
+            body=body,
+        )
+    except unit_test_api.ApiException as e:
+        print("Exception when calling OperationRequestBodyApi->post_ref_in_not_request_body: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJson] | required |
+content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJson
+
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
 # **post_ref_in_oneof_request_body**
 <a name="post_ref_in_oneof_request_body"></a>
 > post_ref_in_oneof_request_body(ref_in_oneof)
@@ -5854,16 +5920,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\rbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\\bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -6305,10 +6364,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -6379,10 +6437,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 
@@ -6453,10 +6510,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 ### Return Types, Responses
 

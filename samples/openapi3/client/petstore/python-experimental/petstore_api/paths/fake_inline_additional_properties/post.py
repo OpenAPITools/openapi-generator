@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,16 +29,25 @@ from . import path
 
 
 class SchemaForRequestBodyApplicationJson(
-    DictSchema
+    schemas.DictSchema
 ):
-    _additional_properties = StrSchema
 
+
+    class MetaOapg:
+        additional_properties = schemas.StrSchema
+    
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    def get_item_oapg(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -103,8 +69,8 @@ request_body_request_body = api_client.RequestBody(
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -117,9 +83,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _inline_additional_properties(
+    def _inline_additional_properties_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -139,7 +105,7 @@ class BaseApi(api_client.Api):
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
 
-        if body is unset:
+        if body is schemas.unset:
             raise exceptions.ApiValueError(
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
@@ -180,7 +146,7 @@ class InlineAdditionalProperties(BaseApi):
 
     def inline_additional_properties(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -189,7 +155,7 @@ class InlineAdditionalProperties(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._inline_additional_properties(
+        return self._inline_additional_properties_oapg(
             body=body,
             content_type=content_type,
             stream=stream,
@@ -203,7 +169,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -212,7 +178,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._inline_additional_properties(
+        return self._inline_additional_properties_oapg(
             body=body,
             content_type=content_type,
             stream=stream,

@@ -111,6 +111,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
     public HashMap<String, SchemaTestCase> testCases = new HashMap<>();
+    private boolean schemaIsFromAdditionalProperties;
+    private boolean isBooleanSchemaTrue;
+    private boolean isBooleanSchemaFalse;
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -147,6 +150,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private Integer maxProperties;
     private Integer minProperties;
     private boolean uniqueItems;
+    private Boolean uniqueItemsBoolean;
     private Integer maxItems;
     private Integer minItems;
     private Integer maxLength;
@@ -176,6 +180,26 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsBooleanSchemaTrue() {
+        return isBooleanSchemaTrue;
+    }
+
+    @Override
+    public void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue) {
+        this.isBooleanSchemaTrue = isBooleanSchemaTrue;
+    }
+
+    @Override
+    public boolean getIsBooleanSchemaFalse() {
+        return isBooleanSchemaFalse;
+    }
+
+    @Override
+    public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {
+        this.isBooleanSchemaFalse = isBooleanSchemaFalse;
+    }
+
+    @Override
     public String getRef() {
         return ref;
     }
@@ -183,6 +207,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    @Override
+    public boolean getSchemaIsFromAdditionalProperties() {
+        return schemaIsFromAdditionalProperties;
+    }
+
+    @Override
+    public void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties) {
+        this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
     }
 
     public Set<String> getAllMandatory() {
@@ -556,6 +590,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setUniqueItems(boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
+    }
+
+    @Override
+    public Boolean getUniqueItemsBoolean() {
+        return uniqueItemsBoolean;
+    }
+
+    @Override
+    public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
+        this.uniqueItemsBoolean = uniqueItemsBoolean;
     }
 
     @Override
@@ -935,11 +979,15 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 isUuid == that.getIsUuid() &&
+                isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
+                isBooleanSchemaFalse == that.getIsBooleanSchemaFalse() &&
+                getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
                 getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(composedSchemas, that.composedSchemas) &&
@@ -1014,7 +1062,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
+                uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse);
     }
 
     @Override
@@ -1089,6 +1138,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", uniqueItemsBoolean=").append(uniqueItemsBoolean);
         sb.append(", maxItems=").append(maxItems);
         sb.append(", minItems=").append(minItems);
         sb.append(", maxLength=").append(maxLength);
@@ -1113,6 +1163,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isUUID=").append(isUuid);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
+        sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
+        sb.append(", isBooleanSchemaTrue=").append(isBooleanSchemaTrue);
+        sb.append(", isBooleanSchemaFalse=").append(isBooleanSchemaFalse);
         sb.append('}');
         return sb.toString();
     }

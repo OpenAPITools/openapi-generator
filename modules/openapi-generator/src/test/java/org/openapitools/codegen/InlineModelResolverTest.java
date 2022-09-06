@@ -352,6 +352,19 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveRequestBodyInvalidRef() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody requestBodyReference = openAPI
+                .getPaths()
+                .get("/resolve_request_body_invalid_ref")
+                .getPost()
+                .getRequestBody();
+        assertNull(requestBodyReference.getContent());
+    }
+
+    @Test
     public void resolveInlineRequestBody() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
@@ -611,7 +624,7 @@ public class InlineModelResolverTest {
         Schema requestBodySchema = ModelUtils.getReferencedSchema(openAPI, mediaType.getSchema());
         assertNotNull(requestBodySchema);
         assertEquals(1, requestBodySchema.getProperties().size(), 1);
-        assertTrue(requestBodySchema.getProperties().get("arbitrary_object_request_body_property") instanceof  ObjectSchema);
+        assertTrue(requestBodySchema.getProperties().get("arbitrary_object_request_body_property") instanceof ObjectSchema);
     }
 
     @Test
@@ -954,12 +967,12 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json")
                 .getSchema();
-                //.getProperties()
-                //.get("nullable_request_body_property");
+        //.getProperties()
+        //.get("nullable_request_body_property");
         Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
         //assertEquals(nullableRequestBodySchema, "");
         Schema nullableSchema = ModelUtils.getReferencedSchema(openAPI,
-                ((Schema)nullableRequestBodySchema.getProperties().get("nullable_request_body_property")));
+                ((Schema) nullableRequestBodySchema.getProperties().get("nullable_request_body_property")));
         assertTrue(nullableSchema.getNullable());
     }
 
@@ -1047,7 +1060,7 @@ public class InlineModelResolverTest {
                 requestBodyReference.getContent().get("application/json").getSchema().get$ref());
         //assertEquals("#/components/schemas/resolveInlineRequestBodyAllOf_request", requestBodyReference.get$ref());
 
-        ComposedSchema allOfModel =(ComposedSchema) openAPI.getComponents().getSchemas().get("resolveInlineRequestBodyAllOf_request");
+        ComposedSchema allOfModel = (ComposedSchema) openAPI.getComponents().getSchemas().get("resolveInlineRequestBodyAllOf_request");
         assertEquals("#/components/schemas/resolveInlineRequestBody_request", allOfModel.getAllOf().get(0).get$ref());
         //Schema allOfModel = ModelUtils.getReferencedSchema(openAPI, requestBodyReference.get$ref());
 

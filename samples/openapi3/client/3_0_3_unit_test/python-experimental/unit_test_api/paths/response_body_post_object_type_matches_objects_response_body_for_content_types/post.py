@@ -7,68 +7,25 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from unit_test_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from unit_test_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from unit_test_api import schemas  # noqa: F401
 
 from . import path
 
-SchemaFor200ResponseBodyApplicationJson = DictSchema
+SchemaFor200ResponseBodyApplicationJson = schemas.DictSchema
 
 
 @dataclass
@@ -77,7 +34,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -97,7 +54,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _post_object_type_matches_objects_response_body_for_content_types(
+    def _post_object_type_matches_objects_response_body_for_content_types_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -156,7 +113,7 @@ class PostObjectTypeMatchesObjectsResponseBodyForContentTypes(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._post_object_type_matches_objects_response_body_for_content_types(
+        return self._post_object_type_matches_objects_response_body_for_content_types_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -177,7 +134,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._post_object_type_matches_objects_response_body_for_content_types(
+        return self._post_object_type_matches_objects_response_body_for_content_types_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

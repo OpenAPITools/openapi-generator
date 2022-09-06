@@ -45,7 +45,7 @@ class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTest
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -61,7 +61,7 @@ class TestRequestBodyPostAdditionalpropertiesCanExistByItselfRequestBody(ApiTest
                         True,
                 }
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

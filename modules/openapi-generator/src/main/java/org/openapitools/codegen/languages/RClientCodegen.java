@@ -62,6 +62,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
     public static final String USE_RLANG_EXCEPTION = "useRlangExceptionHandling";
+    public static final String GENERATE_WRAPPER = "generateWrapper";
     public static final String DEFAULT = "default";
     public static final String RLANG = "rlang";
     public static final String HTTR = "httr";
@@ -74,6 +75,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean useRlangExceptionHandling = false;
     protected String errorObjectType;
     protected String operationIdNaming;
+    protected boolean generateWrapper;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -173,7 +176,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
+        // no need for import mapping as R doesn't reqiure api,model import
+        // https://github.com/OpenAPITools/openapi-generator/issues/2217
         importMapping.clear();
+
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
                 .defaultValue("openapi"));
@@ -211,6 +217,22 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         libraryOption.setDefault(HTTR);
         cliOptions.add(libraryOption);
         setLibrary(HTTR);
+
+        cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
+
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
     }
 
     @Override
@@ -254,6 +276,24 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
+        if (additionalProperties.containsKey(GENERATE_WRAPPER)) {
+            this.setGenerateWrapper(Boolean.parseBoolean(
+                    additionalProperties.get(GENERATE_WRAPPER).toString()));
+        } else {
+            this.setGenerateWrapper(false);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
@@ -277,7 +317,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
-        supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile(".travis.yml.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
@@ -292,6 +332,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             // for httr2
             setLibrary(HTTR2);
             additionalProperties.put("isHttr2", Boolean.TRUE);
+            if (generateWrapper) { // generateWrapper option only supports in httr2 library
+                supportingFiles.add(new SupportingFile("api_wrapper.mustache", "R", packageName.toLowerCase(Locale.ROOT) + "_api.R"));
+            }
         } else {
             throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only httr, httr2 are supported.");
         }
@@ -302,6 +345,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
                 String content = fragment.execute();
                 content = content.trim().replace("Apache-2.0", "Apache License 2.0");
+                writer.write(content);
+            }
+        });
+
+        // add lambda for mustache templates to escape %
+        additionalProperties.put("lambdaRdocEscape", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("%", "\\%");
                 writer.write(content);
             }
         });
@@ -532,33 +585,23 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
                     var.baseName = "empty_string";
                 }
+
+                // create extension x-r-doc-type to store the data type in r doc format
+                var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
-        }
 
-        // remove model imports to avoid error
-        List<Map<String, String>> imports = objs.getImports();
-        final String prefix = modelPackage();
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
-                iterator.remove();
-        }
-
-        // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports != null) {
-            ListIterator<Map<String, String>> listIterator = imports.listIterator();
-            while (listIterator.hasNext()) {
-                String _import = listIterator.next().get("import");
-                // if the import package happens to be found in the importMapping (key)
-                // add the corresponding import package to the list
-                if (importMapping.containsKey(_import)) {
-                    listIterator.add(createMapping("import", importMapping.get(_import)));
+            // apply the same fix, enhancement for allVars
+            for (CodegenProperty var : cm.allVars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
                 }
+
+                // create extension x-r-doc-type to store the data type in r doc format
+                var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
         }
-
         return postProcessModelsEnum(objs);
     }
 
@@ -590,6 +633,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
+    }
+
+    public void setGenerateWrapper(final boolean generateWrapper) {
+        this.generateWrapper = generateWrapper;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setOperationIdNaming(final String operationIdNaming) {
@@ -846,11 +901,30 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * Return the R doc type (e.g. list(\link{Media}), character)
+     *
+     * @param codegenProperty Codegen property
+     * @return R doc type
+     */
+    public String constructRdocType(CodegenProperty codegenProperty) {
+        if (codegenProperty.isArray) {
+            return "list(" + constructRdocType(codegenProperty.items) + ")";
+        } else if (codegenProperty.isMap) {
+            return "named list(" + constructRdocType(codegenProperty.items) + ")";
+        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) {
+            // primitive type
+            return codegenProperty.dataType;
+        } else { // model
+            return "\\link{" + codegenProperty.dataType + "}";
+        }
+    }
+
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
             return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
-        } else if (codegenParameter.isMap) { // TODO: map
-            return "TODO";
+        } else if (codegenParameter.isMap) { // map
+            return "list(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
@@ -870,8 +944,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (codegenProperty.isArray) { // array
             return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
-        } else if (codegenProperty.isMap) { // TODO: map
-            return "TODO";
+        } else if (codegenProperty.isMap) { // map
+            return "list(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {

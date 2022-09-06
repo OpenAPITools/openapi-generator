@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
@@ -72,46 +29,42 @@ from . import path
 
 
 class CompositionAtRootSchema(
-    ComposedSchema
+    schemas.ComposedSchema,
 ):
 
-    @classmethod
-    @property
-    @functools.cache
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
+
+    class MetaOapg:
         
         
-        class allOf_0(
-            _SchemaValidator(
-                min_length=1,
-            ),
-            StrSchema
+        class all_of_0(
+            schemas.StrSchema
         ):
-            pass
-        return {
-            'allOf': [
-                allOf_0,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        
+        
+            class MetaOapg:
+                min_length = 1
+        
+        @classmethod
+        @property
+        @functools.cache
+        def all_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.all_of_0,
+            ]
+
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'CompositionAtRootSchema':
         return super().__new__(
             cls,
@@ -122,66 +75,89 @@ class CompositionAtRootSchema(
 
 
 class CompositionInPropertySchema(
-    DictSchema
+    schemas.DictSchema
 ):
-    
-    
-    class someProp(
-        ComposedSchema
-    ):
-    
-        @classmethod
-        @property
-        @functools.cache
-        def _composed_schemas(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
+
+
+    class MetaOapg:
+        class properties:
             
             
-            class allOf_0(
-                _SchemaValidator(
-                    min_length=1,
-                ),
-                StrSchema
+            class someProp(
+                schemas.ComposedSchema,
             ):
-                pass
-            return {
-                'allOf': [
-                    allOf_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class all_of_0(
+                        schemas.StrSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            min_length = 1
+                    
+                    @classmethod
+                    @property
+                    @functools.cache
+                    def all_of(cls):
+                        # we need this here to make our import statements work
+                        # we must store _composed_schemas in here so the code is only run
+                        # when we invoke this method. If we kept this at the class
+                        # level we would get an error because the class level
+                        # code would be run when this module is imported, and these composed
+                        # classes don't exist yet because their module has not finished
+                        # loading
+                        return [
+                            cls.all_of_0,
+                        ]
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+                ) -> 'someProp':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            __annotations__ = {
+                "someProp": someProp,
             }
     
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["someProp", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'CompositionInPropertySchema':
         return super().__new__(
             cls,
@@ -198,8 +174,8 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'compositionAtRoot': CompositionAtRootSchema,
-        'compositionInProperty': CompositionInPropertySchema,
+        'compositionAtRoot': typing.Union[CompositionAtRootSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        'compositionInProperty': typing.Union[CompositionInPropertySchema, dict, frozendict.frozendict, ],
     },
     total=False
 )
@@ -225,46 +201,42 @@ request_query_composition_in_property = api_client.QueryParameter(
 
 
 class SchemaForRequestBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema,
 ):
 
-    @classmethod
-    @property
-    @functools.cache
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
+
+    class MetaOapg:
         
         
-        class allOf_0(
-            _SchemaValidator(
-                min_length=1,
-            ),
-            StrSchema
+        class all_of_0(
+            schemas.StrSchema
         ):
-            pass
-        return {
-            'allOf': [
-                allOf_0,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        
+        
+            class MetaOapg:
+                min_length = 1
+        
+        @classmethod
+        @property
+        @functools.cache
+        def all_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.all_of_0,
+            ]
+
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
@@ -275,66 +247,89 @@ class SchemaForRequestBodyApplicationJson(
 
 
 class SchemaForRequestBodyMultipartFormData(
-    DictSchema
+    schemas.DictSchema
 ):
-    
-    
-    class someProp(
-        ComposedSchema
-    ):
-    
-        @classmethod
-        @property
-        @functools.cache
-        def _composed_schemas(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
+
+
+    class MetaOapg:
+        class properties:
             
             
-            class allOf_0(
-                _SchemaValidator(
-                    min_length=1,
-                ),
-                StrSchema
+            class someProp(
+                schemas.ComposedSchema,
             ):
-                pass
-            return {
-                'allOf': [
-                    allOf_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class all_of_0(
+                        schemas.StrSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            min_length = 1
+                    
+                    @classmethod
+                    @property
+                    @functools.cache
+                    def all_of(cls):
+                        # we need this here to make our import statements work
+                        # we must store _composed_schemas in here so the code is only run
+                        # when we invoke this method. If we kept this at the class
+                        # level we would get an error because the class level
+                        # code would be run when this module is imported, and these composed
+                        # classes don't exist yet because their module has not finished
+                        # loading
+                        return [
+                            cls.all_of_0,
+                        ]
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+                ) -> 'someProp':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            __annotations__ = {
+                "someProp": someProp,
             }
     
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["someProp", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -356,46 +351,42 @@ request_body_any_type = api_client.RequestBody(
 
 
 class SchemaFor200ResponseBodyApplicationJson(
-    ComposedSchema
+    schemas.ComposedSchema,
 ):
 
-    @classmethod
-    @property
-    @functools.cache
-    def _composed_schemas(cls):
-        # we need this here to make our import statements work
-        # we must store _composed_schemas in here so the code is only run
-        # when we invoke this method. If we kept this at the class
-        # level we would get an error because the class level
-        # code would be run when this module is imported, and these composed
-        # classes don't exist yet because their module has not finished
-        # loading
+
+    class MetaOapg:
         
         
-        class allOf_0(
-            _SchemaValidator(
-                min_length=1,
-            ),
-            StrSchema
+        class all_of_0(
+            schemas.StrSchema
         ):
-            pass
-        return {
-            'allOf': [
-                allOf_0,
-            ],
-            'oneOf': [
-            ],
-            'anyOf': [
-            ],
-            'not':
-                None
-        }
+        
+        
+            class MetaOapg:
+                min_length = 1
+        
+        @classmethod
+        @property
+        @functools.cache
+        def all_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.all_of_0,
+            ]
+
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -406,66 +397,89 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
 class SchemaFor200ResponseBodyMultipartFormData(
-    DictSchema
+    schemas.DictSchema
 ):
-    
-    
-    class someProp(
-        ComposedSchema
-    ):
-    
-        @classmethod
-        @property
-        @functools.cache
-        def _composed_schemas(cls):
-            # we need this here to make our import statements work
-            # we must store _composed_schemas in here so the code is only run
-            # when we invoke this method. If we kept this at the class
-            # level we would get an error because the class level
-            # code would be run when this module is imported, and these composed
-            # classes don't exist yet because their module has not finished
-            # loading
+
+
+    class MetaOapg:
+        class properties:
             
             
-            class allOf_0(
-                _SchemaValidator(
-                    min_length=1,
-                ),
-                StrSchema
+            class someProp(
+                schemas.ComposedSchema,
             ):
-                pass
-            return {
-                'allOf': [
-                    allOf_0,
-                ],
-                'oneOf': [
-                ],
-                'anyOf': [
-                ],
-                'not':
-                    None
+            
+            
+                class MetaOapg:
+                    
+                    
+                    class all_of_0(
+                        schemas.StrSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            min_length = 1
+                    
+                    @classmethod
+                    @property
+                    @functools.cache
+                    def all_of(cls):
+                        # we need this here to make our import statements work
+                        # we must store _composed_schemas in here so the code is only run
+                        # when we invoke this method. If we kept this at the class
+                        # level we would get an error because the class level
+                        # code would be run when this module is imported, and these composed
+                        # classes don't exist yet because their module has not finished
+                        # loading
+                        return [
+                            cls.all_of_0,
+                        ]
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+                ) -> 'someProp':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            __annotations__ = {
+                "someProp": someProp,
             }
     
-        def __new__(
-            cls,
-            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
-            _configuration: typing.Optional[Configuration] = None,
-            **kwargs: typing.Type[Schema],
-        ) -> 'someProp':
-            return super().__new__(
-                cls,
-                *args,
-                _configuration=_configuration,
-                **kwargs,
-            )
-
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["someProp", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        someProp: typing.Union[someProp, Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        someProp: typing.Union[MetaOapg.properties.someProp, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaFor200ResponseBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -483,7 +497,7 @@ class ApiResponseFor200(api_client.ApiResponse):
         SchemaFor200ResponseBodyApplicationJson,
         SchemaFor200ResponseBodyMultipartFormData,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -506,10 +520,10 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _inline_composition(
+    def _inline_composition_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -525,7 +539,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -533,8 +547,8 @@ class BaseApi(api_client.Api):
             request_query_composition_at_root,
             request_query_composition_in_property,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -550,7 +564,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_any_type.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -587,8 +601,8 @@ class InlineComposition(BaseApi):
 
     def inline_composition(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -598,7 +612,7 @@ class InlineComposition(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._inline_composition(
+        return self._inline_composition_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,
@@ -614,8 +628,8 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -625,7 +639,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._inline_composition(
+        return self._inline_composition_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,

@@ -14,9 +14,11 @@ from decimal import Decimal
 import datetime
 import unittest
 
+import frozendict
+
 import petstore_api
 from petstore_api.model.format_test import FormatTest
-from petstore_api.schemas import BinarySchema, BytesSchema, frozendict, Singleton
+from petstore_api.schemas import BinarySchema, BytesSchema, Singleton
 
 
 class TestFormatTest(unittest.TestCase):
@@ -48,67 +50,67 @@ class TestFormatTest(unittest.TestCase):
         valid_values = [-2147483648, 2147483647]
         for valid_value in valid_values:
             model = FormatTest(int32=valid_value, **required_args)
-            assert model.int32 == valid_value
+            assert model["int32"] == valid_value
 
         # int64
         # under min
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(int64=-9223372036854775809, **required_args)
+            FormatTest(int64=-9223372036854775809, **required_args)
         # over max
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(int64=9223372036854775808, **required_args)
+            FormatTest(int64=9223372036854775808, **required_args)
         # valid values in range work
         valid_values = [-9223372036854775808, 9223372036854775807]
         for valid_value in valid_values:
             model = FormatTest(int64=valid_value, **required_args)
-            assert model.int64 == valid_value
+            assert model["int64"] == valid_value
 
         # float32
         # under min
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(float32=-3.402823466385289e+38, **required_args)
+            FormatTest(float32=-3.402823466385289e+38, **required_args)
         # over max
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(float32=3.402823466385289e+38, **required_args)
+            FormatTest(float32=3.402823466385289e+38, **required_args)
         # valid values in range work
         valid_values = [-3.4028234663852886e+38, 3.4028234663852886e+38]
         for valid_value in valid_values:
             model = FormatTest(float32=valid_value, **required_args)
-            assert model.float32 == valid_value
+            assert model["float32"] == valid_value
 
         # float64
         # under min, Decimal is used because flat can only store 64bit numbers and the max and min
         # take up more space than 64bit
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(float64=Decimal('-1.7976931348623157082e+308'), **required_args)
+            FormatTest(float64=Decimal('-1.7976931348623157082e+308'), **required_args)
         # over max
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(float64=Decimal('1.7976931348623157082e+308'), **required_args)
+            FormatTest(float64=Decimal('1.7976931348623157082e+308'), **required_args)
         valid_values = [-1.7976931348623157E+308, 1.7976931348623157E+308]
         for valid_value in valid_values:
             model = FormatTest(float64=valid_value, **required_args)
-            assert model.float64 == valid_value
+            assert model["float64"] == valid_value
 
         # unique_items with duplicates throws exception
         with self.assertRaises(petstore_api.ApiValueError):
-            model = FormatTest(arrayWithUniqueItems=[0, 1, 1], **required_args)
+            FormatTest(arrayWithUniqueItems=[0, 1, 1], **required_args)
         # no duplicates works
         values = [0, 1, 2]
         model = FormatTest(arrayWithUniqueItems=values, **required_args)
-        assert model.arrayWithUniqueItems == tuple(values)
+        assert model["arrayWithUniqueItems"] == tuple(values)
 
         # __bool__ value of noneProp is False
         model = FormatTest(noneProp=None, **required_args)
-        assert isinstance(model.noneProp, Singleton)
-        self.assertFalse(model.noneProp)
-        self.assertTrue(model.noneProp.is_none())
+        assert isinstance(model["noneProp"], Singleton)
+        self.assertFalse(model["noneProp"])
+        self.assertTrue(model["noneProp"].is_none_oapg())
 
         # binary check
         model = FormatTest(binary=b'123', **required_args)
-        assert isinstance(model.binary, BinarySchema)
-        assert isinstance(model.binary, BytesSchema)
-        assert isinstance(model.binary, bytes)
-        assert model == frozendict(
+        assert isinstance(model["binary"], BinarySchema)
+        assert isinstance(model["binary"], BytesSchema)
+        assert isinstance(model["binary"], bytes)
+        assert model == frozendict.frozendict(
             binary=b'123',
             number=Decimal(32.5),
             byte='a',
@@ -121,7 +123,7 @@ class TestFormatTest(unittest.TestCase):
             petstore_api.exceptions.ApiValueError,
             r"Invalid value `31`, value must be a multiple of `2` at \('args\[0\]', 'integer'\)"
         ):
-            inst = FormatTest(
+            FormatTest(
                 byte='3',
                 date=datetime.date(2000, 1, 1),
                 password="abcdefghijkl",
@@ -129,6 +131,7 @@ class TestFormatTest(unittest.TestCase):
                 number=65.0,
                 float=62.4
             )
+
 
 if __name__ == '__main__':
     unittest.main()

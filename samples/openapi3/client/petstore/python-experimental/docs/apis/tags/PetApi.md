@@ -1070,7 +1070,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | Updated name of the pet | [optional] 
 **status** | **str** | Updated status of the pet | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
 #### RequestPathParams
@@ -1195,7 +1195,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **requiredFile** | **file_type** | file to upload | 
 **additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
 #### RequestPathParams
@@ -1326,7 +1326,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **additionalMetadata** | **str** | Additional data to pass to server | [optional] 
 **file** | **file_type** | file to upload | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
 #### RequestPathParams

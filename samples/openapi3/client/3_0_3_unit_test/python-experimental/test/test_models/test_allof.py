@@ -22,7 +22,7 @@ class TestAllof(unittest.TestCase):
 
     def test_allof_passes(self):
         # allOf
-        Allof._from_openapi_data(
+        Allof.from_openapi_data_oapg(
             {
                 "foo":
                     "baz",
@@ -35,7 +35,7 @@ class TestAllof(unittest.TestCase):
     def test_mismatch_first_fails(self):
         # mismatch first
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            Allof._from_openapi_data(
+            Allof.from_openapi_data_oapg(
                 {
                     "bar":
                         2,
@@ -46,7 +46,7 @@ class TestAllof(unittest.TestCase):
     def test_mismatch_second_fails(self):
         # mismatch second
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            Allof._from_openapi_data(
+            Allof.from_openapi_data_oapg(
                 {
                     "foo":
                         "baz",
@@ -57,7 +57,7 @@ class TestAllof(unittest.TestCase):
     def test_wrong_type_fails(self):
         # wrong type
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            Allof._from_openapi_data(
+            Allof.from_openapi_data_oapg(
                 {
                     "foo":
                         "baz",

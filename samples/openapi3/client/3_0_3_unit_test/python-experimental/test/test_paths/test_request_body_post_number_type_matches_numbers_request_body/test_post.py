@@ -43,7 +43,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
                 ]
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -57,7 +57,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
                 None
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -72,7 +72,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -86,7 +86,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
                 True
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -99,7 +99,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
             payload = (
                 1.1
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -130,7 +130,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
                 "1"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -144,7 +144,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
                 "foo"
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -157,7 +157,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
             payload = (
                 1
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )
@@ -187,7 +187,7 @@ class TestRequestBodyPostNumberTypeMatchesNumbersRequestBody(ApiTestMixin, unitt
             payload = (
                 1.0
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

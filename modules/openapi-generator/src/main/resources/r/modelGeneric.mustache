@@ -1,10 +1,19 @@
+#' Create a new {{{classname}}}
+#'
+#' @description
+#' {{{description}}}{{^description}}{{classname}} Class{{/description}}
+#'
 #' @docType class
 #' @title {{classname}}
 #' @description {{classname}} Class
 #' @format An \code{R6Class} generator object
 {{#vars}}
-#' @field {{name}} {{title}} {{#isContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/isContainer}}{{^required}} [optional]{{/required}}
+#' @field {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
 {{/vars}}
+{{#isAdditionalPropertiesTrue}}
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
+{{/isAdditionalPropertiesTrue}}
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,21 +26,28 @@
     {{#vars}}
     `{{{name}}}` = NULL,
     {{/vars}}
+    {{#isAdditionalPropertiesTrue}}
+    `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
+    `additional_properties` = list(),
+    {{/isAdditionalPropertiesTrue}}
     #' Initialize a new {{{classname}}} class.
     #'
     #' @description
     #' Initialize a new {{{classname}}} class.
     #'
     {{#requiredVars}}
-    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}
+    #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}
     {{/requiredVars}}
     {{#optionalVars}}
-    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
+    #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
     {{/optionalVars}}
+    {{#isAdditionalPropertiesTrue}}
+    #' @param additional_properties additonal properties (optional)
+    {{/isAdditionalPropertiesTrue}}
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...
     ) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
@@ -121,6 +137,13 @@
         self$`{{name}}` <- `{{name}}`
       }
       {{/optionalVars}}
+      {{#isAdditionalPropertiesTrue}}
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
+      }
+      {{/isAdditionalPropertiesTrue}}
     },
     #' To JSON string
     #'
@@ -162,7 +185,12 @@
        {{/isContainer}}
       }
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      for (key in names(self$additional_properties)) {
+        {{classname}}Object[[key]] <- self$additional_properties[[key]]
+      }
 
+      {{/isAdditionalPropertiesTrue}}
       {{classname}}Object
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
@@ -192,6 +220,15 @@
         {{/isContainer}}
       }
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
       self
     },
     #' To JSON string
@@ -261,7 +298,14 @@
       {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      {{#isAdditionalPropertiesTrue}}
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      {{/isAdditionalPropertiesTrue}}
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
@@ -287,6 +331,15 @@
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
       self
     },
     #' Validate JSON input with respect to {{classname}}
@@ -428,7 +481,7 @@
       {{#required}}
       # check if the required `{{{name}}}` is null
       if (is.null(self$`{{{name}}}`)) {
-        invalid_fields["{{{name}}}"] = "Non-nullable required field `{{{name}}}` cannot be null."
+        invalid_fields["{{{name}}}"] <- "Non-nullable required field `{{{name}}}` cannot be null."
       }
 
       {{/required}}
@@ -436,43 +489,64 @@
       {{#hasValidation}}
       {{#maxLength}}
       if (nchar(self$`{{{name}}}`) > {{maxLength}}) {
-        invalid_fields["{{{name}}}"] = "Invalid length for `{{{name}}}`, must be smaller than or equal to {{maxLength}}."
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, must be smaller than or equal to {{maxLength}}."
       }
       {{/maxLength}}
       {{#minLength}}
       if (nchar(self$`{{{name}}}`) < {{minLength}}) {
-        invalid_fields["{{{name}}}"] = "Invalid length for `{{{name}}}`, must be bigger than or equal to {{minLength}}."
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, must be bigger than or equal to {{minLength}}."
       }
       {{/minLength}}
       {{#maximum}}
       if (self$`{{{name}}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
-        invalid_fields["{{{name}}}"] = "Invalid value for `{{{name}}}`, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}."
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}."
       }
       {{/maximum}}
       {{#minimum}}
       if (self$`{{{name}}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
-        invalid_fields["{{{name}}}"] = "Invalid value for `{{{name}}}`, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}."
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}."
       }
       {{/minimum}}
       {{#pattern}}
       if (!str_detect(self$`{{{name}}}`, "{{{pattern}}}")) {
-        invalid_fields["{{{name}}}"] = "Invalid value for `{{{name}}}`, must conform to the pattern {{{pattern}}}."
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must conform to the pattern {{{pattern}}}."
       }
       {{/pattern}}
       {{#maxItems}}
       if (length(self$`{{{name}}}`) > {{maxItems}}) {
-        invalid_fields["{{{name}}}"] = "Invalid length for `{{{name}}}`, number of items must be less than or equal to {{maxItems}}."
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, number of items must be less than or equal to {{maxItems}}."
       }
       {{/maxItems}}
       {{#minItems}}
       if (length(self$`{{{name}}}`) < {{minItems}}) {
-        invalid_fields["{{{name}}}"] = "Invalid length for `{{{param}}}`, number of items must be greater than or equal to {{minItems}}."
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{param}}}`, number of items must be greater than or equal to {{minItems}}."
       }
       {{/minItems}}
 
       {{/hasValidation}}
       {{/allVars}}
       invalid_fields
-    }
-  )
+    },
+    #' Print the object
+    #'
+    #' @description
+    #' Print the object
+    #'
+    #' @export
+    print = function() {
+      print(jsonlite::prettify(self$toJSONString()))
+      invisible(self)
+    }),
+    # Lock the class to prevent modifications to the method or field
+    lock_class = TRUE
 )
+## Uncomment below to unlock the class to allow modifications of the method or field
+#{{classname}}$unlock()
+#
+## Below is an example to define the print fnuction
+#{{classname}}$set("public", "print", function(...) {
+#  print(jsonlite::prettify(self$toJSONString()))
+#  invisible(self)
+#})
+## Uncomment below to lock the class to prevent modifications to the method or field
+#{{classname}}$lock()

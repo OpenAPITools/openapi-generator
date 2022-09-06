@@ -6,11 +6,11 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientModelTest {
 
     @Test(description = "convert an array oneof model")

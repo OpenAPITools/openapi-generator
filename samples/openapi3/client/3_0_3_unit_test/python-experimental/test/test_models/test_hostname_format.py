@@ -22,7 +22,7 @@ class TestHostnameFormat(unittest.TestCase):
 
     def test_all_string_formats_ignore_objects_passes(self):
         # all string formats ignore objects
-        HostnameFormat._from_openapi_data(
+        HostnameFormat.from_openapi_data_oapg(
             {
             },
             _configuration=self._configuration
@@ -30,28 +30,28 @@ class TestHostnameFormat(unittest.TestCase):
 
     def test_all_string_formats_ignore_booleans_passes(self):
         # all string formats ignore booleans
-        HostnameFormat._from_openapi_data(
+        HostnameFormat.from_openapi_data_oapg(
             False,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_integers_passes(self):
         # all string formats ignore integers
-        HostnameFormat._from_openapi_data(
+        HostnameFormat.from_openapi_data_oapg(
             12,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_floats_passes(self):
         # all string formats ignore floats
-        HostnameFormat._from_openapi_data(
+        HostnameFormat.from_openapi_data_oapg(
             13.7,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_arrays_passes(self):
         # all string formats ignore arrays
-        HostnameFormat._from_openapi_data(
+        HostnameFormat.from_openapi_data_oapg(
             [
             ],
             _configuration=self._configuration
@@ -59,7 +59,7 @@ class TestHostnameFormat(unittest.TestCase):
 
     def test_all_string_formats_ignore_nulls_passes(self):
         # all string formats ignore nulls
-        HostnameFormat._from_openapi_data(
+        HostnameFormat.from_openapi_data_oapg(
             None,
             _configuration=self._configuration
         )

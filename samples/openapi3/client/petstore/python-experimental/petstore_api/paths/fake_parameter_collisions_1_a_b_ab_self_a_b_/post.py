@@ -7,73 +7,30 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
 # query params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-AbSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+AbSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -82,11 +39,11 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'Ab': AbSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     },
     total=False
 )
@@ -127,10 +84,10 @@ request_query_a_b2 = api_client.QueryParameter(
     explode=True,
 )
 # header params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -139,10 +96,10 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     },
     total=False
 )
@@ -173,19 +130,19 @@ request_header_a_b4 = api_client.HeaderParameter(
     schema=ABSchema,
 )
 # path params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-AbSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+AbSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'Ab': AbSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(
@@ -231,11 +188,11 @@ request_path_a_b6 = api_client.PathParameter(
     required=True,
 )
 # cookie params
-Model1Schema = StrSchema
-ABSchema = StrSchema
-AbSchema = StrSchema
-ModelSelfSchema = StrSchema
-ABSchema = StrSchema
+Model1Schema = schemas.StrSchema
+ABSchema = schemas.StrSchema
+AbSchema = schemas.StrSchema
+ModelSelfSchema = schemas.StrSchema
+ABSchema = schemas.StrSchema
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
     {
@@ -244,11 +201,11 @@ RequestRequiredCookieParams = typing.TypedDict(
 RequestOptionalCookieParams = typing.TypedDict(
     'RequestOptionalCookieParams',
     {
-        '1': Model1Schema,
-        'aB': ABSchema,
-        'Ab': AbSchema,
-        'self': ModelSelfSchema,
-        'A-B': ABSchema,
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
     },
     total=False
 )
@@ -289,7 +246,7 @@ request_cookie_a_b8 = api_client.CookieParameter(
     explode=True,
 )
 # body param
-SchemaForRequestBodyApplicationJson = AnyTypeSchema
+SchemaForRequestBodyApplicationJson = schemas.AnyTypeSchema
 
 
 request_body_body = api_client.RequestBody(
@@ -298,7 +255,7 @@ request_body_body = api_client.RequestBody(
             schema=SchemaForRequestBodyApplicationJson),
     },
 )
-SchemaFor200ResponseBodyApplicationJson = AnyTypeSchema
+SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema
 
 
 @dataclass
@@ -307,7 +264,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -327,13 +284,13 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _parameter_collisions(
+    def _parameter_collisions_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
-        cookie_params: RequestCookieParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        cookie_params: RequestCookieParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -349,10 +306,10 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
-        self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestCookieParams, cookie_params)
         used_path = path.value
 
         _path_params = {}
@@ -363,8 +320,8 @@ class BaseApi(api_client.Api):
             request_path__self3,
             request_path_a_b6,
         ):
-            parameter_data = path_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = path_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _path_params.update(serialized_data)
@@ -380,8 +337,8 @@ class BaseApi(api_client.Api):
             request_query__self,
             request_query_a_b2,
         ):
-            parameter_data = query_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             if prefix_separator_iterator is None:
                 prefix_separator_iterator = parameter.get_prefix_separator_iterator()
@@ -396,8 +353,8 @@ class BaseApi(api_client.Api):
             request_header__self2,
             request_header_a_b4,
         ):
-            parameter_data = header_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = header_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
@@ -408,7 +365,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -445,11 +402,11 @@ class ParameterCollisions(BaseApi):
 
     def parameter_collisions(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
-        cookie_params: RequestCookieParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        cookie_params: RequestCookieParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -459,7 +416,7 @@ class ParameterCollisions(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._parameter_collisions(
+        return self._parameter_collisions_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
@@ -478,11 +435,11 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
-        path_params: RequestPathParams = frozendict(),
-        cookie_params: RequestCookieParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        cookie_params: RequestCookieParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -492,7 +449,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._parameter_collisions(
+        return self._parameter_collisions_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,

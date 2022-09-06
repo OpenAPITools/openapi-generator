@@ -22,7 +22,7 @@ class TestAnyof(unittest.TestCase):
 
     def test_second_anyof_valid_passes(self):
         # second anyOf valid
-        Anyof._from_openapi_data(
+        Anyof.from_openapi_data_oapg(
             2.5,
             _configuration=self._configuration
         )
@@ -30,21 +30,21 @@ class TestAnyof(unittest.TestCase):
     def test_neither_anyof_valid_fails(self):
         # neither anyOf valid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            Anyof._from_openapi_data(
+            Anyof.from_openapi_data_oapg(
                 1.5,
                 _configuration=self._configuration
             )
 
     def test_both_anyof_valid_passes(self):
         # both anyOf valid
-        Anyof._from_openapi_data(
+        Anyof.from_openapi_data_oapg(
             3,
             _configuration=self._configuration
         )
 
     def test_first_anyof_valid_passes(self):
         # first anyOf valid
-        Anyof._from_openapi_data(
+        Anyof.from_openapi_data_oapg(
             1,
             _configuration=self._configuration
         )

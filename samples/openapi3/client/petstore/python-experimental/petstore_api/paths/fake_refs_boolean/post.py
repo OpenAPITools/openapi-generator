@@ -7,69 +7,26 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from . import path
 
 # body param
-SchemaForRequestBodyApplicationJson = BoolSchema
+SchemaForRequestBodyApplicationJson = schemas.BoolSchema
 
 
 request_body_body = api_client.RequestBody(
@@ -78,7 +35,7 @@ request_body_body = api_client.RequestBody(
             schema=SchemaForRequestBodyApplicationJson),
     },
 )
-SchemaFor200ResponseBodyApplicationJson = BoolSchema
+SchemaFor200ResponseBodyApplicationJson = schemas.BoolSchema
 
 
 @dataclass
@@ -87,7 +44,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -107,9 +64,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _boolean(
+    def _boolean_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, bool, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -134,7 +91,7 @@ class BaseApi(api_client.Api):
 
         _fields = None
         _body = None
-        if body is not unset:
+        if body is not schemas.unset:
             serialized_data = request_body_body.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
@@ -171,7 +128,7 @@ class Boolean(BaseApi):
 
     def boolean(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, bool, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -181,7 +138,7 @@ class Boolean(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._boolean(
+        return self._boolean_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -196,7 +153,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, bool, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -206,7 +163,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._boolean(
+        return self._boolean_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

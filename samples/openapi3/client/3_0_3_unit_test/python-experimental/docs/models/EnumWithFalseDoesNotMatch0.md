@@ -2,7 +2,7 @@
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-**bool** |  |  must be one of [BoolClass.FALSE, ]
+**bool** |  |  must be one of [schemas.BoolClass.FALSE, ]
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

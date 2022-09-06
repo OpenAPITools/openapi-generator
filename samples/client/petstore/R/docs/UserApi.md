@@ -27,7 +27,7 @@ library(petstore)
 
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
-#Create user
+# Create user
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -40,7 +40,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `CreateUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -82,7 +82,7 @@ library(petstore)
 
 var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
-#Creates list of users with given input array
+# Creates list of users with given input array
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -95,7 +95,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `CreateUsersWithArrayInput`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -137,7 +137,7 @@ library(petstore)
 
 var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
-#Creates list of users with given input array
+# Creates list of users with given input array
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -150,7 +150,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `CreateUsersWithListInput`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -192,7 +192,7 @@ library(petstore)
 
 var_username <- "username_example" # character | The name that needs to be deleted
 
-#Delete user
+# Delete user
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -205,7 +205,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `DeleteUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -248,7 +248,7 @@ library(petstore)
 
 var_username <- "username_example" # character | The name that needs to be fetched. Use user1 for testing.
 
-#Get user by user name
+# Get user by user name
 api_instance <- UserApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -261,7 +261,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `GetUserByName`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -310,7 +310,7 @@ library(petstore)
 var_username <- "username_example" # character | The user name for login
 var_password <- "password_example" # character | The password for login in clear text
 
-#Logs user into the system
+# Logs user into the system
 api_instance <- UserApi$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -323,7 +323,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `LoginUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 } else {
   # deserialized response object
   print("The response is ...")
@@ -370,7 +370,7 @@ Logs out current logged in user session
 library(petstore)
 
 
-#Logs out current logged in user session
+# Logs out current logged in user session
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -383,7 +383,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `LogoutUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```
@@ -423,7 +423,7 @@ library(petstore)
 var_username <- "username_example" # character | name that need to be deleted
 var_user <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
-#Updated user
+# Updated user
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
 api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
@@ -436,7 +436,7 @@ if (!is.null(result$ApiException)) {
   print("Exception occurs when calling `UpdateUser`:")
   dput(result$ApiException$toString())
   # error object
-  dput(result$ApiException$error_object)
+  dput(result$ApiException$error_object$toJSONString())
 }
 # This endpoint doesn't return data
 ```

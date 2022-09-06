@@ -960,3 +960,55 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+    OneOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    AnyOfPrimitiveTypeTest:
+      oneOf:
+        - type: "integer"
+        - type: "string"
+    mammal:
+      oneOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+    whale:
+      type: object
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+        - className
+    zebra:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+      required:
+        - className
+    Date:
+      description: to test the model name `Date`
+      type: object
+      properties:
+        className:
+          type: string
+        percent_description:
+          description: using % in the description
+          type: string
+      required:
+        - className

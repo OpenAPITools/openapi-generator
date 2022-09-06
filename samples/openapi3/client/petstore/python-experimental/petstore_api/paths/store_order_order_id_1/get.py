@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.order import Order
 
@@ -74,17 +31,17 @@ from . import path
 
 
 class OrderIdSchema(
-    _SchemaValidator(
-        inclusive_maximum=5,
-        inclusive_minimum=1,
-    ),
-    Int64Schema
+    schemas.Int64Schema
 ):
-    pass
+
+
+    class MetaOapg:
+        inclusive_maximum = 5
+        inclusive_minimum = 1
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'order_id': OrderIdSchema,
+        'order_id': typing.Union[OrderIdSchema, int, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(
@@ -116,7 +73,7 @@ class ApiResponseFor200(api_client.ApiResponse):
         SchemaFor200ResponseBodyApplicationXml,
         SchemaFor200ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -133,8 +90,8 @@ _response_for_200 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -145,8 +102,8 @@ _response_for_400 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_404 = api_client.OpenApiResponse(
@@ -165,9 +122,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _get_order_by_id(
+    def _get_order_by_id_oapg(
         self: api_client.Api,
-        path_params: RequestPathParams = frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -182,15 +139,15 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
         _path_params = {}
         for parameter in (
             request_path_order_id,
         ):
-            parameter_data = path_params.get(parameter.name, unset)
-            if parameter_data is unset:
+            parameter_data = path_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
                 continue
             serialized_data = parameter.serialize(parameter_data)
             _path_params.update(serialized_data)
@@ -232,7 +189,7 @@ class GetOrderById(BaseApi):
 
     def get_order_by_id(
         self: BaseApi,
-        path_params: RequestPathParams = frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -241,7 +198,7 @@ class GetOrderById(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._get_order_by_id(
+        return self._get_order_by_id_oapg(
             path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -255,7 +212,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        path_params: RequestPathParams = frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -264,7 +221,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._get_order_by_id(
+        return self._get_order_by_id_oapg(
             path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,

@@ -22,7 +22,7 @@ class TestRequiredDefaultValidation(unittest.TestCase):
 
     def test_not_required_by_default_passes(self):
         # not required by default
-        RequiredDefaultValidation._from_openapi_data(
+        RequiredDefaultValidation.from_openapi_data_oapg(
             {
             },
             _configuration=self._configuration

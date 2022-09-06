@@ -77,6 +77,7 @@ Method | HTTP request | Description
 [**post_ref_in_allof_response_body_for_content_types**](#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
 [**post_ref_in_anyof_response_body_for_content_types**](#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 [**post_ref_in_items_response_body_for_content_types**](#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
+[**post_ref_in_not_response_body_for_content_types**](#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
 [**post_ref_in_oneof_response_body_for_content_types**](#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 [**post_ref_in_property_response_body_for_content_types**](#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 [**post_required_default_validation_response_body_for_content_types**](#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
@@ -1463,10 +1464,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -1526,10 +1526,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2030,10 +2029,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2281,10 +2279,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2344,10 +2341,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2407,10 +2403,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -3415,10 +3410,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -3478,10 +3472,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -3791,10 +3784,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}** |  | 
 
 
 **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
@@ -4624,6 +4616,69 @@ No authorization required
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
+# **post_ref_in_not_response_body_for_content_types**
+<a name="post_ref_in_not_response_body_for_content_types"></a>
+> bool, date, datetime, dict, float, int, list, str, none_type post_ref_in_not_response_body_for_content_types()
+
+
+
+### Example
+
+```python
+import unit_test_api
+from unit_test_api.apis.tags import response_content_content_type_schema_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
+from pprint import pprint
+# Defining the host is optional and defaults to https://someserver.com/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = unit_test_api.Configuration(
+    host = "https://someserver.com/v1"
+)
+
+# Enter a context with an instance of the API client
+with unit_test_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = response_content_content_type_schema_api.ResponseContentContentTypeSchemaApi(api_client)
+
+    # example, this endpoint has no required or optional parameters
+    try:
+        api_response = api_instance.post_ref_in_not_response_body_for_content_types()
+        pprint(api_response)
+    except unit_test_api.ApiException as e:
+        print("Exception when calling ResponseContentContentTypeSchemaApi->post_ref_in_not_response_body_for_content_types: %s\n" % e)
+```
+### Parameters
+This endpoint does not need any parameter.
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | success
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
+headers | Unset | headers were not defined |
+
+#### SchemaFor200ResponseBodyApplicationJson
+
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+
+
+**bool, date, datetime, dict, float, int, list, str, none_type**
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
 # **post_ref_in_oneof_response_body_for_content_types**
 <a name="post_ref_in_oneof_response_body_for_content_types"></a>
 > RefInOneof post_ref_in_oneof_response_body_for_content_types()
@@ -4988,16 +5043,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**foo\"bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\nbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\fbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\tbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\rbar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**foo\\bar** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5371,10 +5419,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5434,10 +5481,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5497,10 +5543,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**

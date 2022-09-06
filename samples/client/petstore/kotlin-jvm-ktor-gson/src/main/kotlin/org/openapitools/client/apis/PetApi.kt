@@ -28,15 +28,16 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.http.ParametersBuilder
-
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import java.text.DateFormat
 
     open class PetApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    json: Gson = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, json) {
+    jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
+    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
 
         /**
         * Add a new pet to the store

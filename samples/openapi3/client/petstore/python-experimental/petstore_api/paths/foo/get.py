@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.foo import Foo
 
@@ -73,21 +30,48 @@ from . import path
 
 
 class SchemaFor0ResponseBodyApplicationJson(
-    DictSchema
+    schemas.DictSchema
 ):
 
-    @classmethod
-    @property
-    def string(cls) -> typing.Type['Foo']:
-        return Foo
 
+    class MetaOapg:
+        class properties:
+        
+            @classmethod
+            @property
+            def string(cls) -> typing.Type['Foo']:
+                return Foo
+            __annotations__ = {
+                "string": string,
+            }
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["string"]) -> 'Foo': ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["string", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["string"]) -> typing.Union['Foo', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["string", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        string: typing.Union['Foo', Unset] = unset,
-        _configuration: typing.Optional[Configuration] = None,
-        **kwargs: typing.Type[Schema],
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        string: typing.Union['Foo', schemas.Unset] = schemas.unset,
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaFor0ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -104,7 +88,7 @@ class ApiResponseForDefault(api_client.ApiResponse):
     body: typing.Union[
         SchemaFor0ResponseBodyApplicationJson,
     ]
-    headers: Unset = unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_default = api_client.OpenApiResponse(
@@ -124,7 +108,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _foo_get(
+    def _foo_get_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -187,7 +171,7 @@ class FooGet(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._foo_get(
+        return self._foo_get_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -208,7 +192,7 @@ class ApiForget(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._foo_get(
+        return self._foo_get_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

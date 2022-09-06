@@ -7,64 +7,21 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
 
-from petstore_api.schemas import (  # noqa: F401
-    AnyTypeSchema,
-    ComposedSchema,
-    DictSchema,
-    ListSchema,
-    StrSchema,
-    IntSchema,
-    Int32Schema,
-    Int64Schema,
-    Float32Schema,
-    Float64Schema,
-    NumberSchema,
-    UUIDSchema,
-    DateSchema,
-    DateTimeSchema,
-    DecimalSchema,
-    BoolSchema,
-    BinarySchema,
-    NoneSchema,
-    none_type,
-    Configuration,
-    Unset,
-    unset,
-    ComposedBase,
-    ListBase,
-    DictBase,
-    NoneBase,
-    StrBase,
-    IntBase,
-    Int32Base,
-    Int64Base,
-    Float32Base,
-    Float64Base,
-    NumberBase,
-    UUIDBase,
-    DateBase,
-    DateTimeBase,
-    BoolBase,
-    BinaryBase,
-    Schema,
-    NoneClass,
-    BoolClass,
-    _SchemaValidator,
-    _SchemaTypeChecker,
-    _SchemaEnumMaker
-)
+import frozendict  # noqa: F401
+
+from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.pet import Pet
 
@@ -90,11 +47,11 @@ _auth = [
 ]
 _servers = (
     {
-        'url': "http://petstore.swagger.io/v2",
+        'url': "https://petstore.swagger.io/v2",
         'description': "No description provided",
     },
     {
-        'url': "http://path-server-test.petstore.local/v2",
+        'url': "https://path-server-test.petstore.local/v2",
         'description': "No description provided",
     },
 )
@@ -103,8 +60,8 @@ _servers = (
 @dataclass
 class ApiResponseFor400(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_400 = api_client.OpenApiResponse(
@@ -115,8 +72,8 @@ _response_for_400 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor404(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_404 = api_client.OpenApiResponse(
@@ -127,8 +84,8 @@ _response_for_404 = api_client.OpenApiResponse(
 @dataclass
 class ApiResponseFor405(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: Unset = unset
-    headers: Unset = unset
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
 
 
 _response_for_405 = api_client.OpenApiResponse(
@@ -143,9 +100,9 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _update_pet(
+    def _update_pet_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -165,7 +122,7 @@ class BaseApi(api_client.Api):
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
 
-        if body is unset:
+        if body is schemas.unset:
             raise exceptions.ApiValueError(
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
@@ -176,7 +133,7 @@ class BaseApi(api_client.Api):
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
             _body = serialized_data['body']
-        host = self.get_host('update_pet', _servers, host_index)
+        host = self._get_host_oapg('update_pet', _servers, host_index)
 
         response = self.api_client.call_api(
             resource_path=used_path,
@@ -210,7 +167,7 @@ class UpdatePet(BaseApi):
 
     def update_pet(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -219,7 +176,7 @@ class UpdatePet(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_pet(
+        return self._update_pet_oapg(
             body=body,
             content_type=content_type,
             host_index=host_index,
@@ -234,7 +191,7 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyApplicationXml, ],
         content_type: str = 'application/json',
         host_index: typing.Optional[int] = None,
         stream: bool = False,
@@ -243,7 +200,7 @@ class ApiForput(BaseApi):
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._update_pet(
+        return self._update_pet_oapg(
             body=body,
             content_type=content_type,
             host_index=host_index,

@@ -22,6 +22,7 @@ Method | HTTP request | Description
 [**inline_additional_properties**](#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
 [**inline_composition**](#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
 [**json_form_data**](#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
+[**json_patch**](#json_patch) | **patch** /fake/jsonPatch | json patch
 [**json_with_charset**](#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
 [**mammal**](#mammal) | **post** /fake/refs/mammal | 
 [**number_with_validations**](#number_with_validations) | **post** /fake/refs/number | 
@@ -1019,7 +1020,7 @@ Name | Type | Description | Notes
 **dateTime** | **datetime** | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
 **password** | **str** | None | [optional] 
 **callback** | **str** | None | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1129,7 +1130,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enum_form_string_array** | **[str]** | Form parameter enum test (string array) | [optional] 
 **enum_form_string** | **str** | Form parameter enum test (string) | [optional]  if omitted the server will use the default value of "-efg"
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams
@@ -1493,7 +1494,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**any string name** | **str** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | **str** | any string name can be used but the value must be the correct type | [optional] 
 
 ### Return Types, Responses
 
@@ -1575,10 +1576,9 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 #### SchemaForRequestBodyMultipartFormData
 
@@ -1586,7 +1586,7 @@ Name | Type | Description | Notes
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams
@@ -1599,10 +1599,9 @@ compositionInProperty | CompositionInPropertySchema | | optional
 
 #### CompositionAtRootSchema
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 #### CompositionInPropertySchema
 
@@ -1610,7 +1609,7 @@ Name | Type | Description | Notes
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1628,10 +1627,9 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+Type | Description | Notes
+------------- | ------------- | -------------
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
 
 #### SchemaFor200ResponseBodyMultipartFormData
 
@@ -1639,7 +1637,7 @@ Name | Type | Description | Notes
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -1705,7 +1703,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **param** | **str** | field1 | 
 **param2** | **str** | field2 | 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1713,6 +1711,85 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 200 | ApiResponseFor200 | successful operation
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
+
+# **json_patch**
+<a name="json_patch"></a>
+> json_patch()
+
+json patch
+
+json patch route with a requestBody
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.apis.tags import fake_api
+from petstore_api.model.json_patch_request import JSONPatchRequest
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    body = JSONPatchRequest([
+        None
+    ])
+    try:
+        # json patch
+        api_response = api_instance.json_patch(
+            body=body,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->json_patch: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+body | typing.Union[SchemaForRequestBodyApplicationJsonPatchjson, Unset] | optional, default is unset |
+content_type | str | optional, default is 'application/json-patch+json' | Selects the schema and serialization of the request body
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### body
+
+#### SchemaForRequestBodyApplicationJsonPatchjson
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**JSONPatchRequest**](JSONPatchRequest.md) |  | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | OK
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2044,7 +2121,7 @@ mapBean | MapBeanSchema | | optional
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **keyword** | **str** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -3042,7 +3119,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file** | **file_type** | file to upload | 
 **additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -3131,7 +3208,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **files** | **[file_type]** |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
