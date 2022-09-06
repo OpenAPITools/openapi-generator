@@ -251,14 +251,14 @@ __PACKAGE__->method_documentation({
         datatype => 'DATE',
         base_name => 'date_prop',
         description => '',
-        format => 'date',
+        format => '',
         read_only => '',
             },
     'datetime_prop' => {
         datatype => 'DATE_TIME',
         base_name => 'datetime_prop',
         description => '',
-        format => 'date-time',
+        format => '',
         read_only => '',
             },
     'array_nullable_prop' => {

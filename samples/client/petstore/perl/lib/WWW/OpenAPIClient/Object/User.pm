@@ -223,7 +223,7 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => 'id',
         description => '',
-        format => 'int64',
+        format => '',
         read_only => '',
             },
     'username' => {
@@ -272,7 +272,7 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => 'userStatus',
         description => 'User Status',
-        format => 'int32',
+        format => '',
         read_only => '',
             },
 });

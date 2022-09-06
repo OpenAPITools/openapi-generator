@@ -223,7 +223,7 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => '$special[property.name]',
         description => '',
-        format => 'int64',
+        format => '',
         read_only => '',
             },
 });

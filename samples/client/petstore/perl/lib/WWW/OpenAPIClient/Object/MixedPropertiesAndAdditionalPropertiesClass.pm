@@ -224,14 +224,14 @@ __PACKAGE__->method_documentation({
         datatype => 'string',
         base_name => 'uuid',
         description => '',
-        format => 'uuid',
+        format => '',
         read_only => '',
             },
     'date_time' => {
         datatype => 'DATE_TIME',
         base_name => 'dateTime',
         description => '',
-        format => 'date-time',
+        format => '',
         read_only => '',
             },
     'map' => {
