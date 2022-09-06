@@ -2906,3 +2906,14 @@ components:
           enum:
             - move
             - copy
+    AdditionalPropertiesValidator:
+      type: object
+      allOf:
+        - type: object
+          additionalProperties: true
+        - type: object
+          additionalProperties:
+            minLength: 3
+        - type: object
+          additionalProperties:
+            maxLength: 5
