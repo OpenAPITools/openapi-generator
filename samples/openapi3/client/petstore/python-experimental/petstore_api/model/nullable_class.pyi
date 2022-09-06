@@ -47,7 +47,7 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[None, int, ],
+                    *args: typing.Union[None, decimal.Decimal, int, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'integer_prop':
                     return super().__new__(
@@ -554,7 +554,7 @@ class NullableClass(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        integer_prop: typing.Union[MetaOapg.properties.integer_prop, None, int, schemas.Unset] = schemas.unset,
+        integer_prop: typing.Union[MetaOapg.properties.integer_prop, None, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         number_prop: typing.Union[MetaOapg.properties.number_prop, None, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         boolean_prop: typing.Union[MetaOapg.properties.boolean_prop, None, bool, schemas.Unset] = schemas.unset,
         string_prop: typing.Union[MetaOapg.properties.string_prop, None, str, schemas.Unset] = schemas.unset,

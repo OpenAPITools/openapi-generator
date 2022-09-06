@@ -69,8 +69,8 @@ class NoAdditionalProperties(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        id: typing.Union[MetaOapg.properties.id, int, ],
-        petId: typing.Union[MetaOapg.properties.petId, int, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
+        petId: typing.Union[MetaOapg.properties.petId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'NoAdditionalProperties':
         return super().__new__(
