@@ -2818,6 +2818,19 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateModelForInteger(CodegenModel model, Schema schema) {
+        // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
+        model.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isLongSchema(schema)) { // int64/long format
+            model.isLong = Boolean.TRUE;
+        } else {
+            model.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+            if (ModelUtils.isShortSchema(schema)) { // int32
+                model.setIsShort(Boolean.TRUE);
+            }
+        }
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2907,16 +2920,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.arrayModelType = arrayProperty.complexType;
             addParentContainer(m, name, schema);
         } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-            // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
-            m.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(schema)) { // int64/long format
-                m.isLong = Boolean.TRUE;
-            } else {
-                m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(schema)) { // int32
-                    m.setIsShort(Boolean.TRUE);
-                }
-            }
+            updateModelForInteger(m, schema);
         } else if (ModelUtils.isStringSchema(schema)) {
             updateModelForString(m, schema);
         } else if (ModelUtils.isNumberSchema(schema)) {
@@ -3599,6 +3603,18 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updatePropertyForInteger(CodegenProperty property, Schema p) {
+        property.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isLongSchema(p)) { // int64/long format
+            property.isLong = Boolean.TRUE;
+        } else {
+            property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+            if (ModelUtils.isShortSchema(p)) { // int32
+                property.setIsShort(Boolean.TRUE);
+            }
+        }
+    }
+
     /**
      * TODO remove this in 7.0.0 as a breaking change
      * This method was kept when required was added to the fromProperty signature
@@ -3788,15 +3804,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.setTypeProperties(p);
         property.setComposedSchemas(getComposedSchemas(p));
         if (ModelUtils.isIntegerSchema(p)) { // integer type
-            property.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(p)) { // int64/long format
-                property.isLong = Boolean.TRUE;
-            } else {
-                property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(p)) { // int32
-                    property.setIsShort(Boolean.TRUE);
-                }
-            }
+            updatePropertyForInteger(property, p);
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.getter = toBooleanGetter(name);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {

@@ -2257,6 +2257,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // float vs double info is stored in format
     }
 
+    protected void updateModelForInteger(CodegenModel model, Schema schema) {
+        model.isInteger = true;
+        // int32 int64 info is stored in format
+    }
+
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
         if (ModelUtils.isByteArraySchema(p)) {
             // isString stays true, format stores that this is a byte
@@ -2283,6 +2288,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         property.setIsNumber(true);
         // float and double differentiation is determined with format info
     }
+
+    protected void updatePropertyForInteger(CodegenProperty property, Schema p) {
+        property.isInteger = true;
+        // int32 and int64 differentiation is determined with format info
+    }
+
 
     @Override
     protected void updatePropertyForObject(CodegenProperty property, Schema p) {
