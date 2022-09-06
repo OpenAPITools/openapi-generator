@@ -226,8 +226,18 @@ ApiClient  <- R6::R6Class(
       }
 
       ## add query parameters
-      for (query_param in query_params) {
-        req <- req %>% req_url_query(!!!query_param)
+      print("debugging query parameters...")
+      dput(query_params)
+      for (query_param in names(query_params)) {
+        if (typeof(query_params[[query_param]]) == "list") {
+          print("procesisng explode/list..")
+          req <- req %>% req_url_query(!!!query_params[[query_param]])
+        } else {
+          print("procesisng non explode/list..")
+          tmp <- list()
+          tmp[[query_param]] <- query_params[[query_param]]
+          req <- req %>% req_url_query(!!!tmp)
+        }
       }
 
       # has file upload?

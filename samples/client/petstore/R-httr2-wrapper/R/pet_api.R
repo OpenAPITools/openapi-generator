@@ -944,6 +944,7 @@ PetApi <- R6::R6Class(
       }
 
 
+      # explore
       for (query_item in `status`) {
         query_params[["status"]] <- c(query_params[["status"]], list(`status` = query_item))
       }
@@ -1064,9 +1065,8 @@ PetApi <- R6::R6Class(
       }
 
 
-      for (query_item in `tags`) {
-        query_params[["tags"]] <- c(query_params[["tags"]], list(`tags` = query_item))
-      }
+      # no explore
+      query_params[["tags"]] <- I(paste(lapply(`tags`, URLencode, reserved = TRUE), collapse = ","))
 
       local_var_url_path <- "/pet/findByTags"
       # OAuth-related settings

@@ -82,7 +82,7 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
-          explode: false
+          #explode: true
           deprecated: true
           schema:
             type: array
