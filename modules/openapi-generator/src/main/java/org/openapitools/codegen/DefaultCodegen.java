@@ -2866,6 +2866,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         m.setTypeProperties(schema);
+        m.setFormat(schema.getFormat());
         m.setComposedSchemas(getComposedSchemas(schema));
         if (ModelUtils.isArraySchema(schema)) {
             CodegenProperty arrayProperty = fromProperty(name, schema, false);
@@ -3646,6 +3647,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
+        property.setFormat(p.getFormat());
 
         property.name = toVarName(name);
         property.baseName = name;

@@ -1168,9 +1168,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             schema.setName(name);
             codegenModel = fromModel(name, schema);
         }
-        if (codegenModel != null) {
-            codegenParameter.isModel = true;
-        }
 
         if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
             if (StringUtils.isEmpty(bodyParameterName)) {
@@ -1183,49 +1180,32 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
             codegenParameter.isNullable = codegenModel.isNullable;
-            imports.add(codegenParameter.baseType);
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
-                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
-                imports.addAll(parts);
-                String codegenModelName = codegenProperty.getComplexType();
-                codegenParameter.baseName = codegenModelName;
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.baseType = codegenParameter.baseName;
-                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                codegenParameter.description = codegenProperty.getDescription();
-                codegenParameter.isNullable = codegenProperty.isNullable;
-            } else {
-                if (ModelUtils.isMapSchema(schema)) {// http body is map
-                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
-                } else if (codegenProperty != null) {
-                    String codegenModelName, codegenModelDescription;
+            if (ModelUtils.isMapSchema(schema)) {// http body is map
+                // LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+            } else if (codegenProperty != null) {
+                String codegenModelName, codegenModelDescription;
 
-                    if (codegenModel != null) {
-                        codegenModelName = codegenModel.classname;
-                        codegenModelDescription = codegenModel.description;
-                    } else {
-                        codegenModelName = "anyType";
-                        codegenModelDescription = "";
-                    }
-
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModelName;
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-
-                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModelName;
-                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                    codegenParameter.description = codegenModelDescription;
-
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
-                    }
+                if (codegenModel != null) {
+                    codegenModelName = codegenModel.classname;
+                    codegenModelDescription = codegenModel.description;
+                } else {
+                    codegenModelName = "anyType";
+                    codegenModelDescription = "";
                 }
+
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = codegenModelName;
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.baseType = codegenModelName;
+                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                codegenParameter.description = codegenModelDescription;
             }
 
             // set nullable
@@ -1444,13 +1424,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             cm.isNullable = false;
             cm.setHasMultipleTypes(true);
         }
-        // TODO improve this imports addition code
-        if (cm.isArray && cm.getItems() != null && cm.getItems().complexType != null) {
-            cm.imports.add(cm.getItems().complexType);
-        }
-        if (cm.isArray && cm.getItems() != null && cm.getItems().mostInnerItems != null && cm.getItems().mostInnerItems.complexType != null) {
-            cm.imports.add(cm.getItems().mostInnerItems.complexType);
-        }
         Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
         setAdditionalPropsAndItemsVarNames(cm);
         if (isNotPythonModelSimpleModel) {
@@ -1601,22 +1574,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        Schema addProps = getAdditionalProperties(schema);
-        if (addProps != null) {
-            // if AdditionalProperties exists, get its datatype and
-            // store it in codegenModel.additionalPropertiesType.
-            // The 'addProps' may be a reference, getTypeDeclaration will resolve
-            // the reference.
-            List<String> referencedModelNames = new ArrayList<String>();
-            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
-            if (referencedModelNames.size() != 0) {
-                // Models that are referenced in the 'additionalPropertiesType' keyword
-                // must be added to the imports.
-                codegenModel.imports.addAll(referencedModelNames);
-            }
-        }
-        // If addProps is null, the value of the 'additionalProperties' keyword is set
-        // to false, i.e. no additional properties are allowed.
     }
 
     /**
