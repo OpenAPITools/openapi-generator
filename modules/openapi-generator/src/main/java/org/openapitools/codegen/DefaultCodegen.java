@@ -2808,6 +2808,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateModelForNumber(CodegenModel model, Schema schema) {
+        // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
+        model.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isFloatSchema(schema)) { // float
+            model.isFloat = Boolean.TRUE;
+        } else if (ModelUtils.isDoubleSchema(schema)) { // double
+            model.isDouble = Boolean.TRUE;
+        }
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2910,13 +2920,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isStringSchema(schema)) {
             updateModelForString(m, schema);
         } else if (ModelUtils.isNumberSchema(schema)) {
-            // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
-            m.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(schema)) { // float
-                m.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(schema)) { // double
-                m.isDouble = Boolean.TRUE;
-            }
+            updateModelForNumber(m, schema);
         } else if (ModelUtils.isAnyType(schema)) {
             updateModelForAnyType(m, schema);
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
@@ -3586,6 +3590,15 @@ public class DefaultCodegen implements CodegenConfig {
         property.pattern = toRegularExpression(p.getPattern());
     }
 
+    protected void updatePropertyForNumber(CodegenProperty property, Schema p) {
+        property.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isFloatSchema(p)) { // float
+            property.isFloat = Boolean.TRUE;
+        } else if (ModelUtils.isDoubleSchema(p)) { // double
+            property.isDouble = Boolean.TRUE;
+        }
+    }
+
     /**
      * TODO remove this in 7.0.0 as a breaking change
      * This method was kept when required was added to the fromProperty signature
@@ -3792,12 +3805,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isStringSchema(p)) {
             updatePropertyForString(property, p);
         } else if (ModelUtils.isNumberSchema(p)) {
-            property.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(p)) { // float
-                property.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(p)) { // double
-                property.isDouble = Boolean.TRUE;
-            }
+            updatePropertyForNumber(property, p);
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
             property.isContainer = true;

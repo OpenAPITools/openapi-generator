@@ -2252,6 +2252,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
+    protected void updateModelForNumber(CodegenModel model, Schema schema) {
+        model.setIsNumber(true);
+        // float vs double info is stored in format
+    }
+
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
         if (ModelUtils.isByteArraySchema(p)) {
             // isString stays true, format stores that this is a byte
@@ -2272,6 +2277,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             // isString stays true, format stores that this is a number
         }
         property.pattern = toRegularExpression(p.getPattern());
+    }
+
+    protected void updatePropertyForNumber(CodegenProperty property, Schema p) {
+        property.setIsNumber(true);
+        // float and double differentiation is determined with format info
     }
 
     @Override
