@@ -5,10 +5,19 @@ schemas.List{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 schemas.Dict{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if isString}}
+{{#if getHasMultipleTypes}}
 {{#eq format "date"}}
-schemas.Date{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+schemas.DateBase,
+{{/eq}}
+schemas.StrBase,
+{{else}}
+{{#eq format "date"}}
+schemas.DateSchema
+{{/eq}}
+{{#unless format}}
+schemas.StrSchema
+{{/unless}}
 {{/if}}
-schemas.Str{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if isByteArray}}
 schemas.Str{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}

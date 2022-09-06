@@ -56,7 +56,6 @@ class FormatTest(
             
             
             class password(
-                schemas.StrSchema
             ):
             
             
@@ -349,7 +348,7 @@ class FormatTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        date: typing.Union[MetaOapg.properties.date, date, str, ],
+        date: typing.Union[MetaOapg.properties.date, str, date, ],
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         password: typing.Union[MetaOapg.properties.password, str, ],
         byte: typing.Union[MetaOapg.properties.byte, str, ],
