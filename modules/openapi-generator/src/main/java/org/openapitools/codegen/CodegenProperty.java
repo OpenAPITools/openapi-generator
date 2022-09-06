@@ -203,14 +203,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private String format;
 
     @Override
-    public void setFormat(String format) {
-        this.format = format;
-    }
+    public void setFormat(String format) { this.format = format; }
 
     @Override
-    public String getFormat() {
-        return format;
-    }
+    public String getFormat() { return format; }
 
     @Override
     public boolean getIsBooleanSchemaTrue() {
@@ -752,6 +748,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             }
             if (this.ref != null) {
                 cp.setRef(this.ref);
+            }
+            if (this.format != null) {
+                cp.setFormat(this.format);
             }
 
             return cp;

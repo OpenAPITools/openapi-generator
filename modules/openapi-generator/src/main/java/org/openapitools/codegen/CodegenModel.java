@@ -114,6 +114,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean schemaIsFromAdditionalProperties;
     private boolean isBooleanSchemaTrue;
     private boolean isBooleanSchemaFalse;
+    private String format;
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -197,6 +198,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {
         this.isBooleanSchemaFalse = isBooleanSchemaFalse;
+    }
+
+    @Override
+    public String getFormat() {
+        return format;
+    }
+
+    @Override
+    public void setFormat(String format) {
+        this.format = format;
     }
 
     @Override
@@ -987,6 +998,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(format, that.getFormat()) &&
                 Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
@@ -1063,7 +1075,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
                 isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
-                uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse);
+                uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
+                format);
     }
 
     @Override
@@ -1166,6 +1179,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
         sb.append(", isBooleanSchemaTrue=").append(isBooleanSchemaTrue);
         sb.append(", isBooleanSchemaFalse=").append(isBooleanSchemaFalse);
+        sb.append(", format=").append(format);
         sb.append('}');
         return sb.toString();
     }
