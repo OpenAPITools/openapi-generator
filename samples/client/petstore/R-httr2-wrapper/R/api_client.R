@@ -226,14 +226,11 @@ ApiClient  <- R6::R6Class(
       }
 
       ## add query parameters
-      print("debugging query parameters...")
-      dput(query_params)
       for (query_param in names(query_params)) {
         if (typeof(query_params[[query_param]]) == "list") {
-          print("procesisng explode/list..")
+          # for explode, e.g. a=1,a=2,a=3
           req <- req %>% req_url_query(!!!query_params[[query_param]])
-        } else {
-          print("procesisng non explode/list..")
+        } else { # for non-explode, e.g. a=1,2,3
           tmp <- list()
           tmp[[query_param]] <- query_params[[query_param]]
           req <- req %>% req_url_query(!!!tmp)

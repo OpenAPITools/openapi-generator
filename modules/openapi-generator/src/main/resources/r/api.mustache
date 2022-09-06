@@ -390,11 +390,11 @@
       {{/isExplode}}
       {{^isExplode}}
       # no explore
-      query_params["{{{baseName}}}"] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
       {{/isExplode}}
       {{/isArray}}
       {{^isArray}}
-      query_params["{{baseName}}"] <- `{{paramName}}`
+      query_params[["{{baseName}}"]] <- `{{paramName}}`
       {{/isArray}}
 
       {{/queryParams}}
