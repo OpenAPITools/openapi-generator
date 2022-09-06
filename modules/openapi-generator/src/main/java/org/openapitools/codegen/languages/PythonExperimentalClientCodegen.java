@@ -2246,7 +2246,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             // isString stays true, format stores that this is a uuid
         } else if (ModelUtils.isDecimalSchema(schema)) {
             // isString stays true, format stores that this is a uuid
-            String a = "a";
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            // format stores that this is binary
+            model.isString = true;
         }
     }
 
@@ -2254,8 +2256,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         if (ModelUtils.isByteArraySchema(p)) {
             // isString stays true, format stores that this is a byte
         } else if (ModelUtils.isBinarySchema(p)) {
-            property.isBinary = true;
-            property.isFile = true; // file = binary in OAS3
+            // format stores that this is binary
+            property.isString = true;
         } else if (ModelUtils.isUUIDSchema(p)) {
             // isString stays true, format stores that this is a uuid
         } else if (ModelUtils.isURISchema(p)) {

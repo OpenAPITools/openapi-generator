@@ -18,6 +18,9 @@ schemas.UUIDBase,
 {{#eq format "number"}}
 schemas.DecimalBase,
 {{/eq}}
+{{#eq format "binary"}}
+schemas.BinaryBase,
+{{/eq}}
 schemas.StrBase,
 {{else}}
 {{#eq format "date"}}
@@ -31,6 +34,9 @@ schemas.UUIDSchema
 {{/eq}}
 {{#eq format "number"}}
 schemas.DecimalSchema
+{{/eq}}
+{{#eq format "binary"}}
+schemas.BinarySchema
 {{/eq}}
 {{#neq format "date"}}
 {{#neq format "date-time"}}
@@ -65,9 +71,6 @@ schemas.Float64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/isDouble}}
 {{#if isBoolean}}
 schemas.Bool{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
-{{/if}}
-{{#if isBinary}}
-schemas.Binary{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if isNull}}
 schemas.None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
