@@ -51,6 +51,7 @@ class FormatTest(
             
             
             class password(
+                schemas.StrSchema
             ):
                 pass
             

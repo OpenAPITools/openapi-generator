@@ -2245,7 +2245,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @param schema the model's schema
      */
     protected void updateModelForString(CodegenModel model, Schema schema) {
-        // TODO if format is not in allowed types, set it to empty string
         if (ModelUtils.isDateTimeSchema(schema)) {
             // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
             model.setIsString(false); // for backward compatibility with 2.x
@@ -2260,7 +2259,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
-        // TODO if format is not in allowed types, set it to empty string
         if (ModelUtils.isByteArraySchema(p)) {
             property.isByteArray = true;
             property.setIsString(false);

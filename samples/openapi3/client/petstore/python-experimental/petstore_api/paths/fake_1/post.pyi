@@ -89,6 +89,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
             class password(
+                schemas.StrSchema
             ):
                 pass
             callback = schemas.StrSchema

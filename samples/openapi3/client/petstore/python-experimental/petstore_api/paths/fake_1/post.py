@@ -123,6 +123,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
             class password(
+                schemas.StrSchema
             ):
             
             

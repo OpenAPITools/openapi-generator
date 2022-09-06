@@ -14,9 +14,17 @@ schemas.StrBase,
 {{#eq format "date"}}
 schemas.DateSchema
 {{/eq}}
-{{#unless format}}
+{{#neq format "date"}}
+{{#neq format "date-time"}}
+{{#neq format "uuid"}}
+{{#neq format "number"}}
+{{#neq format "binary"}}
 schemas.StrSchema
-{{/unless}}
+{{/neq}}
+{{/neq}}
+{{/neq}}
+{{/neq}}
+{{/neq}}
 {{/if}}
 {{/if}}
 {{#if isByteArray}}
