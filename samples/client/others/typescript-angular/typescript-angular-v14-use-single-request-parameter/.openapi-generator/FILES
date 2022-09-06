@@ -1,0 +1,13 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/tag1.service.ts
+api/tag2.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/models.ts
+param.ts
+variables.ts

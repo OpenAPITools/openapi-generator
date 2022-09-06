@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: Duplicate export https://github.com/OpenAPITools/openapi-generator/issues/13200
+  version: 1.0.0
+paths:
+  /Foos/{Param1}/Bars:
+    parameters:
+      - name: Param1
+        in: path
+        required: true
+        description: description
+        schema:
+          type: string
+    get:
+      tags:
+        - Tag1
+        - Tag2
+      responses:
+        200:
+          description: description

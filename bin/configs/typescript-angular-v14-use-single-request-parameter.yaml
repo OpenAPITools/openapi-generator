@@ -1,0 +1,8 @@
+generatorName: typescript-angular
+outputDir: samples/client/others/typescript-angular/typescript-angular-v14-use-single-request-parameter
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-angular/issue_13200.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 14.0.5
+  supportsES6: true
+  useSingleRequestParameter: true
