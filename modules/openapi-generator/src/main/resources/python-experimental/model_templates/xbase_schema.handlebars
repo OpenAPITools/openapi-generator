@@ -55,7 +55,27 @@ schemas.StrSchema
 schemas.Int{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if isNumber}}
-schemas.Number{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{#if getHasMultipleTypes}}
+{{#eq format "float"}}
+schemas.Float32Base,
+{{/eq}}
+{{#eq format "double"}}
+schemas.Float64Base,
+{{/eq}}
+schemas.NumberBase,
+{{else}}
+{{#eq format "float"}}
+schemas.Float32Schema
+{{/eq}}
+{{#eq format "double"}}
+schemas.Float64Schema
+{{/eq}}
+{{#neq format "float"}}
+{{#neq format "double"}}
+schemas.NumberSchema
+{{/neq}}
+{{/neq}}
+{{/if}}
 {{/if}}
 {{#isShort}}
 schemas.Int32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
@@ -63,12 +83,6 @@ schemas.Int32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{#isLong}}
 schemas.Int64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/isLong}}
-{{#isFloat}}
-schemas.Float32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
-{{/isFloat}}
-{{#isDouble}}
-schemas.Float64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
-{{/isDouble}}
 {{#if isBoolean}}
 schemas.Bool{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
@@ -77,5 +91,5 @@ schemas.None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if getHasMultipleTypes}}
 schemas.Schema,
-schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#if isString }}Str{{/if}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
+schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#if isString }}Str{{/if}}{{#or isUnboundedInteger isShort isLong isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
 {{/if}}

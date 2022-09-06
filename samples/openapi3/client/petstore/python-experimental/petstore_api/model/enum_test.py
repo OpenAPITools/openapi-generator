@@ -247,7 +247,7 @@ class EnumTest(
         enum_string_required: typing.Union[MetaOapg.properties.enum_string_required, str, ],
         enum_string: typing.Union[MetaOapg.properties.enum_string, str, schemas.Unset] = schemas.unset,
         enum_integer: typing.Union[MetaOapg.properties.enum_integer, int, schemas.Unset] = schemas.unset,
-        enum_number: typing.Union[MetaOapg.properties.enum_number, float, schemas.Unset] = schemas.unset,
+        enum_number: typing.Union[MetaOapg.properties.enum_number, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         stringEnum: typing.Union['StringEnum', schemas.Unset] = schemas.unset,
         IntegerEnum: typing.Union['IntegerEnum', schemas.Unset] = schemas.unset,
         StringEnumWithDefaultValue: typing.Union['StringEnumWithDefaultValue', schemas.Unset] = schemas.unset,

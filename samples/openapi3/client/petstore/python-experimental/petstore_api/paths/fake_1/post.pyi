@@ -220,7 +220,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
         byte: typing.Union[MetaOapg.properties.byte, str, ],
-        double: typing.Union[MetaOapg.properties.double, float, ],
+        double: typing.Union[MetaOapg.properties.double, decimal.Decimal, int, float, ],
         integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
         int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
         int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,

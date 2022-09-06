@@ -149,7 +149,7 @@ RequestOptionalQueryParams = typing.TypedDict(
         'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, tuple, ],
         'enum_query_string': typing.Union[EnumQueryStringSchema, str, ],
         'enum_query_integer': typing.Union[EnumQueryIntegerSchema, int, ],
-        'enum_query_double': typing.Union[EnumQueryDoubleSchema, float, ],
+        'enum_query_double': typing.Union[EnumQueryDoubleSchema, decimal.Decimal, int, float, ],
     },
     total=False
 )
