@@ -200,6 +200,17 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean schemaIsFromAdditionalProperties;
     private boolean isBooleanSchemaTrue;
     private boolean isBooleanSchemaFalse;
+    private String format;
+
+    @Override
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    @Override
+    public String getFormat() {
+        return format;
+    }
 
     @Override
     public boolean getIsBooleanSchemaTrue() {
@@ -1040,6 +1051,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
         sb.append(", isBooleanSchemaTrue=").append(isBooleanSchemaTrue);
         sb.append(", isBooleanSchemaFalse=").append(isBooleanSchemaFalse);
+        sb.append(", format=").append(format);
         sb.append('}');
         return sb.toString();
     }
@@ -1101,6 +1113,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(format, that.getFormat()) &&
                 Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
@@ -1168,6 +1181,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
-                ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse);
+                ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
+                format);
     }
 }
