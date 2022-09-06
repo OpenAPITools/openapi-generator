@@ -22,12 +22,16 @@ class TestAdditionalPropertiesValidator(unittest.TestCase):
         with self.assertRaises(exceptions.ApiValueError):
             AdditionalPropertiesValidator(tooShort='ab')
 
+        with self.assertRaises(exceptions.ApiValueError):
+            AdditionalPropertiesValidator(tooLong='abcdef')
+
         inst = AdditionalPropertiesValidator(addProp='abc')
         add_prop = inst['addProp']
         assert add_prop == 'abc'
         assert isinstance(add_prop, str)
         assert isinstance(add_prop, schemas.AnyTypeSchema)
         assert isinstance(add_prop, AdditionalPropertiesValidator.MetaOapg.all_of[1].MetaOapg.additional_properties)
+        assert isinstance(add_prop, AdditionalPropertiesValidator.MetaOapg.all_of[2].MetaOapg.additional_properties)
         assert not isinstance(add_prop, schemas.UnsetAnyTypeSchema)
 
 

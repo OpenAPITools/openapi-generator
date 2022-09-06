@@ -114,6 +114,56 @@ class AdditionalPropertiesValidator(
                     **kwargs,
                 )
         
+        
+        class all_of_2(
+            schemas.DictSchema
+        ):
+        
+        
+            class MetaOapg:
+                
+                
+                class additional_properties(
+                    schemas.AnyTypeSchema,
+                ):
+                
+                
+                    class MetaOapg:
+                
+                
+                    def __new__(
+                        cls,
+                        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                        _configuration: typing.Optional[schemas.Configuration] = None,
+                        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+                    ) -> 'additional_properties':
+                        return super().__new__(
+                            cls,
+                            *args,
+                            _configuration=_configuration,
+                            **kwargs,
+                        )
+            
+            def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
+            
+            def get_item_oapg(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+                return super().get_item_oapg(name)
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+            ) -> 'all_of_2':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
+        
         @classmethod
         @property
         @functools.cache
@@ -128,6 +178,7 @@ class AdditionalPropertiesValidator(
             return [
                 cls.all_of_0,
                 cls.all_of_1,
+                cls.all_of_2,
             ]
 
 

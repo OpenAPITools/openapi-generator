@@ -2914,3 +2914,6 @@ components:
         - type: object
           additionalProperties:
             minLength: 3
+        - type: object
+          additionalProperties:
+            maxLength: 5
