@@ -12,6 +12,9 @@ schemas.DateBase,
 {{#eq format "date-time"}}
 schemas.DateTimeBase,
 {{/eq}}
+{{#eq format "uuid"}}
+schemas.UUIDBase,
+{{/eq}}
 schemas.StrBase,
 {{else}}
 {{#eq format "date"}}
@@ -19,6 +22,9 @@ schemas.DateSchema
 {{/eq}}
 {{#eq format "date-time"}}
 schemas.DateTimeSchema
+{{/eq}}
+{{#eq format "uuid"}}
+schemas.UUIDSchema
 {{/eq}}
 {{#neq format "date"}}
 {{#neq format "date-time"}}
@@ -54,9 +60,6 @@ schemas.Float32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{#isDouble}}
 schemas.Float64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/isDouble}}
-{{#if getIsUuid}}
-schemas.UUID{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
-{{/if}}
 {{#if isDecimal}}
 schemas.Decimal{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}

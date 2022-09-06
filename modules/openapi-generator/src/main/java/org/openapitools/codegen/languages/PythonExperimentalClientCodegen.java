@@ -2250,9 +2250,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (ModelUtils.isDateSchema(schema)) {
             // isString stays true, format stores that this is a date
         } else if (ModelUtils.isUUIDSchema(schema)) {
-            // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
-            model.setIsString(false);
-            model.setIsUuid(true);
+            // isString stays true, format stores that this is a uuid
         }
     }
 
@@ -2264,8 +2262,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             property.isBinary = true;
             property.isFile = true; // file = binary in OAS3
         } else if (ModelUtils.isUUIDSchema(p)) {
-            property.setIsString(false); // so the templates only see isUuid
-            property.setIsUuid(true);
+            // isString stays true, format stores that this is a uuid
         } else if (ModelUtils.isURISchema(p)) {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {
