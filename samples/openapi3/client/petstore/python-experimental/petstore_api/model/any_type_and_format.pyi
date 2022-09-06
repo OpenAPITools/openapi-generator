@@ -37,7 +37,7 @@ class AnyTypeAndFormat(
             
             
             class uuid(
-                schemas.UuidBase,
+                schemas.UUIDBase,
                 schemas.AnyTypeSchema,
             ):
             

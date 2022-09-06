@@ -123,7 +123,6 @@ class NullableClass(
             class date_prop(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.DateBase,
-                schemas.DateBase,
                 schemas.NoneBase,
                 schemas.Schema,
                 schemas.NoneStrMixin
@@ -148,7 +147,6 @@ class NullableClass(
             
             class datetime_prop(
                 schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
-                schemas.DateTimeBase,
                 schemas.DateTimeBase,
                 schemas.NoneBase,
                 schemas.Schema,

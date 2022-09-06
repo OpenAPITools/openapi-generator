@@ -858,7 +858,7 @@ class StrBase(ValidatorBase):
         return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
-class UUIDBase(StrBase):
+class UUIDBase:
     @property
     @functools.cache
     def as_uuid_oapg(self) -> uuid.UUID:
@@ -924,7 +924,7 @@ class CustomIsoparser(isoparser):
 DEFAULT_ISOPARSER = CustomIsoparser()
 
 
-class DateBase(StrBase):
+class DateBase:
     @property
     @functools.cache
     def as_date_oapg(self) -> date:
@@ -986,7 +986,7 @@ class DateTimeBase:
         return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
-class DecimalBase(StrBase):
+class DecimalBase:
     """
     A class for storing decimals that are sent over the wire as strings
     These schemas must remain based on StrBase rather than NumberBase
@@ -1921,7 +1921,7 @@ class NumberSchema(
         return super().__new__(cls, arg, **kwargs)
 
 
-class IntBase(NumberBase):
+class IntBase:
     @property
     def as_int_oapg(self) -> int:
         try:

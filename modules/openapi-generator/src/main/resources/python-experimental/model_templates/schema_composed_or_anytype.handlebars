@@ -20,9 +20,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{#if isEnum}}
     {{> model_templates/enum_value_to_name }}
     {{/if}}
-    {{#if getFormat}}
-    {{> model_templates/format_base }}
-    {{/if}}
     {{> model_templates/xbase_schema }}
 {{/if}}
 ):
