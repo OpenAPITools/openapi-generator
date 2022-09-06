@@ -45,9 +45,6 @@ schemas.StrSchema
 {{/neq}}
 {{/if}}
 {{/if}}
-{{#if isByteArray}}
-schemas.Str{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
-{{/if}}
 {{#if isUnboundedInteger}}
 schemas.Int{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
@@ -77,5 +74,5 @@ schemas.None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if getHasMultipleTypes}}
 schemas.Schema,
-schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#or isString isByteArray }}Str{{/or}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
+schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#if isString }}Str{{/if}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
 {{/if}}

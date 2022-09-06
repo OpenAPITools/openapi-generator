@@ -2252,8 +2252,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
         if (ModelUtils.isByteArraySchema(p)) {
-            property.isByteArray = true;
-            property.setIsString(false);
+            // isString stays true, format stores that this is a byte
         } else if (ModelUtils.isBinarySchema(p)) {
             property.isBinary = true;
             property.isFile = true; // file = binary in OAS3
