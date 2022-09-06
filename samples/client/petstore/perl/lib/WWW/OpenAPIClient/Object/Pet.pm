@@ -225,7 +225,7 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => 'id',
         description => '',
-        format => '',
+        format => 'int64',
         read_only => '',
             },
     'category' => {

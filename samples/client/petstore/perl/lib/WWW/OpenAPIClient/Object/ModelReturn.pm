@@ -223,7 +223,7 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => 'return',
         description => '',
-        format => '',
+        format => 'int32',
         read_only => '',
             },
 });

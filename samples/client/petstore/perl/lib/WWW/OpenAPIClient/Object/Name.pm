@@ -223,14 +223,14 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => 'name',
         description => '',
-        format => '',
+        format => 'int32',
         read_only => '',
             },
     'snake_case' => {
         datatype => 'int',
         base_name => 'snake_case',
         description => '',
-        format => '',
+        format => 'int32',
         read_only => '',
             },
     'property' => {

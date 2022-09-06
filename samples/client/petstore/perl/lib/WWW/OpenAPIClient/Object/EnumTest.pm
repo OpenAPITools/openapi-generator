@@ -241,14 +241,14 @@ __PACKAGE__->method_documentation({
         datatype => 'int',
         base_name => 'enum_integer',
         description => '',
-        format => '',
+        format => 'int32',
         read_only => '',
             },
     'enum_number' => {
         datatype => 'double',
         base_name => 'enum_number',
         description => '',
-        format => '',
+        format => 'double',
         read_only => '',
             },
     'outer_enum' => {
