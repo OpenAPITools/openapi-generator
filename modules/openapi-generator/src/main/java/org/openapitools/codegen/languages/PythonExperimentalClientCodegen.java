@@ -2251,6 +2251,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             // isString stays true, format stores that this is a date
         } else if (ModelUtils.isUUIDSchema(schema)) {
             // isString stays true, format stores that this is a uuid
+        } else if (ModelUtils.isDecimalSchema(schema)) {
+            // isString stays true, format stores that this is a uuid
+            String a = "a";
         }
     }
 
@@ -2272,8 +2275,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
             // isString stays true, format stores that this is a date-time
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
-            property.setIsString(false); // so the templates only see isDecimal
-            property.isDecimal = true;
+            // isString stays true, format stores that this is a number
         }
         property.pattern = toRegularExpression(p.getPattern());
     }

@@ -20,4 +20,4 @@ import uuid  # noqa: F401
 import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
-DecimalPayload = schemas.DecimalSchema
+DecimalPayload = schemas.Schema
