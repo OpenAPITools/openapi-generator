@@ -25,7 +25,7 @@
                 {{/or}}
             {{/if}}
             {{#if isAnyType}}
-                {{#or isEnum hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping items}}
+                {{#or isEnum hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping items getFormat}}
 {{> model_templates/schema_composed_or_anytype }}
                 {{else}}
 {{> model_templates/var_equals_cls }}

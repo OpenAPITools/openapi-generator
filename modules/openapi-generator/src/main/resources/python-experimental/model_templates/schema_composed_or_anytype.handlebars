@@ -2,6 +2,9 @@
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
 {{#if getIsAnyType}}
+    {{#if getFormat}}
+    {{> model_templates/format_base }}
+    {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedSchema,
     {{else}}
@@ -17,6 +20,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{#if isEnum}}
     {{> model_templates/enum_value_to_name }}
     {{/if}}
+    {{#if getFormat}}
+    {{> model_templates/format_base }}
+    {{/if}}
     {{> model_templates/xbase_schema }}
 {{/if}}
 ):
@@ -31,10 +37,13 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
+{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars getFormat}}
 
 
     class MetaOapg:
+{{#if getFormat}}
+        format = '{{getFormat}}'
+{{/if}}
 {{#with items}}
 {{#if complexType}}
 

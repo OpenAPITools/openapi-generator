@@ -228,6 +228,7 @@ Class | Method | HTTP request | Description
  - [Address](docs/models/Address.md)
  - [Animal](docs/models/Animal.md)
  - [AnimalFarm](docs/models/AnimalFarm.md)
+ - [AnyTypeAndFormat](docs/models/AnyTypeAndFormat.md)
  - [AnyTypeNotString](docs/models/AnyTypeNotString.md)
  - [ApiResponse](docs/models/ApiResponse.md)
  - [Apple](docs/models/Apple.md)
