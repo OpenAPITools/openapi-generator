@@ -484,6 +484,11 @@
   infoLink: "https://www.tencent.com/"
   pinned: false
 -
+  caption: TileDB
+  image: "img/companies/tiledb.png"
+  infoLink: "https://www.tiledb.com/"
+  pinned: false
+-
   caption: The University of Aizu
   image: "img/companies/uoa.png"
   infoLink: "https://www.u-aizu.ac.jp/en/"

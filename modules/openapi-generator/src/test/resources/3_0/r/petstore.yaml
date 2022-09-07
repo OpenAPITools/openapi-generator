@@ -82,7 +82,7 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
-          explode: false
+          explode: true # change to true for testing purpose
           deprecated: true
           schema:
             type: array
@@ -148,9 +148,10 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid tag value
-      security:
-        - petstore_auth:
-            - 'read:pets'
+      # comment out for testing purpose
+      #security:
+      #  - petstore_auth:
+      #      - 'read:pets'
       deprecated: true
   '/pet/{petId}':
     get:

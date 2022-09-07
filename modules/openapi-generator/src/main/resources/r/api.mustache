@@ -382,12 +382,19 @@
       {{/headerParams}}
       {{#queryParams}}
       {{#isArray}}
+      {{#isExplode}}
+      # explore
       for (query_item in `{{{paramName}}}`) {
         query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
       }
+      {{/isExplode}}
+      {{^isExplode}}
+      # no explore
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/isExplode}}
       {{/isArray}}
       {{^isArray}}
-      query_params["{{baseName}}"] <- `{{paramName}}`
+      query_params[["{{baseName}}"]] <- `{{paramName}}`
       {{/isArray}}
 
       {{/queryParams}}

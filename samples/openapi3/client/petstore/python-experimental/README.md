@@ -223,6 +223,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](docs/models/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesValidator](docs/models/AdditionalPropertiesValidator.md)
  - [AdditionalPropertiesWithArrayOfEnums](docs/models/AdditionalPropertiesWithArrayOfEnums.md)
  - [Address](docs/models/Address.md)
  - [Animal](docs/models/Animal.md)

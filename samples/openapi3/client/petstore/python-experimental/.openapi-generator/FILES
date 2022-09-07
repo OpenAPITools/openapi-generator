@@ -10,6 +10,7 @@ docs/apis/tags/PetApi.md
 docs/apis/tags/StoreApi.md
 docs/apis/tags/UserApi.md
 docs/models/AdditionalPropertiesClass.md
+docs/models/AdditionalPropertiesValidator.md
 docs/models/AdditionalPropertiesWithArrayOfEnums.md
 docs/models/Address.md
 docs/models/Animal.md
@@ -140,6 +141,8 @@ petstore_api/exceptions.py
 petstore_api/model/__init__.py
 petstore_api/model/additional_properties_class.py
 petstore_api/model/additional_properties_class.pyi
+petstore_api/model/additional_properties_validator.py
+petstore_api/model/additional_properties_validator.pyi
 petstore_api/model/additional_properties_with_array_of_enums.py
 petstore_api/model/additional_properties_with_array_of_enums.pyi
 petstore_api/model/address.py
