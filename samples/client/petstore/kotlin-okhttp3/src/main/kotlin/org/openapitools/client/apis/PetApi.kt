@@ -643,5 +643,5 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
 
 
     private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
-        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments[0]
+        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments()[0]
 }

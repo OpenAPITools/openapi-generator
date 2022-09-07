@@ -235,6 +235,6 @@ import {{packageName}}.infrastructure.toMultiValue
     {{/operation}}
 
     private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
-        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments[0]
+        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments{{#jvm-okhttp3}}(){{/jvm-okhttp3}}[0]
 }
 {{/operations}}
