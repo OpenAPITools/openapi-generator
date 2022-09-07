@@ -85,6 +85,26 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         with self.assertRaises(exceptions.ApiValueError):
             AnyTypeAndFormat({'date-time': 'abcd'})
 
+    def test_number(self):
+        valid_values = [
+            '3.14',
+            {},
+            1,
+            3.14,
+            decimal.Decimal('3.14'),
+            True,
+            None,
+            [],
+            (),
+            b'abc'
+        ]
+        for valid_value in valid_values:
+            AnyTypeAndFormat(number=valid_value)
+
+        # an invalid value does not work
+        with self.assertRaises(exceptions.ApiValueError):
+            AnyTypeAndFormat(number='a')
+
 
 if __name__ == '__main__':
     unittest.main()
