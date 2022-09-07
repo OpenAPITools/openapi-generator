@@ -128,7 +128,7 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         for valid_value in valid_values:
             AnyTypeAndFormat(int32=valid_value)
 
-        # invalid values does not work
+        # invalid values do not work
         invalid_values = (
             min_bound - 1,
             max_bound + 1
@@ -160,7 +160,7 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         for valid_value in valid_values:
             AnyTypeAndFormat(int64=valid_value)
 
-        # invalid values does not work
+        # invalid values do not work
         invalid_values = (
             min_bound - 1,
             max_bound + 1
@@ -168,6 +168,36 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         for invalid_value in invalid_values:
             with self.assertRaises(exceptions.ApiValueError):
                 AnyTypeAndFormat(int64=invalid_value)
+
+    def test_double(self):
+        min_bound = decimal.Decimal(-3.4028234663852886e+38)
+        max_bound = decimal.Decimal(3.4028234663852886e+38)
+        valid_values = [
+            'a',
+            {},
+            1,
+            3.14,
+            min_bound,
+            max_bound,
+            True,
+            None,
+            [],
+            (),
+            b'abc'
+        ]
+        for valid_value in valid_values:
+            AnyTypeAndFormat(double=valid_value)
+
+        # invalid values do not work
+        invalid_values = (
+            min_bound - decimal.Decimal('0.1'),
+            max_bound + decimal.Decimal('0.1'),
+            min_bound - 1,
+            max_bound + 1
+        )
+        for invalid_value in invalid_values:
+            with self.assertRaises(exceptions.ApiValueError):
+                AnyTypeAndFormat(double=invalid_value)
 
 
 if __name__ == '__main__':
