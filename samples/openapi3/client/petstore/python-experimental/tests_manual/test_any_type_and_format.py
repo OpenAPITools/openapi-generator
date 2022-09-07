@@ -137,6 +137,38 @@ class TestAnyTypeAndFormat(unittest.TestCase):
             with self.assertRaises(exceptions.ApiValueError):
                 AnyTypeAndFormat(int32=invalid_value)
 
+    def test_int64(self):
+        min_bound = decimal.Decimal(-9223372036854775808)
+        max_bound = decimal.Decimal(9223372036854775807)
+        under_min_number = min_bound - decimal.Decimal('0.1')
+        over_max_number = max_bound + decimal.Decimal('0.1')
+        valid_values = [
+            'a',
+            {},
+            1,
+            3.14,
+            min_bound,
+            max_bound,
+            under_min_number,
+            over_max_number,
+            True,
+            None,
+            [],
+            (),
+            b'abc'
+        ]
+        for valid_value in valid_values:
+            AnyTypeAndFormat(int64=valid_value)
+
+        # invalid values does not work
+        invalid_values = (
+            min_bound - 1,
+            max_bound + 1
+        )
+        for invalid_value in invalid_values:
+            with self.assertRaises(exceptions.ApiValueError):
+                AnyTypeAndFormat(int64=invalid_value)
+
 
 if __name__ == '__main__':
     unittest.main()
