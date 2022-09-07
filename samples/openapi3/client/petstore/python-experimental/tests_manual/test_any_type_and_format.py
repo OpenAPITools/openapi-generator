@@ -15,7 +15,7 @@ import unittest
 import uuid
 
 from petstore_api.model.any_type_and_format import AnyTypeAndFormat
-from petstore_api import exceptions, schemas
+from petstore_api import exceptions
 
 
 class TestAnyTypeAndFormat(unittest.TestCase):
@@ -104,6 +104,38 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         # an invalid value does not work
         with self.assertRaises(exceptions.ApiValueError):
             AnyTypeAndFormat(number='a')
+
+    def test_int32(self):
+        min_bound = decimal.Decimal(-2147483648)
+        max_bound = decimal.Decimal(2147483647)
+        under_min_number = min_bound - decimal.Decimal('0.1')
+        over_max_number = max_bound + decimal.Decimal('0.1')
+        valid_values = [
+            'a',
+            {},
+            1,
+            3.14,
+            min_bound,
+            max_bound,
+            under_min_number,
+            over_max_number,
+            True,
+            None,
+            [],
+            (),
+            b'abc'
+        ]
+        for valid_value in valid_values:
+            AnyTypeAndFormat(int32=valid_value)
+
+        # invalid values does not work
+        invalid_values = (
+            min_bound - 1,
+            max_bound + 1
+        )
+        for invalid_value in invalid_values:
+            with self.assertRaises(exceptions.ApiValueError):
+                AnyTypeAndFormat(int32=invalid_value)
 
 
 if __name__ == '__main__':

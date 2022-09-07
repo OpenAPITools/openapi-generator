@@ -1970,7 +1970,7 @@ class Int32Base:
 
     @classmethod
     def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
-        if isinstance(arg, decimal.Decimal):
+        if isinstance(arg, decimal.Decimal) and arg.as_tuple().exponent == 0:
             if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
                 raise ApiValueError(
                     "Invalid value '{}' for type int32 at {}".format(arg, validation_metadata.path_to_item)
@@ -2002,7 +2002,7 @@ class Int64Base:
 
     @classmethod
     def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
-        if isinstance(arg, decimal.Decimal):
+        if isinstance(arg, decimal.Decimal) and arg.as_tuple().exponent == 0:
             if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
                 raise ApiValueError(
                     "Invalid value '{}' for type int64 at {}".format(arg, validation_metadata.path_to_item)
