@@ -2789,7 +2789,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Sets the booleans that define the model's type
      *
      * @param model the model to update
-     * @param p the model's schema
+     * @param schema the model's schema
      */
     protected void updateModelForString(CodegenModel model, Schema schema) {
         // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
