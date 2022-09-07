@@ -213,8 +213,6 @@ var_tags <- list("inner_example") # array[character] | Tags to filter by
 
 # Finds Pets by tags
 api_instance <- petstore_api$new()
-# Configure OAuth2 access token for authorization: petstore_auth
-api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
              # api_instance$pet_api$find_pets_by_tags(var_tags, data_file = "result.txt"),
@@ -247,7 +245,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+No authorization required
 
 ### HTTP request headers
 

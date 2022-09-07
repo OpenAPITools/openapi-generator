@@ -395,9 +395,6 @@
 #' #Finds Pets by tags
 #' api_instance <- petstore_api$new()
 #'
-#' # Configure OAuth2 access token for authorization: petstore_auth
-#' api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
-#'
 #' result <- tryCatch(
 #'              
 #'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -944,6 +941,7 @@ PetApi <- R6::R6Class(
       }
 
 
+      # explore
       for (query_item in `status`) {
         query_params[["status"]] <- c(query_params[["status"]], list(`status` = query_item))
       }
@@ -1064,14 +1062,10 @@ PetApi <- R6::R6Class(
       }
 
 
-      for (query_item in `tags`) {
-        query_params[["tags"]] <- c(query_params[["tags"]], list(`tags` = query_item))
-      }
+      # no explore
+      query_params[["tags"]] <- I(paste(lapply(`tags`, URLencode, reserved = TRUE), collapse = ","))
 
       local_var_url_path <- "/pet/findByTags"
-      # OAuth-related settings
-      is_oauth <- TRUE
-      oauth_scopes <- "read:pets"
 
       # The Accept request HTTP header
       local_var_accepts <- list("application/xml", "application/json")

@@ -1071,9 +1071,9 @@ UserApi <- R6::R6Class(
       }
 
 
-      query_params["username"] <- `username`
+      query_params[["username"]] <- `username`
 
-      query_params["password"] <- `password`
+      query_params[["password"]] <- `password`
 
       local_var_url_path <- "/user/login"
 
