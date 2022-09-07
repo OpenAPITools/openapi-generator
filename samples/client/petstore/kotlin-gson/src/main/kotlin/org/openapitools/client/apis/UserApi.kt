@@ -22,6 +22,7 @@ package org.openapitools.client.apis
 
 import java.io.IOException
 import okhttp3.OkHttpClient
+import okhttp3.HttpUrl
 
 import org.openapitools.client.models.User
 
@@ -310,7 +311,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
+            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -380,7 +381,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
+            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -591,11 +592,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
+            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
         )
     }
 
+
+    private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
+        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments[0]
 }
