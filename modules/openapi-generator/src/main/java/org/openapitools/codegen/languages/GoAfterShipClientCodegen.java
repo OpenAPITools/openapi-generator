@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -33,20 +32,15 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class GoAfterShipClientCodegen extends AbstractGoCodegen {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
+    //private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -59,7 +53,7 @@ public class GoAfterShipClientCodegen extends AbstractGoCodegen {
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
-    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    final private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public GoAfterShipClientCodegen() {
         super();

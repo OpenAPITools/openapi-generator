@@ -52,7 +52,7 @@ type {{classname}}Service struct {
 
 type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request struct {
 {{#allParams}}
-	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}" form:"{{baseName}}"`
 {{/allParams}}
 }
 
