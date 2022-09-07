@@ -199,6 +199,39 @@ class TestAnyTypeAndFormat(unittest.TestCase):
             with self.assertRaises(exceptions.ApiValueError):
                 AnyTypeAndFormat(double=invalid_value)
 
+    def test_float(self):
+        min_bound = decimal.Decimal(-1.7976931348623157E+308)
+        max_bound = decimal.Decimal(1.7976931348623157E+308)
+        valid_values = [
+            'a',
+            {},
+            1,
+            3.14,
+            min_bound,
+            max_bound,
+            True,
+            None,
+            [],
+            (),
+            b'abc'
+        ]
+        for valid_value in valid_values:
+            AnyTypeAndFormat(float=valid_value)
+
+        with decimal.localcontext() as ctx:
+            ctx.prec = 310
+            # local higher precision context needed to correctly create these numbers
+            invalid_values = (
+                min_bound - decimal.Decimal('0.1'),
+                max_bound + decimal.Decimal('0.1'),
+                min_bound - 1,
+                max_bound + 1
+            )
+        # invalid values do not work
+        for invalid_value in invalid_values:
+            with self.assertRaises(exceptions.ApiValueError):
+                AnyTypeAndFormat(float=invalid_value)
+
 
 if __name__ == '__main__':
     unittest.main()
