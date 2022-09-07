@@ -1701,7 +1701,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -1774,7 +1774,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -2368,7 +2368,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -2662,7 +2662,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -2735,7 +2735,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -2808,7 +2808,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -3999,7 +3999,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -4072,7 +4072,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -5479,7 +5479,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -5922,7 +5922,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -6366,7 +6366,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -6439,7 +6439,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -6512,7 +6512,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
