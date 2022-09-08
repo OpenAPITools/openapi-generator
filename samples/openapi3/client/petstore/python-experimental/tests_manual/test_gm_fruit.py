@@ -10,14 +10,14 @@
 """
 
 
-import sys
 import unittest
 
-import petstore_api
+import frozendict
+
 from petstore_api.model import apple
 from petstore_api.model import banana
 from petstore_api.model.gm_fruit import GmFruit
-from petstore_api.schemas import frozendict
+from petstore_api import schemas
 
 class TestGmFruit(unittest.TestCase):
     """GmFruit unit test stubs"""
@@ -37,17 +37,14 @@ class TestGmFruit(unittest.TestCase):
         color = 'yellow'
         cultivar = 'banaple'
         fruit = GmFruit(lengthCm=length_cm, color=color, cultivar=cultivar)
-        assert isinstance(fruit, GmFruit)
         assert isinstance(fruit, banana.Banana)
         assert isinstance(fruit, apple.Apple)
-        assert isinstance(fruit, frozendict)
+        assert isinstance(fruit, frozendict.frozendict)
+        assert isinstance(fruit, GmFruit)
         # check its properties
-        self.assertEqual(fruit.lengthCm, length_cm)
         self.assertEqual(fruit['lengthCm'], length_cm)
-        self.assertEqual(getattr(fruit, 'lengthCm'), length_cm)
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
+
         # check the dict representation
         self.assertEqual(
             fruit,
@@ -58,28 +55,30 @@ class TestGmFruit(unittest.TestCase):
             }
         )
 
+        # unset key access raises KeyError
         with self.assertRaises(KeyError):
-            invalid_variable = fruit['origin']
+            fruit["origin"]
+        with self.assertRaises(AttributeError):
+            fruit.origin
+        assert fruit.get_item_oapg("origin") is schemas.unset
+
+        with self.assertRaises(KeyError):
+            fruit['unknown_variable']
+        assert fruit.get_item_oapg("unknown_variable") is schemas.unset
         # with getattr
         self.assertTrue(getattr(fruit, 'origin', 'some value'), 'some value')
 
         # make sure that the ModelComposed class properties are correct
-        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas,
-            {
-                'anyOf': [
-                    apple.Apple,
-                    banana.Banana,
-                ],
-                'allOf': [],
-                'oneOf': [],
-                'not': None
-            }
+            GmFruit.MetaOapg.any_of,
+            [
+                apple.Apple,
+                banana.Banana,
+            ],
         )
 
         # including extra parameters works
-        fruit = GmFruit(
+        GmFruit(
             color=color,
             length_cm=length_cm,
             cultivar=cultivar,
@@ -88,21 +87,14 @@ class TestGmFruit(unittest.TestCase):
 
         # including input parameters for both anyOf instances works
         color = 'orange'
-        color_stored = b'orange'
         fruit = GmFruit(
             color=color,
             cultivar=cultivar,
             length_cm=length_cm
         )
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-        self.assertEqual(fruit.length_cm, length_cm)
         self.assertEqual(fruit['length_cm'], length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
 
         # make an instance of GmFruit, a composed schema anyOf model
         # apple test
@@ -111,16 +103,9 @@ class TestGmFruit(unittest.TestCase):
         origin = 'California'
         fruit = GmFruit(color=color, cultivar=cultivar, origin=origin)
         # check its properties
-        self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
-        self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-
-        self.assertEqual(fruit.origin, origin)
         self.assertEqual(fruit['origin'], origin)
-        self.assertEqual(getattr(fruit, 'origin'), origin)
 
         # check the dict representation
         self.assertEqual(
@@ -131,6 +116,7 @@ class TestGmFruit(unittest.TestCase):
                 'origin': origin,
             }
         )
+
 
 if __name__ == '__main__':
     unittest.main()

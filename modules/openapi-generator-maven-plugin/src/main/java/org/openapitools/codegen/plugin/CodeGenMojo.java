@@ -95,8 +95,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Location of the output directory.
      */
-    @Parameter(name = "output", property = "openapi.generator.maven.plugin.output",
-            defaultValue = "${project.build.directory}/generated-sources/openapi")
+    @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
     /**
@@ -464,6 +463,12 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
+
+        if (output == null) {
+            output = new File(project.getBuild().getDirectory(),
+                    LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
+                            "generated-test-sources/openapi" : "generated-sources/openapi");
+        }
         addCompileSourceRootIfConfigured();
 
         try {
@@ -913,21 +918,16 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + "-" + mojo.getExecutionId() + ".sha256");
+        return new File(output.getPath() + File.separatorChar + ".openapi-generator" + File.separatorChar + name + "-" + mojo.getExecutionId() + ".sha256");
     }
 
     private String getCompileSourceRoot() {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
                         .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder;
-        if (sourceFolderObject != null) {
-            sourceFolder = sourceFolderObject.toString();
-        } else {
-            sourceFolder = addTestCompileSourceRoot ? "src/test/java" : "src/main/java";
-        }
+        final String sourceFolder = sourceFolderObject != null ? sourceFolderObject.toString() : "src/main/java";
 
-        return output.toString() + "/" + sourceFolder;
+        return output.getPath() + File.separatorChar + sourceFolder;
     }
 
     private void addCompileSourceRootIfConfigured() throws MojoExecutionException {

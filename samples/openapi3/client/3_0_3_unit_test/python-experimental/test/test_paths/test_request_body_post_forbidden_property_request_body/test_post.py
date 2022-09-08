@@ -47,7 +47,7 @@ class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.Tes
                 }
             )
             with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-                body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+                body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                     payload,
                     _configuration=self._configuration
                 )
@@ -65,7 +65,7 @@ class TestRequestBodyPostForbiddenPropertyRequestBody(ApiTestMixin, unittest.Tes
                         2,
                 }
             )
-            body = post.SchemaForRequestBodyApplicationJson._from_openapi_data(
+            body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,
                 _configuration=self._configuration
             )

@@ -12,6 +12,7 @@
 #include <memory>
 #include <utility>
 #include <exception>
+#include <functional>
 
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
@@ -44,6 +45,7 @@ private:
     std::string m_what;
 };
 
+namespace {{classname}}Resources {
 {{#operation}}
 /// <summary>
 /// {{summary}}
@@ -51,23 +53,47 @@ private:
 /// <remarks>
 /// {{notes}}
 /// </remarks>
-class {{declspec}} {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource: public restbed::Resource
+class {{declspec}} {{vendorExtensions.x-codegen-resource-name}}Resource: public restbed::Resource
 {
 public:
-    {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context = "{{contextPath}}");
-    virtual ~{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource();
+    {{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context = "{{contextPath}}");
+    virtual ~{{vendorExtensions.x-codegen-resource-name}}Resource() = default;
+
+    {{vendorExtensions.x-codegen-resource-name}}Resource(
+        const {{vendorExtensions.x-codegen-resource-name}}Resource& other) = default; // copy constructor
+    {{vendorExtensions.x-codegen-resource-name}}Resource({{vendorExtensions.x-codegen-resource-name}}Resource&& other) noexcept = default; // move constructor
+
+    {{vendorExtensions.x-codegen-resource-name}}Resource& operator=(const {{vendorExtensions.x-codegen-resource-name}}Resource& other) = default; // copy assignment
+    {{vendorExtensions.x-codegen-resource-name}}Resource& operator=({{vendorExtensions.x-codegen-resource-name}}Resource&& other) noexcept = default; // move assignment
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}(
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})> handler_{{httpMethod}}_func =
+            []({{#allParams}}{{{dataType}}} &{{^-last}}, {{/-last}}{{/allParams}}) -> {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}
+                { throw {{classname}}Exception(501, "Not implemented"); };
+
+    {{#vendorExtensions.x-codegen-other-methods}}
+    std::function<{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}(
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})> handler_{{httpMethod}}_func =
+            []({{#allParams}}{{{dataType}}} &{{^-last}}, {{/-last}}{{/allParams}}) -> {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}}
+                { throw {{classname}}Exception(501, "Not implemented"); };
+
+    {{/vendorExtensions.x-codegen-other-methods}}
 
 protected:
     //////////////////////////////////////////////////////////
-    // Override these to implement the server functionality //
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
     //////////////////////////////////////////////////////////
 
     virtual {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} handler_{{httpMethod}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 
     {{#vendorExtensions.x-codegen-other-methods}}
     virtual {{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} handler_{{httpMethod}}(
-        {{#allParams}}{{{dataType}}} const & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/vendorExtensions.x-codegen-other-methods}}
 
 protected:
@@ -75,72 +101,8 @@ protected:
     // Override these for customization //
     //////////////////////////////////////
 
-    {{#hasPathParams}}
-    {{#pathParams}}
-    {{#isPrimitiveType}}
-    virtual {{{dataType}}} getPathParam_{{{paramName}}}(const std::shared_ptr<const restbed::Request>& request)
-    {
-        return request->get_path_parameter("{{{paramName}}}", {{{defaultValue}}});
-    }
-
-    {{/isPrimitiveType}}
-    {{/pathParams}}
-    {{/hasPathParams}}
-    {{#hasQueryParams}}
-    {{#queryParams}}
-    {{#isPrimitiveType}}
-    virtual {{{dataType}}} getQueryParam_{{{paramName}}}(const std::shared_ptr<const restbed::Request>& request)
-    {
-        return request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
-    }
-
-    {{/isPrimitiveType}}
-    {{/queryParams}}
-    {{/hasQueryParams}}
-    {{#hasHeaderParams}}
-    {{#headerParams}}
-    {{#isPrimitiveType}}
-    virtual {{{dataType}}} getHeader_{{{baseName}}}(const std::shared_ptr<const restbed::Request>& request)
-    {
-        return request->get_header("{{baseName}}", {{{defaultValue}}});
-    }
-
-    {{/isPrimitiveType}}
-    {{/headerParams}}
-    {{/hasHeaderParams}}
-
-    {{#vendorExtensions.x-codegen-other-methods}}
-    {{#hasPathParams}}
-    {{#pathParams}}
-    {{#isPrimitiveType}}
-    virtual {{{dataType}}} getPathParam_{{{paramName}}}_x_extension(const std::shared_ptr<const restbed::Request>& request)
-    {
-        return request->get_path_parameter("{{{paramName}}}", {{{defaultValue}}});
-    }
-    {{/isPrimitiveType}}
-    {{/pathParams}}
-    {{/hasPathParams}}
-    {{#hasQueryParams}}
-    {{#queryParams}}
-    {{#isPrimitiveType}}
-    virtual {{{dataType}}} getQueryParam_{{{paramName}}}_x_extension(const std::shared_ptr<const restbed::Request>& request)
-    {
-        return request->get_query_parameter("{{{paramName}}}", {{{defaultValue}}});
-    }
-    {{/isPrimitiveType}}
-    {{/queryParams}}
-    {{/hasQueryParams}}
-    {{#hasHeaderParams}}
-    {{#headerParams}}
-    {{#isPrimitiveType}}
-    virtual {{{dataType}}} getHeader_{{{baseName}}}_x_extension(const std::shared_ptr<const restbed::Request>& request)
-    {
-        return request->get_header("{{baseName}}", {{{defaultValue}}});
-    }
-    {{/isPrimitiveType}}
-    {{/headerParams}}
-    {{/hasHeaderParams}}
-    {{/vendorExtensions.x-codegen-other-methods}}
+    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
+    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
 
     virtual std::pair<int, std::string> handle{{classname}}Exception(const {{classname}}Exception& e);
     virtual std::pair<int, std::string> handleStdException(const std::exception& e);
@@ -149,9 +111,8 @@ protected:
     virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
         const std::string& header);
 
-
     virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, const std::string& contentType);
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
     virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
         const int status, const std::string& result);
 
@@ -162,7 +123,11 @@ private:
     {{/vendorExtensions.x-codegen-other-methods}}
 };
 
+{{/operation}}
+} /* namespace {{classname}}Resources */
 
+{{#operation}}
+using {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource [[deprecated]] = {{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource;
 {{/operation}}
 
 //
@@ -175,7 +140,15 @@ public:
 	virtual ~{{classname}}();
 
     {{#operation}}
-    virtual void set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
+    std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> get{{vendorExtensions.x-codegen-resource-name}}Resource();
+    {{/operation}}
+
+    {{#operation}}
+    void setResource(std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> resource);
+    {{/operation}}
+    {{#operation}}
+    [[deprecated("use setResource()")]]
+    virtual void set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
     {{/operation}}
 
     virtual void publishDefaultResources();
@@ -184,7 +157,7 @@ public:
 
 protected:
 	{{#operation}}
-	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
+	std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{vendorExtensions.x-codegen-resource-name}}Resource;
 	{{/operation}}
 
 private:

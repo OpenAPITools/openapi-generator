@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,11 +33,28 @@ from . import path
 class TagsSchema(
     schemas.ListSchema
 ):
-    _items = schemas.StrSchema
+
+
+    class MetaOapg:
+        items = schemas.StrSchema
+
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'TagsSchema':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> MetaOapg.items:
+        return super().__getitem__(i)
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'tags': TagsSchema,
+        'tags': typing.Union[TagsSchema, tuple, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
@@ -66,20 +85,54 @@ class SchemaFor200ResponseBodyApplicationXml(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
+
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaFor200ResponseBodyApplicationXml':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> 'Pet':
+        return super().__getitem__(i)
 
 
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ListSchema
 ):
 
-    @classmethod
-    @property
-    def _items(cls) -> typing.Type['Pet']:
-        return Pet
+
+    class MetaOapg:
+
+        @classmethod
+        @property
+        def items(cls) -> typing.Type['Pet']:
+            return Pet
+
+    def __new__(
+        cls,
+        arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaFor200ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> 'Pet':
+        return super().__getitem__(i)
 
 
 @dataclass
@@ -125,9 +178,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _find_pets_by_tags(
+    def _find_pets_by_tags_oapg(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -142,7 +195,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -193,7 +246,7 @@ class FindPetsByTags(BaseApi):
 
     def find_pets_by_tags(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -202,7 +255,7 @@ class FindPetsByTags(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._find_pets_by_tags(
+        return self._find_pets_by_tags_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -216,7 +269,7 @@ class ApiForget(BaseApi):
 
     def get(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -225,7 +278,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._find_pets_by_tags(
+        return self._find_pets_by_tags_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
             stream=stream,

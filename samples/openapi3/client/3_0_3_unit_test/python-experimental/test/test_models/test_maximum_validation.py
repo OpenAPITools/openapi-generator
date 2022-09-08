@@ -22,14 +22,14 @@ class TestMaximumValidation(unittest.TestCase):
 
     def test_below_the_maximum_is_valid_passes(self):
         # below the maximum is valid
-        MaximumValidation._from_openapi_data(
+        MaximumValidation.from_openapi_data_oapg(
             2.6,
             _configuration=self._configuration
         )
 
     def test_boundary_point_is_valid_passes(self):
         # boundary point is valid
-        MaximumValidation._from_openapi_data(
+        MaximumValidation.from_openapi_data_oapg(
             3.0,
             _configuration=self._configuration
         )
@@ -37,14 +37,14 @@ class TestMaximumValidation(unittest.TestCase):
     def test_above_the_maximum_is_invalid_fails(self):
         # above the maximum is invalid
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
-            MaximumValidation._from_openapi_data(
+            MaximumValidation.from_openapi_data_oapg(
                 3.5,
                 _configuration=self._configuration
             )
 
     def test_ignores_non_numbers_passes(self):
         # ignores non-numbers
-        MaximumValidation._from_openapi_data(
+        MaximumValidation.from_openapi_data_oapg(
             "x",
             _configuration=self._configuration
         )

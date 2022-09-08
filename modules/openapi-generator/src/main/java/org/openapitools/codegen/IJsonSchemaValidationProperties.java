@@ -50,9 +50,17 @@ public interface IJsonSchemaValidationProperties {
 
     void setMaxItems(Integer maxItems);
 
+    // TODO update this value to Boolean in 7.0.0
     boolean getUniqueItems();
 
+    // TODO update this value to Boolean in 7.0.0
     void setUniqueItems(boolean uniqueItems);
+
+    // TODO remove in 7.0.0
+    Boolean getUniqueItemsBoolean();
+
+    // TODO remove in 7.0.0
+    void setUniqueItemsBoolean(Boolean uniqueItems);
 
     Integer getMinProperties();
 
@@ -179,6 +187,20 @@ public interface IJsonSchemaValidationProperties {
     boolean getHasMultipleTypes();
 
     void setHasMultipleTypes(boolean hasMultipleTypes);
+
+    // for when the schema is just the boolean true in a spec
+    boolean getIsBooleanSchemaTrue();
+
+    void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue);
+
+    // for when the schema is just the boolean false in a spec
+    boolean getIsBooleanSchemaFalse();
+
+    void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse);
+
+    boolean getSchemaIsFromAdditionalProperties();
+
+    void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties);
 
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance

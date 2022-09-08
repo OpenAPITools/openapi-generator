@@ -46,6 +46,7 @@ from petstore_api.apis.paths.fake_obj_in_query import FakeObjInQuery
 from petstore_api.apis.paths.fake_ref_obj_in_query import FakeRefObjInQuery
 from petstore_api.apis.paths.fake_json_with_charset import FakeJsonWithCharset
 from petstore_api.apis.paths.fake_response_without_schema import FakeResponseWithoutSchema
+from petstore_api.apis.paths.fake_json_patch import FakeJsonPatch
 from petstore_api.apis.paths.fake_delete_coffee_id import FakeDeleteCoffeeId
 
 PathToApi = typing.TypedDict(
@@ -96,6 +97,7 @@ PathToApi = typing.TypedDict(
         PathValues.FAKE_REF_OBJ_IN_QUERY: FakeRefObjInQuery,
         PathValues.FAKE_JSON_WITH_CHARSET: FakeJsonWithCharset,
         PathValues.FAKE_RESPONSE_WITHOUT_SCHEMA: FakeResponseWithoutSchema,
+        PathValues.FAKE_JSON_PATCH: FakeJsonPatch,
         PathValues.FAKE_DELETE_COFFEE_ID: FakeDeleteCoffeeId,
     }
 )
@@ -147,6 +149,7 @@ path_to_api = PathToApi(
         PathValues.FAKE_REF_OBJ_IN_QUERY: FakeRefObjInQuery,
         PathValues.FAKE_JSON_WITH_CHARSET: FakeJsonWithCharset,
         PathValues.FAKE_RESPONSE_WITHOUT_SCHEMA: FakeResponseWithoutSchema,
+        PathValues.FAKE_JSON_PATCH: FakeJsonPatch,
         PathValues.FAKE_DELETE_COFFEE_ID: FakeDeleteCoffeeId,
     }
 )

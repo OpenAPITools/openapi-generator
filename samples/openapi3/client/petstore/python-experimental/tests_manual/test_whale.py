@@ -33,16 +33,16 @@ class TestWhale(unittest.TestCase):
             className='whale',
             hasBaleen=True
         )
-        assert isinstance(whale.hasBaleen, BoolClass)
-        self.assertTrue(whale.hasBaleen)
+        assert isinstance(whale["hasBaleen"], BoolClass)
+        self.assertTrue(whale["hasBaleen"])
 
         # test that the hasBaleen __bool__ method is working, False input
         whale = Whale(
             className='whale',
             hasBaleen=False
         )
-        assert isinstance(whale.hasBaleen, BoolClass)
-        self.assertFalse(whale.hasBaleen)
+        assert isinstance(whale["hasBaleen"], BoolClass)
+        self.assertFalse(whale["hasBaleen"])
 
 
 if __name__ == '__main__':

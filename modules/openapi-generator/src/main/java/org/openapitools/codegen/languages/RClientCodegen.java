@@ -76,6 +76,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String errorObjectType;
     protected String operationIdNaming;
     protected boolean generateWrapper;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -175,7 +176,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
+        // no need for import mapping as R doesn't reqiure api,model import
+        // https://github.com/OpenAPITools/openapi-generator/issues/2217
         importMapping.clear();
+
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
                 .defaultValue("openapi"));
@@ -215,6 +219,20 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         setLibrary(HTTR);
 
         cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
+
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
     }
 
     @Override
@@ -263,6 +281,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.get(GENERATE_WRAPPER).toString()));
         } else {
             this.setGenerateWrapper(false);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -560,32 +589,19 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
-        }
 
-        // remove model imports to avoid error
-        List<Map<String, String>> imports = objs.getImports();
-        final String prefix = modelPackage();
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
-                iterator.remove();
-        }
-
-        // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports != null) {
-            ListIterator<Map<String, String>> listIterator = imports.listIterator();
-            while (listIterator.hasNext()) {
-                String _import = listIterator.next().get("import");
-                // if the import package happens to be found in the importMapping (key)
-                // add the corresponding import package to the list
-                if (importMapping.containsKey(_import)) {
-                    listIterator.add(createMapping("import", importMapping.get(_import)));
+            // apply the same fix, enhancement for allVars
+            for (CodegenProperty var : cm.allVars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
                 }
+
+                // create extension x-r-doc-type to store the data type in r doc format
+                var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
         }
-
         return postProcessModelsEnum(objs);
     }
 
@@ -621,6 +637,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setGenerateWrapper(final boolean generateWrapper) {
         this.generateWrapper = generateWrapper;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setOperationIdNaming(final String operationIdNaming) {

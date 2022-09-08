@@ -166,7 +166,7 @@ headers | Unset | headers were not defined |
 #### Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**any string name** | **int** | any string name can be used but the value must be the correct type | [optional]
+**any string name** | **int** | any string name can be used but the value must be the correct type | [optional] 
 
 
 **{str: (int,)}**

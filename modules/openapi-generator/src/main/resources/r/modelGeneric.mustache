@@ -1,10 +1,19 @@
+#' Create a new {{{classname}}}
+#'
+#' @description
+#' {{{description}}}{{^description}}{{classname}} Class{{/description}}
+#'
 #' @docType class
 #' @title {{classname}}
 #' @description {{classname}} Class
 #' @format An \code{R6Class} generator object
 {{#vars}}
-#' @field {{name}} {{title}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
+#' @field {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
 {{/vars}}
+{{#isAdditionalPropertiesTrue}}
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
+{{/isAdditionalPropertiesTrue}}
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -17,6 +26,10 @@
     {{#vars}}
     `{{{name}}}` = NULL,
     {{/vars}}
+    {{#isAdditionalPropertiesTrue}}
+    `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
+    `additional_properties` = list(),
+    {{/isAdditionalPropertiesTrue}}
     #' Initialize a new {{{classname}}} class.
     #'
     #' @description
@@ -28,10 +41,13 @@
     {{#optionalVars}}
     #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
     {{/optionalVars}}
+    {{#isAdditionalPropertiesTrue}}
+    #' @param additional_properties additonal properties (optional)
+    {{/isAdditionalPropertiesTrue}}
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...
     ) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
@@ -121,6 +137,13 @@
         self$`{{name}}` <- `{{name}}`
       }
       {{/optionalVars}}
+      {{#isAdditionalPropertiesTrue}}
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
+      }
+      {{/isAdditionalPropertiesTrue}}
     },
     #' To JSON string
     #'
@@ -162,7 +185,12 @@
        {{/isContainer}}
       }
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      for (key in names(self$additional_properties)) {
+        {{classname}}Object[[key]] <- self$additional_properties[[key]]
+      }
 
+      {{/isAdditionalPropertiesTrue}}
       {{classname}}Object
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
@@ -192,6 +220,15 @@
         {{/isContainer}}
       }
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
       self
     },
     #' To JSON string
@@ -261,7 +298,14 @@
       {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      {{#isAdditionalPropertiesTrue}}
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      {{/isAdditionalPropertiesTrue}}
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
@@ -287,6 +331,15 @@
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
       self
     },
     #' Validate JSON input with respect to {{classname}}
@@ -473,6 +526,27 @@
       {{/hasValidation}}
       {{/allVars}}
       invalid_fields
-    }
-  )
+    },
+    #' Print the object
+    #'
+    #' @description
+    #' Print the object
+    #'
+    #' @export
+    print = function() {
+      print(jsonlite::prettify(self$toJSONString()))
+      invisible(self)
+    }),
+    # Lock the class to prevent modifications to the method or field
+    lock_class = TRUE
 )
+## Uncomment below to unlock the class to allow modifications of the method or field
+#{{classname}}$unlock()
+#
+## Below is an example to define the print fnuction
+#{{classname}}$set("public", "print", function(...) {
+#  print(jsonlite::prettify(self$toJSONString()))
+#  invisible(self)
+#})
+## Uncomment below to lock the class to prevent modifications to the method or field
+#{{classname}}$lock()

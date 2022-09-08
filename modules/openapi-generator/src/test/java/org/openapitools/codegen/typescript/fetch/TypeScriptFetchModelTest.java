@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,9 +36,11 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /*
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
@@ -45,6 +48,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 */
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
@@ -455,5 +459,15 @@ public class TypeScriptFetchModelTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string; }");
+    }
+
+    @Test(description = "Don't generate new schemas for readonly references")
+    public void testNestedReadonlySchemas() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-readonly.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
+        Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
 }

@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -50,43 +50,43 @@
   describe('Order', function() {
     it('should create an instance of Order', function() {
       // uncomment below and update the code to test Order
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be.a(OpenApiPetstore.Order);
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property petId (base name: "petId")', function() {
       // uncomment below and update the code to test the property petId
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property quantity (base name: "quantity")', function() {
       // uncomment below and update the code to test the property quantity
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property shipDate (base name: "shipDate")', function() {
       // uncomment below and update the code to test the property shipDate
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property status (base name: "status")', function() {
       // uncomment below and update the code to test the property status
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property complete (base name: "complete")', function() {
       // uncomment below and update the code to test the property complete
-      //var instane = new OpenApiPetstore.Order();
+      //var instance = new OpenApiPetstore.Order();
       //expect(instance).to.be();
     });
 

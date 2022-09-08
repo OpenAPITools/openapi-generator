@@ -7,16 +7,18 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -41,7 +43,7 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _logout_user(
+    def _logout_user_oapg(
         self: api_client.Api,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -97,7 +99,7 @@ class LogoutUser(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._logout_user(
+        return self._logout_user_oapg(
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization
@@ -116,7 +118,7 @@ class ApiForget(BaseApi):
         ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._logout_user(
+        return self._logout_user_oapg(
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization

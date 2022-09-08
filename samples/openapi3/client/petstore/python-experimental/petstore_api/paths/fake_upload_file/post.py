@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,20 +33,56 @@ from . import path
 class SchemaForRequestBodyMultipartFormData(
     schemas.DictSchema
 ):
-    _required_property_names = {
-        "file",
-    }
-    additionalMetadata = schemas.StrSchema
-    file = schemas.BinarySchema
 
+
+    class MetaOapg:
+        required = {
+            "file",
+        }
+        class properties:
+            additionalMetadata = schemas.StrSchema
+            file = schemas.BinarySchema
+            __annotations__ = {
+                "additionalMetadata": additionalMetadata,
+                "file": file,
+            }
+    
+    file: MetaOapg.properties.file
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["additionalMetadata"]) -> MetaOapg.properties.additionalMetadata: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing.Literal["additionalMetadata", "file", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["additionalMetadata"]) -> typing.Union[MetaOapg.properties.additionalMetadata, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing.Literal["additionalMetadata", "file", ], str]):
+        return super().get_item_oapg(name)
+    
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
-        file: file,
-        additionalMetadata: typing.Union[additionalMetadata, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict.frozendict, ],
+        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, ],
+        additionalMetadata: typing.Union[MetaOapg.properties.additionalMetadata, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
@@ -91,9 +129,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _upload_file(
+    def _upload_file_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -156,7 +194,7 @@ class UploadFile(BaseApi):
 
     def upload_file(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -166,7 +204,7 @@ class UploadFile(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._upload_file(
+        return self._upload_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,
@@ -181,7 +219,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -191,7 +229,7 @@ class ApiForpost(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._upload_file(
+        return self._upload_file_oapg(
             body=body,
             content_type=content_type,
             accept_content_types=accept_content_types,

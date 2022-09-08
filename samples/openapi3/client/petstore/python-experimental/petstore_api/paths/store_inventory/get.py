@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,14 +33,23 @@ _auth = [
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.DictSchema
 ):
-    _additional_properties = schemas.Int32Schema
 
+
+    class MetaOapg:
+        additional_properties = schemas.Int32Schema
+    
+    def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    def get_item_oapg(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+        return super().get_item_oapg(name)
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, ],
+        *args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Type[schemas.Schema],
+        **kwargs: typing.Union[MetaOapg.additional_properties, int, ],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
@@ -74,7 +85,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _get_inventory(
+    def _get_inventory_oapg(
         self: api_client.Api,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -135,7 +146,7 @@ class GetInventory(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._get_inventory(
+        return self._get_inventory_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -156,7 +167,7 @@ class ApiForget(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._get_inventory(
+        return self._get_inventory_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

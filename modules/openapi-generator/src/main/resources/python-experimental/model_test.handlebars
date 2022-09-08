@@ -20,7 +20,7 @@ class Test{{classname}}(unittest.TestCase):
     def test_{{@key}}_{{#if valid}}passes{{else}}fails{{/if}}(self):
         # {{description}}
 {{#if valid}}
-        {{classname}}._from_openapi_data(
+        {{classname}}.from_openapi_data_oapg(
 {{#with data}}
             {{> model_templates/payload_renderer endChar=',' }}
 {{/with}}
@@ -28,7 +28,7 @@ class Test{{classname}}(unittest.TestCase):
         )
 {{else}}
         with self.assertRaises(({{packageName}}.ApiValueError, {{packageName}}.ApiTypeError)):
-            {{classname}}._from_openapi_data(
+            {{classname}}.from_openapi_data_oapg(
 {{#with data}}
                 {{> model_templates/payload_renderer endChar=','}}
 {{/with}}

@@ -1,9 +1,6 @@
 
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
-{{#if hasValidation}}
-    {{> model_templates/validations }}
-{{/if}}
 {{#if isEnum}}
     {{> model_templates/enum_value_to_name }}
 {{/if}}
@@ -20,8 +17,21 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
+{{#unless isStub}}
+{{#if hasValidation}}
+
+
+    class MetaOapg:
+        {{> model_templates/validations }}
+{{/if}}
+{{/unless}}
 {{#if isEnum}}
     {{> model_templates/enums }}
-{{else}}
+{{/if}}
+{{#if isStub}}
+{{#if hasValidation}}
+{{#unless isEnum}}
     pass
+{{/unless}}
+{{/if}}
 {{/if}}

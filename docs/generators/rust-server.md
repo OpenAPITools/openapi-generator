@@ -59,9 +59,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>Self</li>
 <li>abstract</li>
-<li>alignof</li>
 <li>as</li>
+<li>async</li>
+<li>await</li>
 <li>become</li>
 <li>box</li>
 <li>break</li>
@@ -69,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>continue</li>
 <li>crate</li>
 <li>do</li>
+<li>dyn</li>
 <li>else</li>
 <li>enum</li>
 <li>extern</li>
@@ -86,21 +89,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>mod</li>
 <li>move</li>
 <li>mut</li>
-<li>offsetof</li>
 <li>override</li>
 <li>priv</li>
-<li>proc</li>
 <li>pub</li>
-<li>pure</li>
 <li>ref</li>
 <li>return</li>
 <li>self</li>
-<li>sizeof</li>
 <li>static</li>
 <li>struct</li>
 <li>super</li>
 <li>trait</li>
 <li>true</li>
+<li>try</li>
 <li>type</li>
 <li>typeof</li>
 <li>unsafe</li>

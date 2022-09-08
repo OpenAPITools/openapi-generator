@@ -60,10 +60,7 @@ interface {{classname}} {
      * {{notes}}
      * Responses:{{#responses}}
      *  - {{code}}: {{{message}}}{{/responses}}
-     *
-    {{#allParams}}
-     * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/allParams}}
+     *{{>paramJavadoc}}
      * @return {{^useCoroutines}}[Call]<{{/useCoroutines}}{{#isResponseFile}}[ResponseBody]{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}[{{{.}}}]{{/returnType}}{{^returnType}}[Unit]{{/returnType}}{{/isResponseFile}}{{^useCoroutines}}>{{/useCoroutines}}
      */
     {{#isDeprecated}}

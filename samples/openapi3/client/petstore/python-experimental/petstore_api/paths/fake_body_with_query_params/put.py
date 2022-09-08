@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -30,7 +32,7 @@ QuerySchema = schemas.StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'query': QuerySchema,
+        'query': typing.Union[QuerySchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
@@ -82,10 +84,10 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _body_with_query_params(
+    def _body_with_query_params_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
-        query_params: RequestQueryParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        query_params: RequestQueryParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -99,7 +101,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -159,8 +161,8 @@ class BodyWithQueryParams(BaseApi):
 
     def body_with_query_params(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
-        query_params: RequestQueryParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        query_params: RequestQueryParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -169,7 +171,7 @@ class BodyWithQueryParams(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._body_with_query_params(
+        return self._body_with_query_params_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,
@@ -184,8 +186,8 @@ class ApiForput(BaseApi):
 
     def put(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson],
-        query_params: RequestQueryParams = frozendict(),
+        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        query_params: RequestQueryParams = frozendict.frozendict(),
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -194,7 +196,7 @@ class ApiForput(BaseApi):
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._body_with_query_params(
+        return self._body_with_query_params_oapg(
             body=body,
             query_params=query_params,
             content_type=content_type,

@@ -92,6 +92,8 @@ public class DefaultCodegen implements CodegenConfig {
     private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
+    protected static Schema falseSchema;
+    protected static Schema trueSchema = new Schema();
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -144,6 +146,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
+        falseSchema = new Schema();
+        falseSchema.setNot(new Schema());
     }
 
     protected GeneratorMetadata generatorMetadata;
@@ -2470,15 +2474,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private static class NamedSchema {
-        private NamedSchema(String name, Schema s, boolean required) {
+        private NamedSchema(String name, Schema s, boolean required, boolean schemaIsFromAdditionalProperties) {
             this.name = name;
             this.schema = s;
             this.required = required;
+            this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
         }
 
         private String name;
         private Schema schema;
         private boolean required;
+        private boolean schemaIsFromAdditionalProperties;
 
         @Override
         public boolean equals(Object o) {
@@ -2487,12 +2493,13 @@ public class DefaultCodegen implements CodegenConfig {
             NamedSchema that = (NamedSchema) o;
             return Objects.equals(required, that.required)  &&
                     Objects.equals(name, that.name) &&
-                    Objects.equals(schema, that.schema);
+                    Objects.equals(schema, that.schema) &&
+                    Objects.equals(schemaIsFromAdditionalProperties, that.schemaIsFromAdditionalProperties);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, schema, required);
+            return Objects.hash(name, schema, required, schemaIsFromAdditionalProperties);
         }
     }
 
@@ -2793,6 +2800,12 @@ public class DefaultCodegen implements CodegenConfig {
             typeAliases = getAllAliases(allDefinitions);
         }
 
+        CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
+        if (schema.equals(trueSchema)) {
+            m.setIsBooleanSchemaTrue(true);
+        } else if (schema.equals(falseSchema)) {
+            m.setIsBooleanSchemaFalse(true);
+        }
         // unalias schema
         schema = unaliasSchema(schema);
         if (schema == null) {
@@ -2800,7 +2813,6 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         ModelUtils.syncValidationProperties(schema, m);
         if (openAPI != null) {
             HashMap<String, SchemaTestCase> schemaTestCases = extractSchemaTestCases(xSchemaTestExamplesRefPrefix + name);
@@ -3570,10 +3582,25 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     name of the property
      * @param p        OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @return Codegen Property object
+     */
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        return fromProperty(name, p, required, false);
+    }
+
+
+    /**
+     * TODO remove this in 7.0.0 as a breaking change
+     * This method was kept when required was added to the fromProperty signature
+     * to ensure that the change was non-breaking
+     *
+     * @param name     name of the property
+     * @param p        OAS property schema
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
-        return fromProperty(name, p, false);
+        return fromProperty(name, p, false, false);
     }
 
     /**
@@ -3588,24 +3615,35 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name     name of the property
      * @param p        OAS property schema
      * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is a required property defined by additional properties schema
+     *                                         If this is the actual additionalProperties schema not defining a required property, then
+     *                                         the value should be false
      * @return Codegen Property object
      */
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
         if (p == null) {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
         LOGGER.debug("debugging fromProperty for {} : {}", name, p);
-        NamedSchema ns = new NamedSchema(name, p, required);
+        NamedSchema ns = new NamedSchema(name, p, required, schemaIsFromAdditionalProperties);
         CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
         if (cpc != null) {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
             return cpc;
         }
+
+        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+        if (p.equals(trueSchema)) {
+            property.setIsBooleanSchemaTrue(true);
+        } else if (p.equals(falseSchema)) {
+            property.setIsBooleanSchemaFalse(true);
+        }
+
         // unalias schema
         p = unaliasSchema(p);
 
-        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+        property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
 
@@ -5595,7 +5633,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
         if (property.isArray) {
-            if (property.getUniqueItems()) { // set
+            if (Boolean.TRUE.equals(property.getUniqueItemsBoolean())) { // set
                 addImport(model.imports, typeMapping.get("set"));
             } else { // array
                 addImport(model.imports, typeMapping.get("array"));
@@ -5949,7 +5987,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (String lib : supportedLibraries.keySet()) {
             sb.append("\n").append(lib).append(" - ").append(supportedLibraries.get(lib));
         }
-        return new CliOption("library", sb.toString());
+        return new CliOption(CodegenConstants.LIBRARY, sb.toString());
     }
 
     /**
@@ -6939,6 +6977,10 @@ public class DefaultCodegen implements CodegenConfig {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
+            if (codegenProperty == null) {
+               throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
+            }
+
             if (!addSchemaImportsFromV3SpecLocations) {
                 imports.add(codegenProperty.baseType);
             }
@@ -6954,6 +6996,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 mostInnerItem = innerCp;
                 innerCp = innerCp.items;
+            }
+
+            if (mostInnerItem == null) {
+                throw new RuntimeException("mostInnerItem (codegen property of array item) cannot be null. " + arraySchema);
             }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
@@ -7225,6 +7271,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (cp.baseName.equals(requiredPropertyName)) {
                         found = true;
                         requiredVarsMap.put(requiredPropertyName, cp);
+                        break;
                     }
                 }
                 if (found == false) {
@@ -7238,17 +7285,16 @@ public class DefaultCodegen implements CodegenConfig {
                 // required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
                 // required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
                 if (supportsAdditionalPropertiesWithComposedSchema && !disallowAdditionalPropertiesIfNotPresent) {
-                    if (property.getAdditionalProperties() == null) {
-                        throw new RuntimeException("additionalProperties is unset and should be set in" + schema.toString());
-                    }
                     CodegenProperty cp;
                     if (schema.getAdditionalProperties() == null) {
-                        cp = fromProperty(usedRequiredPropertyName, new Schema(), true);
+                        // additionalProperties is null
+                        cp = fromProperty(usedRequiredPropertyName, new Schema(), true, true);
                     } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                        cp = fromProperty(requiredPropertyName, new Schema(), true);
+                        // additionalProperties is True
+                        cp = fromProperty(requiredPropertyName, new Schema(), true, true);
                     } else {
-                        CodegenProperty addPropsProp = property.getAdditionalProperties();
-                        cp = addPropsProp;
+                        // additionalProperties is schema
+                        cp = fromProperty(requiredPropertyName, (Schema) schema.getAdditionalProperties(), true, true);
                     }
                     requiredVarsMap.put(usedRequiredPropertyName, cp);
                 }
@@ -7833,4 +7879,34 @@ public class DefaultCodegen implements CodegenConfig {
     Into strings that can be rendered in the language that the generator will output to
     */
     protected String handleSpecialCharacters(String name) { return name; }
+
+    /**
+     * Used to ensure that null or Schema is returned given an input Boolean/Schema/null
+     * This will be used in openapi 3.1.0 spec processing to ensure that Booleans become Schemas
+     * Because our generators only understand Schemas
+     * Note: use getIsBooleanSchemaTrue or getIsBooleanSchemaFalse on the IJsonSchemaValidationProperties
+     * if you need to be able to detect if the original schema's value was true or false
+     *
+     * @param schema the input Boolean or Schema data to convert to a Schema
+     * @return Schema the input data converted to a Schema if possible
+     */
+    protected Schema getSchemaFromBooleanOrSchema(Object schema) {
+        if (schema instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema)) {
+                return trueSchema;
+            } else if (Boolean.FALSE.equals(schema)) {
+                return falseSchema;
+            }
+            // null case
+            return null;
+        } else if (schema instanceof Schema) {
+            if (schema == null) {
+                return null;
+            }
+            return (Schema) schema;
+        } else if (schema == null) {
+            return null;
+        }
+        throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
+    }
 }

@@ -7,17 +7,19 @@
 """
 
 from dataclasses import dataclass
-import re  # noqa: F401
-import sys  # noqa: F401
-import typing
 import urllib3
-import functools  # noqa: F401
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
-from frozendict import frozendict  # noqa: F401
+import decimal  # noqa: F401
+import functools  # noqa: F401
+import io  # noqa: F401
+import re  # noqa: F401
+import typing  # noqa: F401
+import uuid  # noqa: F401
+
+import frozendict  # noqa: F401
 
 from petstore_api import schemas  # noqa: F401
 
@@ -31,15 +33,15 @@ Int64GroupSchema = schemas.Int64Schema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'required_string_group': RequiredStringGroupSchema,
-        'required_int64_group': RequiredInt64GroupSchema,
+        'required_string_group': typing.Union[RequiredStringGroupSchema, int, ],
+        'required_int64_group': typing.Union[RequiredInt64GroupSchema, int, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'string_group': StringGroupSchema,
-        'int64_group': Int64GroupSchema,
+        'string_group': typing.Union[StringGroupSchema, int, ],
+        'int64_group': typing.Union[Int64GroupSchema, int, ],
     },
     total=False
 )
@@ -81,13 +83,13 @@ BooleanGroupSchema = schemas.BoolSchema
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
     {
-        'required_boolean_group': RequiredBooleanGroupSchema,
+        'required_boolean_group': typing.Union[RequiredBooleanGroupSchema, bool, ],
     }
 )
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'boolean_group': BooleanGroupSchema,
+        'boolean_group': typing.Union[BooleanGroupSchema, bool, ],
     },
     total=False
 )
@@ -130,10 +132,10 @@ _status_code_to_response = {
 
 class BaseApi(api_client.Api):
 
-    def _group_parameters(
+    def _group_parameters_oapg(
         self: api_client.Api,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -146,8 +148,8 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
-        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
+        self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
         used_path = path.value
 
         prefix_separator_iterator = None
@@ -207,15 +209,15 @@ class GroupParameters(BaseApi):
 
     def group_parameters(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._group_parameters(
+        return self._group_parameters_oapg(
             query_params=query_params,
             header_params=header_params,
             stream=stream,
@@ -229,15 +231,15 @@ class ApiFordelete(BaseApi):
 
     def delete(
         self: BaseApi,
-        query_params: RequestQueryParams = frozendict(),
-        header_params: RequestHeaderParams = frozendict(),
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
         api_client.ApiResponseWithoutDeserialization
     ]:
-        return self._group_parameters(
+        return self._group_parameters_oapg(
             query_params=query_params,
             header_params=header_params,
             stream=stream,

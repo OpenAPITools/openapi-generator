@@ -92,15 +92,19 @@ Class | Method | HTTP request | Description
  - [AllofTagApiResponse](docs/AllofTagApiResponse.md)
  - [Animal](docs/Animal.md)
  - [AnyOfPig](docs/AnyOfPig.md)
+ - [AnyOfPrimitiveTypeTest](docs/AnyOfPrimitiveTypeTest.md)
  - [BasquePig](docs/BasquePig.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [DanishPig](docs/DanishPig.md)
+ - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)
+ - [OneOfPrimitiveTypeTest](docs/OneOfPrimitiveTypeTest.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
@@ -108,6 +112,8 @@ Class | Method | HTTP request | Description
  - [Tag](docs/Tag.md)
  - [UpdatePetRequest](docs/UpdatePetRequest.md)
  - [User](docs/User.md)
+ - [Whale](docs/Whale.md)
+ - [Zebra](docs/Zebra.md)
 
 
 ## Documentation for Authorization

@@ -76,13 +76,13 @@ class TestDrawing(unittest.TestCase):
             ],
         )
         assert isinstance(inst, Drawing)
-        assert isinstance(inst.mainShape, IsoscelesTriangle)
-        self.assertEqual(len(inst.shapes), 4)
+        assert isinstance(inst["mainShape"], IsoscelesTriangle)
+        self.assertEqual(len(inst["shapes"]), 4)
         from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
-        assert isinstance(inst.shapes[0], EquilateralTriangle)
-        assert isinstance(inst.shapes[1], IsoscelesTriangle)
-        assert isinstance(inst.shapes[2], EquilateralTriangle)
-        assert isinstance(inst.shapes[3], ComplexQuadrilateral)
+        assert isinstance(inst["shapes"][0], EquilateralTriangle)
+        assert isinstance(inst["shapes"][1], IsoscelesTriangle)
+        assert isinstance(inst["shapes"][2], EquilateralTriangle)
+        assert isinstance(inst["shapes"][3], ComplexQuadrilateral)
 
         # Validate we cannot assign the None value to mainShape because the 'null' type
         # is not one of the allowed types in the 'Shape' schema.
@@ -92,7 +92,7 @@ class TestDrawing(unittest.TestCase):
                 petstore_api.ApiValueError,
                 err_msg
         ):
-            inst = Drawing(
+            Drawing(
                 # 'mainShape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
                 # So the None value should not be allowed and an exception should be raised.
                 mainShape=None,
@@ -113,12 +113,13 @@ class TestDrawing(unittest.TestCase):
                 )
             ]
         )
-        self.assertEqual(len(inst.shapes), 1)
+        self.assertEqual(len(inst["shapes"]), 1)
         from petstore_api.model.triangle_interface import TriangleInterface
-        assert isinstance(inst.shapes[0], shape.Shape)
-        assert isinstance(inst.shapes[0], Triangle)
-        assert isinstance(inst.shapes[0], EquilateralTriangle)
-        assert isinstance(inst.shapes[0], TriangleInterface)
+        shapes = inst["shapes"]
+        assert isinstance(shapes[0], shape.Shape)
+        assert isinstance(shapes[0], Triangle)
+        assert isinstance(shapes[0], EquilateralTriangle)
+        assert isinstance(shapes[0], TriangleInterface)
 
     def test_deserialize_oneof_reference_with_null_type(self):
         """
@@ -137,7 +138,7 @@ class TestDrawing(unittest.TestCase):
         assert isinstance(inst, Drawing)
         self.assertFalse('mainShape' in inst)
         self.assertTrue('shapeOrNull' in inst)
-        self.assertTrue(isinstance(inst.shapeOrNull, NoneClass))
+        self.assertTrue(isinstance(inst["shapeOrNull"], NoneClass))
 
     def test_deserialize_oneof_reference_with_nullable_type(self):
         """
@@ -157,7 +158,8 @@ class TestDrawing(unittest.TestCase):
         assert isinstance(inst, Drawing)
         self.assertFalse('mainShape' in inst)
         self.assertTrue('nullableShape' in inst)
-        self.assertTrue(isinstance(inst.nullableShape, NoneClass))
+        self.assertTrue(isinstance(inst["nullableShape"], NoneClass))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -13,7 +13,7 @@ Python &gt;&#x3D;3.9
 v3.9 is needed so one can combine classmethod and property decorators to define
 object schema properties as classes
 
-## Migration from other generators like python and python-experimental
+## Migration from other generators like python and python-legacy
 
 ### Changes
 1. This generator uses spec case for all (object) property names and parameter names.
@@ -29,19 +29,36 @@ object schema properties as classes
         - ingested None will subclass NoneClass
         - ingested True will subclass BoolClass
         - ingested False will subclass BoolClass
-        - So if you need to check is True/False/None, instead use instance.is_true()/.is_false()/.is_none()
+        - So if you need to check is True/False/None, instead use instance.is_true_oapg()/.is_false_oapg()/.is_none_oapg()
 5. All validated class instances are immutable except for ones based on io.File
     - This is because if properties were changed after validation, that validation would no longer apply
     - So no changing values or property values after a class has been instantiated
 6. String + Number types with formats
     - String type data is stored as a string and if you need to access types based on its format like date,
     date-time, uuid, number etc then you will need to use accessor functions on the instance
-    - type string + format: See .as_date, .as_datetime, .as_decimal, .as_uuid
-    - type number + format: See .as_float, .as_int
+    - type string + format: See .as_date_oapg, .as_datetime_oapg, .as_decimal_oapg, .as_uuid_oapg
+    - type number + format: See .as_float_oapg, .as_int_oapg
     - this was done because openapi/json-schema defines constraints. string data may be type string with no format
     keyword in one schema, and include a format constraint in another schema
-    - So if you need to access a string format based type, use as_date/as_datetime/as_decimal/as_uuid/
-    - So if you need to access a number format based type, use as_int/as_float
+    - So if you need to access a string format based type, use as_date_oapg/as_datetime_oapg/as_decimal_oapg/as_uuid_oapg
+    - So if you need to access a number format based type, use as_int_oapg/as_float_oapg
+7. Property access on AnyType(type unset) or object(dict) schemas
+    - Only required keys with valid python names are properties like .someProp and have type hints
+    - All optional keys may not exist, so properties are not defined for them
+    - One can access optional values with dict_instance['optionalProp'] and KeyError will be raised if it does not exist
+    - Use get_item_oapg if you need a way to always get a value whether or not the key exists
+        - If the key does not exist, schemas.unset is returned from calling dict_instance.get_item_oapg('optionalProp')
+        - All required and optional keys have type hints for this method, and @typing.overload is used
+        - A type hint is also generated for additionalProperties accessed using this method
+    - So you will need to update you code to use some_instance['optionalProp'] to access optional property
+    and additionalProperty values
+
+### Why are Oapg and _oapg used in class and method names?
+Classes can have arbitrarily named properties set on them
+Endpoints can have arbitrary operationId method names set
+For those reasons, I use the prefix Oapg and _oapg to greatly reduce the likelihood of collisions
+on protected + public classes/methods.
+oapg stands for OpenApi Python Generator.
 
 ### Object property spec case
 This was done because when payloads are ingested, they can be validated against N number of schemas.
@@ -165,6 +182,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**inline_additional_properties**](docs/apis/tags/FakeApi.md#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**inline_composition**](docs/apis/tags/FakeApi.md#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
 *FakeApi* | [**json_form_data**](docs/apis/tags/FakeApi.md#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**json_patch**](docs/apis/tags/FakeApi.md#json_patch) | **patch** /fake/jsonPatch | json patch
 *FakeApi* | [**json_with_charset**](docs/apis/tags/FakeApi.md#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
 *FakeApi* | [**mammal**](docs/apis/tags/FakeApi.md#mammal) | **post** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/apis/tags/FakeApi.md#number_with_validations) | **post** /fake/refs/number | 
@@ -205,6 +223,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](docs/models/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesValidator](docs/models/AdditionalPropertiesValidator.md)
  - [AdditionalPropertiesWithArrayOfEnums](docs/models/AdditionalPropertiesWithArrayOfEnums.md)
  - [Address](docs/models/Address.md)
  - [Animal](docs/models/Animal.md)
@@ -269,6 +288,10 @@ Class | Method | HTTP request | Description
  - [IntegerMax10](docs/models/IntegerMax10.md)
  - [IntegerMin15](docs/models/IntegerMin15.md)
  - [IsoscelesTriangle](docs/models/IsoscelesTriangle.md)
+ - [JSONPatchRequest](docs/models/JSONPatchRequest.md)
+ - [JSONPatchRequestAddReplaceTest](docs/models/JSONPatchRequestAddReplaceTest.md)
+ - [JSONPatchRequestMoveCopy](docs/models/JSONPatchRequestMoveCopy.md)
+ - [JSONPatchRequestRemove](docs/models/JSONPatchRequestRemove.md)
  - [Mammal](docs/models/Mammal.md)
  - [MapTest](docs/models/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/models/MixedPropertiesAndAdditionalPropertiesClass.md)

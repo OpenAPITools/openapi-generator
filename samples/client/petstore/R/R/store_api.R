@@ -7,7 +7,7 @@
 #'
 #' @docType class
 #' @title Store operations
-#' @description petstore.Store
+#' @description StoreApi
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
@@ -118,24 +118,26 @@
 #' ####################  DeleteOrder  ####################
 #'
 #' library(petstore)
-#' var.order_id <- "order_id_example" # character | ID of the order that needs to be deleted
+#' var_order_id <- "order_id_example" # character | ID of the order that needs to be deleted
 #'
 #' #Delete purchase order by ID
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$DeleteOrder(var.order_id),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              api_instance$DeleteOrder(var_order_id),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
-#' }
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `DeleteOrder`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  GetInventory  ####################
@@ -143,76 +145,100 @@
 #' library(petstore)
 #'
 #' #Returns pet inventories by status
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$api_client$api_keys['api_key'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: api_key
+#' api_instance$api_client$api_keys["api_key"] <- Sys.getenv("API_KEY")
 #'
-#'result <- tryCatch(
-#'             api.instance$GetInventory(),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$GetInventory(data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$GetInventory(),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `GetInventory`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' ####################  GetOrderById  ####################
 #'
 #' library(petstore)
-#' var.order_id <- 56 # integer | ID of pet that needs to be fetched
+#' var_order_id <- 56 # integer | ID of pet that needs to be fetched
 #'
 #' #Find purchase order by ID
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$GetOrderById(var.order_id),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$GetOrderById(var_order_id, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$GetOrderById(var_order_id),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `GetOrderById`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' ####################  PlaceOrder  ####################
 #'
 #' library(petstore)
-#' var.order <- Order$new() # Order | order placed for purchasing the pet
+#' var_order <- Order$new() # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
-#' api.instance <- StoreApi$new()
+#' api_instance <- StoreApi$new()
 #'
-#'result <- tryCatch(
-#'             api.instance$PlaceOrder(var.order),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$PlaceOrder(var_order, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$PlaceOrder(var_order),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `PlaceOrder`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
 #' } else {
-#' # deserialized response object
-#' response.object <- result$content
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+#'
 #'
 #'
 #' }

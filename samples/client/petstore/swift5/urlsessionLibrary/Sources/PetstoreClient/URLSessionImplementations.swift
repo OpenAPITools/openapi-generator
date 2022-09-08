@@ -55,8 +55,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
     public var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
     }
 
     /**
@@ -495,6 +495,17 @@ private class FormDataEncoding: ParameterEncoding {
                     name: key,
                     data: data
                 )
+
+            case let uuid as UUID:
+
+                if let data = uuid.uuidString.data(using: .utf8) {
+                    urlRequest = configureDataUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        data: data
+                    )
+                }
 
             default:
                 fatalError("Unprocessable value \(value) with key \(key)")

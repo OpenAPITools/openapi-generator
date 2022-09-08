@@ -22,7 +22,7 @@ class TestIpv4Format(unittest.TestCase):
 
     def test_all_string_formats_ignore_objects_passes(self):
         # all string formats ignore objects
-        Ipv4Format._from_openapi_data(
+        Ipv4Format.from_openapi_data_oapg(
             {
             },
             _configuration=self._configuration
@@ -30,28 +30,28 @@ class TestIpv4Format(unittest.TestCase):
 
     def test_all_string_formats_ignore_booleans_passes(self):
         # all string formats ignore booleans
-        Ipv4Format._from_openapi_data(
+        Ipv4Format.from_openapi_data_oapg(
             False,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_integers_passes(self):
         # all string formats ignore integers
-        Ipv4Format._from_openapi_data(
+        Ipv4Format.from_openapi_data_oapg(
             12,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_floats_passes(self):
         # all string formats ignore floats
-        Ipv4Format._from_openapi_data(
+        Ipv4Format.from_openapi_data_oapg(
             13.7,
             _configuration=self._configuration
         )
 
     def test_all_string_formats_ignore_arrays_passes(self):
         # all string formats ignore arrays
-        Ipv4Format._from_openapi_data(
+        Ipv4Format.from_openapi_data_oapg(
             [
             ],
             _configuration=self._configuration
@@ -59,7 +59,7 @@ class TestIpv4Format(unittest.TestCase):
 
     def test_all_string_formats_ignore_nulls_passes(self):
         # all string formats ignore nulls
-        Ipv4Format._from_openapi_data(
+        Ipv4Format.from_openapi_data_oapg(
             None,
             _configuration=self._configuration
         )

@@ -50,5 +50,6 @@ schemas.Binary{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 schemas.None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
 {{#if getHasMultipleTypes}}
-schemas.Schema
+schemas.Schema,
+schemas.{{#if isNull}}None{{/if}}{{#if isMap}}FrozenDict{{/if}}{{#if isArray}}Tuple{{/if}}{{#or isString isByteArray isDate isDateTime isDecimal}}Str{{/or}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}Decimal{{/or}}{{#if isBoolean}}Bool{{/if}}Mixin
 {{/if}}

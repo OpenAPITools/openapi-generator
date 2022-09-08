@@ -36,29 +36,30 @@ class TestDateTimeWithValidations(unittest.TestCase):
             inst = DateTimeWithValidations(valid_value)
             assert inst == expected_datetime
 
-        # when passing data in with _from_openapi_data one must use str
+        # when passing data in with from_openapi_data_oapg one must use str
         with self.assertRaisesRegex(
             petstore_api.ApiTypeError,
-            r"Invalid type. Required value type is str and passed type was datetime at \['args\[0\]'\]"
+            r"Invalid type. Required value type is str and passed "
+            r"type was <class 'datetime.datetime'> at \('args\[0\]',\)"
         ):
-            DateTimeWithValidations._from_openapi_data(datetime(2020, 1, 1))
+            DateTimeWithValidations.from_openapi_data_oapg(datetime(2020, 1, 1))
 
-        # when passing data _from_openapi_data we can use str
+        # when passing data from_openapi_data_oapg we can use str
         input_value_to_datetime = {
             "2020-01-01T00:00:00": datetime(2020, 1, 1, tzinfo=None),
             "2020-01-01T00:00:00Z": datetime(2020, 1, 1, tzinfo=timezone.utc),
             "2020-01-01T00:00:00+00:00": datetime(2020, 1, 1, tzinfo=timezone.utc)
         }
         for input_value, expected_datetime in input_value_to_datetime.items():
-            inst = DateTimeWithValidations._from_openapi_data(input_value)
-            assert inst.as_datetime == expected_datetime
+            inst = DateTimeWithValidations.from_openapi_data_oapg(input_value)
+            assert inst.as_datetime_oapg == expected_datetime
 
         # value error is raised if an invalid string is passed in
         with self.assertRaisesRegex(
             petstore_api.ApiValueError,
-            r"Invalid value `abcd`, must match regular expression `.+?` at \('args\[0\]',\)"
+            r"Value does not conform to the required ISO-8601 datetime format. Invalid value 'abcd' for type datetime at \('args\[0\]',\)"
         ):
-            DateTimeWithValidations._from_openapi_data("abcd")
+            DateTimeWithValidations.from_openapi_data_oapg("abcd")
 
         # value error is raised if a date is passed in
         with self.assertRaisesRegex(
@@ -73,7 +74,7 @@ class TestDateTimeWithValidations(unittest.TestCase):
             petstore_api.ApiValueError,
             error_regex
         ):
-            DateTimeWithValidations._from_openapi_data("2019-01-01T00:00:00Z")
+            DateTimeWithValidations.from_openapi_data_oapg("2019-01-01T00:00:00Z")
         # pattern checking with date input
         error_regex = r"Invalid value `2019-01-01T00:00:00`, must match regular expression `.+?` at \('args\[0\]',\)"
         with self.assertRaisesRegex(
