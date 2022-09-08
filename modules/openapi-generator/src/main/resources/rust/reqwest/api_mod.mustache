@@ -73,6 +73,28 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     ::url::form_urlencoded::byte_serialize(s.as_ref().as_bytes()).collect()
 }
 
+pub fn parse_deep_object(prefix: &str, value: &serde_json::Value) -> Vec<(String, String)> {
+    if let serde_json::Value::Object(object) = value {
+        let mut params = vec![];
+
+        for (key, value) in object {
+            if value.is_object() {
+                params.append(&mut parse_deep_object(
+                    &format!("{}[{}]", prefix, key),
+                    value,
+                ));
+                continue;
+            }
+
+            params.push((format!("{}[{}]", prefix, key), value.to_string()));
+        }
+
+        return params;
+    }
+
+    unimplemented!("Only objects are supported with style=deepObject")
+}
+
 {{#apiInfo}}
 {{#apis}}
 pub mod {{{classFilename}}};
