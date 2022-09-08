@@ -34,7 +34,7 @@
         {
             this.IsNullable = {{#model.isNullable}}true{{/model.isNullable}}{{^model.isNullable}}false{{/model.isNullable}};
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance{{^model.isNullable}}{{^isPrimitiveType}}{{^allowableValues}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/allowableValues}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isArray}}?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isArray}}{{#isFreeFormObject}}?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isFreeFormObject}}{{#isString}}?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isString}}{{/isPrimitiveType}}{{/model.isNullable}};
+            this.ActualInstance = actualInstance{{^model.isNullable}}{{^isPrimitiveType}}{{^allowableValues}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/allowableValues}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isArray}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isArray}}{{#isFreeFormObject}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isFreeFormObject}}{{#isString}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isString}}{{/isPrimitiveType}}{{/model.isNullable}};
         }
 
         {{/isNull}}
