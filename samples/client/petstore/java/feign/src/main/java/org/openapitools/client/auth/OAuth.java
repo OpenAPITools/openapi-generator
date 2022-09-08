@@ -77,7 +77,7 @@ public abstract class OAuth implements RequestInterceptor {
 
   public synchronized String getAccessToken() {
     // If first time, get the token
-    if (expirationTimeSeconds == null || System.currentTimeMillis() >= expirationTimeSeconds) {
+    if (expirationTimeSeconds == null || System.currentTimeMillis() >= expirationTimeSeconds * MILLIS_PER_SECOND) {
       updateAccessToken();
     }
     return accessToken;
