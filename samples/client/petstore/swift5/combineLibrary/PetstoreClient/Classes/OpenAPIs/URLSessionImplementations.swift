@@ -455,60 +455,62 @@ private class FormDataEncoding: ParameterEncoding {
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         for (key, value) in parameters {
-            switch value {
-            case let fileURL as URL:
+            for value in (value as? Array ?? [value]) {
+                switch value {
+                case let fileURL as URL:
 
-                urlRequest = try configureFileUploadRequest(
-                    urlRequest: urlRequest,
-                    boundary: boundary,
-                    name: key,
-                    fileURL: fileURL
-                )
+                    urlRequest = try configureFileUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        fileURL: fileURL
+                    )
 
-            case let string as String:
+                case let string as String:
 
-                if let data = string.data(using: .utf8) {
+                    if let data = string.data(using: .utf8) {
+                        urlRequest = configureDataUploadRequest(
+                            urlRequest: urlRequest,
+                            boundary: boundary,
+                            name: key,
+                            data: data
+                        )
+                    }
+
+                case let number as NSNumber:
+
+                    if let data = number.stringValue.data(using: .utf8) {
+                        urlRequest = configureDataUploadRequest(
+                            urlRequest: urlRequest,
+                            boundary: boundary,
+                            name: key,
+                            data: data
+                        )
+                    }
+
+                case let data as Data:
+
                     urlRequest = configureDataUploadRequest(
                         urlRequest: urlRequest,
                         boundary: boundary,
                         name: key,
                         data: data
                     )
+
+                case let uuid as UUID:
+
+                    if let data = uuid.uuidString.data(using: .utf8) {
+                        urlRequest = configureDataUploadRequest(
+                            urlRequest: urlRequest,
+                            boundary: boundary,
+                            name: key,
+                            data: data
+                        )
+                    }
+
+                default:
+                    fatalError("Unprocessable value \(value) with key \(key)")
                 }
-
-            case let number as NSNumber:
-
-                if let data = number.stringValue.data(using: .utf8) {
-                    urlRequest = configureDataUploadRequest(
-                        urlRequest: urlRequest,
-                        boundary: boundary,
-                        name: key,
-                        data: data
-                    )
-                }
-
-            case let data as Data:
-
-                urlRequest = configureDataUploadRequest(
-                    urlRequest: urlRequest,
-                    boundary: boundary,
-                    name: key,
-                    data: data
-                )
-
-            case let uuid as UUID:
-
-                if let data = uuid.uuidString.data(using: .utf8) {
-                    urlRequest = configureDataUploadRequest(
-                        urlRequest: urlRequest,
-                        boundary: boundary,
-                        name: key,
-                        data: data
-                    )
-                }
-
-            default:
-                fatalError("Unprocessable value \(value) with key \(key)")
             }
         }
 
