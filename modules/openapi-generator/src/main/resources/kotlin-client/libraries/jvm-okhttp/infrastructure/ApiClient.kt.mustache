@@ -313,7 +313,7 @@ import com.squareup.moshi.adapter
         {{/hasAuthMethods}}
 
         val url = httpUrl.newBuilder()
-            .addPathSegments(requestConfig.path.trimStart('/'))
+            .addEncodedPathSegments(requestConfig.path.trimStart('/'))
             .apply {
                 requestConfig.query.forEach { query ->
                     query.value.forEach { queryValue ->
