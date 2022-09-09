@@ -18,6 +18,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
     <Nullable>enable</Nullable>
+    <WarningLevel>0</WarningLevel>
+    <AnalysisLevel>none</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

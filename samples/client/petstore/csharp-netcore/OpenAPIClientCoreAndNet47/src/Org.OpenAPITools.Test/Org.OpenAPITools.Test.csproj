@@ -5,6 +5,8 @@
     <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
     <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
     <IsPackable>false</IsPackable>
+    <WarningLevel>0</WarningLevel>
+    <AnalysisLevel>none</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

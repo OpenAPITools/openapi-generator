@@ -6,6 +6,8 @@
     <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <IsPackable>false</IsPackable>{{#nrt}}
     <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
+    <WarningLevel>0</WarningLevel>
+    <AnalysisLevel>none</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
