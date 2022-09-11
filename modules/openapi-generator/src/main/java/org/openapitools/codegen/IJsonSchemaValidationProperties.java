@@ -202,6 +202,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties);
 
+    void setFormat(String format);
+
+    String getFormat();
+
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance
      * for now this only supports types without format information

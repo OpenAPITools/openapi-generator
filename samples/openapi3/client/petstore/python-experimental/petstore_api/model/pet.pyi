@@ -192,7 +192,7 @@ class Pet(
         *args: typing.Union[dict, frozendict.frozendict, ],
         photoUrls: typing.Union[MetaOapg.properties.photoUrls, tuple, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
-        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
         tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,

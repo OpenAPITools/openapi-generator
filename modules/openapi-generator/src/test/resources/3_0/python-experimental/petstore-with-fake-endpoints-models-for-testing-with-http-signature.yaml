@@ -2917,3 +2917,24 @@ components:
         - type: object
           additionalProperties:
             maxLength: 5
+    AnyTypeAndFormat:
+      type: object
+      properties:
+        uuid:
+          format: uuid
+        date:
+          format: date
+        date-time:
+          format: date-time
+        number:
+          format: number
+        binary:
+          format: binary
+        int32:
+          format: int32
+        int64:
+          format: int64
+        double:
+          format: double
+        float:
+          format: float

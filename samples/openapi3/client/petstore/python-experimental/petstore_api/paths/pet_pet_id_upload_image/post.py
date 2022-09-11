@@ -32,7 +32,7 @@ PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'petId': typing.Union[PetIdSchema, int, ],
+        'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(

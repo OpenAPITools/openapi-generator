@@ -92,7 +92,7 @@ class QuadrilateralInterface(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
         shapeType: typing.Union[MetaOapg.properties.shapeType, str, ],
         quadrilateralType: typing.Union[MetaOapg.properties.quadrilateralType, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,

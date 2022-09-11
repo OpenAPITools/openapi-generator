@@ -2786,6 +2786,52 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Sets the booleans that define the model's type
+     *
+     * @param model the model to update
+     * @param schema the model's schema
+     */
+    protected void updateModelForString(CodegenModel model, Schema schema) {
+        // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
+        if (ModelUtils.isDateTimeSchema(schema)) {
+            // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false); // for backward compatibility with 2.x
+            model.isDateTime = Boolean.TRUE;
+        } else if (ModelUtils.isDateSchema(schema)) {
+            // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false); // for backward compatibility with 2.x
+            model.isDate = Boolean.TRUE;
+        } else if (ModelUtils.isUUIDSchema(schema)) {
+            // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
+            model.setIsString(false);
+            model.setIsUuid(true);
+        }
+    }
+
+    protected void updateModelForNumber(CodegenModel model, Schema schema) {
+        // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
+        model.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isFloatSchema(schema)) { // float
+            model.isFloat = Boolean.TRUE;
+        } else if (ModelUtils.isDoubleSchema(schema)) { // double
+            model.isDouble = Boolean.TRUE;
+        }
+    }
+
+    protected void updateModelForInteger(CodegenModel model, Schema schema) {
+        // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
+        model.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isLongSchema(schema)) { // int64/long format
+            model.isLong = Boolean.TRUE;
+        } else {
+            model.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+            if (ModelUtils.isShortSchema(schema)) { // int32
+                model.setIsShort(Boolean.TRUE);
+            }
+        }
+    }
+
+    /**
      * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
@@ -2866,6 +2912,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         m.setTypeProperties(schema);
+        m.setFormat(schema.getFormat());
         m.setComposedSchemas(getComposedSchemas(schema));
         if (ModelUtils.isArraySchema(schema)) {
             CodegenProperty arrayProperty = fromProperty(name, schema, false);
@@ -2873,39 +2920,11 @@ public class DefaultCodegen implements CodegenConfig {
             m.arrayModelType = arrayProperty.complexType;
             addParentContainer(m, name, schema);
         } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-            // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
-            m.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(schema)) { // int64/long format
-                m.isLong = Boolean.TRUE;
-            } else {
-                m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(schema)) { // int32
-                    m.setIsShort(Boolean.TRUE);
-                }
-            }
+            updateModelForInteger(m, schema);
         } else if (ModelUtils.isStringSchema(schema)) {
-            // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
-            if (ModelUtils.isDateTimeSchema(schema)) {
-                // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.setIsString(false); // for backward compatibility with 2.x
-                m.isDateTime = Boolean.TRUE;
-            } else if (ModelUtils.isDateSchema(schema)) {
-                // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.setIsString(false); // for backward compatibility with 2.x
-                m.isDate = Boolean.TRUE;
-            } else if (ModelUtils.isUUIDSchema(schema)) {
-                // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.setIsString(false);
-                m.setIsUuid(true);
-            }
+            updateModelForString(m, schema);
         } else if (ModelUtils.isNumberSchema(schema)) {
-            // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
-            m.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(schema)) { // float
-                m.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(schema)) { // double
-                m.isDouble = Boolean.TRUE;
-            }
+            updateModelForNumber(m, schema);
         } else if (ModelUtils.isAnyType(schema)) {
             updateModelForAnyType(m, schema);
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
@@ -3575,6 +3594,27 @@ public class DefaultCodegen implements CodegenConfig {
         property.pattern = toRegularExpression(p.getPattern());
     }
 
+    protected void updatePropertyForNumber(CodegenProperty property, Schema p) {
+        property.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isFloatSchema(p)) { // float
+            property.isFloat = Boolean.TRUE;
+        } else if (ModelUtils.isDoubleSchema(p)) { // double
+            property.isDouble = Boolean.TRUE;
+        }
+    }
+
+    protected void updatePropertyForInteger(CodegenProperty property, Schema p) {
+        property.isNumeric = Boolean.TRUE;
+        if (ModelUtils.isLongSchema(p)) { // int64/long format
+            property.isLong = Boolean.TRUE;
+        } else {
+            property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+            if (ModelUtils.isShortSchema(p)) { // int32
+                property.setIsShort(Boolean.TRUE);
+            }
+        }
+    }
+
     /**
      * TODO remove this in 7.0.0 as a breaking change
      * This method was kept when required was added to the fromProperty signature
@@ -3646,6 +3686,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
+        property.setFormat(p.getFormat());
 
         property.name = toVarName(name);
         property.baseName = name;
@@ -3763,15 +3804,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.setTypeProperties(p);
         property.setComposedSchemas(getComposedSchemas(p));
         if (ModelUtils.isIntegerSchema(p)) { // integer type
-            property.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(p)) { // int64/long format
-                property.isLong = Boolean.TRUE;
-            } else {
-                property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(p)) { // int32
-                    property.setIsShort(Boolean.TRUE);
-                }
-            }
+            updatePropertyForInteger(property, p);
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.getter = toBooleanGetter(name);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
@@ -3780,12 +3813,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isStringSchema(p)) {
             updatePropertyForString(property, p);
         } else if (ModelUtils.isNumberSchema(p)) {
-            property.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(p)) { // float
-                property.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(p)) { // double
-                property.isDouble = Boolean.TRUE;
-            }
+            updatePropertyForNumber(property, p);
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
             property.isContainer = true;

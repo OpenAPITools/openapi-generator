@@ -23,7 +23,29 @@ import frozendict  # noqa: F401
 
 from unit_test_api import schemas  # noqa: F401
 
-SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema
+
+
+class SchemaFor200ResponseBodyApplicationJson(
+    schemas.AnyTypeSchema,
+):
+
+
+    class MetaOapg:
+        format = 'uri-reference'
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+    ) -> 'SchemaFor200ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            _configuration=_configuration,
+            **kwargs,
+        )
 _all_accept_content_types = (
     'application/json',
 )

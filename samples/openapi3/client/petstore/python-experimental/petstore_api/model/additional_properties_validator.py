@@ -55,7 +55,7 @@ class AdditionalPropertiesValidator(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
             ) -> 'all_of_0':
                 return super().__new__(
                     cls,
@@ -84,7 +84,7 @@ class AdditionalPropertiesValidator(
                 
                     def __new__(
                         cls,
-                        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
                         _configuration: typing.Optional[schemas.Configuration] = None,
                         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
                     ) -> 'additional_properties':
@@ -106,7 +106,7 @@ class AdditionalPropertiesValidator(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
             ) -> 'all_of_1':
                 return super().__new__(
                     cls,
@@ -135,7 +135,7 @@ class AdditionalPropertiesValidator(
                 
                     def __new__(
                         cls,
-                        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
                         _configuration: typing.Optional[schemas.Configuration] = None,
                         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
                     ) -> 'additional_properties':
@@ -157,7 +157,7 @@ class AdditionalPropertiesValidator(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
-                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                **kwargs: typing.Union[MetaOapg.additional_properties, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
             ) -> 'all_of_2':
                 return super().__new__(
                     cls,

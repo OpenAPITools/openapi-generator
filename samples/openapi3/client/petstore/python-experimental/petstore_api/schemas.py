@@ -858,7 +858,7 @@ class StrBase(ValidatorBase):
         return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
-class UUIDBase(StrBase):
+class UUIDBase:
     @property
     @functools.cache
     def as_uuid_oapg(self) -> uuid.UUID:
@@ -924,7 +924,7 @@ class CustomIsoparser(isoparser):
 DEFAULT_ISOPARSER = CustomIsoparser()
 
 
-class DateBase(StrBase):
+class DateBase:
     @property
     @functools.cache
     def as_date_oapg(self) -> date:
@@ -986,7 +986,7 @@ class DateTimeBase:
         return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
-class DecimalBase(StrBase):
+class DecimalBase:
     """
     A class for storing decimals that are sent over the wire as strings
     These schemas must remain based on StrBase rather than NumberBase
@@ -1921,7 +1921,7 @@ class NumberSchema(
         return super().__new__(cls, arg, **kwargs)
 
 
-class IntBase(NumberBase):
+class IntBase:
     @property
     def as_int_oapg(self) -> int:
         try:
@@ -1965,10 +1965,28 @@ class IntSchema(IntBase, NumberSchema):
 
 
 class Int32Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-2147483648)
-        inclusive_maximum = decimal.Decimal(2147483647)
+    __inclusive_minimum = decimal.Decimal(-2147483648)
+    __inclusive_maximum = decimal.Decimal(2147483647)
+
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal) and arg.as_tuple().exponent == 0:
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type int32 at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Int32Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class Int32Schema(
@@ -1979,10 +1997,28 @@ class Int32Schema(
 
 
 class Int64Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-9223372036854775808)
-        inclusive_maximum = decimal.Decimal(9223372036854775807)
+    __inclusive_minimum = decimal.Decimal(-9223372036854775808)
+    __inclusive_maximum = decimal.Decimal(9223372036854775807)
+
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal) and arg.as_tuple().exponent == 0:
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type int64 at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Int64Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class Int64Schema(
@@ -1993,10 +2029,28 @@ class Int64Schema(
 
 
 class Float32Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
-        inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
+    __inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
+    __inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
+
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal):
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type float at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Float32Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class Float32Schema(
@@ -2006,16 +2060,32 @@ class Float32Schema(
 
     @classmethod
     def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
-        # todo check format
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
 class Float64Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
-        inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
+    __inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
+    __inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
 
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal):
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type double at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Float64Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 class Float64Schema(
     Float64Base,

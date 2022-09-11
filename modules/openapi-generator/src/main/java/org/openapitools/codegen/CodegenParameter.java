@@ -460,6 +460,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {}
 
+    // use schema.getFormat or content.mediaType.schema.getFormat instead of this
+    @Override
+    public String getFormat() {
+        return null;
+    }
+
+    // use schema.setFormat or content.mediaType.schema.setFormat instead of this
+    @Override
+    public void setFormat(String format) {}
+
     @Override
     public String getPattern() {
         return pattern;

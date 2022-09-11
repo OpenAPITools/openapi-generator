@@ -15,6 +15,7 @@ docs/models/AdditionalPropertiesWithArrayOfEnums.md
 docs/models/Address.md
 docs/models/Animal.md
 docs/models/AnimalFarm.md
+docs/models/AnyTypeAndFormat.md
 docs/models/AnyTypeNotString.md
 docs/models/ApiResponse.md
 docs/models/Apple.md
@@ -151,6 +152,8 @@ petstore_api/model/animal.py
 petstore_api/model/animal.pyi
 petstore_api/model/animal_farm.py
 petstore_api/model/animal_farm.pyi
+petstore_api/model/any_type_and_format.py
+petstore_api/model/any_type_and_format.pyi
 petstore_api/model/any_type_not_string.py
 petstore_api/model/any_type_not_string.pyi
 petstore_api/model/api_response.py

@@ -209,6 +209,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {}
 
+    // use content.mediaType.schema.getFormat instead of this
+    @Override
+    public String getFormat() {
+        return null;
+    }
+
+    // use content.mediaType.schema.setFormat instead of this
+    @Override
+    public void setFormat(String format) {}
+
     public LinkedHashMap<String, CodegenMediaType> getContent() {
         return content;
     }
