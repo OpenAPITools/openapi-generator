@@ -113,8 +113,9 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
 | 7.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.0-SNAPSHOT/) | Feb/Mar 2023   | Major release with breaking changes (no fallback) |
-| 6.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.1.0-SNAPSHOT/) | 03.08 2022   | Minor release with breaking changes (with fallback) |
-| [6.0.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.0.1) (latest stable release)                                                    | 03.07.2022   | Patch release (enhancements, bug fixes, etc) |
+| 6.2.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.2.0-SNAPSHOT/) | 11.11.2022   | Minor release with breaking changes (with fallback) |
+| 6.1.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.1.1-SNAPSHOT/) | 11.10.2022   | Patch release (enhancements, bug fixes, etc) |
+| [6.1.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.1.0) (latest stable release)                                                    | 11.09.2022   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
@@ -172,16 +173,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.1.0/openapi-generator-cli-6.1.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.1.0/openapi-generator-cli-6.1.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.1.0/openapi-generator-cli-6.1.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -406,7 +407,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 6.0.1
+openapi-generator-cli version-manager set 6.1.0
 ```
 
 Or install it as dev-dependency:
@@ -430,7 +431,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.1/openapi-generator-cli-6.0.1.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.1.0/openapi-generator-cli-6.1.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
