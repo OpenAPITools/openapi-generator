@@ -7,7 +7,7 @@
 # General application configuration
 import Config
 
-config :{{#underscored}}{{appName}}{{/underscored}}, base_url: "{{{basePath}}}"
+config {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, base_url: "{{{basePath}}}"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
