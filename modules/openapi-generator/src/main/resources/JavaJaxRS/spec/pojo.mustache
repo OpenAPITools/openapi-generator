@@ -2,18 +2,18 @@
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
 import java.util.Objects;
-{{#useJacksonAnnotations}}
+{{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-{{/useJacksonAnnotations}}
+{{/jackson}}
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
  **/{{/description}}
 {{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}
-{{#useJacksonAnnotations}}@JsonTypeName("{{name}}"){{/useJacksonAnnotations}}
+{{#jackson}}@JsonTypeName("{{name}}"){{/jackson}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
@@ -76,16 +76,16 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
-{{#useJacksonAnnotations}}
+{{#jackson}}
   @JsonProperty("{{baseName}}")
-{{/useJacksonAnnotations}}
+{{/jackson}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>beanValidatedType}} {{getter}}() {
     return {{name}};
   }
 
-  {{#useJacksonAnnotations}}
+  {{#jackson}}
   @JsonProperty("{{baseName}}")
-  {{/useJacksonAnnotations}}
+  {{/jackson}}
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
