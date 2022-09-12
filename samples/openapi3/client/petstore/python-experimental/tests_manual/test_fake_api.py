@@ -400,13 +400,17 @@ class TestFakeApi(ApiTestMixin):
         api_response.body.close()
         os.unlink(api_response.body.name)
 
+        file1 = open(file_path1, "rb")
+        streamable_body = StreamableBody(file1)
+        expected_filename = "the_file.ext"
+
         no_filename_mock_response = self.response(
             streamable_body,
             content_type='application/octet-stream',
             headers={'content-disposition': f'attachment'},
             preload_content=False
         )
-        expected_filename = "the_file.ext"
+
         with patch.object(RESTClientObject, 'request') as mock_request:
             no_filename_mock_response.geturl = lambda: f'http://foo.bar/{expected_filename}'
             mock_request.return_value = no_filename_mock_response
