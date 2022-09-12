@@ -838,7 +838,7 @@ class OpenApiResponse(JSONDetector):
 
     @staticmethod
     def __file_name_from_response_url(response_url: typing.Optional[str]) -> typing.Optional[str]:
-        if not response_url:
+        if response_url is None:
             return None
         url_path = urlparse(response_url).path
         if url_path:
