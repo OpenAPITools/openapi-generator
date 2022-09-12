@@ -400,6 +400,34 @@ class TestFakeApi(ApiTestMixin):
         api_response.body.close()
         os.unlink(api_response.body.name)
 
+        no_filename_mock_response = self.response(
+            streamable_body,
+            content_type='application/octet-stream',
+            headers={'content-disposition': f'attachment'},
+            preload_content=False
+        )
+        expected_filename = "the_file.ext"
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            no_filename_mock_response.geturl = lambda: f'http://foo.bar/{expected_filename}'
+            mock_request.return_value = no_filename_mock_response
+            api_response = self.api.upload_download_file(body=file_bytes, stream=True)
+            self.assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
+                body=file_bytes,
+                content_type='application/octet-stream',
+                accept_content_type='application/octet-stream',
+                stream=True
+            )
+        self.assertTrue(file1.closed)
+        self.assertTrue(isinstance(api_response.body, schemas.BinarySchema))
+        self.assertTrue(isinstance(api_response.body, schemas.FileSchema))
+        self.assertTrue(isinstance(api_response.body, schemas.FileIO))
+        self.assertTrue(api_response.body.name.endswith(expected_filename))
+        self.assertEqual(api_response.body.read(), file_bytes)
+        api_response.body.close()
+        os.unlink(api_response.body.name)
+
     def test_upload_file(self):
         """Test case for upload_file
         uploads a file using multipart/form-data  # noqa: E501
