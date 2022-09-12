@@ -400,6 +400,10 @@ class TestFakeApi(ApiTestMixin):
         api_response.body.close()
         os.unlink(api_response.body.name)
 
+        """
+        when streaming is used and the response contains the content disposition header without a filename
+        the url of response is used to extract the filename.
+        """
         file1 = open(file_path1, "rb")
         streamable_body = StreamableBody(file1)
         expected_filename = "the_file.ext"
@@ -407,7 +411,7 @@ class TestFakeApi(ApiTestMixin):
         no_filename_mock_response = self.response(
             streamable_body,
             content_type='application/octet-stream',
-            headers={'content-disposition': f'attachment'},
+            headers={'content-disposition': 'attachment'},
             preload_content=False
         )
 
