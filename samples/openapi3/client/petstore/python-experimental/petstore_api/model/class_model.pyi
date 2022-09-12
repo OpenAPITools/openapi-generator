@@ -46,7 +46,7 @@ class ClassModel(
     def __getitem__(self, name: typing.Literal["_class"]) -> MetaOapg.properties._class: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["_class", ], str]):
         # dict_instance[name] accessor
@@ -57,7 +57,7 @@ class ClassModel(
     def get_item_oapg(self, name: typing.Literal["_class"]) -> typing.Union[MetaOapg.properties._class, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["_class", ], str]):
         return super().get_item_oapg(name)
@@ -65,7 +65,7 @@ class ClassModel(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
         _class: typing.Union[MetaOapg.properties._class, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],

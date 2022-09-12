@@ -51,7 +51,7 @@ class Cat(
             def __getitem__(self, name: typing.Literal["declawed"]) -> MetaOapg.properties.declawed: ...
             
             @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+            def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
             
             def __getitem__(self, name: typing.Union[typing.Literal["declawed", ], str]):
                 # dict_instance[name] accessor
@@ -62,7 +62,7 @@ class Cat(
             def get_item_oapg(self, name: typing.Literal["declawed"]) -> typing.Union[MetaOapg.properties.declawed, schemas.Unset]: ...
             
             @typing.overload
-            def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
             
             def get_item_oapg(self, name: typing.Union[typing.Literal["declawed", ], str]):
                 return super().get_item_oapg(name)
@@ -102,7 +102,7 @@ class Cat(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Cat':

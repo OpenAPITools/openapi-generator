@@ -94,7 +94,7 @@ class Order(
     def __getitem__(self, name: typing.Literal["complete"]) -> MetaOapg.properties.complete: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
         # dict_instance[name] accessor
@@ -120,7 +120,7 @@ class Order(
     def get_item_oapg(self, name: typing.Literal["complete"]) -> typing.Union[MetaOapg.properties.complete, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
         return super().get_item_oapg(name)
@@ -129,10 +129,10 @@ class Order(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
-        petId: typing.Union[MetaOapg.properties.petId, int, schemas.Unset] = schemas.unset,
-        quantity: typing.Union[MetaOapg.properties.quantity, int, schemas.Unset] = schemas.unset,
-        shipDate: typing.Union[MetaOapg.properties.shipDate, datetime, str, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        petId: typing.Union[MetaOapg.properties.petId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        quantity: typing.Union[MetaOapg.properties.quantity, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        shipDate: typing.Union[MetaOapg.properties.shipDate, str, datetime, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         complete: typing.Union[MetaOapg.properties.complete, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,

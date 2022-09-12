@@ -1,0 +1,56 @@
+/// a concrete implementation of [{{classname}}], since [{{classname}}] is not instantiable
+@BuiltValue(instantiable: true)
+abstract class ${{classname}} implements {{classname}}, Built<${{classname}}, ${{classname}}Builder> {
+  ${{classname}}._();
+
+  factory ${{classname}}([void Function(${{classname}}Builder)? updates]) = _$${{classname}};
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(${{classname}}Builder b) => b;
+
+  @BuiltValueSerializer(custom: true)
+  static Serializer<${{classname}}> get serializer => _$${{classname}}Serializer();
+}
+
+class _$${{classname}}Serializer implements PrimitiveSerializer<${{classname}}> {
+  @override
+  final Iterable<Type> types = const [${{classname}}, _$${{classname}}];
+
+  @override
+  final String wireName = r'${{classname}}';
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    ${{{classname}}} object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return serializers.serialize(object, specifiedType: FullType({{classname}}))!;
+  }
+
+{{#vendorExtensions.x-has-self-and-ancestor-only-props}}{{>serialization/built_value/deserialize_properties}}
+
+{{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+  @override
+  ${{classname}} deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = ${{classname}}Builder();
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{! when discriminator is involved, read it, then return based on value }}
+    return result.build();
+  }
+}

@@ -69,7 +69,7 @@ class PropertiesWithEscapedCharacters(
     def __getitem__(self, name: typing.Literal["foo\fbar"]) -> MetaOapg.properties.foo_fbar: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["foo\nbar", "foo\"bar", "foo\\bar", "foo\rbar", "foo\tbar", "foo\fbar", ], str]):
         # dict_instance[name] accessor
@@ -95,7 +95,7 @@ class PropertiesWithEscapedCharacters(
     def get_item_oapg(self, name: typing.Literal["foo\fbar"]) -> typing.Union[MetaOapg.properties.foo_fbar, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["foo\nbar", "foo\"bar", "foo\\bar", "foo\rbar", "foo\tbar", "foo\fbar", ], str]):
         return super().get_item_oapg(name)
@@ -103,7 +103,7 @@ class PropertiesWithEscapedCharacters(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'PropertiesWithEscapedCharacters':

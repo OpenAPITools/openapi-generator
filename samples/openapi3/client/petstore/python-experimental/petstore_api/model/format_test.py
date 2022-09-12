@@ -269,7 +269,7 @@ class FormatTest(
     def __getitem__(self, name: typing.Literal["noneProp"]) -> MetaOapg.properties.noneProp: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["number", "byte", "date", "password", "integer", "int32", "int32withValidations", "int64", "float", "float32", "double", "float64", "arrayWithUniqueItems", "string", "binary", "dateTime", "uuid", "uuidNoExample", "pattern_with_digits", "pattern_with_digits_and_delimiter", "noneProp", ], str]):
         # dict_instance[name] accessor
@@ -340,7 +340,7 @@ class FormatTest(
     def get_item_oapg(self, name: typing.Literal["noneProp"]) -> typing.Union[MetaOapg.properties.noneProp, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["number", "byte", "date", "password", "integer", "int32", "int32withValidations", "int64", "float", "float32", "double", "float64", "arrayWithUniqueItems", "string", "binary", "dateTime", "uuid", "uuidNoExample", "pattern_with_digits", "pattern_with_digits_and_delimiter", "noneProp", ], str]):
         return super().get_item_oapg(name)
@@ -349,23 +349,23 @@ class FormatTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        date: typing.Union[MetaOapg.properties.date, date, str, ],
+        date: typing.Union[MetaOapg.properties.date, str, date, ],
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         password: typing.Union[MetaOapg.properties.password, str, ],
         byte: typing.Union[MetaOapg.properties.byte, str, ],
-        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
-        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
-        int32withValidations: typing.Union[MetaOapg.properties.int32withValidations, int, schemas.Unset] = schemas.unset,
-        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
-        float32: typing.Union[MetaOapg.properties.float32, float, schemas.Unset] = schemas.unset,
-        double: typing.Union[MetaOapg.properties.double, float, schemas.Unset] = schemas.unset,
-        float64: typing.Union[MetaOapg.properties.float64, float, schemas.Unset] = schemas.unset,
+        integer: typing.Union[MetaOapg.properties.integer, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int32withValidations: typing.Union[MetaOapg.properties.int32withValidations, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        float32: typing.Union[MetaOapg.properties.float32, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
+        double: typing.Union[MetaOapg.properties.double, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
+        float64: typing.Union[MetaOapg.properties.float64, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         arrayWithUniqueItems: typing.Union[MetaOapg.properties.arrayWithUniqueItems, tuple, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
-        uuid: typing.Union[MetaOapg.properties.uuid, uuid.UUID, str, schemas.Unset] = schemas.unset,
-        uuidNoExample: typing.Union[MetaOapg.properties.uuidNoExample, uuid.UUID, str, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, str, datetime, schemas.Unset] = schemas.unset,
+        uuid: typing.Union[MetaOapg.properties.uuid, str, uuid.UUID, schemas.Unset] = schemas.unset,
+        uuidNoExample: typing.Union[MetaOapg.properties.uuidNoExample, str, uuid.UUID, schemas.Unset] = schemas.unset,
         pattern_with_digits: typing.Union[MetaOapg.properties.pattern_with_digits, str, schemas.Unset] = schemas.unset,
         pattern_with_digits_and_delimiter: typing.Union[MetaOapg.properties.pattern_with_digits_and_delimiter, str, schemas.Unset] = schemas.unset,
         noneProp: typing.Union[MetaOapg.properties.noneProp, None, schemas.Unset] = schemas.unset,

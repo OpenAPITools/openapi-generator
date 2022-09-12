@@ -61,7 +61,7 @@ class Name(
     def __getitem__(self, name: typing.Literal["property"]) -> MetaOapg.properties._property: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["name", "snake_case", "property", ], str]):
         # dict_instance[name] accessor
@@ -78,7 +78,7 @@ class Name(
     def get_item_oapg(self, name: typing.Literal["property"]) -> typing.Union[MetaOapg.properties._property, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["name", "snake_case", "property", ], str]):
         return super().get_item_oapg(name)
@@ -86,9 +86,9 @@ class Name(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-        name: typing.Union[MetaOapg.properties.name, int, ],
-        snake_case: typing.Union[MetaOapg.properties.snake_case, int, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+        name: typing.Union[MetaOapg.properties.name, decimal.Decimal, int, ],
+        snake_case: typing.Union[MetaOapg.properties.snake_case, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Name':

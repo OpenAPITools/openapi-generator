@@ -13,7 +13,7 @@ Python &gt;&#x3D;3.9
 v3.9 is needed so one can combine classmethod and property decorators to define
 object schema properties as classes
 
-## Migration from other generators like python and python-experimental
+## Migration from other generators like python and python-legacy
 
 ### Changes
 1. This generator uses spec case for all (object) property names and parameter names.
@@ -182,6 +182,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**inline_additional_properties**](docs/apis/tags/FakeApi.md#inline_additional_properties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**inline_composition**](docs/apis/tags/FakeApi.md#inline_composition) | **post** /fake/inlineComposition/ | testing composed schemas at inline locations
 *FakeApi* | [**json_form_data**](docs/apis/tags/FakeApi.md#json_form_data) | **get** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**json_patch**](docs/apis/tags/FakeApi.md#json_patch) | **patch** /fake/jsonPatch | json patch
 *FakeApi* | [**json_with_charset**](docs/apis/tags/FakeApi.md#json_with_charset) | **post** /fake/jsonWithCharset | json with charset tx and rx
 *FakeApi* | [**mammal**](docs/apis/tags/FakeApi.md#mammal) | **post** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/apis/tags/FakeApi.md#number_with_validations) | **post** /fake/refs/number | 
@@ -222,10 +223,12 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AdditionalPropertiesClass](docs/models/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesValidator](docs/models/AdditionalPropertiesValidator.md)
  - [AdditionalPropertiesWithArrayOfEnums](docs/models/AdditionalPropertiesWithArrayOfEnums.md)
  - [Address](docs/models/Address.md)
  - [Animal](docs/models/Animal.md)
  - [AnimalFarm](docs/models/AnimalFarm.md)
+ - [AnyTypeAndFormat](docs/models/AnyTypeAndFormat.md)
  - [AnyTypeNotString](docs/models/AnyTypeNotString.md)
  - [ApiResponse](docs/models/ApiResponse.md)
  - [Apple](docs/models/Apple.md)
@@ -286,6 +289,10 @@ Class | Method | HTTP request | Description
  - [IntegerMax10](docs/models/IntegerMax10.md)
  - [IntegerMin15](docs/models/IntegerMin15.md)
  - [IsoscelesTriangle](docs/models/IsoscelesTriangle.md)
+ - [JSONPatchRequest](docs/models/JSONPatchRequest.md)
+ - [JSONPatchRequestAddReplaceTest](docs/models/JSONPatchRequestAddReplaceTest.md)
+ - [JSONPatchRequestMoveCopy](docs/models/JSONPatchRequestMoveCopy.md)
+ - [JSONPatchRequestRemove](docs/models/JSONPatchRequestRemove.md)
  - [Mammal](docs/models/Mammal.md)
  - [MapTest](docs/models/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/models/MixedPropertiesAndAdditionalPropertiesClass.md)

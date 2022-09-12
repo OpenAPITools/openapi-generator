@@ -148,8 +148,8 @@ RequestOptionalQueryParams = typing.TypedDict(
     {
         'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, tuple, ],
         'enum_query_string': typing.Union[EnumQueryStringSchema, str, ],
-        'enum_query_integer': typing.Union[EnumQueryIntegerSchema, int, ],
-        'enum_query_double': typing.Union[EnumQueryDoubleSchema, float, ],
+        'enum_query_integer': typing.Union[EnumQueryIntegerSchema, decimal.Decimal, int, ],
+        'enum_query_double': typing.Union[EnumQueryDoubleSchema, decimal.Decimal, int, float, ],
     },
     total=False
 )
@@ -375,7 +375,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
         # dict_instance[name] accessor
@@ -389,7 +389,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def get_item_oapg(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
         return super().get_item_oapg(name)

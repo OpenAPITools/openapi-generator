@@ -1168,9 +1168,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             schema.setName(name);
             codegenModel = fromModel(name, schema);
         }
-        if (codegenModel != null) {
-            codegenParameter.isModel = true;
-        }
 
         if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
             if (StringUtils.isEmpty(bodyParameterName)) {
@@ -1183,49 +1180,32 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
             codegenParameter.isNullable = codegenModel.isNullable;
-            imports.add(codegenParameter.baseType);
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
-                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
-                imports.addAll(parts);
-                String codegenModelName = codegenProperty.getComplexType();
-                codegenParameter.baseName = codegenModelName;
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.baseType = codegenParameter.baseName;
-                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                codegenParameter.description = codegenProperty.getDescription();
-                codegenParameter.isNullable = codegenProperty.isNullable;
-            } else {
-                if (ModelUtils.isMapSchema(schema)) {// http body is map
-                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
-                } else if (codegenProperty != null) {
-                    String codegenModelName, codegenModelDescription;
+            if (ModelUtils.isMapSchema(schema)) {// http body is map
+                // LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+            } else if (codegenProperty != null) {
+                String codegenModelName, codegenModelDescription;
 
-                    if (codegenModel != null) {
-                        codegenModelName = codegenModel.classname;
-                        codegenModelDescription = codegenModel.description;
-                    } else {
-                        codegenModelName = "anyType";
-                        codegenModelDescription = "";
-                    }
-
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModelName;
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-
-                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModelName;
-                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                    codegenParameter.description = codegenModelDescription;
-
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
-                    }
+                if (codegenModel != null) {
+                    codegenModelName = codegenModel.classname;
+                    codegenModelDescription = codegenModel.description;
+                } else {
+                    codegenModelName = "anyType";
+                    codegenModelDescription = "";
                 }
+
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = codegenModelName;
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.baseType = codegenModelName;
+                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                codegenParameter.description = codegenModelDescription;
             }
 
             // set nullable
@@ -1431,25 +1411,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema sc) {
         CodegenModel cm = super.fromModel(name, sc);
-        Schema unaliasedSchema = unaliasSchema(sc);
-        if (unaliasedSchema != null) {
-            if (ModelUtils.isDecimalSchema(unaliasedSchema)) { // type: string, format: number
-                cm.isString = false;
-                cm.isDecimal = true;
-            }
-        }
 
         if (cm.isNullable) {
             cm.setIsNull(true);
             cm.isNullable = false;
             cm.setHasMultipleTypes(true);
-        }
-        // TODO improve this imports addition code
-        if (cm.isArray && cm.getItems() != null && cm.getItems().complexType != null) {
-            cm.imports.add(cm.getItems().complexType);
-        }
-        if (cm.isArray && cm.getItems() != null && cm.getItems().mostInnerItems != null && cm.getItems().mostInnerItems.complexType != null) {
-            cm.imports.add(cm.getItems().mostInnerItems.complexType);
         }
         Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
         setAdditionalPropsAndItemsVarNames(cm);
@@ -1601,22 +1567,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        Schema addProps = getAdditionalProperties(schema);
-        if (addProps != null) {
-            // if AdditionalProperties exists, get its datatype and
-            // store it in codegenModel.additionalPropertiesType.
-            // The 'addProps' may be a reference, getTypeDeclaration will resolve
-            // the reference.
-            List<String> referencedModelNames = new ArrayList<String>();
-            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
-            if (referencedModelNames.size() != 0) {
-                // Models that are referenced in the 'additionalPropertiesType' keyword
-                // must be added to the imports.
-                codegenModel.imports.addAll(referencedModelNames);
-            }
-        }
-        // If addProps is null, the value of the 'additionalProperties' keyword is set
-        // to false, i.e. no additional properties are allowed.
     }
 
     /**
@@ -2281,32 +2231,69 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     }
 
+    /**
+     * Sets the booleans that define the model's type
+     *
+     * @param model the model to update
+     * @param schema the model's schema
+     */
+    protected void updateModelForString(CodegenModel model, Schema schema) {
+        if (ModelUtils.isDateTimeSchema(schema)) {
+            // isString stays true, format stores that this is a date-time
+        } else if (ModelUtils.isDateSchema(schema)) {
+            // isString stays true, format stores that this is a date
+        } else if (ModelUtils.isUUIDSchema(schema)) {
+            // isString stays true, format stores that this is a uuid
+        } else if (ModelUtils.isDecimalSchema(schema)) {
+            // isString stays true, format stores that this is a uuid
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            // format stores that this is binary
+            model.isString = true;
+        }
+    }
+
+    protected void updateModelForNumber(CodegenModel model, Schema schema) {
+        model.setIsNumber(true);
+        // float vs double info is stored in format
+    }
+
+    protected void updateModelForInteger(CodegenModel model, Schema schema) {
+        model.isInteger = true;
+        // int32 int64 info is stored in format
+    }
+
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
         if (ModelUtils.isByteArraySchema(p)) {
-            property.isByteArray = true;
-            property.setIsString(false);
+            // isString stays true, format stores that this is a byte
         } else if (ModelUtils.isBinarySchema(p)) {
-            property.isBinary = true;
-            property.isFile = true; // file = binary in OAS3
+            // format stores that this is binary
+            property.isString = true;
         } else if (ModelUtils.isUUIDSchema(p)) {
-            property.setIsString(false); // so the templates only see isUuid
-            property.setIsUuid(true);
+            // isString stays true, format stores that this is a uuid
         } else if (ModelUtils.isURISchema(p)) {
             property.isUri = true;
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
-            property.setIsString(false); // so the templates only see isDate
-            property.isDate = true;
+            // isString stays true, format stores that this is a date
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-            property.setIsString(false); // so the templates only see isDateTime
-            property.isDateTime = true;
+            // isString stays true, format stores that this is a date-time
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
-            property.setIsString(false); // so the templates only see isDecimal
-            property.isDecimal = true;
+            // isString stays true, format stores that this is a number
         }
         property.pattern = toRegularExpression(p.getPattern());
     }
+
+    protected void updatePropertyForNumber(CodegenProperty property, Schema p) {
+        property.setIsNumber(true);
+        // float and double differentiation is determined with format info
+    }
+
+    protected void updatePropertyForInteger(CodegenProperty property, Schema p) {
+        property.isInteger = true;
+        // int32 and int64 differentiation is determined with format info
+    }
+
 
     @Override
     protected void updatePropertyForObject(CodegenProperty property, Schema p) {

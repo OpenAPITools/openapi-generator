@@ -35,7 +35,7 @@ class BaseApi(api_client.Api):
 
     def _json_with_charset_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json; charset=utf-8',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -98,7 +98,7 @@ class JsonWithCharset(BaseApi):
 
     def json_with_charset(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json; charset=utf-8',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
@@ -123,7 +123,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJsonCharsetutf8, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         content_type: str = 'application/json; charset=utf-8',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,

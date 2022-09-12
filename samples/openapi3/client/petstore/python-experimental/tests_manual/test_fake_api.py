@@ -400,6 +400,42 @@ class TestFakeApi(ApiTestMixin):
         api_response.body.close()
         os.unlink(api_response.body.name)
 
+        """
+        when streaming is used and the response contains the content disposition header without a filename
+        the url of response is used to extract the filename.
+        """
+        file1 = open(file_path1, "rb")
+        streamable_body = StreamableBody(file1)
+        expected_filename = "the_file.ext"
+
+        no_filename_mock_response = self.response(
+            streamable_body,
+            content_type='application/octet-stream',
+            headers={'content-disposition': 'attachment'},
+            preload_content=False
+        )
+
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            no_filename_mock_response.geturl = lambda: f'http://foo.bar/{expected_filename}'
+            mock_request.return_value = no_filename_mock_response
+            api_response = self.api.upload_download_file(body=file_bytes, stream=True)
+            self.assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
+                body=file_bytes,
+                content_type='application/octet-stream',
+                accept_content_type='application/octet-stream',
+                stream=True
+            )
+        self.assertTrue(file1.closed)
+        self.assertTrue(isinstance(api_response.body, schemas.BinarySchema))
+        self.assertTrue(isinstance(api_response.body, schemas.FileSchema))
+        self.assertTrue(isinstance(api_response.body, schemas.FileIO))
+        self.assertTrue(api_response.body.name.endswith(expected_filename))
+        self.assertEqual(api_response.body.read(), file_bytes)
+        api_response.body.close()
+        os.unlink(api_response.body.name)
+
     def test_upload_file(self):
         """Test case for upload_file
         uploads a file using multipart/form-data  # noqa: E501
@@ -726,6 +762,43 @@ class TestFakeApi(ApiTestMixin):
             assert isinstance(api_response.response, urllib3.HTTPResponse)
             assert isinstance(api_response.body, schemas.Unset)
             assert isinstance(api_response.headers, schemas.Unset)
+
+    def test_json_patch(self):
+        with patch.object(urllib3.PoolManager, 'request') as mock_request:
+            from petstore_api.model import json_patch_request
+            from petstore_api.model import json_patch_request_add_replace_test
+
+            mock_request.return_value = self.response("")
+            body = json_patch_request.JSONPatchRequest(
+                [
+                    json_patch_request_add_replace_test.JSONPatchRequestAddReplaceTest(
+                        op='add',
+                        path='/a/b/c',
+                        value='foo',
+                    )
+                ]
+            )
+            api_response = self.api.json_patch(body)
+            json_body = [
+                {
+                    'op': 'add',
+                    'path': '/a/b/c',
+                    'value': 'foo'
+                }
+            ]
+            self.assert_pool_manager_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/jsonPatch',
+                body=self.json_bytes(json_body),
+                method='PATCH',
+                content_type='application/json-patch+json',
+                accept_content_type=None,
+            )
+
+            assert isinstance(api_response.response, urllib3.HTTPResponse)
+            assert isinstance(api_response.body, schemas.Unset)
+            assert isinstance(api_response.headers, schemas.Unset)
+            assert api_response.response.status == 200
 
 
 if __name__ == '__main__':

@@ -196,7 +196,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __getitem__(self, name: typing.Literal["callback"]) -> MetaOapg.properties.callback: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["integer", "int32", "int64", "number", "float", "double", "string", "pattern_without_delimiter", "byte", "binary", "date", "dateTime", "password", "callback", ], str]):
         # dict_instance[name] accessor
@@ -246,7 +246,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def get_item_oapg(self, name: typing.Literal["callback"]) -> typing.Union[MetaOapg.properties.callback, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["integer", "int32", "int64", "number", "float", "double", "string", "pattern_without_delimiter", "byte", "binary", "date", "dateTime", "password", "callback", ], str]):
         return super().get_item_oapg(name)
@@ -258,14 +258,14 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
         byte: typing.Union[MetaOapg.properties.byte, str, ],
-        double: typing.Union[MetaOapg.properties.double, float, ],
-        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
-        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
-        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        double: typing.Union[MetaOapg.properties.double, decimal.Decimal, int, float, ],
+        integer: typing.Union[MetaOapg.properties.integer, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
-        date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        date: typing.Union[MetaOapg.properties.date, str, date, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, str, datetime, schemas.Unset] = schemas.unset,
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
         callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,

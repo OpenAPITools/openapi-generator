@@ -22,7 +22,7 @@ import tempfile
 import typing
 import urllib3
 from urllib3._collections import HTTPHeaderDict
-from urllib.parse import quote
+from urllib.parse import urlparse, quote
 from urllib3.fields import RequestField as RequestFieldBase
 
 import frozendict
@@ -800,19 +800,25 @@ class ApiResponseWithoutDeserialization(ApiResponse):
 
 
 class JSONDetector:
-    @staticmethod
-    def content_type_is_json(content_type: str) -> bool:
-        """
-        for when content_type strings also include charset info like:
-        application/json; charset=UTF-8
-        """
-        content_type_piece = content_type.split(';')[0]
-        if content_type_piece == 'application/json':
+    """
+    Works for:
+    application/json
+    application/json; charset=UTF-8
+    application/json-patch+json
+    application/geo+json
+    """
+    __json_content_type_pattern = re.compile("application/[^+]*[+]?(json);?.*")
+
+    @classmethod
+    def _content_type_is_json(cls, content_type: str) -> bool:
+        if cls.__json_content_type_pattern.match(content_type):
             return True
         return False
 
 
 class OpenApiResponse(JSONDetector):
+    __filename_content_disposition_pattern = re.compile('filename="(.+?)"')
+
     def __init__(
         self,
         response_cls: typing.Type[ApiResponse] = ApiResponse,
@@ -831,10 +837,23 @@ class OpenApiResponse(JSONDetector):
         return json.loads(response.data)
 
     @staticmethod
-    def __file_name_from_content_disposition(content_disposition: typing.Optional[str]) -> typing.Optional[str]:
+    def __file_name_from_response_url(response_url: typing.Optional[str]) -> typing.Optional[str]:
+        if response_url is None:
+            return None
+        url_path = urlparse(response_url).path
+        if url_path:
+            path_basename = os.path.basename(url_path)
+            if path_basename:
+                _filename, ext = os.path.splitext(path_basename)
+                if ext:
+                    return path_basename
+        return None
+
+    @classmethod
+    def __file_name_from_content_disposition(cls, content_disposition: typing.Optional[str]) -> typing.Optional[str]:
         if content_disposition is None:
             return None
-        match = re.search('filename="(.+?)"', content_disposition)
+        match = cls.__filename_content_disposition_pattern.search(content_disposition)
         if not match:
             return None
         return match.group(1)
@@ -849,13 +868,16 @@ class OpenApiResponse(JSONDetector):
             a file will be written and returned
         """
         if response.supports_chunked_reads():
-            file_name = self.__file_name_from_content_disposition(response.headers.get('content-disposition'))
+            file_name = (
+                self.__file_name_from_content_disposition(response.headers.get('content-disposition'))
+                or self.__file_name_from_response_url(response.geturl())
+            )
 
             if file_name is None:
                 _fd, path = tempfile.mkstemp()
             else:
                 path = os.path.join(tempfile.gettempdir(), file_name)
-            # TODO get file_name from the filename at the end of the url if it exists
+
             with open(path, 'wb') as new_file:
                 chunk_size = 1024
                 while True:
@@ -909,7 +931,7 @@ class OpenApiResponse(JSONDetector):
                     body=unset
                 )
 
-            if self.content_type_is_json(content_type):
+            if self._content_type_is_json(content_type):
                 body_data = self.__deserialize_json(response)
             elif content_type == 'application/octet-stream':
                 body_data = self.__deserialize_application_octet_stream(response)
@@ -1453,7 +1475,7 @@ class RequestBody(StyleFormSerializer, JSONDetector):
             cast_in_data = media_type.schema(in_data)
         # TODO check for and use encoding if it exists
         # and content_type is multipart or application/x-www-form-urlencoded
-        if self.content_type_is_json(content_type):
+        if self._content_type_is_json(content_type):
             return self.__serialize_json(cast_in_data)
         elif content_type == 'text/plain':
             return self.__serialize_text_plain(cast_in_data)

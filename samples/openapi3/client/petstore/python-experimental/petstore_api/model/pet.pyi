@@ -155,7 +155,7 @@ class Pet(
     def __getitem__(self, name: typing.Literal["status"]) -> MetaOapg.properties.status: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["name", "photoUrls", "id", "category", "tags", "status", ], str]):
         # dict_instance[name] accessor
@@ -181,7 +181,7 @@ class Pet(
     def get_item_oapg(self, name: typing.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["name", "photoUrls", "id", "category", "tags", "status", ], str]):
         return super().get_item_oapg(name)
@@ -192,7 +192,7 @@ class Pet(
         *args: typing.Union[dict, frozendict.frozendict, ],
         photoUrls: typing.Union[MetaOapg.properties.photoUrls, tuple, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
-        id: typing.Union[MetaOapg.properties.id, int, schemas.Unset] = schemas.unset,
+        id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
         tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,

@@ -8,6 +8,7 @@
 #' @description Date Class
 #' @format An \code{R6Class} generator object
 #' @field className  character
+#' @field percent_description using \% in the description character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -15,20 +16,26 @@ Date <- R6::R6Class(
   "Date",
   public = list(
     `className` = NULL,
+    `percent_description` = NULL,
     #' Initialize a new Date class.
     #'
     #' @description
     #' Initialize a new Date class.
     #'
     #' @param className className
+    #' @param percent_description using \% in the description
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, ...
+        `className`, `percent_description` = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
+      }
+      if (!is.null(`percent_description`)) {
+        stopifnot(is.character(`percent_description`), length(`percent_description`) == 1)
+        self$`percent_description` <- `percent_description`
       }
     },
     #' To JSON string
@@ -44,6 +51,10 @@ Date <- R6::R6Class(
         DateObject[["className"]] <-
           self$`className`
       }
+      if (!is.null(self$`percent_description`)) {
+        DateObject[["percent_description"]] <-
+          self$`percent_description`
+      }
       DateObject
     },
     #' Deserialize JSON string into an instance of Date
@@ -58,6 +69,9 @@ Date <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`className`)) {
         self$`className` <- this_object$`className`
+      }
+      if (!is.null(this_object$`percent_description`)) {
+        self$`percent_description` <- this_object$`percent_description`
       }
       self
     },
@@ -77,6 +91,14 @@ Date <- R6::R6Class(
                     ',
           self$`className`
           )
+        },
+        if (!is.null(self$`percent_description`)) {
+          sprintf(
+          '"percent_description":
+            "%s"
+                    ',
+          self$`percent_description`
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -93,6 +115,7 @@ Date <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
+      self$`percent_description` <- this_object$`percent_description`
       self
     },
     #' Validate JSON input with respect to Date

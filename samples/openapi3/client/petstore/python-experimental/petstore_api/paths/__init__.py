@@ -51,4 +51,5 @@ class PathValues(str, enum.Enum):
     FAKE_REF_OBJ_IN_QUERY = "/fake/refObjInQuery"
     FAKE_JSON_WITH_CHARSET = "/fake/jsonWithCharset"
     FAKE_RESPONSE_WITHOUT_SCHEMA = "/fake/responseWithoutSchema"
+    FAKE_JSON_PATCH = "/fake/jsonPatch"
     FAKE_DELETE_COFFEE_ID = "/fake/deleteCoffee/{id}"

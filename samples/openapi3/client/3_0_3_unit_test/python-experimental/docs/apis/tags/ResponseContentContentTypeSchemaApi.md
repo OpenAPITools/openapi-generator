@@ -1466,7 +1466,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -1528,7 +1528,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2031,7 +2031,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2281,7 +2281,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2343,7 +2343,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2405,7 +2405,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -3412,7 +3412,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -3474,7 +3474,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -4668,7 +4668,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5045,7 +5045,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5421,7 +5421,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5483,7 +5483,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -5545,7 +5545,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**

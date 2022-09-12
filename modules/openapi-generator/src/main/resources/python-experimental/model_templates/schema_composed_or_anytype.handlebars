@@ -2,6 +2,9 @@
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
 {{#if getIsAnyType}}
+    {{#if getFormat}}
+    {{> model_templates/format_base }}
+    {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedSchema,
     {{else}}
@@ -9,7 +12,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     {{/if}}
 {{else}}
     {{#if getHasMultipleTypes}}
-    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isNull}}schemas.NoneClass, {{/if}}{{#if isMap}}frozendict.frozendict, {{/if}}{{#if isArray}}tuple, {{/if}}{{#or isString isByteArray isDate isDateTime isDecimal}}str, {{/or}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}decimal.Decimal, {{/or}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
+    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isNull}}schemas.NoneClass, {{/if}}{{#if isMap}}frozendict.frozendict, {{/if}}{{#if isArray}}tuple, {{/if}}{{#if isString }}str, {{/if}}{{#or isInteger isNumber}}decimal.Decimal, {{/or}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
     {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedBase,
@@ -31,10 +34,13 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
+{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars getFormat}}
 
 
     class MetaOapg:
+{{#if getFormat}}
+        format = '{{getFormat}}'
+{{/if}}
 {{#with items}}
 {{#if complexType}}
 

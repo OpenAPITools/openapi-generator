@@ -200,7 +200,7 @@ class EnumTest(
     def __getitem__(self, name: typing.Literal["IntegerEnumOneValue"]) -> 'IntegerEnumOneValue': ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["enum_string_required", "enum_string", "enum_integer", "enum_number", "stringEnum", "IntegerEnum", "StringEnumWithDefaultValue", "IntegerEnumWithDefaultValue", "IntegerEnumOneValue", ], str]):
         # dict_instance[name] accessor
@@ -235,7 +235,7 @@ class EnumTest(
     def get_item_oapg(self, name: typing.Literal["IntegerEnumOneValue"]) -> typing.Union['IntegerEnumOneValue', schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["enum_string_required", "enum_string", "enum_integer", "enum_number", "stringEnum", "IntegerEnum", "StringEnumWithDefaultValue", "IntegerEnumWithDefaultValue", "IntegerEnumOneValue", ], str]):
         return super().get_item_oapg(name)
@@ -246,8 +246,8 @@ class EnumTest(
         *args: typing.Union[dict, frozendict.frozendict, ],
         enum_string_required: typing.Union[MetaOapg.properties.enum_string_required, str, ],
         enum_string: typing.Union[MetaOapg.properties.enum_string, str, schemas.Unset] = schemas.unset,
-        enum_integer: typing.Union[MetaOapg.properties.enum_integer, int, schemas.Unset] = schemas.unset,
-        enum_number: typing.Union[MetaOapg.properties.enum_number, float, schemas.Unset] = schemas.unset,
+        enum_integer: typing.Union[MetaOapg.properties.enum_integer, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        enum_number: typing.Union[MetaOapg.properties.enum_number, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         stringEnum: typing.Union['StringEnum', schemas.Unset] = schemas.unset,
         IntegerEnum: typing.Union['IntegerEnum', schemas.Unset] = schemas.unset,
         StringEnumWithDefaultValue: typing.Union['StringEnumWithDefaultValue', schemas.Unset] = schemas.unset,

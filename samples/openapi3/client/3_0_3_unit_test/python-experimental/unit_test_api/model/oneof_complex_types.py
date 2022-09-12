@@ -57,7 +57,7 @@ class OneofComplexTypes(
             def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
             
             @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+            def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
             
             def __getitem__(self, name: typing.Union[typing.Literal["bar", ], str]):
                 # dict_instance[name] accessor
@@ -68,7 +68,7 @@ class OneofComplexTypes(
             def get_item_oapg(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
             
             @typing.overload
-            def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
             
             def get_item_oapg(self, name: typing.Union[typing.Literal["bar", ], str]):
                 return super().get_item_oapg(name)
@@ -76,8 +76,8 @@ class OneofComplexTypes(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-                bar: typing.Union[MetaOapg.properties.bar, int, ],
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+                bar: typing.Union[MetaOapg.properties.bar, decimal.Decimal, int, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
                 **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'one_of_0':
@@ -112,7 +112,7 @@ class OneofComplexTypes(
             def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
             
             @typing.overload
-            def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+            def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
             
             def __getitem__(self, name: typing.Union[typing.Literal["foo", ], str]):
                 # dict_instance[name] accessor
@@ -123,7 +123,7 @@ class OneofComplexTypes(
             def get_item_oapg(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
             
             @typing.overload
-            def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
             
             def get_item_oapg(self, name: typing.Union[typing.Literal["foo", ], str]):
                 return super().get_item_oapg(name)
@@ -131,7 +131,7 @@ class OneofComplexTypes(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
                 foo: typing.Union[MetaOapg.properties.foo, str, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
                 **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -163,7 +163,7 @@ class OneofComplexTypes(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'OneofComplexTypes':

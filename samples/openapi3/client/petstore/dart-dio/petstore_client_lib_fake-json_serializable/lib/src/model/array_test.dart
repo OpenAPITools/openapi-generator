@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:json_annotation/json_annotation.dart';
 

@@ -164,7 +164,7 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
         updateAuthParams(requestConfig)
 
         val url = httpUrl.newBuilder()
-            .addPathSegments(requestConfig.path.trimStart('/'))
+            .addEncodedPathSegments(requestConfig.path.trimStart('/'))
             .apply {
                 requestConfig.query.forEach { query ->
                     query.value.forEach { queryValue ->

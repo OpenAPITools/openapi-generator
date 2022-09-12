@@ -32,7 +32,7 @@ PetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        'petId': typing.Union[PetIdSchema, int, ],
+        'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing.TypedDict(
@@ -77,7 +77,7 @@ class SchemaForRequestBodyMultipartFormData(
     def __getitem__(self, name: typing.Literal["file"]) -> MetaOapg.properties.file: ...
     
     @typing.overload
-    def __getitem__(self, name: str) -> typing.Union[schemas.AnyTypeSchema]: ...
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
     def __getitem__(self, name: typing.Union[typing.Literal["additionalMetadata", "file", ], str]):
         # dict_instance[name] accessor
@@ -91,7 +91,7 @@ class SchemaForRequestBodyMultipartFormData(
     def get_item_oapg(self, name: typing.Literal["file"]) -> typing.Union[MetaOapg.properties.file, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.AnyTypeSchema, schemas.Unset]: ...
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
     def get_item_oapg(self, name: typing.Union[typing.Literal["additionalMetadata", "file", ], str]):
         return super().get_item_oapg(name)

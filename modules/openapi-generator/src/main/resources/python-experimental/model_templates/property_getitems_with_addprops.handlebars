@@ -41,7 +41,7 @@ def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.proper
 {{#unless getIsBooleanSchemaFalse}}
 
 @typing.overload
-def __getitem__(self, name: str) -> typing.Union[{{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}, schemas.Unset]: ...
+def __getitem__(self, name: str) -> {{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}: ...
 {{/unless}}
 {{/with}}
 
