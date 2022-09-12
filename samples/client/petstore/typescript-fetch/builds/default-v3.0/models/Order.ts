@@ -91,7 +91,7 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'id': !exists(json, 'id') ? undefined : json['id'],
         'petId': !exists(json, 'petId') ? undefined : json['petId'],
         'quantity': !exists(json, 'quantity') ? undefined : json['quantity'],
-        'shipDate': !exists(json, 'shipDate') ? undefined : (new Date(json['shipDate'])),
+        'shipDate': !exists(json, 'shipDate') ? undefined : json['shipDate'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'complete': !exists(json, 'complete') ? undefined : json['complete'],
     };
@@ -109,7 +109,7 @@ export function OrderToJSON(value?: Order | null): any {
         'id': value.id,
         'petId': value.petId,
         'quantity': value.quantity,
-        'shipDate': value.shipDate === undefined ? undefined : (value.shipDate.toISOString()),
+        'shipDate': value.shipDate,
         'status': value.status,
         'complete': value.complete,
     };
