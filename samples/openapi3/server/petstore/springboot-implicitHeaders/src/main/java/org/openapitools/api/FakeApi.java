@@ -698,11 +698,11 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List&lt;String&gt; pipe,
-        @NotNull @Parameter(name = "ioutil", description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List&lt;String&gt; ioutil,
-        @NotNull @Parameter(name = "http", description = "", required = true) @Valid @RequestParam(value = "http", required = true) List&lt;String&gt; http,
-        @NotNull @Parameter(name = "url", description = "", required = true) @Valid @RequestParam(value = "url", required = true) List&lt;String&gt; url,
-        @NotNull @Parameter(name = "context", description = "", required = true) @Valid @RequestParam(value = "context", required = true) List&lt;String&gt; context
+        @NotNull @Parameter(name = "pipe", description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull @Parameter(name = "ioutil", description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
+        @NotNull @Parameter(name = "http", description = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull @Parameter(name = "url", description = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull @Parameter(name = "context", description = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

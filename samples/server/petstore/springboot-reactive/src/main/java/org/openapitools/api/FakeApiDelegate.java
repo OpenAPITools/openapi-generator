@@ -327,11 +327,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List&lt;String&gt; pipe,
-        List&lt;String&gt; ioutil,
-        List&lt;String&gt; http,
-        List&lt;String&gt; url,
-        List&lt;String&gt; context,
+    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List<String> pipe,
+        List<String> ioutil,
+        List<String> http,
+        List<String> url,
+        List<String> context,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

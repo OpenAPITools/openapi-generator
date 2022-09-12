@@ -196,7 +196,7 @@ public interface PetApi {
         produces = "application/json"
     )
     CompletableFuture<ResponseEntity<List<Pet>>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List&lt;String&gt; tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags
     );
 
 

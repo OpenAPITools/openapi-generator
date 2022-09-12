@@ -213,7 +213,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set&lt;String&gt; tags,
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByTags(tags, exchange);
