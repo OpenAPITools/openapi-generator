@@ -23,7 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
-import static org.openapitools.api.FakeApi.*;
+import static org.openapitools.api.FakeApi.EnumHeaderStringArrayEnum;
+import static org.openapitools.api.FakeApi.EnumHeaderStringEnum;
+import static org.openapitools.api.FakeApi.EnumQueryStringArrayEnum;
+import static org.openapitools.api.FakeApi.EnumQueryStringEnum;
+import static org.openapitools.api.FakeApi.EnumQueryIntegerEnum;
+import static org.openapitools.api.FakeApi.EnumQueryDoubleEnum;
+import static org.openapitools.api.FakeApi.EnumFormStringEnum;
 /**
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
