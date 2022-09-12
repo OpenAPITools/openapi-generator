@@ -875,7 +875,7 @@ class OpenApiResponse(JSONDetector):
                 _fd, path = tempfile.mkstemp()
             else:
                 path = os.path.join(tempfile.gettempdir(), file_name)
-            # TODO get file_name from the filename at the end of the url if it exists
+
             with open(path, 'wb') as new_file:
                 chunk_size = 1024
                 while True:
