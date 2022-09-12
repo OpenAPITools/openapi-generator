@@ -901,11 +901,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    protected void updateModelForObject(CodegenModel m, Schema schema) {
-        super.updateModelForObject(m, schema); // PONY
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
