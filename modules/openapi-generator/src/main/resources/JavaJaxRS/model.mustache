@@ -5,11 +5,11 @@ package {{package}};
 import java.util.Objects;
 {{#imports}}import {{import}};
 {{/imports}}
-{{#useJacksonAnnotations}}
+{{#jackson}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 {{/jackson}}
-{{/useJacksonAnnotations}}
+{{/jackson}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
