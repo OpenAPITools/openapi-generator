@@ -5005,16 +5005,19 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.required = parameter.getRequired().booleanValue();
         }
 
-        if (codegenProperty.isEnum) {
-            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
-            codegenParameter.enumName = codegenProperty.enumName;
-        }
-
         // enum
         updateCodegenPropertyEnum(codegenProperty);
         codegenParameter.isEnum = codegenProperty.isEnum;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
+
+        if (codegenProperty.isEnum) {
+            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
+            codegenParameter.enumName = codegenProperty.enumName;
+            if (codegenProperty.defaultValue != null) {
+                codegenParameter.enumDefaultValue = codegenProperty.defaultValue.replace(codegenProperty.enumName + ".", "");
+            }
+        }
 
         if (codegenProperty.items != null && codegenProperty.items.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
@@ -6784,6 +6787,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
+            if (codegenProperty.defaultValue != null) {
+                codegenParameter.enumDefaultValue = codegenProperty.defaultValue.replace(codegenProperty.enumName + ".", "");
+            }
         }
 
         if (!addSchemaImportsFromV3SpecLocations) {
