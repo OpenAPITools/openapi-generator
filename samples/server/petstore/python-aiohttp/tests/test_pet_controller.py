@@ -9,7 +9,7 @@ from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 
 
-@pytest.mark.skip("Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760")
+@pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
 async def test_add_pet(client):
     """Test case for add_pet
 
@@ -67,7 +67,7 @@ async def test_find_pets_by_status(client):
 
     Finds Pets by status
     """
-    params = [('status', 'available')]
+    params = [('status', ['available'])]
     headers = { 
         'Accept': 'application/json',
         'Authorization': 'Bearer special-key',
@@ -86,7 +86,7 @@ async def test_find_pets_by_tags(client):
 
     Finds Pets by tags
     """
-    params = [('tags', 'tags_example')]
+    params = [('tags', ['tags_example'])]
     headers = { 
         'Accept': 'application/json',
         'Authorization': 'Bearer special-key',
@@ -117,7 +117,7 @@ async def test_get_pet_by_id(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-@pytest.mark.skip("Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760")
+@pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
 async def test_update_pet(client):
     """Test case for update_pet
 
@@ -189,7 +189,7 @@ async def test_upload_file(client):
     }
     data = FormData()
     data.add_field('additional_metadata', 'additional_metadata_example')
-    data.add_field('file', (BytesIO(b'some file data'), 'file.txt'))
+    data.add_field('file', '/path/to/file')
     response = await client.request(
         method='POST',
         path='/v2/pet/{pet_id}/uploadImage'.format(pet_id=56),
