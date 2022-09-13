@@ -66,7 +66,7 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
     return {
         
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'dateTime': !exists(json, 'dateTime') ? undefined : json['dateTime'],
+        'dateTime': !exists(json, 'dateTime') ? undefined : (new Date(json['dateTime'])),
         'map': !exists(json, 'map') ? undefined : (mapValues(json['map'], AnimalFromJSON)),
     };
 }
@@ -81,7 +81,7 @@ export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedP
     return {
         
         'uuid': value.uuid,
-        'dateTime': value.dateTime,
+        'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
         'map': value.map === undefined ? undefined : (mapValues(value.map, AnimalToJSON)),
     };
 }
