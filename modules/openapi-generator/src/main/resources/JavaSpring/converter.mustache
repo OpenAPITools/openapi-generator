@@ -1,0 +1,34 @@
+package org.openapitools.configuration;
+
+{{#models}}
+    {{#model}}
+        {{#isEnum}}
+import {{modelPackage}}.{{name}};
+        {{/isEnum}}
+    {{/model}}
+{{/models}}
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+
+@Configuration
+public class EnumConverters {
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+    @Bean
+    Converter<String, {{name}}> {{name}}Converter() {
+        return new Converter<String, {{name}}>() {
+            @Override
+            public {{name}} convert(String source) {
+                return {{name}}.fromValue(source);
+            }
+        };
+    }
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
+}

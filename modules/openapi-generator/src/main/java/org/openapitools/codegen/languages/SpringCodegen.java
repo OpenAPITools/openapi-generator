@@ -21,11 +21,13 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,6 +42,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -493,6 +497,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
+                if (containsEnums()) {
+                    supportingFiles.add(new SupportingFile("converter.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverters.java"));
+                }
                 supportingFiles.add(new SupportingFile("application.mustache",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
                 supportingFiles.add(new SupportingFile("homeController.mustache",
@@ -587,6 +595,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (apiFirst) {
             apiTemplateFiles.clear();
             modelTemplateFiles.clear();
+        }
+    }
+
+    private boolean containsEnums() {
+        if (this.openAPI == null) {
+            return false;
+        } else {
+            Components components = this.openAPI.getComponents();
+            return (components == null || components.getSchemas() == null || components.getSchemas().values().stream()
+                    .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty()));
         }
     }
 
