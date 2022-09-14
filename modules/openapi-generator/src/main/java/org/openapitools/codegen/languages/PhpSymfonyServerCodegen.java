@@ -587,7 +587,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";
