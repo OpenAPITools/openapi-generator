@@ -147,7 +147,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 Arrays.asList(
                         "bool",
                         "int",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -183,7 +182,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("decimal", "float");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
@@ -588,7 +587,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";

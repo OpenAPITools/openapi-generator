@@ -24,7 +24,7 @@ class FormatTest {
     /** @var float $float */
     public $float = 0;
 
-    /** @var double $double */
+    /** @var float $double */
     public $double = 0;
 
     /** @var float $decimal */
