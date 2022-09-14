@@ -186,10 +186,12 @@ export default class ApiClient extends RESTDataSource {
         queryParams, headerParams, formParams, bodyParam, authNames,
         contentTypes, accepts, returnType, requestInit) {
 
+        var normalizedQueryParams = this.normalizeParams(queryParams);
+
         var parameterizedPath = this.parametrizePath(path, pathParams);
         var fetchOptions = {
             headers: headerParams,
-            params: queryParams
+            params: normalizedQueryParams
         };
 
         this.applyAuthOptions(fetchOptions, authNames);
@@ -211,7 +213,7 @@ export default class ApiClient extends RESTDataSource {
         var httpMethodFn = httpMethod.toLowerCase();
 
         if (httpMethodFn == 'get' || httpMethodFn == 'delete') {
-            response = await this[httpMethodFn](parameterizedPath, [], requestInit);
+            response = await this[httpMethodFn](parameterizedPath, normalizedQueryParams, requestInit);
         } else {
             response = await this[httpMethodFn](parameterizedPath, body, requestInit)
         }
