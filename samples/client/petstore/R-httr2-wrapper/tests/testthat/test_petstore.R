@@ -235,6 +235,16 @@ test_that("GetPetById with data_file", {
 })
 
 test_that("find_pets_by_status", {
+  # input invalid
+  var_status <- c("something") # array[character] | Tags to filter by
+  result <- tryCatch(pet_api$find_pets_by_status(var_status),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `status` when calling PetApi$find_pets_by_status. Must be [available, pending, sold].")
+})
+
+test_that("find_pets_by_tags", {
   pet_tag_test <- Pet$new("name_test",
     photoUrls = list("photo_test", "second test"),
     category = Category$new(id = 4455, name = "test_cat"),
