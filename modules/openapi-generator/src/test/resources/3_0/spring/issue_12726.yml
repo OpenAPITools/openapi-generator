@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Header validation
+paths:
+  "/headers":
+    options:
+      operationId: headerBeanValidation
+      tags:
+        - headers
+      parameters:
+        - name: patternHeader
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: "[0-9]+"
+        - name: minMaxHeader
+          in: header
+          required: false
+          schema:
+            minimum: 1
+            maximum: 10
+            type: number
+      responses:
+        '204':
+          description: no content
