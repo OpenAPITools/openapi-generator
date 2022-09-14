@@ -91,7 +91,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "boolean",
                         "int",
                         "integer",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -119,7 +118,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("decimal", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
