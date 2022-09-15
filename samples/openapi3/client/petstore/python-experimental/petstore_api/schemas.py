@@ -515,6 +515,8 @@ if typing.TYPE_CHECKING:
     StrMixin = str
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
+    BytesMixin = bytes
+    FileMixin = FileIO
     # qty 2
     class BinaryMixin(bytes, FileIO):
         pass
@@ -636,6 +638,9 @@ if typing.TYPE_CHECKING:
     # qty 6
     class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
         pass
+    # qty 8
+    class NoneFrozenDictTupleStrDecimalBoolFileBytesMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass, FIleIO, bytes):
+        pass
 else:
     # qty 1
     class NoneMixin:
@@ -650,6 +655,10 @@ else:
         _types = {decimal.Decimal}
     class BoolMixin:
         _types = {BoolClass}
+    class BytesMixin:
+        _types = {bytes}
+    class FileMixin:
+        _types = {FileIO}
     # qty 2
     class BinaryMixin:
         _types = {bytes, FileIO}
@@ -771,6 +780,9 @@ else:
     # qty 6
     class NoneFrozenDictTupleStrDecimalBoolMixin:
         _types = {NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass}
+    # qty 8
+    class NoneFrozenDictTupleStrDecimalBoolFileBytesMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass, FileIO, bytes}
 
 
 class ValidatorBase:
@@ -814,7 +826,7 @@ class Validator(typing.Protocol):
         pass
 
 
-def SchemaTypeChecker:
+class SchemaTypeChecker:
     @staticmethod
     def __get_valid_classes_phrase(input_classes):
         """Returns a string phrase describing what types are allowed"""
@@ -2349,6 +2361,7 @@ class DecimalSchema(DecimalBase, StrSchema):
 class BytesSchema(
     SchemaTypeChecker,
     Schema,
+    BytesMixin
 ):
     """
     this class will subclass bytes and is immutable
@@ -2360,6 +2373,7 @@ class BytesSchema(
 class FileSchema(
     SchemaTypeChecker,
     Schema,
+    FileMixin
 ):
     """
     This class is NOT immutable
@@ -2427,7 +2441,7 @@ class AnyTypeSchema(
     BoolBase,
     NoneBase,
     Schema,
-    NoneFrozenDictTupleStrDecimalBoolMixin
+    NoneFrozenDictTupleStrDecimalBoolFileBytesMixin
 ):
     # Python representation of a schema defined as true or {}
     pass
