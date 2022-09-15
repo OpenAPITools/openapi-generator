@@ -91,7 +91,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "boolean",
                         "int",
                         "integer",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -119,7 +118,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("decimal", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
@@ -656,7 +655,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return "\'" + escapeText(value) + "\'";
@@ -684,7 +683,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
