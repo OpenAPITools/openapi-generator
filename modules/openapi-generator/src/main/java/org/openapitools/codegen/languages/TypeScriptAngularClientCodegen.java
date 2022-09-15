@@ -17,7 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -392,6 +395,25 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             type = typeMapping.get(type);
         }
         return type;
+    }
+
+    @Override
+    protected void handleMethodResponse(final Operation operation, final Map<String, Schema> schemas, final CodegenOperation op, final ApiResponse methodResponse, final Map<String, String> importMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
+
+        if (op.responses != null && op.responses.size() > 1) {
+            String returnType = "";
+            for (CodegenResponse codegenResponse : op.responses) {
+                if (returnType.length() > 0 && codegenResponse.dataType != null) {
+                    returnType = returnType + "|" + codegenResponse.dataType;
+                } else if (codegenResponse.dataType != null) {
+                    returnType = codegenResponse.dataType;
+                }
+            }
+            if (returnType.length() > 0) {
+                op.returnType = returnType;
+            }
+        }
     }
 
     @Override

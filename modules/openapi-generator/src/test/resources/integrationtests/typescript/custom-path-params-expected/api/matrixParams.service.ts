@@ -20,6 +20,8 @@ import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
 import { ComplexParams } from '../model/complexParams';
+// @ts-ignore
+import { ConflictResponse } from '../model/conflictResponse';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -96,10 +98,10 @@ export class MatrixParamsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ConflictResponse>;
+    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ConflictResponse>>;
+    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ConflictResponse>>;
+    public complexMatrixParamExploded(matrixParamExploded?: ComplexParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -107,6 +109,7 @@ export class MatrixParamsService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -132,7 +135,7 @@ export class MatrixParamsService {
         }
 
         let localVarPath = `/complexMatrixParamExploded${this.configuration.encodeParam({name: "matrixParamExploded", value: matrixParamExploded, in: "path", style: "matrix", explode: true, dataType: "ComplexParams", dataFormat: undefined})}`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ConflictResponse>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

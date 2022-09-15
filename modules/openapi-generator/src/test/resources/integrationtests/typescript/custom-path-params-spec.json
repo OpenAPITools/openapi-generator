@@ -27,6 +27,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -121,6 +131,18 @@
           "value": {
             "type": "number",
             "format": "int64"
+          }
+        }
+      },
+      "ConflictResponse": {
+        "type": "object",
+        "description": "Conflict response",
+        "required": [
+          "detail"
+        ],
+        "properties": {
+          "detail":{
+            "type": "string"
           }
         }
       }
