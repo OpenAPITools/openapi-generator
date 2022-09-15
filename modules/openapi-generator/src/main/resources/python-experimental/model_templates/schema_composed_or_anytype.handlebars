@@ -11,9 +11,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     schemas.AnyTypeSchema,
     {{/if}}
 {{else}}
-    {{#if getHasMultipleTypes}}
-    schemas.SchemaTypeChecker,
-    {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedBase,
     {{/if}}

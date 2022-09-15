@@ -23,7 +23,6 @@ from petstore_api import schemas  # noqa: F401
 
 
 class StringEnum(
-    schemas.SchemaTypeChecker,
     schemas.SchemaEnumMakerClsFactory(
         enum_value_to_name={
             schemas.NoneClass.NONE: "NONE",

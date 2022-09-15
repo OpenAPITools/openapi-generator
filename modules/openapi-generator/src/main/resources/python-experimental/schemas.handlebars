@@ -236,7 +236,59 @@ class Schema:
     the base class of all swagger/openapi schemas/models
     """
     __inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict.frozendict, FileIO, bytes, BoolClass, NoneClass}
+    _types: typing.Set[typing.Type]
     MetaOapg = MetaOapgTyped
+
+    @staticmethod
+    def __get_valid_classes_phrase(input_classes):
+        """Returns a string phrase describing what types are allowed"""
+        all_classes = list(input_classes)
+        all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
+        all_class_names = [cls.__name__ for cls in all_classes]
+        if len(all_class_names) == 1:
+            return "is {0}".format(all_class_names[0])
+        return "is one of [{0}]".format(", ".join(all_class_names))
+
+    @classmethod
+    def __type_error_message(
+        cls, var_value=None, var_name=None, valid_classes=None, key_type=None
+    ):
+        """
+        Keyword Args:
+            var_value (any): the variable which has the type_error
+            var_name (str): the name of the variable which has the typ error
+            valid_classes (tuple): the accepted classes for current_item's
+                                      value
+            key_type (bool): False if our value is a value in a dict
+                             True if it is a key in a dict
+                             False if our item is an item in a tuple
+        """
+        key_or_value = "value"
+        if key_type:
+            key_or_value = "key"
+        valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
+        msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
+            var_name,
+            key_or_value,
+            valid_classes_phrase,
+            type(var_value).__name__,
+        )
+        return msg
+
+    @classmethod
+    def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
+        error_msg = cls.__type_error_message(
+            var_name=path_to_item[-1],
+            var_value=var_value,
+            valid_classes=valid_classes,
+            key_type=key_type,
+        )
+        return ApiTypeError(
+            error_msg,
+            path_to_item=path_to_item,
+            valid_classes=valid_classes,
+            key_type=key_type,
+        )
 
     @classmethod
     def _validate_oapg(
@@ -246,21 +298,8 @@ class Schema:
     ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         """
         Schema _validate_oapg
-        Runs all schema validation logic and
-        returns a dynamic class of different bases depending upon the input
-        This makes it so:
-        - the returned instance is always a subclass of our defining schema
-            - this allows us to check type based on whether an instance is a subclass of a schema
-        - the returned instance is a serializable type (except for None, True, and False) which are enums
-
-        Use cases:
-        1. inheritable type: string/decimal.Decimal/frozendict.frozendict/tuple
-        2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
-
-        Required Steps:
-        1. verify type of input is valid vs the allowed _types
-        2. check validations that are applicable for this type of input
-        3. if enums exist, check that the value exists in the enum
+        All keyword validation except for type checking was done in calling stack frames
+        If those validations passed, the validated classes are collected in path_to_schemas
 
         Returns:
             path_to_schemas: a map of path to schemas
@@ -270,6 +309,14 @@ class Schema:
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
         base_class = type(arg)
+        if base_class not in cls._types:
+            raise cls.__get_type_error(
+                arg,
+                validation_metadata.path_to_item,
+                cls._types,
+                key_type=False,
+            )
+
         path_to_schemas = {validation_metadata.path_to_item: set()}
         path_to_schemas[validation_metadata.path_to_item].add(cls)
         path_to_schemas[validation_metadata.path_to_item].add(base_class)
@@ -632,7 +679,7 @@ if typing.TYPE_CHECKING:
     class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
         pass
     # qty 8
-    class NoneFrozenDictTupleStrDecimalBoolFileBytesMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass, FIleIO, bytes):
+    class NoneFrozenDictTupleStrDecimalBoolFileBytesMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass, FileIO, bytes):
         pass
 else:
     # qty 1
@@ -817,79 +864,6 @@ class Validator(typing.Protocol):
         validation_metadata: ValidationMetadata,
     ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         pass
-
-
-class SchemaTypeChecker:
-    @staticmethod
-    def __get_valid_classes_phrase(input_classes):
-        """Returns a string phrase describing what types are allowed"""
-        all_classes = list(input_classes)
-        all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
-        all_class_names = [cls.__name__ for cls in all_classes]
-        if len(all_class_names) == 1:
-            return "is {0}".format(all_class_names[0])
-        return "is one of [{0}]".format(", ".join(all_class_names))
-
-    @classmethod
-    def __type_error_message(
-        cls, var_value=None, var_name=None, valid_classes=None, key_type=None
-    ):
-        """
-        Keyword Args:
-            var_value (any): the variable which has the type_error
-            var_name (str): the name of the variable which has the typ error
-            valid_classes (tuple): the accepted classes for current_item's
-                                      value
-            key_type (bool): False if our value is a value in a dict
-                             True if it is a key in a dict
-                             False if our item is an item in a tuple
-        """
-        key_or_value = "value"
-        if key_type:
-            key_or_value = "key"
-        valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
-        msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
-            var_name,
-            key_or_value,
-            valid_classes_phrase,
-            type(var_value).__name__,
-        )
-        return msg
-
-    @classmethod
-    def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
-        error_msg = cls.__type_error_message(
-            var_name=path_to_item[-1],
-            var_value=var_value,
-            valid_classes=valid_classes,
-            key_type=key_type,
-        )
-        return ApiTypeError(
-            error_msg,
-            path_to_item=path_to_item,
-            valid_classes=valid_classes,
-            key_type=key_type,
-        )
-
-    @classmethod
-    def _validate_oapg(
-        cls,
-        arg,
-        validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
-        """
-        SchemaTypeChecker _validate_oapg
-        Validates arg's type
-        """
-        arg_type = type(arg)
-        if arg_type in cls._types:
-            return super()._validate_oapg(arg, validation_metadata=validation_metadata)
-        raise cls.__get_type_error(
-            arg,
-            validation_metadata.path_to_item,
-            cls._types,
-            key_type=False,
-        )
 
 
 class EnumMakerBase:
@@ -2052,7 +2026,6 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    SchemaTypeChecker,
     ComposedBase,
     DictBase,
     ListBase,
@@ -2073,7 +2046,6 @@ class ComposedSchema(
 
 
 class ListSchema(
-    SchemaTypeChecker,
     ListBase,
     Schema,
     TupleMixin
@@ -2088,7 +2060,6 @@ class ListSchema(
 
 
 class NoneSchema(
-    SchemaTypeChecker,
     NoneBase,
     Schema,
     NoneMixin
@@ -2103,7 +2074,6 @@ class NoneSchema(
 
 
 class NumberSchema(
-    SchemaTypeChecker,
     NumberBase,
     Schema,
     DecimalMixin
@@ -2299,7 +2269,6 @@ class Float64Schema(
 
 
 class StrSchema(
-    SchemaTypeChecker,
     StrBase,
     Schema,
     StrMixin
@@ -2352,7 +2321,6 @@ class DecimalSchema(DecimalBase, StrSchema):
 
 
 class BytesSchema(
-    SchemaTypeChecker,
     Schema,
     BytesMixin
 ):
@@ -2364,7 +2332,6 @@ class BytesSchema(
 
 
 class FileSchema(
-    SchemaTypeChecker,
     Schema,
     FileMixin
 ):
@@ -2394,7 +2361,6 @@ class BinaryBase:
 
 
 class BinarySchema(
-    SchemaTypeChecker,
     ComposedBase,
     BinaryBase,
     Schema,
@@ -2411,7 +2377,6 @@ class BinarySchema(
 
 
 class BoolSchema(
-    SchemaTypeChecker,
     BoolBase,
     Schema,
     BoolMixin
@@ -2426,7 +2391,6 @@ class BoolSchema(
 
 
 class AnyTypeSchema(
-    SchemaTypeChecker,
     DictBase,
     ListBase,
     NumberBase,
@@ -2470,7 +2434,6 @@ class NotAnyTypeSchema(
 
 
 class DictSchema(
-    SchemaTypeChecker,
     DictBase,
     Schema,
     FrozenDictMixin

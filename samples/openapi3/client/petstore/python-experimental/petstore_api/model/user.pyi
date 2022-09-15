@@ -47,7 +47,6 @@ class User(
             
             
             class objectWithNoDeclaredPropsNullable(
-                schemas.SchemaTypeChecker,
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,

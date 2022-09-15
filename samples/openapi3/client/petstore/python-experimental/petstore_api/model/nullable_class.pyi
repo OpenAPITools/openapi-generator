@@ -38,7 +38,6 @@ class NullableClass(
             
             
             class integer_prop(
-                schemas.SchemaTypeChecker,
                 schemas.IntBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -59,7 +58,6 @@ class NullableClass(
             
             
             class number_prop(
-                schemas.SchemaTypeChecker,
                 schemas.NumberBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -80,7 +78,6 @@ class NullableClass(
             
             
             class boolean_prop(
-                schemas.SchemaTypeChecker,
                 schemas.BoolBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -101,7 +98,6 @@ class NullableClass(
             
             
             class string_prop(
-                schemas.SchemaTypeChecker,
                 schemas.StrBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -122,7 +118,6 @@ class NullableClass(
             
             
             class date_prop(
-                schemas.SchemaTypeChecker,
                 schemas.DateBase,
                 schemas.StrBase,
                 schemas.NoneBase,
@@ -148,7 +143,6 @@ class NullableClass(
             
             
             class datetime_prop(
-                schemas.SchemaTypeChecker,
                 schemas.DateTimeBase,
                 schemas.StrBase,
                 schemas.NoneBase,
@@ -174,7 +168,6 @@ class NullableClass(
             
             
             class array_nullable_prop(
-                schemas.SchemaTypeChecker,
                 schemas.ListBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -199,7 +192,6 @@ class NullableClass(
             
             
             class array_and_items_nullable_prop(
-                schemas.SchemaTypeChecker,
                 schemas.ListBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -211,7 +203,6 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeChecker,
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -254,7 +245,6 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeChecker,
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -291,7 +281,6 @@ class NullableClass(
             
             
             class object_nullable_prop(
-                schemas.SchemaTypeChecker,
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -325,7 +314,6 @@ class NullableClass(
             
             
             class object_and_items_nullable_prop(
-                schemas.SchemaTypeChecker,
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -337,7 +325,6 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeChecker,
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -389,7 +376,6 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeChecker,
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -446,7 +432,6 @@ class NullableClass(
         
         
         class additional_properties(
-            schemas.SchemaTypeChecker,
             schemas.DictBase,
             schemas.NoneBase,
             schemas.Schema,

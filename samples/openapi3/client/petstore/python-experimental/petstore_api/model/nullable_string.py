@@ -23,7 +23,6 @@ from petstore_api import schemas  # noqa: F401
 
 
 class NullableString(
-    schemas.SchemaTypeChecker,
     schemas.StrBase,
     schemas.NoneBase,
     schemas.Schema,
