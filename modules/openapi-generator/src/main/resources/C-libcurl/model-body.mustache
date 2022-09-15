@@ -756,7 +756,8 @@ fail:
 
     cJSON_ArrayForEach({{{name}}}_local_nonprimitive,{{{name}}} )
     {
-        if(!cJSON_IsObject({{{name}}}_local_nonprimitive)){
+        if(!cJSON_IsObject({{{name}}}_local_nonprimitive) &&
+           !cJSON_IsArray({{{name}}}_local_nonprimitive)){
             goto end;
         }
         {{#isEnum}}{{#items}}{{classFilename}}_{{datatypeWithEnum}}_e {{/items}}{{/isEnum}}{{^isEnum}}{{complexType}}_t *{{/isEnum}}{{{name}}}Item = {{complexType}}_parseFromJSON({{{name}}}_local_nonprimitive);
