@@ -76,17 +76,17 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                             if (part.body is File) {
                                 val partHeaders = part.headers.toMutableMap() +
                                     ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
+                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(part.body))
                                 addPart(
                                     Headers.of(partHeaders),
-                                    part.body.asRequestBody(fileMediaType)
+                                    RequestBody.create(fileMediaType, part.body)
                                 )
                             } else {
                                 val partHeaders = part.headers.toMutableMap() +
                                     ("Content-Disposition" to "form-data; name=\"$name\"")
                                 addPart(
                                     Headers.of(partHeaders),
-                                    parameterToString(part.body).toRequestBody(null)
+                                    RequestBody.create(null, parameterToString(part.body))
                                 )
                             }
                         }
