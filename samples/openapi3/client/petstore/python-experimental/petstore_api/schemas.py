@@ -814,90 +814,77 @@ class Validator(typing.Protocol):
         pass
 
 
-def SchemaTypeCheckerClsFactory(union_type_cls: typing.Any) -> Validator:
-    if typing.get_origin(union_type_cls) is typing.Union:
-        union_classes = typing.get_args(union_type_cls)
-    else:
-        # note: when a union of a single class is passed in, the union disappears
-        union_classes = tuple([union_type_cls])
-    """
-    I want the type hint... union_type_cls
-    and to use it as a base class but when I do, I get
-    TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
-    """
-    class SchemaTypeChecker:
-        @staticmethod
-        def __get_valid_classes_phrase(input_classes):
-            """Returns a string phrase describing what types are allowed"""
-            all_classes = list(input_classes)
-            all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
-            all_class_names = [cls.__name__ for cls in all_classes]
-            if len(all_class_names) == 1:
-                return "is {0}".format(all_class_names[0])
-            return "is one of [{0}]".format(", ".join(all_class_names))
+def SchemaTypeChecker:
+    @staticmethod
+    def __get_valid_classes_phrase(input_classes):
+        """Returns a string phrase describing what types are allowed"""
+        all_classes = list(input_classes)
+        all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
+        all_class_names = [cls.__name__ for cls in all_classes]
+        if len(all_class_names) == 1:
+            return "is {0}".format(all_class_names[0])
+        return "is one of [{0}]".format(", ".join(all_class_names))
 
-        @classmethod
-        def __type_error_message(
-            cls, var_value=None, var_name=None, valid_classes=None, key_type=None
-        ):
-            """
-            Keyword Args:
-                var_value (any): the variable which has the type_error
-                var_name (str): the name of the variable which has the typ error
-                valid_classes (tuple): the accepted classes for current_item's
-                                          value
-                key_type (bool): False if our value is a value in a dict
-                                 True if it is a key in a dict
-                                 False if our item is an item in a tuple
-            """
-            key_or_value = "value"
-            if key_type:
-                key_or_value = "key"
-            valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
-            msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
-                var_name,
-                key_or_value,
-                valid_classes_phrase,
-                type(var_value).__name__,
-            )
-            return msg
+    @classmethod
+    def __type_error_message(
+        cls, var_value=None, var_name=None, valid_classes=None, key_type=None
+    ):
+        """
+        Keyword Args:
+            var_value (any): the variable which has the type_error
+            var_name (str): the name of the variable which has the typ error
+            valid_classes (tuple): the accepted classes for current_item's
+                                      value
+            key_type (bool): False if our value is a value in a dict
+                             True if it is a key in a dict
+                             False if our item is an item in a tuple
+        """
+        key_or_value = "value"
+        if key_type:
+            key_or_value = "key"
+        valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
+        msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
+            var_name,
+            key_or_value,
+            valid_classes_phrase,
+            type(var_value).__name__,
+        )
+        return msg
 
-        @classmethod
-        def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
-            error_msg = cls.__type_error_message(
-                var_name=path_to_item[-1],
-                var_value=var_value,
-                valid_classes=valid_classes,
-                key_type=key_type,
-            )
-            return ApiTypeError(
-                error_msg,
-                path_to_item=path_to_item,
-                valid_classes=valid_classes,
-                key_type=key_type,
-            )
+    @classmethod
+    def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
+        error_msg = cls.__type_error_message(
+            var_name=path_to_item[-1],
+            var_value=var_value,
+            valid_classes=valid_classes,
+            key_type=key_type,
+        )
+        return ApiTypeError(
+            error_msg,
+            path_to_item=path_to_item,
+            valid_classes=valid_classes,
+            key_type=key_type,
+        )
 
-        @classmethod
-        def _validate_oapg(
-            cls,
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
+        """
+        SchemaTypeChecker _validate_oapg
+        Validates arg's type
+        """
+        arg_type = type(arg)
+        if arg_type in cls._types:
+            return super()._validate_oapg(arg, validation_metadata=validation_metadata)
+        raise cls.__get_type_error(
             arg,
-            validation_metadata: ValidationMetadata,
-        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
-            """
-            SchemaTypeChecker _validate_oapg
-            Validates arg's type
-            """
-            arg_type = type(arg)
-            if arg_type in union_classes:
-                return super()._validate_oapg(arg, validation_metadata=validation_metadata)
-            raise cls.__get_type_error(
-                arg,
-                validation_metadata.path_to_item,
-                union_classes,
-                key_type=False,
-            )
-
-    return SchemaTypeChecker
+            validation_metadata.path_to_item,
+            cls._types,
+            key_type=False,
+        )
 
 
 class EnumMakerBase:
@@ -2060,7 +2047,7 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict.frozendict]),
+    SchemaTypeChecker,
     ComposedBase,
     DictBase,
     ListBase,
@@ -2081,7 +2068,7 @@ class ComposedSchema(
 
 
 class ListSchema(
-    SchemaTypeCheckerClsFactory(tuple),
+    SchemaTypeChecker,
     ListBase,
     Schema,
     TupleMixin
@@ -2096,7 +2083,7 @@ class ListSchema(
 
 
 class NoneSchema(
-    SchemaTypeCheckerClsFactory(NoneClass),
+    SchemaTypeChecker,
     NoneBase,
     Schema,
     NoneMixin
@@ -2111,7 +2098,7 @@ class NoneSchema(
 
 
 class NumberSchema(
-    SchemaTypeCheckerClsFactory(decimal.Decimal),
+    SchemaTypeChecker,
     NumberBase,
     Schema,
     DecimalMixin
@@ -2307,7 +2294,7 @@ class Float64Schema(
 
 
 class StrSchema(
-    SchemaTypeCheckerClsFactory(str),
+    SchemaTypeChecker,
     StrBase,
     Schema,
     StrMixin
@@ -2360,7 +2347,7 @@ class DecimalSchema(DecimalBase, StrSchema):
 
 
 class BytesSchema(
-    SchemaTypeCheckerClsFactory(bytes),
+    SchemaTypeChecker,
     Schema,
 ):
     """
@@ -2371,7 +2358,7 @@ class BytesSchema(
 
 
 class FileSchema(
-    SchemaTypeCheckerClsFactory(FileIO),
+    SchemaTypeChecker,
     Schema,
 ):
     """
@@ -2400,7 +2387,7 @@ class BinaryBase:
 
 
 class BinarySchema(
-    SchemaTypeCheckerClsFactory(typing.Union[bytes, FileIO]),
+    SchemaTypeChecker,
     ComposedBase,
     BinaryBase,
     Schema,
@@ -2417,7 +2404,7 @@ class BinarySchema(
 
 
 class BoolSchema(
-    SchemaTypeCheckerClsFactory(BoolClass),
+    SchemaTypeChecker,
     BoolBase,
     Schema,
     BoolMixin
@@ -2432,9 +2419,7 @@ class BoolSchema(
 
 
 class AnyTypeSchema(
-    SchemaTypeCheckerClsFactory(
-        typing.Union[frozendict.frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
-    ),
+    SchemaTypeChecker,
     DictBase,
     ListBase,
     NumberBase,
@@ -2478,7 +2463,7 @@ class NotAnyTypeSchema(
 
 
 class DictSchema(
-    SchemaTypeCheckerClsFactory(frozendict.frozendict),
+    SchemaTypeChecker,
     DictBase,
     Schema,
     FrozenDictMixin

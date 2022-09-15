@@ -40,7 +40,7 @@ class HealthCheckResult(
             
             
             class NullableMessage(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
+                schemas.SchemaTypeChecker,
                 schemas.StrBase,
                 schemas.NoneBase,
                 schemas.Schema,

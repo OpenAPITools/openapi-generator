@@ -47,7 +47,7 @@ class User(
             
             
             class objectWithNoDeclaredPropsNullable(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
+                schemas.SchemaTypeChecker,
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,
