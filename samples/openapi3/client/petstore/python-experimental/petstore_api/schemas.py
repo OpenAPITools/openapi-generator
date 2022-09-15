@@ -606,7 +606,7 @@ class Validator(typing.Protocol):
         pass
 
 
-def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Validator:
+def SchemaTypeCheckerClsFactory(union_type_cls: typing.Any) -> Validator:
     if typing.get_origin(union_type_cls) is typing.Union:
         union_classes = typing.get_args(union_type_cls)
     else:
@@ -1873,7 +1873,7 @@ class ComposedSchema(
 
 
 class ListSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[tuple]),
+    SchemaTypeCheckerClsFactory(tuple),
     ListBase,
     Schema,
     TupleMixin
@@ -1888,7 +1888,7 @@ class ListSchema(
 
 
 class NoneSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[NoneClass]),
+    SchemaTypeCheckerClsFactory(NoneClass),
     NoneBase,
     Schema,
     NoneMixin
@@ -1903,7 +1903,7 @@ class NoneSchema(
 
 
 class NumberSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[decimal.Decimal]),
+    SchemaTypeCheckerClsFactory(decimal.Decimal),
     NumberBase,
     Schema,
     DecimalMixin
@@ -1914,7 +1914,7 @@ class NumberSchema(
     """
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[int, float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: typing.Union[int, float], _configuration: typing.Optional[Configuration] = None):
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
     def __new__(cls, arg: typing.Union[decimal.Decimal, int, float], **kwargs: Configuration):
@@ -2059,7 +2059,7 @@ class Float32Schema(
 ):
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: float, _configuration: typing.Optional[Configuration] = None):
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
@@ -2093,13 +2093,13 @@ class Float64Schema(
 ):
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: float, _configuration: typing.Optional[Configuration] = None):
         # todo check format
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
 class StrSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[str]),
+    SchemaTypeCheckerClsFactory(str),
     StrBase,
     Schema,
     StrMixin
@@ -2112,7 +2112,7 @@ class StrSchema(
     """
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[str], _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
+    def from_openapi_data_oapg(cls, arg: str, _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
     def __new__(cls, arg: typing.Union[str, date, datetime, uuid.UUID], **kwargs: Configuration):
@@ -2139,7 +2139,7 @@ class DateTimeSchema(DateTimeBase, StrSchema):
 
 class DecimalSchema(DecimalBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str], **kwargs: Configuration):
+    def __new__(cls, arg: str, **kwargs: Configuration):
         """
         Note: Decimals may not be passed in because cast_to_allowed_types is only invoked once for payloads
         which can be simple (str) or complex (dicts or lists with nested values)
@@ -2152,18 +2152,18 @@ class DecimalSchema(DecimalBase, StrSchema):
 
 
 class BytesSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[bytes]),
+    SchemaTypeCheckerClsFactory(bytes),
     Schema,
 ):
     """
     this class will subclass bytes and is immutable
     """
-    def __new__(cls, arg: typing.Union[bytes], **kwargs: Configuration):
+    def __new__(cls, arg: bytes, **kwargs: Configuration):
         return super(Schema, cls).__new__(cls, arg)
 
 
 class FileSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[FileIO]),
+    SchemaTypeCheckerClsFactory(FileIO),
     Schema,
 ):
     """
@@ -2209,7 +2209,7 @@ class BinarySchema(
 
 
 class BoolSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[BoolClass]),
+    SchemaTypeCheckerClsFactory(BoolClass),
     BoolBase,
     Schema,
     BoolMixin
@@ -2270,7 +2270,7 @@ class NotAnyTypeSchema(
 
 
 class DictSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict]),
+    SchemaTypeCheckerClsFactory(frozendict.frozendict),
     DictBase,
     Schema,
     FrozenDictMixin
