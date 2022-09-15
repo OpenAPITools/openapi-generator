@@ -116,6 +116,12 @@ import com.squareup.moshi.adapter
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
+            {{#jvm-okhttp3}}
+            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
+            {{/jvm-okhttp3}}
+            {{#jvm-okhttp4}}
+            content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
+            {{/jvm-okhttp4}}
             mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -123,27 +129,25 @@ import com.squareup.moshi.adapter
                         // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            val contentType = part.headers.remove("Content-Type")
-                            val bodies = if (part.body is Iterable<*>) part.body else listOf(part.body)
-                            bodies.forEach { body ->
-                                val headers = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"" + if (body is File) "; filename=\"${body.name}\"" else "")
-                                addPart({{#jvm-okhttp3}}Headers.of(headers){{/jvm-okhttp3}}{{#jvm-okhttp4}}headers.toHeaders(){{/jvm-okhttp4}},
-                                    requestSingleBody(body, contentType))
+                            if (part.body is File) {
+                                val partHeaders = Headers.headersOf(
+                                    "Content-Disposition",
+                                    "form-data; name=\"$name\"; filename=\"${part.body.name}\""
+                                )
+                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
+                                addPart(partHeaders, part.body.asRequestBody(fileMediaType))
+                            } else {
+                                val partHeaders = Headers.headersOf(
+                                    "Content-Disposition",
+                                    "form-data; name=\"$name\""
+                                )
+                                addPart(
+                                    partHeaders,
+                                    parameterToString(part.body).toRequestBody(null)
+                                )
                             }
                         }
                     }.build()
-            else -> requestSingleBody(content, mediaType)
-        }
-
-    protected inline fun <reified T> requestSingleBody(content: T, mediaType: String?): RequestBody =
-        when {
-            {{#jvm-okhttp3}}
-            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
-            {{/jvm-okhttp3}}
-            {{#jvm-okhttp4}}
-            content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
-            {{/jvm-okhttp4}}
             mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, PartConfig<*>>
