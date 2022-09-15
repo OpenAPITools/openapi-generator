@@ -33,6 +33,7 @@ class ArrayWithValidationsInItems(
 
 
     class MetaOapg:
+        types = {tuple}
         
         
         class items(

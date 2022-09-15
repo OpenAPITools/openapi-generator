@@ -41,17 +41,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{#if getFormat}}
         format = '{{getFormat}}'
 {{/if}}
-{{#with items}}
-{{#if complexType}}
-
-        @classmethod
-        @property
-        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
-            return {{complexType}}
-{{else}}
-        {{> model_templates/schema }}
+{{#if getItems}}
+        {{> model_templates/list_partial }}
 {{/if}}
-{{/with}}
 {{#or additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
         {{> model_templates/dict_partial }}
 {{/or}}

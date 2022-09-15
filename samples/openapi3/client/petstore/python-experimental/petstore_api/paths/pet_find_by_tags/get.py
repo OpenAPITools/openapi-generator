@@ -36,6 +36,7 @@ class TagsSchema(
 
 
     class MetaOapg:
+        types = {tuple}
         items = schemas.StrSchema
 
     def __new__(
@@ -87,7 +88,8 @@ class SchemaFor200ResponseBodyApplicationXml(
 
 
     class MetaOapg:
-
+        types = {tuple}
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Pet']:
@@ -114,7 +116,8 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
-
+        types = {tuple}
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Pet']:

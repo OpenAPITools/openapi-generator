@@ -36,7 +36,8 @@ class SchemaForRequestBodyApplicationJson(
 
 
     class MetaOapg:
-
+        types = {tuple}
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['User']:

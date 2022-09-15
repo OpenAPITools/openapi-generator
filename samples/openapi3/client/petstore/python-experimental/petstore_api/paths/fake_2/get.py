@@ -34,6 +34,7 @@ class EnumQueryStringArraySchema(
 
 
     class MetaOapg:
+        types = {tuple}
         
         
         class items(
@@ -192,6 +193,7 @@ class EnumHeaderStringArraySchema(
 
 
     class MetaOapg:
+        types = {tuple}
         
         
         class items(
@@ -303,6 +305,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
                 class MetaOapg:
+                    types = {tuple}
                     
                     
                     class items(

@@ -36,6 +36,7 @@ class StatusSchema(
 
 
     class MetaOapg:
+        types = {tuple}
         
         
         class items(
@@ -113,7 +114,8 @@ class SchemaFor200ResponseBodyApplicationXml(
 
 
     class MetaOapg:
-
+        types = {tuple}
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Pet']:
@@ -140,7 +142,8 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
-
+        types = {tuple}
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Pet']:

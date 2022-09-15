@@ -47,6 +47,7 @@ class SchemaForRequestBodyMultipartFormData(
             
             
                 class MetaOapg:
+                    types = {tuple}
                     items = schemas.BinarySchema
             
                 def __new__(
