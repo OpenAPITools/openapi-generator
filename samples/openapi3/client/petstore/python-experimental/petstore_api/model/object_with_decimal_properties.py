@@ -33,7 +33,6 @@ class ObjectWithDecimalProperties(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             length = schemas.DecimalSchema

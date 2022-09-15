@@ -36,7 +36,6 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "requiredFile",
         }

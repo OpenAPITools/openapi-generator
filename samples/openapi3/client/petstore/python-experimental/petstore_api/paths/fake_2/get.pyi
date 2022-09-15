@@ -32,7 +32,6 @@ class EnumQueryStringArraySchema(
 
 
     class MetaOapg:
-        types = {tuple}
         
         
         class items(
@@ -146,7 +145,6 @@ class EnumHeaderStringArraySchema(
 
 
     class MetaOapg:
-        types = {tuple}
         
         
         class items(
@@ -218,7 +216,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             
@@ -229,7 +226,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     
                     
                     class items(

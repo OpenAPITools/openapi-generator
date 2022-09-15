@@ -19,7 +19,6 @@ class {{> model_templates/classname }}(
 
 
     class MetaOapg:
-        types = {tuple}
         {{> model_templates/list_partial }}
 {{/if}}
 {{else}}
@@ -27,7 +26,6 @@ class {{> model_templates/classname }}(
 
 
     class MetaOapg:
-        types = {tuple}
 {{#if hasValidation}}
         {{> model_templates/validations }}
 {{/if}}

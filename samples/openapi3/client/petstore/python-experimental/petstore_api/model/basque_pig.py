@@ -33,7 +33,6 @@ class BasquePig(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "className",
         }

@@ -33,7 +33,6 @@ class Drawing(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
         
@@ -59,7 +58,6 @@ class Drawing(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     
                     @classmethod
                     @property

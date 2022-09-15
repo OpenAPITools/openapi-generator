@@ -33,7 +33,6 @@ class AnyTypeAndFormat(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             

@@ -33,7 +33,6 @@ class JSONPatchRequestAddReplaceTest(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "op",
             "path",

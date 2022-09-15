@@ -41,7 +41,6 @@ class ChildCat(
         
         
             class MetaOapg:
-                types = {frozendict.frozendict}
                 
                 class properties:
                     name = schemas.StrSchema

@@ -33,7 +33,6 @@ class AdditionalPropertiesWithArrayOfEnums(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         
         class additional_properties(
@@ -42,7 +41,6 @@ class AdditionalPropertiesWithArrayOfEnums(
         
         
             class MetaOapg:
-                types = {tuple}
                 
                 @classmethod
                 @property

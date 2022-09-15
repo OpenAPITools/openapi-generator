@@ -33,7 +33,6 @@ class Client(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             client = schemas.StrSchema

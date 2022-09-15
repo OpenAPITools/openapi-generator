@@ -33,7 +33,6 @@ class Category(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "name",
         }

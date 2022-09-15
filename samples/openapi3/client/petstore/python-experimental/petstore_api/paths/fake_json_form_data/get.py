@@ -34,7 +34,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "param",
             "param2",

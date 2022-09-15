@@ -33,7 +33,6 @@ class AppleReq(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "cultivar",
         }

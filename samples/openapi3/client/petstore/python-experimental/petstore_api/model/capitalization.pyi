@@ -33,7 +33,6 @@ class Capitalization(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             smallCamel = schemas.StrSchema

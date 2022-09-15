@@ -35,7 +35,6 @@ class ObjectWithDifficultlyNamedProps(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "123-list",
         }

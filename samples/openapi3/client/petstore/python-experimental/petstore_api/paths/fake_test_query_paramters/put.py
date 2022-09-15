@@ -35,7 +35,6 @@ class PipeSchema(
 
 
     class MetaOapg:
-        types = {tuple}
         items = schemas.StrSchema
 
     def __new__(
@@ -59,7 +58,6 @@ class IoutilSchema(
 
 
     class MetaOapg:
-        types = {tuple}
         items = schemas.StrSchema
 
     def __new__(
@@ -83,7 +81,6 @@ class HttpSchema(
 
 
     class MetaOapg:
-        types = {tuple}
         items = schemas.StrSchema
 
     def __new__(
@@ -107,7 +104,6 @@ class UrlSchema(
 
 
     class MetaOapg:
-        types = {tuple}
         items = schemas.StrSchema
 
     def __new__(
@@ -131,7 +127,6 @@ class ContextSchema(
 
 
     class MetaOapg:
-        types = {tuple}
         items = schemas.StrSchema
 
     def __new__(

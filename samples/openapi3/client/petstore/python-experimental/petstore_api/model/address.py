@@ -33,7 +33,6 @@ class Address(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         additional_properties = schemas.IntSchema
     
     def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:

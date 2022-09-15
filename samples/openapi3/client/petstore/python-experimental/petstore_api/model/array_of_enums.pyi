@@ -33,7 +33,6 @@ class ArrayOfEnums(
 
 
     class MetaOapg:
-        types = {tuple}
         
         @classmethod
         @property

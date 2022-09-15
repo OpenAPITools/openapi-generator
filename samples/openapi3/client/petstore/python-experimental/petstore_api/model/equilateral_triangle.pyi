@@ -41,7 +41,6 @@ class EquilateralTriangle(
         
         
             class MetaOapg:
-                types = {frozendict.frozendict}
                 
                 class properties:
                     

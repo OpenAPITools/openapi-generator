@@ -33,7 +33,6 @@ class StringBooleanMap(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         additional_properties = schemas.BoolSchema
     
     def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:

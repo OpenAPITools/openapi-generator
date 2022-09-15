@@ -33,7 +33,6 @@ class EnumTest(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "enum_string_required",
         }

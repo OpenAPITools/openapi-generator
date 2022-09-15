@@ -33,7 +33,6 @@ class ArrayOfNumberOnly(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             
@@ -44,7 +43,6 @@ class ArrayOfNumberOnly(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     items = schemas.NumberSchema
             
                 def __new__(

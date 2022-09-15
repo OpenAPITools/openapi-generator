@@ -33,7 +33,6 @@ class FileSchemaTestClass(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
         
@@ -49,7 +48,6 @@ class FileSchemaTestClass(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     
                     @classmethod
                     @property

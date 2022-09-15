@@ -33,7 +33,6 @@ class Animal(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "className",
         }

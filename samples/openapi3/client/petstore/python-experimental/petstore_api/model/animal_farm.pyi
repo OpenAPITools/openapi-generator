@@ -33,7 +33,6 @@ class AnimalFarm(
 
 
     class MetaOapg:
-        types = {tuple}
         
         @classmethod
         @property

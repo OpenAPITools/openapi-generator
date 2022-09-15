@@ -19,7 +19,6 @@ class {{> model_templates/classname }}(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         {{> model_templates/dict_partial }}
 {{/or}}
 {{else}}
@@ -27,7 +26,6 @@ class {{> model_templates/classname }}(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         {{> model_templates/dict_partial }}
         {{> model_templates/validations }}
 {{/or}}

@@ -45,7 +45,6 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                types = {frozendict.frozendict}
                 max_properties = 4
                 min_properties = 4
         
@@ -69,7 +68,6 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
-                types = {tuple}
                 max_items = 4
                 min_items = 4
                 items = schemas.AnyTypeSchema

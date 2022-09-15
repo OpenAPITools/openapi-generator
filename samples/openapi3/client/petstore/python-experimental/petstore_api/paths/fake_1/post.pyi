@@ -32,7 +32,6 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "number",
             "pattern_without_delimiter",

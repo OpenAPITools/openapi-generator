@@ -33,7 +33,6 @@ class ObjectWithInlineCompositionProperty(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             

@@ -33,7 +33,6 @@ class NoAdditionalProperties(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "id",
         }

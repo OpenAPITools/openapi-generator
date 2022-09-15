@@ -33,7 +33,6 @@ class FormatTest(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "date",
             "number",
@@ -118,7 +117,6 @@ class FormatTest(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     unique_items = True
                     items = schemas.NumberSchema
             

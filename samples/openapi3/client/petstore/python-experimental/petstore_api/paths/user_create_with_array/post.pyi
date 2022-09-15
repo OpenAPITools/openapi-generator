@@ -34,7 +34,6 @@ class SchemaForRequestBodyApplicationJson(
 
 
     class MetaOapg:
-        types = {tuple}
         
         @classmethod
         @property

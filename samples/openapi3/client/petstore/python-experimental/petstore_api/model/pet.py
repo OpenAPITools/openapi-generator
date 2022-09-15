@@ -35,7 +35,6 @@ class Pet(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "photoUrls",
             "name",
@@ -51,7 +50,6 @@ class Pet(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     items = schemas.StrSchema
             
                 def __new__(
@@ -81,7 +79,6 @@ class Pet(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     
                     @classmethod
                     @property

@@ -33,7 +33,6 @@ class FormatTest(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         required = {
             "date",
             "number",
@@ -92,7 +91,6 @@ class FormatTest(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     items = schemas.NumberSchema
             
                 def __new__(

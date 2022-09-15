@@ -33,7 +33,6 @@ class EnumArrays(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             
@@ -65,7 +64,6 @@ class EnumArrays(
             
             
                 class MetaOapg:
-                    types = {tuple}
                     
                     
                     class items(

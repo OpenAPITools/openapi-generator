@@ -33,7 +33,6 @@ class ApiResponse(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             code = schemas.Int32Schema

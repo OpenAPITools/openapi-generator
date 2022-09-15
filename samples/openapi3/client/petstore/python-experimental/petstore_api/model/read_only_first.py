@@ -33,7 +33,6 @@ class ReadOnlyFirst(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             bar = schemas.StrSchema

@@ -62,7 +62,6 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
-        types = {frozendict.frozendict}
         
         class properties:
             additionalMetadata = schemas.StrSchema
