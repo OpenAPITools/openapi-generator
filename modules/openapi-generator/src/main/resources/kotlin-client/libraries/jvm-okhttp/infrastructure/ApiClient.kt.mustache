@@ -130,19 +130,18 @@ import com.squareup.moshi.adapter
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
                             if (part.body is File) {
-                                val partHeaders = Headers.headersOf(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$name\"; filename=\"${part.body.name}\""
-                                )
+                                val partHeaders = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
                                 val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(partHeaders, part.body.asRequestBody(fileMediaType))
-                            } else {
-                                val partHeaders = Headers.headersOf(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$name\""
-                                )
                                 addPart(
-                                    partHeaders,
+                                    {{#jvm-okhttp3}}Headers.of(partHeaders){{/jvm-okhttp3}}{{#jvm-okhttp4}}partHeaders.toHeaders(){{/jvm-okhttp4}},
+                                    part.body.asRequestBody(fileMediaType)
+                                )
+                            } else {
+                                val partHeaders = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"")
+                                addPart(
+                                    {{#jvm-okhttp3}}Headers.of(partHeaders){{/jvm-okhttp3}}{{#jvm-okhttp4}}partHeaders.toHeaders(){{/jvm-okhttp4}},
                                     parameterToString(part.body).toRequestBody(null)
                                 )
                             }
