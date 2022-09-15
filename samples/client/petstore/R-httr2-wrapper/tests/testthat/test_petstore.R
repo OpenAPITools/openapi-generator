@@ -234,6 +234,27 @@ test_that("GetPetById with data_file", {
   expect_equal(response$name, "name_test")
 })
 
+test_that("set validation test", {
+  fake_api <- FakeApi$new()
+  # array input invalid (not unique)
+  set_dummy <- list(1, 2, 2, 3)
+  array_dummy <- list(1, 2, 2, 3)
+  result <- tryCatch(fake_api$fake_set_query(set_dummy, array_dummy),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.")
+
+  # vector input invalid (not unique)
+  set_dummy <- c(1, 2, 2, 3)
+  array_dummy <- c(1, 2, 2, 3)
+  result <- tryCatch(fake_api$fake_set_query(set_dummy, array_dummy),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.")
+})
+
 test_that("find_pets_by_status", {
   # input invalid
   var_status <- c("something") # array[character] | Tags to filter by
