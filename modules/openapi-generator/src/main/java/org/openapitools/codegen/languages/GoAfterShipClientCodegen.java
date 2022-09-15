@@ -96,7 +96,6 @@ public class GoAfterShipClientCodegen extends AbstractGoCodegen {
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;

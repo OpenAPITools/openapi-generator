@@ -9,13 +9,13 @@ sed -E 's/(.*\/([A-z\-]*)((\.[A-z0-9]{0,2})?\.[A-z]{4}))(.*)/\1 \2 \3/g' | xargs
 ' --type-mappings int=types.Int'\
 ' --type-mappings int32=types.Int64'\
 ' --type-mappings int64=types.Int64'\
-' --type-mappings time.Time=types.DateTime'\
+' --type-mappings time.Time=types.Datetime'\
 ' --import-mappings types.String=github.com/AfterShip/gopkg/facility/types'\
 ' --import-mappings types.Float64=github.com/AfterShip/gopkg/facility/types'\
 ' --import-mappings types.Bool=github.com/AfterShip/gopkg/facility/types'\
 ' --import-mappings types.Int=github.com/AfterShip/gopkg/facility/types'\
 ' --import-mappings types.Int64=github.com/AfterShip/gopkg/facility/types'\
-' --import-mappings types.DateTime=github.com/AfterShip/gopkg/facility/types'\
+' --import-mappings types.Datetime=github.com/AfterShip/gopkg/facility/types'\
 ' --global-property=supportingFiles,models,apis'\
 ' --package-name gomodels'\
 ' -g go-aftership'\

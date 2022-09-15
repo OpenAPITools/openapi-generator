@@ -41,4 +41,4 @@ COPY --from=builder ${GEN_DIR}/modules/openapi-generator-cli/target/openapi-gene
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT /opt/scripts/codegen.sh
+ENTRYPOINT /opt/scripts/codegen.sh -o /output -p /input
