@@ -492,7 +492,7 @@ type_to_cls = {
     'Decimal': 'decimal.Decimal',
     'Bool': 'BoolClass'
 }
-cls_tuples = [v for v in itertools.combinations(data_types, 2)]
+cls_tuples = [v for v in itertools.combinations(data_types, 4)]
 typed_classes = [f"class {''.join(cls_tuple)}Mixin({', '.join(type_to_cls[typ] for typ in cls_tuple)}):\n    pass" for cls_tuple in cls_tuples]
 for cls in typed_classes:
     print(cls)
@@ -582,6 +582,37 @@ if typing.TYPE_CHECKING:
         pass
     class StrDecimalBoolMixin(str, decimal.Decimal, BoolClass):
         pass
+    # qty 4
+    class NoneFrozenDictTupleStrMixin(NoneClass, frozendict.frozendict, tuple, str):
+        pass
+    class NoneFrozenDictTupleDecimalMixin(NoneClass, frozendict.frozendict, tuple, decimal.Decimal):
+        pass
+    class NoneFrozenDictTupleBoolMixin(NoneClass, frozendict.frozendict, tuple, BoolClass):
+        pass
+    class NoneFrozenDictStrDecimalMixin(NoneClass, frozendict.frozendict, str, decimal.Decimal):
+        pass
+    class NoneFrozenDictStrBoolMixin(NoneClass, frozendict.frozendict, str, BoolClass):
+        pass
+    class NoneFrozenDictDecimalBoolMixin(NoneClass, frozendict.frozendict, decimal.Decimal, BoolClass):
+        pass
+    class NoneTupleStrDecimalMixin(NoneClass, tuple, str, decimal.Decimal):
+        pass
+    class NoneTupleStrBoolMixin(NoneClass, tuple, str, BoolClass):
+        pass
+    class NoneTupleDecimalBoolMixin(NoneClass, tuple, decimal.Decimal, BoolClass):
+        pass
+    class NoneStrDecimalBoolMixin(NoneClass, str, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrDecimalMixin(frozendict.frozendict, tuple, str, decimal.Decimal):
+        pass
+    class FrozenDictTupleStrBoolMixin(frozendict.frozendict, tuple, str, BoolClass):
+        pass
+    class FrozenDictTupleDecimalBoolMixin(frozendict.frozendict, tuple, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictStrDecimalBoolMixin(frozendict.frozendict, str, decimal.Decimal, BoolClass):
+        pass
+    class TupleStrDecimalBoolMixin(tuple, str, decimal.Decimal, BoolClass):
+        pass
     # qty 6
     class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
         pass
@@ -631,6 +662,22 @@ else:
     TupleStrBoolMixin = object
     TupleDecimalBoolMixin = object
     StrDecimalBoolMixin = object
+    # qty 4
+    NoneFrozenDictTupleStrMixin = object
+    NoneFrozenDictTupleDecimalMixin = object
+    NoneFrozenDictTupleBoolMixin = object
+    NoneFrozenDictStrDecimalMixin = object
+    NoneFrozenDictStrBoolMixin = object
+    NoneFrozenDictDecimalBoolMixin = object
+    NoneTupleStrDecimalMixin = object
+    NoneTupleStrBoolMixin = object
+    NoneTupleDecimalBoolMixin = object
+    NoneStrDecimalBoolMixin = object
+    FrozenDictTupleStrDecimalMixin = object
+    FrozenDictTupleStrBoolMixin = object
+    FrozenDictTupleDecimalBoolMixin = object
+    FrozenDictStrDecimalBoolMixin = object
+    TupleStrDecimalBoolMixin = object
     # qty 6
     NoneFrozenDictTupleStrDecimalBoolMixin = object
 
