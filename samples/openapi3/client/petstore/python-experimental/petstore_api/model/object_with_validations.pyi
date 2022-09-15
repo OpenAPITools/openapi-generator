@@ -31,9 +31,6 @@ class ObjectWithValidations(
     Do not edit the class manually.
     """
 
-
-    class MetaOapg:
-
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
