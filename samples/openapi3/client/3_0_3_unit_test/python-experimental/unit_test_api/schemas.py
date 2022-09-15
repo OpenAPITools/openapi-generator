@@ -491,17 +491,31 @@ class Schema:
 """
 import itertools
 data_types = ('None', 'FrozenDict', 'Tuple', 'Str', 'Decimal', 'Bool')
-[v for v in itertools.combinations(data_types, 2)]
+type_to_cls = {
+    'None': 'NoneClass',
+    'FrozenDict': 'frozendict.frozendict',
+    'Tuple': 'tuple',
+    'Str': 'str',
+    'Decimal': 'decimal.Decimal',
+    'Bool': 'BoolClass'
+}
+cls_tuples = [v for v in itertools.combinations(data_types, 5)]
+typed_classes = [f"class {''.join(cls_tuple)}Mixin({', '.join(type_to_cls[typ] for typ in cls_tuple)}):\n    pass" for cls_tuple in cls_tuples]
+for cls in typed_classes:
+    print(cls)
+object_classes = [f"{''.join(cls_tuple)}Mixin = object" for cls_tuple in cls_tuples]
+for cls in object_classes:
+    print(cls)
 """
 if typing.TYPE_CHECKING:
-    # qty 1 mixin
+    # qty 1
     NoneMixin = NoneClass
     FrozenDictMixin = frozendict.frozendict
     TupleMixin = tuple
     StrMixin = str
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
-    # qty 2 mixin
+    # qty 2
     class BinaryMixin(bytes, FileIO):
         pass
     class NoneFrozenDictMixin(NoneClass, frozendict.frozendict):
@@ -534,18 +548,103 @@ if typing.TYPE_CHECKING:
         pass
     class DecimalBoolMixin(decimal.Decimal, BoolClass):
         pass
+    # qty 3
+    class NoneFrozenDictTupleMixin(NoneClass, frozendict.frozendict, tuple):
+        pass
+    class NoneFrozenDictStrMixin(NoneClass, frozendict.frozendict, str):
+        pass
+    class NoneFrozenDictDecimalMixin(NoneClass, frozendict.frozendict, decimal.Decimal):
+        pass
+    class NoneFrozenDictBoolMixin(NoneClass, frozendict.frozendict, BoolClass):
+        pass
+    class NoneTupleStrMixin(NoneClass, tuple, str):
+        pass
+    class NoneTupleDecimalMixin(NoneClass, tuple, decimal.Decimal):
+        pass
+    class NoneTupleBoolMixin(NoneClass, tuple, BoolClass):
+        pass
+    class NoneStrDecimalMixin(NoneClass, str, decimal.Decimal):
+        pass
+    class NoneStrBoolMixin(NoneClass, str, BoolClass):
+        pass
+    class NoneDecimalBoolMixin(NoneClass, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrMixin(frozendict.frozendict, tuple, str):
+        pass
+    class FrozenDictTupleDecimalMixin(frozendict.frozendict, tuple, decimal.Decimal):
+        pass
+    class FrozenDictTupleBoolMixin(frozendict.frozendict, tuple, BoolClass):
+        pass
+    class FrozenDictStrDecimalMixin(frozendict.frozendict, str, decimal.Decimal):
+        pass
+    class FrozenDictStrBoolMixin(frozendict.frozendict, str, BoolClass):
+        pass
+    class FrozenDictDecimalBoolMixin(frozendict.frozendict, decimal.Decimal, BoolClass):
+        pass
+    class TupleStrDecimalMixin(tuple, str, decimal.Decimal):
+        pass
+    class TupleStrBoolMixin(tuple, str, BoolClass):
+        pass
+    class TupleDecimalBoolMixin(tuple, decimal.Decimal, BoolClass):
+        pass
+    class StrDecimalBoolMixin(str, decimal.Decimal, BoolClass):
+        pass
+    # qty 4
+    class NoneFrozenDictTupleStrMixin(NoneClass, frozendict.frozendict, tuple, str):
+        pass
+    class NoneFrozenDictTupleDecimalMixin(NoneClass, frozendict.frozendict, tuple, decimal.Decimal):
+        pass
+    class NoneFrozenDictTupleBoolMixin(NoneClass, frozendict.frozendict, tuple, BoolClass):
+        pass
+    class NoneFrozenDictStrDecimalMixin(NoneClass, frozendict.frozendict, str, decimal.Decimal):
+        pass
+    class NoneFrozenDictStrBoolMixin(NoneClass, frozendict.frozendict, str, BoolClass):
+        pass
+    class NoneFrozenDictDecimalBoolMixin(NoneClass, frozendict.frozendict, decimal.Decimal, BoolClass):
+        pass
+    class NoneTupleStrDecimalMixin(NoneClass, tuple, str, decimal.Decimal):
+        pass
+    class NoneTupleStrBoolMixin(NoneClass, tuple, str, BoolClass):
+        pass
+    class NoneTupleDecimalBoolMixin(NoneClass, tuple, decimal.Decimal, BoolClass):
+        pass
+    class NoneStrDecimalBoolMixin(NoneClass, str, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrDecimalMixin(frozendict.frozendict, tuple, str, decimal.Decimal):
+        pass
+    class FrozenDictTupleStrBoolMixin(frozendict.frozendict, tuple, str, BoolClass):
+        pass
+    class FrozenDictTupleDecimalBoolMixin(frozendict.frozendict, tuple, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictStrDecimalBoolMixin(frozendict.frozendict, str, decimal.Decimal, BoolClass):
+        pass
+    class TupleStrDecimalBoolMixin(tuple, str, decimal.Decimal, BoolClass):
+        pass
+    # qty 5
+    class NoneFrozenDictTupleStrDecimalMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal):
+        pass
+    class NoneFrozenDictTupleStrBoolMixin(NoneClass, frozendict.frozendict, tuple, str, BoolClass):
+        pass
+    class NoneFrozenDictTupleDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, decimal.Decimal, BoolClass):
+        pass
+    class NoneFrozenDictStrDecimalBoolMixin(NoneClass, frozendict.frozendict, str, decimal.Decimal, BoolClass):
+        pass
+    class NoneTupleStrDecimalBoolMixin(NoneClass, tuple, str, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrDecimalBoolMixin(frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
+        pass
     # qty 6
     class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
         pass
 else:
-    # qty 1 mixin
+    # qty 1
     NoneMixin = object
     FrozenDictMixin = object
     TupleMixin = object
     StrMixin = object
     DecimalMixin = object
     BoolMixin = object
-    # qty 2 mixin
+    # qty 2
     BinaryMixin = object
     NoneFrozenDictMixin = object
     NoneTupleMixin = object
@@ -562,6 +661,51 @@ else:
     StrDecimalMixin = object
     StrBoolMixin = object
     DecimalBoolMixin = object
+    # qty 3
+    NoneFrozenDictTupleMixin = object
+    NoneFrozenDictStrMixin = object
+    NoneFrozenDictDecimalMixin = object
+    NoneFrozenDictBoolMixin = object
+    NoneTupleStrMixin = object
+    NoneTupleDecimalMixin = object
+    NoneTupleBoolMixin = object
+    NoneStrDecimalMixin = object
+    NoneStrBoolMixin = object
+    NoneDecimalBoolMixin = object
+    FrozenDictTupleStrMixin = object
+    FrozenDictTupleDecimalMixin = object
+    FrozenDictTupleBoolMixin = object
+    FrozenDictStrDecimalMixin = object
+    FrozenDictStrBoolMixin = object
+    FrozenDictDecimalBoolMixin = object
+    TupleStrDecimalMixin = object
+    TupleStrBoolMixin = object
+    TupleDecimalBoolMixin = object
+    StrDecimalBoolMixin = object
+    # qty 4
+    NoneFrozenDictTupleStrMixin = object
+    NoneFrozenDictTupleDecimalMixin = object
+    NoneFrozenDictTupleBoolMixin = object
+    NoneFrozenDictStrDecimalMixin = object
+    NoneFrozenDictStrBoolMixin = object
+    NoneFrozenDictDecimalBoolMixin = object
+    NoneTupleStrDecimalMixin = object
+    NoneTupleStrBoolMixin = object
+    NoneTupleDecimalBoolMixin = object
+    NoneStrDecimalBoolMixin = object
+    FrozenDictTupleStrDecimalMixin = object
+    FrozenDictTupleStrBoolMixin = object
+    FrozenDictTupleDecimalBoolMixin = object
+    FrozenDictStrDecimalBoolMixin = object
+    TupleStrDecimalBoolMixin = object
+    # qty 5
+    NoneFrozenDictTupleStrDecimalMixin = object
+    NoneFrozenDictTupleStrBoolMixin = object
+    NoneFrozenDictTupleDecimalBoolMixin = object
+    NoneFrozenDictStrDecimalBoolMixin = object
+    NoneTupleStrDecimalBoolMixin = object
+    FrozenDictTupleStrDecimalBoolMixin = object
+    # qty 6
     NoneFrozenDictTupleStrDecimalBoolMixin = object
 
 
@@ -606,7 +750,7 @@ class Validator(typing.Protocol):
         pass
 
 
-def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Validator:
+def SchemaTypeCheckerClsFactory(union_type_cls: typing.Any) -> Validator:
     if typing.get_origin(union_type_cls) is typing.Union:
         union_classes = typing.get_args(union_type_cls)
     else:
@@ -1873,7 +2017,7 @@ class ComposedSchema(
 
 
 class ListSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[tuple]),
+    SchemaTypeCheckerClsFactory(tuple),
     ListBase,
     Schema,
     TupleMixin
@@ -1888,7 +2032,7 @@ class ListSchema(
 
 
 class NoneSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[NoneClass]),
+    SchemaTypeCheckerClsFactory(NoneClass),
     NoneBase,
     Schema,
     NoneMixin
@@ -1903,7 +2047,7 @@ class NoneSchema(
 
 
 class NumberSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[decimal.Decimal]),
+    SchemaTypeCheckerClsFactory(decimal.Decimal),
     NumberBase,
     Schema,
     DecimalMixin
@@ -1914,7 +2058,7 @@ class NumberSchema(
     """
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[int, float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: typing.Union[int, float], _configuration: typing.Optional[Configuration] = None):
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
     def __new__(cls, arg: typing.Union[decimal.Decimal, int, float], **kwargs: Configuration):
@@ -2059,7 +2203,7 @@ class Float32Schema(
 ):
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: float, _configuration: typing.Optional[Configuration] = None):
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
@@ -2093,13 +2237,13 @@ class Float64Schema(
 ):
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: float, _configuration: typing.Optional[Configuration] = None):
         # todo check format
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
 class StrSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[str]),
+    SchemaTypeCheckerClsFactory(str),
     StrBase,
     Schema,
     StrMixin
@@ -2112,7 +2256,7 @@ class StrSchema(
     """
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[str], _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
+    def from_openapi_data_oapg(cls, arg: str, _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
     def __new__(cls, arg: typing.Union[str, date, datetime, uuid.UUID], **kwargs: Configuration):
@@ -2139,7 +2283,7 @@ class DateTimeSchema(DateTimeBase, StrSchema):
 
 class DecimalSchema(DecimalBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str], **kwargs: Configuration):
+    def __new__(cls, arg: str, **kwargs: Configuration):
         """
         Note: Decimals may not be passed in because cast_to_allowed_types is only invoked once for payloads
         which can be simple (str) or complex (dicts or lists with nested values)
@@ -2152,18 +2296,18 @@ class DecimalSchema(DecimalBase, StrSchema):
 
 
 class BytesSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[bytes]),
+    SchemaTypeCheckerClsFactory(bytes),
     Schema,
 ):
     """
     this class will subclass bytes and is immutable
     """
-    def __new__(cls, arg: typing.Union[bytes], **kwargs: Configuration):
+    def __new__(cls, arg: bytes, **kwargs: Configuration):
         return super(Schema, cls).__new__(cls, arg)
 
 
 class FileSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[FileIO]),
+    SchemaTypeCheckerClsFactory(FileIO),
     Schema,
 ):
     """
@@ -2209,7 +2353,7 @@ class BinarySchema(
 
 
 class BoolSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[BoolClass]),
+    SchemaTypeCheckerClsFactory(BoolClass),
     BoolBase,
     Schema,
     BoolMixin
@@ -2270,7 +2414,7 @@ class NotAnyTypeSchema(
 
 
 class DictSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict]),
+    SchemaTypeCheckerClsFactory(frozendict.frozendict),
     DictBase,
     Schema,
     FrozenDictMixin
