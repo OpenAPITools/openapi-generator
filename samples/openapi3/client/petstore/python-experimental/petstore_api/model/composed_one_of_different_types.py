@@ -45,6 +45,7 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
+                types = {frozendict.frozendict}
                 max_properties = 4
                 min_properties = 4
         

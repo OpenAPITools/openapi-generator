@@ -33,11 +33,13 @@ class JSONPatchRequestMoveCopy(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "op",
             "path",
             "from",
         }
+        
         class properties:
             path = schemas.StrSchema
             

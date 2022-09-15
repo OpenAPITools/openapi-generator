@@ -33,10 +33,12 @@ class Money(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "amount",
             "currency",
         }
+        
         class properties:
             amount = schemas.DecimalSchema
         

@@ -33,11 +33,13 @@ class JSONPatchRequestAddReplaceTest(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "op",
             "path",
             "value",
         }
+        
         class properties:
             path = schemas.StrSchema
             value = schemas.AnyTypeSchema

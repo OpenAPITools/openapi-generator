@@ -33,6 +33,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             uuid = schemas.UUIDSchema
             dateTime = schemas.DateTimeSchema
@@ -44,6 +46,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             
             
                 class MetaOapg:
+                    types = {frozendict.frozendict}
                     
                     @classmethod
                     @property

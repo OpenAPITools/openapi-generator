@@ -35,6 +35,8 @@ class ObjectModelWithRefProps(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
         
             @classmethod

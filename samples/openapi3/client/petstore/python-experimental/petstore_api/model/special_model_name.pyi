@@ -35,6 +35,8 @@ class SpecialModelName(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             a = schemas.StrSchema
             __annotations__ = {

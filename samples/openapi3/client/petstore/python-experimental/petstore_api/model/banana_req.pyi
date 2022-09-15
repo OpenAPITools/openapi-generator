@@ -33,9 +33,11 @@ class BananaReq(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "lengthCm",
         }
+        
         class properties:
             lengthCm = schemas.NumberSchema
             sweet = schemas.BoolSchema

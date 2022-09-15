@@ -213,6 +213,7 @@ class BoolClass(Singleton):
 
 
 class MetaOapgTyped:
+    types: typing.Set[typing.Type]
     exclusive_maximum: typing.Union[int, float]
     inclusive_maximum: typing.Union[int, float]
     exclusive_minimum: typing.Union[int, float]

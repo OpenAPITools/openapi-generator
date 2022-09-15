@@ -41,6 +41,8 @@ class Dog(
         
         
             class MetaOapg:
+                types = {frozendict.frozendict}
+                
                 class properties:
                     breed = schemas.StrSchema
                     __annotations__ = {

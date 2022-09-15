@@ -37,6 +37,7 @@ class QuadrilateralInterface(
             "shapeType",
             "quadrilateralType",
         }
+        
         class properties:
             
             

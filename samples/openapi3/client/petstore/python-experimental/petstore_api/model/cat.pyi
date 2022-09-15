@@ -41,6 +41,8 @@ class Cat(
         
         
             class MetaOapg:
+                types = {frozendict.frozendict}
+                
                 class properties:
                     declawed = schemas.BoolSchema
                     __annotations__ = {

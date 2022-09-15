@@ -33,6 +33,7 @@ class GmFruit(
 
 
     class MetaOapg:
+        
         class properties:
             color = schemas.StrSchema
             __annotations__ = {

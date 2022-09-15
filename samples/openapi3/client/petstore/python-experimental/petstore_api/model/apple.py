@@ -40,6 +40,7 @@ class Apple(
         required = {
             "cultivar",
         }
+        
         class properties:
             
             

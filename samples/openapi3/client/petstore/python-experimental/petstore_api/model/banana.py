@@ -33,9 +33,11 @@ class Banana(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "lengthCm",
         }
+        
         class properties:
             lengthCm = schemas.NumberSchema
             __annotations__ = {

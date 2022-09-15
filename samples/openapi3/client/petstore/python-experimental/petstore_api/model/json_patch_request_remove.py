@@ -33,10 +33,12 @@ class JSONPatchRequestRemove(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "op",
             "path",
         }
+        
         class properties:
             path = schemas.StrSchema
             

@@ -33,9 +33,11 @@ class Whale(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "className",
         }
+        
         class properties:
             
             

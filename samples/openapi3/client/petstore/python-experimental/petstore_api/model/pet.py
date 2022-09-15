@@ -35,10 +35,12 @@ class Pet(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "photoUrls",
             "name",
         }
+        
         class properties:
             name = schemas.StrSchema
             

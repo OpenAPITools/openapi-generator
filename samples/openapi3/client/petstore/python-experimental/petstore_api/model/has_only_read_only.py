@@ -33,6 +33,8 @@ class HasOnlyReadOnly(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             bar = schemas.StrSchema
             foo = schemas.StrSchema

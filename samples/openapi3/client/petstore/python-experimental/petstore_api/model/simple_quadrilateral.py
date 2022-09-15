@@ -41,6 +41,8 @@ class SimpleQuadrilateral(
         
         
             class MetaOapg:
+                types = {frozendict.frozendict}
+                
                 class properties:
                     
                     

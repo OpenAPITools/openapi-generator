@@ -33,6 +33,7 @@ class Animal(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "className",
         }
@@ -46,6 +47,7 @@ class Animal(
                     'Dog': Dog,
                 }
             }
+        
         class properties:
             className = schemas.StrSchema
             color = schemas.StrSchema

@@ -34,9 +34,11 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "file",
         }
+        
         class properties:
             additionalMetadata = schemas.StrSchema
             file = schemas.BinarySchema

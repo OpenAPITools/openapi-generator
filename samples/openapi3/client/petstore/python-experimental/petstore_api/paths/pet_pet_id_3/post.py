@@ -60,6 +60,8 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             name = schemas.StrSchema
             status = schemas.StrSchema

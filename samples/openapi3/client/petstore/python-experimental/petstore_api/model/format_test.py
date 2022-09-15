@@ -33,12 +33,14 @@ class FormatTest(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "date",
             "number",
             "password",
             "byte",
         }
+        
         class properties:
             
             

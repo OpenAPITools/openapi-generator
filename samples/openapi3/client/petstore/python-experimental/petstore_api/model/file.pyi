@@ -35,6 +35,8 @@ class File(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             sourceURI = schemas.StrSchema
             __annotations__ = {

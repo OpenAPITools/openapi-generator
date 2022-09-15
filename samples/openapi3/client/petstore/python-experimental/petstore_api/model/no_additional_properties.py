@@ -33,9 +33,11 @@ class NoAdditionalProperties(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "id",
         }
+        
         class properties:
             id = schemas.Int64Schema
             petId = schemas.Int64Schema

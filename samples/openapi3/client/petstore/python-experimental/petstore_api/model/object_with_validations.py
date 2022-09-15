@@ -33,6 +33,7 @@ class ObjectWithValidations(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         min_properties = 2
 
     def __new__(

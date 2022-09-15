@@ -33,6 +33,7 @@ class GrandparentAnimal(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "pet_type",
         }
@@ -46,6 +47,7 @@ class GrandparentAnimal(
                     'ParentPet': ParentPet,
                 }
             }
+        
         class properties:
             pet_type = schemas.StrSchema
             __annotations__ = {

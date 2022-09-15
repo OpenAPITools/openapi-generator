@@ -33,6 +33,8 @@ class SchemaFor0ResponseBodyApplicationJson(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
         
             @classmethod

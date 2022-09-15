@@ -41,6 +41,8 @@ class IsoscelesTriangle(
         
         
             class MetaOapg:
+                types = {frozendict.frozendict}
+                
                 class properties:
                     
                     

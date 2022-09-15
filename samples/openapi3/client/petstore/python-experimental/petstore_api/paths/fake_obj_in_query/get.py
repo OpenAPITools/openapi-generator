@@ -33,6 +33,8 @@ class MapBeanSchema(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             keyword = schemas.StrSchema
             __annotations__ = {

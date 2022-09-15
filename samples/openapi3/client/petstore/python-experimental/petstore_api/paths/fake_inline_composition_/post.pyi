@@ -75,6 +75,8 @@ class CompositionInPropertySchema(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             
             
@@ -210,6 +212,8 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             
             
@@ -344,6 +348,8 @@ class SchemaFor200ResponseBodyMultipartFormData(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
+        
         class properties:
             
             

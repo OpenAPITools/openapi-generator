@@ -33,9 +33,11 @@ class AppleReq(
 
 
     class MetaOapg:
+        types = {frozendict.frozendict}
         required = {
             "cultivar",
         }
+        
         class properties:
             cultivar = schemas.StrSchema
             mealy = schemas.BoolSchema
