@@ -236,7 +236,7 @@ class Schema:
     the base class of all swagger/openapi schemas/models
     """
     __inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict.frozendict, FileIO, bytes, BoolClass, NoneClass}
-    MetaOapg = MetaOapgTyped
+    MetaOapg: MetaOapgTyped
 
     @classmethod
     def _validate_oapg(
