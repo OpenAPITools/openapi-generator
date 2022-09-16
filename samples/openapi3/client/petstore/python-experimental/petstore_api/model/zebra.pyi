@@ -36,6 +36,7 @@ class Zebra(
         required = {
             "className",
         }
+        
         class properties:
             
             

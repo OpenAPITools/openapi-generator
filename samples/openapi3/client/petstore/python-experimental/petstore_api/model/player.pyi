@@ -35,6 +35,7 @@ class Player(
 
 
     class MetaOapg:
+        
         class properties:
             name = schemas.StrSchema
         

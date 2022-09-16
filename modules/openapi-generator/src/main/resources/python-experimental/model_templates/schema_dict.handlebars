@@ -14,13 +14,22 @@ class {{> model_templates/classname }}(
 {{/if}}
     """
 {{/if}}
+{{#if isStub}}
+{{#or additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
 
 
     class MetaOapg:
         {{> model_templates/dict_partial }}
-{{#unless isStub}}
+{{/or}}
+{{else}}
+{{#or additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars hasValidation}}
+
+
+    class MetaOapg:
+        {{> model_templates/dict_partial }}
         {{> model_templates/validations }}
-{{/unless}}
+{{/or}}
+{{/if}}
     {{> model_templates/property_type_hints }}
 
     {{> model_templates/new }}

@@ -36,6 +36,7 @@ class EnumsInProperties(
         required = {
             "bar",
         }
+        
         class properties:
             
             

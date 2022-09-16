@@ -33,6 +33,7 @@ class ObjectWithInlineCompositionProperty(
 
 
     class MetaOapg:
+        
         class properties:
             
             

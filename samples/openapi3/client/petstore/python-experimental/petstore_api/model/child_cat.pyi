@@ -41,6 +41,7 @@ class ChildCat(
         
         
             class MetaOapg:
+                
                 class properties:
                     name = schemas.StrSchema
                     __annotations__ = {

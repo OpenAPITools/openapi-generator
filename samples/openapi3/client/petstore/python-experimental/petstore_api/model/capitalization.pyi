@@ -33,6 +33,7 @@ class Capitalization(
 
 
     class MetaOapg:
+        
         class properties:
             smallCamel = schemas.StrSchema
             CapitalCamel = schemas.StrSchema

@@ -14,23 +14,24 @@ class {{> model_templates/classname }}(
 {{/if}}
     """
 {{/if}}
+{{#if isStub}}
+{{#if items}}
 
 
     class MetaOapg:
-{{#unless isStub}}
-        {{> model_templates/validations }}
-{{/unless}}
-{{#with items}}
-{{#if complexType}}
-
-        @classmethod
-        @property
-        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
-            return {{complexType}}
-{{else}}
-        {{> model_templates/schema }}
+        {{> model_templates/list_partial }}
 {{/if}}
-{{/with}}
+{{else}}
+{{#or getItems hasValidation}}
+
+
+    class MetaOapg:
+{{#if hasValidation}}
+        {{> model_templates/validations }}
+{{/if}}
+        {{> model_templates/list_partial }}
+{{/or}}
+{{/if}}
 
     {{> model_templates/new }}
 

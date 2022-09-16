@@ -33,6 +33,7 @@ class RefInProperty(
 
 
     class MetaOapg:
+        
         class properties:
         
             @classmethod

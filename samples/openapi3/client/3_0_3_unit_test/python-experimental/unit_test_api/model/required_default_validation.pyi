@@ -33,6 +33,7 @@ class RequiredDefaultValidation(
 
 
     class MetaOapg:
+        
         class properties:
             foo = schemas.AnyTypeSchema
             __annotations__ = {

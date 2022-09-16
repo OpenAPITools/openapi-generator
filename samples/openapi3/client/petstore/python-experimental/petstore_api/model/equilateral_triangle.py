@@ -41,6 +41,7 @@ class EquilateralTriangle(
         
         
             class MetaOapg:
+                
                 class properties:
                     
                     

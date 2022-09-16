@@ -33,6 +33,7 @@ class Tag(
 
 
     class MetaOapg:
+        
         class properties:
             id = schemas.Int64Schema
             name = schemas.StrSchema

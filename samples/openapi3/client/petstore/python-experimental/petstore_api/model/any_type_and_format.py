@@ -33,6 +33,7 @@ class AnyTypeAndFormat(
 
 
     class MetaOapg:
+        
         class properties:
             
             

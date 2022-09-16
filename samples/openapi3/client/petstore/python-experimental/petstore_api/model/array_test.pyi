@@ -33,6 +33,7 @@ class ArrayTest(
 
 
     class MetaOapg:
+        
         class properties:
             
             
@@ -118,7 +119,7 @@ class ArrayTest(
                     
                     
                         class MetaOapg:
-                    
+                            
                             @classmethod
                             @property
                             def items(cls) -> typing.Type['ReadOnlyFirst']:

@@ -33,6 +33,7 @@ class ApiResponse(
 
 
     class MetaOapg:
+        
         class properties:
             code = schemas.Int32Schema
             type = schemas.StrSchema

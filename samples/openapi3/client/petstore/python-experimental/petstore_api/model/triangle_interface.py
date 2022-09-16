@@ -37,6 +37,7 @@ class TriangleInterface(
             "shapeType",
             "triangleType",
         }
+        
         class properties:
             
             

@@ -33,7 +33,7 @@ class RefInItems(
 
 
     class MetaOapg:
-
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:

@@ -35,6 +35,7 @@ class ObjectModelWithRefProps(
 
 
     class MetaOapg:
+        
         class properties:
         
             @classmethod

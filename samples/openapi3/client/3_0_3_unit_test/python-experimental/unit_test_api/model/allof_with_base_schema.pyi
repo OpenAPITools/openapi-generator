@@ -36,6 +36,7 @@ class AllofWithBaseSchema(
         required = {
             "bar",
         }
+        
         class properties:
             bar = schemas.IntSchema
             __annotations__ = {
@@ -52,6 +53,7 @@ class AllofWithBaseSchema(
                 required = {
                     "foo",
                 }
+                
                 class properties:
                     foo = schemas.StrSchema
                     __annotations__ = {
@@ -107,6 +109,7 @@ class AllofWithBaseSchema(
                 required = {
                     "baz",
                 }
+                
                 class properties:
                     baz = schemas.NoneSchema
                     __annotations__ = {

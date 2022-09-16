@@ -34,7 +34,7 @@ class SchemaForRequestBodyApplicationJson(
 
 
     class MetaOapg:
-
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['User']:
