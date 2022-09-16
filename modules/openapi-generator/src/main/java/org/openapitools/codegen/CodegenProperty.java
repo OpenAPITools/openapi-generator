@@ -202,6 +202,17 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean isBooleanSchemaFalse;
     private String format;
     private LinkedHashMap<String, List<String>> dependentRequired;
+    private CodegenProperty contains;
+
+    @Override
+    public CodegenProperty getContains() {
+        return contains;
+    }
+
+    @Override
+    public void setContains(CodegenProperty contains) {
+        this.contains = contains;
+    }
 
     @Override
     public LinkedHashMap<String, List<String>> getDependentRequired() {
@@ -766,6 +777,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this.dependentRequired != null) {
                 cp.setDependentRequired(this.dependentRequired);
             }
+            if (this.contains != null) {
+                cp.setContains(this.contains);
+            }
 
             return cp;
         } catch (CloneNotSupportedException e) {
@@ -1066,6 +1080,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isBooleanSchemaFalse=").append(isBooleanSchemaFalse);
         sb.append(", format=").append(format);
         sb.append(", dependentRequired=").append(dependentRequired);
+        sb.append(", contains=").append(contains);
         sb.append('}');
         return sb.toString();
     }
@@ -1127,6 +1142,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(contains, that.getContains()) &&
                 Objects.equals(dependentRequired, that.getDependentRequired()) &&
                 Objects.equals(format, that.getFormat()) &&
                 Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
@@ -1197,6 +1213,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
                 ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
-                format, dependentRequired);
+                format, dependentRequired, contains);
     }
 }
