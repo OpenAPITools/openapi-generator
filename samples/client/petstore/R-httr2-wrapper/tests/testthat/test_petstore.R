@@ -332,6 +332,33 @@ test_that("Tests validateJSON", {
   
 })
 
+# test set in object
+test_that("Tests set in object", {
+  invalid_set  <-
+  '{"self": 123, "private": "red", "super": "something", "set_test": ["1","2","2","4"]}'
+  expect_error(Special$new()$fromJSON(invalid_set), "Error! Items in `set_test` are not unique")
+
+  special_json <-
+  '{"self": 123, "private": "red", "super": "something", "set_test": ["1","2","4"]}'
+  # test fromJSON
+  special <- Special$new()$fromJSON(special_json)
+  expect_equal(special$item_self, 123)
+  expect_equal(special$item_private, "red")
+  expect_equal(special$item_super, "something")
+
+  # test toJSONString
+  expect_true(grepl('"private"', special$toJSONString()))
+  expect_true(grepl('"self"', special$toJSONString()))
+  expect_true(grepl('"super"', special$toJSONString()))
+  expect_equal('{"set_test":["1","2","4"],"self":123,"private":"red","super":"something"}', special$toJSONString())
+
+  # round trip test
+  s1 <- Special$new()$fromJSONString(special_json)
+  s2 <- Special$new()$fromJSONString(s1$toJSONString())
+  expect_equal(s1, s2)
+
+})
+
 # test object with special item names: self, private, super
 test_that("Tests special item names", {
   special_json <-
@@ -343,7 +370,7 @@ test_that("Tests special item names", {
   expect_equal(special$item_private, "red")
   expect_equal(special$item_super, "something")
 
-  # test toJSONString 
+  # test toJSONString
   expect_true(grepl('"private"', special$toJSONString()))
   expect_true(grepl('"self"', special$toJSONString()))
   expect_true(grepl('"super"', special$toJSONString()))
