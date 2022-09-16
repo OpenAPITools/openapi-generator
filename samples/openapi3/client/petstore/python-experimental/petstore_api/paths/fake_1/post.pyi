@@ -38,6 +38,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             "byte",
             "double",
         }
+        
         class properties:
             
             
@@ -220,14 +221,14 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, float, ],
         pattern_without_delimiter: typing.Union[MetaOapg.properties.pattern_without_delimiter, str, ],
         byte: typing.Union[MetaOapg.properties.byte, str, ],
-        double: typing.Union[MetaOapg.properties.double, float, ],
-        integer: typing.Union[MetaOapg.properties.integer, int, schemas.Unset] = schemas.unset,
-        int32: typing.Union[MetaOapg.properties.int32, int, schemas.Unset] = schemas.unset,
-        int64: typing.Union[MetaOapg.properties.int64, int, schemas.Unset] = schemas.unset,
+        double: typing.Union[MetaOapg.properties.double, decimal.Decimal, int, float, ],
+        integer: typing.Union[MetaOapg.properties.integer, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int32: typing.Union[MetaOapg.properties.int32, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        int64: typing.Union[MetaOapg.properties.int64, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
-        date: typing.Union[MetaOapg.properties.date, date, str, schemas.Unset] = schemas.unset,
-        dateTime: typing.Union[MetaOapg.properties.dateTime, datetime, str, schemas.Unset] = schemas.unset,
+        date: typing.Union[MetaOapg.properties.date, str, date, schemas.Unset] = schemas.unset,
+        dateTime: typing.Union[MetaOapg.properties.dateTime, str, datetime, schemas.Unset] = schemas.unset,
         password: typing.Union[MetaOapg.properties.password, str, schemas.Unset] = schemas.unset,
         callback: typing.Union[MetaOapg.properties.callback, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,

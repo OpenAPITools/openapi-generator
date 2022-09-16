@@ -33,6 +33,7 @@ class Foo(
 
 
     class MetaOapg:
+        
         class properties:
             bar = schemas.StrSchema
             __annotations__ = {

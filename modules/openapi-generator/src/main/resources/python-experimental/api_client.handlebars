@@ -15,7 +15,7 @@ import tempfile
 import typing
 import urllib3
 from urllib3._collections import HTTPHeaderDict
-from urllib.parse import quote
+from urllib.parse import urlparse, quote
 from urllib3.fields import RequestField as RequestFieldBase
 
 {{#if tornado}}
@@ -832,6 +832,19 @@ class OpenApiResponse(JSONDetector):
         # python must be >= 3.9 so we can pass in bytes into json.loads
         return json.loads(response.data)
 
+    @staticmethod
+    def __file_name_from_response_url(response_url: typing.Optional[str]) -> typing.Optional[str]:
+        if response_url is None:
+            return None
+        url_path = urlparse(response_url).path
+        if url_path:
+            path_basename = os.path.basename(url_path)
+            if path_basename:
+                _filename, ext = os.path.splitext(path_basename)
+                if ext:
+                    return path_basename
+        return None
+
     @classmethod
     def __file_name_from_content_disposition(cls, content_disposition: typing.Optional[str]) -> typing.Optional[str]:
         if content_disposition is None:
@@ -851,13 +864,16 @@ class OpenApiResponse(JSONDetector):
             a file will be written and returned
         """
         if response.supports_chunked_reads():
-            file_name = self.__file_name_from_content_disposition(response.headers.get('content-disposition'))
+            file_name = (
+                self.__file_name_from_content_disposition(response.headers.get('content-disposition'))
+                or self.__file_name_from_response_url(response.geturl())
+            )
 
             if file_name is None:
                 _fd, path = tempfile.mkstemp()
             else:
                 path = os.path.join(tempfile.gettempdir(), file_name)
-            # TODO get file_name from the filename at the end of the url if it exists
+
             with open(path, 'wb') as new_file:
                 chunk_size = 1024
                 while True:

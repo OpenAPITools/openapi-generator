@@ -38,6 +38,7 @@ class JSONPatchRequestAddReplaceTest(
             "path",
             "value",
         }
+        
         class properties:
             path = schemas.StrSchema
             value = schemas.AnyTypeSchema
@@ -109,7 +110,7 @@ class JSONPatchRequestAddReplaceTest(
         *args: typing.Union[dict, frozendict.frozendict, ],
         op: typing.Union[MetaOapg.properties.op, str, ],
         path: typing.Union[MetaOapg.properties.path, str, ],
-        value: typing.Union[MetaOapg.properties.value, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+        value: typing.Union[MetaOapg.properties.value, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'JSONPatchRequestAddReplaceTest':
         return super().__new__(

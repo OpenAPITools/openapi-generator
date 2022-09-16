@@ -33,6 +33,7 @@ class ApiResponse(
 
 
     class MetaOapg:
+        
         class properties:
             code = schemas.Int32Schema
             type = schemas.StrSchema
@@ -79,7 +80,7 @@ class ApiResponse(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        code: typing.Union[MetaOapg.properties.code, int, schemas.Unset] = schemas.unset,
+        code: typing.Union[MetaOapg.properties.code, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
         message: typing.Union[MetaOapg.properties.message, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,

@@ -36,6 +36,7 @@ class AllofWithBaseSchema(
         required = {
             "bar",
         }
+        
         class properties:
             bar = schemas.IntSchema
             __annotations__ = {
@@ -52,6 +53,7 @@ class AllofWithBaseSchema(
                 required = {
                     "foo",
                 }
+                
                 class properties:
                     foo = schemas.StrSchema
                     __annotations__ = {
@@ -84,7 +86,7 @@ class AllofWithBaseSchema(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
                 foo: typing.Union[MetaOapg.properties.foo, str, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
                 **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -107,6 +109,7 @@ class AllofWithBaseSchema(
                 required = {
                     "baz",
                 }
+                
                 class properties:
                     baz = schemas.NoneSchema
                     __annotations__ = {
@@ -139,7 +142,7 @@ class AllofWithBaseSchema(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
                 baz: typing.Union[MetaOapg.properties.baz, None, ],
                 _configuration: typing.Optional[schemas.Configuration] = None,
                 **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -194,8 +197,8 @@ class AllofWithBaseSchema(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-        bar: typing.Union[MetaOapg.properties.bar, int, ],
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+        bar: typing.Union[MetaOapg.properties.bar, decimal.Decimal, int, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'AllofWithBaseSchema':

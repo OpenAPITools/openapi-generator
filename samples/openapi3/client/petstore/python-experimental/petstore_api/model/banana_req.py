@@ -36,6 +36,7 @@ class BananaReq(
         required = {
             "lengthCm",
         }
+        
         class properties:
             lengthCm = schemas.NumberSchema
             sweet = schemas.BoolSchema

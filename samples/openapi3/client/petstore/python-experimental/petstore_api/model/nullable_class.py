@@ -33,11 +33,11 @@ class NullableClass(
 
 
     class MetaOapg:
+        
         class properties:
             
             
             class integer_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, decimal.Decimal, ]),
                 schemas.IntBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -47,7 +47,7 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[None, int, ],
+                    *args: typing.Union[None, decimal.Decimal, int, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'integer_prop':
                     return super().__new__(
@@ -58,7 +58,6 @@ class NullableClass(
             
             
             class number_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, decimal.Decimal, ]),
                 schemas.NumberBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -79,7 +78,6 @@ class NullableClass(
             
             
             class boolean_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, schemas.BoolClass, ]),
                 schemas.BoolBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -100,7 +98,6 @@ class NullableClass(
             
             
             class string_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.StrBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -121,17 +118,21 @@ class NullableClass(
             
             
             class date_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.DateBase,
+                schemas.StrBase,
                 schemas.NoneBase,
                 schemas.Schema,
                 schemas.NoneStrMixin
             ):
             
             
+                class MetaOapg:
+                    format = 'date'
+            
+            
                 def __new__(
                     cls,
-                    *args: typing.Union[None, date, str, ],
+                    *args: typing.Union[None, str, date, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'date_prop':
                     return super().__new__(
@@ -142,17 +143,21 @@ class NullableClass(
             
             
             class datetime_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.DateTimeBase,
+                schemas.StrBase,
                 schemas.NoneBase,
                 schemas.Schema,
                 schemas.NoneStrMixin
             ):
             
             
+                class MetaOapg:
+                    format = 'date-time'
+            
+            
                 def __new__(
                     cls,
-                    *args: typing.Union[None, datetime, str, ],
+                    *args: typing.Union[None, str, datetime, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'datetime_prop':
                     return super().__new__(
@@ -163,7 +168,6 @@ class NullableClass(
             
             
             class array_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, tuple, ]),
                 schemas.ListBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -188,7 +192,6 @@ class NullableClass(
             
             
             class array_and_items_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, tuple, ]),
                 schemas.ListBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -200,7 +203,6 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -243,7 +245,6 @@ class NullableClass(
                     
                     
                     class items(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -280,7 +281,6 @@ class NullableClass(
             
             
             class object_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -314,7 +314,6 @@ class NullableClass(
             
             
             class object_and_items_nullable_prop(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,
@@ -326,7 +325,6 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -378,7 +376,6 @@ class NullableClass(
                     
                     
                     class additional_properties(
-                        schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                         schemas.DictBase,
                         schemas.NoneBase,
                         schemas.Schema,
@@ -435,7 +432,6 @@ class NullableClass(
         
         
         class additional_properties(
-            schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
             schemas.DictBase,
             schemas.NoneBase,
             schemas.Schema,
@@ -544,12 +540,12 @@ class NullableClass(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        integer_prop: typing.Union[MetaOapg.properties.integer_prop, None, int, schemas.Unset] = schemas.unset,
+        integer_prop: typing.Union[MetaOapg.properties.integer_prop, None, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         number_prop: typing.Union[MetaOapg.properties.number_prop, None, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         boolean_prop: typing.Union[MetaOapg.properties.boolean_prop, None, bool, schemas.Unset] = schemas.unset,
         string_prop: typing.Union[MetaOapg.properties.string_prop, None, str, schemas.Unset] = schemas.unset,
-        date_prop: typing.Union[MetaOapg.properties.date_prop, None, date, str, schemas.Unset] = schemas.unset,
-        datetime_prop: typing.Union[MetaOapg.properties.datetime_prop, None, datetime, str, schemas.Unset] = schemas.unset,
+        date_prop: typing.Union[MetaOapg.properties.date_prop, None, str, date, schemas.Unset] = schemas.unset,
+        datetime_prop: typing.Union[MetaOapg.properties.datetime_prop, None, str, datetime, schemas.Unset] = schemas.unset,
         array_nullable_prop: typing.Union[MetaOapg.properties.array_nullable_prop, tuple, None, schemas.Unset] = schemas.unset,
         array_and_items_nullable_prop: typing.Union[MetaOapg.properties.array_and_items_nullable_prop, tuple, None, schemas.Unset] = schemas.unset,
         array_items_nullable: typing.Union[MetaOapg.properties.array_items_nullable, tuple, schemas.Unset] = schemas.unset,

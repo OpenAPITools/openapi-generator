@@ -46,6 +46,7 @@ class Animal(
                     'Dog': Dog,
                 }
             }
+        
         class properties:
             className = schemas.StrSchema
             color = schemas.StrSchema

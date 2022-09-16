@@ -440,6 +440,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
+    // use schema.getDependentRequired or content.mediaType.schema.getDependentRequired instead of this
+    @Override
+    public LinkedHashMap<String, List<String>> getDependentRequired() {
+        return null;
+    }
+
+    // use schema.setDependentRequired or content.mediaType.schema.setDependentRequired instead of this
+    @Override
+    public void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired) {}
+
     // use schema.getIsBooleanSchemaTrue or content.mediaType.schema.getIsBooleanSchemaTrue instead of this
     @Override
     public boolean getIsBooleanSchemaTrue() {
@@ -459,6 +469,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     // use schema.setIsBooleanSchemaFalse or content.mediaType.schema.setIsBooleanSchemaFalse instead of this
     @Override
     public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {}
+
+    // use schema.getFormat or content.mediaType.schema.getFormat instead of this
+    @Override
+    public String getFormat() {
+        return null;
+    }
+
+    // use schema.setFormat or content.mediaType.schema.setFormat instead of this
+    @Override
+    public void setFormat(String format) {}
 
     @Override
     public String getPattern() {

@@ -103,23 +103,25 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 let upload = manager.upload(multipartFormData: { mpForm in
                     for (k, v) in self.parameters! {
-                        switch v {
-                        case let fileURL as URL:
-                            if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
-                                mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
-                            } else {
-                                mpForm.append(fileURL, withName: k)
+                        for v in (v as? Array ?? [v]) {
+                            switch v {
+                            case let fileURL as URL:
+                                if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
+                                    mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+                                } else {
+                                    mpForm.append(fileURL, withName: k)
+                                }
+                            case let string as String:
+                                mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
+                            case let number as NSNumber:
+                                mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                            case let data as Data:
+                                mpForm.append(data, withName: k)
+                            case let uuid as UUID:
+                                mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
+                            default:
+                                fatalError("Unprocessable value \(v) with key \(k)")
                             }
-                        case let string as String:
-                            mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
-                        case let number as NSNumber:
-                            mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
-                        case let data as Data:
-                            mpForm.append(data, withName: k)
-                        case let uuid as UUID:
-                            mpForm.append(uuid.uuidString.data(using: String.Encoding.utf8)!, withName: k)
-                        default:
-                            fatalError("Unprocessable value \(v) with key \(k)")
                         }
                     }
                 }, to: URLString, method: xMethod, headers: nil)

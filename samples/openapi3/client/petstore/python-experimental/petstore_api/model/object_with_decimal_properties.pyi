@@ -33,6 +33,7 @@ class ObjectWithDecimalProperties(
 
 
     class MetaOapg:
+        
         class properties:
             length = schemas.DecimalSchema
             width = schemas.DecimalSchema

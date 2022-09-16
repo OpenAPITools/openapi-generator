@@ -31,6 +31,7 @@ class MapBeanSchema(
 
 
     class MetaOapg:
+        
         class properties:
             keyword = schemas.StrSchema
             __annotations__ = {

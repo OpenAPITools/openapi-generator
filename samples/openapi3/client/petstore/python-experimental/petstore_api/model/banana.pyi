@@ -36,6 +36,7 @@ class Banana(
         required = {
             "lengthCm",
         }
+        
         class properties:
             lengthCm = schemas.NumberSchema
             __annotations__ = {

@@ -33,15 +33,15 @@ Int64GroupSchema = schemas.Int64Schema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'required_string_group': typing.Union[RequiredStringGroupSchema, int, ],
-        'required_int64_group': typing.Union[RequiredInt64GroupSchema, int, ],
+        'required_string_group': typing.Union[RequiredStringGroupSchema, decimal.Decimal, int, ],
+        'required_int64_group': typing.Union[RequiredInt64GroupSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'string_group': typing.Union[StringGroupSchema, int, ],
-        'int64_group': typing.Union[Int64GroupSchema, int, ],
+        'string_group': typing.Union[StringGroupSchema, decimal.Decimal, int, ],
+        'int64_group': typing.Union[Int64GroupSchema, decimal.Decimal, int, ],
     },
     total=False
 )

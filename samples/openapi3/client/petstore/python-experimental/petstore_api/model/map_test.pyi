@@ -33,6 +33,7 @@ class MapTest(
 
 
     class MetaOapg:
+        
         class properties:
             
             

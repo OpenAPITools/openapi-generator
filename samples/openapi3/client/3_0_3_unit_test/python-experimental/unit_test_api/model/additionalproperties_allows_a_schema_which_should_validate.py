@@ -33,6 +33,7 @@ class AdditionalpropertiesAllowsASchemaWhichShouldValidate(
 
 
     class MetaOapg:
+        
         class properties:
             foo = schemas.AnyTypeSchema
             bar = schemas.AnyTypeSchema
@@ -70,8 +71,8 @@ class AdditionalpropertiesAllowsASchemaWhichShouldValidate(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        foo: typing.Union[MetaOapg.properties.foo, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
-        bar: typing.Union[MetaOapg.properties.bar, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        foo: typing.Union[MetaOapg.properties.foo, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
+        bar: typing.Union[MetaOapg.properties.bar, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, bool, ],
     ) -> 'AdditionalpropertiesAllowsASchemaWhichShouldValidate':

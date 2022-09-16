@@ -2,15 +2,15 @@
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
 {{#if getIsAnyType}}
+    {{#if getFormat}}
+    {{> model_templates/format_base }}
+    {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedSchema,
     {{else}}
     schemas.AnyTypeSchema,
     {{/if}}
 {{else}}
-    {{#if getHasMultipleTypes}}
-    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isNull}}schemas.NoneClass, {{/if}}{{#if isMap}}frozendict.frozendict, {{/if}}{{#if isArray}}tuple, {{/if}}{{#or isString isByteArray isDate isDateTime isDecimal}}str, {{/or}}{{#or isUnboundedInteger isShort isLong isFloat isDouble isNumber}}decimal.Decimal, {{/or}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
-    {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedBase,
     {{/if}}
@@ -31,21 +31,16 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
+{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars getFormat}}
 
 
     class MetaOapg:
-{{#with items}}
-{{#if complexType}}
-
-        @classmethod
-        @property
-        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
-            return {{complexType}}
-{{else}}
-        {{> model_templates/schema }}
+{{#if getFormat}}
+        format = '{{getFormat}}'
 {{/if}}
-{{/with}}
+{{#if getItems}}
+        {{> model_templates/list_partial }}
+{{/if}}
 {{#or additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
         {{> model_templates/dict_partial }}
 {{/or}}

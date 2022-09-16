@@ -33,6 +33,7 @@ class NumberOnly(
 
 
     class MetaOapg:
+        
         class properties:
             JustNumber = schemas.NumberSchema
             __annotations__ = {

@@ -33,6 +33,7 @@ class HasOnlyReadOnly(
 
 
     class MetaOapg:
+        
         class properties:
             bar = schemas.StrSchema
             foo = schemas.StrSchema

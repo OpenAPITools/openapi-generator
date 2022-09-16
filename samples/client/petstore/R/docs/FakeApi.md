@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**FakeDataFile**](FakeApi.md#FakeDataFile) | **GET** /fake/data_file | test data_file to ensure it&#39;s escaped correctly
 [**FakeRegularExpression**](FakeApi.md#FakeRegularExpression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
+[**FakeSetQuery**](FakeApi.md#FakeSetQuery) | **GET** /fake/set_query_parameter | test set query parameter
 
 
 # **FakeDataFile**
@@ -103,6 +104,61 @@ if (!is.null(result$ApiException)) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **reg_exp_test** | **character**| dummy required parameter | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+# **FakeSetQuery**
+> FakeSetQuery(set_dummy, array_dummy)
+
+test set query parameter
+
+
+
+### Example
+```R
+library(petstore)
+
+var_set_dummy <- list("inner_example") # set[character] | set query
+var_array_dummy <- list("inner_example") # array[character] | array query
+
+# test set query parameter
+api_instance <- FakeApi$new()
+result <- tryCatch(
+             api_instance$FakeSetQuery(var_set_dummy, var_array_dummy),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `FakeSetQuery`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object$toJSONString())
+}
+# This endpoint doesn't return data
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **set_dummy** | list( **character** )| set query | 
+ **array_dummy** | list( **character** )| array query | 
 
 ### Return type
 

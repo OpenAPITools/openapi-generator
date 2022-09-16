@@ -38,6 +38,7 @@ class Name(
         required = {
             "name",
         }
+        
         class properties:
             name = schemas.Int32Schema
             snake_case = schemas.Int32Schema
@@ -86,9 +87,9 @@ class Name(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes, ],
-        name: typing.Union[MetaOapg.properties.name, int, ],
-        snake_case: typing.Union[MetaOapg.properties.snake_case, int, schemas.Unset] = schemas.unset,
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+        name: typing.Union[MetaOapg.properties.name, decimal.Decimal, int, ],
+        snake_case: typing.Union[MetaOapg.properties.snake_case, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Name':

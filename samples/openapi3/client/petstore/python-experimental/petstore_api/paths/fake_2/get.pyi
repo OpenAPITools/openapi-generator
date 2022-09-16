@@ -216,6 +216,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
+        
         class properties:
             
             

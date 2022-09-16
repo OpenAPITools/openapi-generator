@@ -1578,7 +1578,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 #### SchemaForRequestBodyMultipartFormData
 
@@ -1601,7 +1601,7 @@ compositionInProperty | CompositionInPropertySchema | | optional
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 #### CompositionInPropertySchema
 
@@ -1629,7 +1629,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 #### SchemaFor200ResponseBodyMultipartFormData
 
@@ -1858,7 +1858,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### Return Types, Responses
 
@@ -1878,7 +1878,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2346,7 +2346,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 ### query_params
 #### RequestQueryParams
@@ -2524,7 +2524,7 @@ headers | Unset | headers were not defined |
 
 Type | Description | Notes
 ------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**

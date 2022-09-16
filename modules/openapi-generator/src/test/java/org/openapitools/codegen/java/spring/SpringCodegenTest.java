@@ -57,6 +57,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.testng.Assert;
@@ -1498,5 +1499,48 @@ public class SpringCodegenTest {
                              "  @JsonSubTypes.Type(value = Cat.class, name = \"cat\")" +
                              "})";
         assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/model/Pet.java"), jsonTypeInfo, jsonSubType);
+    }
+
+    @Test
+    public void shouldGenerateBeanValidationOnHeaderParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_7125.json", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SomeMethodApi.java"))
+            .printFileContent()
+            .assertMethod("methodWithValidation")
+            .hasParameter("headerOne")
+                .assertParameterAnnotations()
+                .containsWithName("RequestHeader")
+                .containsWithName("NotNull")
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                    "min", "1",
+                    "max", "10"
+                ))
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of("regexp", "\"\\\\d+\""))
+            .toParameter()
+            .toMethod()
+            .hasParameter("headerTwo")
+                .assertParameterAnnotations()
+                .containsWithName("RequestHeader")
+                .containsWithName("NotNull")
+                .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "500"))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of("value", "10000"));
     }
 }

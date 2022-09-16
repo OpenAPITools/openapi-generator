@@ -234,6 +234,66 @@ test_that("GetPetById with data_file", {
   expect_equal(response$name, "name_test")
 })
 
+test_that("set validation test", {
+  fake_api <- FakeApi$new()
+  # array input invalid (not unique)
+  set_dummy <- list(1, 2, 2, 3)
+  array_dummy <- list(1, 2, 2, 3)
+  result <- tryCatch(fake_api$fake_set_query(set_dummy, array_dummy),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.")
+
+  # vector input invalid (not unique)
+  set_dummy <- c(1, 2, 2, 3)
+  array_dummy <- c(1, 2, 2, 3)
+  result <- tryCatch(fake_api$fake_set_query(set_dummy, array_dummy),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.")
+})
+
+test_that("find_pets_by_status", {
+  # input invalid
+  var_status <- c("something") # array[character] | Tags to filter by
+  result <- tryCatch(pet_api$find_pets_by_status(var_status),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `status` when calling PetApi$find_pets_by_status. Must be [available, pending, sold].")
+})
+
+test_that("find_pets_by_tags", {
+  pet_tag_test <- Pet$new("name_test",
+    photoUrls = list("photo_test", "second test"),
+    category = Category$new(id = 4455, name = "test_cat"),
+    id = 4455,
+    tags = list(
+      Tag$new(id = 4455, name = "tag_test"), Tag$new(id = 488, name = "unknown 2")
+    ),
+    status = "available"
+  )
+  result <- pet_api$add_pet(pet_tag_test)
+
+  # vector as input
+  var_tags <- c("unknown", "unknown 2") # array[character] | Tags to filter by
+  result <- pet_api$find_pets_by_tags(var_tags)
+  expect_true(!is.null(result))
+  expect_equal(result[[1]]$id, 123321)
+  expect_equal(result[[2]]$id, 123999)
+  expect_equal(result[[3]]$id, 4455)
+
+  # list as input
+  var_tags <- list("unknown", "unknown 2") # array[character] | Tags to filter by
+  result <- pet_api$find_pets_by_tags(var_tags)
+  expect_true(!is.null(result))
+  expect_equal(result[[1]]$id, 123321)
+  expect_equal(result[[2]]$id, 123999)
+  expect_equal(result[[3]]$id, 4455)
+})
+
 test_that("Tests allOf", {
   # test allOf without discriminator
   a1 <- AllofTagApiResponse$new(id = 450, name = "test_cat", code = 200, type = "test_type", message = "test_message")

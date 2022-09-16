@@ -243,7 +243,59 @@ class Schema:
     the base class of all swagger/openapi schemas/models
     """
     __inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict.frozendict, FileIO, bytes, BoolClass, NoneClass}
+    _types: typing.Set[typing.Type]
     MetaOapg = MetaOapgTyped
+
+    @staticmethod
+    def __get_valid_classes_phrase(input_classes):
+        """Returns a string phrase describing what types are allowed"""
+        all_classes = list(input_classes)
+        all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
+        all_class_names = [cls.__name__ for cls in all_classes]
+        if len(all_class_names) == 1:
+            return "is {0}".format(all_class_names[0])
+        return "is one of [{0}]".format(", ".join(all_class_names))
+
+    @classmethod
+    def __type_error_message(
+        cls, var_value=None, var_name=None, valid_classes=None, key_type=None
+    ):
+        """
+        Keyword Args:
+            var_value (any): the variable which has the type_error
+            var_name (str): the name of the variable which has the typ error
+            valid_classes (tuple): the accepted classes for current_item's
+                                      value
+            key_type (bool): False if our value is a value in a dict
+                             True if it is a key in a dict
+                             False if our item is an item in a tuple
+        """
+        key_or_value = "value"
+        if key_type:
+            key_or_value = "key"
+        valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
+        msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
+            var_name,
+            key_or_value,
+            valid_classes_phrase,
+            type(var_value).__name__,
+        )
+        return msg
+
+    @classmethod
+    def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
+        error_msg = cls.__type_error_message(
+            var_name=path_to_item[-1],
+            var_value=var_value,
+            valid_classes=valid_classes,
+            key_type=key_type,
+        )
+        return ApiTypeError(
+            error_msg,
+            path_to_item=path_to_item,
+            valid_classes=valid_classes,
+            key_type=key_type,
+        )
 
     @classmethod
     def _validate_oapg(
@@ -253,21 +305,8 @@ class Schema:
     ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         """
         Schema _validate_oapg
-        Runs all schema validation logic and
-        returns a dynamic class of different bases depending upon the input
-        This makes it so:
-        - the returned instance is always a subclass of our defining schema
-            - this allows us to check type based on whether an instance is a subclass of a schema
-        - the returned instance is a serializable type (except for None, True, and False) which are enums
-
-        Use cases:
-        1. inheritable type: string/decimal.Decimal/frozendict.frozendict/tuple
-        2. singletons: bool/None -> uses the base classes BoolClass/NoneClass
-
-        Required Steps:
-        1. verify type of input is valid vs the allowed _types
-        2. check validations that are applicable for this type of input
-        3. if enums exist, check that the value exists in the enum
+        All keyword validation except for type checking was done in calling stack frames
+        If those validations passed, the validated classes are collected in path_to_schemas
 
         Returns:
             path_to_schemas: a map of path to schemas
@@ -277,6 +316,14 @@ class Schema:
             ApiTypeError: when the input type is not in the list of allowed spec types
         """
         base_class = type(arg)
+        if base_class not in cls._types:
+            raise cls.__get_type_error(
+                arg,
+                validation_metadata.path_to_item,
+                cls._types,
+                key_type=False,
+            )
+
         path_to_schemas = {validation_metadata.path_to_item: set()}
         path_to_schemas[validation_metadata.path_to_item].add(cls)
         path_to_schemas[validation_metadata.path_to_item].add(base_class)
@@ -491,17 +538,33 @@ class Schema:
 """
 import itertools
 data_types = ('None', 'FrozenDict', 'Tuple', 'Str', 'Decimal', 'Bool')
-[v for v in itertools.combinations(data_types, 2)]
+type_to_cls = {
+    'None': 'NoneClass',
+    'FrozenDict': 'frozendict.frozendict',
+    'Tuple': 'tuple',
+    'Str': 'str',
+    'Decimal': 'decimal.Decimal',
+    'Bool': 'BoolClass'
+}
+cls_tuples = [v for v in itertools.combinations(data_types, 5)]
+typed_classes = [f"class {''.join(cls_tuple)}Mixin({', '.join(type_to_cls[typ] for typ in cls_tuple)}):\n    pass" for cls_tuple in cls_tuples]
+for cls in typed_classes:
+    print(cls)
+object_classes = [f"{''.join(cls_tuple)}Mixin = object" for cls_tuple in cls_tuples]
+for cls in object_classes:
+    print(cls)
 """
 if typing.TYPE_CHECKING:
-    # qty 1 mixin
+    # qty 1
     NoneMixin = NoneClass
     FrozenDictMixin = frozendict.frozendict
     TupleMixin = tuple
     StrMixin = str
     DecimalMixin = decimal.Decimal
     BoolMixin = BoolClass
-    # qty 2 mixin
+    BytesMixin = bytes
+    FileMixin = FileIO
+    # qty 2
     class BinaryMixin(bytes, FileIO):
         pass
     class NoneFrozenDictMixin(NoneClass, frozendict.frozendict):
@@ -534,35 +597,239 @@ if typing.TYPE_CHECKING:
         pass
     class DecimalBoolMixin(decimal.Decimal, BoolClass):
         pass
+    # qty 3
+    class NoneFrozenDictTupleMixin(NoneClass, frozendict.frozendict, tuple):
+        pass
+    class NoneFrozenDictStrMixin(NoneClass, frozendict.frozendict, str):
+        pass
+    class NoneFrozenDictDecimalMixin(NoneClass, frozendict.frozendict, decimal.Decimal):
+        pass
+    class NoneFrozenDictBoolMixin(NoneClass, frozendict.frozendict, BoolClass):
+        pass
+    class NoneTupleStrMixin(NoneClass, tuple, str):
+        pass
+    class NoneTupleDecimalMixin(NoneClass, tuple, decimal.Decimal):
+        pass
+    class NoneTupleBoolMixin(NoneClass, tuple, BoolClass):
+        pass
+    class NoneStrDecimalMixin(NoneClass, str, decimal.Decimal):
+        pass
+    class NoneStrBoolMixin(NoneClass, str, BoolClass):
+        pass
+    class NoneDecimalBoolMixin(NoneClass, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrMixin(frozendict.frozendict, tuple, str):
+        pass
+    class FrozenDictTupleDecimalMixin(frozendict.frozendict, tuple, decimal.Decimal):
+        pass
+    class FrozenDictTupleBoolMixin(frozendict.frozendict, tuple, BoolClass):
+        pass
+    class FrozenDictStrDecimalMixin(frozendict.frozendict, str, decimal.Decimal):
+        pass
+    class FrozenDictStrBoolMixin(frozendict.frozendict, str, BoolClass):
+        pass
+    class FrozenDictDecimalBoolMixin(frozendict.frozendict, decimal.Decimal, BoolClass):
+        pass
+    class TupleStrDecimalMixin(tuple, str, decimal.Decimal):
+        pass
+    class TupleStrBoolMixin(tuple, str, BoolClass):
+        pass
+    class TupleDecimalBoolMixin(tuple, decimal.Decimal, BoolClass):
+        pass
+    class StrDecimalBoolMixin(str, decimal.Decimal, BoolClass):
+        pass
+    # qty 4
+    class NoneFrozenDictTupleStrMixin(NoneClass, frozendict.frozendict, tuple, str):
+        pass
+    class NoneFrozenDictTupleDecimalMixin(NoneClass, frozendict.frozendict, tuple, decimal.Decimal):
+        pass
+    class NoneFrozenDictTupleBoolMixin(NoneClass, frozendict.frozendict, tuple, BoolClass):
+        pass
+    class NoneFrozenDictStrDecimalMixin(NoneClass, frozendict.frozendict, str, decimal.Decimal):
+        pass
+    class NoneFrozenDictStrBoolMixin(NoneClass, frozendict.frozendict, str, BoolClass):
+        pass
+    class NoneFrozenDictDecimalBoolMixin(NoneClass, frozendict.frozendict, decimal.Decimal, BoolClass):
+        pass
+    class NoneTupleStrDecimalMixin(NoneClass, tuple, str, decimal.Decimal):
+        pass
+    class NoneTupleStrBoolMixin(NoneClass, tuple, str, BoolClass):
+        pass
+    class NoneTupleDecimalBoolMixin(NoneClass, tuple, decimal.Decimal, BoolClass):
+        pass
+    class NoneStrDecimalBoolMixin(NoneClass, str, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrDecimalMixin(frozendict.frozendict, tuple, str, decimal.Decimal):
+        pass
+    class FrozenDictTupleStrBoolMixin(frozendict.frozendict, tuple, str, BoolClass):
+        pass
+    class FrozenDictTupleDecimalBoolMixin(frozendict.frozendict, tuple, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictStrDecimalBoolMixin(frozendict.frozendict, str, decimal.Decimal, BoolClass):
+        pass
+    class TupleStrDecimalBoolMixin(tuple, str, decimal.Decimal, BoolClass):
+        pass
+    # qty 5
+    class NoneFrozenDictTupleStrDecimalMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal):
+        pass
+    class NoneFrozenDictTupleStrBoolMixin(NoneClass, frozendict.frozendict, tuple, str, BoolClass):
+        pass
+    class NoneFrozenDictTupleDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, decimal.Decimal, BoolClass):
+        pass
+    class NoneFrozenDictStrDecimalBoolMixin(NoneClass, frozendict.frozendict, str, decimal.Decimal, BoolClass):
+        pass
+    class NoneTupleStrDecimalBoolMixin(NoneClass, tuple, str, decimal.Decimal, BoolClass):
+        pass
+    class FrozenDictTupleStrDecimalBoolMixin(frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
+        pass
     # qty 6
     class NoneFrozenDictTupleStrDecimalBoolMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass):
         pass
+    # qty 8
+    class NoneFrozenDictTupleStrDecimalBoolFileBytesMixin(NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass, FileIO, bytes):
+        pass
 else:
-    # qty 1 mixin
-    NoneMixin = object
-    FrozenDictMixin = object
-    TupleMixin = object
-    StrMixin = object
-    DecimalMixin = object
-    BoolMixin = object
-    # qty 2 mixin
-    BinaryMixin = object
-    NoneFrozenDictMixin = object
-    NoneTupleMixin = object
-    NoneStrMixin = object
-    NoneDecimalMixin = object
-    NoneBoolMixin = object
-    FrozenDictTupleMixin = object
-    FrozenDictStrMixin = object
-    FrozenDictDecimalMixin = object
-    FrozenDictBoolMixin = object
-    TupleStrMixin = object
-    TupleDecimalMixin = object
-    TupleBoolMixin = object
-    StrDecimalMixin = object
-    StrBoolMixin = object
-    DecimalBoolMixin = object
-    NoneFrozenDictTupleStrDecimalBoolMixin = object
+    # qty 1
+    class NoneMixin:
+        _types = {NoneClass}
+    class FrozenDictMixin:
+        _types = {frozendict.frozendict}
+    class TupleMixin:
+        _types = {tuple}
+    class StrMixin:
+        _types = {str}
+    class DecimalMixin:
+        _types = {decimal.Decimal}
+    class BoolMixin:
+        _types = {BoolClass}
+    class BytesMixin:
+        _types = {bytes}
+    class FileMixin:
+        _types = {FileIO}
+    # qty 2
+    class BinaryMixin:
+        _types = {bytes, FileIO}
+    class NoneFrozenDictMixin:
+        _types = {NoneClass, frozendict.frozendict}
+    class NoneTupleMixin:
+        _types = {NoneClass, tuple}
+    class NoneStrMixin:
+        _types = {NoneClass, str}
+    class NoneDecimalMixin:
+        _types = {NoneClass, decimal.Decimal}
+    class NoneBoolMixin:
+        _types = {NoneClass, BoolClass}
+    class FrozenDictTupleMixin:
+        _types = {frozendict.frozendict, tuple}
+    class FrozenDictStrMixin:
+        _types = {frozendict.frozendict, str}
+    class FrozenDictDecimalMixin:
+        _types = {frozendict.frozendict, decimal.Decimal}
+    class FrozenDictBoolMixin:
+        _types = {frozendict.frozendict, BoolClass}
+    class TupleStrMixin:
+        _types = {tuple, str}
+    class TupleDecimalMixin:
+        _types = {tuple, decimal.Decimal}
+    class TupleBoolMixin:
+        _types = {tuple, BoolClass}
+    class StrDecimalMixin:
+        _types = {str, decimal.Decimal}
+    class StrBoolMixin:
+        _types = {str, BoolClass}
+    class DecimalBoolMixin:
+        _types = {decimal.Decimal, BoolClass}
+    # qty 3
+    class NoneFrozenDictTupleMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple}
+    class NoneFrozenDictStrMixin:
+        _types = {NoneClass, frozendict.frozendict, str}
+    class NoneFrozenDictDecimalMixin:
+        _types = {NoneClass, frozendict.frozendict, decimal.Decimal}
+    class NoneFrozenDictBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, BoolClass}
+    class NoneTupleStrMixin:
+        _types = {NoneClass, tuple, str}
+    class NoneTupleDecimalMixin:
+        _types = {NoneClass, tuple, decimal.Decimal}
+    class NoneTupleBoolMixin:
+        _types = {NoneClass, tuple, BoolClass}
+    class NoneStrDecimalMixin:
+        _types = {NoneClass, str, decimal.Decimal}
+    class NoneStrBoolMixin:
+        _types = {NoneClass, str, BoolClass}
+    class NoneDecimalBoolMixin:
+        _types = {NoneClass, decimal.Decimal, BoolClass}
+    class FrozenDictTupleStrMixin:
+        _types = {frozendict.frozendict, tuple, str}
+    class FrozenDictTupleDecimalMixin:
+        _types = {frozendict.frozendict, tuple, decimal.Decimal}
+    class FrozenDictTupleBoolMixin:
+        _types = {frozendict.frozendict, tuple, BoolClass}
+    class FrozenDictStrDecimalMixin:
+        _types = {frozendict.frozendict, str, decimal.Decimal}
+    class FrozenDictStrBoolMixin:
+        _types = {frozendict.frozendict, str, BoolClass}
+    class FrozenDictDecimalBoolMixin:
+        _types = {frozendict.frozendict, decimal.Decimal, BoolClass}
+    class TupleStrDecimalMixin:
+        _types = {tuple, str, decimal.Decimal}
+    class TupleStrBoolMixin:
+        _types = {tuple, str, BoolClass}
+    class TupleDecimalBoolMixin:
+        _types = {tuple, decimal.Decimal, BoolClass}
+    class StrDecimalBoolMixin:
+        _types = {str, decimal.Decimal, BoolClass}
+    # qty 4
+    class NoneFrozenDictTupleStrMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, str}
+    class NoneFrozenDictTupleDecimalMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, decimal.Decimal}
+    class NoneFrozenDictTupleBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, BoolClass}
+    class NoneFrozenDictStrDecimalMixin:
+        _types = {NoneClass, frozendict.frozendict, str, decimal.Decimal}
+    class NoneFrozenDictStrBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, str, BoolClass}
+    class NoneFrozenDictDecimalBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, decimal.Decimal, BoolClass}
+    class NoneTupleStrDecimalMixin:
+        _types = {NoneClass, tuple, str, decimal.Decimal}
+    class NoneTupleStrBoolMixin:
+        _types = {NoneClass, tuple, str, BoolClass}
+    class NoneTupleDecimalBoolMixin:
+        _types = {NoneClass, tuple, decimal.Decimal, BoolClass}
+    class NoneStrDecimalBoolMixin:
+        _types = {NoneClass, str, decimal.Decimal, BoolClass}
+    class FrozenDictTupleStrDecimalMixin:
+        _types = {frozendict.frozendict, tuple, str, decimal.Decimal}
+    class FrozenDictTupleStrBoolMixin:
+        _types = {frozendict.frozendict, tuple, str, BoolClass}
+    class FrozenDictTupleDecimalBoolMixin:
+        _types = {frozendict.frozendict, tuple, decimal.Decimal, BoolClass}
+    class FrozenDictStrDecimalBoolMixin:
+        _types = {frozendict.frozendict, str, decimal.Decimal, BoolClass}
+    class TupleStrDecimalBoolMixin:
+        _types = {tuple, str, decimal.Decimal, BoolClass}
+    # qty 5
+    class NoneFrozenDictTupleStrDecimalMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal}
+    class NoneFrozenDictTupleStrBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, str, BoolClass}
+    class NoneFrozenDictTupleDecimalBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, decimal.Decimal, BoolClass}
+    class NoneFrozenDictStrDecimalBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, str, decimal.Decimal, BoolClass}
+    class NoneTupleStrDecimalBoolMixin:
+        _types = {NoneClass, tuple, str, decimal.Decimal, BoolClass}
+    class FrozenDictTupleStrDecimalBoolMixin:
+        _types = {frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass}
+    # qty 6
+    class NoneFrozenDictTupleStrDecimalBoolMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass}
+    # qty 8
+    class NoneFrozenDictTupleStrDecimalBoolFileBytesMixin:
+        _types = {NoneClass, frozendict.frozendict, tuple, str, decimal.Decimal, BoolClass, FileIO, bytes}
 
 
 class ValidatorBase:
@@ -604,92 +871,6 @@ class Validator(typing.Protocol):
         validation_metadata: ValidationMetadata,
     ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
         pass
-
-
-def SchemaTypeCheckerClsFactory(union_type_cls: typing.Union[typing.Any]) -> Validator:
-    if typing.get_origin(union_type_cls) is typing.Union:
-        union_classes = typing.get_args(union_type_cls)
-    else:
-        # note: when a union of a single class is passed in, the union disappears
-        union_classes = tuple([union_type_cls])
-    """
-    I want the type hint... union_type_cls
-    and to use it as a base class but when I do, I get
-    TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
-    """
-    class SchemaTypeChecker:
-        @staticmethod
-        def __get_valid_classes_phrase(input_classes):
-            """Returns a string phrase describing what types are allowed"""
-            all_classes = list(input_classes)
-            all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
-            all_class_names = [cls.__name__ for cls in all_classes]
-            if len(all_class_names) == 1:
-                return "is {0}".format(all_class_names[0])
-            return "is one of [{0}]".format(", ".join(all_class_names))
-
-        @classmethod
-        def __type_error_message(
-            cls, var_value=None, var_name=None, valid_classes=None, key_type=None
-        ):
-            """
-            Keyword Args:
-                var_value (any): the variable which has the type_error
-                var_name (str): the name of the variable which has the typ error
-                valid_classes (tuple): the accepted classes for current_item's
-                                          value
-                key_type (bool): False if our value is a value in a dict
-                                 True if it is a key in a dict
-                                 False if our item is an item in a tuple
-            """
-            key_or_value = "value"
-            if key_type:
-                key_or_value = "key"
-            valid_classes_phrase = cls.__get_valid_classes_phrase(valid_classes)
-            msg = "Invalid type. Required {1} type {2} and " "passed type was {3}".format(
-                var_name,
-                key_or_value,
-                valid_classes_phrase,
-                type(var_value).__name__,
-            )
-            return msg
-
-        @classmethod
-        def __get_type_error(cls, var_value, path_to_item, valid_classes, key_type=False):
-            error_msg = cls.__type_error_message(
-                var_name=path_to_item[-1],
-                var_value=var_value,
-                valid_classes=valid_classes,
-                key_type=key_type,
-            )
-            return ApiTypeError(
-                error_msg,
-                path_to_item=path_to_item,
-                valid_classes=valid_classes,
-                key_type=key_type,
-            )
-
-        @classmethod
-        def _validate_oapg(
-            cls,
-            arg,
-            validation_metadata: ValidationMetadata,
-        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
-            """
-            SchemaTypeChecker _validate_oapg
-            Validates arg's type
-            """
-            arg_type = type(arg)
-            if arg_type in union_classes:
-                return super()._validate_oapg(arg, validation_metadata=validation_metadata)
-            raise cls.__get_type_error(
-                arg,
-                validation_metadata.path_to_item,
-                union_classes,
-                key_type=False,
-            )
-
-    return SchemaTypeChecker
 
 
 class EnumMakerBase:
@@ -858,7 +1039,7 @@ class StrBase(ValidatorBase):
         return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
-class UUIDBase(StrBase):
+class UUIDBase:
     @property
     @functools.cache
     def as_uuid_oapg(self) -> uuid.UUID:
@@ -924,7 +1105,7 @@ class CustomIsoparser(isoparser):
 DEFAULT_ISOPARSER = CustomIsoparser()
 
 
-class DateBase(StrBase):
+class DateBase:
     @property
     @functools.cache
     def as_date_oapg(self) -> date:
@@ -986,7 +1167,7 @@ class DateTimeBase:
         return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
-class DecimalBase(StrBase):
+class DecimalBase:
     """
     A class for storing decimals that are sent over the wire as strings
     These schemas must remain based on StrBase rather than NumberBase
@@ -1852,7 +2033,6 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[NoneClass, str, decimal.Decimal, BoolClass, tuple, frozendict.frozendict]),
     ComposedBase,
     DictBase,
     ListBase,
@@ -1873,7 +2053,6 @@ class ComposedSchema(
 
 
 class ListSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[tuple]),
     ListBase,
     Schema,
     TupleMixin
@@ -1888,7 +2067,6 @@ class ListSchema(
 
 
 class NoneSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[NoneClass]),
     NoneBase,
     Schema,
     NoneMixin
@@ -1903,7 +2081,6 @@ class NoneSchema(
 
 
 class NumberSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[decimal.Decimal]),
     NumberBase,
     Schema,
     DecimalMixin
@@ -1914,14 +2091,14 @@ class NumberSchema(
     """
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[int, float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: typing.Union[int, float], _configuration: typing.Optional[Configuration] = None):
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
     def __new__(cls, arg: typing.Union[decimal.Decimal, int, float], **kwargs: Configuration):
         return super().__new__(cls, arg, **kwargs)
 
 
-class IntBase(NumberBase):
+class IntBase:
     @property
     def as_int_oapg(self) -> int:
         try:
@@ -1965,10 +2142,28 @@ class IntSchema(IntBase, NumberSchema):
 
 
 class Int32Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-2147483648)
-        inclusive_maximum = decimal.Decimal(2147483647)
+    __inclusive_minimum = decimal.Decimal(-2147483648)
+    __inclusive_maximum = decimal.Decimal(2147483647)
+
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal) and arg.as_tuple().exponent == 0:
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type int32 at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Int32Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class Int32Schema(
@@ -1979,10 +2174,28 @@ class Int32Schema(
 
 
 class Int64Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-9223372036854775808)
-        inclusive_maximum = decimal.Decimal(9223372036854775807)
+    __inclusive_minimum = decimal.Decimal(-9223372036854775808)
+    __inclusive_maximum = decimal.Decimal(9223372036854775807)
+
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal) and arg.as_tuple().exponent == 0:
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type int64 at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Int64Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class Int64Schema(
@@ -1993,10 +2206,28 @@ class Int64Schema(
 
 
 class Float32Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
-        inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
+    __inclusive_minimum = decimal.Decimal(-3.4028234663852886e+38)
+    __inclusive_maximum = decimal.Decimal(3.4028234663852886e+38)
+
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal):
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type float at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Float32Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class Float32Schema(
@@ -2005,17 +2236,33 @@ class Float32Schema(
 ):
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
-        # todo check format
+    def from_openapi_data_oapg(cls, arg: float, _configuration: typing.Optional[Configuration] = None):
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
 class Float64Base:
-    # TODO make this run even if the inheriting class defines these
-    class MetaOapg:
-        inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
-        inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
+    __inclusive_minimum = decimal.Decimal(-1.7976931348623157E+308)
+    __inclusive_maximum = decimal.Decimal(1.7976931348623157E+308)
 
+    @classmethod
+    def __validate_format(cls, arg: typing.Optional[decimal.Decimal], validation_metadata: ValidationMetadata):
+        if isinstance(arg, decimal.Decimal):
+            if not cls.__inclusive_minimum <= arg <= cls.__inclusive_maximum:
+                raise ApiValueError(
+                    "Invalid value '{}' for type double at {}".format(arg, validation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ):
+        """
+        Float64Base _validate_oapg
+        """
+        cls.__validate_format(arg, validation_metadata=validation_metadata)
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 class Float64Schema(
     Float64Base,
@@ -2023,13 +2270,12 @@ class Float64Schema(
 ):
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[float, decimal.Decimal], _configuration: typing.Optional[Configuration] = None):
+    def from_openapi_data_oapg(cls, arg: float, _configuration: typing.Optional[Configuration] = None):
         # todo check format
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
 
 class StrSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[str]),
     StrBase,
     Schema,
     StrMixin
@@ -2042,7 +2288,7 @@ class StrSchema(
     """
 
     @classmethod
-    def from_openapi_data_oapg(cls, arg: typing.Union[str], _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
+    def from_openapi_data_oapg(cls, arg: str, _configuration: typing.Optional[Configuration] = None) -> 'StrSchema':
         return super().from_openapi_data_oapg(arg, _configuration=_configuration)
 
     def __new__(cls, arg: typing.Union[str, date, datetime, uuid.UUID], **kwargs: Configuration):
@@ -2069,7 +2315,7 @@ class DateTimeSchema(DateTimeBase, StrSchema):
 
 class DecimalSchema(DecimalBase, StrSchema):
 
-    def __new__(cls, arg: typing.Union[str], **kwargs: Configuration):
+    def __new__(cls, arg: str, **kwargs: Configuration):
         """
         Note: Decimals may not be passed in because cast_to_allowed_types is only invoked once for payloads
         which can be simple (str) or complex (dicts or lists with nested values)
@@ -2082,19 +2328,19 @@ class DecimalSchema(DecimalBase, StrSchema):
 
 
 class BytesSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[bytes]),
     Schema,
+    BytesMixin
 ):
     """
     this class will subclass bytes and is immutable
     """
-    def __new__(cls, arg: typing.Union[bytes], **kwargs: Configuration):
+    def __new__(cls, arg: bytes, **kwargs: Configuration):
         return super(Schema, cls).__new__(cls, arg)
 
 
 class FileSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[FileIO]),
     Schema,
+    FileMixin
 ):
     """
     This class is NOT immutable
@@ -2122,7 +2368,6 @@ class BinaryBase:
 
 
 class BinarySchema(
-    SchemaTypeCheckerClsFactory(typing.Union[bytes, FileIO]),
     ComposedBase,
     BinaryBase,
     Schema,
@@ -2139,7 +2384,6 @@ class BinarySchema(
 
 
 class BoolSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[BoolClass]),
     BoolBase,
     Schema,
     BoolMixin
@@ -2154,9 +2398,6 @@ class BoolSchema(
 
 
 class AnyTypeSchema(
-    SchemaTypeCheckerClsFactory(
-        typing.Union[frozendict.frozendict, tuple, decimal.Decimal, str, BoolClass, NoneClass, bytes, FileIO]
-    ),
     DictBase,
     ListBase,
     NumberBase,
@@ -2164,7 +2405,7 @@ class AnyTypeSchema(
     BoolBase,
     NoneBase,
     Schema,
-    NoneFrozenDictTupleStrDecimalBoolMixin
+    NoneFrozenDictTupleStrDecimalBoolFileBytesMixin
 ):
     # Python representation of a schema defined as true or {}
     pass
@@ -2200,7 +2441,6 @@ class NotAnyTypeSchema(
 
 
 class DictSchema(
-    SchemaTypeCheckerClsFactory(typing.Union[frozendict.frozendict]),
     DictBase,
     Schema,
     FrozenDictMixin

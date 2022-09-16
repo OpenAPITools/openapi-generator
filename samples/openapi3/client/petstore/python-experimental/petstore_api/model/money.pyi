@@ -37,6 +37,7 @@ class Money(
             "amount",
             "currency",
         }
+        
         class properties:
             amount = schemas.DecimalSchema
         

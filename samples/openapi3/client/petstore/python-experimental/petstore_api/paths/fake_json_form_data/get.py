@@ -38,6 +38,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             "param",
             "param2",
         }
+        
         class properties:
             param = schemas.StrSchema
             param2 = schemas.StrSchema

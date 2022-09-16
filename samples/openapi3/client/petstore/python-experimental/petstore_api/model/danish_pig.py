@@ -36,6 +36,7 @@ class DanishPig(
         required = {
             "className",
         }
+        
         class properties:
             
             

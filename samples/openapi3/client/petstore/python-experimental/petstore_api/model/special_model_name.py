@@ -35,6 +35,7 @@ class SpecialModelName(
 
 
     class MetaOapg:
+        
         class properties:
             a = schemas.StrSchema
             __annotations__ = {
