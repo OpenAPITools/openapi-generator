@@ -189,6 +189,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     }
 
+    // use content.mediaType.schema.getContains instead of this
+    @Override
+    public CodegenProperty getContains() {
+        return null;
+    }
+
+    // use content.mediaType.schema.setContains instead of this
+    @Override
+    public void setContains(CodegenProperty contains) {}
+
     // use content.mediaType.schema.getDependentRequired instead of this
     @Override
     public LinkedHashMap<String, List<String>> getDependentRequired() {
