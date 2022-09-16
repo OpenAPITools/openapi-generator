@@ -20,10 +20,12 @@ test data_file to ensure it's escaped correctly
 ```R
 library(petstore)
 
+# test data_file to ensure it's escaped correctly
+#
+# prepare function argument(s)
 var_dummy <- "dummy_example" # character | dummy required parameter
 var_var_data_file <- "var_data_file_example" # character | header data file (Optional)
 
-# test data_file to ensure it's escaped correctly
 api_instance <- petstore_api$new()
 result <- tryCatch(
              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
@@ -81,9 +83,11 @@ test regular expression to ensure no exception
 ```R
 library(petstore)
 
+# test regular expression to ensure no exception
+#
+# prepare function argument(s)
 var_reg_exp_test <- "reg_exp_test_example" # character | dummy required parameter
 
-# test regular expression to ensure no exception
 api_instance <- petstore_api$new()
 result <- tryCatch(
              api_instance$fake_api$fake_regular_expression(var_reg_exp_test),
@@ -134,10 +138,12 @@ test set query parameter
 ```R
 library(petstore)
 
+# test set query parameter
+#
+# prepare function argument(s)
 var_set_dummy <- list("inner_example") # set[character] | set query
 var_array_dummy <- list("inner_example") # array[character] | array query
 
-# test set query parameter
 api_instance <- petstore_api$new()
 result <- tryCatch(
              api_instance$fake_api$fake_set_query(var_set_dummy, var_array_dummy),
