@@ -134,6 +134,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "String",
                         "Data",
                         "Date",
+                        "DateWithoutTime",
                         "Character",
                         "UUID",
                         "URL",
@@ -221,7 +222,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("array", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Set");
-        typeMapping.put("date", "Date");
+        typeMapping.put("date", "DateWithoutTime");
         typeMapping.put("Date", "Date");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("boolean", "Bool");
@@ -538,9 +539,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("CodableHelper.mustache",
                     sourceFolder,
                     "CodableHelper.swift"));
-            supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                    sourceFolder,
-                    "OpenISO8601DateFormatter.swift"));
             supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
                     sourceFolder,
                     "JSONDataEncoding.swift"));
@@ -572,6 +570,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));
+        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                sourceFolder,
+                "OpenISO8601DateFormatter.swift"));
+        supportingFiles.add(new SupportingFile("DateWithoutTime.mustache",
+                sourceFolder,
+                "DateWithoutTime.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));

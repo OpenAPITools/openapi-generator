@@ -131,8 +131,8 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "Date");
-        Assert.assertEquals(op.bodyParam.dataType, "Date");
+        Assert.assertEquals(op.returnType, "DateWithoutTime");
+        Assert.assertEquals(op.bodyParam.dataType, "DateWithoutTime");
     }
 
     @Test(enabled = true)
