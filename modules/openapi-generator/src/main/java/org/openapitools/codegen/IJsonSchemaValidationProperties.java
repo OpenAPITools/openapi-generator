@@ -15,6 +15,10 @@ import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 public interface IJsonSchemaValidationProperties {
+    CodegenProperty getContains();
+
+    void setContains(CodegenProperty contains);
+
     LinkedHashMap<String, List<String>> getDependentRequired();
 
     void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired);
