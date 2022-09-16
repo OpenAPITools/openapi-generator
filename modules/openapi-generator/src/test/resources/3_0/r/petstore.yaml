@@ -905,6 +905,11 @@ components:
       description: Describes the result of uploading an image resource
       type: object
       properties:
+        set_test:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
         self:
           type: integer
           format: int32
