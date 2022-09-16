@@ -41,6 +41,7 @@ class NotMoreComplexSchema(
         
         
             class MetaOapg:
+                
                 class properties:
                     foo = schemas.StrSchema
                     __annotations__ = {
