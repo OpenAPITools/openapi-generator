@@ -677,6 +677,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /fake/set_query_parameter:
+    get:
+      tags:
+        - fake
+      summary: test set query parameter
+      description: ''
+      operationId: fake_set_query
+      parameters:
+        - name: set_dummy 
+          in: query 
+          description: set query
+          required: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: array_dummy
+          in: query 
+          description: array query
+          required: true
+          schema:
+            type: array
+            uniqueItems: false
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

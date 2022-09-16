@@ -49,6 +49,24 @@
 #' }
 #' }
 #'
+#' \strong{ fake_set_query } \emph{ test set query parameter }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } set_dummy list( character )
+#' \item \emph{ @param } array_dummy list( character )
+#'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
+#'
+#' \item status code : 200 | successful operation
+#'
+#'
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' }
 #'
 #'
@@ -104,6 +122,32 @@
 #' # In case of error, print the error object
 #' if (!is.null(result$ApiException)) {
 #'   print("Exception occurs when calling `fake_regular_expression`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
+#'
+#'
+#' ####################  fake_set_query  ####################
+#'
+#' library(petstore)
+#' var_set_dummy <- ["set_dummy_example"] # set[character] | set query
+#' var_array_dummy <- ["array_dummy_example"] # array[character] | array query
+#'
+#' #test set query parameter
+#' api_instance <- FakeApi$new()
+#'
+#' result <- tryCatch(
+#'              
+#'              api_instance$fake_set_query(var_set_dummy, var_array_dummy),
+#'              ApiException = function(ex) ex
+#'           )
+#' # In case of error, print the error object
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `fake_set_query`:")
 #'   dput(result$ApiException$toString())
 #'   
 #'   # error object
@@ -313,6 +357,131 @@ FakeApi <- R6::R6Class(
       header_params["reg_exp_test"] <- `reg_exp_test`
 
       local_var_url_path <- "/fake/regular_expression"
+
+      # The Accept request HTTP header
+      local_var_accepts <- list()
+
+      # The Content-Type representation header
+      local_var_content_types <- list()
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "GET",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        local_var_resp$content <- NULL
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
+        }
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api client exception encountered."
+        }
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api server exception encountered."
+        }
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      }
+    },
+    #' test set query parameter
+    #'
+    #' @description
+    #' test set query parameter
+    #'
+    #' @param set_dummy set query
+    #' @param array_dummy array query
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
+    fake_set_query = function(set_dummy, array_dummy, ...) {
+      local_var_response <- self$fake_set_query_with_http_info(set_dummy, array_dummy, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
+      }
+    },
+    #' test set query parameter
+    #'
+    #' @description
+    #' test set query parameter
+    #'
+    #' @param set_dummy set query
+    #' @param array_dummy array query
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
+    fake_set_query_with_http_info = function(set_dummy, array_dummy, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+      if (missing(`set_dummy`)) {
+        rlang::abort(message = "Missing required parameter `set_dummy`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `set_dummy`."))
+      }
+
+      if (missing(`array_dummy`)) {
+        rlang::abort(message = "Missing required parameter `array_dummy`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `array_dummy`."))
+      }
+
+
+
+      # check if items are unique
+      if (!identical(`set_dummy`, unique(`set_dummy`))) {
+        rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique."))
+      }
+      # explore
+      for (query_item in `set_dummy`) {
+        query_params[["set_dummy"]] <- c(query_params[["set_dummy"]], list(`set_dummy` = query_item))
+      }
+
+      # explore
+      for (query_item in `array_dummy`) {
+        query_params[["array_dummy"]] <- c(query_params[["array_dummy"]], list(`array_dummy` = query_item))
+      }
+
+      local_var_url_path <- "/fake/set_query_parameter"
 
       # The Accept request HTTP header
       local_var_accepts <- list()
