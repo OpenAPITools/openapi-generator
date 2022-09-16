@@ -440,6 +440,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
+    // use schema.getDependentRequired or content.mediaType.schema.getDependentRequired instead of this
+    @Override
+    public LinkedHashMap<String, List<String>> getDependentRequired() {
+        return null;
+    }
+
+    // use schema.setDependentRequired or content.mediaType.schema.setDependentRequired instead of this
+    @Override
+    public void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired) {}
+
     // use schema.getIsBooleanSchemaTrue or content.mediaType.schema.getIsBooleanSchemaTrue instead of this
     @Override
     public boolean getIsBooleanSchemaTrue() {
