@@ -183,7 +183,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     @Override
     public LinkedHashMap<String, List<String>> getDependentRequired() {
-
         return dependentRequired;
     }
 
