@@ -114,10 +114,10 @@ public class Swift5ModelTest {
 
         final CodegenProperty property7 = cm.vars.get(6);
         Assert.assertEquals(property7.baseName, "dateOfBirth");
-        Assert.assertEquals(property7.dataType, "Date");
+        Assert.assertEquals(property7.dataType, "DateWithoutTime");
         Assert.assertEquals(property7.name, "dateOfBirth");
         Assert.assertNull(property7.defaultValue);
-        Assert.assertEquals(property7.baseType, "Date");
+        Assert.assertEquals(property7.baseType, "DateWithoutTime");
         Assert.assertFalse(property7.required);
         Assert.assertFalse(property7.isContainer);
     }
