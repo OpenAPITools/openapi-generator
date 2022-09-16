@@ -222,17 +222,19 @@ public class FileSchemaTestClass implements Parcelable {
       if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
-      JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-      if (jsonArrayfiles != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("files").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
-        }
+      if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
+        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+        if (jsonArrayfiles != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("files").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+          }
 
-        // validate the optional field `files` (array)
-        for (int i = 0; i < jsonArrayfiles.size(); i++) {
-          ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
-        };
+          // validate the optional field `files` (array)
+          for (int i = 0; i < jsonArrayfiles.size(); i++) {
+            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 
