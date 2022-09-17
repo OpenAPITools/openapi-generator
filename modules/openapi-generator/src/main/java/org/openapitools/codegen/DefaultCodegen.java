@@ -79,6 +79,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
+import static org.openapitools.codegen.CodegenConstants.UNSUPPORTED_V310_SPEC_MSG;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -820,6 +821,19 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public void setOpenAPI(OpenAPI openAPI) {
+        String originalSpecVersion;
+        String xOriginalSwaggerVersion = "x-original-swagger-version";
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
+            originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
+        } else {
+            originalSpecVersion = openAPI.getOpenapi();
+        }
+        Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
+        Integer specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
+        boolean specVersionGreaterThanOrEqualTo310 = (specMajorVersion == 3 && specMinorVersion >= 1);
+        if (specVersionGreaterThanOrEqualTo310) {
+            LOGGER.warn(UNSUPPORTED_V310_SPEC_MSG);
+        }
         this.openAPI = openAPI;
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
