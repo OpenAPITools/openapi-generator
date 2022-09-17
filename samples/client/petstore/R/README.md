@@ -62,6 +62,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FakeApi* | [**FakeDataFile**](docs/FakeApi.md#FakeDataFile) | **GET** /fake/data_file | test data_file to ensure it's escaped correctly
+*FakeApi* | [**FakePathArray**](docs/FakeApi.md#FakePathArray) | **GET** /fake/path_array/{path_array}/testing | test array parameter in path
 *FakeApi* | [**FakeRegularExpression**](docs/FakeApi.md#FakeRegularExpression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
 *FakeApi* | [**FakeSetQuery**](docs/FakeApi.md#FakeSetQuery) | **GET** /fake/set_query_parameter | test set query parameter
 *PetApi* | [**AddPet**](docs/PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store

@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fake_data_file**](FakeApi.md#fake_data_file) | **GET** /fake/data_file | test data_file to ensure it&#39;s escaped correctly
+[**fake_path_array**](FakeApi.md#fake_path_array) | **GET** /fake/path_array/{path_array}/testing | test array parameter in path
 [**fake_regular_expression**](FakeApi.md#fake_regular_expression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
 [**fake_set_query**](FakeApi.md#fake_set_query) | **GET** /fake/set_query_parameter | test set query parameter
 
@@ -66,6 +67,61 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+# **fake_path_array**
+> fake_path_array(path_array)
+
+test array parameter in path
+
+
+
+### Example
+```R
+library(petstore)
+
+# test array parameter in path
+#
+# prepare function argument(s)
+var_path_array <- list("inner_example") # array[character] | dummy path parameter
+
+api_instance <- FakeApi$new()
+result <- tryCatch(
+             api_instance$fake_path_array(var_path_array),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `fake_path_array`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object$toJSONString())
+}
+# This endpoint doesn't return data
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **path_array** | list( **character** )| dummy path parameter | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |

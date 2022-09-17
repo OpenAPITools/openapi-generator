@@ -234,6 +234,14 @@ test_that("GetPetById with data_file", {
   expect_equal(response$name, "name_test")
 })
 
+test_that("array test in path parameters", {
+  fake_api <- FakeApi$new()
+  # array input for path parameter
+  #array_dummy <- list(1, 2, 2, 3)
+  array_dummy <- list("hello world", "1&2")
+  expect_error(fake_api$fake_path_array(array_dummy), "")
+})
+
 test_that("set validation test", {
   fake_api <- FakeApi$new()
   # array input invalid (not unique)

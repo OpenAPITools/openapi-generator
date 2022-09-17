@@ -629,6 +629,25 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/path_array/{path_array}/testing:
+    get:
+      tags:
+        - fake
+      summary: test array parameter in path
+      description: ''
+      operationId: fake_path_array
+      parameters:
+        - name: path_array
+          in: path 
+          description: dummy path parameter
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
   /fake/regular_expression:
     get:
       tags:
