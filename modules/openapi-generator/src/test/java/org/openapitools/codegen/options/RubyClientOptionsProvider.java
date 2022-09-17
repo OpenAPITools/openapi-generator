@@ -72,7 +72,6 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(RubyClientCodegen.USE_AUTOLOAD, USE_AUTOLOAD_VALUE)
-                .put(CodegenConstants.ALLOW_UNSUPPORTED_V310_SPEC, "false")
                 .build();
     }
 
