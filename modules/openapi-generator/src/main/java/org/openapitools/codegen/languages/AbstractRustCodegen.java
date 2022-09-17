@@ -173,6 +173,11 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        // Empty strings need to be mapped to "Empty"
+        // https://github.com/OpenAPITools/openapi-generator/issues/13453
+        if (Strings.isNullOrEmpty(name)) {
+            return "Empty";
+        }
         // Rust Enum variants should be camel cased
         return sanitizeIdentifier(name, CasingType.CAMEL_CASE, "variant", "enum variant", true);
     }
