@@ -132,8 +132,7 @@ export class MatrixParamsService {
         }
 
         let localVarPath = `/complexMatrixParamExploded${this.configuration.encodeParam({name: "matrixParamExploded", value: matrixParamExploded, in: "path", style: "matrix", explode: true, dataType: "ComplexParams", dataFormat: undefined})}`;
-        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
-            null,
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -186,8 +185,7 @@ export class MatrixParamsService {
         }
 
         let localVarPath = `/complexMatrixParamFlat${this.configuration.encodeParam({name: "matrixParamFlat", value: matrixParamFlat, in: "path", style: "matrix", explode: false, dataType: "ComplexParams", dataFormat: undefined})}`;
-        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
-            null,
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -240,8 +238,7 @@ export class MatrixParamsService {
         }
 
         let localVarPath = `/plainMatrixParamFlat${this.configuration.encodeParam({name: "plainParamFlat", value: plainParamFlat, in: "path", style: "matrix", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
-            null,
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -294,8 +291,7 @@ export class MatrixParamsService {
         }
 
         let localVarPath = `/date-timeMatrixParamFlat${this.configuration.encodeParam({name: "dateTimeParamFlat", value: dateTimeParamFlat, in: "path", style: "matrix", explode: false, dataType: "string", dataFormat: "date-time"})}`;
-        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
-            null,
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
