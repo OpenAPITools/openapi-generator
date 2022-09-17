@@ -1,0 +1,235 @@
+[
+    {
+        "description": "Location-independent identifier",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$ref": "#foo",
+            "$defs": {
+                "A": {
+                    "$anchor": "foo",
+                    "type": "integer"
+                }
+            }
+        },
+        "tests": [
+            {
+                "data": 1,
+                "description": "match",
+                "valid": true
+            },
+            {
+                "data": "a",
+                "description": "mismatch",
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "Location-independent identifier with absolute URI",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$ref": "http://localhost:1234/draft2020-12/bar#foo",
+            "$defs": {
+                "A": {
+                    "$id": "http://localhost:1234/draft2020-12/bar",
+                    "$anchor": "foo",
+                    "type": "integer"
+                }
+            }
+        },
+        "tests": [
+            {
+                "data": 1,
+                "description": "match",
+                "valid": true
+            },
+            {
+                "data": "a",
+                "description": "mismatch",
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "Location-independent identifier with base URI change in subschema",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "http://localhost:1234/draft2020-12/root",
+            "$ref": "http://localhost:1234/draft2020-12/nested.json#foo",
+            "$defs": {
+                "A": {
+                    "$id": "nested.json",
+                    "$defs": {
+                        "B": {
+                            "$anchor": "foo",
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        "tests": [
+            {
+                "data": 1,
+                "description": "match",
+                "valid": true
+            },
+            {
+                "data": "a",
+                "description": "mismatch",
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "$anchor inside an enum is not a real identifier",
+        "comment": "the implementation must not be confused by an $anchor buried in the enum",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$defs": {
+                "anchor_in_enum": {
+                    "enum": [
+                        {
+                            "$anchor": "my_anchor",
+                            "type": "null"
+                        }
+                    ]
+                },
+                "real_identifier_in_schema": {
+                    "$anchor": "my_anchor",
+                    "type": "string"
+                },
+                "zzz_anchor_in_const": {
+                    "const": {
+                        "$anchor": "my_anchor",
+                        "type": "null"
+                    }
+                }
+            },
+            "anyOf": [
+                { "$ref": "#/$defs/anchor_in_enum" },
+                { "$ref": "#my_anchor" }
+            ]
+        },
+        "tests": [
+            {
+                "description": "exact match to enum, and type matches",
+                "data": {
+                    "$anchor": "my_anchor",
+                    "type": "null"
+                },
+                "valid": true
+            },
+            {
+                "description": "in implementations that strip $anchor, this may match either $def",
+                "data": {
+                    "type": "null"
+                },
+                "valid": false
+            },
+            {
+                "description": "match $ref to $anchor",
+                "data": "a string to match #/$defs/anchor_in_enum",
+                "valid": true
+            },
+            {
+                "description": "no match on enum or $ref to $anchor",
+                "data": 1,
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "same $anchor with different base uri",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "http://localhost:1234/draft2020-12/foobar",
+            "$defs": {
+                "A": {
+                    "$id": "child1",
+                    "allOf": [
+                        {
+                            "$id": "child2",
+                            "$anchor": "my_anchor",
+                            "type": "number"
+                        },
+                        {
+                            "$anchor": "my_anchor",
+                            "type": "string"
+                        }
+                    ]
+                }
+            },
+            "$ref": "child1#my_anchor"
+        },
+        "tests": [
+            {
+                "description": "$ref resolves to /$defs/A/allOf/1",
+                "data": "a",
+                "valid": true
+            },
+            {
+                "description": "$ref does not resolve to /$defs/A/allOf/0",
+                "data": 1,
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "non-schema object containing an $anchor property",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$defs": {
+                "const_not_anchor": {
+                    "const": {
+                        "$anchor": "not_a_real_anchor"
+                    }
+                }
+            },
+            "if": {
+                "const": "skip not_a_real_anchor"
+            },
+            "then": true,
+            "else" : {
+                "$ref": "#/$defs/const_not_anchor"
+            }
+        },
+        "tests": [
+            {
+                "description": "skip traversing definition for a valid result",
+                "data": "skip not_a_real_anchor",
+                "valid": true
+            },
+            {
+                "description": "const at const_not_anchor does not match",
+                "data": 1,
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "invalid anchors",
+        "comment": "Section 8.2.2",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$ref": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "tests": [
+            {
+                "description": "MUST start with a letter (and not #)",
+                "data": { "$anchor" : "#foo" },
+                "valid": false
+            },
+            {
+                "description": "JSON pointers are not valid",
+                "data": { "$anchor" : "/a/b" },
+                "valid": false
+            },
+            {
+                "description": "invalid with valid beginning",
+                "data": { "$anchor" : "foo#something" },
+                "valid": false
+            }
+        ]
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "description": "schema that uses custom metaschema with format-assertion: false",
+        "schema": {
+            "$id": "https://schema/using/format-assertion/false",
+            "$schema": "http://localhost:1234/draft2020-12/format-assertion-false.json",
+            "format": "ipv4"
+        },
+        "tests": [
+            {
+                "description": "format-assertion: false: valid string",
+                "data": "127.0.0.1",
+                "valid": true
+            },
+            {
+                "description": "format-assertion: false: invalid string",
+                "data": "not-an-ipv4",
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "schema that uses custom metaschema with format-assertion: true",
+        "schema": {
+            "$id": "https://schema/using/format-assertion/true",
+            "$schema": "http://localhost:1234/draft2020-12/format-assertion-true.json",
+            "format": "ipv4"
+        },
+        "tests": [
+            {
+                "description": "format-assertion: true: valid string",
+                "data": "127.0.0.1",
+                "valid": true
+            },
+            {
+                "description": "format-assertion: true: invalid string",
+                "data": "not-an-ipv4",
+                "valid": false
+            }
+        ]
+    }
+]

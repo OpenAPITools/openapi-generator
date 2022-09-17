@@ -1,0 +1,131 @@
+[
+    {
+        "description": "validation of duration strings",
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "format": "duration"
+        },
+        "tests": [
+            {
+                "description": "all string formats ignore integers",
+                "data": 12,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore floats",
+                "data": 13.7,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore objects",
+                "data": {},
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore arrays",
+                "data": [],
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore booleans",
+                "data": false,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore nulls",
+                "data": null,
+                "valid": true
+            },
+            {
+                "description": "a valid duration string",
+                "data": "P4DT12H30M5S",
+                "valid": true
+            },
+            {
+                "description": "an invalid duration string",
+                "data": "PT1D",
+                "valid": false
+            },
+            {
+                "description": "no elements present",
+                "data": "P",
+                "valid": false
+            },
+            {
+                "description": "no time elements present",
+                "data": "P1YT",
+                "valid": false
+            },
+            {
+                "description": "no date or time elements present",
+                "data": "PT",
+                "valid": false
+            },
+            {
+                "description": "elements out of order",
+                "data": "P2D1Y",
+                "valid": false
+            },
+            {
+                "description": "missing time separator",
+                "data": "P1D2H",
+                "valid": false
+            },
+            {
+                "description": "time element in the date position",
+                "data": "P2S",
+                "valid": false
+            },
+            {
+                "description": "four years duration",
+                "data": "P4Y",
+                "valid": true
+            },
+            {
+                "description": "zero time, in seconds",
+                "data": "PT0S",
+                "valid": true
+            },
+            {
+                "description": "zero time, in days",
+                "data": "P0D",
+                "valid": true
+            },
+            {
+                "description": "one month duration",
+                "data": "P1M",
+                "valid": true
+            },
+            {
+                "description": "one minute duration",
+                "data": "PT1M",
+                "valid": true
+            },
+            {
+                "description": "one and a half days, in hours",
+                "data": "PT36H",
+                "valid": true
+            },
+            {
+                "description": "one and a half days, in days and hours",
+                "data": "P1DT12H",
+                "valid": true
+            },
+            {
+                "description": "two weeks",
+                "data": "P2W",
+                "valid": true
+            },
+            {
+                "description": "weeks cannot be combined with other units",
+                "data": "P1Y2W",
+                "valid": false
+            },
+            {
+                "description": "invalid non-ASCII '২' (a Bengali 2)",
+                "data": "P২Y",
+                "valid": false
+            }
+        ]
+    }
+]
