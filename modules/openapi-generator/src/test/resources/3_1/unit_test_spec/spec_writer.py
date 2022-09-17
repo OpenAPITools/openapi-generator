@@ -307,7 +307,7 @@ def get_json_schema_test_schemas(file_path: typing.Tuple[str]) -> typing.List[Js
 
     return json_schema_test_schemas
 
-openapi_version = '3.0.3'
+openapi_version = '3.1.0'
 
 OpenApiSchema = typing.TypedDict(
     'OpenApiSchema',
@@ -559,7 +559,7 @@ def write_openapi_spec():
             sort_keys=False
         )
     )
-    spec_out = '3_0_3_unit_test_spec.yaml'
+    spec_out = '3_1_0_unit_test_spec.yaml'
     with open(spec_out, 'w') as yaml_out:
         yaml_out.write(
             yaml.dump(

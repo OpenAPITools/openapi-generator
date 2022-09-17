@@ -1,0 +1,6 @@
+generatorName: python-experimental
+outputDir: samples/openapi3/client/3_1_0_unit_test/python-experimental
+inputSpec: modules/openapi-generator/src/test/resources/3_1/unit_test_spec/3_1_0_unit_test_spec.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-experimental
+additionalProperties:
+  packageName: unit_test_api
