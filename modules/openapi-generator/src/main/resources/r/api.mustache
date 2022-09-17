@@ -542,7 +542,14 @@
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
-        local_var_url_path <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), local_var_url_path)
+        {{=< >=}}
+        <#isArray>
+        local_var_url_path <- gsub("\\{<baseName>\\}", paste(URLencode(as.character(`<paramName>`), reserved = TRUE), collapse= ",", sep=""), local_var_url_path)
+        </isArray>
+        <^isArray>
+        local_var_url_path <- gsub("\\{<baseName>\\}", URLencode(as.character(`<paramName>`), reserved = TRUE), local_var_url_path)
+        </isArray>
+        <={{ }}=>
       }
 
       {{/pathParams}}
