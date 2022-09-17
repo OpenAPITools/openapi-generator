@@ -366,12 +366,19 @@ export class {{classname}} {
 
     {{/isResponseFile}}
         let localVarPath = `{{{path}}}`;
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}${localVarPath}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}('{{httpMethod}}', `${this.configuration.basePath}${localVarPath}`,
             {
     {{#httpContextInOptions}}
                 context: localVarHttpContext,
     {{/httpContextInOptions}}
+    {{#bodyParam}}
+                body: {{paramName}},
+    {{/bodyParam}}
+    {{^bodyParam}}
+    {{#hasFormParams}}
+                body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+    {{/hasFormParams}}
+    {{/bodyParam}}
     {{#hasQueryParamsOrAuth}}
                 params: localVarQueryParameters,
     {{/hasQueryParamsOrAuth}}
