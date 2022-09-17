@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**FakeDataFile**](FakeApi.md#FakeDataFile) | **GET** /fake/data_file | test data_file to ensure it&#39;s escaped correctly
+[**FakePathArray**](FakeApi.md#FakePathArray) | **GET** /fake/path_array/{path_array}/testing | test array parameter in path
 [**FakeRegularExpression**](FakeApi.md#FakeRegularExpression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
 [**FakeSetQuery**](FakeApi.md#FakeSetQuery) | **GET** /fake/set_query_parameter | test set query parameter
 
@@ -66,6 +67,61 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+# **FakePathArray**
+> FakePathArray(path_array)
+
+test array parameter in path
+
+
+
+### Example
+```R
+library(petstore)
+
+# test array parameter in path
+#
+# prepare function argument(s)
+var_path_array <- list("inner_example") # array[character] | dummy path parameter
+
+api_instance <- FakeApi$new()
+result <- tryCatch(
+             api_instance$FakePathArray(var_path_array),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `FakePathArray`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object$toJSONString())
+}
+# This endpoint doesn't return data
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **path_array** | list( **character** )| dummy path parameter | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |

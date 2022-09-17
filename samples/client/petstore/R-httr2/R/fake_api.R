@@ -32,6 +32,23 @@
 #' }
 #' }
 #'
+#' \strong{ fake_path_array } \emph{ test array parameter in path }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } path_array list( character )
+#'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
+#'
+#' \item status code : 200 | successful operation
+#'
+#'
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' \strong{ fake_regular_expression } \emph{ test regular expression to ensure no exception }
 #' 
 #'
@@ -104,6 +121,31 @@
 #'   dput(result$toString())
 #' }
 #'
+#'
+#'
+#' ####################  fake_path_array  ####################
+#'
+#' library(petstore)
+#' var_path_array <- ["path_array_example"] # array[character] | dummy path parameter
+#'
+#' #test array parameter in path
+#' api_instance <- FakeApi$new()
+#'
+#' result <- tryCatch(
+#'              
+#'              api_instance$fake_path_array(var_path_array),
+#'              ApiException = function(ex) ex
+#'           )
+#' # In case of error, print the error object
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `fake_path_array`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' }#'
+#' # This endpoint doesn't return data
 #'
 #'
 #' ####################  fake_regular_expression  ####################
@@ -273,6 +315,108 @@ FakeApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
+        }
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api client exception encountered."
+        }
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api server exception encountered."
+        }
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      }
+    },
+    #' test array parameter in path
+    #'
+    #' @description
+    #' test array parameter in path
+    #'
+    #' @param path_array dummy path parameter
+    #' @param ... Other optional arguments
+    #' @return void
+    #' @export
+    fake_path_array = function(path_array, ...) {
+      local_var_response <- self$fake_path_array_with_http_info(path_array, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
+      }
+    },
+    #' test array parameter in path
+    #'
+    #' @description
+    #' test array parameter in path
+    #'
+    #' @param path_array dummy path parameter
+    #' @param ... Other optional arguments
+    #' @return API response (void) with additional information such as HTTP status code, headers
+    #' @export
+    fake_path_array_with_http_info = function(path_array, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+      if (missing(`path_array`)) {
+        rlang::abort(message = "Missing required parameter `path_array`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `path_array`."))
+      }
+
+
+      local_var_url_path <- "/fake/path_array/{path_array}/testing"
+      if (!missing(`path_array`)) {
+        local_var_url_path <- gsub("\\{path_array\\}", paste(URLencode(as.character(`path_array`), reserved = TRUE), collapse= ",", sep=""), local_var_url_path)
+      }
+
+
+      # The Accept request HTTP header
+      local_var_accepts <- list()
+
+      # The Content-Type representation header
+      local_var_content_types <- list()
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "GET",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        local_var_resp$content <- NULL
         local_var_resp
       } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         local_var_error_msg <- local_var_resp$response
