@@ -4,12 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -56,7 +55,7 @@ public class User {
    * @return id
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -75,7 +74,7 @@ public class User {
    * @return username
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "username", required = false)
   public String getUsername() {
     return username;
   }
@@ -94,7 +93,7 @@ public class User {
    * @return firstName
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "firstName", required = false)
   public String getFirstName() {
     return firstName;
   }
@@ -113,7 +112,7 @@ public class User {
    * @return lastName
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "lastName", required = false)
   public String getLastName() {
     return lastName;
   }
@@ -132,7 +131,7 @@ public class User {
    * @return email
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "email", required = false)
   public String getEmail() {
     return email;
   }
@@ -151,7 +150,7 @@ public class User {
    * @return password
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "password", required = false)
   public String getPassword() {
     return password;
   }
@@ -170,7 +169,7 @@ public class User {
    * @return phone
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "phone", required = false)
   public String getPhone() {
     return phone;
   }
@@ -189,7 +188,7 @@ public class User {
    * @return userStatus
   */
   
-  @ApiModelProperty(value = "User Status")
+  @Schema(name = "userStatus", description = "User Status", required = false)
   public Integer getUserStatus() {
     return userStatus;
   }

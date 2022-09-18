@@ -57,6 +57,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.testng.Assert;
@@ -105,9 +106,10 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
             .assertTypeAnnotations()
-                .hasSize(3)
+                .hasSize(4)
                 .containsWithName("Validated")
                 .containsWithName("Generated")
+                .containsWithName("RequestMapping")
                 .containsWithNameAndAttributes("Generated", ImmutableMap.of(
                     "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
                 ))
@@ -652,6 +654,22 @@ public class SpringCodegenTest {
         assertFileContains(multipartApi.toPath(),
                "List<MultipartFile> files",
                "MultipartFile file");
+    }
+    
+    @Test
+    public void testRequestMappingAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
+
+        // Check that the @RequestMapping annotation is generated in the Api file
+        final File petApiFile = files.get("PetApi.java");
+        assertFileContains(petApiFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
+
+        // Check that the @RequestMapping annotation is not generated in the Controller file
+        final File petApiControllerFile = files.get("PetApiController.java");
+        assertFileNotContains(petApiControllerFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
     }
 
     @Test
@@ -1402,5 +1420,127 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("ChildClass.java"))
             .assertMethod("putSomeMapItem")
             .bodyContainsLines("super.putSomeMapItem(key, someMapItem);");
+    }
+
+    @Test
+    public void shouldHandleCustomResponseType_issue11731() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_11731.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("CustomersApi.java"))
+            .assertMethod("getAllUsingGET1")
+            .bodyContainsLines("if (mediaType.isCompatibleWith(MediaType.valueOf(\"application/hal+json\"))) {");
+    }
+
+    @Test
+    public void shouldHandleContentTypeWithSecondWildcardSubtype_issue12457() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_12457.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("UsersApi.java"))
+            .assertMethod("wildcardSubTypeForContentType")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                "produces", "{ \"application/json\", \"application/*\" }",
+                "consumes", "{ \"application/octet-stream\", \"application/*\" }"
+            ));
+    }
+
+    @Test
+    public void shouldGenerateDiscriminatorFromAllOfWhenUsingLegacyDiscriminatorBehaviour_issue12692() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_12692.yml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        String jsonTypeInfo = "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"type\", visible = true)";
+        String jsonSubType = "@JsonSubTypes({\n" +
+                             "  @JsonSubTypes.Type(value = Cat.class, name = \"cat\")" +
+                             "})";
+        assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/model/Pet.java"), jsonTypeInfo, jsonSubType);
+    }
+
+    @Test
+    public void shouldGenerateBeanValidationOnHeaderParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_7125.json", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SomeMethodApi.java"))
+            .printFileContent()
+            .assertMethod("methodWithValidation")
+            .hasParameter("headerOne")
+                .assertParameterAnnotations()
+                .containsWithName("RequestHeader")
+                .containsWithName("NotNull")
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                    "min", "1",
+                    "max", "10"
+                ))
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of("regexp", "\"\\\\d+\""))
+            .toParameter()
+            .toMethod()
+            .hasParameter("headerTwo")
+                .assertParameterAnnotations()
+                .containsWithName("RequestHeader")
+                .containsWithName("NotNull")
+                .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "500"))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of("value", "10000"));
     }
 }

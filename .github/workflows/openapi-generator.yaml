@@ -217,5 +217,7 @@ jobs:
       - name: Run tests
         run: |
           mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-          (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
+          (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk) # using gradle-6.8.3 via wrapper
           (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
+          (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildDotnetSdk)
+          (cd modules/openapi-generator-gradle-plugin/samples/local-spec && gradle buildJavaResttemplateSdk) # not using gradle wrapper

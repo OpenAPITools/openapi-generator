@@ -3,7 +3,7 @@ pom.xml
 src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
 src/main/java/org/openapitools/configuration/HomeController.java
-src/main/java/org/openapitools/configuration/SpringFoxConfiguration.java
+src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApi.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApiController.java
 src/main/java/org/openapitools/virtualan/api/ApiUtil.java
@@ -67,5 +67,4 @@ src/main/java/org/openapitools/virtualan/model/User.java
 src/main/java/org/openapitools/virtualan/model/XmlItem.java
 src/main/resources/application.properties
 src/main/resources/openapi.yaml
-src/main/resources/static/swagger-ui.html
 src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java

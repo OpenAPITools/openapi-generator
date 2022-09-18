@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -43,7 +42,7 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   private Map<String, Map<String, String>> mapOfMapProperty = null;
 
-  public AdditionalPropertiesClass() { 
+  public AdditionalPropertiesClass() {
   }
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {

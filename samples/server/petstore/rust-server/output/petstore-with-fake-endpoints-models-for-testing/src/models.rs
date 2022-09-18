@@ -417,7 +417,7 @@ pub struct ApiResponse {
 
     #[serde(rename = "type")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
 
     #[serde(rename = "message")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -429,7 +429,7 @@ impl ApiResponse {
     pub fn new() -> ApiResponse {
         ApiResponse {
             code: None,
-            type_: None,
+            r#type: None,
             message: None,
         }
     }
@@ -448,9 +448,9 @@ impl std::string::ToString for ApiResponse {
         }
 
 
-        if let Some(ref type_) = self.type_ {
+        if let Some(ref r#type) = self.r#type {
             params.push("type".to_string());
-            params.push(type_.to_string());
+            params.push(r#type.to_string());
         }
 
 
@@ -474,7 +474,7 @@ impl std::str::FromStr for ApiResponse {
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
             pub code: Vec<i32>,
-            pub type_: Vec<String>,
+            pub r#type: Vec<String>,
             pub message: Vec<String>,
         }
 
@@ -493,7 +493,7 @@ impl std::str::FromStr for ApiResponse {
             if let Some(key) = key_result {
                 match key {
                     "code" => intermediate_rep.code.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "type" => intermediate_rep.type_.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "type" => intermediate_rep.r#type.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "message" => intermediate_rep.message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ApiResponse".to_string())
                 }
@@ -506,7 +506,7 @@ impl std::str::FromStr for ApiResponse {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ApiResponse {
             code: intermediate_rep.code.into_iter().next(),
-            type_: intermediate_rep.type_.into_iter().next(),
+            r#type: intermediate_rep.r#type.into_iter().next(),
             message: intermediate_rep.message.into_iter().next(),
         })
     }
@@ -2094,6 +2094,131 @@ impl DogAllOf {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+#[serde(rename = "$special[model.name]")]
+pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    #[serde(rename = "$special[property.name]")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
+
+}
+
+impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    pub fn new() -> DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+        DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_period_name_right_square_bracket: None,
+        }
+    }
+}
+
+/// Converts the DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref dollar_special_left_square_bracket_property_period_name_right_square_bracket) = self.dollar_special_left_square_bracket_property_period_name_right_square_bracket {
+            params.push("$special[property.name]".to_string());
+            params.push(dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Vec<i64>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_period_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "just_symbol")]
@@ -2252,19 +2377,19 @@ impl EnumArrays {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
-    _ABC,
+    Abc,
     #[serde(rename = "-efg")]
-    _EFG,
+    Efg,
     #[serde(rename = "(xyz)")]
-    _XYZ_,
+    LeftParenthesisXyzRightParenthesis,
 }
 
 impl std::fmt::Display for EnumClass {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            EnumClass::_ABC => write!(f, "{}", "_abc"),
-            EnumClass::_EFG => write!(f, "{}", "-efg"),
-            EnumClass::_XYZ_ => write!(f, "{}", "(xyz)"),
+            EnumClass::Abc => write!(f, "{}", "_abc"),
+            EnumClass::Efg => write!(f, "{}", "-efg"),
+            EnumClass::LeftParenthesisXyzRightParenthesis => write!(f, "{}", "(xyz)"),
         }
     }
 }
@@ -2274,9 +2399,9 @@ impl std::str::FromStr for EnumClass {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "_abc" => std::result::Result::Ok(EnumClass::_ABC),
-            "-efg" => std::result::Result::Ok(EnumClass::_EFG),
-            "(xyz)" => std::result::Result::Ok(EnumClass::_XYZ_),
+            "_abc" => std::result::Result::Ok(EnumClass::Abc),
+            "-efg" => std::result::Result::Ok(EnumClass::Efg),
+            "(xyz)" => std::result::Result::Ok(EnumClass::LeftParenthesisXyzRightParenthesis),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -3421,132 +3546,6 @@ impl Model200Response {
     }
 }
 
-/// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-#[serde(rename = "Return")]
-pub struct ModelReturn {
-    #[serde(rename = "return")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub return_: Option<i32>,
-
-}
-
-impl ModelReturn {
-    pub fn new() -> ModelReturn {
-        ModelReturn {
-            return_: None,
-        }
-    }
-}
-
-/// Converts the ModelReturn value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for ModelReturn {
-    fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-
-        if let Some(ref return_) = self.return_ {
-            params.push("return".to_string());
-            params.push(return_.to_string());
-        }
-
-        params.join(",").to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a ModelReturn value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for ModelReturn {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
-        struct IntermediateRep {
-            pub return_: Vec<i32>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing ModelReturn".to_string())
-            };
-
-            if let Some(key) = key_result {
-                match key {
-                    "return" => intermediate_rep.return_.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing ModelReturn".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(ModelReturn {
-            return_: intermediate_rep.return_.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<ModelReturn> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<ModelReturn>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<ModelReturn>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ModelReturn - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ModelReturn> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <ModelReturn as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ModelReturn - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl ModelReturn {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
 /// Model for testing model name same as property name
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -4408,19 +4407,19 @@ impl OuterComposite {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
-    PLACED,
+    Placed,
     #[serde(rename = "approved")]
-    APPROVED,
+    Approved,
     #[serde(rename = "delivered")]
-    DELIVERED,
+    Delivered,
 }
 
 impl std::fmt::Display for OuterEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            OuterEnum::PLACED => write!(f, "{}", "placed"),
-            OuterEnum::APPROVED => write!(f, "{}", "approved"),
-            OuterEnum::DELIVERED => write!(f, "{}", "delivered"),
+            OuterEnum::Placed => write!(f, "{}", "placed"),
+            OuterEnum::Approved => write!(f, "{}", "approved"),
+            OuterEnum::Delivered => write!(f, "{}", "delivered"),
         }
     }
 }
@@ -4430,9 +4429,9 @@ impl std::str::FromStr for OuterEnum {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "placed" => std::result::Result::Ok(OuterEnum::PLACED),
-            "approved" => std::result::Result::Ok(OuterEnum::APPROVED),
-            "delivered" => std::result::Result::Ok(OuterEnum::DELIVERED),
+            "placed" => std::result::Result::Ok(OuterEnum::Placed),
+            "approved" => std::result::Result::Ok(OuterEnum::Approved),
+            "delivered" => std::result::Result::Ok(OuterEnum::Delivered),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -4859,51 +4858,52 @@ impl ReadOnlyFirst {
     }
 }
 
+/// Model for testing reserved words
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-#[serde(rename = "$special[model.name]")]
-pub struct SpecialModelName {
-    #[serde(rename = "$special[property.name]")]
+#[serde(rename = "Return")]
+pub struct Return {
+    #[serde(rename = "return")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub special_property_name: Option<i64>,
+    pub r#return: Option<i32>,
 
 }
 
-impl SpecialModelName {
-    pub fn new() -> SpecialModelName {
-        SpecialModelName {
-            special_property_name: None,
+impl Return {
+    pub fn new() -> Return {
+        Return {
+            r#return: None,
         }
     }
 }
 
-/// Converts the SpecialModelName value to the Query Parameters representation (style=form, explode=false)
+/// Converts the Return value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for SpecialModelName {
+impl std::string::ToString for Return {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
-        if let Some(ref special_property_name) = self.special_property_name {
-            params.push("$special[property.name]".to_string());
-            params.push(special_property_name.to_string());
+        if let Some(ref r#return) = self.r#return {
+            params.push("return".to_string());
+            params.push(r#return.to_string());
         }
 
         params.join(",").to_string()
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a SpecialModelName value
+/// Converts Query Parameters representation (style=form, explode=false) to a Return value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for SpecialModelName {
+impl std::str::FromStr for Return {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub special_property_name: Vec<i64>,
+            pub r#return: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -4915,13 +4915,13 @@ impl std::str::FromStr for SpecialModelName {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing SpecialModelName".to_string())
+                None => return std::result::Result::Err("Missing value while parsing Return".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "$special[property.name]" => intermediate_rep.special_property_name.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing SpecialModelName".to_string())
+                    "return" => intermediate_rep.r#return.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Return".to_string())
                 }
             }
 
@@ -4930,40 +4930,40 @@ impl std::str::FromStr for SpecialModelName {
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(SpecialModelName {
-            special_property_name: intermediate_rep.special_property_name.into_iter().next(),
+        std::result::Result::Ok(Return {
+            r#return: intermediate_rep.r#return.into_iter().next(),
         })
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<SpecialModelName> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<Return> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<SpecialModelName>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<Return>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<SpecialModelName>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Return>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for SpecialModelName - value: {} is invalid {}",
+                 format!("Invalid header value for Return - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<SpecialModelName> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Return> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <SpecialModelName as std::str::FromStr>::from_str(value) {
+                    match <Return as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into SpecialModelName - {}",
+                            format!("Unable to convert header value '{}' into Return - {}",
                                 value, err))
                     }
              },
@@ -4975,7 +4975,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-impl SpecialModelName {
+impl Return {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]

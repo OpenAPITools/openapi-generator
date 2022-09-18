@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { NumberEnum } from './NumberEnum';
 import {
-    NumberEnum,
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
 } from './NumberEnum';
+import type { StringEnum } from './StringEnum';
 import {
-    StringEnum,
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
@@ -56,6 +56,15 @@ export interface EnumPatternObject {
      * @memberof EnumPatternObject
      */
     nullableNumberEnum?: NumberEnum | null;
+}
+
+/**
+ * Check if a given object implements the EnumPatternObject interface.
+ */
+export function instanceOfEnumPatternObject(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {

@@ -36,13 +36,13 @@ class UserApi(baseUrl: String) {
    * @param user Created user object
    */
   def createUser(apiKey: String)(user: User
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[Either[String, String], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(asEither(asString, ignore))
 
   /**
    * 
@@ -56,13 +56,13 @@ class UserApi(baseUrl: String) {
    * @param user List of user object
    */
   def createUsersWithArrayInput(apiKey: String)(user: Seq[User]
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[Either[String, String], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(asEither(asString, ignore))
 
   /**
    * 
@@ -76,13 +76,13 @@ class UserApi(baseUrl: String) {
    * @param user List of user object
    */
   def createUsersWithListInput(apiKey: String)(user: Seq[User]
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[Either[String, String], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(asEither(asString, ignore))
 
   /**
    * This can only be done by the logged in user.
@@ -97,7 +97,7 @@ class UserApi(baseUrl: String) {
    * @param username The name that needs to be deleted
    */
   def deleteUser(apiKey: String)(username: String
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -115,7 +115,7 @@ class UserApi(baseUrl: String) {
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
   def getUserByName(username: String
-): Request[Either[ResponseException[String, Exception], User], Nothing] =
+): Request[Either[ResponseException[String, Exception], User], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -136,7 +136,7 @@ class UserApi(baseUrl: String) {
    * @param password The password for login in clear text
    */
   def loginUser(username: String, password: String
-): Request[Either[ResponseException[String, Exception], String], Nothing] =
+): Request[Either[ResponseException[String, Exception], String], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
@@ -152,12 +152,12 @@ class UserApi(baseUrl: String) {
    *   api_key (apiKey)
    */
   def logoutUser(apiKey: String)(
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[Either[String, String], Unit], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Unit])
+      .response(asEither(asString, ignore))
 
   /**
    * This can only be done by the logged in user.
@@ -173,7 +173,7 @@ class UserApi(baseUrl: String) {
    * @param user Updated user object
    */
   def updateUser(apiKey: String)(username: String, user: User
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")

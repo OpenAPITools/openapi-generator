@@ -14,8 +14,10 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Client,
+} from '../models';
 import {
-    Client,
     ClientFromJSON,
     ClientToJSON,
 } from '../models';

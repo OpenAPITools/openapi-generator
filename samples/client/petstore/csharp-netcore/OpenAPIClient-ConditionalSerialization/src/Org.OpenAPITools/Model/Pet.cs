@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name
         {
             get{ return _Name;}
@@ -214,7 +214,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = true)]
         public List<string> PhotoUrls
         {
             get{ return _PhotoUrls;}

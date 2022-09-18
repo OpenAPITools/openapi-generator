@@ -1,0 +1,23 @@
+import typing
+
+from {{packageName}}.apis.tags import TagValues
+{{#each tagModuleNameToApiClassname}}
+from {{packageName}}.apis.tags.{{@key}} import {{this}}
+{{/each}}
+
+TagToApi = typing.TypedDict(
+    'TagToApi',
+    {
+{{#each tagEnumToApiClassname}}
+        TagValues.{{@key}}: {{this}},
+{{/each}}
+    }
+)
+
+tag_to_api = TagToApi(
+    {
+{{#each tagEnumToApiClassname}}
+        TagValues.{{@key}}: {{this}},
+{{/each}}
+    }
+)

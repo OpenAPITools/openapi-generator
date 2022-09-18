@@ -1,5 +1,9 @@
 {{#if composedSchemas}}
+    {{#if getIsBooleanSchemaFalse}}
+{{> model_templates/var_equals_cls }}
+    {{else}}
 {{> model_templates/schema_composed_or_anytype }}
+    {{/if}}
 {{/if}}
 {{#unless composedSchemas}}
     {{#if getHasMultipleTypes}}
@@ -7,14 +11,10 @@
     {{else}}
         {{#or isMap isArray isAnyType}}
             {{#if isMap}}
-                {{#or hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping}}
+                {{#or hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping additionalProperties }}
 {{> model_templates/schema_dict }}
                 {{else}}
-                    {{#if additionalPropertiesIsAnyType}}
 {{> model_templates/var_equals_cls }}
-                    {{else}}
-{{> model_templates/schema_dict }}
-                    {{/if}}
                 {{/or}}
             {{/if}}
             {{#if isArray}}
@@ -25,7 +25,7 @@
                 {{/or}}
             {{/if}}
             {{#if isAnyType}}
-                {{#or isEnum hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping items}}
+                {{#or isEnum hasVars hasValidation getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping items getFormat}}
 {{> model_templates/schema_composed_or_anytype }}
                 {{else}}
 {{> model_templates/var_equals_cls }}
@@ -38,9 +38,5 @@
 {{> model_templates/var_equals_cls }}
             {{/or}}
         {{/or}}
-        {{#if nameInSnakeCase}}
-locals()['{{baseName}}'] = {{name}}
-del locals()['{{name}}']
-        {{/if}}
     {{/if}}
 {{/unless}}

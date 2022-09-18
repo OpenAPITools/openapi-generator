@@ -57,7 +57,7 @@ public class Apple {
   @SerializedName(SERIALIZED_NAME_ORIGIN)
   private String origin;
 
-  public Apple() { 
+  public Apple() {
   }
 
   public Apple cultivar(String cultivar) {
@@ -211,10 +211,10 @@ public class Apple {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Apple is not found in the empty JSON string", Apple.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("cultivar") != null && !jsonObj.get("cultivar").isJsonPrimitive()) {
+      if ((jsonObj.get("cultivar") != null && !jsonObj.get("cultivar").isJsonNull()) && !jsonObj.get("cultivar").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
       }
-      if (jsonObj.get("origin") != null && !jsonObj.get("origin").isJsonPrimitive()) {
+      if ((jsonObj.get("origin") != null && !jsonObj.get("origin").isJsonNull()) && !jsonObj.get("origin").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `origin` to be a primitive type in the JSON string but got `%s`", jsonObj.get("origin").toString()));
       }
   }

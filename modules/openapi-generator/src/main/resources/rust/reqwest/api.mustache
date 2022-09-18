@@ -108,7 +108,14 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     };
     {{/isArray}}
     {{^isArray}}
+    {{^isNullable}}
     local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{/isNullable}}
+    {{#isNullable}}
+    if let Some(ref local_var_str) = {{{paramName}}} {
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+    };
+    {{/isNullable}}
     {{/isArray}}
     {{/required}}
     {{^required}}

@@ -41,7 +41,7 @@ public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
   private SingleRefType singleRefType;
 
-  public AllOfWithSingleRef() { 
+  public AllOfWithSingleRef() {
   }
 
   public AllOfWithSingleRef username(String username) {

@@ -1,13 +1,21 @@
 package org.openapitools.client.infrastructure
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
 import java.net.URI
 
-class URIAdapter {
-    @ToJson
-    fun toJson(uri: URI) = uri.toString()
+@Serializer(forClass = URI::class)
+object URIAdapter : KSerializer<URI> {
+    override fun serialize(encoder: Encoder, value: URI) {
+        encoder.encodeString(value.toASCIIString())
+    }
 
-    @FromJson
-    fun fromJson(s: String): URI = URI.create(s)
+    override fun deserialize(decoder: Decoder): URI = URI(decoder.decodeString())
+
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("URI", PrimitiveKind.STRING)
 }

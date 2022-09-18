@@ -38,6 +38,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
+    private static final String OPEN_API_PATH_PARAM_PATTERN = "^\\{(.*)\\}$";
+    private static final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
 
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
@@ -96,6 +98,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("model-helpers-header.mustache", modelFileFolder(), "helpers.h"));
+        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("FindRestbedAndBoost.cmake", "", "FindRestbedAndBoost.cmake"));
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
@@ -109,10 +114,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
+        typeMapping.put("set", "std::set");
         typeMapping.put("file", "std::string");
-        typeMapping.put("object", "Object");
+        typeMapping.put("object", "std::string");
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
+        typeMapping.put("decimal", "std::string");
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
@@ -120,8 +127,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::set", "#include <set>");
+        importMapping.put("file", "#include <string>");
         importMapping.put("std::string", "#include <string>");
-        importMapping.put("Object", "#include \"Object.h\"");
         importMapping.put("restbed::Bytes", "#include <corvusoft/restbed/byte.hpp>");
     }
 
@@ -204,6 +212,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
+    public String getTypeDeclaration(String str) {
+        return toModelName(str);
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 
@@ -267,10 +280,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 codegenModel.imports.add(newImp);
             }
         }
-        // Import vector if an enum is present
-        if (codegenModel.hasEnums) {
-            codegenModel.imports.add("#include <vector>");
-        }
         return codegenModel;
     }
 
@@ -284,6 +293,32 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         return toApiName(name);
     }
 
+
+    private String capitalizeFirstChar(String str) {
+        if (str.length() > 1) {
+            return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        } else {
+            return str.toUpperCase(Locale.ENGLISH);
+        }
+    }
+
+    private String convertPathSegmentToResourceNamePart(String pathSegment) {
+        String convertedSegnemt = pathSegment;
+        if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
+            convertedSegnemt = pathSegment.substring(1, pathSegment.length() - 1);
+        }
+        return capitalizeFirstChar(sanitizeName(convertedSegnemt));
+    }
+
+    private String convertPathParamPattern(String pathSegment) {
+        if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
+            String pattern = pathSegment.substring(0, pathSegment.length() - 1);
+            pattern += ": .*}";
+            return pattern;
+        }
+        return pathSegment;
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
@@ -291,51 +326,44 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         List<CodegenOperation> newOpList = new ArrayList<>();
 
         for (CodegenOperation op : operationList) {
-            String path = op.path;
-
-            String[] items = path.split("/", -1);
+            String[] pathSegments = op.path.split("/", -1);
             String resourceNameCamelCase = "";
-            op.path = "";
-            for (String item : items) {
-                if (item.length() > 1) {
-                    if (item.matches("^\\{(.*)\\}$")) {
-                        String tmpResourceName = item.substring(1, item.length() - 1);
-                        resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
-                        item = item.substring(0, item.length() - 1);
-                        item += ": .*}";
-                    } else {
-                        resourceNameCamelCase += Character.toUpperCase(item.charAt(0)) + item.substring(1);
+            StringJoiner joiner = new StringJoiner("/");
+            for (String pathSegment : pathSegments) {
+                resourceNameCamelCase += convertPathSegmentToResourceNamePart(pathSegment);
+                String convertedPathSegment = convertPathParamPattern(pathSegment);
+                joiner.add(convertedPathSegment);
                     }
-                } else if (item.length() == 1) {
-                    resourceNameCamelCase += Character.toUpperCase(item.charAt(0));
-                }
-                op.path += item + "/";
-            }
+
+            op.path = joiner.toString();
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
 
-            boolean foundInNewList = false;
-            for (CodegenOperation op1 : newOpList) {
-                if (!foundInNewList) {
-                    if (op1.path.equals(op.path)) {
-                        foundInNewList = true;
-                        final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
-                        @SuppressWarnings("unchecked")
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
-                        if (currentOtherMethodList == null) {
-                            currentOtherMethodList = new ArrayList<>();
-                        }
+
+            CodegenOperation op1 = newOpList.stream()
+                    .filter(opInList -> opInList.path.equals(op.path))
+                    .findAny()
+                    .orElse(null);
+
+            if (op1 != null) {
+                List<CodegenOperation> currentOtherMethodList = getCodegenXCodegenOtherMethodsOperations(op1);
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
                         op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
                     }
-                }
-            }
-            if (!foundInNewList) {
+            else {
                 newOpList.add(op);
             }
         }
         operations.setOperation(newOpList);
         return objs;
+    }
+
+    private List<CodegenOperation> getCodegenXCodegenOtherMethodsOperations(CodegenOperation newOperation) {
+        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) newOperation.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
+        if (currentOtherMethodList == null) {
+            currentOtherMethodList = new ArrayList<>();
+        }
+        return currentOtherMethodList;
     }
 
     /**
@@ -359,14 +387,16 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "std::string";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p)
-                || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
+                || ModelUtils.isDateTimeSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + openAPIType + ">";
+        return openAPIType;
     }
 
     @Override
@@ -394,6 +424,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "\"" + p.getDefault().toString() + "\"";
             } else {
                 return "\"\"";
+            }
+        } else if (ModelUtils.isFileSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else {
+                return "std::string{}";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (ModelUtils.isFloatSchema(p)) { // float
@@ -432,15 +468,19 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
+        } else if (ModelUtils.isSet(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
+            return "std::set<" + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner = "std::shared_ptr<" + inner + ">";
-            }
             return "std::vector<" + inner + ">()";
+        } else if (ModelUtils.isModel(p)) {
+            String modelName = getTypeDeclaration(p);
+            return modelName + "{}";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
+            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "{}";
         }
 
         return "nullptr";
@@ -455,8 +495,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         boolean isString = parameter.isString == Boolean.TRUE;
 
         if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
-            parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
+            parameter.defaultValue =  parameter.dataType + "{}";
         }
     }
 

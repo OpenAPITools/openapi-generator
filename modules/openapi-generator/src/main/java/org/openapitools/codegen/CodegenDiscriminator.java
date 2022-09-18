@@ -22,6 +22,7 @@ public class CodegenDiscriminator {
     private String propertyGetter;
     private String propertyType;
     private Map<String, String> mapping;
+    private boolean isEnum;
 
     // mappedModels is populated differently if legacyDiscriminatorBehavior is
     // True or False. When:
@@ -86,6 +87,14 @@ public class CodegenDiscriminator {
 
     public void setMappedModels(Set<MappedModel> mappedModels) {
         this.mappedModels = mappedModels;
+    }
+
+    public boolean getIsEnum() {
+        return isEnum;
+    }
+
+    public void setIsEnum(boolean isEnum) {
+        this.isEnum = isEnum;
     }
 
     /**

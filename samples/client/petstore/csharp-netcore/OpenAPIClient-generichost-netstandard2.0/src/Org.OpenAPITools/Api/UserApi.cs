@@ -354,6 +354,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user";
 
@@ -462,6 +463,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithArray";
 
@@ -570,6 +572,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithList";
 
@@ -678,6 +681,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
@@ -774,6 +778,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
@@ -864,6 +869,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/login";
 
@@ -964,6 +970,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
 
@@ -1065,6 +1072,7 @@ namespace Org.OpenAPITools.Api
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
+                    uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));

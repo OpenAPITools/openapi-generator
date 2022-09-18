@@ -115,32 +115,48 @@ class User {
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    final json = <String, dynamic>{};
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (username != null) {
-      _json[r'username'] = username;
+    if (this.username != null) {
+      json[r'username'] = this.username;
+    } else {
+      json[r'username'] = null;
     }
-    if (firstName != null) {
-      _json[r'firstName'] = firstName;
+    if (this.firstName != null) {
+      json[r'firstName'] = this.firstName;
+    } else {
+      json[r'firstName'] = null;
     }
-    if (lastName != null) {
-      _json[r'lastName'] = lastName;
+    if (this.lastName != null) {
+      json[r'lastName'] = this.lastName;
+    } else {
+      json[r'lastName'] = null;
     }
-    if (email != null) {
-      _json[r'email'] = email;
+    if (this.email != null) {
+      json[r'email'] = this.email;
+    } else {
+      json[r'email'] = null;
     }
-    if (password != null) {
-      _json[r'password'] = password;
+    if (this.password != null) {
+      json[r'password'] = this.password;
+    } else {
+      json[r'password'] = null;
     }
-    if (phone != null) {
-      _json[r'phone'] = phone;
+    if (this.phone != null) {
+      json[r'phone'] = this.phone;
+    } else {
+      json[r'phone'] = null;
     }
-    if (userStatus != null) {
-      _json[r'userStatus'] = userStatus;
+    if (this.userStatus != null) {
+      json[r'userStatus'] = this.userStatus;
+    } else {
+      json[r'userStatus'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [User] instance and imports its values from

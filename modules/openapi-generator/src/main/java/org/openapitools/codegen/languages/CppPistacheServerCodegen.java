@@ -139,12 +139,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
+        typeMapping.put("AnyType", "nlohmann::json");
 
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("nlohmann::json", "#include <nlohmann/json.hpp>");
     }
 
     @Override
@@ -242,7 +244,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             if (apiResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(apiResponse);
                 if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response);
+                    CodegenProperty cm = fromProperty("response", response, false);
                     op.vendorExtensions.put("x-codegen-response", cm);
                     if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);

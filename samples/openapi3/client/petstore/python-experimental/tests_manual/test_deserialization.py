@@ -62,8 +62,8 @@ class DeserializationTests(unittest.TestCase):
         deserialized = _response_for_200.deserialize(response, self.configuration)
         body = deserialized.body
         self.assertTrue(isinstance(body, equilateral_triangle.EquilateralTriangle))
-        self.assertEqual(body.shapeType, 'Triangle')
-        self.assertEqual(body.triangleType, 'EquilateralTriangle')
+        self.assertEqual(body['shapeType'], 'Triangle')
+        self.assertEqual(body['triangleType'], 'EquilateralTriangle')
 
         # invalid quadrilateralType, second discriminator value
         data = {
@@ -101,9 +101,9 @@ class DeserializationTests(unittest.TestCase):
         deserialized = _response_for_200.deserialize(response, self.configuration)
         body = deserialized.body
         self.assertTrue(isinstance(body, dog.Dog))
-        self.assertEqual(body.className, 'Dog')
-        self.assertEqual(body.color, 'white')
-        self.assertEqual(body.breed, 'Jack Russel Terrier')
+        self.assertEqual(body['className'], 'Dog')
+        self.assertEqual(body['color'], 'white')
+        self.assertEqual(body['breed'], 'Jack Russel Terrier')
 
     def test_regex_constraint(self):
         """
@@ -168,8 +168,8 @@ class DeserializationTests(unittest.TestCase):
         deserialized = _response_for_200.deserialize(response, self.configuration)
         body = deserialized.body
         self.assertTrue(isinstance(body, whale.Whale))
-        self.assertEqual(bool(body.hasBaleen), has_baleen)
-        self.assertEqual(bool(body.hasTeeth), has_teeth)
+        self.assertEqual(bool(body['hasBaleen']), has_baleen)
+        self.assertEqual(bool(body['hasTeeth']), has_teeth)
         self.assertEqual(body.className, class_name)
 
         # zebra test
@@ -183,7 +183,7 @@ class DeserializationTests(unittest.TestCase):
         deserialized = _response_for_200.deserialize(response, self.configuration)
         body = deserialized.body
         self.assertTrue(isinstance(body, zebra.Zebra))
-        self.assertEqual(body.type, zebra_type)
+        self.assertEqual(body['type'], zebra_type)
         self.assertEqual(body.className, class_name)
 
     def test_deserialize_float_value(self):
@@ -269,11 +269,11 @@ class DeserializationTests(unittest.TestCase):
         deserialized = _response_for_200.deserialize(response, self.configuration)
         body = deserialized.body
         self.assertTrue(isinstance(body, dog.Dog))
-        self.assertEqual(body.className, 'Dog')
-        self.assertEqual(body.color, 'brown')
-        self.assertEqual(body.breed, 'golden retriever')
-        self.assertEqual(body.group, 'Terrier Group')
-        self.assertEqual(body.size, 'medium')
+        self.assertEqual(body['className'], 'Dog')
+        self.assertEqual(body['color'], 'brown')
+        self.assertEqual(body['breed'], 'golden retriever')
+        self.assertEqual(body['group'], 'Terrier Group')
+        self.assertEqual(body['size'], 'medium')
 
         # The 'zebra' schema allows additional properties by explicitly setting
         # additionalProperties: true.
@@ -296,9 +296,9 @@ class DeserializationTests(unittest.TestCase):
         deserialized = _response_for_200.deserialize(response, self.configuration)
         body = deserialized.body
         self.assertTrue(isinstance(body, zebra.Zebra))
-        self.assertEqual(body.className, 'zebra')
-        self.assertEqual(body.type, 'plains')
-        self.assertEqual(bool(body.p1), True)
+        self.assertEqual(body['className'], 'zebra')
+        self.assertEqual(body['type'], 'plains')
+        self.assertEqual(bool(body['p1']), True)
 
         # The 'bananaReq' schema disallows additional properties by explicitly setting
         # additionalProperties: false
@@ -357,7 +357,7 @@ class DeserializationTests(unittest.TestCase):
 
     def test_deserialize_NumberWithValidations(self):
         from petstore_api.model.number_with_validations import NumberWithValidations
-        from petstore_api.api.fake_api_endpoints.number_with_validations import _response_for_200
+        from petstore_api.paths.fake_refs_number.post import _response_for_200
 
         # make sure that an exception is thrown on an invalid type value
         with self.assertRaises(petstore_api.ApiTypeError):
@@ -378,7 +378,7 @@ class DeserializationTests(unittest.TestCase):
 
     def test_array_of_enums(self):
         from petstore_api.model.array_of_enums import ArrayOfEnums
-        from petstore_api.api.fake_api_endpoints.array_of_enums import _response_for_200
+        from petstore_api.paths.fake_refs_array_of_enums.post import _response_for_200
         from petstore_api.model import string_enum
         data = ["placed", None]
         response = self.__response(data)

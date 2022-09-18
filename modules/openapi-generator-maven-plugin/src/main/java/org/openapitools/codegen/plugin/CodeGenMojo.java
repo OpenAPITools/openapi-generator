@@ -95,8 +95,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Location of the output directory.
      */
-    @Parameter(name = "output", property = "openapi.generator.maven.plugin.output",
-            defaultValue = "${project.build.directory}/generated-sources/openapi")
+    @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
     /**
@@ -299,10 +298,22 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> importMappings;
 
     /**
+     * A map of scheme and the new one
+     */
+    @Parameter(name = "schemaMappings", property = "openapi.generator.maven.plugin.schemaMappings")
+    private List<String> schemaMappings;
+
+    /**
      * A map of inline scheme names and the new names
      */
     @Parameter(name = "inlineSchemaNameMappings", property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
     private List<String> inlineSchemaNameMappings;
+
+    /**
+     * A map of inline scheme naming convention and the value
+     */
+    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
+    private List<String> inlineSchemaNameDefaults;
 
     /**
      * A map of swagger spec types and the generated code types to use for them
@@ -452,6 +463,12 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
+
+        if (output == null) {
+            output = new File(project.getBuild().getDirectory(),
+                    LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
+                            "generated-test-sources/openapi" : "generated-sources/openapi");
+        }
         addCompileSourceRootIfConfigured();
 
         try {
@@ -665,9 +682,21 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> schema-mappings
+                if (schemaMappings == null && configOptions.containsKey("schema-mappings")) {
+                    applySchemaMappingsKvp(configOptions.get("schema-mappings").toString(),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
-                if (importMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
+                if (inlineSchemaNameMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
                     applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
+                            configurator);
+                }
+
+                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
+                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
+                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
                             configurator);
                 }
 
@@ -709,9 +738,19 @@ public class CodeGenMojo extends AbstractMojo {
                 applyImportMappingsKvpList(importMappings, configurator);
             }
 
+            // Apply Schema Mappings
+            if (schemaMappings != null && (configOptions == null || !configOptions.containsKey("schema-mappings"))) {
+                applySchemaMappingsKvpList(schemaMappings, configurator);
+            }
+
             // Apply Inline Schema Name Mappings
             if (inlineSchemaNameMappings != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-mappings"))) {
                 applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
+            }
+
+            // Apply Inline Schema Name Defaults
+            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
+                applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
             }
 
             // Apply Type Mappings
@@ -879,21 +918,16 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + "-" + mojo.getExecutionId() + ".sha256");
+        return new File(output.getPath() + File.separatorChar + ".openapi-generator" + File.separatorChar + name + "-" + mojo.getExecutionId() + ".sha256");
     }
 
     private String getCompileSourceRoot() {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
                         .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder;
-        if (sourceFolderObject != null) {
-            sourceFolder = sourceFolderObject.toString();
-        } else {
-            sourceFolder = addTestCompileSourceRoot ? "src/test/java" : "src/main/java";
-        }
+        final String sourceFolder = sourceFolderObject != null ? sourceFolderObject.toString() : "src/main/java";
 
-        return output.toString() + "/" + sourceFolder;
+        return output.getPath() + File.separatorChar + sourceFolder;
     }
 
     private void addCompileSourceRootIfConfigured() throws MojoExecutionException {

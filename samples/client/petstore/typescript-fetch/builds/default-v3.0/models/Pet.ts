@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Category } from './Category';
 import {
-    Category,
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
 } from './Category';
+import type { Tag } from './Tag';
 import {
-    Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
@@ -82,6 +82,17 @@ export const PetStatusEnum = {
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 
+/**
+ * Check if a given object implements the Pet interface.
+ */
+export function instanceOfPet(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photoUrls" in value;
+
+    return isInstance;
+}
+
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);
 }
@@ -113,7 +124,7 @@ export function PetToJSON(value?: Pet | null): any {
         'id': value.id,
         'category': CategoryToJSON(value.category),
         'name': value.name,
-        'photoUrls': value.photoUrls,
+        'photoUrls': Array.from(value.photoUrls as Set<any>),
         'tags': value.tags === undefined ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
         'status': value.status,
     };

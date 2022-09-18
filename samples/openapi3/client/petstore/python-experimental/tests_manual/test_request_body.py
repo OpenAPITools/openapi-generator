@@ -123,13 +123,13 @@ class TestParameter(unittest.TestCase):
         serialization = request_body.serialize(payload, content_type)
         self.assertEqual(
             serialization,
-            {'fields': (('some_str', 'a'), ('some_int', '1'), ('some_float', '3.14'))}
+            dict(body='?some_str=a&some_int=1&some_float=3.14')
         )
 
         serialization = request_body.serialize({}, content_type)
         self.assertEqual(
             serialization,
-            {}
+            dict(body='')
         )
 
         invalid_payloads = [

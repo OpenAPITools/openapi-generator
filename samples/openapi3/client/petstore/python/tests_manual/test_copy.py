@@ -2,7 +2,7 @@ from copy import deepcopy
 import unittest
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.triangle import Triangle
-
+from petstore_api.model.dog import Dog
 
 class TestCopy(unittest.TestCase):
     """TestCopy unit test stubs"""
@@ -26,6 +26,14 @@ class TestCopy(unittest.TestCase):
         assert deepcopy(obj) == obj
 
         obj = Triangle._new_from_openapi_data(shape_type="Triangle", triangle_type="EquilateralTriangle", foo="blah")
+        assert id(deepcopy(obj)) != id(obj)
+        assert deepcopy(obj) == obj
+
+        obj = Dog._new_from_openapi_data(class_name='Dog', color='white', breed='Jack Russel Terrier')
+        assert id(deepcopy(obj)) != id(obj)
+        assert deepcopy(obj) == obj
+
+        obj = Dog(class_name='Dog', color='white', breed='Jack Russel Terrier')
         assert id(deepcopy(obj)) != id(obj)
         assert deepcopy(obj) == obj
 

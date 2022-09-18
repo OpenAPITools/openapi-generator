@@ -23,8 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf;
-import org.openapitools.client.model.DogAllOf;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,7 +57,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color;
 
-  public ArrayOfInlineAllOfArrayAllofDogPropertyInner() { 
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInner() {
   }
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInner breed(String breed) {
@@ -213,10 +211,10 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfInlineAllOfArrayAllofDogPropertyInner is not found in the empty JSON string", ArrayOfInlineAllOfArrayAllofDogPropertyInner.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonPrimitive()) {
+      if ((jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonNull()) && !jsonObj.get("breed").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `breed` to be a primitive type in the JSON string but got `%s`", jsonObj.get("breed").toString()));
       }
-      if (jsonObj.get("color") != null && !jsonObj.get("color").isJsonPrimitive()) {
+      if ((jsonObj.get("color") != null && !jsonObj.get("color").isJsonNull()) && !jsonObj.get("color").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `color` to be a primitive type in the JSON string but got `%s`", jsonObj.get("color").toString()));
       }
   }

@@ -24,7 +24,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.DogAllOf;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -57,7 +56,7 @@ public class Dog extends Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public Dog() { 
+  public Dog() {
     super();
     this.className = this.getClass().getSimpleName();
   }
