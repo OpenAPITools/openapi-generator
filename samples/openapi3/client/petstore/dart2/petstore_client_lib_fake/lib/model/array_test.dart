@@ -71,15 +71,15 @@ class ArrayTest {
             ? (json[r'array_of_string'] as List).cast<String>()
             : const [],
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
-          ? (json[r'array_array_of_integer'] as List).map(
-              (e) => e == null ? null : (e as List).cast<int>()
+          ? (json[r'array_array_of_integer'] as List).map((e) =>
+              e == null ? const  <int>[] : (e as List).cast<int>()
             ).toList()
-          : null,
+          :  const [],
         arrayArrayOfModel: json[r'array_array_of_model'] is List
-          ? (json[r'array_array_of_model'] as List).map(
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
+          ? (json[r'array_array_of_model'] as List).map((e) =>
+              ReadOnlyFirst.listFromJson(json[r'array_array_of_model']) ?? const []
             ).toList()
-          : null,
+          :  const [],
       );
     }
     return null;
