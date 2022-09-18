@@ -4029,6 +4029,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (baseItem != null) {
             // set both datatype and datetypeWithEnum as only the inner type is enum
+            property.dataType = property.dataType.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
             property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
 
             // naming the enum with respect to the language enum naming convention

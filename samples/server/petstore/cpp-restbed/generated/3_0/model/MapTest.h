@@ -68,8 +68,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::map<std::string, std::string> getMapOfEnumString() const;
-    void setMapOfEnumString(std::map<std::string, std::string> value);
+    std::map<std::string, InnerEnum> getMapOfEnumString() const;
+    void setMapOfEnumString(std::map<std::string, InnerEnum> value);
 
     /// <summary>
     /// 
@@ -85,7 +85,7 @@ public:
 
 protected:
     std::map<std::string, std::map<std::string, std::string>> m_Map_map_of_string;
-    std::map<std::string, std::string> m_Map_of_enum_string;
+    std::map<std::string, InnerEnum> m_Map_of_enum_string;
     std::map<std::string, bool> m_Direct_map;
     std::map<std::string, bool> m_Indirect_map;
 };

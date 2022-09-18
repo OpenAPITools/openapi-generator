@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **map_map_of_string** | **dict(str, dict(str, str))** |  | [optional] 
-**map_of_enum_string** | **dict(str, str)** |  | [optional] 
+**map_of_enum_string** | **dict(str, InnerEnum)** |  | [optional] 
 **direct_map** | **dict(str, bool)** |  | [optional] 
 **indirect_map** | **dict(str, bool)** |  | [optional] 
 

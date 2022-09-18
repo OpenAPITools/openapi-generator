@@ -64,7 +64,7 @@ module Petstore
     def self.openapi_types
       {
         :'map_map_of_string' => :'Hash<String, Hash<String, String>>',
-        :'map_of_enum_string' => :'Hash<String, String>',
+        :'map_of_enum_string' => :'Hash<String, INNER>',
         :'direct_map' => :'Hash<String, Boolean>',
         :'indirect_map' => :'Hash<String, Boolean>'
       }

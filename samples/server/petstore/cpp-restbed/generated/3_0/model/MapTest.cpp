@@ -97,7 +97,7 @@ void MapTest::fromPropertyTree(ptree const &pt)
         m_Map_map_of_string = fromPt<std::map<std::string, std::map<std::string, std::string>>>(pt.get_child("map_map_of_string"));
     }
     if (pt.get_child_optional("map_of_enum_string")) {
-        m_Map_of_enum_string = fromPt<std::map<std::string, std::string>>(pt.get_child("map_of_enum_string"));
+        m_Map_of_enum_string = fromPt<std::map<std::string, InnerEnum>>(pt.get_child("map_of_enum_string"));
     }
     if (pt.get_child_optional("direct_map")) {
         m_Direct_map = fromPt<std::map<std::string, bool>>(pt.get_child("direct_map"));
@@ -118,12 +118,12 @@ void MapTest::setMapMapOfString(std::map<std::string, std::map<std::string, std:
 }
 
 
-std::map<std::string, std::string> MapTest::getMapOfEnumString() const
+std::map<std::string, InnerEnum> MapTest::getMapOfEnumString() const
 {
     return m_Map_of_enum_string;
 }
 
-void MapTest::setMapOfEnumString(std::map<std::string, std::string> value)
+void MapTest::setMapOfEnumString(std::map<std::string, InnerEnum> value)
 {
     static const std::array<std::string, 2> allowedValues = {
         "UPPER", "lower"

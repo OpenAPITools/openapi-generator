@@ -37,7 +37,7 @@ class MapTest(object):
     """
     openapi_types = {
         'map_map_of_string': 'dict(str, dict(str, str))',
-        'map_of_enum_string': 'dict(str, str)',
+        'map_of_enum_string': 'dict(str, InnerEnum)',
         'direct_map': 'dict(str, bool)',
         'indirect_map': 'dict(str, bool)'
     }
@@ -97,7 +97,7 @@ class MapTest(object):
 
 
         :return: The map_of_enum_string of this MapTest.  # noqa: E501
-        :rtype: dict(str, str)
+        :rtype: dict(str, InnerEnum)
         """
         return self._map_of_enum_string
 
@@ -107,7 +107,7 @@ class MapTest(object):
 
 
         :param map_of_enum_string: The map_of_enum_string of this MapTest.  # noqa: E501
-        :type map_of_enum_string: dict(str, str)
+        :type map_of_enum_string: dict(str, InnerEnum)
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and

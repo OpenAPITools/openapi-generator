@@ -9,7 +9,7 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapMapOfString** | [**Map<String, Map<String, String>>**](Map.md) |  | [optional] [default to const {}]
-**mapOfEnumString** | **Map<String, String>** |  | [optional] [default to const {}]
+**mapOfEnumString** | **Map<String, InnerEnum>** |  | [optional] [default to const {}]
 **directMap** | **Map<String, bool>** |  | [optional] [default to const {}]
 **indirectMap** | **Map<String, bool>** |  | [optional] [default to const {}]
 
