@@ -456,3 +456,8 @@ class DeserializationTests(unittest.TestCase):
             }
             response = self.__response(data)
             _response_for_200.deserialize(response, configuration)
+
+
+class Utf8JSONDeserializationTests(DeserializationTests):
+    json_content_type = 'application/json'
+    json_content_type_headers = {'content-type': json_content_type + "; charset=utf-8"}
