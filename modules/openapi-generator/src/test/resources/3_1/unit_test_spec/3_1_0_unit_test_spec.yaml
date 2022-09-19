@@ -468,42 +468,6 @@ paths:
       - path.post
       - contentType_json
       - allOf
-  /requestBody/postAllofWithTheLastEmptySchemaRequestBody:
-    post:
-      operationId: postAllofWithTheLastEmptySchemaRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AllofWithTheLastEmptySchema'
-            x-schema-test-examples:
-              $ref: '#/components/x-schema-test-examples/AllofWithTheLastEmptySchema'
-        required: true
-      responses:
-        '200':
-          description: success
-      tags:
-      - operation.requestBody
-      - path.post
-      - contentType_json
-      - allOf
-  /responseBody/postAllofWithTheLastEmptySchemaResponseBodyForContentTypes:
-    post:
-      operationId: postAllofWithTheLastEmptySchemaResponseBodyForContentTypes
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllofWithTheLastEmptySchema'
-              x-schema-test-examples:
-                $ref: '#/components/x-schema-test-examples/AllofWithTheLastEmptySchema'
-      tags:
-      - response.content.contentType.schema
-      - path.post
-      - contentType_json
-      - allOf
   /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
     post:
       operationId: postNestedAllofToCheckValidationSemanticsRequestBody
@@ -4153,11 +4117,6 @@ components:
       allOf:
       - {}
       - type: number
-    AllofWithTheLastEmptySchema:
-      $schema: https://json-schema.org/draft/2020-12/schema
-      allOf:
-      - type: number
-      - {}
     NestedAllofToCheckValidationSemantics:
       $schema: https://json-schema.org/draft/2020-12/schema
       allOf:
@@ -4748,15 +4707,6 @@ components:
         data: 1
         valid: true
     AllofWithTheFirstEmptySchema:
-      NumberIsValid:
-        description: number is valid
-        data: 1
-        valid: true
-      StringIsInvalid:
-        description: string is invalid
-        data: foo
-        valid: false
-    AllofWithTheLastEmptySchema:
       NumberIsValid:
         description: number is valid
         data: 1

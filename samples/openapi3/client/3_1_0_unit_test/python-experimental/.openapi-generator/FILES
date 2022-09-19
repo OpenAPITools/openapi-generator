@@ -42,7 +42,6 @@ docs/models/AllofSimpleTypes.md
 docs/models/AllofWithBaseSchema.md
 docs/models/AllofWithOneEmptySchema.md
 docs/models/AllofWithTheFirstEmptySchema.md
-docs/models/AllofWithTheLastEmptySchema.md
 docs/models/AllofWithTwoEmptySchemas.md
 docs/models/Anyof.md
 docs/models/AnyofComplexTypes.md
@@ -161,7 +160,6 @@ test/test_models/test_allof_simple_types.py
 test/test_models/test_allof_with_base_schema.py
 test/test_models/test_allof_with_one_empty_schema.py
 test/test_models/test_allof_with_the_first_empty_schema.py
-test/test_models/test_allof_with_the_last_empty_schema.py
 test/test_models/test_allof_with_two_empty_schemas.py
 test/test_models/test_anyof.py
 test/test_models/test_anyof_complex_types.py
@@ -320,8 +318,6 @@ unit_test_api/model/allof_with_one_empty_schema.py
 unit_test_api/model/allof_with_one_empty_schema.pyi
 unit_test_api/model/allof_with_the_first_empty_schema.py
 unit_test_api/model/allof_with_the_first_empty_schema.pyi
-unit_test_api/model/allof_with_the_last_empty_schema.py
-unit_test_api/model/allof_with_the_last_empty_schema.pyi
 unit_test_api/model/allof_with_two_empty_schemas.py
 unit_test_api/model/allof_with_two_empty_schemas.pyi
 unit_test_api/model/anyof.py

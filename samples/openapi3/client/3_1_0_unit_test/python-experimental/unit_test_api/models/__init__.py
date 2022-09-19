@@ -23,7 +23,6 @@ from unit_test_api.model.allof_simple_types import AllofSimpleTypes
 from unit_test_api.model.allof_with_base_schema import AllofWithBaseSchema
 from unit_test_api.model.allof_with_one_empty_schema import AllofWithOneEmptySchema
 from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFirstEmptySchema
-from unit_test_api.model.allof_with_the_last_empty_schema import AllofWithTheLastEmptySchema
 from unit_test_api.model.allof_with_two_empty_schemas import AllofWithTwoEmptySchemas
 from unit_test_api.model.anyof import Anyof
 from unit_test_api.model.anyof_complex_types import AnyofComplexTypes

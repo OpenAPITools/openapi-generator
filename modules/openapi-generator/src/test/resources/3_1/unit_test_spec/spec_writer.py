@@ -103,6 +103,7 @@ class ExclusionReason:
     not_running_the_localhost_server = 'the openapo-generator is not running the localhost server needed to serve remoteRef files'
     v303_requires_that_the_default_value_is_an_allowed_type = 'v3.0.3 requires that the default value is an allowed type per the schema'
     swagger_parser_min_length_bug = 'Swagger parser omits defined minLength https://github.com/swagger-api/swagger-parser/issues/1800'
+    swagger_parser_single_type_bug = 'Swagger parser sets a single type as an array of types https://github.com/swagger-api/swagger-parser/issues/1801'
 
 json_schema_test_draft = 'draft2020-12'
 openapi_additions = 'openapi_additions'
@@ -112,6 +113,7 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'allOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'allOf with boolean schemas, some false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'allOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'allOf with the last empty schema': ExclusionReason.swagger_parser_single_type_bug,
     },
     (json_schema_test_draft, 'anyOf.json'): {
         'anyOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,

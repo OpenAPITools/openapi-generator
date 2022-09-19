@@ -21,7 +21,6 @@ from unit_test_api.paths.request_body_post_allof_simple_types_request_body.post 
 from unit_test_api.paths.request_body_post_allof_with_base_schema_request_body.post import PostAllofWithBaseSchemaRequestBody
 from unit_test_api.paths.request_body_post_allof_with_one_empty_schema_request_body.post import PostAllofWithOneEmptySchemaRequestBody
 from unit_test_api.paths.request_body_post_allof_with_the_first_empty_schema_request_body.post import PostAllofWithTheFirstEmptySchemaRequestBody
-from unit_test_api.paths.request_body_post_allof_with_the_last_empty_schema_request_body.post import PostAllofWithTheLastEmptySchemaRequestBody
 from unit_test_api.paths.request_body_post_allof_with_two_empty_schemas_request_body.post import PostAllofWithTwoEmptySchemasRequestBody
 from unit_test_api.paths.request_body_post_anyof_complex_types_request_body.post import PostAnyofComplexTypesRequestBody
 from unit_test_api.paths.request_body_post_anyof_request_body.post import PostAnyofRequestBody
@@ -136,7 +135,6 @@ class OperationRequestBodyApi(
     PostAllofWithBaseSchemaRequestBody,
     PostAllofWithOneEmptySchemaRequestBody,
     PostAllofWithTheFirstEmptySchemaRequestBody,
-    PostAllofWithTheLastEmptySchemaRequestBody,
     PostAllofWithTwoEmptySchemasRequestBody,
     PostAnyofComplexTypesRequestBody,
     PostAnyofRequestBody,
