@@ -102,6 +102,7 @@ class ExclusionReason:
     component_ref_component_bug = 'A component refing another component does not work, issue at https://github.com/OpenAPITools/openapi-generator/issues/12730'
     not_running_the_localhost_server = 'the openapo-generator is not running the localhost server needed to serve remoteRef files'
     v303_requires_that_the_default_value_is_an_allowed_type = 'v3.0.3 requires that the default value is an allowed type per the schema'
+    swagger_parser_min_length_bug = 'Swagger parser omits defined minLength https://github.com/swagger-api/swagger-parser/issues/1800'
 
 json_schema_test_draft = 'draft2020-12'
 openapi_additions = 'openapi_additions'
@@ -136,6 +137,9 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'items with boolean schema (false)': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'items with boolean schema (false)': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'a schema given for items': ExclusionReason.swagger_parser_items_type_bug,
+    },
+    (json_schema_test_draft, 'minLength.json'): {
+        'minLength validation with a decimal': ExclusionReason.swagger_parser_min_length_bug,
     },
     (json_schema_test_draft, 'not.json'): {
         'not with boolean schema true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,

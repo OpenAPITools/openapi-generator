@@ -142,8 +142,6 @@ class PathValues(str, enum.Enum):
     RESPONSE_BODY_POST_MINITEMS_VALIDATION_WITH_ADECIMAL_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postMinitemsValidationWithADecimalResponseBodyForContentTypes"
     REQUEST_BODY_POST_MINLENGTH_VALIDATION_REQUEST_BODY = "/requestBody/postMinlengthValidationRequestBody"
     RESPONSE_BODY_POST_MINLENGTH_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postMinlengthValidationResponseBodyForContentTypes"
-    REQUEST_BODY_POST_MINLENGTH_VALIDATION_WITH_ADECIMAL_REQUEST_BODY = "/requestBody/postMinlengthValidationWithADecimalRequestBody"
-    RESPONSE_BODY_POST_MINLENGTH_VALIDATION_WITH_ADECIMAL_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postMinlengthValidationWithADecimalResponseBodyForContentTypes"
     REQUEST_BODY_POST_MINPROPERTIES_VALIDATION_REQUEST_BODY = "/requestBody/postMinpropertiesValidationRequestBody"
     RESPONSE_BODY_POST_MINPROPERTIES_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postMinpropertiesValidationResponseBodyForContentTypes"
     REQUEST_BODY_POST_MINPROPERTIES_VALIDATION_WITH_ADECIMAL_REQUEST_BODY = "/requestBody/postMinpropertiesValidationWithADecimalRequestBody"

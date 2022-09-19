@@ -2484,42 +2484,6 @@ paths:
       - path.post
       - contentType_json
       - minLength
-  /requestBody/postMinlengthValidationWithADecimalRequestBody:
-    post:
-      operationId: postMinlengthValidationWithADecimalRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MinlengthValidationWithADecimal'
-            x-schema-test-examples:
-              $ref: '#/components/x-schema-test-examples/MinlengthValidationWithADecimal'
-        required: true
-      responses:
-        '200':
-          description: success
-      tags:
-      - operation.requestBody
-      - path.post
-      - contentType_json
-      - minLength
-  /responseBody/postMinlengthValidationWithADecimalResponseBodyForContentTypes:
-    post:
-      operationId: postMinlengthValidationWithADecimalResponseBodyForContentTypes
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MinlengthValidationWithADecimal'
-              x-schema-test-examples:
-                $ref: '#/components/x-schema-test-examples/MinlengthValidationWithADecimal'
-      tags:
-      - response.content.contentType.schema
-      - path.post
-      - contentType_json
-      - minLength
   /requestBody/postMinpropertiesValidationRequestBody:
     post:
       operationId: postMinpropertiesValidationRequestBody
@@ -4507,9 +4471,6 @@ components:
     MinlengthValidation:
       $schema: https://json-schema.org/draft/2020-12/schema
       minLength: 2
-    MinlengthValidationWithADecimal:
-      $schema: https://json-schema.org/draft/2020-12/schema
-      minLength: 2.0
     MinpropertiesValidation:
       $schema: https://json-schema.org/draft/2020-12/schema
       minProperties: 1
@@ -5973,15 +5934,6 @@ components:
       OneSupplementaryUnicodeCodePointIsNotLongEnough:
         description: one supplementary Unicode code point is not long enough
         data: "\U0001F4A9"
-        valid: false
-    MinlengthValidationWithADecimal:
-      LongerIsValid:
-        description: longer is valid
-        data: foo
-        valid: true
-      TooShortIsInvalid:
-        description: too short is invalid
-        data: f
         valid: false
     MinpropertiesValidation:
       LongerIsValid:

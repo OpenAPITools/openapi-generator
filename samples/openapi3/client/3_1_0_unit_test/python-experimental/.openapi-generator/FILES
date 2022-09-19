@@ -1,6 +1,5 @@
 .gitignore
 .gitlab-ci.yml
-.openapi-generator-ignore
 .travis.yml
 README.md
 docs/apis/tags/AdditionalPropertiesApi.md
@@ -94,7 +93,6 @@ docs/models/MinimumValidationWithSignedInteger.md
 docs/models/MinitemsValidation.md
 docs/models/MinitemsValidationWithADecimal.md
 docs/models/MinlengthValidation.md
-docs/models/MinlengthValidationWithADecimal.md
 docs/models/MinpropertiesValidation.md
 docs/models/MinpropertiesValidationWithADecimal.md
 docs/models/ModelNot.md
@@ -216,7 +214,6 @@ test/test_models/test_minimum_validation_with_signed_integer.py
 test/test_models/test_minitems_validation.py
 test/test_models/test_minitems_validation_with_a_decimal.py
 test/test_models/test_minlength_validation.py
-test/test_models/test_minlength_validation_with_a_decimal.py
 test/test_models/test_minproperties_validation.py
 test/test_models/test_minproperties_validation_with_a_decimal.py
 test/test_models/test_model_not.py
@@ -429,8 +426,6 @@ unit_test_api/model/minitems_validation_with_a_decimal.py
 unit_test_api/model/minitems_validation_with_a_decimal.pyi
 unit_test_api/model/minlength_validation.py
 unit_test_api/model/minlength_validation.pyi
-unit_test_api/model/minlength_validation_with_a_decimal.py
-unit_test_api/model/minlength_validation_with_a_decimal.pyi
 unit_test_api/model/minproperties_validation.py
 unit_test_api/model/minproperties_validation.pyi
 unit_test_api/model/minproperties_validation_with_a_decimal.py
