@@ -114,6 +114,7 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'allOf with boolean schemas, some false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'allOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'allOf with the last empty schema': ExclusionReason.swagger_parser_single_type_bug,
+        'nested allOf, to check validation semantics': ExclusionReason.swagger_parser_single_type_bug,
     },
     (json_schema_test_draft, 'anyOf.json'): {
         'anyOf with boolean schemas, all true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,

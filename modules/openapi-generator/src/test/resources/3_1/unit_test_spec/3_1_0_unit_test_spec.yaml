@@ -468,42 +468,6 @@ paths:
       - path.post
       - contentType_json
       - allOf
-  /requestBody/postNestedAllofToCheckValidationSemanticsRequestBody:
-    post:
-      operationId: postNestedAllofToCheckValidationSemanticsRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NestedAllofToCheckValidationSemantics'
-            x-schema-test-examples:
-              $ref: '#/components/x-schema-test-examples/NestedAllofToCheckValidationSemantics'
-        required: true
-      responses:
-        '200':
-          description: success
-      tags:
-      - operation.requestBody
-      - path.post
-      - contentType_json
-      - allOf
-  /responseBody/postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes:
-    post:
-      operationId: postNestedAllofToCheckValidationSemanticsResponseBodyForContentTypes
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NestedAllofToCheckValidationSemantics'
-              x-schema-test-examples:
-                $ref: '#/components/x-schema-test-examples/NestedAllofToCheckValidationSemantics'
-      tags:
-      - response.content.contentType.schema
-      - path.post
-      - contentType_json
-      - allOf
   /requestBody/postAllofCombinedWithAnyofOneofRequestBody:
     post:
       operationId: postAllofCombinedWithAnyofOneofRequestBody
@@ -3865,11 +3829,6 @@ components:
       allOf:
       - {}
       - type: number
-    NestedAllofToCheckValidationSemantics:
-      $schema: https://json-schema.org/draft/2020-12/schema
-      allOf:
-      - allOf:
-        - type: 'null'
     AllofCombinedWithAnyofOneof:
       $schema: https://json-schema.org/draft/2020-12/schema
       allOf:
@@ -4438,15 +4397,6 @@ components:
       StringIsInvalid:
         description: string is invalid
         data: foo
-        valid: false
-    NestedAllofToCheckValidationSemantics:
-      NullIsValid:
-        description: null is valid
-        data: null
-        valid: true
-      AnythingNonNullIsInvalid:
-        description: anything non-null is invalid
-        data: 123
         valid: false
     AllofCombinedWithAnyofOneof:
       AllofFalseAnyofFalseOneofFalse:

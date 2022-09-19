@@ -94,7 +94,6 @@ docs/models/MinlengthValidation.md
 docs/models/MinpropertiesValidation.md
 docs/models/MinpropertiesValidationWithADecimal.md
 docs/models/ModelNot.md
-docs/models/NestedAllofToCheckValidationSemantics.md
 docs/models/NestedAnyofToCheckValidationSemantics.md
 docs/models/NestedItems.md
 docs/models/NestedOneofToCheckValidationSemantics.md
@@ -205,7 +204,6 @@ test/test_models/test_minlength_validation.py
 test/test_models/test_minproperties_validation.py
 test/test_models/test_minproperties_validation_with_a_decimal.py
 test/test_models/test_model_not.py
-test/test_models/test_nested_allof_to_check_validation_semantics.py
 test/test_models/test_nested_anyof_to_check_validation_semantics.py
 test/test_models/test_nested_items.py
 test/test_models/test_nested_oneof_to_check_validation_semantics.py
@@ -408,8 +406,6 @@ unit_test_api/model/minproperties_validation_with_a_decimal.py
 unit_test_api/model/minproperties_validation_with_a_decimal.pyi
 unit_test_api/model/model_not.py
 unit_test_api/model/model_not.pyi
-unit_test_api/model/nested_allof_to_check_validation_semantics.py
-unit_test_api/model/nested_allof_to_check_validation_semantics.pyi
 unit_test_api/model/nested_anyof_to_check_validation_semantics.py
 unit_test_api/model/nested_anyof_to_check_validation_semantics.pyi
 unit_test_api/model/nested_items.py
