@@ -1,0 +1,7 @@
+from unit_test_api.paths.response_body_post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types.post import ApiForpost
+
+
+class ResponseBodyPostIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes(
+    ApiForpost,
+):
+    pass

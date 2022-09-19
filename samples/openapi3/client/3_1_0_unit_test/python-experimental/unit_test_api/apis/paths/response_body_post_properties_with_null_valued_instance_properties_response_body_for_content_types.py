@@ -1,0 +1,7 @@
+from unit_test_api.paths.response_body_post_properties_with_null_valued_instance_properties_response_body_for_content_types.post import ApiForpost
+
+
+class ResponseBodyPostPropertiesWithNullValuedInstancePropertiesResponseBodyForContentTypes(
+    ApiForpost,
+):
+    pass

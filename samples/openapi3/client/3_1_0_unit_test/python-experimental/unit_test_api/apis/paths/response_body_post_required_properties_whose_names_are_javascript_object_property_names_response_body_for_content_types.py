@@ -1,0 +1,7 @@
+from unit_test_api.paths.response_body_post_required_properties_whose_names_are_javascript_object_property_names_response_body_for_content_types.post import ApiForpost
+
+
+class ResponseBodyPostRequiredPropertiesWhoseNamesAreJavascriptObjectPropertyNamesResponseBodyForContentTypes(
+    ApiForpost,
+):
+    pass

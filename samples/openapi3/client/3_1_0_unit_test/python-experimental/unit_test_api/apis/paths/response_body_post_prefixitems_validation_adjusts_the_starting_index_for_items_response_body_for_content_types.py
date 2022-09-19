@@ -1,0 +1,7 @@
+from unit_test_api.paths.response_body_post_prefixitems_validation_adjusts_the_starting_index_for_items_response_body_for_content_types.post import ApiForpost
+
+
+class ResponseBodyPostPrefixitemsValidationAdjustsTheStartingIndexForItemsResponseBodyForContentTypes(
+    ApiForpost,
+):
+    pass
