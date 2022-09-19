@@ -165,7 +165,7 @@ import {{packageName}}.infrastructure.ResponseType
 
         {{#hasQueryParams}}
         {{#queryParams}}
-        request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+        {{{paramName}}}{{^required}}?{{/required}}.let { request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString(it){{/isDateTime}}{{#isDate}}parseDateToQueryString(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
         {{/queryParams}}
         {{/hasQueryParams}}
 
@@ -296,5 +296,30 @@ import {{packageName}}.infrastructure.ResponseType
         }
     }
 
+    protected inline fun parseDateToQueryString(value : Any): String {
+        {{#toJson}}
+        /*
+        .replace("\"", "") converts the json object string to an actual string for the query parameter.
+        The moshi or gson adapter allows a more generic solution instead of trying to use a native
+        formatter. It also easily allows to provide a simple way to define a custom date format pattern
+        inside a gson/moshi adapter.
+        */
+        {{#moshi}}
+        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
+        {{/moshi}}
+        {{#gson}}
+        return Serializer.gson.toJson(value, T::class.java).replace("\"", "")
+        {{/gson}}
+        {{#jackson}}
+        return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
+        {{/jackson}}
+        {{#kotlinx_serialization}}
+        return Serializer.kotlinxSerializationJson.encodeToString(value).replace("\"", "")
+        {{/kotlinx_serialization}}
+        {{/toJson}}
+        {{^toJson}}
+        return value.toString()
+        {{/toJson}}
+    }
 }
 {{/operations}}
