@@ -121,7 +121,11 @@ export class {{classname}} {
 
         if (typeof value === "object") {
             {{#isQueryParamObjectFormatJson}}
-            httpParams = httpParams.append(key, JSON.stringify(value));
+            if (key != null) {
+                httpParams = httpParams.append(key, JSON.stringify(value));
+            } else {
+                throw Error("key may not be null if value is a QueryParamObject");
+            }
             {{/isQueryParamObjectFormatJson}}
             {{^isQueryParamObjectFormatJson}}
             if (Array.isArray(value)) {
