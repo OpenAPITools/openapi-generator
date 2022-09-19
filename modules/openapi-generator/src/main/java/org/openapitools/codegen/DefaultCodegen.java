@@ -301,6 +301,8 @@ public class DefaultCodegen implements CodegenConfig {
     // from deeper schema defined locations
     protected boolean addSchemaImportsFromV3SpecLocations = false;
 
+    protected boolean anyTypeSchemasCanBeEnum = false;
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -2919,8 +2921,13 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
-            // TODO remove the anyType check here in the future ANyType models can have enums defined
+        boolean isAllowedEnumType = false;
+        if (anyTypeSchemasCanBeEnum && ModelUtils.isAnyType(schema)) {
+            isAllowedEnumType = true;
+        } else if (!ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema)) {
+            isAllowedEnumType = true;
+        }
+        if (isAllowedEnumType && schema.get$ref() == null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
             m.allowableValues = new HashMap<>();

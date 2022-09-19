@@ -112,6 +112,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addSchemaImportsFromV3SpecLocations = true;
         sortModelPropertiesByRequiredFlag = Boolean.TRUE;
         sortParamsByRequiredFlag = Boolean.TRUE;
+        anyTypeSchemasCanBeEnum = true;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
@@ -1312,6 +1313,76 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
     }
 
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Map<String, Object>> enumVars = new ArrayList<>();
+        int truncateIdx = 0;
+
+        if (isRemoveEnumValuePrefix()) {
+            String commonPrefix = findCommonPrefixOfVars(values);
+            truncateIdx = commonPrefix.length();
+        }
+
+        for (Object value : values) {
+            Map<String, Object> enumVar = new HashMap<>();
+            String enumName;
+            if (truncateIdx == 0) {
+                enumName = String.valueOf(value);
+            } else {
+                enumName = value.toString().substring(truncateIdx);
+                if (enumName.isEmpty()) {
+                    enumName = value.toString();
+                }
+            }
+
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            if (value instanceof Integer) {
+                enumVar.put("value", value);
+            } else if (value instanceof Double) {
+                enumVar.put("value", value);
+            } else if (value instanceof Long) {
+                enumVar.put("value", value);
+            } else if (value instanceof Float) {
+                enumVar.put("value", value);
+            } else if (value instanceof Boolean) {
+                if (value.equals(Boolean.TRUE)) {
+                    enumVar.put("value", "schemas.BoolClass.TRUE");
+                }
+                enumVar.put("value", "schemas.BoolClass.FALSE");
+            } else {
+                enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
+            }
+            enumVar.put("isString", isDataTypeString(dataType));
+            enumVars.add(enumVar);
+        }
+
+        if (enumUnknownDefaultCase) {
+            // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+            // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
+            Map<String, Object> enumVar = new HashMap<>();
+            String enumName = enumUnknownDefaultCaseName;
+
+            String enumValue;
+            if (isDataTypeString(dataType)) {
+                enumValue = enumUnknownDefaultCaseName;
+            } else {
+                // This is a dummy value that attempts to avoid collisions with previously specified cases.
+                // Int.max / 192
+                // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                enumValue = String.valueOf(11184809);
+            }
+
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("value", toEnumValue(enumValue, dataType));
+            enumVar.put("isString", isDataTypeString(dataType));
+            enumVars.add(enumVar);
+        }
+
+        return enumVars;
+    }
+
     @Override
     public void postProcessParameter(CodegenParameter p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
@@ -1418,6 +1489,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             cm.isNullable = false;
             cm.setHasMultipleTypes(true);
         }
+
         Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
         setAdditionalPropsAndItemsVarNames(cm);
         if (isNotPythonModelSimpleModel) {
