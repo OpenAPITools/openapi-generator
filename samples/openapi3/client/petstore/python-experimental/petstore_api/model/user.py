@@ -33,6 +33,7 @@ class User(
 
 
     class MetaOapg:
+        
         class properties:
             id = schemas.Int64Schema
             username = schemas.StrSchema
@@ -46,7 +47,6 @@ class User(
             
             
             class objectWithNoDeclaredPropsNullable(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
                 schemas.DictBase,
                 schemas.NoneBase,
                 schemas.Schema,

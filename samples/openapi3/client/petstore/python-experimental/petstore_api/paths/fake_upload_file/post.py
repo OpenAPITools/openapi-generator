@@ -39,6 +39,7 @@ class SchemaForRequestBodyMultipartFormData(
         required = {
             "file",
         }
+        
         class properties:
             additionalMetadata = schemas.StrSchema
             file = schemas.BinarySchema

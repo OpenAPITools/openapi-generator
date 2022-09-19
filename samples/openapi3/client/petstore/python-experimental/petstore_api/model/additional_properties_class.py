@@ -33,6 +33,7 @@ class AdditionalPropertiesClass(
 
 
     class MetaOapg:
+        
         class properties:
             
             

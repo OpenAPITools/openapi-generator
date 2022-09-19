@@ -33,7 +33,7 @@ class AnimalFarm(
 
 
     class MetaOapg:
-
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Animal']:

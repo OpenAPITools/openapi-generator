@@ -36,6 +36,7 @@ class NoAdditionalProperties(
         required = {
             "id",
         }
+        
         class properties:
             id = schemas.Int64Schema
             petId = schemas.Int64Schema

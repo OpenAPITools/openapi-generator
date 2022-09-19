@@ -7,6 +7,7 @@
 #' @title Special
 #' @description Special Class
 #' @format An \code{R6Class} generator object
+#' @field set_test  list(character) [optional]
 #' @field item_self  integer [optional]
 #' @field item_private  character [optional]
 #' @field item_super  character [optional]
@@ -21,19 +22,21 @@
 Special <- R6::R6Class(
   "Special",
   public = list(
+    `set_test` = NULL,
     `item_self` = NULL,
     `item_private` = NULL,
     `item_super` = NULL,
     `123_number` = NULL,
     `array[test]` = NULL,
     `empty_string` = NULL,
-    `_field_list` = c("item_self", "item_private", "item_super", "123_number", "array[test]", "empty_string"),
+    `_field_list` = c("set_test", "item_self", "item_private", "item_super", "123_number", "array[test]", "empty_string"),
     `additional_properties` = list(),
     #' Initialize a new Special class.
     #'
     #' @description
     #' Initialize a new Special class.
     #'
+    #' @param set_test set_test
     #' @param item_self item_self
     #' @param item_private item_private
     #' @param item_super item_super
@@ -44,8 +47,16 @@ Special <- R6::R6Class(
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...
+        `set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...
     ) {
+      if (!is.null(`set_test`)) {
+        stopifnot(is.vector(`set_test`), length(`set_test`) != 0)
+        sapply(`set_test`, function(x) stopifnot(is.character(x)))
+        if (!identical(`set_test`, unique(`set_test`))) {
+          stop("Error! Items in `set_test` are not unique.")
+        }
+        self$`set_test` <- `set_test`
+      }
       if (!is.null(`item_self`)) {
         stopifnot(is.numeric(`item_self`), length(`item_self`) == 1)
         self$`item_self` <- `item_self`
@@ -85,6 +96,10 @@ Special <- R6::R6Class(
     #' @export
     toJSON = function() {
       SpecialObject <- list()
+      if (!is.null(self$`set_test`)) {
+        SpecialObject[["set_test"]] <-
+          self$`set_test`
+      }
       if (!is.null(self$`item_self`)) {
         SpecialObject[["self"]] <-
           self$`item_self`
@@ -125,6 +140,12 @@ Special <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`set_test`)) {
+        self$`set_test` <- ApiClient$new()$deserializeObj(this_object$`set_test`, "set[character]", loadNamespace("petstore"))
+        if (!identical(self$`set_test`, unique(self$`set_test`))) {
+          stop("Error! Items in `set_test` are not unique.")
+        }
+      }
       if (!is.null(this_object$`self`)) {
         self$`item_self` <- this_object$`self`
       }
@@ -161,6 +182,14 @@ Special <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`set_test`)) {
+          sprintf(
+          '"set_test":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`set_test`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`item_self`)) {
           sprintf(
           '"self":
@@ -228,6 +257,10 @@ Special <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`set_test` <- ApiClient$new()$deserializeObj(this_object$`set_test`, "set[character]", loadNamespace("petstore"))
+      if (!identical(self$`set_test`, unique(self$`set_test`))) {
+        stop("Error! Items in `set_test` are not unique.")
+      }
       self$`item_self` <- this_object$`item_self`
       self$`item_private` <- this_object$`item_private`
       self$`item_super` <- this_object$`item_super`
@@ -271,6 +304,7 @@ Special <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -282,6 +316,7 @@ Special <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
       invalid_fields
     },
     #' Print the object

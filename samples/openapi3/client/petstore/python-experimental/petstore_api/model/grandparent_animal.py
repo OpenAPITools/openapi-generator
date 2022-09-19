@@ -46,6 +46,7 @@ class GrandparentAnimal(
                     'ParentPet': ParentPet,
                 }
             }
+        
         class properties:
             pet_type = schemas.StrSchema
             __annotations__ = {

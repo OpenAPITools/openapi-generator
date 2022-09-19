@@ -36,6 +36,7 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
+        
         class properties:
             additionalMetadata = schemas.StrSchema
             file = schemas.BinarySchema

@@ -35,6 +35,7 @@ class File(
 
 
     class MetaOapg:
+        
         class properties:
             sourceURI = schemas.StrSchema
             __annotations__ = {

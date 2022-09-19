@@ -33,6 +33,7 @@ class ReadOnlyFirst(
 
 
     class MetaOapg:
+        
         class properties:
             bar = schemas.StrSchema
             baz = schemas.StrSchema

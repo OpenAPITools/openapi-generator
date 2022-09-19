@@ -23,7 +23,6 @@ from petstore_api import schemas  # noqa: F401
 
 
 class Apple(
-    schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, frozendict.frozendict, ]),
     schemas.DictBase,
     schemas.NoneBase,
     schemas.Schema,
@@ -40,6 +39,7 @@ class Apple(
         required = {
             "cultivar",
         }
+        
         class properties:
             
             

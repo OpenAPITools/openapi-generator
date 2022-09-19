@@ -38,6 +38,7 @@ class Name(
         required = {
             "name",
         }
+        
         class properties:
             name = schemas.Int32Schema
             snake_case = schemas.Int32Schema

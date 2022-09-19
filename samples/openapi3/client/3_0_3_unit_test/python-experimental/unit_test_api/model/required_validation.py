@@ -36,6 +36,7 @@ class RequiredValidation(
         required = {
             "foo",
         }
+        
         class properties:
             foo = schemas.AnyTypeSchema
             bar = schemas.AnyTypeSchema

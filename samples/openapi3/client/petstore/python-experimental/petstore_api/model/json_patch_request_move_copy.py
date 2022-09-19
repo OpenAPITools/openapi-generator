@@ -38,6 +38,7 @@ class JSONPatchRequestMoveCopy(
             "path",
             "from",
         }
+        
         class properties:
             path = schemas.StrSchema
             

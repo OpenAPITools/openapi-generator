@@ -35,6 +35,7 @@ class SchemaFor0ResponseBodyApplicationJson(
 
 
     class MetaOapg:
+        
         class properties:
         
             @classmethod

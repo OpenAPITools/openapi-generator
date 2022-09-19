@@ -33,6 +33,7 @@ class Order(
 
 
     class MetaOapg:
+        
         class properties:
             id = schemas.Int64Schema
             petId = schemas.Int64Schema

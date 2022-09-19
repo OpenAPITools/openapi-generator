@@ -34,6 +34,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
 
 
     class MetaOapg:
+        
         class properties:
             name = schemas.StrSchema
             status = schemas.StrSchema

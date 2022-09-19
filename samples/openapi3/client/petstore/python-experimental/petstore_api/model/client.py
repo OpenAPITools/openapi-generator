@@ -33,6 +33,7 @@ class Client(
 
 
     class MetaOapg:
+        
         class properties:
             client = schemas.StrSchema
             __annotations__ = {

@@ -2132,11 +2132,13 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:

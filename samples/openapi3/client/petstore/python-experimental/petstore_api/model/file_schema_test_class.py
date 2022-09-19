@@ -33,6 +33,7 @@ class FileSchemaTestClass(
 
 
     class MetaOapg:
+        
         class properties:
         
             @classmethod
@@ -47,7 +48,7 @@ class FileSchemaTestClass(
             
             
                 class MetaOapg:
-            
+                    
                     @classmethod
                     @property
                     def items(cls) -> typing.Type['File']:

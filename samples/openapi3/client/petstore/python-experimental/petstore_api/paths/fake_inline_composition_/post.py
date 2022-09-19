@@ -80,6 +80,7 @@ class CompositionInPropertySchema(
 
 
     class MetaOapg:
+        
         class properties:
             
             
@@ -252,6 +253,7 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
+        
         class properties:
             
             
@@ -402,6 +404,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
 
 
     class MetaOapg:
+        
         class properties:
             
             

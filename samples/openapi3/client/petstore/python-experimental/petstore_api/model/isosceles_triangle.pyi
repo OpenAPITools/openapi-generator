@@ -41,6 +41,7 @@ class IsoscelesTriangle(
         
         
             class MetaOapg:
+                
                 class properties:
                     
                     

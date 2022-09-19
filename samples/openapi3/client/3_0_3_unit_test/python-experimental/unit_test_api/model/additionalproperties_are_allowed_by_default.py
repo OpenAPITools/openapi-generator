@@ -33,6 +33,7 @@ class AdditionalpropertiesAreAllowedByDefault(
 
 
     class MetaOapg:
+        
         class properties:
             foo = schemas.AnyTypeSchema
             bar = schemas.AnyTypeSchema

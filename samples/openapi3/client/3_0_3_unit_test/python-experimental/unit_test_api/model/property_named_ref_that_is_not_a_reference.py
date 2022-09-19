@@ -33,6 +33,7 @@ class PropertyNamedRefThatIsNotAReference(
 
 
     class MetaOapg:
+        
         class properties:
             ref = schemas.StrSchema
             __annotations__ = {
