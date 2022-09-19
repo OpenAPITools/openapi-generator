@@ -96,7 +96,6 @@ docs/models/MinpropertiesValidationWithADecimal.md
 docs/models/ModelNot.md
 docs/models/NestedAnyofToCheckValidationSemantics.md
 docs/models/NestedItems.md
-docs/models/NestedOneofToCheckValidationSemantics.md
 docs/models/NotMoreComplexSchema.md
 docs/models/NulCharactersInStrings.md
 docs/models/NullTypeMatchesOnlyTheNullObject.md
@@ -206,7 +205,6 @@ test/test_models/test_minproperties_validation_with_a_decimal.py
 test/test_models/test_model_not.py
 test/test_models/test_nested_anyof_to_check_validation_semantics.py
 test/test_models/test_nested_items.py
-test/test_models/test_nested_oneof_to_check_validation_semantics.py
 test/test_models/test_not_more_complex_schema.py
 test/test_models/test_nul_characters_in_strings.py
 test/test_models/test_null_type_matches_only_the_null_object.py
@@ -410,8 +408,6 @@ unit_test_api/model/nested_anyof_to_check_validation_semantics.py
 unit_test_api/model/nested_anyof_to_check_validation_semantics.pyi
 unit_test_api/model/nested_items.py
 unit_test_api/model/nested_items.pyi
-unit_test_api/model/nested_oneof_to_check_validation_semantics.py
-unit_test_api/model/nested_oneof_to_check_validation_semantics.pyi
 unit_test_api/model/not_more_complex_schema.py
 unit_test_api/model/not_more_complex_schema.pyi
 unit_test_api/model/nul_characters_in_strings.py

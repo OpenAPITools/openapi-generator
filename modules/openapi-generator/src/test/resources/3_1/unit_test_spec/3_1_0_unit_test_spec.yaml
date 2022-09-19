@@ -2952,42 +2952,6 @@ paths:
       - path.post
       - contentType_json
       - oneOf
-  /requestBody/postNestedOneofToCheckValidationSemanticsRequestBody:
-    post:
-      operationId: postNestedOneofToCheckValidationSemanticsRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NestedOneofToCheckValidationSemantics'
-            x-schema-test-examples:
-              $ref: '#/components/x-schema-test-examples/NestedOneofToCheckValidationSemantics'
-        required: true
-      responses:
-        '200':
-          description: success
-      tags:
-      - operation.requestBody
-      - path.post
-      - contentType_json
-      - oneOf
-  /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes:
-    post:
-      operationId: postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NestedOneofToCheckValidationSemantics'
-              x-schema-test-examples:
-                $ref: '#/components/x-schema-test-examples/NestedOneofToCheckValidationSemantics'
-      tags:
-      - response.content.contentType.schema
-      - path.post
-      - contentType_json
-      - oneOf
   /requestBody/postPatternValidationRequestBody:
     post:
       operationId: postPatternValidationRequestBody
@@ -4142,11 +4106,6 @@ components:
       - required:
         - foo
         - baz
-    NestedOneofToCheckValidationSemantics:
-      $schema: https://json-schema.org/draft/2020-12/schema
-      oneOf:
-      - oneOf:
-        - type: 'null'
     PatternValidation:
       $schema: https://json-schema.org/draft/2020-12/schema
       pattern: ^a*$
@@ -5678,15 +5637,6 @@ components:
           foo: 1
           bar: 2
           baz: 3
-        valid: false
-    NestedOneofToCheckValidationSemantics:
-      NullIsValid:
-        description: null is valid
-        data: null
-        valid: true
-      AnythingNonNullIsInvalid:
-        description: anything non-null is invalid
-        data: 123
         valid: false
     PatternValidation:
       AMatchingPatternIsValid:

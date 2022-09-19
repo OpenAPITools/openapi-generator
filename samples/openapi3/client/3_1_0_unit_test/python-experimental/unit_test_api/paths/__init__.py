@@ -168,8 +168,6 @@ class PathValues(str, enum.Enum):
     RESPONSE_BODY_POST_ONEOF_WITH_EMPTY_SCHEMA_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postOneofWithEmptySchemaResponseBodyForContentTypes"
     REQUEST_BODY_POST_ONEOF_WITH_REQUIRED_REQUEST_BODY = "/requestBody/postOneofWithRequiredRequestBody"
     RESPONSE_BODY_POST_ONEOF_WITH_REQUIRED_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postOneofWithRequiredResponseBodyForContentTypes"
-    REQUEST_BODY_POST_NESTED_ONEOF_TO_CHECK_VALIDATION_SEMANTICS_REQUEST_BODY = "/requestBody/postNestedOneofToCheckValidationSemanticsRequestBody"
-    RESPONSE_BODY_POST_NESTED_ONEOF_TO_CHECK_VALIDATION_SEMANTICS_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes"
     REQUEST_BODY_POST_PATTERN_VALIDATION_REQUEST_BODY = "/requestBody/postPatternValidationRequestBody"
     RESPONSE_BODY_POST_PATTERN_VALIDATION_RESPONSE_BODY_FOR_CONTENT_TYPES = "/responseBody/postPatternValidationResponseBodyForContentTypes"
     REQUEST_BODY_POST_PATTERN_IS_NOT_ANCHORED_REQUEST_BODY = "/requestBody/postPatternIsNotAnchoredRequestBody"

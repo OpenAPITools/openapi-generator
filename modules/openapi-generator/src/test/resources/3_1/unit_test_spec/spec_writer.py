@@ -155,6 +155,7 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'oneOf with boolean schemas, one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'oneOf with boolean schemas, more than one true': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
         'oneOf with boolean schemas, all false': ExclusionReason.v303_does_not_support_boolean_schemas_in_location,
+        'nested oneOf, to check validation semantics': ExclusionReason.swagger_parser_single_type_bug,
     },
     (json_schema_test_draft, 'properties.json'): {
         'properties, patternProperties, additionalProperties interaction': ExclusionReason.v303_does_not_support_patternProperties,

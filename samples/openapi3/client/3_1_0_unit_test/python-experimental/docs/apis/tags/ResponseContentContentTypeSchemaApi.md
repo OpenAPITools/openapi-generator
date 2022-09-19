@@ -70,7 +70,6 @@ Method | HTTP request | Description
 [**post_minproperties_validation_with_a_decimal_response_body_for_content_types**](#post_minproperties_validation_with_a_decimal_response_body_for_content_types) | **post** /responseBody/postMinpropertiesValidationWithADecimalResponseBodyForContentTypes | 
 [**post_nested_anyof_to_check_validation_semantics_response_body_for_content_types**](#post_nested_anyof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedAnyofToCheckValidationSemanticsResponseBodyForContentTypes | 
 [**post_nested_items_response_body_for_content_types**](#post_nested_items_response_body_for_content_types) | **post** /responseBody/postNestedItemsResponseBodyForContentTypes | 
-[**post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**](#post_nested_oneof_to_check_validation_semantics_response_body_for_content_types) | **post** /responseBody/postNestedOneofToCheckValidationSemanticsResponseBodyForContentTypes | 
 [**post_not_more_complex_schema_response_body_for_content_types**](#post_not_more_complex_schema_response_body_for_content_types) | **post** /responseBody/postNotMoreComplexSchemaResponseBodyForContentTypes | 
 [**post_not_response_body_for_content_types**](#post_not_response_body_for_content_types) | **post** /responseBody/postNotResponseBodyForContentTypes | 
 [**post_nul_characters_in_strings_response_body_for_content_types**](#post_nul_characters_in_strings_response_body_for_content_types) | **post** /responseBody/postNulCharactersInStringsResponseBodyForContentTypes | 
@@ -4164,68 +4163,6 @@ Type | Description  | Notes
 
 
 [**NestedItems**](NestedItems.md)
-
-### Authorization
-
-No authorization required
-
-[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
-
-# **post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**
-<a name="post_nested_oneof_to_check_validation_semantics_response_body_for_content_types"></a>
-> bool, date, datetime, dict, float, int, list, str, none_type post_nested_oneof_to_check_validation_semantics_response_body_for_content_types()
-
-
-
-### Example
-
-```python
-import unit_test_api
-from unit_test_api.apis.tags import response_content_content_type_schema_api
-from pprint import pprint
-# Defining the host is optional and defaults to https://someserver.com/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = unit_test_api.Configuration(
-    host = "https://someserver.com/v1"
-)
-
-# Enter a context with an instance of the API client
-with unit_test_api.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = response_content_content_type_schema_api.ResponseContentContentTypeSchemaApi(api_client)
-
-    # example, this endpoint has no required or optional parameters
-    try:
-        api_response = api_instance.post_nested_oneof_to_check_validation_semantics_response_body_for_content_types()
-        pprint(api_response)
-    except unit_test_api.ApiException as e:
-        print("Exception when calling ResponseContentContentTypeSchemaApi->post_nested_oneof_to_check_validation_semantics_response_body_for_content_types: %s\n" % e)
-```
-### Parameters
-This endpoint does not need any parameter.
-
-### Return Types, Responses
-
-Code | Class | Description
-------------- | ------------- | -------------
-n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
-
-#### ApiResponseFor200
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
-headers | Unset | headers were not defined |
-
-#### SchemaFor200ResponseBodyApplicationJson
-
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
-
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
