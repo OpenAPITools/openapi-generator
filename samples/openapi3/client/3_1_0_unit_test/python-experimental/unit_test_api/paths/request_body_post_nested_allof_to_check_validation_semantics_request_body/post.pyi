@@ -24,7 +24,81 @@ import frozendict  # noqa: F401
 from unit_test_api import schemas  # noqa: F401
 
 # body param
-SchemaForRequestBodyApplicationJson = schemas.AnyTypeSchema
+
+
+class SchemaForRequestBodyApplicationJson(
+    schemas.ComposedSchema,
+):
+
+
+    class MetaOapg:
+        
+        
+        class all_of_0(
+            schemas.ComposedSchema,
+        ):
+        
+        
+            class MetaOapg:
+                all_of_0 = schemas.AnyTypeSchema
+                
+                @classmethod
+                @property
+                @functools.cache
+                def all_of(cls):
+                    # we need this here to make our import statements work
+                    # we must store _composed_schemas in here so the code is only run
+                    # when we invoke this method. If we kept this at the class
+                    # level we would get an error because the class level
+                    # code would be run when this module is imported, and these composed
+                    # classes don't exist yet because their module has not finished
+                    # loading
+                    return [
+                        cls.all_of_0,
+                    ]
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+            ) -> 'all_of_0':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
+        
+        @classmethod
+        @property
+        @functools.cache
+        def all_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.all_of_0,
+            ]
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+    ) -> 'SchemaForRequestBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 class BaseApi(api_client.Api):

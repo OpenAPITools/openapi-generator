@@ -25,7 +25,156 @@ from unit_test_api import schemas  # noqa: F401
 
 from . import path
 
-SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema
+
+
+class SchemaFor200ResponseBodyApplicationJson(
+    schemas.ComposedSchema,
+):
+
+
+    class MetaOapg:
+        
+        
+        class one_of_0(
+            schemas.AnyTypeSchema,
+        ):
+        
+        
+            class MetaOapg:
+                required = {
+                    "bar",
+                }
+                
+                class properties:
+                    bar = schemas.AnyTypeSchema
+                    __annotations__ = {
+                        "bar": bar,
+                    }
+        
+            
+            bar: MetaOapg.properties.bar
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
+            
+            @typing.overload
+            def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+            
+            def __getitem__(self, name: typing.Union[typing.Literal["bar", ], str]):
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
+            
+            
+            @typing.overload
+            def get_item_oapg(self, name: typing.Literal["bar"]) -> MetaOapg.properties.bar: ...
+            
+            @typing.overload
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+            
+            def get_item_oapg(self, name: typing.Union[typing.Literal["bar", ], str]):
+                return super().get_item_oapg(name)
+            
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+                bar: typing.Union[MetaOapg.properties.bar, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+            ) -> 'one_of_0':
+                return super().__new__(
+                    cls,
+                    *args,
+                    bar=bar,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
+        
+        
+        class one_of_1(
+            schemas.AnyTypeSchema,
+        ):
+        
+        
+            class MetaOapg:
+                required = {
+                    "foo",
+                }
+                
+                class properties:
+                    foo = schemas.AnyTypeSchema
+                    __annotations__ = {
+                        "foo": foo,
+                    }
+        
+            
+            foo: MetaOapg.properties.foo
+            
+            @typing.overload
+            def __getitem__(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+            
+            @typing.overload
+            def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+            
+            def __getitem__(self, name: typing.Union[typing.Literal["foo", ], str]):
+                # dict_instance[name] accessor
+                return super().__getitem__(name)
+            
+            
+            @typing.overload
+            def get_item_oapg(self, name: typing.Literal["foo"]) -> MetaOapg.properties.foo: ...
+            
+            @typing.overload
+            def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+            
+            def get_item_oapg(self, name: typing.Union[typing.Literal["foo", ], str]):
+                return super().get_item_oapg(name)
+            
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+                foo: typing.Union[MetaOapg.properties.foo, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+                _configuration: typing.Optional[schemas.Configuration] = None,
+                **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+            ) -> 'one_of_1':
+                return super().__new__(
+                    cls,
+                    *args,
+                    foo=foo,
+                    _configuration=_configuration,
+                    **kwargs,
+                )
+        
+        @classmethod
+        @property
+        @functools.cache
+        def one_of(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            return [
+                cls.one_of_0,
+                cls.one_of_1,
+            ]
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+    ) -> 'SchemaFor200ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 @dataclass

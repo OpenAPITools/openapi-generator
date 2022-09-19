@@ -136,7 +136,6 @@ from unit_test_api.apis import ref_api
 from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
 from unit_test_api.model.ref_in_property import RefInProperty
-from unit_test_api.model.urn_base_uri_with_f_component import UrnBaseUriWithFComponent
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
 configuration = unit_test_api.Configuration(
@@ -148,12 +147,12 @@ configuration = unit_test_api.Configuration(
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ref_api.RefApi(api_client)
-    body = None # bool, date, datetime, dict, float, int, list, str, none_type | 
+    property_named_ref_that_is_not_a_reference = PropertyNamedRefThatIsNotAReference(None) # PropertyNamedRefThatIsNotAReference | 
 
     try:
-        api_instance.post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body(body)
+        api_instance.post_property_named_ref_that_is_not_a_reference_request_body(property_named_ref_that_is_not_a_reference)
     except unit_test_api.ApiException as e:
-        print("Exception when calling RefApi->post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body: %s\n" % e)
+        print("Exception when calling RefApi->post_property_named_ref_that_is_not_a_reference_request_body: %s\n" % e)
 ```
 
 ## Documentation for API Endpoints
@@ -162,8 +161,6 @@ All URIs are relative to *https://someserver.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*RefApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body**](docs/apis/tags/RefApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body) | **post** /requestBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody | 
-*RefApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types) | **post** /responseBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes | 
 *RefApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/apis/tags/RefApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
 *RefApi* | [**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_additionalproperties_request_body**](docs/apis/tags/RefApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
@@ -180,8 +177,6 @@ Class | Method | HTTP request | Description
 *RefApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_property_request_body**](docs/apis/tags/RefApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
 *RefApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
-*RefApi* | [**post_urn_base_uri_with_f_component_request_body**](docs/apis/tags/RefApi.md#post_urn_base_uri_with_f_component_request_body) | **post** /requestBody/postUrnBaseUriWithFComponentRequestBody | 
-*RefApi* | [**post_urn_base_uri_with_f_component_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_urn_base_uri_with_f_component_response_body_for_content_types) | **post** /responseBody/postUrnBaseUriWithFComponentResponseBodyForContentTypes | 
 *AdditionalPropertiesApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/apis/tags/AdditionalPropertiesApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
 *AdditionalPropertiesApi* | [**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](docs/apis/tags/AdditionalPropertiesApi.md#post_additionalproperties_are_allowed_by_default_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
 *AdditionalPropertiesApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/apis/tags/AdditionalPropertiesApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **post** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
@@ -294,8 +289,6 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_forbidden_property_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_forbidden_property_response_body_for_content_types) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_hostname_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
 *ContentTypeJsonApi* | [**post_hostname_format_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_hostname_format_response_body_for_content_types) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body) | **post** /requestBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody | 
-*ContentTypeJsonApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types) | **post** /responseBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_idn_email_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_idn_email_format_request_body) | **post** /requestBody/postIdnEmailFormatRequestBody | 
 *ContentTypeJsonApi* | [**post_idn_email_format_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_idn_email_format_response_body_for_content_types) | **post** /responseBody/postIdnEmailFormatResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_idn_hostname_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_idn_hostname_format_request_body) | **post** /requestBody/postIdnHostnameFormatRequestBody | 
@@ -446,8 +439,6 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_uri_reference_format_response_body_for_content_types) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_uri_template_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
 *ContentTypeJsonApi* | [**post_uri_template_format_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_uri_template_format_response_body_for_content_types) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_urn_base_uri_with_f_component_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_urn_base_uri_with_f_component_request_body) | **post** /requestBody/postUrnBaseUriWithFComponentRequestBody | 
-*ContentTypeJsonApi* | [**post_urn_base_uri_with_f_component_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_urn_base_uri_with_f_component_response_body_for_content_types) | **post** /responseBody/postUrnBaseUriWithFComponentResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_uuid_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_uuid_format_request_body) | **post** /requestBody/postUuidFormatRequestBody | 
 *ContentTypeJsonApi* | [**post_uuid_format_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_uuid_format_response_body_for_content_types) | **post** /responseBody/postUuidFormatResponseBodyForContentTypes | 
 *DefaultApi* | [**post_invalid_string_value_for_default_request_body**](docs/apis/tags/DefaultApi.md#post_invalid_string_value_for_default_request_body) | **post** /requestBody/postInvalidStringValueForDefaultRequestBody | 
@@ -614,7 +605,6 @@ Class | Method | HTTP request | Description
 *OperationRequestBodyApi* | [**post_float_division_inf_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_float_division_inf_request_body) | **post** /requestBody/postFloatDivisionInfRequestBody | 
 *OperationRequestBodyApi* | [**post_forbidden_property_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_forbidden_property_request_body) | **post** /requestBody/postForbiddenPropertyRequestBody | 
 *OperationRequestBodyApi* | [**post_hostname_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
-*OperationRequestBodyApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body) | **post** /requestBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody | 
 *OperationRequestBodyApi* | [**post_idn_email_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_idn_email_format_request_body) | **post** /requestBody/postIdnEmailFormatRequestBody | 
 *OperationRequestBodyApi* | [**post_idn_hostname_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_idn_hostname_format_request_body) | **post** /requestBody/postIdnHostnameFormatRequestBody | 
 *OperationRequestBodyApi* | [**post_integer_type_matches_integers_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_integer_type_matches_integers_request_body) | **post** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
@@ -690,7 +680,6 @@ Class | Method | HTTP request | Description
 *OperationRequestBodyApi* | [**post_uri_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_uri_format_request_body) | **post** /requestBody/postUriFormatRequestBody | 
 *OperationRequestBodyApi* | [**post_uri_reference_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_uri_reference_format_request_body) | **post** /requestBody/postUriReferenceFormatRequestBody | 
 *OperationRequestBodyApi* | [**post_uri_template_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
-*OperationRequestBodyApi* | [**post_urn_base_uri_with_f_component_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_urn_base_uri_with_f_component_request_body) | **post** /requestBody/postUrnBaseUriWithFComponentRequestBody | 
 *OperationRequestBodyApi* | [**post_uuid_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_uuid_format_request_body) | **post** /requestBody/postUuidFormatRequestBody | 
 *PathPostApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/apis/tags/PathPostApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
 *PathPostApi* | [**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_additionalproperties_are_allowed_by_default_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
@@ -764,8 +753,6 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_forbidden_property_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_forbidden_property_response_body_for_content_types) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
 *PathPostApi* | [**post_hostname_format_request_body**](docs/apis/tags/PathPostApi.md#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
 *PathPostApi* | [**post_hostname_format_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_hostname_format_response_body_for_content_types) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
-*PathPostApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body**](docs/apis/tags/PathPostApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body) | **post** /requestBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody | 
-*PathPostApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types) | **post** /responseBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes | 
 *PathPostApi* | [**post_idn_email_format_request_body**](docs/apis/tags/PathPostApi.md#post_idn_email_format_request_body) | **post** /requestBody/postIdnEmailFormatRequestBody | 
 *PathPostApi* | [**post_idn_email_format_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_idn_email_format_response_body_for_content_types) | **post** /responseBody/postIdnEmailFormatResponseBodyForContentTypes | 
 *PathPostApi* | [**post_idn_hostname_format_request_body**](docs/apis/tags/PathPostApi.md#post_idn_hostname_format_request_body) | **post** /requestBody/postIdnHostnameFormatRequestBody | 
@@ -916,8 +903,6 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_uri_reference_format_response_body_for_content_types) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
 *PathPostApi* | [**post_uri_template_format_request_body**](docs/apis/tags/PathPostApi.md#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
 *PathPostApi* | [**post_uri_template_format_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_uri_template_format_response_body_for_content_types) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
-*PathPostApi* | [**post_urn_base_uri_with_f_component_request_body**](docs/apis/tags/PathPostApi.md#post_urn_base_uri_with_f_component_request_body) | **post** /requestBody/postUrnBaseUriWithFComponentRequestBody | 
-*PathPostApi* | [**post_urn_base_uri_with_f_component_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_urn_base_uri_with_f_component_response_body_for_content_types) | **post** /responseBody/postUrnBaseUriWithFComponentResponseBodyForContentTypes | 
 *PathPostApi* | [**post_uuid_format_request_body**](docs/apis/tags/PathPostApi.md#post_uuid_format_request_body) | **post** /requestBody/postUuidFormatRequestBody | 
 *PathPostApi* | [**post_uuid_format_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_uuid_format_response_body_for_content_types) | **post** /responseBody/postUuidFormatResponseBodyForContentTypes | 
 *PatternApi* | [**post_pattern_is_not_anchored_request_body**](docs/apis/tags/PatternApi.md#post_pattern_is_not_anchored_request_body) | **post** /requestBody/postPatternIsNotAnchoredRequestBody | 
@@ -978,7 +963,6 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_float_division_inf_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_float_division_inf_response_body_for_content_types) | **post** /responseBody/postFloatDivisionInfResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_forbidden_property_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_forbidden_property_response_body_for_content_types) | **post** /responseBody/postForbiddenPropertyResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_hostname_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_hostname_format_response_body_for_content_types) | **post** /responseBody/postHostnameFormatResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_response_body_for_content_types) | **post** /responseBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_idn_email_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_idn_email_format_response_body_for_content_types) | **post** /responseBody/postIdnEmailFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_idn_hostname_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_idn_hostname_format_response_body_for_content_types) | **post** /responseBody/postIdnHostnameFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_integer_type_matches_integers_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_integer_type_matches_integers_response_body_for_content_types) | **post** /responseBody/postIntegerTypeMatchesIntegersResponseBodyForContentTypes | 
@@ -1054,7 +1038,6 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_uri_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_uri_format_response_body_for_content_types) | **post** /responseBody/postUriFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_uri_reference_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_uri_reference_format_response_body_for_content_types) | **post** /responseBody/postUriReferenceFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_uri_template_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_uri_template_format_response_body_for_content_types) | **post** /responseBody/postUriTemplateFormatResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_urn_base_uri_with_f_component_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_urn_base_uri_with_f_component_response_body_for_content_types) | **post** /responseBody/postUrnBaseUriWithFComponentResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_uuid_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_uuid_format_response_body_for_content_types) | **post** /responseBody/postUuidFormatResponseBodyForContentTypes | 
 *TypeApi* | [**post_array_type_matches_arrays_request_body**](docs/apis/tags/TypeApi.md#post_array_type_matches_arrays_request_body) | **post** /requestBody/postArrayTypeMatchesArraysRequestBody | 
 *TypeApi* | [**post_array_type_matches_arrays_response_body_for_content_types**](docs/apis/tags/TypeApi.md#post_array_type_matches_arrays_response_body_for_content_types) | **post** /responseBody/postArrayTypeMatchesArraysResponseBodyForContentTypes | 
@@ -1113,7 +1096,6 @@ Class | Method | HTTP request | Description
  - [FloatDivisionInf](docs/models/FloatDivisionInf.md)
  - [ForbiddenProperty](docs/models/ForbiddenProperty.md)
  - [HostnameFormat](docs/models/HostnameFormat.md)
- - [IdMustBeResolvedAgainstNearestParentNotJustImmediateParent](docs/models/IdMustBeResolvedAgainstNearestParentNotJustImmediateParent.md)
  - [IdnEmailFormat](docs/models/IdnEmailFormat.md)
  - [IdnHostnameFormat](docs/models/IdnHostnameFormat.md)
  - [IntegerTypeMatchesIntegers](docs/models/IntegerTypeMatchesIntegers.md)
@@ -1189,7 +1171,6 @@ Class | Method | HTTP request | Description
  - [UriFormat](docs/models/UriFormat.md)
  - [UriReferenceFormat](docs/models/UriReferenceFormat.md)
  - [UriTemplateFormat](docs/models/UriTemplateFormat.md)
- - [UrnBaseUriWithFComponent](docs/models/UrnBaseUriWithFComponent.md)
  - [UuidFormat](docs/models/UuidFormat.md)
 
 ## Documentation For Authorization

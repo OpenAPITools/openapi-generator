@@ -3312,78 +3312,6 @@ paths:
       - path.post
       - contentType_json
       - $ref
-  /requestBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody:
-    post:
-      operationId: postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/IdMustBeResolvedAgainstNearestParentNotJustImmediateParent'
-            x-schema-test-examples:
-              $ref: '#/components/x-schema-test-examples/IdMustBeResolvedAgainstNearestParentNotJustImmediateParent'
-        required: true
-      responses:
-        '200':
-          description: success
-      tags:
-      - operation.requestBody
-      - path.post
-      - contentType_json
-      - $ref
-  /responseBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes:
-    post:
-      operationId: postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentResponseBodyForContentTypes
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdMustBeResolvedAgainstNearestParentNotJustImmediateParent'
-              x-schema-test-examples:
-                $ref: '#/components/x-schema-test-examples/IdMustBeResolvedAgainstNearestParentNotJustImmediateParent'
-      tags:
-      - response.content.contentType.schema
-      - path.post
-      - contentType_json
-      - $ref
-  /requestBody/postUrnBaseUriWithFComponentRequestBody:
-    post:
-      operationId: postUrnBaseUriWithFComponentRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UrnBaseUriWithFComponent'
-            x-schema-test-examples:
-              $ref: '#/components/x-schema-test-examples/UrnBaseUriWithFComponent'
-        required: true
-      responses:
-        '200':
-          description: success
-      tags:
-      - operation.requestBody
-      - path.post
-      - contentType_json
-      - $ref
-  /responseBody/postUrnBaseUriWithFComponentResponseBodyForContentTypes:
-    post:
-      operationId: postUrnBaseUriWithFComponentResponseBodyForContentTypes
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UrnBaseUriWithFComponent'
-              x-schema-test-examples:
-                $ref: '#/components/x-schema-test-examples/UrnBaseUriWithFComponent'
-      tags:
-      - response.content.contentType.schema
-      - path.post
-      - contentType_json
-      - $ref
   /requestBody/postRefInAdditionalpropertiesRequestBody:
     post:
       operationId: postRefInAdditionalpropertiesRequestBody
@@ -4604,23 +4532,6 @@ components:
       properties:
         $ref:
           type: string
-    IdMustBeResolvedAgainstNearestParentNotJustImmediateParent:
-      $schema: https://json-schema.org/draft/2020-12/schema
-      $id: http://example.com/a.json
-      $defs:
-        x:
-          $id: http://example.com/b/c.json
-          not:
-            $defs:
-              y:
-                $id: d.json
-                type: number
-      allOf:
-      - $ref: http://example.com/b/d.json
-    UrnBaseUriWithFComponent:
-      $comment: "RFC 8141 \xA72.3.3, but we don't allow fragments"
-      $schema: https://json-schema.org/draft/2020-12/schema
-      $ref: https://json-schema.org/draft/2020-12/schema
     RefInAdditionalproperties:
       additionalProperties:
         $ref: '#/components/schemas/PropertyNamedRefThatIsNotAReference'
@@ -6304,21 +6215,6 @@ components:
         description: property named $ref invalid
         data:
           $ref: 2
-        valid: false
-    IdMustBeResolvedAgainstNearestParentNotJustImmediateParent:
-      NumberIsValid:
-        description: number is valid
-        data: 1
-        valid: true
-      NonNumberIsInvalid:
-        description: non-number is invalid
-        data: a
-        valid: false
-    UrnBaseUriWithFComponent:
-      IsInvalid:
-        description: is invalid
-        data:
-          $id: urn:example:foo-bar-baz-qux#somepart
         valid: false
     RefInAdditionalproperties:
       PropertyNamedRefValid:

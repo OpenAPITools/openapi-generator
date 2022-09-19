@@ -41,7 +41,6 @@ Method | HTTP request | Description
 [**post_float_division_inf_request_body**](#post_float_division_inf_request_body) | **post** /requestBody/postFloatDivisionInfRequestBody | 
 [**post_forbidden_property_request_body**](#post_forbidden_property_request_body) | **post** /requestBody/postForbiddenPropertyRequestBody | 
 [**post_hostname_format_request_body**](#post_hostname_format_request_body) | **post** /requestBody/postHostnameFormatRequestBody | 
-[**post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body**](#post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body) | **post** /requestBody/postIdMustBeResolvedAgainstNearestParentNotJustImmediateParentRequestBody | 
 [**post_idn_email_format_request_body**](#post_idn_email_format_request_body) | **post** /requestBody/postIdnEmailFormatRequestBody | 
 [**post_idn_hostname_format_request_body**](#post_idn_hostname_format_request_body) | **post** /requestBody/postIdnHostnameFormatRequestBody | 
 [**post_integer_type_matches_integers_request_body**](#post_integer_type_matches_integers_request_body) | **post** /requestBody/postIntegerTypeMatchesIntegersRequestBody | 
@@ -117,7 +116,6 @@ Method | HTTP request | Description
 [**post_uri_format_request_body**](#post_uri_format_request_body) | **post** /requestBody/postUriFormatRequestBody | 
 [**post_uri_reference_format_request_body**](#post_uri_reference_format_request_body) | **post** /requestBody/postUriReferenceFormatRequestBody | 
 [**post_uri_template_format_request_body**](#post_uri_template_format_request_body) | **post** /requestBody/postUriTemplateFormatRequestBody | 
-[**post_urn_base_uri_with_f_component_request_body**](#post_urn_base_uri_with_f_component_request_body) | **post** /requestBody/postUrnBaseUriWithFComponentRequestBody | 
 [**post_uuid_format_request_body**](#post_uuid_format_request_body) | **post** /requestBody/postUuidFormatRequestBody | 
 
 # **post_additionalproperties_are_allowed_by_default_request_body**
@@ -2731,79 +2729,6 @@ with unit_test_api.ApiClient(configuration) as api_client:
         )
     except unit_test_api.ApiException as e:
         print("Exception when calling OperationRequestBodyApi->post_hostname_format_request_body: %s\n" % e)
-```
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-body | typing.Union[SchemaForRequestBodyApplicationJson] | required |
-content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
-stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
-timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
-skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
-
-### body
-
-#### SchemaForRequestBodyApplicationJson
-
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
-
-### Return Types, Responses
-
-Code | Class | Description
-------------- | ------------- | -------------
-n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
-
-#### ApiResponseFor200
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
-headers | Unset | headers were not defined |
-
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
-
-# **post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body**
-<a name="post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body"></a>
-> post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body(body)
-
-
-
-### Example
-
-```python
-import unit_test_api
-from unit_test_api.apis.tags import operation_request_body_api
-from pprint import pprint
-# Defining the host is optional and defaults to https://someserver.com/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = unit_test_api.Configuration(
-    host = "https://someserver.com/v1"
-)
-
-# Enter a context with an instance of the API client
-with unit_test_api.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
-
-    # example passing only required values which don't have defaults set
-    body = None
-    try:
-        api_response = api_instance.post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body(
-            body=body,
-        )
-    except unit_test_api.ApiException as e:
-        print("Exception when calling OperationRequestBodyApi->post_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent_request_body: %s\n" % e)
 ```
 ### Parameters
 
@@ -6751,6 +6676,7 @@ No authorization required
 ```python
 import unit_test_api
 from unit_test_api.apis.tags import operation_request_body_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -6824,6 +6750,7 @@ No authorization required
 ```python
 import unit_test_api
 from unit_test_api.apis.tags import operation_request_body_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -7044,6 +6971,7 @@ No authorization required
 ```python
 import unit_test_api
 from unit_test_api.apis.tags import operation_request_body_api
+from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
 from pprint import pprint
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -8331,80 +8259,6 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Type | Description | Notes
 ------------- | ------------- | -------------
 typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
-
-### Return Types, Responses
-
-Code | Class | Description
-------------- | ------------- | -------------
-n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
-
-#### ApiResponseFor200
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-response | urllib3.HTTPResponse | Raw response |
-body | Unset | body was not defined |
-headers | Unset | headers were not defined |
-
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-[[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
-
-# **post_urn_base_uri_with_f_component_request_body**
-<a name="post_urn_base_uri_with_f_component_request_body"></a>
-> post_urn_base_uri_with_f_component_request_body(urn_base_uri_with_f_component)
-
-
-
-### Example
-
-```python
-import unit_test_api
-from unit_test_api.apis.tags import operation_request_body_api
-from unit_test_api.model.urn_base_uri_with_f_component import UrnBaseUriWithFComponent
-from pprint import pprint
-# Defining the host is optional and defaults to https://someserver.com/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = unit_test_api.Configuration(
-    host = "https://someserver.com/v1"
-)
-
-# Enter a context with an instance of the API client
-with unit_test_api.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = operation_request_body_api.OperationRequestBodyApi(api_client)
-
-    # example passing only required values which don't have defaults set
-    body = UrnBaseUriWithFComponent(None)
-    try:
-        api_response = api_instance.post_urn_base_uri_with_f_component_request_body(
-            body=body,
-        )
-    except unit_test_api.ApiException as e:
-        print("Exception when calling OperationRequestBodyApi->post_urn_base_uri_with_f_component_request_body: %s\n" % e)
-```
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-body | typing.Union[SchemaForRequestBodyApplicationJson] | required |
-content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
-stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
-timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
-skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
-
-### body
-
-#### SchemaForRequestBodyApplicationJson
-Type | Description  | Notes
-------------- | ------------- | -------------
-[**UrnBaseUriWithFComponent**](UrnBaseUriWithFComponent.md) |  | 
-
 
 ### Return Types, Responses
 

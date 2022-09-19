@@ -66,7 +66,6 @@ docs/models/EnumsInProperties.md
 docs/models/FloatDivisionInf.md
 docs/models/ForbiddenProperty.md
 docs/models/HostnameFormat.md
-docs/models/IdMustBeResolvedAgainstNearestParentNotJustImmediateParent.md
 docs/models/IdnEmailFormat.md
 docs/models/IdnHostnameFormat.md
 docs/models/IntegerTypeMatchesIntegers.md
@@ -142,7 +141,6 @@ docs/models/UniqueitemsValidation.md
 docs/models/UriFormat.md
 docs/models/UriReferenceFormat.md
 docs/models/UriTemplateFormat.md
-docs/models/UrnBaseUriWithFComponent.md
 docs/models/UuidFormat.md
 git_push.sh
 requirements.txt
@@ -187,7 +185,6 @@ test/test_models/test_enums_in_properties.py
 test/test_models/test_float_division_inf.py
 test/test_models/test_forbidden_property.py
 test/test_models/test_hostname_format.py
-test/test_models/test_id_must_be_resolved_against_nearest_parent_not_just_immediate_parent.py
 test/test_models/test_idn_email_format.py
 test/test_models/test_idn_hostname_format.py
 test/test_models/test_integer_type_matches_integers.py
@@ -263,7 +260,6 @@ test/test_models/test_uniqueitems_validation.py
 test/test_models/test_uri_format.py
 test/test_models/test_uri_reference_format.py
 test/test_models/test_uri_template_format.py
-test/test_models/test_urn_base_uri_with_f_component.py
 test/test_models/test_uuid_format.py
 tox.ini
 unit_test_api/__init__.py
@@ -372,8 +368,6 @@ unit_test_api/model/forbidden_property.py
 unit_test_api/model/forbidden_property.pyi
 unit_test_api/model/hostname_format.py
 unit_test_api/model/hostname_format.pyi
-unit_test_api/model/id_must_be_resolved_against_nearest_parent_not_just_immediate_parent.py
-unit_test_api/model/id_must_be_resolved_against_nearest_parent_not_just_immediate_parent.pyi
 unit_test_api/model/idn_email_format.py
 unit_test_api/model/idn_email_format.pyi
 unit_test_api/model/idn_hostname_format.py
@@ -524,8 +518,6 @@ unit_test_api/model/uri_reference_format.py
 unit_test_api/model/uri_reference_format.pyi
 unit_test_api/model/uri_template_format.py
 unit_test_api/model/uri_template_format.pyi
-unit_test_api/model/urn_base_uri_with_f_component.py
-unit_test_api/model/urn_base_uri_with_f_component.pyi
 unit_test_api/model/uuid_format.py
 unit_test_api/model/uuid_format.pyi
 unit_test_api/models/__init__.py

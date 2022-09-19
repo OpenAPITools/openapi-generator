@@ -47,7 +47,6 @@ from unit_test_api.model.enums_in_properties import EnumsInProperties
 from unit_test_api.model.float_division_inf import FloatDivisionInf
 from unit_test_api.model.forbidden_property import ForbiddenProperty
 from unit_test_api.model.hostname_format import HostnameFormat
-from unit_test_api.model.id_must_be_resolved_against_nearest_parent_not_just_immediate_parent import IdMustBeResolvedAgainstNearestParentNotJustImmediateParent
 from unit_test_api.model.idn_email_format import IdnEmailFormat
 from unit_test_api.model.idn_hostname_format import IdnHostnameFormat
 from unit_test_api.model.integer_type_matches_integers import IntegerTypeMatchesIntegers
@@ -123,5 +122,4 @@ from unit_test_api.model.uniqueitems_validation import UniqueitemsValidation
 from unit_test_api.model.uri_format import UriFormat
 from unit_test_api.model.uri_reference_format import UriReferenceFormat
 from unit_test_api.model.uri_template_format import UriTemplateFormat
-from unit_test_api.model.urn_base_uri_with_f_component import UrnBaseUriWithFComponent
 from unit_test_api.model.uuid_format import UuidFormat

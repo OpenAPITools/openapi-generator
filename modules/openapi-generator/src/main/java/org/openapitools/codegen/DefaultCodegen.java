@@ -7840,22 +7840,28 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private CodegenComposedSchemas getComposedSchemas(Schema schema) {
-        if (!(schema instanceof ComposedSchema) && schema.getNot()==null) {
+        boolean noNot = schema.getNot() == null;
+        boolean noAllOf = schema.getAllOf() == null;
+        boolean noAnyOf = schema.getAnyOf() == null;
+        boolean noOneOf = schema.getOneOf() == null;
+        if (noNot && noAllOf && noAnyOf && noOneOf) {
             return null;
         }
-        Schema notSchema = schema.getNot();
         CodegenProperty notProperty = null;
-        if (notSchema != null) {
-            notProperty = fromProperty("not_schema", notSchema, false);
+        if (!noNot) {
+            notProperty = fromProperty("not_schema", schema.getNot(), false);
         }
         List<CodegenProperty> allOf = new ArrayList<>();
         List<CodegenProperty> oneOf = new ArrayList<>();
         List<CodegenProperty> anyOf = new ArrayList<>();
-        if (schema instanceof ComposedSchema) {
-            ComposedSchema cs = (ComposedSchema) schema;
-            allOf = getComposedProperties(cs.getAllOf(), "all_of");
-            oneOf = getComposedProperties(cs.getOneOf(), "one_of");
-            anyOf = getComposedProperties(cs.getAnyOf(), "any_of");
+        if (!noAllOf) {
+            allOf = getComposedProperties(schema.getAllOf(), "all_of");
+        }
+        if (!noAnyOf) {
+            anyOf = getComposedProperties(schema.getAnyOf(), "any_of");
+        }
+        if (!noOneOf) {
+            oneOf = getComposedProperties(schema.getOneOf(), "one_of");
         }
         return new CodegenComposedSchemas(
                 allOf,
