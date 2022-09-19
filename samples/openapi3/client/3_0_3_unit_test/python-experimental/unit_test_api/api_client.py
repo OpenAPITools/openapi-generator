@@ -919,8 +919,8 @@ class OpenApiResponse(JSONDetector):
         if self.content is not None:
             if content_type not in self.content:
                 raise ApiValueError(
-                    f'Invalid content_type={content_type} returned for response with '
-                    'status_code={str(response.status)}'
+                    f"Invalid content_type returned. Content_type='{content_type}' was returned "
+                    f"when only {str(set(self.content))} are defined for status_code={str(response.status)}"
                 )
             body_schema = self.content[content_type].schema
             if body_schema is None:
