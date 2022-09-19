@@ -1,0 +1,300 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import java.io.IOException
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.type.TypeReference
+{{/jackson}}
+{{#gson}}
+import com.google.gson.reflect.TypeToken
+{{/gson}}
+import io.vertx.core.Vertx
+import io.vertx.core.http.RequestOptions
+import io.vertx.core.http.HttpMethod
+import io.vertx.core.buffer.Buffer
+import io.vertx.ext.web.client.WebClient
+import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.dispatcher
+
+{{#useCoroutines}}
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+{{/useCoroutines}}
+
+import {{packageName}}.infrastructure.ApiResponse
+import {{packageName}}.infrastructure.Redirection
+import {{packageName}}.infrastructure.Informational
+import {{packageName}}.infrastructure.Success
+import {{packageName}}.infrastructure.ClientError
+import {{packageName}}.infrastructure.ServerError
+import {{packageName}}.infrastructure.ClientException
+import {{packageName}}.infrastructure.ServerException
+import {{packageName}}.infrastructure.Serializer
+import {{packageName}}.infrastructure.ResponseType
+
+@Suppress ("UNUSED")
+{{#operations}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(val basePath: kotlin.String = defaultBasePath, val accessToken: String? = null, val apiKey: MutableMap<String, String> = mutableMapOf(), val apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), var username: String? = null, var password: String? = null, val vertx: Vertx) {
+    companion object {
+        const val baseUrlKey = "{{packageName}}.baseUrl"
+
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty(baseUrlKey, "{{{basePath}}}")
+        }
+    }
+
+    {{#operation}}
+    {{#allParams}}
+    {{#isEnum}}
+    /**
+     * enum for parameter {{paramName}}
+     */
+     {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{enumName}}_{{operationId}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+     {{^enumUnknownDefaultCase}}
+     {{#allowableValues}}
+     {{#enumVars}}
+     {{#moshi}}
+     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+     {{/moshi}}
+     {{#gson}}
+     @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+     {{/gson}}
+     {{#jackson}}
+     @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+     {{/jackson}}
+     {{#kotlinx_serialization}}
+     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+     {{/kotlinx_serialization}}
+     {{/enumVars}}
+     {{/allowableValues}}
+     {{/enumUnknownDefaultCase}}
+     {{#enumUnknownDefaultCase}}
+     {{#allowableValues}}
+     {{#enumVars}}
+     {{^-last}}
+     {{#moshi}}
+     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+     {{/moshi}}
+     {{#gson}}
+     @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+     {{/gson}}
+     {{#jackson}}
+     @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+     {{/jackson}}
+     {{#kotlinx_serialization}}
+     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+     {{/kotlinx_serialization}}
+     {{/-last}}
+     {{/enumVars}}
+     {{/allowableValues}}
+     {{/enumUnknownDefaultCase}}
+     }
+
+    {{/isEnum}}
+    {{/allParams}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{#nullableReturnType}} or null{{/nullableReturnType}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */{{#returnType}}
+    @Suppress("UNCHECKED_CAST"){{/returnType}}
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    {{#isDeprecated}}
+    @Deprecated(message = "This operation is deprecated.")
+    {{/isDeprecated}}
+    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+        val localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+     {{/allParams}}* @return ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */{{#returnType}}
+    @Suppress("UNCHECKED_CAST"){{/returnType}}
+    @Throws(IllegalStateException::class, IOException::class)
+    {{#isDeprecated}}
+    @Deprecated(message = "This operation is deprecated.")
+    {{/isDeprecated}}
+    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>{{#useCoroutines}} = withContext(vertx.dispatcher()){{/useCoroutines}} {
+        val requestOptions = RequestOptions()
+        {{#hasFormParams}}requestOptions.addHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
+        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { requestOptions.addHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
+        {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}requestOptions.addHeader("Content-Type", "{{{mediaType}}}"){{/consumes}}{{/hasConsumes}}{{/hasFormParams}}
+        {{#hasProduces}}requestOptions.addHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
+        requestOptions.uri = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}
+        val client = WebClient.create(vertx)
+        val request = client.request(HttpMethod.{{httpMethod}}, requestOptions)
+
+        {{#hasFormParams}}
+        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        {{#formParams}}
+        {{{paramName}}}{{^required}}?{{/required}}.let { form.add("{{{baseName}}}", {{{paramName}}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{/formParams}}
+        {{/hasFormParams}}
+
+        {{#hasQueryParams}}
+        {{#queryParams}}
+        request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+        {{/queryParams}}
+        {{/hasQueryParams}}
+
+        {{#authMethods}}
+        {{#isApiKey}}
+        if (apiKey["{{keyParamName}}"] != null) {
+            if (apiKeyPrefix["{{keyParamName}}"] != null) {
+                {{#isKeyInHeader}}
+                requestOptions.addHeader("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                {{/isKeyInHeader}}
+                {{#isKeyInQuery}}
+               request.queryParams().add("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                {{/isKeyInQuery}}
+            } else {
+                {{#isKeyInHeader}}
+                requestOptions.addHeader("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                {{/isKeyInHeader}}
+                {{#isKeyInQuery}}
+                request.queryParams().add("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                {{/isKeyInQuery}}
+            }
+        }
+        {{/isApiKey}}
+        {{#isBasic}}
+        {{#isBasicBasic}}
+        username?.let { username ->
+            password?.let { password ->
+                request.basicAuthentication(username, password)
+            }
+        }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        accessToken?.let { accessToken ->
+           request.bearerTokenAuthentication(accessToken)
+        }
+        {{/isBasicBearer}}
+        {{/isBasic}}
+        {{#isOAuth}}
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
+            }
+        }
+        {{/isOAuth}}
+        {{/authMethods}}
+
+        return{{#useCoroutines}}@withContext{{/useCoroutines}} request
+            {{#hasBodyParam}}
+            {{#moshi}}
+            .sendBuffer(Buffer.buffer(Serializer.moshi.adapter({{#bodyParams}}{{{dataType}}}{{/bodyParams}}::class.java).toJson({{#bodyParams}}{{{paramName}}}{{/bodyParams}})))
+            {{/moshi}}
+            {{#gson}}
+            .sendBuffer(Buffer.buffer(Serializer.gson.toJson({{#bodyParams}}{{{paramName}}}{{/bodyParams}}, {{#bodyParams}}{{{dataType}}}{{/bodyParams}}::class.java)))
+            {{/gson}}
+            {{#jackson}}
+            .sendBuffer(Buffer.buffer(Serializer.jacksonObjectMapper.writeValueAsBytes({{#bodyParams}}{{{paramName}}}{{/bodyParams}})))
+            {{/jackson}}
+            {{/hasBodyParam}}
+            {{^hasBodyParam}}
+            .send()
+            {{/hasBodyParam}}
+            .map {
+                val apiResponse: ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}> = handleResponse(it)
+                apiResponse
+            }
+            .await()
+    }
+
+    {{/operation}}
+
+    private inline fun <reified T: Any?> handleResponse(response: io.vertx.ext.web.client.HttpResponse<Buffer>): ApiResponse<T?> {
+        val code = response.statusCode()
+        val headers = response.headers().associate { it.key to listOf(it.value) }
+        val contentType = headers["Content-Type"]?.firstOrNull()?.substringBefore(";")?.lowercase(java.util.Locale.getDefault())
+
+        return when (code) {
+            in 100..199 -> Informational(
+                response.statusMessage(),
+                code,
+                headers
+            )
+            in 200 .. 299 -> Success(
+                responseBody<T>(response.body(), contentType),
+                code,
+                headers
+            )
+            in 300..399 -> Redirection(
+                code,
+                headers
+            )
+            in 400..499 -> ClientError(
+                response.statusMessage(),
+                responseBody<T>(response.body(), contentType),
+                code,
+                headers
+            )
+            else -> ServerError(
+                response.statusMessage(),
+                responseBody<T>(response.body(), contentType),
+                code,
+                headers
+            )
+        }
+    }
+
+    private inline fun <reified T: Any?> responseBody(body: Buffer?, mediaType: String? = "application/json"): T? {
+        body ?: return null
+
+        val bodyContent = body.bytes.toString()
+        if (bodyContent.isEmpty()) {
+            return null
+        }
+
+        return when {
+            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{!
+                }}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{!
+                }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
+                }}{{#kotlinx_serialization}}Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
+        }
+    }
+
+    private fun encodeURIComponent(parameter: String): String {
+        return try {
+            java.net.URLEncoder.encode(parameter, java.nio.charset.StandardCharsets.UTF_8.name())
+        } catch (e: java.io.UnsupportedEncodingException) {
+            parameter
+        }
+    }
+
+}
+{{/operations}}
