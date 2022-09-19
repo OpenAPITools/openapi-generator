@@ -273,6 +273,35 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testAnyOfArraysAndMaps() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/issue_12955.yaml")
+
+
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_foo.go");
+        TestUtils.assertFileContains(modelFile, "ArrayOfFoo *[]Foo");
+        TestUtils.assertFileContains(modelFile, "dst.ArrayOfFoo");
+        TestUtils.assertFileNotContains(modelFile, "[]Foo *[]Foo");
+        TestUtils.assertFileNotContains(modelFile, "dst.[]Foo");
+
+        TestUtils.assertFileContains(modelFile, "MapOfInterface *map[string]interface{}");
+        TestUtils.assertFileContains(modelFile, "dst.MapOfInterface");
+        TestUtils.assertFileNotContains(modelFile, "map[string]interface{} *map[string]interface{}");
+        TestUtils.assertFileNotContains(modelFile, "dst.map[string]interface{}");
+    }
+
+    @Test
     public void verifyApiTestWithNullResponse() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

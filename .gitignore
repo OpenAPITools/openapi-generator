@@ -19,7 +19,6 @@ generated-sources/*
 generated-code/*
 *.swp
 *.swo
-target
 .idea
 .lib
 atlassian-ide-plugin.xml
@@ -45,7 +44,6 @@ nb-configuration.xml
 *.xml~
 *.t~
 
-/target
 /generated-files
 test-output/
 nbactions.xml
