@@ -62,7 +62,7 @@ class PetApi {
   Future<void> addPet(Pet pet,) async {
     final response = await addPetWithHttpInfo(pet,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
   }
 
@@ -121,7 +121,7 @@ class PetApi {
   Future<void> deletePet(int petId, { String? apiKey, }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
   }
 
@@ -173,14 +173,13 @@ class PetApi {
   Future<List<Pet>?> findPetsByStatus(List<String> status,) async {
     final response = await findPetsByStatusWithHttpInfo(status,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      final responseBody = await _decodeBodyBytes(response);
-      return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
+      return (await apiClient.deserializeAsync(response.bodyBytes, 'List<Pet>') as List)
         .cast<Pet>()
         .toList();
 
@@ -236,14 +235,13 @@ class PetApi {
   Future<Set<Pet>?> findPetsByTags(Set<String> tags,) async {
     final response = await findPetsByTagsWithHttpInfo(tags,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      final responseBody = await _decodeBodyBytes(response);
-      return (await apiClient.deserializeAsync(responseBody, 'Set<Pet>') as List)
+      return (await apiClient.deserializeAsync(response.bodyBytes, 'Set<Pet>') as List)
         .cast<Pet>()
         .toSet();
 
@@ -298,13 +296,13 @@ class PetApi {
   Future<Pet?> getPetById(int petId,) async {
     final response = await getPetByIdWithHttpInfo(petId,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
+      return await apiClient.deserializeAsync(response.bodyBytes, 'Pet',) as Pet;
     
     }
     return null;
@@ -356,7 +354,7 @@ class PetApi {
   Future<void> updatePet(Pet pet,) async {
     final response = await updatePetWithHttpInfo(pet,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
   }
 
@@ -425,7 +423,7 @@ class PetApi {
   Future<void> updatePetWithForm(int petId, { String? name, String? status, }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
   }
 
@@ -502,13 +500,13 @@ class PetApi {
   Future<ApiResponse?> uploadFile(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
     final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file, );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
+      return await apiClient.deserializeAsync(response.bodyBytes, 'ApiResponse',) as ApiResponse;
     
     }
     return null;
@@ -587,13 +585,13 @@ class PetApi {
   Future<ApiResponse?> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String? additionalMetadata, }) async {
     final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata, );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, decodeError(await response.bodyBytes));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
+      return await apiClient.deserializeAsync(response.bodyBytes, 'ApiResponse',) as ApiResponse;
     
     }
     return null;
