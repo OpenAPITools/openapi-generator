@@ -41,6 +41,7 @@ class Dog(
         
         
             class MetaOapg:
+                
                 class properties:
                     breed = schemas.StrSchema
                     __annotations__ = {

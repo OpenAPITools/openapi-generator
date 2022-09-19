@@ -39,6 +39,7 @@ class FormatTest(
             "password",
             "byte",
         }
+        
         class properties:
             
             

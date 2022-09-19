@@ -41,6 +41,7 @@ class ScaleneTriangle(
         
         
             class MetaOapg:
+                
                 class properties:
                     
                     

@@ -459,11 +459,9 @@ paths:
               items:
                 $ref: '#/components/schemas/StringObject'
               type: array
-        explode: true
         in: query
         name: list-of-strings
         required: false
-        style: form
       responses:
         "200":
           description: Success
@@ -685,12 +683,14 @@ components:
       - FOO
       - BAR
       type: string
+      example: null
     _12345AnyOfObject_anyOf:
       enum:
       - FOO
       - BAR
       - '*'
       type: string
+      example: null
   securitySchemes:
     authScheme:
       flows:

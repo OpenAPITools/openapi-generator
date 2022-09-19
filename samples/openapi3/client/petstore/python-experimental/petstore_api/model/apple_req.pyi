@@ -36,6 +36,7 @@ class AppleReq(
         required = {
             "cultivar",
         }
+        
         class properties:
             cultivar = schemas.StrSchema
             mealy = schemas.BoolSchema

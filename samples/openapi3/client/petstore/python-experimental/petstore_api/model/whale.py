@@ -36,6 +36,7 @@ class Whale(
         required = {
             "className",
         }
+        
         class properties:
             
             

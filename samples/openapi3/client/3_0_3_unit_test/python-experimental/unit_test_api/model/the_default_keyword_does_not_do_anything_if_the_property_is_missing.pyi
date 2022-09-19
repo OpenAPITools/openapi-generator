@@ -33,6 +33,7 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
 
 
     class MetaOapg:
+        
         class properties:
             
             

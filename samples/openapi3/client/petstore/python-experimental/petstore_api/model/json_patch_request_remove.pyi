@@ -37,6 +37,7 @@ class JSONPatchRequestRemove(
             "op",
             "path",
         }
+        
         class properties:
             path = schemas.StrSchema
             

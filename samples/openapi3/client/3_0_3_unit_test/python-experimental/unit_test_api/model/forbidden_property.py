@@ -33,6 +33,7 @@ class ForbiddenProperty(
 
 
     class MetaOapg:
+        
         class properties:
             foo = schemas.NotAnyTypeSchema
             __annotations__ = {

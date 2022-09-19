@@ -4245,4 +4245,12 @@ public class DefaultCodegenTest {
         Assert.assertEquals(fooOptional.vars.get(0).name, "foo");
         Assert.assertEquals(fooOptional.requiredVars.size(), 0);
     }
+
+    @Test
+    public void testAssigning310SpecWorks() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        assertEquals(openAPI, codegen.openAPI);
+    }
 }

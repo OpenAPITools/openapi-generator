@@ -39,6 +39,7 @@ class Pet(
             "photoUrls",
             "name",
         }
+        
         class properties:
             name = schemas.StrSchema
             
@@ -78,7 +79,7 @@ class Pet(
             
             
                 class MetaOapg:
-            
+                    
                     @classmethod
                     @property
                     def items(cls) -> typing.Type['Tag']:

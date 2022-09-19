@@ -57,7 +57,7 @@ class SchemaFor200ResponseBodyApplicationXml(
 
 
     class MetaOapg:
-
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Pet']:
@@ -84,7 +84,7 @@ class SchemaFor200ResponseBodyApplicationJson(
 
 
     class MetaOapg:
-
+        
         @classmethod
         @property
         def items(cls) -> typing.Type['Pet']:

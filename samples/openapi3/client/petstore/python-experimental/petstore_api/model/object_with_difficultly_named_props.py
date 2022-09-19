@@ -38,6 +38,7 @@ class ObjectWithDifficultlyNamedProps(
         required = {
             "123-list",
         }
+        
         class properties:
             _123_list = schemas.StrSchema
             special_property_name = schemas.Int64Schema

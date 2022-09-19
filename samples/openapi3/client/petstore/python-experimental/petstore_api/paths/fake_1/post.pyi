@@ -38,6 +38,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             "byte",
             "double",
         }
+        
         class properties:
             
             

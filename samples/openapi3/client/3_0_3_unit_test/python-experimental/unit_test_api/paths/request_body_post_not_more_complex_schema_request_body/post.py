@@ -42,6 +42,7 @@ class SchemaForRequestBodyApplicationJson(
         
         
             class MetaOapg:
+                
                 class properties:
                     foo = schemas.StrSchema
                     __annotations__ = {

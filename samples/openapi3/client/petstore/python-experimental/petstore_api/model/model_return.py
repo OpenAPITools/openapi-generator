@@ -35,6 +35,7 @@ class ModelReturn(
 
 
     class MetaOapg:
+        
         class properties:
             _return = schemas.Int32Schema
             __annotations__ = {

@@ -11,9 +11,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     schemas.AnyTypeSchema,
     {{/if}}
 {{else}}
-    {{#if getHasMultipleTypes}}
-    schemas.SchemaTypeCheckerClsFactory(typing.Union[{{#if isNull}}schemas.NoneClass, {{/if}}{{#if isMap}}frozendict.frozendict, {{/if}}{{#if isArray}}tuple, {{/if}}{{#if isString }}str, {{/if}}{{#or isInteger isNumber}}decimal.Decimal, {{/or}}{{#if isBoolean}}schemas.BoolClass, {{/if}}]),
-    {{/if}}
     {{#if composedSchemas}}
     schemas.ComposedBase,
     {{/if}}
@@ -41,17 +38,9 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{#if getFormat}}
         format = '{{getFormat}}'
 {{/if}}
-{{#with items}}
-{{#if complexType}}
-
-        @classmethod
-        @property
-        def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
-            return {{complexType}}
-{{else}}
-        {{> model_templates/schema }}
+{{#if getItems}}
+        {{> model_templates/list_partial }}
 {{/if}}
-{{/with}}
 {{#or additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars}}
         {{> model_templates/dict_partial }}
 {{/or}}

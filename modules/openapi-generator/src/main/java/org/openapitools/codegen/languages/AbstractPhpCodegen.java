@@ -245,21 +245,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return packageName;
     }
 
-    public String toSrcPath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toSrcPath(final String packageName, final String basePath) {
+        String modifiedPackageName = packageName.replace(invokerPackage, "");
+        String modifiedBasePath = basePath;
+        if (basePath != null && !basePath.isEmpty()) {
+            modifiedBasePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator;
         }
 
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
             // Replace period, backslash, forward slash with file separator in package name
-            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
             File.separator
         );
 
         // Trim trailing file separators from the overall path
-        return StringUtils.removeEnd(basePath + packagePath, File.separator);
+        return StringUtils.removeEnd(modifiedBasePath + packagePath, File.separator);
     }
 
     @Override

@@ -41,6 +41,7 @@ class Cat(
         
         
             class MetaOapg:
+                
                 class properties:
                     declawed = schemas.BoolSchema
                     __annotations__ = {

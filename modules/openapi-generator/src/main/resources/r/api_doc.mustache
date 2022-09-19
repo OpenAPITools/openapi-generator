@@ -21,13 +21,17 @@ Method | HTTP request | Description
 ```R
 library({{{packageName}}})
 
+{{#summary}}
+# {{{.}}}
+#
+{{/summary}}
 {{#allParams}}
+{{#-first}}
+# prepare function argument(s)
+{{/-first}}
 var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (Optional){{/required}}
 {{/allParams}}
 
-{{#summary}}
-# {{{.}}}
-{{/summary}}
 {{#generateWrapper}}
 api_instance <- {{#lambda.lowercase}}{{{packageName}}}{{/lambda.lowercase}}_api$new()
 {{/generateWrapper}}
@@ -39,21 +43,21 @@ api_instance <- {{{classname}}}$new()
 {{#isBasic}}
 {{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-api_instance$api_client$username <- Sys.getenv("USERNAME")
-api_instance$api_client$password <- Sys.getenv("PASSWORD")
+{{^-first}}# {{/-first}}api_instance$api_client$username <- Sys.getenv("USERNAME")
+{{^-first}}# {{/-first}}api_instance$api_client$password <- Sys.getenv("PASSWORD")
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 # Configure HTTP bearer authorization: {{{name}}}
-api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+{{^-first}}# {{/-first}}api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-api_instance$api_client$api_keys["{{{keyParamName}}}"] <- Sys.getenv("API_KEY")
+{{^-first}}# {{/-first}}api_instance$api_client$api_keys["{{{keyParamName}}}"] <- Sys.getenv("API_KEY")
 {{/isApiKey}}
 {{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
+{{^-first}}# {{/-first}}api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}

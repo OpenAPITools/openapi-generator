@@ -33,6 +33,7 @@ class InvalidStringValueForDefault(
 
 
     class MetaOapg:
+        
         class properties:
             
             

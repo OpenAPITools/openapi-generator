@@ -44,6 +44,7 @@ class Allof(
                 required = {
                     "bar",
                 }
+                
                 class properties:
                     bar = schemas.IntSchema
                     __annotations__ = {
@@ -99,6 +100,7 @@ class Allof(
                 required = {
                     "foo",
                 }
+                
                 class properties:
                     foo = schemas.StrSchema
                     __annotations__ = {

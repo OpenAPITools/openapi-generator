@@ -35,11 +35,11 @@ class HealthCheckResult(
 
 
     class MetaOapg:
+        
         class properties:
             
             
             class NullableMessage(
-                schemas.SchemaTypeCheckerClsFactory(typing.Union[schemas.NoneClass, str, ]),
                 schemas.StrBase,
                 schemas.NoneBase,
                 schemas.Schema,

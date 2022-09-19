@@ -36,6 +36,7 @@ class EnumTest(
         required = {
             "enum_string_required",
         }
+        
         class properties:
             
             

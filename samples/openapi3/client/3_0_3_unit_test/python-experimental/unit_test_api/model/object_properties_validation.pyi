@@ -33,6 +33,7 @@ class ObjectPropertiesValidation(
 
 
     class MetaOapg:
+        
         class properties:
             foo = schemas.IntSchema
             bar = schemas.StrSchema

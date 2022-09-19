@@ -36,6 +36,7 @@ class BasquePig(
         required = {
             "className",
         }
+        
         class properties:
             
             

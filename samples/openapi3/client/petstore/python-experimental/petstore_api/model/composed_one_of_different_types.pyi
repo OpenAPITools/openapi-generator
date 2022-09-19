@@ -43,9 +43,6 @@ class ComposedOneOfDifferentTypes(
             schemas.DictSchema
         ):
         
-        
-            class MetaOapg:
-        
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict.frozendict, ],

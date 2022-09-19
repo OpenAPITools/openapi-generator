@@ -38,6 +38,7 @@ class JSONPatchRequestAddReplaceTest(
             "path",
             "value",
         }
+        
         class properties:
             path = schemas.StrSchema
             value = schemas.AnyTypeSchema

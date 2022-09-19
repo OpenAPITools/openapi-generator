@@ -33,6 +33,7 @@ class Drawing(
 
 
     class MetaOapg:
+        
         class properties:
         
             @classmethod
@@ -57,7 +58,7 @@ class Drawing(
             
             
                 class MetaOapg:
-            
+                    
                     @classmethod
                     @property
                     def items(cls) -> typing.Type['Shape']:

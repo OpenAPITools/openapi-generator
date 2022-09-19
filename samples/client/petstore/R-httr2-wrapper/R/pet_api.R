@@ -836,7 +836,7 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
       # OAuth-related settings
@@ -1187,7 +1187,7 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
       # Bearer token
@@ -1314,7 +1314,7 @@ PetApi <- R6::R6Class(
 
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
       # API key authentication
@@ -1698,7 +1698,7 @@ PetApi <- R6::R6Class(
       form_params["status"] <- `status`
       local_var_url_path <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
 
@@ -1810,7 +1810,7 @@ PetApi <- R6::R6Class(
       file_params["file"] <- curl::form_file(`file`)
       local_var_url_path <- "/pet/{petId}/uploadImage"
       if (!missing(`pet_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
       }
 
       # OAuth-related settings

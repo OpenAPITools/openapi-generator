@@ -33,6 +33,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
 
 
     class MetaOapg:
+        
         class properties:
             uuid = schemas.UUIDSchema
             dateTime = schemas.DateTimeSchema
