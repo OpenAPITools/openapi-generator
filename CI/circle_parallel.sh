@@ -75,12 +75,13 @@ elif [ "$NODE_INDEX" = "3" ]; then
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "4" ]; then
-  echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX to test python + python-experimental clients ..."
 
   #mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   (cd samples/openapi3/client/petstore/python && make test)
   (cd samples/openapi3/client/petstore/python-experimental && make test)
   (cd samples/openapi3/client/3_0_3_unit_test/python-experimental && make test)
+  (cd samples/openapi3/client/3_1_0_unit_test/python-experimental && make test)
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
