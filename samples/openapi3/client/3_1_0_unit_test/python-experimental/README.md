@@ -133,9 +133,6 @@ import time
 import unit_test_api
 from pprint import pprint
 from unit_test_api.apis import ref_api
-from unit_test_api.model.property_named_ref_that_is_not_a_reference import PropertyNamedRefThatIsNotAReference
-from unit_test_api.model.ref_in_additionalproperties import RefInAdditionalproperties
-from unit_test_api.model.ref_in_property import RefInProperty
 # Defining the host is optional and defaults to https://someserver.com/v1
 # See configuration.py for a list of all supported configuration parameters.
 configuration = unit_test_api.Configuration(
@@ -147,12 +144,12 @@ configuration = unit_test_api.Configuration(
 with unit_test_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ref_api.RefApi(api_client)
-    property_named_ref_that_is_not_a_reference = PropertyNamedRefThatIsNotAReference(None) # PropertyNamedRefThatIsNotAReference | 
+    body = None # bool, date, datetime, dict, float, int, list, str, none_type | 
 
     try:
-        api_instance.post_property_named_ref_that_is_not_a_reference_request_body(property_named_ref_that_is_not_a_reference)
+        api_instance.post_ref_in_items_request_body(body)
     except unit_test_api.ApiException as e:
-        print("Exception when calling RefApi->post_property_named_ref_that_is_not_a_reference_request_body: %s\n" % e)
+        print("Exception when calling RefApi->post_ref_in_items_request_body: %s\n" % e)
 ```
 
 ## Documentation for API Endpoints
@@ -161,22 +158,8 @@ All URIs are relative to *https://someserver.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*RefApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/apis/tags/RefApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-*RefApi* | [**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
-*RefApi* | [**post_ref_in_additionalproperties_request_body**](docs/apis/tags/RefApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-*RefApi* | [**post_ref_in_additionalproperties_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
-*RefApi* | [**post_ref_in_allof_request_body**](docs/apis/tags/RefApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
-*RefApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
-*RefApi* | [**post_ref_in_anyof_request_body**](docs/apis/tags/RefApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
-*RefApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *RefApi* | [**post_ref_in_items_request_body**](docs/apis/tags/RefApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *RefApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
-*RefApi* | [**post_ref_in_not_request_body**](docs/apis/tags/RefApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
-*RefApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
-*RefApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/RefApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
-*RefApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
-*RefApi* | [**post_ref_in_property_request_body**](docs/apis/tags/RefApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
-*RefApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/RefApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *AdditionalPropertiesApi* | [**post_additionalproperties_are_allowed_by_default_request_body**](docs/apis/tags/AdditionalPropertiesApi.md#post_additionalproperties_are_allowed_by_default_request_body) | **post** /requestBody/postAdditionalpropertiesAreAllowedByDefaultRequestBody | 
 *AdditionalPropertiesApi* | [**post_additionalproperties_are_allowed_by_default_response_body_for_content_types**](docs/apis/tags/AdditionalPropertiesApi.md#post_additionalproperties_are_allowed_by_default_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesAreAllowedByDefaultResponseBodyForContentTypes | 
 *AdditionalPropertiesApi* | [**post_additionalproperties_can_exist_by_itself_request_body**](docs/apis/tags/AdditionalPropertiesApi.md#post_additionalproperties_can_exist_by_itself_request_body) | **post** /requestBody/postAdditionalpropertiesCanExistByItselfRequestBody | 
@@ -387,22 +370,8 @@ Class | Method | HTTP request | Description
 *ContentTypeJsonApi* | [**post_properties_with_escaped_characters_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_properties_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_properties_with_null_valued_instance_properties_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_properties_with_null_valued_instance_properties_request_body) | **post** /requestBody/postPropertiesWithNullValuedInstancePropertiesRequestBody | 
 *ContentTypeJsonApi* | [**post_properties_with_null_valued_instance_properties_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_properties_with_null_valued_instance_properties_response_body_for_content_types) | **post** /responseBody/postPropertiesWithNullValuedInstancePropertiesResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-*ContentTypeJsonApi* | [**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_ref_in_additionalproperties_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-*ContentTypeJsonApi* | [**post_ref_in_additionalproperties_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_ref_in_allof_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
-*ContentTypeJsonApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_ref_in_anyof_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
-*ContentTypeJsonApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_ref_in_items_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *ContentTypeJsonApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_ref_in_not_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
-*ContentTypeJsonApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
-*ContentTypeJsonApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
-*ContentTypeJsonApi* | [**post_ref_in_property_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
-*ContentTypeJsonApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_regex_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_regex_format_request_body) | **post** /requestBody/postRegexFormatRequestBody | 
 *ContentTypeJsonApi* | [**post_regex_format_response_body_for_content_types**](docs/apis/tags/ContentTypeJsonApi.md#post_regex_format_response_body_for_content_types) | **post** /responseBody/postRegexFormatResponseBodyForContentTypes | 
 *ContentTypeJsonApi* | [**post_relative_json_pointer_format_request_body**](docs/apis/tags/ContentTypeJsonApi.md#post_relative_json_pointer_format_request_body) | **post** /requestBody/postRelativeJsonPointerFormatRequestBody | 
@@ -651,14 +620,7 @@ Class | Method | HTTP request | Description
 *OperationRequestBodyApi* | [**post_properties_whose_names_are_javascript_object_property_names_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_properties_whose_names_are_javascript_object_property_names_request_body) | **post** /requestBody/postPropertiesWhoseNamesAreJavascriptObjectPropertyNamesRequestBody | 
 *OperationRequestBodyApi* | [**post_properties_with_escaped_characters_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_properties_with_escaped_characters_request_body) | **post** /requestBody/postPropertiesWithEscapedCharactersRequestBody | 
 *OperationRequestBodyApi* | [**post_properties_with_null_valued_instance_properties_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_properties_with_null_valued_instance_properties_request_body) | **post** /requestBody/postPropertiesWithNullValuedInstancePropertiesRequestBody | 
-*OperationRequestBodyApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-*OperationRequestBodyApi* | [**post_ref_in_additionalproperties_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-*OperationRequestBodyApi* | [**post_ref_in_allof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
-*OperationRequestBodyApi* | [**post_ref_in_anyof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
 *OperationRequestBodyApi* | [**post_ref_in_items_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
-*OperationRequestBodyApi* | [**post_ref_in_not_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
-*OperationRequestBodyApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
-*OperationRequestBodyApi* | [**post_ref_in_property_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
 *OperationRequestBodyApi* | [**post_regex_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_regex_format_request_body) | **post** /requestBody/postRegexFormatRequestBody | 
 *OperationRequestBodyApi* | [**post_relative_json_pointer_format_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_relative_json_pointer_format_request_body) | **post** /requestBody/postRelativeJsonPointerFormatRequestBody | 
 *OperationRequestBodyApi* | [**post_required_default_validation_request_body**](docs/apis/tags/OperationRequestBodyApi.md#post_required_default_validation_request_body) | **post** /requestBody/postRequiredDefaultValidationRequestBody | 
@@ -848,22 +810,8 @@ Class | Method | HTTP request | Description
 *PathPostApi* | [**post_properties_with_escaped_characters_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_properties_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
 *PathPostApi* | [**post_properties_with_null_valued_instance_properties_request_body**](docs/apis/tags/PathPostApi.md#post_properties_with_null_valued_instance_properties_request_body) | **post** /requestBody/postPropertiesWithNullValuedInstancePropertiesRequestBody | 
 *PathPostApi* | [**post_properties_with_null_valued_instance_properties_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_properties_with_null_valued_instance_properties_response_body_for_content_types) | **post** /responseBody/postPropertiesWithNullValuedInstancePropertiesResponseBodyForContentTypes | 
-*PathPostApi* | [**post_property_named_ref_that_is_not_a_reference_request_body**](docs/apis/tags/PathPostApi.md#post_property_named_ref_that_is_not_a_reference_request_body) | **post** /requestBody/postPropertyNamedRefThatIsNotAReferenceRequestBody | 
-*PathPostApi* | [**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
-*PathPostApi* | [**post_ref_in_additionalproperties_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_additionalproperties_request_body) | **post** /requestBody/postRefInAdditionalpropertiesRequestBody | 
-*PathPostApi* | [**post_ref_in_additionalproperties_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
-*PathPostApi* | [**post_ref_in_allof_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_allof_request_body) | **post** /requestBody/postRefInAllofRequestBody | 
-*PathPostApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
-*PathPostApi* | [**post_ref_in_anyof_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_anyof_request_body) | **post** /requestBody/postRefInAnyofRequestBody | 
-*PathPostApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *PathPostApi* | [**post_ref_in_items_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_items_request_body) | **post** /requestBody/postRefInItemsRequestBody | 
 *PathPostApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
-*PathPostApi* | [**post_ref_in_not_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_not_request_body) | **post** /requestBody/postRefInNotRequestBody | 
-*PathPostApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
-*PathPostApi* | [**post_ref_in_oneof_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_oneof_request_body) | **post** /requestBody/postRefInOneofRequestBody | 
-*PathPostApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
-*PathPostApi* | [**post_ref_in_property_request_body**](docs/apis/tags/PathPostApi.md#post_ref_in_property_request_body) | **post** /requestBody/postRefInPropertyRequestBody | 
-*PathPostApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *PathPostApi* | [**post_regex_format_request_body**](docs/apis/tags/PathPostApi.md#post_regex_format_request_body) | **post** /requestBody/postRegexFormatRequestBody | 
 *PathPostApi* | [**post_regex_format_response_body_for_content_types**](docs/apis/tags/PathPostApi.md#post_regex_format_response_body_for_content_types) | **post** /responseBody/postRegexFormatResponseBodyForContentTypes | 
 *PathPostApi* | [**post_relative_json_pointer_format_request_body**](docs/apis/tags/PathPostApi.md#post_relative_json_pointer_format_request_body) | **post** /requestBody/postRelativeJsonPointerFormatRequestBody | 
@@ -1006,14 +954,7 @@ Class | Method | HTTP request | Description
 *ResponseContentContentTypeSchemaApi* | [**post_properties_whose_names_are_javascript_object_property_names_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_properties_whose_names_are_javascript_object_property_names_response_body_for_content_types) | **post** /responseBody/postPropertiesWhoseNamesAreJavascriptObjectPropertyNamesResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_properties_with_escaped_characters_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_properties_with_escaped_characters_response_body_for_content_types) | **post** /responseBody/postPropertiesWithEscapedCharactersResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_properties_with_null_valued_instance_properties_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_properties_with_null_valued_instance_properties_response_body_for_content_types) | **post** /responseBody/postPropertiesWithNullValuedInstancePropertiesResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_property_named_ref_that_is_not_a_reference_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_property_named_ref_that_is_not_a_reference_response_body_for_content_types) | **post** /responseBody/postPropertyNamedRefThatIsNotAReferenceResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_ref_in_additionalproperties_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_additionalproperties_response_body_for_content_types) | **post** /responseBody/postRefInAdditionalpropertiesResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_ref_in_allof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_allof_response_body_for_content_types) | **post** /responseBody/postRefInAllofResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_ref_in_anyof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_anyof_response_body_for_content_types) | **post** /responseBody/postRefInAnyofResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_ref_in_items_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_items_response_body_for_content_types) | **post** /responseBody/postRefInItemsResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_ref_in_not_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_not_response_body_for_content_types) | **post** /responseBody/postRefInNotResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_ref_in_oneof_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_oneof_response_body_for_content_types) | **post** /responseBody/postRefInOneofResponseBodyForContentTypes | 
-*ResponseContentContentTypeSchemaApi* | [**post_ref_in_property_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_ref_in_property_response_body_for_content_types) | **post** /responseBody/postRefInPropertyResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_regex_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_regex_format_response_body_for_content_types) | **post** /responseBody/postRegexFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_relative_json_pointer_format_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_relative_json_pointer_format_response_body_for_content_types) | **post** /responseBody/postRelativeJsonPointerFormatResponseBodyForContentTypes | 
 *ResponseContentContentTypeSchemaApi* | [**post_required_default_validation_response_body_for_content_types**](docs/apis/tags/ResponseContentContentTypeSchemaApi.md#post_required_default_validation_response_body_for_content_types) | **post** /responseBody/postRequiredDefaultValidationResponseBodyForContentTypes | 
@@ -1138,14 +1079,7 @@ Class | Method | HTTP request | Description
  - [PropertiesWhoseNamesAreJavascriptObjectPropertyNames](docs/models/PropertiesWhoseNamesAreJavascriptObjectPropertyNames.md)
  - [PropertiesWithEscapedCharacters](docs/models/PropertiesWithEscapedCharacters.md)
  - [PropertiesWithNullValuedInstanceProperties](docs/models/PropertiesWithNullValuedInstanceProperties.md)
- - [PropertyNamedRefThatIsNotAReference](docs/models/PropertyNamedRefThatIsNotAReference.md)
- - [RefInAdditionalproperties](docs/models/RefInAdditionalproperties.md)
- - [RefInAllof](docs/models/RefInAllof.md)
- - [RefInAnyof](docs/models/RefInAnyof.md)
  - [RefInItems](docs/models/RefInItems.md)
- - [RefInNot](docs/models/RefInNot.md)
- - [RefInOneof](docs/models/RefInOneof.md)
- - [RefInProperty](docs/models/RefInProperty.md)
  - [RegexFormat](docs/models/RegexFormat.md)
  - [RelativeJsonPointerFormat](docs/models/RelativeJsonPointerFormat.md)
  - [RequiredDefaultValidation](docs/models/RequiredDefaultValidation.md)

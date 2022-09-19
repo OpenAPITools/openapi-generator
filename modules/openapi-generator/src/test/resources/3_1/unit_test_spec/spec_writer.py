@@ -194,11 +194,18 @@ FILEPATH_TO_EXCLUDED_CASE_AND_REASON = {
         'order of evaluation: $id and $anchor and $ref': ExclusionReason.v310_feature_not_supported_yet,
         'URN ref with nested pointer ref': ExclusionReason.v310_feature_not_supported_yet,
         '$id must be resolved against nearest parent, not just immediate parent': ExclusionReason.v310_feature_not_supported_yet,
+        'property named $ref that is not a reference': ExclusionReason.swagger_parser_single_type_bug,
     },
     (openapi_additions, 'ref.json'): {
         'property refs adjacent property': ExclusionReason.ref_to_adjacent_property_bug,
         'property refs containing component schema': ExclusionReason.swagger_parser_anytype_bug,
         'component refs another component': ExclusionReason.component_ref_component_bug,
+        'ref in not': ExclusionReason.swagger_parser_single_type_bug,
+        'ref in additionalProperties': ExclusionReason.swagger_parser_single_type_bug,
+        'ref in property': ExclusionReason.swagger_parser_single_type_bug,
+        'ref in allOf': ExclusionReason.swagger_parser_single_type_bug,
+        'ref in oneOf': ExclusionReason.swagger_parser_single_type_bug,
+        'ref in anyOf': ExclusionReason.swagger_parser_single_type_bug,
     },
     (json_schema_test_draft, 'refRemote.json'): {
         'base URI change - change folder': ExclusionReason.v303_does_not_support_id,
