@@ -94,7 +94,9 @@ public class DefaultCodegen implements CodegenConfig {
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
     protected static Schema falseSchema;
+    protected static JsonSchema falseJsonSchema;
     protected static Schema trueSchema = new Schema();
+    protected static JsonSchema trueJsonSchema = new JsonSchema();
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -149,6 +151,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .build();
         falseSchema = new Schema();
         falseSchema.setNot(new Schema());
+        falseJsonSchema = new JsonSchema();
+        falseJsonSchema.setNot(new JsonSchema());
     }
 
     protected GeneratorMetadata generatorMetadata;
@@ -2845,6 +2849,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    private void setTrueFalseBooleans(IJsonSchemaValidationProperties prop, Schema schema) {
+        if (schema.equals(trueSchema) || schema.equals(trueJsonSchema)) {
+            prop.setIsBooleanSchemaTrue(true);
+        } else if (schema.equals(falseSchema) || schema.equals(falseJsonSchema)) {
+            prop.setIsBooleanSchemaFalse(true);
+        }
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2861,11 +2873,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        if (schema.equals(trueSchema)) {
-            m.setIsBooleanSchemaTrue(true);
-        } else if (schema.equals(falseSchema)) {
-            m.setIsBooleanSchemaFalse(true);
-        }
+        setTrueFalseBooleans(m, schema);
         // unalias schema
         schema = unaliasSchema(schema);
         if (schema == null) {
@@ -3688,11 +3696,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
-        if (p.equals(trueSchema)) {
-            property.setIsBooleanSchemaTrue(true);
-        } else if (p.equals(falseSchema)) {
-            property.setIsBooleanSchemaFalse(true);
-        }
+        setTrueFalseBooleans(property, p);
 
         // unalias schema
         p = unaliasSchema(p);
