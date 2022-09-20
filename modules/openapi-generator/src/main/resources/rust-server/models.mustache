@@ -368,7 +368,7 @@ impl std::str::FromStr for {{{classname}}} {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -396,7 +396,7 @@ impl std::str::FromStr for {{{classname}}} {
                     "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
                   {{/isNullable}}
                   {{^isNullable}}
-                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                   {{/isNullable}}
                 {{/isContainer}}
               {{/isByteArray}}
