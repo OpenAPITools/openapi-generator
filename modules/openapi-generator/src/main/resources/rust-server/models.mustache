@@ -220,7 +220,7 @@ impl std::ops::DerefMut for {{{classname}}} {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for {{{classname}}} {
     fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
     }
 }
 
@@ -314,10 +314,10 @@ impl std::string::ToString for {{{classname}}} {
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-        params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+        params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")));
 {{/isNullable}}
 {{^isNullable}}
-        params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+        params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","));
 {{/isNullable}}
 {{/isArray}}
 {{/required}}
@@ -334,17 +334,17 @@ impl std::string::ToString for {{{classname}}} {
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")));
 {{/isNullable}}
 {{^isNullable}}
-            params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+            params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","));
 {{/isNullable}}
 {{/isArray}}
         }
 {{/required}}
 {{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
-        params.join(",").to_string()
+        params.join(",")
     }
 }
 
