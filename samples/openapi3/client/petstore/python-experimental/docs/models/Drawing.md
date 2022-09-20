@@ -12,7 +12,7 @@ Key | Input Type | Accessed Type | Description | Notes
 **shapeOrNull** | [**ShapeOrNull**](ShapeOrNull.md) | [**ShapeOrNull**](ShapeOrNull.md) |  | [optional] 
 **nullableShape** | [**NullableShape**](NullableShape.md) | [**NullableShape**](NullableShape.md) |  | [optional] 
 **[shapes](#shapes)** | list, tuple,  | tuple,  |  | [optional] 
-**any string name** | [**Fruit**](Fruit.md) | [**Fruit**](Fruit.md) | any string name can be used but the value must be the correct type | [optional] 
+**any_string_name** | [**Fruit**](Fruit.md) | [**Fruit**](Fruit.md) | any string name can be used but the value must be the correct type | [optional] 
 
 # shapes
 

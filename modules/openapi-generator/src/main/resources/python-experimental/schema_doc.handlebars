@@ -23,13 +23,13 @@ Key | Input Type | Accessed Type | Description | Notes
     {{#with additionalProperties}}
     {{#unless getIsBooleanSchemaFalse}}
     {{#if getIsBooleanSchemaTrue}}
-**any string name** | {{> model_templates/schema_python_types }} | {{> model_templates/schema_accessed_types }} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional]
+**any_string_name** | {{> model_templates/schema_python_types }} | {{> model_templates/schema_accessed_types }} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional]
     {{else}}
-**any string name** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
+**{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}any_string_name{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#any_string_name){{/or}}{{/unless}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
     {{/if}}
     {{/unless}}
     {{else}}
-**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
+**any_string_name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
     {{/with}}
 {{/or}}
 {{#each vars}}
@@ -41,6 +41,19 @@ Key | Input Type | Accessed Type | Description | Notes
 {{/or}}
 {{/unless}}
 {{/each}}
+{{#with additionalProperties}}
+{{#unless getIsBooleanSchemaFalse}}
+{{#unless getIsBooleanSchemaTrue}}
+{{#unless complexType}}
+{{#or isArray isMap composedSchemas}}
+
+# any_string_name
+{{> schema_doc }}
+{{/or}}
+{{/unless}}
+{{/unless}}
+{{/unless}}
+{{/with}}
 {{#if items}}
 
 ### Tuple Items
