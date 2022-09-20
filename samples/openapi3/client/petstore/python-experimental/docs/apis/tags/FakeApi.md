@@ -1014,8 +1014,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **number** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | 
@@ -1141,8 +1141,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **enum_form_string_array** | list, tuple,  | tuple,  | Form parameter enum test (string array) | [optional] must be one of [">", "$", ] 
@@ -1534,8 +1534,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **any string name** | str,  | str,  | any string name can be used but the value must be the correct type | [optional] 
@@ -1644,8 +1644,8 @@ str,  | str,  |  |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **someProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | [optional] 
@@ -1686,8 +1686,8 @@ str,  | str,  |  |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **someProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | [optional] 
@@ -1733,8 +1733,8 @@ str,  | str,  |  |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **someProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | [optional] 
@@ -1803,8 +1803,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **param** | str,  | str,  | field1 | 
@@ -2229,8 +2229,8 @@ mapBean | MapBeanSchema | | optional
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **keyword** | str,  | str,  |  | [optional] 
@@ -3286,8 +3286,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **file** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | 
@@ -3381,8 +3381,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **files** | list, tuple,  | tuple,  |  | [optional] 

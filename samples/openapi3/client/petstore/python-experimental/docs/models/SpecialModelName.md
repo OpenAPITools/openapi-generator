@@ -6,8 +6,8 @@ model with an invalid class name for python
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  | model with an invalid class name for python | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **a** | str,  | str,  |  | [optional] 

@@ -61,8 +61,8 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **string** | [**Foo**](Foo.md) | [**Foo**](Foo.md) |  | [optional] 

@@ -1108,8 +1108,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **name** | str,  | str,  | Updated name of the pet | [optional] 
@@ -1239,8 +1239,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **requiredFile** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | 
@@ -1376,8 +1376,8 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-### Dictionary Keys
 
+### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **additionalMetadata** | str,  | str,  | Additional data to pass to server | [optional] 
