@@ -1029,7 +1029,7 @@ Key | Input Type | Accessed Type | Description | Notes
 **string** | str,  | str,  | None | [optional] 
 **binary** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | None | [optional] 
 **date** | str, date,  | str,  | None | [optional] 
-**dateTime** | str, datetime,  | str,  | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
+**dateTime** | str, datetime,  | str,  | None | [optional] if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
 **password** | str,  | str,  | None | [optional] 
 **callback** | str,  | str,  | None | [optional] 
 **any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
@@ -1145,8 +1145,8 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  |  |
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**enum_form_string_array** | list, tuple,  | tuple,  | Form parameter enum test (string array) | [optional]  must be one of [">", "$", ]
-**enum_form_string** | str,  | str,  | Form parameter enum test (string) | [optional] ,  must be one of ["_abc", "-efg", "(xyz)", ] if omitted the server will use the default value of "-efg"
+**enum_form_string_array** | list, tuple,  | tuple,  | Form parameter enum test (string array) | [optional] must be one of [">", "$", ] 
+**enum_form_string** | str,  | str,  | Form parameter enum test (string) | [optional] must be one of ["_abc", "-efg", "(xyz)", ] if omitted the server will use the default value of "-efg"
 **any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
@@ -1165,33 +1165,33 @@ enum_query_double | EnumQueryDoubleSchema | | optional
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-list, tuple,  | tuple,  |  |  must be one of [">", "$", ]
+list, tuple,  | tuple,  |  | must be one of [">", "$", ] 
 
 ### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
-str,  | str,  |  |  must be one of [">", "$", ]defaults to "$"
+str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
 
 #### EnumQueryStringSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str,  | str,  |  | ,  must be one of ["_abc", "-efg", "(xyz)", ]defaults to "-efg"
+str,  | str,  |  | must be one of ["_abc", "-efg", "(xyz)", ] if omitted the server will use the default value of "-efg"
 
 #### EnumQueryIntegerSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  |  must be one of [1, -2, ]
+decimal.Decimal, int,  | decimal.Decimal,  |  | must be one of [1, -2, ] 
 
 #### EnumQueryDoubleSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int, float,  | decimal.Decimal,  |  |  must be one of [1.1, -1.2, ]
+decimal.Decimal, int, float,  | decimal.Decimal,  |  | must be one of [1.1, -1.2, ] 
 
 ### header_params
 #### RequestHeaderParams
@@ -1206,19 +1206,19 @@ enum_header_string | EnumHeaderStringSchema | | optional
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-list, tuple,  | tuple,  |  |  must be one of [">", "$", ]
+list, tuple,  | tuple,  |  | must be one of [">", "$", ] 
 
 ### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
-str,  | str,  |  |  must be one of [">", "$", ]defaults to "$"
+str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
 
 #### EnumHeaderStringSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str,  | str,  |  | ,  must be one of ["_abc", "-efg", "(xyz)", ]defaults to "-efg"
+str,  | str,  |  | must be one of ["_abc", "-efg", "(xyz)", ] if omitted the server will use the default value of "-efg"
 
 ### Return Types, Responses
 

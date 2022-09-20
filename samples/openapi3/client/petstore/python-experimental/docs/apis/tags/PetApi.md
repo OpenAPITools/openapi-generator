@@ -456,12 +456,12 @@ status | StatusSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-list, tuple,  | tuple,  |  |  must be one of ["available", "pending", "sold", ]
+list, tuple,  | tuple,  |  | must be one of ["available", "pending", "sold", ] 
 
 ### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
-str,  | str,  |  |  must be one of ["available", "pending", "sold", ]defaults to "available"
+str,  | str,  |  | must be one of ["available", "pending", "sold", ] if omitted the server will use the default value of "available"
 
 ### Return Types, Responses
 

@@ -8,7 +8,7 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  |  |
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**op** | str,  | str,  | The operation to perform. |  must be one of ["move", "copy", ]
+**op** | str,  | str,  | The operation to perform. | must be one of ["move", "copy", ] 
 **path** | str,  | str,  | A JSON Pointer path. | 
 **from** | str,  | str,  | A JSON Pointer path. | 
 

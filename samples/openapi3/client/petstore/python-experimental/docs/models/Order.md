@@ -12,8 +12,8 @@ Key | Input Type | Accessed Type | Description | Notes
 **petId** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] 
 **quantity** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] 
 **shipDate** | str, datetime,  | str,  |  | [optional] 
-**status** | str,  | str,  | Order Status | [optional]  must be one of ["placed", "approved", "delivered", ]
-**complete** | bool,  | BoolClass,  |  | [optional]  if omitted the server will use the default value of False
+**status** | str,  | str,  | Order Status | [optional] must be one of ["placed", "approved", "delivered", ] 
+**complete** | bool,  | BoolClass,  |  | [optional] if omitted the server will use the default value of False
 **any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)

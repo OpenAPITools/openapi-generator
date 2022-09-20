@@ -8,7 +8,7 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  |  |
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**op** | str,  | str,  | The operation to perform. |  must be one of ["remove", ]
+**op** | str,  | str,  | The operation to perform. | must be one of ["remove", ] 
 **path** | str,  | str,  | A JSON Pointer path. | 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
