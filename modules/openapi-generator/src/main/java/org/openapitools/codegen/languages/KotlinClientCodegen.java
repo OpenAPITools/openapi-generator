@@ -677,6 +677,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      * @param infrastructureFolder infrastructure destination folder
      */
     private void processJVMVertXLibrary(final String infrastructureFolder) {
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
