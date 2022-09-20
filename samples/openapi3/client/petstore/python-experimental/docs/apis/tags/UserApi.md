@@ -169,9 +169,15 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[User]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+[**User**](User.md) | [**User**](User.md) |  | 
 
 ### Return Types, Responses
 
@@ -260,9 +266,15 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[User]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+[**User**](User.md) | [**User**](User.md) |  | 
 
 ### Return Types, Responses
 
@@ -342,9 +354,10 @@ username | UsernameSchema | |
 
 #### UsernameSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -433,9 +446,10 @@ username | UsernameSchema | |
 
 #### UsernameSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -546,15 +560,17 @@ password | PasswordSchema | |
 
 #### UsernameSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### PasswordSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -573,15 +589,17 @@ headers | ResponseHeadersFor200 |  |
 
 #### SchemaFor200ResponseBodyApplicationXml
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 #### ResponseHeadersFor200
 
 Name | Type | Description  | Notes
@@ -593,17 +611,19 @@ X-Expires-After | XExpiresAfterSchema | | optional
 
 calls per hour allowed by the user
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** | calls per hour allowed by the user | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  | calls per hour allowed by the user | 
 
 #### XExpiresAfterSchema
 
 date in UTC when token expires
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**datetime** | date in UTC when token expires | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str, datetime,  | str,  | date in UTC when token expires | 
 
 
 #### ApiResponseFor400
@@ -760,9 +780,10 @@ username | UsernameSchema | |
 
 #### UsernameSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 

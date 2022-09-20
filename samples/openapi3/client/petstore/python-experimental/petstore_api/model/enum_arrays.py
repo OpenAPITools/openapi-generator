@@ -135,7 +135,7 @@ class EnumArrays(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         just_symbol: typing.Union[MetaOapg.properties.just_symbol, str, schemas.Unset] = schemas.unset,
-        array_enum: typing.Union[MetaOapg.properties.array_enum, tuple, schemas.Unset] = schemas.unset,
+        array_enum: typing.Union[MetaOapg.properties.array_enum, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'EnumArrays':

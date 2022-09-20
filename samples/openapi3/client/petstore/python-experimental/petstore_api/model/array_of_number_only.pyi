@@ -86,7 +86,7 @@ class ArrayOfNumberOnly(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, tuple, schemas.Unset] = schemas.unset,
+        ArrayNumber: typing.Union[MetaOapg.properties.ArrayNumber, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayOfNumberOnly':

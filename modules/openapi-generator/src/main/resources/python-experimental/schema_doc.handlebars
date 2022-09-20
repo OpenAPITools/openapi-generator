@@ -3,43 +3,41 @@
 {{&description}}
 
 {{/if}}
-{{#or vars additionalProperties}}
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+{{> model_templates/schema_python_types }} | {{> model_templates/schema_accessed_types }} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{#or vars additionalProperties}}
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
     {{#each getRequiredVarsMap}}
-**{{@key}}** | {{#with this}}{{#unless complexType}}**{{dataType}}**{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#if isReadOnly}}[readonly] {{/if}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}{{/with}}
+**{{{@key}}}** | {{#with this}}{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}{{/with}}
     {{/each}}
     {{#each vars}}
     {{#unless required}}
-**{{baseName}}** | {{#unless complexType}}**{{dataType}}**{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#unless required}}[optional] {{/unless}}{{#if isReadOnly}}[readonly] {{/if}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}
+**{{baseName}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | [optional] {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}
     {{/unless}}
     {{/each}}
     {{#with additionalProperties}}
     {{#unless getIsBooleanSchemaFalse}}
     {{#if getIsBooleanSchemaTrue}}
-**any string name** | {{> model_templates/schema_python_types }} | any string name can be used but the value must be the correct type | [optional]
+**any string name** | {{> model_templates/schema_python_types }} | {{> model_templates/schema_accessed_types }} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional]
     {{else}}
-**any string name** | {{#unless complexType}}**{{dataType}}**{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}}any string name can be used but the value must be the correct type | {{#unless required}}[optional] {{/unless}}{{#if isReadOnly}}[readonly] {{/if}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}
+**any string name** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional] {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}
     {{/if}}
     {{/unless}}
     {{else}}
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
     {{/with}}
-{{else}}
-Type | Description | Notes
-------------- | ------------- | -------------
-    {{#if isAnyType}}
-typing.Union[{{> model_templates/schema_python_types }}] | |
-    {{else}}
-        {{#if hasMultipleTypes}}
-typing.Union[{{> model_templates/schema_python_types }}] | | {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}
-        {{else}}
-            {{#if isArray}}
-{{#unless arrayModelType}}**{{dataType}}**{{/unless}}{{#if arrayModelType}}[**{{dataType}}**]({{arrayModelType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
-            {{else}}
-{{#unless arrayModelType}}**{{dataType}}**{{/unless}} | {{#if description}}{{description}}{{/if}} | {{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}{{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}
-            {{/if}}
-        {{/if}}
-    {{/if}}
 {{/or}}
+{{#if items}}
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+{{#with items}}
+{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{/with}}
+{{/if}}

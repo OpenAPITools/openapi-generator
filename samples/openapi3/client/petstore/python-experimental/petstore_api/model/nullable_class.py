@@ -181,7 +181,7 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[tuple, None, ],
+                    *args: typing.Union[list, tuple, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_nullable_prop':
                     return super().__new__(
@@ -226,7 +226,7 @@ class NullableClass(
             
                 def __new__(
                     cls,
-                    *args: typing.Union[tuple, None, ],
+                    *args: typing.Union[list, tuple, None, ],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_and_items_nullable_prop':
                     return super().__new__(
@@ -546,9 +546,9 @@ class NullableClass(
         string_prop: typing.Union[MetaOapg.properties.string_prop, None, str, schemas.Unset] = schemas.unset,
         date_prop: typing.Union[MetaOapg.properties.date_prop, None, str, date, schemas.Unset] = schemas.unset,
         datetime_prop: typing.Union[MetaOapg.properties.datetime_prop, None, str, datetime, schemas.Unset] = schemas.unset,
-        array_nullable_prop: typing.Union[MetaOapg.properties.array_nullable_prop, tuple, None, schemas.Unset] = schemas.unset,
-        array_and_items_nullable_prop: typing.Union[MetaOapg.properties.array_and_items_nullable_prop, tuple, None, schemas.Unset] = schemas.unset,
-        array_items_nullable: typing.Union[MetaOapg.properties.array_items_nullable, tuple, schemas.Unset] = schemas.unset,
+        array_nullable_prop: typing.Union[MetaOapg.properties.array_nullable_prop, list, tuple, None, schemas.Unset] = schemas.unset,
+        array_and_items_nullable_prop: typing.Union[MetaOapg.properties.array_and_items_nullable_prop, list, tuple, None, schemas.Unset] = schemas.unset,
+        array_items_nullable: typing.Union[MetaOapg.properties.array_items_nullable, list, tuple, schemas.Unset] = schemas.unset,
         object_nullable_prop: typing.Union[MetaOapg.properties.object_nullable_prop, dict, frozendict.frozendict, None, schemas.Unset] = schemas.unset,
         object_and_items_nullable_prop: typing.Union[MetaOapg.properties.object_and_items_nullable_prop, dict, frozendict.frozendict, None, schemas.Unset] = schemas.unset,
         object_items_nullable: typing.Union[MetaOapg.properties.object_items_nullable, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,

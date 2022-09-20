@@ -279,9 +279,10 @@ api_key | ApiKeySchema | | optional
 
 #### ApiKeySchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### path_params
 #### RequestPathParams
@@ -292,9 +293,10 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 
@@ -451,9 +453,15 @@ status | StatusSchema | |
 
 #### StatusSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  |  must be one of ["available", "pending", "sold", ]
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  |  must be one of ["available", "pending", "sold", ]defaults to "available"
 
 ### Return Types, Responses
 
@@ -472,15 +480,27 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationXml
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[Pet]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[Pet]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -630,9 +650,15 @@ tags | TagsSchema | |
 
 #### TagsSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -651,15 +677,27 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationXml
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[Pet]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[Pet]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -746,9 +784,10 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 
@@ -1065,12 +1104,17 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** | Updated name of the pet | [optional] 
-**status** | **str** | Updated status of the pet | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**name** | str,  | str,  | Updated name of the pet | [optional] 
+**status** | str,  | str,  | Updated status of the pet | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
 #### RequestPathParams
@@ -1081,9 +1125,10 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 
@@ -1190,12 +1235,17 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**requiredFile** | **file_type** | file to upload | 
-**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**requiredFile** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | 
+**additionalMetadata** | str,  | str,  | Additional data to pass to server | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
 #### RequestPathParams
@@ -1206,9 +1256,10 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 
@@ -1321,12 +1372,17 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**file** | **file_type** | file to upload | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**additionalMetadata** | str,  | str,  | Additional data to pass to server | [optional] 
+**file** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### path_params
 #### RequestPathParams
@@ -1337,9 +1393,10 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 

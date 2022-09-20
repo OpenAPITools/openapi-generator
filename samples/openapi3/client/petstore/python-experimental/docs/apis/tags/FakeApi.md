@@ -459,9 +459,10 @@ query | QuerySchema | |
 
 #### QuerySchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -536,9 +537,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**bool** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bool,  | BoolClass,  |  | 
 
 ### Return Types, Responses
 
@@ -556,9 +558,10 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**bool** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bool,  | BoolClass,  |  | 
 
 
 **bool**
@@ -628,21 +631,24 @@ some_var | SomeVarSchema | |
 
 #### SomeVarSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### SomeVarSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### SomeVarSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -893,9 +899,10 @@ id | IdSchema | |
 
 #### IdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -1003,24 +1010,29 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**number** | **int, float** | None | 
-**pattern_without_delimiter** | **str** | None | 
-**byte** | **str** | None | 
-**double** | **int, float** | None | 
-**integer** | **int** | None | [optional] 
-**int32** | **int** | None | [optional] 
-**int64** | **int** | None | [optional] 
-**float** | **int, float** | None | [optional] 
-**string** | **str** | None | [optional] 
-**binary** | **file_type** | None | [optional] 
-**date** | **date** | None | [optional] 
-**dateTime** | **datetime** | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
-**password** | **str** | None | [optional] 
-**callback** | **str** | None | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**number** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | 
+**pattern_without_delimiter** | str,  | str,  | None | 
+**byte** | str,  | str,  | None | 
+**double** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | 
+**integer** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] 
+**int32** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] 
+**int64** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] 
+**float** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | [optional] 
+**string** | str,  | str,  | None | [optional] 
+**binary** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | None | [optional] 
+**date** | str, date,  | str,  | None | [optional] 
+**dateTime** | str, datetime,  | str,  | None | [optional]  if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
+**password** | str,  | str,  | None | [optional] 
+**callback** | str,  | str,  | None | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1125,12 +1137,17 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**enum_form_string_array** | **[str]** | Form parameter enum test (string array) | [optional] 
-**enum_form_string** | **str** | Form parameter enum test (string) | [optional]  if omitted the server will use the default value of "-efg"
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**enum_form_string_array** | list, tuple,  | tuple,  | Form parameter enum test (string array) | [optional]  must be one of [">", "$", ]
+**enum_form_string** | str,  | str,  | Form parameter enum test (string) | [optional] ,  must be one of ["_abc", "-efg", "(xyz)", ] if omitted the server will use the default value of "-efg"
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams
@@ -1145,27 +1162,36 @@ enum_query_double | EnumQueryDoubleSchema | | optional
 
 #### EnumQueryStringArraySchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  |  must be one of [">", "$", ]
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  |  must be one of [">", "$", ]defaults to "$"
 
 #### EnumQueryStringSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | defaults to "-efg",  must be one of ["_abc", "-efg", "(xyz)", ]
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | ,  must be one of ["_abc", "-efg", "(xyz)", ]defaults to "-efg"
 
 #### EnumQueryIntegerSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  |  must be one of [1, -2, ]
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  |  must be one of [1, -2, ]
 
 #### EnumQueryDoubleSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int, float** |  |  must be one of [1.1, -1.2, ]
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int, float,  | decimal.Decimal,  |  |  must be one of [1.1, -1.2, ]
 
 ### header_params
 #### RequestHeaderParams
@@ -1177,15 +1203,22 @@ enum_header_string | EnumHeaderStringSchema | | optional
 
 #### EnumHeaderStringArraySchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  |  must be one of [">", "$", ]
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  |  must be one of [">", "$", ]defaults to "$"
 
 #### EnumHeaderStringSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | defaults to "-efg",  must be one of ["_abc", "-efg", "(xyz)", ]
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | ,  must be one of ["_abc", "-efg", "(xyz)", ]defaults to "-efg"
 
 ### Return Types, Responses
 
@@ -1377,27 +1410,31 @@ int64_group | Int64GroupSchema | | optional
 
 #### RequiredStringGroupSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 #### RequiredInt64GroupSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 #### StringGroupSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 #### Int64GroupSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### header_params
 #### RequestHeaderParams
@@ -1409,15 +1446,17 @@ boolean_group | BooleanGroupSchema | | optional
 
 #### RequiredBooleanGroupSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**bool** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bool,  | BoolClass,  |  | 
 
 #### BooleanGroupSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**bool** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bool,  | BoolClass,  |  | 
 
 ### Return Types, Responses
 
@@ -1491,10 +1530,15 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**any string name** | **str** | any string name can be used but the value must be the correct type | [optional] 
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**any string name** | str,  | str,  | any string name can be used but the value must be the correct type | [optional] 
 
 ### Return Types, Responses
 
@@ -1576,17 +1620,23 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**someProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams
@@ -1599,17 +1649,23 @@ compositionInProperty | CompositionInPropertySchema | | optional
 
 #### CompositionAtRootSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 #### CompositionInPropertySchema
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**someProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1627,17 +1683,23 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 #### SchemaFor200ResponseBodyMultipartFormData
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someProp** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**someProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -1698,12 +1760,17 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**param** | **str** | field1 | 
-**param2** | **str** | field2 | 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**param** | str,  | str,  | field1 | 
+**param2** | str,  | str,  | field2 | 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -1856,9 +1923,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJsonCharsetutf8
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 ### Return Types, Responses
 
@@ -1876,9 +1944,10 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJsonCharsetutf8
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2117,11 +2186,16 @@ mapBean | MapBeanSchema | | optional
 
 #### MapBeanSchema
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**keyword** | **str** |  | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**keyword** | str,  | str,  |  | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -2344,9 +2418,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 ### query_params
 #### RequestQueryParams
@@ -2362,33 +2437,38 @@ A-B | ABSchema | | optional
 
 #### Model1Schema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### AbSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### header_params
 #### RequestHeaderParams
@@ -2402,27 +2482,31 @@ A-B | ABSchema | | optional
 
 #### Model1Schema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### path_params
 #### RequestPathParams
@@ -2437,33 +2521,38 @@ A-B | ABSchema | |
 
 #### Model1Schema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### AbSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### cookie_params
 #### RequestCookieParams
@@ -2478,33 +2567,38 @@ A-B | ABSchema | | optional
 
 #### Model1Schema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### AbSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ABSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -2522,9 +2616,10 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, ] | |
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
 
 **bool, date, datetime, dict, float, int, list, str, none_type**
@@ -2611,33 +2706,63 @@ refParam | RefParamSchema | |
 
 #### PipeSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### IoutilSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### HttpSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### UrlSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### ContextSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**[str]** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+#### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 #### RefParamSchema
 Type | Description  | Notes
@@ -2858,9 +2983,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -2878,9 +3004,10 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 
 **str**
@@ -3026,9 +3153,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 file to upload
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**file_type** | file to upload | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | 
 
 ### Return Types, Responses
 
@@ -3048,9 +3176,10 @@ headers | Unset | headers were not defined |
 
 file to download
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**file_type** | file to download | 
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to download | 
 
 
 **file_type**
@@ -3114,12 +3243,17 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file** | **file_type** | file to upload | 
-**additionalMetadata** | **str** | Additional data to pass to server | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**file** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | 
+**additionalMetadata** | str,  | str,  | Additional data to pass to server | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 
@@ -3204,11 +3338,16 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Properties
-Name | Type | Description | Notes
+#### Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**files** | **[file_type]** |  | [optional] 
-**any string name** | dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes | any string name can be used but the value must be the correct type | [optional]
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+#### Dictionary Keys
+
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**files** | list, tuple,  | tuple,  |  | [optional] 
+**any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 
 ### Return Types, Responses
 

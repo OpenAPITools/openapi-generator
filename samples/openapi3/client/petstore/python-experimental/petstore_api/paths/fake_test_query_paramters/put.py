@@ -146,11 +146,11 @@ RefParamSchema = StringWithValidation
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'pipe': typing.Union[PipeSchema, tuple, ],
-        'ioutil': typing.Union[IoutilSchema, tuple, ],
-        'http': typing.Union[HttpSchema, tuple, ],
-        'url': typing.Union[UrlSchema, tuple, ],
-        'context': typing.Union[ContextSchema, tuple, ],
+        'pipe': typing.Union[PipeSchema, list, tuple, ],
+        'ioutil': typing.Union[IoutilSchema, list, tuple, ],
+        'http': typing.Union[HttpSchema, list, tuple, ],
+        'url': typing.Union[UrlSchema, list, tuple, ],
+        'context': typing.Union[ContextSchema, list, tuple, ],
         'refParam': typing.Union[RefParamSchema, ],
     }
 )

@@ -191,11 +191,11 @@ class Pet(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        photoUrls: typing.Union[MetaOapg.properties.photoUrls, tuple, ],
+        photoUrls: typing.Union[MetaOapg.properties.photoUrls, list, tuple, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         category: typing.Union['Category', schemas.Unset] = schemas.unset,
-        tags: typing.Union[MetaOapg.properties.tags, tuple, schemas.Unset] = schemas.unset,
+        tags: typing.Union[MetaOapg.properties.tags, list, tuple, schemas.Unset] = schemas.unset,
         status: typing.Union[MetaOapg.properties.status, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
