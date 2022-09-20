@@ -1,6 +1,6 @@
 # petstore_api.model.integer_enum_big.IntegerEnumBig
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  |  must be one of [10, 11, 12, ]

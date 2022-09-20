@@ -1,6 +1,6 @@
 # petstore_api.model.nullable_string.NullableString
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 None, str,  | NoneClass, str,  |  | 

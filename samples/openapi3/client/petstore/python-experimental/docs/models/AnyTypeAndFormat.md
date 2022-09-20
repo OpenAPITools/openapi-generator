@@ -1,10 +1,10 @@
 # petstore_api.model.any_type_and_format.AnyTypeAndFormat
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------

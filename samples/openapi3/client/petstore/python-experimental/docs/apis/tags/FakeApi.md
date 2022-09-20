@@ -459,7 +459,7 @@ query | QuerySchema | |
 
 #### QuerySchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -537,7 +537,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 
@@ -558,7 +558,7 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 
@@ -631,21 +631,21 @@ some_var | SomeVarSchema | |
 
 #### SomeVarSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### SomeVarSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### SomeVarSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -899,7 +899,7 @@ id | IdSchema | |
 
 #### IdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -1010,11 +1010,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1137,11 +1137,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1162,33 +1162,33 @@ enum_query_double | EnumQueryDoubleSchema | | optional
 
 #### EnumQueryStringArraySchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  |  must be one of [">", "$", ]
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  |  must be one of [">", "$", ]defaults to "$"
 
 #### EnumQueryStringSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | ,  must be one of ["_abc", "-efg", "(xyz)", ]defaults to "-efg"
 
 #### EnumQueryIntegerSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  |  must be one of [1, -2, ]
 
 #### EnumQueryDoubleSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int, float,  | decimal.Decimal,  |  |  must be one of [1.1, -1.2, ]
@@ -1203,19 +1203,19 @@ enum_header_string | EnumHeaderStringSchema | | optional
 
 #### EnumHeaderStringArraySchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  |  must be one of [">", "$", ]
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  |  must be one of [">", "$", ]defaults to "$"
 
 #### EnumHeaderStringSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | ,  must be one of ["_abc", "-efg", "(xyz)", ]defaults to "-efg"
@@ -1410,28 +1410,28 @@ int64_group | Int64GroupSchema | | optional
 
 #### RequiredStringGroupSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 #### RequiredInt64GroupSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 #### StringGroupSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 #### Int64GroupSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
@@ -1446,14 +1446,14 @@ boolean_group | BooleanGroupSchema | | optional
 
 #### RequiredBooleanGroupSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 
 
 #### BooleanGroupSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 
@@ -1530,11 +1530,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1620,18 +1620,31 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
+### Composed Schemas (allOf/anyOf/oneOf/not)
+#### allOf
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[all_of_0](#all_of_0) | str,  | str,  |  | 
+
+# all_of_0
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
+
 #### SchemaForRequestBodyMultipartFormData
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1649,18 +1662,31 @@ compositionInProperty | CompositionInPropertySchema | | optional
 
 #### CompositionAtRootSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
+### Composed Schemas (allOf/anyOf/oneOf/not)
+#### allOf
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[all_of_0](#all_of_0) | str,  | str,  |  | 
+
+# all_of_0
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
+
 #### CompositionInPropertySchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1683,18 +1709,31 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
+### Composed Schemas (allOf/anyOf/oneOf/not)
+#### allOf
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[all_of_0](#all_of_0) | str,  | str,  |  | 
+
+# all_of_0
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
+
 #### SchemaFor200ResponseBodyMultipartFormData
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1760,11 +1799,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1923,7 +1962,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJsonCharsetutf8
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
@@ -1944,7 +1983,7 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJsonCharsetutf8
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
@@ -2186,11 +2225,11 @@ mapBean | MapBeanSchema | | optional
 
 #### MapBeanSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -2418,7 +2457,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
@@ -2437,35 +2476,35 @@ A-B | ABSchema | | optional
 
 #### Model1Schema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### AbSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -2482,28 +2521,28 @@ A-B | ABSchema | | optional
 
 #### Model1Schema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -2521,35 +2560,35 @@ A-B | ABSchema | |
 
 #### Model1Schema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### AbSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -2567,35 +2606,35 @@ A-B | ABSchema | | optional
 
 #### Model1Schema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### AbSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ModelSelfSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ABSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -2616,7 +2655,7 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
@@ -2706,60 +2745,60 @@ refParam | RefParamSchema | |
 
 #### PipeSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### IoutilSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### HttpSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### UrlSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### ContextSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -2983,7 +3022,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -3004,7 +3043,7 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -3153,7 +3192,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 file to upload
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload | 
@@ -3176,7 +3215,7 @@ headers | Unset | headers were not defined |
 
 file to download
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to download | 
@@ -3243,11 +3282,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -3338,11 +3377,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------

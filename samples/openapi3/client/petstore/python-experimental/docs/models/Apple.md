@@ -1,10 +1,10 @@
 # petstore_api.model.apple.Apple
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------

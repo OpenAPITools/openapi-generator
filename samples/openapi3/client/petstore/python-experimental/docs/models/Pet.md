@@ -2,11 +2,11 @@
 
 Pet object that needs to be added to the store
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  | Pet object that needs to be added to the store | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------

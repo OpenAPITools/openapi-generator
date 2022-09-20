@@ -3,12 +3,12 @@
 {{&description}}
 
 {{/if}}
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 {{> model_templates/schema_python_types }} | {{> model_templates/schema_accessed_types }} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
 {{#or vars additionalProperties}}
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -34,10 +34,74 @@ Key | Input Type | Accessed Type | Description | Notes
 {{/or}}
 {{#if items}}
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 {{#with items}}
 {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{/with}}
+{{/if}}
+{{#if composedSchemas}}
+{{#with composedSchemas}}
+
+### Composed Schemas (allOf/anyOf/oneOf/not)
+{{#if allOf}}
+#### allOf
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+{{#each allOf}}
+{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{/each}}
+{{#each allOf}}
+{{#unless complexType}}
+
+# {{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}
+{{> schema_doc }}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#if anyOf}}
+#### anyOf
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+{{#each anyOf}}
+{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{/each}}
+{{#each anyOf}}
+{{#unless complexType}}
+
+# {{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}
+{{> schema_doc }}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#if oneOf}}
+#### oneOf
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+{{#each oneOf}}
+{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{/each}}
+{{#each oneOf}}
+{{#unless complexType}}
+
+# {{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}
+{{> schema_doc }}
+{{/unless}}
+{{/each}}
+{{/if}}
+{{#if not}}
+#### not
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+{{#with not}}
+{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{#with allowableValues}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}{{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+{{#unless complexType}}
+
+# {{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}
+{{> schema_doc }}
+{{/unless}}
+{{/with}}
+{{/if}}
 {{/with}}
 {{/if}}

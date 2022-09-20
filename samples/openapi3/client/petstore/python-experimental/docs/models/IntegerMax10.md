@@ -1,6 +1,6 @@
 # petstore_api.model.integer_max10.IntegerMax10
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 

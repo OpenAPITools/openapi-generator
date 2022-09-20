@@ -279,7 +279,7 @@ api_key | ApiKeySchema | | optional
 
 #### ApiKeySchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -293,7 +293,7 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
@@ -453,12 +453,12 @@ status | StatusSchema | |
 
 #### StatusSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  |  must be one of ["available", "pending", "sold", ]
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  |  must be one of ["available", "pending", "sold", ]defaults to "available"
@@ -480,24 +480,24 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationXml
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
@@ -650,12 +650,12 @@ tags | TagsSchema | |
 
 #### TagsSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -677,24 +677,24 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationXml
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
@@ -784,7 +784,7 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
@@ -1104,11 +1104,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1125,7 +1125,7 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
@@ -1235,11 +1235,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1256,7 +1256,7 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
@@ -1372,11 +1372,11 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyMultipartFormData
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -1393,7 +1393,7 @@ petId | PetIdSchema | |
 
 #### PetIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 

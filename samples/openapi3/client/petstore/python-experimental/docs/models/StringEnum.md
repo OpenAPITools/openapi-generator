@@ -1,6 +1,6 @@
 # petstore_api.model.string_enum.StringEnum
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 None, str,  | NoneClass, str,  |  |  must be one of ["placed", "approved", "delivered", "single quoted", "multiple\nlines", "double quote \n with newline", ]

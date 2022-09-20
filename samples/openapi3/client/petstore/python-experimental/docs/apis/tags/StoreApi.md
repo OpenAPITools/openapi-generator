@@ -65,7 +65,7 @@ order_id | OrderIdSchema | |
 
 #### OrderIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -164,11 +164,11 @@ headers | Unset | headers were not defined |
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
@@ -241,7 +241,7 @@ order_id | OrderIdSchema | |
 
 #### OrderIdSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 

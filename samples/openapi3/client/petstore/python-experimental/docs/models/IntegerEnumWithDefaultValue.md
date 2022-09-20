@@ -1,6 +1,6 @@
 # petstore_api.model.integer_enum_with_default_value.IntegerEnumWithDefaultValue
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | ,  must be one of [0, 1, 2, ]defaults to 0

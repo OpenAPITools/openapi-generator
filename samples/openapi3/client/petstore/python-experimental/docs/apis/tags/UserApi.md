@@ -169,12 +169,12 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**User**](User.md) | [**User**](User.md) |  | 
@@ -266,12 +266,12 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**User**](User.md) | [**User**](User.md) |  | 
@@ -354,7 +354,7 @@ username | UsernameSchema | |
 
 #### UsernameSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -446,7 +446,7 @@ username | UsernameSchema | |
 
 #### UsernameSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -560,14 +560,14 @@ password | PasswordSchema | |
 
 #### UsernameSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### PasswordSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -589,14 +589,14 @@ headers | ResponseHeadersFor200 |  |
 
 #### SchemaFor200ResponseBodyApplicationXml
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
@@ -611,7 +611,7 @@ X-Expires-After | XExpiresAfterSchema | | optional
 
 calls per hour allowed by the user
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  | calls per hour allowed by the user | 
@@ -620,7 +620,7 @@ decimal.Decimal, int,  | decimal.Decimal,  | calls per hour allowed by the user 
 
 date in UTC when token expires
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str, datetime,  | str,  | date in UTC when token expires | 
@@ -780,7 +780,7 @@ username | UsernameSchema | |
 
 #### UsernameSchema
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 

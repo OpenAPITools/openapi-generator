@@ -1,6 +1,6 @@
 # petstore_api.model.currency.Currency
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  |  must be one of ["eur", "usd", ]

@@ -1,6 +1,6 @@
 # petstore_api.model.uuid_string.UUIDString
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str, uuid.UUID,  | str,  |  | 

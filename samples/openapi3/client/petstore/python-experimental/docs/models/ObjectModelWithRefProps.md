@@ -2,11 +2,11 @@
 
 a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  | a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations | 
-#### Dictionary Keys
+### Dictionary Keys
 
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------

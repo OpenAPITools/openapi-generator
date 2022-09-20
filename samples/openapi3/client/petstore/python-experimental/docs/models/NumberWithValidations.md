@@ -1,6 +1,6 @@
 # petstore_api.model.number_with_validations.NumberWithValidations
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int, float,  | decimal.Decimal,  |  | 

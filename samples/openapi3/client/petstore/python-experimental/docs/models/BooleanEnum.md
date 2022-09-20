@@ -1,6 +1,6 @@
 # petstore_api.model.boolean_enum.BooleanEnum
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  |  must be one of [schemas.BoolClass.TRUE, ]

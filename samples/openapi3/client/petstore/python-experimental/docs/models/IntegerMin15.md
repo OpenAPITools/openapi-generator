@@ -1,6 +1,6 @@
 # petstore_api.model.integer_min15.IntegerMin15
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 

@@ -1,11 +1,11 @@
 # petstore_api.model.animal_farm.AnimalFarm
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
 
-#### Tuple Items
+### Tuple Items
 Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | -------------
 [**Animal**](Animal.md) | [**Animal**](Animal.md) |  | 

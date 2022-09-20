@@ -1,6 +1,6 @@
 # petstore_api.model.boolean.Boolean
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 

@@ -1,6 +1,6 @@
 # petstore_api.model.bar.Bar
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | defaults to "bar"

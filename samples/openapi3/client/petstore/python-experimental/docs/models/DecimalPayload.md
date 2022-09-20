@@ -1,6 +1,6 @@
 # petstore_api.model.decimal_payload.DecimalPayload
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 

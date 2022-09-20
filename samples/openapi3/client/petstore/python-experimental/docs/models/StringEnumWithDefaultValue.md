@@ -1,6 +1,6 @@
 # petstore_api.model.string_enum_with_default_value.StringEnumWithDefaultValue
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | ,  must be one of ["placed", "approved", "delivered", ]defaults to "placed"

@@ -1,6 +1,6 @@
 # petstore_api.model.date_time_with_validations.DateTimeWithValidations
 
-#### Model Type Info
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str, datetime,  | str,  |  | 
