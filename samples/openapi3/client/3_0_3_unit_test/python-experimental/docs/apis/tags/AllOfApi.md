@@ -69,10 +69,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofCombinedWithAnyofOneof**](AllofCombinedWithAnyofOneof.md) |  | 
+[**AllofCombinedWithAnyofOneof**](../../models/AllofCombinedWithAnyofOneof.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,17 +80,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_combined_with_anyof_oneof_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_combined_with_anyof_oneof_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -137,23 +134,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_combined_with_anyof_oneof_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_combined_with_anyof_oneof_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofCombinedWithAnyofOneof**](AllofCombinedWithAnyofOneof.md) |  | 
+[**AllofCombinedWithAnyofOneof**](../../models/AllofCombinedWithAnyofOneof.md) |  | 
 
-
-
-[**AllofCombinedWithAnyofOneof**](AllofCombinedWithAnyofOneof.md)
 
 ### Authorization
 
@@ -206,10 +200,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Allof**](Allof.md) |  | 
+[**Allof**](../../models/Allof.md) |  | 
 
 
 ### Return Types, Responses
@@ -217,17 +211,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -274,23 +265,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Allof**](Allof.md) |  | 
+[**Allof**](../../models/Allof.md) |  | 
 
-
-
-[**Allof**](Allof.md)
 
 ### Authorization
 
@@ -343,10 +331,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofSimpleTypes**](AllofSimpleTypes.md) |  | 
+[**AllofSimpleTypes**](../../models/AllofSimpleTypes.md) |  | 
 
 
 ### Return Types, Responses
@@ -354,17 +342,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_simple_types_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_simple_types_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -411,23 +396,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_simple_types_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_simple_types_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofSimpleTypes**](AllofSimpleTypes.md) |  | 
+[**AllofSimpleTypes**](../../models/AllofSimpleTypes.md) |  | 
 
-
-
-[**AllofSimpleTypes**](AllofSimpleTypes.md)
 
 ### Authorization
 
@@ -480,10 +462,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithBaseSchema**](AllofWithBaseSchema.md) |  | 
+[**AllofWithBaseSchema**](../../models/AllofWithBaseSchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -491,17 +473,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_base_schema_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_base_schema_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -548,23 +527,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_base_schema_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_base_schema_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithBaseSchema**](AllofWithBaseSchema.md) |  | 
+[**AllofWithBaseSchema**](../../models/AllofWithBaseSchema.md) |  | 
 
-
-
-[**AllofWithBaseSchema**](AllofWithBaseSchema.md)
 
 ### Authorization
 
@@ -617,10 +593,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithOneEmptySchema**](AllofWithOneEmptySchema.md) |  | 
+[**AllofWithOneEmptySchema**](../../models/AllofWithOneEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -628,17 +604,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_one_empty_schema_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_one_empty_schema_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -685,23 +658,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_one_empty_schema_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_one_empty_schema_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithOneEmptySchema**](AllofWithOneEmptySchema.md) |  | 
+[**AllofWithOneEmptySchema**](../../models/AllofWithOneEmptySchema.md) |  | 
 
-
-
-[**AllofWithOneEmptySchema**](AllofWithOneEmptySchema.md)
 
 ### Authorization
 
@@ -754,10 +724,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithTheFirstEmptySchema**](AllofWithTheFirstEmptySchema.md) |  | 
+[**AllofWithTheFirstEmptySchema**](../../models/AllofWithTheFirstEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -765,17 +735,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_the_first_empty_schema_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_the_first_empty_schema_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -822,23 +789,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_the_first_empty_schema_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_the_first_empty_schema_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithTheFirstEmptySchema**](AllofWithTheFirstEmptySchema.md) |  | 
+[**AllofWithTheFirstEmptySchema**](../../models/AllofWithTheFirstEmptySchema.md) |  | 
 
-
-
-[**AllofWithTheFirstEmptySchema**](AllofWithTheFirstEmptySchema.md)
 
 ### Authorization
 
@@ -891,10 +855,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithTheLastEmptySchema**](AllofWithTheLastEmptySchema.md) |  | 
+[**AllofWithTheLastEmptySchema**](../../models/AllofWithTheLastEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -902,17 +866,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_the_last_empty_schema_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_the_last_empty_schema_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -959,23 +920,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_the_last_empty_schema_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_the_last_empty_schema_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithTheLastEmptySchema**](AllofWithTheLastEmptySchema.md) |  | 
+[**AllofWithTheLastEmptySchema**](../../models/AllofWithTheLastEmptySchema.md) |  | 
 
-
-
-[**AllofWithTheLastEmptySchema**](AllofWithTheLastEmptySchema.md)
 
 ### Authorization
 
@@ -1028,10 +986,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithTwoEmptySchemas**](AllofWithTwoEmptySchemas.md) |  | 
+[**AllofWithTwoEmptySchemas**](../../models/AllofWithTwoEmptySchemas.md) |  | 
 
 
 ### Return Types, Responses
@@ -1039,17 +997,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_two_empty_schemas_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_two_empty_schemas_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1096,23 +1051,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_allof_with_two_empty_schemas_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_allof_with_two_empty_schemas_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AllofWithTwoEmptySchemas**](AllofWithTwoEmptySchemas.md) |  | 
+[**AllofWithTwoEmptySchemas**](../../models/AllofWithTwoEmptySchemas.md) |  | 
 
-
-
-[**AllofWithTwoEmptySchemas**](AllofWithTwoEmptySchemas.md)
 
 ### Authorization
 
@@ -1165,10 +1117,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedAllofToCheckValidationSemantics**](NestedAllofToCheckValidationSemantics.md) |  | 
+[**NestedAllofToCheckValidationSemantics**](../../models/NestedAllofToCheckValidationSemantics.md) |  | 
 
 
 ### Return Types, Responses
@@ -1176,17 +1128,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_nested_allof_to_check_validation_semantics_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_nested_allof_to_check_validation_semantics_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1233,23 +1182,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_nested_allof_to_check_validation_semantics_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_nested_allof_to_check_validation_semantics_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedAllofToCheckValidationSemantics**](NestedAllofToCheckValidationSemantics.md) |  | 
+[**NestedAllofToCheckValidationSemantics**](../../models/NestedAllofToCheckValidationSemantics.md) |  | 
 
-
-
-[**NestedAllofToCheckValidationSemantics**](NestedAllofToCheckValidationSemantics.md)
 
 ### Authorization
 

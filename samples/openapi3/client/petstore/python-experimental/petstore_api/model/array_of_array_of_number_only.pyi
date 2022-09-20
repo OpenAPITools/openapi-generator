@@ -69,7 +69,7 @@ class ArrayOfArrayOfNumberOnly(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, tuple, ]], typing.List[typing.Union[MetaOapg.items, tuple, ]]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'ArrayArrayNumber':
                     return super().__new__(
@@ -108,7 +108,7 @@ class ArrayOfArrayOfNumberOnly(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        ArrayArrayNumber: typing.Union[MetaOapg.properties.ArrayArrayNumber, tuple, schemas.Unset] = schemas.unset,
+        ArrayArrayNumber: typing.Union[MetaOapg.properties.ArrayArrayNumber, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayOfArrayOfNumberOnly':

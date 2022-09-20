@@ -59,10 +59,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ByInt**](ByInt.md) |  | 
+[**ByInt**](../../models/ByInt.md) |  | 
 
 
 ### Return Types, Responses
@@ -70,17 +70,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_by_int_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_by_int_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -127,23 +124,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_by_int_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_by_int_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ByInt**](ByInt.md) |  | 
+[**ByInt**](../../models/ByInt.md) |  | 
 
-
-
-[**ByInt**](ByInt.md)
 
 ### Authorization
 
@@ -196,10 +190,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ByNumber**](ByNumber.md) |  | 
+[**ByNumber**](../../models/ByNumber.md) |  | 
 
 
 ### Return Types, Responses
@@ -207,17 +201,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_by_number_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_by_number_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -264,23 +255,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_by_number_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_by_number_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ByNumber**](ByNumber.md) |  | 
+[**ByNumber**](../../models/ByNumber.md) |  | 
 
-
-
-[**ByNumber**](ByNumber.md)
 
 ### Authorization
 
@@ -333,10 +321,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**BySmallNumber**](BySmallNumber.md) |  | 
+[**BySmallNumber**](../../models/BySmallNumber.md) |  | 
 
 
 ### Return Types, Responses
@@ -344,17 +332,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_by_small_number_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_by_small_number_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -401,23 +386,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_by_small_number_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_by_small_number_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**BySmallNumber**](BySmallNumber.md) |  | 
+[**BySmallNumber**](../../models/BySmallNumber.md) |  | 
 
-
-
-[**BySmallNumber**](BySmallNumber.md)
 
 ### Authorization
 
@@ -470,10 +452,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf**](InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md) |  | 
+[**InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf**](../../models/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md) |  | 
 
 
 ### Return Types, Responses
@@ -481,17 +463,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -538,23 +517,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf**](InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md) |  | 
+[**InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf**](../../models/InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md) |  | 
 
-
-
-[**InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf**](InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf.md)
 
 ### Authorization
 

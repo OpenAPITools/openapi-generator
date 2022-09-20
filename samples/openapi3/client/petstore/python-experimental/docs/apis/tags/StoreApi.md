@@ -63,36 +63,34 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 order_id | OrderIdSchema | | 
 
-#### OrderIdSchema
+# OrderIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid ID supplied
-404 | ApiResponseFor404 | Order not found
+400 | [ApiResponseFor400](#delete_order.ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#delete_order.ApiResponseFor404) | Order not found
 
-#### ApiResponseFor400
+#### delete_order.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### delete_order.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -152,24 +150,26 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#get_inventory.ApiResponseFor200) | successful operation
 
-#### ApiResponseFor200
+#### get_inventory.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-#### Properties
-Name | Type | Description | Notes
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**any string name** | **int** | any string name can be used but the value must be the correct type | [optional] 
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
 
-
-**{str: (int,)}**
+### Dictionary Keys
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**any_string_name** | decimal.Decimal, int,  | decimal.Decimal,  | any string name can be used but the value must be the correct type | [optional] value must be a 32 bit integer
 
 ### Authorization
 
@@ -233,56 +233,54 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 order_id | OrderIdSchema | | 
 
-#### OrderIdSchema
+# OrderIdSchema
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid ID supplied
-404 | ApiResponseFor404 | Order not found
+200 | [ApiResponseFor200](#get_order_by_id.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#get_order_by_id.ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#get_order_by_id.ApiResponseFor404) | Order not found
 
-#### ApiResponseFor200
+#### get_order_by_id.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
-#### ApiResponseFor400
+#### get_order_by_id.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### get_order_by_id.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-[**Order**](Order.md)
 
 ### Authorization
 
@@ -345,10 +343,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
 ### Return Types, Responses
@@ -356,37 +354,34 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid Order
+200 | [ApiResponseFor200](#place_order.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#place_order.ApiResponseFor400) | Invalid Order
 
-#### ApiResponseFor200
+#### place_order.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
-#### ApiResponseFor400
+#### place_order.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-[**Order**](Order.md)
 
 ### Authorization
 

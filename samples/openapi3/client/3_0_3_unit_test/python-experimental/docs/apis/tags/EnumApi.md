@@ -67,10 +67,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWith0DoesNotMatchFalse**](EnumWith0DoesNotMatchFalse.md) |  | 
+[**EnumWith0DoesNotMatchFalse**](../../models/EnumWith0DoesNotMatchFalse.md) |  | 
 
 
 ### Return Types, Responses
@@ -78,17 +78,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with0_does_not_match_false_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with0_does_not_match_false_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -135,23 +132,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with0_does_not_match_false_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with0_does_not_match_false_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWith0DoesNotMatchFalse**](EnumWith0DoesNotMatchFalse.md) |  | 
+[**EnumWith0DoesNotMatchFalse**](../../models/EnumWith0DoesNotMatchFalse.md) |  | 
 
-
-
-[**EnumWith0DoesNotMatchFalse**](EnumWith0DoesNotMatchFalse.md)
 
 ### Authorization
 
@@ -204,10 +198,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWith1DoesNotMatchTrue**](EnumWith1DoesNotMatchTrue.md) |  | 
+[**EnumWith1DoesNotMatchTrue**](../../models/EnumWith1DoesNotMatchTrue.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,17 +209,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with1_does_not_match_true_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with1_does_not_match_true_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -272,23 +263,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with1_does_not_match_true_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with1_does_not_match_true_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWith1DoesNotMatchTrue**](EnumWith1DoesNotMatchTrue.md) |  | 
+[**EnumWith1DoesNotMatchTrue**](../../models/EnumWith1DoesNotMatchTrue.md) |  | 
 
-
-
-[**EnumWith1DoesNotMatchTrue**](EnumWith1DoesNotMatchTrue.md)
 
 ### Authorization
 
@@ -341,10 +329,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWithEscapedCharacters**](EnumWithEscapedCharacters.md) |  | 
+[**EnumWithEscapedCharacters**](../../models/EnumWithEscapedCharacters.md) |  | 
 
 
 ### Return Types, Responses
@@ -352,17 +340,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with_escaped_characters_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with_escaped_characters_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -409,23 +394,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with_escaped_characters_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with_escaped_characters_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWithEscapedCharacters**](EnumWithEscapedCharacters.md) |  | 
+[**EnumWithEscapedCharacters**](../../models/EnumWithEscapedCharacters.md) |  | 
 
-
-
-[**EnumWithEscapedCharacters**](EnumWithEscapedCharacters.md)
 
 ### Authorization
 
@@ -478,10 +460,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWithFalseDoesNotMatch0**](EnumWithFalseDoesNotMatch0.md) |  | 
+[**EnumWithFalseDoesNotMatch0**](../../models/EnumWithFalseDoesNotMatch0.md) |  | 
 
 
 ### Return Types, Responses
@@ -489,17 +471,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with_false_does_not_match0_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with_false_does_not_match0_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -546,23 +525,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with_false_does_not_match0_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with_false_does_not_match0_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWithFalseDoesNotMatch0**](EnumWithFalseDoesNotMatch0.md) |  | 
+[**EnumWithFalseDoesNotMatch0**](../../models/EnumWithFalseDoesNotMatch0.md) |  | 
 
-
-
-[**EnumWithFalseDoesNotMatch0**](EnumWithFalseDoesNotMatch0.md)
 
 ### Authorization
 
@@ -615,10 +591,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWithTrueDoesNotMatch1**](EnumWithTrueDoesNotMatch1.md) |  | 
+[**EnumWithTrueDoesNotMatch1**](../../models/EnumWithTrueDoesNotMatch1.md) |  | 
 
 
 ### Return Types, Responses
@@ -626,17 +602,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with_true_does_not_match1_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with_true_does_not_match1_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -683,23 +656,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enum_with_true_does_not_match1_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enum_with_true_does_not_match1_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumWithTrueDoesNotMatch1**](EnumWithTrueDoesNotMatch1.md) |  | 
+[**EnumWithTrueDoesNotMatch1**](../../models/EnumWithTrueDoesNotMatch1.md) |  | 
 
-
-
-[**EnumWithTrueDoesNotMatch1**](EnumWithTrueDoesNotMatch1.md)
 
 ### Authorization
 
@@ -755,10 +725,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumsInProperties**](EnumsInProperties.md) |  | 
+[**EnumsInProperties**](../../models/EnumsInProperties.md) |  | 
 
 
 ### Return Types, Responses
@@ -766,17 +736,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enums_in_properties_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enums_in_properties_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -823,23 +790,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_enums_in_properties_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_enums_in_properties_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**EnumsInProperties**](EnumsInProperties.md) |  | 
+[**EnumsInProperties**](../../models/EnumsInProperties.md) |  | 
 
-
-
-[**EnumsInProperties**](EnumsInProperties.md)
 
 ### Authorization
 
@@ -892,10 +856,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NulCharactersInStrings**](NulCharactersInStrings.md) |  | 
+[**NulCharactersInStrings**](../../models/NulCharactersInStrings.md) |  | 
 
 
 ### Return Types, Responses
@@ -903,17 +867,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_nul_characters_in_strings_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_nul_characters_in_strings_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -960,23 +921,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_nul_characters_in_strings_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_nul_characters_in_strings_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NulCharactersInStrings**](NulCharactersInStrings.md) |  | 
+[**NulCharactersInStrings**](../../models/NulCharactersInStrings.md) |  | 
 
-
-
-[**NulCharactersInStrings**](NulCharactersInStrings.md)
 
 ### Authorization
 
@@ -1029,10 +987,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**SimpleEnumValidation**](SimpleEnumValidation.md) |  | 
+[**SimpleEnumValidation**](../../models/SimpleEnumValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -1040,17 +998,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_simple_enum_validation_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_simple_enum_validation_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1097,23 +1052,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_simple_enum_validation_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_simple_enum_validation_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**SimpleEnumValidation**](SimpleEnumValidation.md) |  | 
+[**SimpleEnumValidation**](../../models/SimpleEnumValidation.md) |  | 
 
-
-
-[**SimpleEnumValidation**](SimpleEnumValidation.md)
 
 ### Authorization
 

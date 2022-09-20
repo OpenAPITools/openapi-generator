@@ -54,7 +54,7 @@ class TagsSchema(
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'tags': typing.Union[TagsSchema, tuple, ],
+        'tags': typing.Union[TagsSchema, list, tuple, ],
     }
 )
 RequestOptionalQueryParams = typing.TypedDict(

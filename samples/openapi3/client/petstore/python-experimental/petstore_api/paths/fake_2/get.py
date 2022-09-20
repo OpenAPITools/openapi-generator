@@ -146,7 +146,7 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, tuple, ],
+        'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, list, tuple, ],
         'enum_query_string': typing.Union[EnumQueryStringSchema, str, ],
         'enum_query_integer': typing.Union[EnumQueryIntegerSchema, decimal.Decimal, int, ],
         'enum_query_double': typing.Union[EnumQueryDoubleSchema, decimal.Decimal, int, float, ],
@@ -262,7 +262,7 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'enum_header_string_array': typing.Union[EnumHeaderStringArraySchema, tuple, ],
+        'enum_header_string_array': typing.Union[EnumHeaderStringArraySchema, list, tuple, ],
         'enum_header_string': typing.Union[EnumHeaderStringSchema, str, ],
     },
     total=False
@@ -399,7 +399,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, tuple, schemas.Unset] = schemas.unset,
+        enum_form_string_array: typing.Union[MetaOapg.properties.enum_form_string_array, list, tuple, schemas.Unset] = schemas.unset,
         enum_form_string: typing.Union[MetaOapg.properties.enum_form_string, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],

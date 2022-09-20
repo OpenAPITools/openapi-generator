@@ -1,8 +1,9 @@
 # petstore_api.model.string_enum.StringEnum
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[None, str, ] | |  must be one of ["placed", "approved", "delivered", "single quoted", "multiple\nlines", "double quote \n with newline", ]
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+None, str,  | NoneClass, str,  |  | must be one of ["placed", "approved", "delivered", "single quoted", "multiple\nlines", "double quote \n with newline", ] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

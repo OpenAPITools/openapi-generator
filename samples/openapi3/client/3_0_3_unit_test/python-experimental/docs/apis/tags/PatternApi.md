@@ -55,10 +55,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternIsNotAnchored**](PatternIsNotAnchored.md) |  | 
+[**PatternIsNotAnchored**](../../models/PatternIsNotAnchored.md) |  | 
 
 
 ### Return Types, Responses
@@ -66,17 +66,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_pattern_is_not_anchored_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_pattern_is_not_anchored_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -123,23 +120,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_pattern_is_not_anchored_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_pattern_is_not_anchored_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternIsNotAnchored**](PatternIsNotAnchored.md) |  | 
+[**PatternIsNotAnchored**](../../models/PatternIsNotAnchored.md) |  | 
 
-
-
-[**PatternIsNotAnchored**](PatternIsNotAnchored.md)
 
 ### Authorization
 
@@ -192,10 +186,10 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternValidation**](PatternValidation.md) |  | 
+[**PatternValidation**](../../models/PatternValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -203,17 +197,14 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_pattern_validation_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_pattern_validation_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -260,23 +251,20 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_pattern_validation_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_pattern_validation_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PatternValidation**](PatternValidation.md) |  | 
+[**PatternValidation**](../../models/PatternValidation.md) |  | 
 
-
-
-[**PatternValidation**](PatternValidation.md)
 
 ### Authorization
 

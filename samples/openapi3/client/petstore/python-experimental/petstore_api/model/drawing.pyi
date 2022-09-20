@@ -132,7 +132,7 @@ class Drawing(
         mainShape: typing.Union['Shape', schemas.Unset] = schemas.unset,
         shapeOrNull: typing.Union['ShapeOrNull', schemas.Unset] = schemas.unset,
         nullableShape: typing.Union['NullableShape', schemas.Unset] = schemas.unset,
-        shapes: typing.Union[MetaOapg.properties.shapes, tuple, schemas.Unset] = schemas.unset,
+        shapes: typing.Union[MetaOapg.properties.shapes, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: 'Fruit',
     ) -> 'Drawing':

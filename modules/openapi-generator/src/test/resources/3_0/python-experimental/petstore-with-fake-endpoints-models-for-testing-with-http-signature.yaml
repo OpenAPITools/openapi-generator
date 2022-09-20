@@ -2897,6 +2897,9 @@ components:
         - op
         - path
       properties:
+        from:
+          description: A JSON Pointer path.
+          type: string
         path:
           description: A JSON Pointer path.
           type: string

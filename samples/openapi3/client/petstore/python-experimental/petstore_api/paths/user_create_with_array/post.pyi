@@ -59,7 +59,7 @@ class BaseApi(api_client.Api):
 
     def _create_users_with_array_input_oapg(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, list, tuple, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -124,7 +124,7 @@ class CreateUsersWithArrayInput(BaseApi):
 
     def create_users_with_array_input(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, list, tuple, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -147,7 +147,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, tuple, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson, list, tuple, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,

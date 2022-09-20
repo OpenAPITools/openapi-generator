@@ -361,7 +361,7 @@ class FormatTest(
         float32: typing.Union[MetaOapg.properties.float32, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         double: typing.Union[MetaOapg.properties.double, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         float64: typing.Union[MetaOapg.properties.float64, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
-        arrayWithUniqueItems: typing.Union[MetaOapg.properties.arrayWithUniqueItems, tuple, schemas.Unset] = schemas.unset,
+        arrayWithUniqueItems: typing.Union[MetaOapg.properties.arrayWithUniqueItems, list, tuple, schemas.Unset] = schemas.unset,
         string: typing.Union[MetaOapg.properties.string, str, schemas.Unset] = schemas.unset,
         binary: typing.Union[MetaOapg.properties.binary, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         dateTime: typing.Union[MetaOapg.properties.dateTime, str, datetime, schemas.Unset] = schemas.unset,

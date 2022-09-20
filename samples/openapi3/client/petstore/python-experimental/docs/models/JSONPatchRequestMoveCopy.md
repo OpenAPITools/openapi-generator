@@ -1,11 +1,16 @@
 # petstore_api.model.json_patch_request_move_copy.JSONPatchRequestMoveCopy
 
-#### Properties
-Name | Type | Description | Notes
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**op** | **str** | The operation to perform. | 
-**path** | **str** | A JSON Pointer path. | 
-**from** | 
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+
+### Dictionary Keys
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**op** | str,  | str,  | The operation to perform. | must be one of ["move", "copy", ] 
+**path** | str,  | str,  | A JSON Pointer path. | 
+**from** | str,  | str,  | A JSON Pointer path. | 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

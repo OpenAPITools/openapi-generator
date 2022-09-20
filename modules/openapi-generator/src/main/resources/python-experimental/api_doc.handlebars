@@ -81,7 +81,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 ### body
         {{#each content}}
         {{#with this.schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
         {{/with}}
         {{/each}}
     {{/with}}
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 
         {{#each queryParams}}
         {{#with schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
         {{/with}}
         {{/each}}
     {{/if}}
@@ -114,7 +114,7 @@ Name | Type | Description  | Notes
         {{/each}}
         {{#each headerParams}}
         {{#with schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
         {{/with}}
         {{/each}}
     {{/if}}
@@ -130,7 +130,7 @@ Name | Type | Description  | Notes
         {{/each}}
         {{#each pathParams}}
         {{#with schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
         {{/with}}
         {{/each}}
     {{/if}}
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
         {{/each}}
         {{#each cookieParams}}
         {{#with schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
         {{/with}}
         {{/each}}
     {{/if}}
@@ -161,18 +161,18 @@ Code | Class | Description
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 {{#each responses}}
 {{#if isDefault}}
-default | ApiResponseForDefault | {{message}}
+default | [ApiResponseForDefault](#{{operationId}}.ApiResponseForDefault) | {{message}}
 {{else}}
-{{code}} | ApiResponseFor{{code}} | {{message}}
+{{code}} | [ApiResponseFor{{code}}](#{{operationId}}.ApiResponseFor{{code}}) | {{message}}
 {{/if}}
 {{/each}}
 {{#each responses}}
 {{#if isDefault}}
 
-#### ApiResponseForDefault
+#### {{operationId}}.ApiResponseForDefault
 {{else}}
 
-#### ApiResponseFor{{code}}
+#### {{operationId}}.ApiResponseFor{{code}}
 {{/if}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -181,7 +181,7 @@ body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{#if this.
 headers | {{#unless responseHeaders}}Unset{{else}}ResponseHeadersFor{{code}}{{/unless}} | {{#unless responseHeaders}}headers were not defined{{/unless}} |
 {{#each content}}
 {{#with this.schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
 {{/with}}
 {{/each}}
 {{#if responseHeaders}}
@@ -194,15 +194,12 @@ Name | Type | Description  | Notes
         {{/each}}
         {{#each responseHeaders}}
         {{#with schema}}
-{{> api_doc_schema_type_hint }}
+{{> api_doc_schema_type_hint complexTypePrefix="../../models/" }}
         {{/with}}
         {{/each}}
 
 {{/if}}
 {{/each}}
-
-
-{{#if returnType}}{{#if returnTypeIsPrimitive}}**{{{returnType}}}**{{/if}}{{#unless returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/unless}}{{/if}}{{#unless returnType}}void (empty response body){{/unless}}
 
 ### Authorization
 

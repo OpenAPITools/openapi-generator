@@ -103,7 +103,7 @@ class FileSchemaTestClass(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         file: typing.Union['File', schemas.Unset] = schemas.unset,
-        files: typing.Union[MetaOapg.properties.files, tuple, schemas.Unset] = schemas.unset,
+        files: typing.Union[MetaOapg.properties.files, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'FileSchemaTestClass':

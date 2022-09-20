@@ -92,7 +92,7 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, tuple, ]], typing.List[typing.Union[MetaOapg.items, tuple, ]]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_array_of_integer':
                     return super().__new__(
@@ -141,7 +141,7 @@ class ArrayTest(
             
                 def __new__(
                     cls,
-                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, tuple, ]], typing.List[typing.Union[MetaOapg.items, tuple, ]]],
+                    arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, list, tuple, ]], typing.List[typing.Union[MetaOapg.items, list, tuple, ]]],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'array_array_of_model':
                     return super().__new__(
@@ -194,9 +194,9 @@ class ArrayTest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        array_of_string: typing.Union[MetaOapg.properties.array_of_string, tuple, schemas.Unset] = schemas.unset,
-        array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, tuple, schemas.Unset] = schemas.unset,
-        array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, tuple, schemas.Unset] = schemas.unset,
+        array_of_string: typing.Union[MetaOapg.properties.array_of_string, list, tuple, schemas.Unset] = schemas.unset,
+        array_array_of_integer: typing.Union[MetaOapg.properties.array_array_of_integer, list, tuple, schemas.Unset] = schemas.unset,
+        array_array_of_model: typing.Union[MetaOapg.properties.array_array_of_model, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ArrayTest':
