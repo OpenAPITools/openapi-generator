@@ -265,13 +265,13 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
 #### get_order_by_id.ApiResponseFor400
@@ -355,7 +355,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
 ### Return Types, Responses
@@ -376,13 +376,13 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Order**](Order.md) |  | 
+[**Order**](../../models/Order.md) |  | 
 
 
 #### place_order.ApiResponseFor400

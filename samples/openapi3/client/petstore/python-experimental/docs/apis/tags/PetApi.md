@@ -155,13 +155,13 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Pet**](Pet.md) |  | 
+[**Pet**](../../models/Pet.md) |  | 
 
 
 # SchemaForRequestBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Pet**](Pet.md) |  | 
+[**Pet**](../../models/Pet.md) |  | 
 
 
 ### Return Types, Responses
@@ -488,7 +488,7 @@ list, tuple,  | tuple,  |  |
 ### Tuple Items
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+[**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) |  | 
 
 # SchemaFor200ResponseBodyApplicationJson
 
@@ -500,7 +500,7 @@ list, tuple,  | tuple,  |  |
 ### Tuple Items
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+[**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) |  | 
 
 #### find_pets_by_status.ApiResponseFor400
 Name | Type | Description  | Notes
@@ -685,7 +685,7 @@ list, tuple,  | tuple,  |  |
 ### Tuple Items
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+[**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) |  | 
 
 # SchemaFor200ResponseBodyApplicationJson
 
@@ -697,7 +697,7 @@ list, tuple,  | tuple,  |  |
 ### Tuple Items
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+[**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) | [**Pet**]({{complexTypePrefix}}Pet.md) |  | 
 
 #### find_pets_by_tags.ApiResponseFor400
 Name | Type | Description  | Notes
@@ -808,13 +808,13 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Pet**](Pet.md) |  | 
+[**Pet**](../../models/Pet.md) |  | 
 
 
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Pet**](Pet.md) |  | 
+[**Pet**](../../models/Pet.md) |  | 
 
 
 #### get_pet_by_id.ApiResponseFor400
@@ -978,13 +978,13 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Pet**](Pet.md) |  | 
+[**Pet**](../../models/Pet.md) |  | 
 
 
 # SchemaForRequestBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Pet**](Pet.md) |  | 
+[**Pet**](../../models/Pet.md) |  | 
 
 
 ### Return Types, Responses
@@ -1278,7 +1278,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ApiResponse**](ApiResponse.md) |  | 
+[**ApiResponse**](../../models/ApiResponse.md) |  | 
 
 
 
@@ -1415,7 +1415,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ApiResponse**](ApiResponse.md) |  | 
+[**ApiResponse**](../../models/ApiResponse.md) |  | 
 
 
 

@@ -13,11 +13,11 @@ Input Type | Accessed Type | Description | Notes
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
     {{#each getRequiredVarsMap}}
-**{{#with this}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}{{/with}}{{{@key}}}{{#with this}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}{{/with}}** | {{#with this}}{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}{{/with}}
+**{{#with this}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}{{/with}}{{{@key}}}{{#with this}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}{{/with}}** | {{#with this}}{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}{{/with}}
     {{/each}}
     {{#each vars}}
     {{#unless required}}
-**{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}{{baseName}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
+**{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}{{baseName}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
     {{/unless}}
     {{/each}}
     {{#with additionalProperties}}
@@ -25,7 +25,7 @@ Key | Input Type | Accessed Type | Description | Notes
     {{#if getIsBooleanSchemaTrue}}
 **any_string_name** | {{> model_templates/schema_python_types }} | {{> model_templates/schema_accessed_types }} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional]
     {{else}}
-**{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}any_string_name{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#any_string_name){{/or}}{{/unless}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
+**{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}any_string_name{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#any_string_name){{/or}}{{/unless}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | any string name can be used but the value must be the correct type{{#if description}} {{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
     {{/if}}
     {{/unless}}
     {{else}}
@@ -60,7 +60,7 @@ Key | Input Type | Accessed Type | Description | Notes
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 {{#with items}}
-{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{baseName}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{baseName}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
 {{#unless complexType}}
 {{#or isArray isMap composedSchemas}}
 
@@ -79,7 +79,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 {{#each allOf}}
-{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#if complexType}}[{{dataType}}]({{complexTypePrefix}}{{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
 {{/each}}
 {{#each allOf}}
 {{#unless complexType}}
@@ -94,7 +94,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 {{#each anyOf}}
-{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#if complexType}}[{{dataType}}]({{complexTypePrefix}}{{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
 {{/each}}
 {{#each anyOf}}
 {{#unless complexType}}
@@ -109,7 +109,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 {{#each oneOf}}
-{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#if complexType}}[{{dataType}}]({{complexTypePrefix}}{{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
 {{/each}}
 {{#each oneOf}}
 {{#unless complexType}}
@@ -124,7 +124,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 {{#with not}}
-{{#if complexType}}[{{dataType}}]({{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#if complexType}}[{{dataType}}]({{complexTypePrefix}}{{complexType}}.md){{else}}[{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}](#{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexTypePrefix}}{{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
 {{#unless complexType}}
 
 # {{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}

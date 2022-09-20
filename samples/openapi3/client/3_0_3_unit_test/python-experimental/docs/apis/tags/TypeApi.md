@@ -67,7 +67,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ArrayTypeMatchesArrays**](ArrayTypeMatchesArrays.md) |  | 
@@ -78,9 +78,9 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_array_type_matches_arrays_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_array_type_matches_arrays_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -135,16 +135,16 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_array_type_matches_arrays_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_array_type_matches_arrays_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ArrayTypeMatchesArrays**](ArrayTypeMatchesArrays.md) |  | 
@@ -203,20 +203,21 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**bool** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bool,  | BoolClass,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_boolean_type_matches_booleans_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_boolean_type_matches_booleans_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -270,20 +271,21 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_boolean_type_matches_booleans_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_boolean_type_matches_booleans_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**bool** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+bool,  | BoolClass,  |  | 
 
 
 **bool**
@@ -338,20 +340,21 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_integer_type_matches_integers_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_integer_type_matches_integers_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -405,20 +408,21 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_integer_type_matches_integers_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_integer_type_matches_integers_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int,  | decimal.Decimal,  |  | 
 
 
 **int**
@@ -473,20 +477,21 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**none_type** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+None,  | NoneClass,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_null_type_matches_only_the_null_object_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_null_type_matches_only_the_null_object_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -540,20 +545,21 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_null_type_matches_only_the_null_object_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_null_type_matches_only_the_null_object_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**none_type** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+None,  | NoneClass,  |  | 
 
 
 **none_type**
@@ -608,20 +614,21 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int, float** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_number_type_matches_numbers_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_number_type_matches_numbers_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -675,20 +682,21 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_number_type_matches_numbers_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_number_type_matches_numbers_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**int, float** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
 
 
 **int, float**
@@ -743,20 +751,21 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_object_type_matches_objects_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_object_type_matches_objects_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -810,20 +819,21 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_object_type_matches_objects_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_object_type_matches_objects_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
 
 
 **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
@@ -878,20 +888,21 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 ### Return Types, Responses
 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_string_type_matches_strings_request_body.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_string_type_matches_strings_request_body.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -945,20 +956,21 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#post_string_type_matches_strings_response_body_for_content_types.ApiResponseFor200) | success
 
-#### ApiResponseFor200
+#### post_string_type_matches_strings_response_body_for_content_types.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-**str** |  | 
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  |  | 
 
 
 **str**

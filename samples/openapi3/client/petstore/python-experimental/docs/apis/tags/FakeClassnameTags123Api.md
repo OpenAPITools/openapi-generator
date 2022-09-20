@@ -73,7 +73,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Client**](Client.md) |  | 
+[**Client**](../../models/Client.md) |  | 
 
 
 ### Return Types, Responses
@@ -93,7 +93,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Client**](Client.md) |  | 
+[**Client**](../../models/Client.md) |  | 
 
 
 

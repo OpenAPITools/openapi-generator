@@ -93,7 +93,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalPropertiesWithArrayOfEnums**](AdditionalPropertiesWithArrayOfEnums.md) |  | 
+[**AdditionalPropertiesWithArrayOfEnums**](../../models/AdditionalPropertiesWithArrayOfEnums.md) |  | 
 
 
 ### Return Types, Responses
@@ -113,7 +113,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AdditionalPropertiesWithArrayOfEnums**](AdditionalPropertiesWithArrayOfEnums.md) |  | 
+[**AdditionalPropertiesWithArrayOfEnums**](../../models/AdditionalPropertiesWithArrayOfEnums.md) |  | 
 
 
 
@@ -179,7 +179,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnimalFarm**](AnimalFarm.md) |  | 
+[**AnimalFarm**](../../models/AnimalFarm.md) |  | 
 
 
 ### Return Types, Responses
@@ -199,7 +199,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnimalFarm**](AnimalFarm.md) |  | 
+[**AnimalFarm**](../../models/AnimalFarm.md) |  | 
 
 
 
@@ -264,7 +264,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ArrayOfEnums**](ArrayOfEnums.md) |  | 
+[**ArrayOfEnums**](../../models/ArrayOfEnums.md) |  | 
 
 
 ### Return Types, Responses
@@ -284,7 +284,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ArrayOfEnums**](ArrayOfEnums.md) |  | 
+[**ArrayOfEnums**](../../models/ArrayOfEnums.md) |  | 
 
 
 
@@ -353,7 +353,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
+[**FileSchemaTestClass**](../../models/FileSchemaTestClass.md) |  | 
 
 
 ### Return Types, Responses
@@ -446,7 +446,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**User**](User.md) |  | 
+[**User**](../../models/User.md) |  | 
 
 
 ### query_params
@@ -728,7 +728,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Client**](Client.md) |  | 
+[**Client**](../../models/Client.md) |  | 
 
 
 ### Return Types, Responses
@@ -748,7 +748,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Client**](Client.md) |  | 
+[**Client**](../../models/Client.md) |  | 
 
 
 
@@ -812,7 +812,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md) |  | 
+[**ComposedOneOfDifferentTypes**](../../models/ComposedOneOfDifferentTypes.md) |  | 
 
 
 ### Return Types, Responses
@@ -832,7 +832,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md) |  | 
+[**ComposedOneOfDifferentTypes**](../../models/ComposedOneOfDifferentTypes.md) |  | 
 
 
 
@@ -1317,7 +1317,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**HealthCheckResult**](HealthCheckResult.md) |  | 
+[**HealthCheckResult**](../../models/HealthCheckResult.md) |  | 
 
 
 
@@ -1961,7 +1961,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJsonPatchjson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**JSONPatchRequest**](JSONPatchRequest.md) |  | 
+[**JSONPatchRequest**](../../models/JSONPatchRequest.md) |  | 
 
 
 ### Return Types, Responses
@@ -2127,7 +2127,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Mammal**](Mammal.md) |  | 
+[**Mammal**](../../models/Mammal.md) |  | 
 
 
 ### Return Types, Responses
@@ -2147,7 +2147,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Mammal**](Mammal.md) |  | 
+[**Mammal**](../../models/Mammal.md) |  | 
 
 
 
@@ -2211,7 +2211,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NumberWithValidations**](NumberWithValidations.md) |  | 
+[**NumberWithValidations**](../../models/NumberWithValidations.md) |  | 
 
 
 ### Return Types, Responses
@@ -2231,7 +2231,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NumberWithValidations**](NumberWithValidations.md) |  | 
+[**NumberWithValidations**](../../models/NumberWithValidations.md) |  | 
 
 
 
@@ -2389,7 +2389,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ObjectModelWithRefProps**](ObjectModelWithRefProps.md) |  | 
+[**ObjectModelWithRefProps**](../../models/ObjectModelWithRefProps.md) |  | 
 
 
 ### Return Types, Responses
@@ -2409,7 +2409,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ObjectModelWithRefProps**](ObjectModelWithRefProps.md) |  | 
+[**ObjectModelWithRefProps**](../../models/ObjectModelWithRefProps.md) |  | 
 
 
 
@@ -2880,7 +2880,7 @@ items | str,  | str,  |  |
 # RefParamSchema
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**StringWithValidation**](StringWithValidation.md) |  | 
+[**StringWithValidation**](../../models/StringWithValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -2964,7 +2964,7 @@ mapBean | MapBeanSchema | | optional
 # MapBeanSchema
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Foo**](Foo.md) |  | 
+[**Foo**](../../models/Foo.md) |  | 
 
 
 ### Return Types, Responses
@@ -3183,7 +3183,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**StringEnum**](StringEnum.md) |  | 
+[**StringEnum**](../../models/StringEnum.md) |  | 
 
 
 ### Return Types, Responses
@@ -3203,7 +3203,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**StringEnum**](StringEnum.md) |  | 
+[**StringEnum**](../../models/StringEnum.md) |  | 
 
 
 
@@ -3385,7 +3385,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ApiResponse**](ApiResponse.md) |  | 
+[**ApiResponse**](../../models/ApiResponse.md) |  | 
 
 
 
@@ -3491,7 +3491,7 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ApiResponse**](ApiResponse.md) |  | 
+[**ApiResponse**](../../models/ApiResponse.md) |  | 
 
 
 

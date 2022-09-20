@@ -79,7 +79,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**User**](User.md) |  | 
+[**User**](../../models/User.md) |  | 
 
 
 ### Return Types, Responses
@@ -177,7 +177,7 @@ list, tuple,  | tuple,  |  |
 ### Tuple Items
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[**User**](User.md) | [**User**](User.md) | [**User**](User.md) |  | 
+[**User**]({{complexTypePrefix}}User.md) | [**User**]({{complexTypePrefix}}User.md) | [**User**]({{complexTypePrefix}}User.md) |  | 
 
 ### Return Types, Responses
 
@@ -274,7 +274,7 @@ list, tuple,  | tuple,  |  |
 ### Tuple Items
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[**User**](User.md) | [**User**](User.md) | [**User**](User.md) |  | 
+[**User**]({{complexTypePrefix}}User.md) | [**User**]({{complexTypePrefix}}User.md) | [**User**]({{complexTypePrefix}}User.md) |  | 
 
 ### Return Types, Responses
 
@@ -470,13 +470,13 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**User**](User.md) |  | 
+[**User**](../../models/User.md) |  | 
 
 
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**User**](User.md) |  | 
+[**User**](../../models/User.md) |  | 
 
 
 #### get_user_by_name.ApiResponseFor400
@@ -768,7 +768,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**User**](User.md) |  | 
+[**User**](../../models/User.md) |  | 
 
 
 ### path_params
