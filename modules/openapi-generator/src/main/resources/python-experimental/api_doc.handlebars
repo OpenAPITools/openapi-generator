@@ -201,9 +201,6 @@ Name | Type | Description  | Notes
 {{/if}}
 {{/each}}
 
-
-{{#if returnType}}{{#if returnTypeIsPrimitive}}**{{{returnType}}}**{{/if}}{{#unless returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/unless}}{{/if}}{{#unless returnType}}void (empty response body){{/unless}}
-
 ### Authorization
 
 {{#unless authMethods}}No authorization required{{/unless}}{{#each authMethods}}[{{{name}}}](../../../README.md#{{{name}}}){{#unless @last}}, {{/unless}}{{/each}}

@@ -70,7 +70,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ArrayTypeMatchesArrays**](ArrayTypeMatchesArrays.md) |  | 
+[**ArrayTypeMatchesArrays**](../../models/ArrayTypeMatchesArrays.md) |  | 
 
 
 ### Return Types, Responses
@@ -86,9 +86,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -147,11 +144,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ArrayTypeMatchesArrays**](ArrayTypeMatchesArrays.md) |  | 
+[**ArrayTypeMatchesArrays**](../../models/ArrayTypeMatchesArrays.md) |  | 
 
-
-
-[**ArrayTypeMatchesArrays**](ArrayTypeMatchesArrays.md)
 
 ### Authorization
 
@@ -224,9 +218,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -286,9 +277,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 
-
-
-**bool**
 
 ### Authorization
 
@@ -361,9 +349,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -423,9 +408,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
-
-
-**int**
 
 ### Authorization
 
@@ -498,9 +480,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -560,9 +539,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 None,  | NoneClass,  |  | 
-
-
-**none_type**
 
 ### Authorization
 
@@ -635,9 +611,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -697,9 +670,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
-
-
-**int, float**
 
 ### Authorization
 
@@ -772,9 +742,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -834,9 +801,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-
-
-**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
@@ -909,9 +873,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -971,9 +932,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
-
-
-**str**
 
 ### Authorization
 

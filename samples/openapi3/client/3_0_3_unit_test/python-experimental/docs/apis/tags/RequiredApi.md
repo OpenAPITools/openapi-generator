@@ -62,7 +62,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RequiredDefaultValidation**](RequiredDefaultValidation.md) |  | 
+[**RequiredDefaultValidation**](../../models/RequiredDefaultValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -78,9 +78,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -139,11 +136,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RequiredDefaultValidation**](RequiredDefaultValidation.md) |  | 
+[**RequiredDefaultValidation**](../../models/RequiredDefaultValidation.md) |  | 
 
-
-
-[**RequiredDefaultValidation**](RequiredDefaultValidation.md)
 
 ### Authorization
 
@@ -199,7 +193,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RequiredValidation**](RequiredValidation.md) |  | 
+[**RequiredValidation**](../../models/RequiredValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -215,9 +209,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -276,11 +267,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RequiredValidation**](RequiredValidation.md) |  | 
+[**RequiredValidation**](../../models/RequiredValidation.md) |  | 
 
-
-
-[**RequiredValidation**](RequiredValidation.md)
 
 ### Authorization
 
@@ -336,7 +324,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RequiredWithEmptyArray**](RequiredWithEmptyArray.md) |  | 
+[**RequiredWithEmptyArray**](../../models/RequiredWithEmptyArray.md) |  | 
 
 
 ### Return Types, Responses
@@ -352,9 +340,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -413,11 +398,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RequiredWithEmptyArray**](RequiredWithEmptyArray.md) |  | 
+[**RequiredWithEmptyArray**](../../models/RequiredWithEmptyArray.md) |  | 
 
-
-
-[**RequiredWithEmptyArray**](RequiredWithEmptyArray.md)
 
 ### Authorization
 
@@ -490,9 +472,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -552,9 +531,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
-
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 

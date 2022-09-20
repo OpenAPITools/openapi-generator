@@ -186,9 +186,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 [http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
@@ -311,9 +308,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -509,9 +503,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-[**[Pet]**](Pet.md)
-
 ### Authorization
 
 [http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
@@ -706,9 +697,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-[**[Pet]**](Pet.md)
-
 ### Authorization
 
 [http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
@@ -830,9 +818,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -1017,9 +1002,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 [http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
@@ -1143,9 +1125,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1281,9 +1260,6 @@ Type | Description  | Notes
 [**ApiResponse**](../../models/ApiResponse.md) |  | 
 
 
-
-[**ApiResponse**](ApiResponse.md)
-
 ### Authorization
 
 [petstore_auth](../../../README.md#petstore_auth)
@@ -1417,9 +1393,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiResponse**](../../models/ApiResponse.md) |  | 
 
-
-
-[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 

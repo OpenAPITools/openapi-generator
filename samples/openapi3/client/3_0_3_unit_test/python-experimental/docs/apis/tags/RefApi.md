@@ -70,7 +70,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md) |  | 
+[**PropertyNamedRefThatIsNotAReference**](../../models/PropertyNamedRefThatIsNotAReference.md) |  | 
 
 
 ### Return Types, Responses
@@ -86,9 +86,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -147,11 +144,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md) |  | 
+[**PropertyNamedRefThatIsNotAReference**](../../models/PropertyNamedRefThatIsNotAReference.md) |  | 
 
-
-
-[**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md)
 
 ### Authorization
 
@@ -209,7 +203,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInAdditionalproperties**](RefInAdditionalproperties.md) |  | 
+[**RefInAdditionalproperties**](../../models/RefInAdditionalproperties.md) |  | 
 
 
 ### Return Types, Responses
@@ -225,9 +219,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -286,11 +277,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInAdditionalproperties**](RefInAdditionalproperties.md) |  | 
+[**RefInAdditionalproperties**](../../models/RefInAdditionalproperties.md) |  | 
 
-
-
-[**RefInAdditionalproperties**](RefInAdditionalproperties.md)
 
 ### Authorization
 
@@ -346,7 +334,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInAllof**](RefInAllof.md) |  | 
+[**RefInAllof**](../../models/RefInAllof.md) |  | 
 
 
 ### Return Types, Responses
@@ -362,9 +350,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -423,11 +408,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInAllof**](RefInAllof.md) |  | 
+[**RefInAllof**](../../models/RefInAllof.md) |  | 
 
-
-
-[**RefInAllof**](RefInAllof.md)
 
 ### Authorization
 
@@ -483,7 +465,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInAnyof**](RefInAnyof.md) |  | 
+[**RefInAnyof**](../../models/RefInAnyof.md) |  | 
 
 
 ### Return Types, Responses
@@ -499,9 +481,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -560,11 +539,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInAnyof**](RefInAnyof.md) |  | 
+[**RefInAnyof**](../../models/RefInAnyof.md) |  | 
 
-
-
-[**RefInAnyof**](RefInAnyof.md)
 
 ### Authorization
 
@@ -622,7 +598,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInItems**](RefInItems.md) |  | 
+[**RefInItems**](../../models/RefInItems.md) |  | 
 
 
 ### Return Types, Responses
@@ -638,9 +614,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -699,11 +672,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInItems**](RefInItems.md) |  | 
+[**RefInItems**](../../models/RefInItems.md) |  | 
 
-
-
-[**RefInItems**](RefInItems.md)
 
 ### Authorization
 
@@ -767,7 +737,7 @@ dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal
 #### not
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[PropertyNamedRefThatIsNotAReference](PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md) |  | 
+[PropertyNamedRefThatIsNotAReference]({{complexTypePrefix}}PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**]({{complexTypePrefix}}PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**]({{complexTypePrefix}}PropertyNamedRefThatIsNotAReference.md) |  | 
 
 ### Return Types, Responses
 
@@ -782,9 +752,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -851,10 +818,7 @@ dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal
 #### not
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-[PropertyNamedRefThatIsNotAReference](PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**](PropertyNamedRefThatIsNotAReference.md) |  | 
-
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
+[PropertyNamedRefThatIsNotAReference]({{complexTypePrefix}}PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**]({{complexTypePrefix}}PropertyNamedRefThatIsNotAReference.md) | [**PropertyNamedRefThatIsNotAReference**]({{complexTypePrefix}}PropertyNamedRefThatIsNotAReference.md) |  | 
 
 ### Authorization
 
@@ -910,7 +874,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInOneof**](RefInOneof.md) |  | 
+[**RefInOneof**](../../models/RefInOneof.md) |  | 
 
 
 ### Return Types, Responses
@@ -926,9 +890,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -987,11 +948,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInOneof**](RefInOneof.md) |  | 
+[**RefInOneof**](../../models/RefInOneof.md) |  | 
 
-
-
-[**RefInOneof**](RefInOneof.md)
 
 ### Authorization
 
@@ -1047,7 +1005,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInProperty**](RefInProperty.md) |  | 
+[**RefInProperty**](../../models/RefInProperty.md) |  | 
 
 
 ### Return Types, Responses
@@ -1063,9 +1021,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1124,11 +1079,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**RefInProperty**](RefInProperty.md) |  | 
+[**RefInProperty**](../../models/RefInProperty.md) |  | 
 
-
-
-[**RefInProperty**](RefInProperty.md)
 
 ### Authorization
 

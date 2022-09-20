@@ -58,7 +58,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md) |  | 
+[**ObjectPropertiesValidation**](../../models/ObjectPropertiesValidation.md) |  | 
 
 
 ### Return Types, Responses
@@ -74,9 +74,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -135,11 +132,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md) |  | 
+[**ObjectPropertiesValidation**](../../models/ObjectPropertiesValidation.md) |  | 
 
-
-
-[**ObjectPropertiesValidation**](ObjectPropertiesValidation.md)
 
 ### Authorization
 
@@ -195,7 +189,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md) |  | 
+[**PropertiesWithEscapedCharacters**](../../models/PropertiesWithEscapedCharacters.md) |  | 
 
 
 ### Return Types, Responses
@@ -211,9 +205,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -272,11 +263,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md) |  | 
+[**PropertiesWithEscapedCharacters**](../../models/PropertiesWithEscapedCharacters.md) |  | 
 
-
-
-[**PropertiesWithEscapedCharacters**](PropertiesWithEscapedCharacters.md)
 
 ### Authorization
 

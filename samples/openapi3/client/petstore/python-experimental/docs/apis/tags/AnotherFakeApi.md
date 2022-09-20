@@ -85,9 +85,6 @@ Type | Description  | Notes
 [**Client**](../../models/Client.md) |  | 
 
 
-
-[**Client**](Client.md)
-
 ### Authorization
 
 No authorization required

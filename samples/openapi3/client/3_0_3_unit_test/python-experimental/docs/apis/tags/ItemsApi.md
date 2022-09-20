@@ -64,7 +64,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedItems**](NestedItems.md) |  | 
+[**NestedItems**](../../models/NestedItems.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,9 +80,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -141,11 +138,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedItems**](NestedItems.md) |  | 
+[**NestedItems**](../../models/NestedItems.md) |  | 
 
-
-
-[**NestedItems**](NestedItems.md)
 
 ### Authorization
 

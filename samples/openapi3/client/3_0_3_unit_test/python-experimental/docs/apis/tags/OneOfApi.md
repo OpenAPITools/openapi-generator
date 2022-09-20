@@ -66,7 +66,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedOneofToCheckValidationSemantics**](NestedOneofToCheckValidationSemantics.md) |  | 
+[**NestedOneofToCheckValidationSemantics**](../../models/NestedOneofToCheckValidationSemantics.md) |  | 
 
 
 ### Return Types, Responses
@@ -82,9 +82,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -143,11 +140,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedOneofToCheckValidationSemantics**](NestedOneofToCheckValidationSemantics.md) |  | 
+[**NestedOneofToCheckValidationSemantics**](../../models/NestedOneofToCheckValidationSemantics.md) |  | 
 
-
-
-[**NestedOneofToCheckValidationSemantics**](NestedOneofToCheckValidationSemantics.md)
 
 ### Authorization
 
@@ -203,7 +197,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofComplexTypes**](OneofComplexTypes.md) |  | 
+[**OneofComplexTypes**](../../models/OneofComplexTypes.md) |  | 
 
 
 ### Return Types, Responses
@@ -219,9 +213,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -280,11 +271,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofComplexTypes**](OneofComplexTypes.md) |  | 
+[**OneofComplexTypes**](../../models/OneofComplexTypes.md) |  | 
 
-
-
-[**OneofComplexTypes**](OneofComplexTypes.md)
 
 ### Authorization
 
@@ -340,7 +328,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Oneof**](Oneof.md) |  | 
+[**Oneof**](../../models/Oneof.md) |  | 
 
 
 ### Return Types, Responses
@@ -356,9 +344,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -417,11 +402,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Oneof**](Oneof.md) |  | 
+[**Oneof**](../../models/Oneof.md) |  | 
 
-
-
-[**Oneof**](Oneof.md)
 
 ### Authorization
 
@@ -477,7 +459,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofWithBaseSchema**](OneofWithBaseSchema.md) |  | 
+[**OneofWithBaseSchema**](../../models/OneofWithBaseSchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -493,9 +475,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -554,11 +533,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofWithBaseSchema**](OneofWithBaseSchema.md) |  | 
+[**OneofWithBaseSchema**](../../models/OneofWithBaseSchema.md) |  | 
 
-
-
-[**OneofWithBaseSchema**](OneofWithBaseSchema.md)
 
 ### Authorization
 
@@ -614,7 +590,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofWithEmptySchema**](OneofWithEmptySchema.md) |  | 
+[**OneofWithEmptySchema**](../../models/OneofWithEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -630,9 +606,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -691,11 +664,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofWithEmptySchema**](OneofWithEmptySchema.md) |  | 
+[**OneofWithEmptySchema**](../../models/OneofWithEmptySchema.md) |  | 
 
-
-
-[**OneofWithEmptySchema**](OneofWithEmptySchema.md)
 
 ### Authorization
 
@@ -751,7 +721,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofWithRequired**](OneofWithRequired.md) |  | 
+[**OneofWithRequired**](../../models/OneofWithRequired.md) |  | 
 
 
 ### Return Types, Responses
@@ -767,9 +737,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -828,11 +795,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**OneofWithRequired**](OneofWithRequired.md) |  | 
+[**OneofWithRequired**](../../models/OneofWithRequired.md) |  | 
 
-
-
-[**OneofWithRequired**](OneofWithRequired.md)
 
 ### Authorization
 

@@ -60,7 +60,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ForbiddenProperty**](ForbiddenProperty.md) |  | 
+[**ForbiddenProperty**](../../models/ForbiddenProperty.md) |  | 
 
 
 ### Return Types, Responses
@@ -76,9 +76,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -137,11 +134,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**ForbiddenProperty**](ForbiddenProperty.md) |  | 
+[**ForbiddenProperty**](../../models/ForbiddenProperty.md) |  | 
 
-
-
-[**ForbiddenProperty**](ForbiddenProperty.md)
 
 ### Authorization
 
@@ -233,9 +227,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -314,9 +305,6 @@ Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **foo** | str,  | str,  |  | [optional] 
 **any_string_name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
-
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
@@ -402,9 +390,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -477,9 +462,6 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  |  | 
-
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 

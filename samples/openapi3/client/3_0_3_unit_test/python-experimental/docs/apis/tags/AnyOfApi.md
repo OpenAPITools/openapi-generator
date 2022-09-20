@@ -64,7 +64,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofComplexTypes**](AnyofComplexTypes.md) |  | 
+[**AnyofComplexTypes**](../../models/AnyofComplexTypes.md) |  | 
 
 
 ### Return Types, Responses
@@ -80,9 +80,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -141,11 +138,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofComplexTypes**](AnyofComplexTypes.md) |  | 
+[**AnyofComplexTypes**](../../models/AnyofComplexTypes.md) |  | 
 
-
-
-[**AnyofComplexTypes**](AnyofComplexTypes.md)
 
 ### Authorization
 
@@ -201,7 +195,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Anyof**](Anyof.md) |  | 
+[**Anyof**](../../models/Anyof.md) |  | 
 
 
 ### Return Types, Responses
@@ -217,9 +211,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -278,11 +269,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**Anyof**](Anyof.md) |  | 
+[**Anyof**](../../models/Anyof.md) |  | 
 
-
-
-[**Anyof**](Anyof.md)
 
 ### Authorization
 
@@ -338,7 +326,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md) |  | 
+[**AnyofWithBaseSchema**](../../models/AnyofWithBaseSchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -354,9 +342,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -415,11 +400,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md) |  | 
+[**AnyofWithBaseSchema**](../../models/AnyofWithBaseSchema.md) |  | 
 
-
-
-[**AnyofWithBaseSchema**](AnyofWithBaseSchema.md)
 
 ### Authorization
 
@@ -475,7 +457,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md) |  | 
+[**AnyofWithOneEmptySchema**](../../models/AnyofWithOneEmptySchema.md) |  | 
 
 
 ### Return Types, Responses
@@ -491,9 +473,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -552,11 +531,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md) |  | 
+[**AnyofWithOneEmptySchema**](../../models/AnyofWithOneEmptySchema.md) |  | 
 
-
-
-[**AnyofWithOneEmptySchema**](AnyofWithOneEmptySchema.md)
 
 ### Authorization
 
@@ -612,7 +588,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 # SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md) |  | 
+[**NestedAnyofToCheckValidationSemantics**](../../models/NestedAnyofToCheckValidationSemantics.md) |  | 
 
 
 ### Return Types, Responses
@@ -628,9 +604,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -689,11 +662,8 @@ headers | Unset | headers were not defined |
 # SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
-[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md) |  | 
+[**NestedAnyofToCheckValidationSemantics**](../../models/NestedAnyofToCheckValidationSemantics.md) |  | 
 
-
-
-[**NestedAnyofToCheckValidationSemantics**](NestedAnyofToCheckValidationSemantics.md)
 
 ### Authorization
 

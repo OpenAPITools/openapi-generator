@@ -116,9 +116,6 @@ Type | Description  | Notes
 [**AdditionalPropertiesWithArrayOfEnums**](../../models/AdditionalPropertiesWithArrayOfEnums.md) |  | 
 
 
-
-[**AdditionalPropertiesWithArrayOfEnums**](AdditionalPropertiesWithArrayOfEnums.md)
-
 ### Authorization
 
 No authorization required
@@ -202,9 +199,6 @@ Type | Description  | Notes
 [**AnimalFarm**](../../models/AnimalFarm.md) |  | 
 
 
-
-[**AnimalFarm**](AnimalFarm.md)
-
 ### Authorization
 
 No authorization required
@@ -287,9 +281,6 @@ Type | Description  | Notes
 [**ArrayOfEnums**](../../models/ArrayOfEnums.md) |  | 
 
 
-
-[**ArrayOfEnums**](ArrayOfEnums.md)
-
 ### Authorization
 
 No authorization required
@@ -369,9 +360,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -478,9 +466,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -562,9 +547,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bool,  | BoolClass,  |  | 
-
-
-**bool**
 
 ### Authorization
 
@@ -664,9 +646,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -751,9 +730,6 @@ Type | Description  | Notes
 [**Client**](../../models/Client.md) |  | 
 
 
-
-[**Client**](Client.md)
-
 ### Authorization
 
 No authorization required
@@ -834,9 +810,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ComposedOneOfDifferentTypes**](../../models/ComposedOneOfDifferentTypes.md) |  | 
 
-
-
-[**ComposedOneOfDifferentTypes**](ComposedOneOfDifferentTypes.md)
 
 ### Authorization
 
@@ -925,9 +898,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1055,9 +1025,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1256,9 +1223,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -1319,9 +1283,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**HealthCheckResult**](../../models/HealthCheckResult.md) |  | 
 
-
-
-[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -1486,9 +1447,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 [bearer_test](../../../README.md#bearer_test)
@@ -1567,9 +1525,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -1814,9 +1769,6 @@ Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
-
 ### Authorization
 
 No authorization required
@@ -1899,9 +1851,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -1977,9 +1926,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -2061,9 +2007,6 @@ headers | Unset | headers were not defined |
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
-
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
 
 ### Authorization
 
@@ -2150,9 +2093,6 @@ Type | Description  | Notes
 [**Mammal**](../../models/Mammal.md) |  | 
 
 
-
-[**Mammal**](Mammal.md)
-
 ### Authorization
 
 No authorization required
@@ -2233,9 +2173,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**NumberWithValidations**](../../models/NumberWithValidations.md) |  | 
 
-
-
-[**NumberWithValidations**](NumberWithValidations.md)
 
 ### Authorization
 
@@ -2324,9 +2261,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -2411,9 +2345,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ObjectModelWithRefProps**](../../models/ObjectModelWithRefProps.md) |  | 
 
-
-
-[**ObjectModelWithRefProps**](ObjectModelWithRefProps.md)
 
 ### Authorization
 
@@ -2734,9 +2665,6 @@ Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO |  | 
 
-
-**bool, date, datetime, dict, float, int, list, str, none_type**
-
 ### Authorization
 
 No authorization required
@@ -2897,9 +2825,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -2981,9 +2906,6 @@ response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-
-void (empty response body)
-
 ### Authorization
 
 No authorization required
@@ -3036,9 +2958,6 @@ Name | Type | Description  | Notes
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[Unset, Unset, ] |  |
 headers | Unset | headers were not defined |
-
-
-void (empty response body)
 
 ### Authorization
 
@@ -3122,9 +3041,6 @@ Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
-
-**str**
-
 ### Authorization
 
 No authorization required
@@ -3205,9 +3121,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**StringEnum**](../../models/StringEnum.md) |  | 
 
-
-
-[**StringEnum**](StringEnum.md)
 
 ### Authorization
 
@@ -3293,9 +3206,6 @@ file to download
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to download | 
-
-
-**file_type**
 
 ### Authorization
 
@@ -3387,9 +3297,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiResponse**](../../models/ApiResponse.md) |  | 
 
-
-
-[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
@@ -3493,9 +3400,6 @@ Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiResponse**](../../models/ApiResponse.md) |  | 
 
-
-
-[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
