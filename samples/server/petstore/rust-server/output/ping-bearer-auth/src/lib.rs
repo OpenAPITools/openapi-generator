@@ -13,7 +13,7 @@ type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0";
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum PingGetResponse {
     /// OK
     OK

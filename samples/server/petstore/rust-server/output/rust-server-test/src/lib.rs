@@ -13,60 +13,60 @@ type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "2.3.4";
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum AllOfGetResponse {
     /// OK
     OK
     (models::AllOfObject)
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DummyGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DummyPutResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum FileResponseGetResponse {
     /// Success
     Success
     (swagger::ByteArray)
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum GetStructuredYamlResponse {
     /// OK
     OK
     (String)
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum HtmlPostResponse {
     /// Success
     Success
     (String)
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum PostYamlResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum RawJsonGetResponse {
     /// Success
     Success
     (serde_json::Value)
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SoloObjectPostResponse {
     /// OK
     OK

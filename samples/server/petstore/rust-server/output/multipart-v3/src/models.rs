@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
@@ -21,11 +21,12 @@ pub struct MultipartRelatedRequest {
 }
 
 impl MultipartRelatedRequest {
+    #[allow(clippy::new_without_default)]
     pub fn new(required_binary_field: swagger::ByteArray, ) -> MultipartRelatedRequest {
         MultipartRelatedRequest {
             object_field: None,
             optional_binary_field: None,
-            required_binary_field: required_binary_field,
+            required_binary_field,
         }
     }
 }
@@ -35,16 +36,18 @@ impl MultipartRelatedRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultipartRelatedRequest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping object_field in query parameter serialization
+        let params: Vec<String> = vec![
+            // Skipping object_field in query parameter serialization
 
-        // Skipping optional_binary_field in query parameter serialization
-        // Skipping optional_binary_field in query parameter serialization
+            // Skipping optional_binary_field in query parameter serialization
+            // Skipping optional_binary_field in query parameter serialization
 
-        // Skipping required_binary_field in query parameter serialization
-        // Skipping required_binary_field in query parameter serialization
+            // Skipping required_binary_field in query parameter serialization
+            // Skipping required_binary_field in query parameter serialization
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -66,7 +69,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -77,7 +80,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
 
             if let Some(key) = key_result {
                 match key {
-                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val)?),
                     "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
@@ -92,7 +95,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
         std::result::Result::Ok(MultipartRelatedRequest {
             object_field: intermediate_rep.object_field.into_iter().next(),
             optional_binary_field: intermediate_rep.optional_binary_field.into_iter().next(),
-            required_binary_field: intermediate_rep.required_binary_field.into_iter().next().ok_or("required_binary_field missing in MultipartRelatedRequest".to_string())?,
+            required_binary_field: intermediate_rep.required_binary_field.into_iter().next().ok_or_else(|| "required_binary_field missing in MultipartRelatedRequest".to_string())?,
         })
     }
 }
@@ -136,7 +139,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
@@ -149,9 +152,10 @@ pub struct MultipartRequestObjectField {
 }
 
 impl MultipartRequestObjectField {
+    #[allow(clippy::new_without_default)]
     pub fn new(field_a: String, ) -> MultipartRequestObjectField {
         MultipartRequestObjectField {
-            field_a: field_a,
+            field_a,
             field_b: None,
         }
     }
@@ -162,18 +166,22 @@ impl MultipartRequestObjectField {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultipartRequestObjectField {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        params.push("field_a".to_string());
-        params.push(self.field_a.to_string());
+            Some("field_a".to_string()),
+            Some(self.field_a.to_string()),
 
 
-        if let Some(ref field_b) = self.field_b {
-            params.push("field_b".to_string());
-            params.push(field_b.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+            self.field_b.as_ref().map(|field_b| {
+                vec![
+                    "field_b".to_string(),
+                    field_b.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -194,7 +202,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -205,7 +213,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
 
             if let Some(key) = key_result {
                 match key {
-                    "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
                 }
@@ -217,7 +225,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(MultipartRequestObjectField {
-            field_a: intermediate_rep.field_a.into_iter().next().ok_or("field_a missing in MultipartRequestObjectField".to_string())?,
+            field_a: intermediate_rep.field_a.into_iter().next().ok_or_else(|| "field_a missing in MultipartRequestObjectField".to_string())?,
             field_b: intermediate_rep.field_b.into_iter().next(),
         })
     }
@@ -262,7 +270,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipleIdenticalMimeTypesPostRequest {
     #[serde(rename = "binary1")]
@@ -276,6 +284,7 @@ pub struct MultipleIdenticalMimeTypesPostRequest {
 }
 
 impl MultipleIdenticalMimeTypesPostRequest {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> MultipleIdenticalMimeTypesPostRequest {
         MultipleIdenticalMimeTypesPostRequest {
             binary1: None,
@@ -289,14 +298,16 @@ impl MultipleIdenticalMimeTypesPostRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping binary1 in query parameter serialization
-        // Skipping binary1 in query parameter serialization
+        let params: Vec<String> = vec![
+            // Skipping binary1 in query parameter serialization
+            // Skipping binary1 in query parameter serialization
 
-        // Skipping binary2 in query parameter serialization
-        // Skipping binary2 in query parameter serialization
+            // Skipping binary2 in query parameter serialization
+            // Skipping binary2 in query parameter serialization
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -317,7 +328,7 @@ impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {

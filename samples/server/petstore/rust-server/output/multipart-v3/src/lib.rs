@@ -13,19 +13,19 @@ type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0.7";
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum MultipartRelatedRequestPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum MultipartRequestPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum MultipleIdenticalMimeTypesPostResponse {
     /// OK
     OK

@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
 
@@ -72,7 +72,7 @@ where
     serde_xml_rs::wrap_primitives(item, serializer, "snake_another_xml_inner")
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnotherXmlArray(
     #[serde(serialize_with = "wrap_in_snake_another_xml_inner")]
@@ -142,7 +142,7 @@ impl std::ops::DerefMut for AnotherXmlArray {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AnotherXmlArray {
     fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
     }
 }
 
@@ -211,7 +211,7 @@ impl AnotherXmlArray {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_inner")]
 pub struct AnotherXmlInner(String);
@@ -265,7 +265,7 @@ impl AnotherXmlInner {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_object")]
 pub struct AnotherXmlObject {
@@ -276,6 +276,7 @@ pub struct AnotherXmlObject {
 }
 
 impl AnotherXmlObject {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> AnotherXmlObject {
         AnotherXmlObject {
             inner_string: None,
@@ -288,14 +289,18 @@ impl AnotherXmlObject {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AnotherXmlObject {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        if let Some(ref inner_string) = self.inner_string {
-            params.push("inner_string".to_string());
-            params.push(inner_string.to_string());
-        }
+            self.inner_string.as_ref().map(|inner_string| {
+                vec![
+                    "inner_string".to_string(),
+                    inner_string.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -315,7 +320,7 @@ impl std::str::FromStr for AnotherXmlObject {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -326,7 +331,7 @@ impl std::str::FromStr for AnotherXmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AnotherXmlObject".to_string())
                 }
             }
@@ -399,12 +404,13 @@ impl AnotherXmlObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfGet202Response {
 }
 
 impl AnyOfGet202Response {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> AnyOfGet202Response {
         AnyOfGet202Response {
         }
@@ -416,8 +422,10 @@ impl AnyOfGet202Response {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AnyOfGet202Response {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        params.join(",").to_string()
+        let params: Vec<String> = vec![
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -436,7 +444,7 @@ impl std::str::FromStr for AnyOfGet202Response {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -510,12 +518,13 @@ impl AnyOfGet202Response {
 }
 
 /// Test a model containing an anyOf
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfObject {
 }
 
 impl AnyOfObject {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> AnyOfObject {
         AnyOfObject {
         }
@@ -527,8 +536,10 @@ impl AnyOfObject {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AnyOfObject {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        params.join(",").to_string()
+        let params: Vec<String> = vec![
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -547,7 +558,7 @@ impl std::str::FromStr for AnyOfObject {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -637,8 +648,8 @@ pub enum AnyOfObjectAnyOf {
 impl std::fmt::Display for AnyOfObjectAnyOf {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            AnyOfObjectAnyOf::Foo => write!(f, "{}", "FOO"),
-            AnyOfObjectAnyOf::Bar => write!(f, "{}", "BAR"),
+            AnyOfObjectAnyOf::Foo => write!(f, "FOO"),
+            AnyOfObjectAnyOf::Bar => write!(f, "BAR"),
         }
     }
 }
@@ -665,7 +676,7 @@ impl AnyOfObjectAnyOf {
 }
 
 /// Test containing an anyOf object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfProperty {
     #[serde(rename = "requiredAnyOf")]
@@ -678,9 +689,10 @@ pub struct AnyOfProperty {
 }
 
 impl AnyOfProperty {
+    #[allow(clippy::new_without_default)]
     pub fn new(required_any_of: models::AnyOfObject, ) -> AnyOfProperty {
         AnyOfProperty {
-            required_any_of: required_any_of,
+            required_any_of,
             optional_any_of: None,
         }
     }
@@ -691,12 +703,14 @@ impl AnyOfProperty {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AnyOfProperty {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping requiredAnyOf in query parameter serialization
+        let params: Vec<String> = vec![
+            // Skipping requiredAnyOf in query parameter serialization
 
-        // Skipping optionalAnyOf in query parameter serialization
+            // Skipping optionalAnyOf in query parameter serialization
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -717,7 +731,7 @@ impl std::str::FromStr for AnyOfProperty {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -728,8 +742,8 @@ impl std::str::FromStr for AnyOfProperty {
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredAnyOf" => intermediate_rep.required_any_of.push(<models::AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optionalAnyOf" => intermediate_rep.optional_any_of.push(<models::Model12345AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "requiredAnyOf" => intermediate_rep.required_any_of.push(<models::AnyOfObject as std::str::FromStr>::from_str(val)?),
+                    "optionalAnyOf" => intermediate_rep.optional_any_of.push(<models::Model12345AnyOfObject as std::str::FromStr>::from_str(val)?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AnyOfProperty".to_string())
                 }
             }
@@ -740,7 +754,7 @@ impl std::str::FromStr for AnyOfProperty {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(AnyOfProperty {
-            required_any_of: intermediate_rep.required_any_of.into_iter().next().ok_or("requiredAnyOf missing in AnyOfProperty".to_string())?,
+            required_any_of: intermediate_rep.required_any_of.into_iter().next().ok_or_else(|| "requiredAnyOf missing in AnyOfProperty".to_string())?,
             optional_any_of: intermediate_rep.optional_any_of.into_iter().next(),
         })
     }
@@ -795,7 +809,7 @@ impl AnyOfProperty {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelDuplicateXmlObject")]
 pub struct DuplicateXmlObject {
@@ -810,10 +824,11 @@ pub struct DuplicateXmlObject {
 }
 
 impl DuplicateXmlObject {
+    #[allow(clippy::new_without_default)]
     pub fn new(inner_array: models::XmlArray, ) -> DuplicateXmlObject {
         DuplicateXmlObject {
             inner_string: None,
-            inner_array: inner_array,
+            inner_array,
         }
     }
 }
@@ -823,16 +838,20 @@ impl DuplicateXmlObject {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for DuplicateXmlObject {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        if let Some(ref inner_string) = self.inner_string {
-            params.push("inner_string".to_string());
-            params.push(inner_string.to_string());
-        }
+            self.inner_string.as_ref().map(|inner_string| {
+                vec![
+                    "inner_string".to_string(),
+                    inner_string.to_string(),
+                ].join(",")
+            }),
 
-        // Skipping inner_array in query parameter serialization
+            // Skipping inner_array in query parameter serialization
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -853,7 +872,7 @@ impl std::str::FromStr for DuplicateXmlObject {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -864,8 +883,8 @@ impl std::str::FromStr for DuplicateXmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "inner_array" => intermediate_rep.inner_array.push(<models::XmlArray as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "inner_array" => intermediate_rep.inner_array.push(<models::XmlArray as std::str::FromStr>::from_str(val)?),
                     _ => return std::result::Result::Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
             }
@@ -877,7 +896,7 @@ impl std::str::FromStr for DuplicateXmlObject {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(DuplicateXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
-            inner_array: intermediate_rep.inner_array.into_iter().next().ok_or("inner_array missing in DuplicateXmlObject".to_string())?,
+            inner_array: intermediate_rep.inner_array.into_iter().next().ok_or_else(|| "inner_array missing in DuplicateXmlObject".to_string())?,
         })
     }
 }
@@ -959,9 +978,9 @@ pub enum EnumWithStarObject {
 impl std::fmt::Display for EnumWithStarObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            EnumWithStarObject::Foo => write!(f, "{}", "FOO"),
-            EnumWithStarObject::Bar => write!(f, "{}", "BAR"),
-            EnumWithStarObject::Star => write!(f, "{}", "*"),
+            EnumWithStarObject::Foo => write!(f, "FOO"),
+            EnumWithStarObject::Bar => write!(f, "BAR"),
+            EnumWithStarObject::Star => write!(f, "*"),
         }
     }
 }
@@ -988,7 +1007,7 @@ impl EnumWithStarObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Err(String);
 
@@ -1040,7 +1059,7 @@ impl Err {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Error(String);
 
@@ -1093,12 +1112,13 @@ impl Error {
 }
 
 /// Test a model containing an anyOf that starts with a number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Model12345AnyOfObject {
 }
 
 impl Model12345AnyOfObject {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Model12345AnyOfObject {
         Model12345AnyOfObject {
         }
@@ -1110,8 +1130,10 @@ impl Model12345AnyOfObject {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Model12345AnyOfObject {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        params.join(",").to_string()
+        let params: Vec<String> = vec![
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -1130,7 +1152,7 @@ impl std::str::FromStr for Model12345AnyOfObject {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1222,9 +1244,9 @@ pub enum Model12345AnyOfObjectAnyOf {
 impl std::fmt::Display for Model12345AnyOfObjectAnyOf {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            Model12345AnyOfObjectAnyOf::Foo => write!(f, "{}", "FOO"),
-            Model12345AnyOfObjectAnyOf::Bar => write!(f, "{}", "BAR"),
-            Model12345AnyOfObjectAnyOf::Star => write!(f, "{}", "*"),
+            Model12345AnyOfObjectAnyOf::Foo => write!(f, "FOO"),
+            Model12345AnyOfObjectAnyOf::Bar => write!(f, "BAR"),
+            Model12345AnyOfObjectAnyOf::Star => write!(f, "*"),
         }
     }
 }
@@ -1251,7 +1273,7 @@ impl Model12345AnyOfObjectAnyOf {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultigetGet201Response {
     #[serde(rename = "foo")]
@@ -1261,6 +1283,7 @@ pub struct MultigetGet201Response {
 }
 
 impl MultigetGet201Response {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> MultigetGet201Response {
         MultigetGet201Response {
             foo: None,
@@ -1273,14 +1296,18 @@ impl MultigetGet201Response {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultigetGet201Response {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        if let Some(ref foo) = self.foo {
-            params.push("foo".to_string());
-            params.push(foo.to_string());
-        }
+            self.foo.as_ref().map(|foo| {
+                vec![
+                    "foo".to_string(),
+                    foo.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -1300,7 +1327,7 @@ impl std::str::FromStr for MultigetGet201Response {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1311,7 +1338,7 @@ impl std::str::FromStr for MultigetGet201Response {
 
             if let Some(key) = key_result {
                 match key {
-                    "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultigetGet201Response".to_string())
                 }
             }
@@ -1375,7 +1402,7 @@ impl MultigetGet201Response {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MyId(i32);
 
@@ -1414,7 +1441,7 @@ impl MyId {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MyIdList(
     Vec<i32>
@@ -1483,7 +1510,7 @@ impl std::ops::DerefMut for MyIdList {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MyIdList {
     fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1552,7 +1579,7 @@ impl MyIdList {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NullableTest {
     #[serde(rename = "nullable")]
@@ -1585,9 +1612,10 @@ pub struct NullableTest {
 }
 
 impl NullableTest {
+    #[allow(clippy::new_without_default)]
     pub fn new(nullable: swagger::Nullable<String>, ) -> NullableTest {
         NullableTest {
-            nullable: nullable,
+            nullable,
             nullable_with_null_default: None,
             nullable_with_present_default: Some(swagger::Nullable::Present("default".to_string())),
             nullable_with_no_default: None,
@@ -1601,36 +1629,46 @@ impl NullableTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for NullableTest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        params.push("nullable".to_string());
-        params.push(self.nullable.as_ref().map_or("null".to_string(), |x| x.to_string()));
-
-
-        if let Some(ref nullable_with_null_default) = self.nullable_with_null_default {
-            params.push("nullableWithNullDefault".to_string());
-            params.push(nullable_with_null_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
-        }
+            Some("nullable".to_string()),
+            Some(self.nullable.as_ref().map_or("null".to_string(), |x| x.to_string())),
 
 
-        if let Some(ref nullable_with_present_default) = self.nullable_with_present_default {
-            params.push("nullableWithPresentDefault".to_string());
-            params.push(nullable_with_present_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
-        }
+            self.nullable_with_null_default.as_ref().map(|nullable_with_null_default| {
+                vec![
+                    "nullableWithNullDefault".to_string(),
+                    nullable_with_null_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
+                ].join(",")
+            }),
 
 
-        if let Some(ref nullable_with_no_default) = self.nullable_with_no_default {
-            params.push("nullableWithNoDefault".to_string());
-            params.push(nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
-        }
+            self.nullable_with_present_default.as_ref().map(|nullable_with_present_default| {
+                vec![
+                    "nullableWithPresentDefault".to_string(),
+                    nullable_with_present_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
+                ].join(",")
+            }),
 
 
-        if let Some(ref nullable_array) = self.nullable_array {
-            params.push("nullableArray".to_string());
-            params.push(nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
-        }
+            self.nullable_with_no_default.as_ref().map(|nullable_with_no_default| {
+                vec![
+                    "nullableWithNoDefault".to_string(),
+                    nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.nullable_array.as_ref().map(|nullable_array| {
+                vec![
+                    "nullableArray".to_string(),
+                    nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+                ].join(",")
+            }),
+
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -1654,7 +1692,7 @@ impl std::str::FromStr for NullableTest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1737,7 +1775,7 @@ impl NullableTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectHeader {
     #[serde(rename = "requiredObjectHeader")]
@@ -1750,9 +1788,10 @@ pub struct ObjectHeader {
 }
 
 impl ObjectHeader {
+    #[allow(clippy::new_without_default)]
     pub fn new(required_object_header: bool, ) -> ObjectHeader {
         ObjectHeader {
-            required_object_header: required_object_header,
+            required_object_header,
             optional_object_header: None,
         }
     }
@@ -1763,18 +1802,22 @@ impl ObjectHeader {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectHeader {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        params.push("requiredObjectHeader".to_string());
-        params.push(self.required_object_header.to_string());
+            Some("requiredObjectHeader".to_string()),
+            Some(self.required_object_header.to_string()),
 
 
-        if let Some(ref optional_object_header) = self.optional_object_header {
-            params.push("optionalObjectHeader".to_string());
-            params.push(optional_object_header.to_string());
-        }
+            self.optional_object_header.as_ref().map(|optional_object_header| {
+                vec![
+                    "optionalObjectHeader".to_string(),
+                    optional_object_header.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -1795,7 +1838,7 @@ impl std::str::FromStr for ObjectHeader {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1806,8 +1849,8 @@ impl std::str::FromStr for ObjectHeader {
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(<bool as std::str::FromStr>::from_str(val)?),
+                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(<isize as std::str::FromStr>::from_str(val)?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
             }
@@ -1818,7 +1861,7 @@ impl std::str::FromStr for ObjectHeader {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ObjectHeader {
-            required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or("requiredObjectHeader missing in ObjectHeader".to_string())?,
+            required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or_else(|| "requiredObjectHeader missing in ObjectHeader".to_string())?,
             optional_object_header: intermediate_rep.optional_object_header.into_iter().next(),
         })
     }
@@ -1872,7 +1915,7 @@ impl ObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectParam {
     #[serde(rename = "requiredParam")]
@@ -1885,9 +1928,10 @@ pub struct ObjectParam {
 }
 
 impl ObjectParam {
+    #[allow(clippy::new_without_default)]
     pub fn new(required_param: bool, ) -> ObjectParam {
         ObjectParam {
-            required_param: required_param,
+            required_param,
             optional_param: None,
         }
     }
@@ -1898,18 +1942,22 @@ impl ObjectParam {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectParam {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        params.push("requiredParam".to_string());
-        params.push(self.required_param.to_string());
+            Some("requiredParam".to_string()),
+            Some(self.required_param.to_string()),
 
 
-        if let Some(ref optional_param) = self.optional_param {
-            params.push("optionalParam".to_string());
-            params.push(optional_param.to_string());
-        }
+            self.optional_param.as_ref().map(|optional_param| {
+                vec![
+                    "optionalParam".to_string(),
+                    optional_param.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -1930,7 +1978,7 @@ impl std::str::FromStr for ObjectParam {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1941,8 +1989,8 @@ impl std::str::FromStr for ObjectParam {
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optionalParam" => intermediate_rep.optional_param.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val)?),
+                    "optionalParam" => intermediate_rep.optional_param.push(<isize as std::str::FromStr>::from_str(val)?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }
@@ -1953,7 +2001,7 @@ impl std::str::FromStr for ObjectParam {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ObjectParam {
-            required_param: intermediate_rep.required_param.into_iter().next().ok_or("requiredParam missing in ObjectParam".to_string())?,
+            required_param: intermediate_rep.required_param.into_iter().next().ok_or_else(|| "requiredParam missing in ObjectParam".to_string())?,
             optional_param: intermediate_rep.optional_param.into_iter().next(),
         })
     }
@@ -2007,7 +2055,7 @@ impl ObjectParam {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectUntypedProps {
     #[serde(rename = "required_untyped")]
@@ -2027,10 +2075,11 @@ pub struct ObjectUntypedProps {
 }
 
 impl ObjectUntypedProps {
+    #[allow(clippy::new_without_default)]
     pub fn new(required_untyped: serde_json::Value, required_untyped_nullable: swagger::Nullable<serde_json::Value>, ) -> ObjectUntypedProps {
         ObjectUntypedProps {
-            required_untyped: required_untyped,
-            required_untyped_nullable: required_untyped_nullable,
+            required_untyped,
+            required_untyped_nullable,
             not_required_untyped: None,
             not_required_untyped_nullable: None,
         }
@@ -2042,16 +2091,18 @@ impl ObjectUntypedProps {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectUntypedProps {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping required_untyped in query parameter serialization
+        let params: Vec<String> = vec![
+            // Skipping required_untyped in query parameter serialization
 
-        // Skipping required_untyped_nullable in query parameter serialization
+            // Skipping required_untyped_nullable in query parameter serialization
 
-        // Skipping not_required_untyped in query parameter serialization
+            // Skipping not_required_untyped in query parameter serialization
 
-        // Skipping not_required_untyped_nullable in query parameter serialization
+            // Skipping not_required_untyped_nullable in query parameter serialization
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -2074,7 +2125,7 @@ impl std::str::FromStr for ObjectUntypedProps {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2085,10 +2136,10 @@ impl std::str::FromStr for ObjectUntypedProps {
 
             if let Some(key) = key_result {
                 match key {
-                    "required_untyped" => intermediate_rep.required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "required_untyped" => intermediate_rep.required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val)?),
                     "required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
-                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val)?),
+                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<serde_json::Value as std::str::FromStr>::from_str(val)?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
@@ -2099,7 +2150,7 @@ impl std::str::FromStr for ObjectUntypedProps {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ObjectUntypedProps {
-            required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or("required_untyped missing in ObjectUntypedProps".to_string())?,
+            required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or_else(|| "required_untyped missing in ObjectUntypedProps".to_string())?,
             required_untyped_nullable: std::result::Result::Err("Nullable types not supported in ObjectUntypedProps".to_string())?,
             not_required_untyped: intermediate_rep.not_required_untyped.into_iter().next(),
             not_required_untyped_nullable: intermediate_rep.not_required_untyped_nullable.into_iter().next(),
@@ -2155,7 +2206,7 @@ impl ObjectUntypedProps {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
@@ -2165,6 +2216,7 @@ pub struct ObjectWithArrayOfObjects {
 }
 
 impl ObjectWithArrayOfObjects {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ObjectWithArrayOfObjects {
         ObjectWithArrayOfObjects {
             object_array: None,
@@ -2177,14 +2229,18 @@ impl ObjectWithArrayOfObjects {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectWithArrayOfObjects {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        if let Some(ref object_array) = self.object_array {
-            params.push("objectArray".to_string());
-            params.push(object_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+            self.object_array.as_ref().map(|object_array| {
+                vec![
+                    "objectArray".to_string(),
+                    object_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -2204,7 +2260,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2279,7 +2335,7 @@ impl ObjectWithArrayOfObjects {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Ok(String);
 
@@ -2331,12 +2387,13 @@ impl Ok {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OneOfGet200Response {
 }
 
 impl OneOfGet200Response {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> OneOfGet200Response {
         OneOfGet200Response {
         }
@@ -2348,8 +2405,10 @@ impl OneOfGet200Response {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for OneOfGet200Response {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        params.join(",").to_string()
+        let params: Vec<String> = vec![
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -2368,7 +2427,7 @@ impl std::str::FromStr for OneOfGet200Response {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2441,7 +2500,7 @@ impl OneOfGet200Response {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OptionalObjectHeader(i32);
 
@@ -2480,7 +2539,7 @@ impl OptionalObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct RequiredObjectHeader(bool);
 
@@ -2519,7 +2578,7 @@ impl RequiredObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Result(String);
 
@@ -2588,8 +2647,8 @@ pub enum StringEnum {
 impl std::fmt::Display for StringEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            StringEnum::Foo => write!(f, "{}", "FOO"),
-            StringEnum::Bar => write!(f, "{}", "BAR"),
+            StringEnum::Foo => write!(f, "FOO"),
+            StringEnum::Bar => write!(f, "BAR"),
         }
     }
 }
@@ -2615,7 +2674,7 @@ impl StringEnum {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct StringObject(String);
 
@@ -2668,7 +2727,7 @@ impl StringObject {
 }
 
 /// Test a model containing a UUID
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct UuidObject(uuid::Uuid);
 
@@ -2716,7 +2775,7 @@ where
     serde_xml_rs::wrap_primitives(item, serializer, "camelXmlInner")
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct XmlArray(
     #[serde(serialize_with = "wrap_in_camelXmlInner")]
@@ -2786,7 +2845,7 @@ impl std::ops::DerefMut for XmlArray {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for XmlArray {
     fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2855,7 +2914,7 @@ impl XmlArray {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlInner")]
 pub struct XmlInner(String);
@@ -2909,7 +2968,7 @@ impl XmlInner {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlObject")]
 pub struct XmlObject {
@@ -2924,6 +2983,7 @@ pub struct XmlObject {
 }
 
 impl XmlObject {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> XmlObject {
         XmlObject {
             inner_string: None,
@@ -2937,20 +2997,26 @@ impl XmlObject {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for XmlObject {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        if let Some(ref inner_string) = self.inner_string {
-            params.push("innerString".to_string());
-            params.push(inner_string.to_string());
-        }
+            self.inner_string.as_ref().map(|inner_string| {
+                vec![
+                    "innerString".to_string(),
+                    inner_string.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref other_inner_rename) = self.other_inner_rename {
-            params.push("other_inner_rename".to_string());
-            params.push(other_inner_rename.to_string());
-        }
+            self.other_inner_rename.as_ref().map(|other_inner_rename| {
+                vec![
+                    "other_inner_rename".to_string(),
+                    other_inner_rename.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -2971,7 +3037,7 @@ impl std::str::FromStr for XmlObject {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2982,8 +3048,8 @@ impl std::str::FromStr for XmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "innerString" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "innerString" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(<isize as std::str::FromStr>::from_str(val)?),
                     _ => return std::result::Result::Err("Unexpected key while parsing XmlObject".to_string())
                 }
             }

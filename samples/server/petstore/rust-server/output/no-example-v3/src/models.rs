@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OpGetRequest {
     #[serde(rename = "propery")]
@@ -14,6 +14,7 @@ pub struct OpGetRequest {
 }
 
 impl OpGetRequest {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> OpGetRequest {
         OpGetRequest {
             propery: None,
@@ -26,14 +27,18 @@ impl OpGetRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for OpGetRequest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 
-        if let Some(ref propery) = self.propery {
-            params.push("propery".to_string());
-            params.push(propery.to_string());
-        }
+            self.propery.as_ref().map(|propery| {
+                vec![
+                    "propery".to_string(),
+                    propery.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ].into_iter().flatten().collect();
+
+        params.join(",")
     }
 }
 
@@ -53,7 +58,7 @@ impl std::str::FromStr for OpGetRequest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -64,7 +69,7 @@ impl std::str::FromStr for OpGetRequest {
 
             if let Some(key) = key_result {
                 match key {
-                    "propery" => intermediate_rep.propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "propery" => intermediate_rep.propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing OpGetRequest".to_string())
                 }
             }
