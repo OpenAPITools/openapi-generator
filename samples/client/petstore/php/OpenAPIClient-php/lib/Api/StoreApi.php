@@ -185,6 +185,8 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
+            
             }
             throw $e;
         }
@@ -409,6 +411,7 @@ class StoreApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('array<string,int>' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -424,6 +427,7 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
             }
 
             $returnType = 'array<string,int>';
@@ -444,6 +448,7 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -452,6 +457,7 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
             }
             throw $e;
         }
@@ -678,6 +684,7 @@ class StoreApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -693,6 +700,9 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -713,6 +723,7 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -721,6 +732,9 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
+            
             }
             throw $e;
         }
@@ -967,6 +981,7 @@ class StoreApi
             }
 
             switch($statusCode) {
+            
                 case 200:
                     if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -982,6 +997,8 @@ class StoreApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+            
+            
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -1002,6 +1019,7 @@ class StoreApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+            
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1010,6 +1028,8 @@ class StoreApi
                     );
                     $e->setResponseObject($data);
                     break;
+            
+            
             }
             throw $e;
         }
