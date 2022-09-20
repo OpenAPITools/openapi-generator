@@ -399,7 +399,8 @@ impl std::str::FromStr for {{{classname}}} {
                     "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
                   {{/isNullable}}
                   {{^isNullable}}
-                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val){{^isModel}}.map_err(|x| x.to_string()){{/isModel}}?),
+                    #[allow(clippy::redundant_clone)]
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                   {{/isNullable}}
                 {{/isContainer}}
               {{/isByteArray}}

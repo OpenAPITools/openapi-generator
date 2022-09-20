@@ -80,7 +80,8 @@ impl std::str::FromStr for MultipartRelatedRequest {
 
             if let Some(key) = key_result {
                 match key {
-                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val)?),
+                    #[allow(clippy::redundant_clone)]
+                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
@@ -213,6 +214,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequestObjectField".to_string())

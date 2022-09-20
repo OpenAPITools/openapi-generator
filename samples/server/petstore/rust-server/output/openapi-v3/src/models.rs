@@ -331,6 +331,7 @@ impl std::str::FromStr for AnotherXmlObject {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AnotherXmlObject".to_string())
                 }
@@ -742,8 +743,10 @@ impl std::str::FromStr for AnyOfProperty {
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredAnyOf" => intermediate_rep.required_any_of.push(<models::AnyOfObject as std::str::FromStr>::from_str(val)?),
-                    "optionalAnyOf" => intermediate_rep.optional_any_of.push(<models::Model12345AnyOfObject as std::str::FromStr>::from_str(val)?),
+                    #[allow(clippy::redundant_clone)]
+                    "requiredAnyOf" => intermediate_rep.required_any_of.push(<models::AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "optionalAnyOf" => intermediate_rep.optional_any_of.push(<models::Model12345AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AnyOfProperty".to_string())
                 }
             }
@@ -883,7 +886,9 @@ impl std::str::FromStr for DuplicateXmlObject {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "inner_array" => intermediate_rep.inner_array.push(<models::XmlArray as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
@@ -1338,6 +1343,7 @@ impl std::str::FromStr for MultigetGet201Response {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultigetGet201Response".to_string())
                 }
@@ -1849,7 +1855,9 @@ impl std::str::FromStr for ObjectHeader {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "requiredObjectHeader" => intermediate_rep.required_object_header.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "optionalObjectHeader" => intermediate_rep.optional_object_header.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
@@ -1989,7 +1997,9 @@ impl std::str::FromStr for ObjectParam {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "optionalParam" => intermediate_rep.optional_param.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
@@ -2136,9 +2146,12 @@ impl std::str::FromStr for ObjectUntypedProps {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "required_untyped" => intermediate_rep.required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
+                    #[allow(clippy::redundant_clone)]
                     "not_required_untyped" => intermediate_rep.not_required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
@@ -3048,7 +3061,9 @@ impl std::str::FromStr for XmlObject {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "innerString" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "other_inner_rename" => intermediate_rep.other_inner_rename.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing XmlObject".to_string())
                 }

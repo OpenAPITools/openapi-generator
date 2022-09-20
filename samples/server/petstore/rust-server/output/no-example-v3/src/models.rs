@@ -69,6 +69,7 @@ impl std::str::FromStr for OpGetRequest {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "propery" => intermediate_rep.propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing OpGetRequest".to_string())
                 }

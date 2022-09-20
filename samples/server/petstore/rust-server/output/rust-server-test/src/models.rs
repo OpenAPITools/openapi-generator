@@ -267,7 +267,9 @@ impl std::str::FromStr for AllOfObject {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AllOfObject".to_string())
                 }
@@ -389,6 +391,7 @@ impl std::str::FromStr for BaseAllOf {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing BaseAllOf".to_string())
                 }
@@ -518,7 +521,9 @@ impl std::str::FromStr for DummyPutRequest {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "id" => intermediate_rep.id.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing DummyPutRequest".to_string())
                 }
@@ -642,6 +647,7 @@ impl std::str::FromStr for GetYamlResponse {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "value" => intermediate_rep.value.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing GetYamlResponse".to_string())
                 }
@@ -757,7 +763,8 @@ impl std::str::FromStr for ObjectOfObjects {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner" => intermediate_rep.inner.push(<models::ObjectOfObjectsInner as std::str::FromStr>::from_str(val)?),
+                    #[allow(clippy::redundant_clone)]
+                    "inner" => intermediate_rep.inner.push(<models::ObjectOfObjectsInner as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjects".to_string())
                 }
             }
@@ -886,7 +893,9 @@ impl std::str::FromStr for ObjectOfObjectsInner {
 
             if let Some(key) = key_result {
                 match key {
+                    #[allow(clippy::redundant_clone)]
                     "required_thing" => intermediate_rep.required_thing.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
                     "optional_thing" => intermediate_rep.optional_thing.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjectsInner".to_string())
                 }
