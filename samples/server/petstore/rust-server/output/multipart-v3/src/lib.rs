@@ -1,5 +1,6 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 #![allow(unused_imports)]
+#![allow(clippy::derive_partial_eq_without_eq)]
 
 use async_trait::async_trait;
 use futures::Stream;
@@ -13,19 +14,19 @@ type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0.7";
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipartRelatedRequestPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipartRequestPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipleIdenticalMimeTypesPostResponse {
     /// OK
     OK

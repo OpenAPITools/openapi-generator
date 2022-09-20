@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
@@ -36,7 +36,7 @@ impl MultipartRelatedRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultipartRelatedRequest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping object_field in query parameter serialization
 
             // Skipping optional_binary_field in query parameter serialization
@@ -45,9 +45,9 @@ impl std::string::ToString for MultipartRelatedRequest {
             // Skipping required_binary_field in query parameter serialization
             // Skipping required_binary_field in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -139,7 +139,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
@@ -166,7 +166,7 @@ impl MultipartRequestObjectField {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultipartRequestObjectField {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("field_a".to_string()),
             Some(self.field_a.to_string()),
@@ -179,9 +179,9 @@ impl std::string::ToString for MultipartRequestObjectField {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -270,7 +270,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipleIdenticalMimeTypesPostRequest {
     #[serde(rename = "binary1")]
@@ -298,16 +298,16 @@ impl MultipleIdenticalMimeTypesPostRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping binary1 in query parameter serialization
             // Skipping binary1 in query parameter serialization
 
             // Skipping binary2 in query parameter serialization
             // Skipping binary2 in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 

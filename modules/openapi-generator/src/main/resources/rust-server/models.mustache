@@ -288,7 +288,7 @@ impl {{{classname}}} {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for {{{classname}}} {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 {{#vars}}
 {{#isByteArray}}
             // Skipping {{baseName}} in query parameter serialization
@@ -347,9 +347,9 @@ impl std::string::ToString for {{{classname}}} {
 {{/required}}
 {{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -399,7 +399,7 @@ impl std::str::FromStr for {{{classname}}} {
                     "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
                   {{/isNullable}}
                   {{^isNullable}}
-                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val){{#isString}}.map_err(|x| x.to_string()){{/isString}}?),
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val){{^isModel}}.map_err(|x| x.to_string()){{/isModel}}?),
                   {{/isNullable}}
                 {{/isContainer}}
               {{/isByteArray}}

@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
@@ -33,7 +33,7 @@ impl ANullableContainer {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ANullableContainer {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.nullable_thing.as_ref().map(|nullable_thing| {
                 vec![
@@ -46,9 +46,9 @@ impl std::string::ToString for ANullableContainer {
             Some("RequiredNullableThing".to_string()),
             Some(self.required_nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string())),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -138,7 +138,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// An additionalPropertiesObject
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesObject(std::collections::HashMap<String, String>);
 
@@ -188,7 +188,7 @@ impl ::std::str::FromStr for AdditionalPropertiesObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AllOfObject {
     #[serde(rename = "sampleProperty")]
@@ -216,7 +216,7 @@ impl AllOfObject {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AllOfObject {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.sample_property.as_ref().map(|sample_property| {
                 vec![
@@ -233,9 +233,9 @@ impl std::string::ToString for AllOfObject {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -324,7 +324,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
     #[serde(rename = "sampleBasePropery")]
@@ -347,7 +347,7 @@ impl BaseAllOf {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for BaseAllOf {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.sample_base_propery.as_ref().map(|sample_base_propery| {
                 vec![
@@ -356,9 +356,9 @@ impl std::string::ToString for BaseAllOf {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -444,7 +444,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DummyPutRequest {
     #[serde(rename = "id")]
@@ -471,7 +471,7 @@ impl DummyPutRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for DummyPutRequest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("id".to_string()),
             Some(self.id.to_string()),
@@ -484,9 +484,9 @@ impl std::string::ToString for DummyPutRequest {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -576,7 +576,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// structured response
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
     /// Inner string
@@ -600,7 +600,7 @@ impl GetYamlResponse {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for GetYamlResponse {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.value.as_ref().map(|value| {
                 vec![
@@ -609,9 +609,9 @@ impl std::string::ToString for GetYamlResponse {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -698,7 +698,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// An object of objects
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
@@ -721,12 +721,12 @@ impl ObjectOfObjects {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectOfObjects {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping inner in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -812,7 +812,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjectsInner {
     #[serde(rename = "required_thing")]
@@ -839,7 +839,7 @@ impl ObjectOfObjectsInner {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectOfObjectsInner {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("required_thing".to_string()),
             Some(self.required_thing.to_string()),
@@ -852,9 +852,9 @@ impl std::string::ToString for ObjectOfObjectsInner {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -887,7 +887,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
             if let Some(key) = key_result {
                 match key {
                     "required_thing" => intermediate_rep.required_thing.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "optional_thing" => intermediate_rep.optional_thing.push(<isize as std::str::FromStr>::from_str(val)?),
+                    "optional_thing" => intermediate_rep.optional_thing.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjectsInner".to_string())
                 }
             }

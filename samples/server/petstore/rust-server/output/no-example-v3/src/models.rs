@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OpGetRequest {
     #[serde(rename = "propery")]
@@ -27,7 +27,7 @@ impl OpGetRequest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for OpGetRequest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.propery.as_ref().map(|propery| {
                 vec![
@@ -36,9 +36,9 @@ impl std::string::ToString for OpGetRequest {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 

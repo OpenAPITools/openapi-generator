@@ -4,7 +4,7 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
@@ -32,15 +32,15 @@ impl AdditionalPropertiesClass {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AdditionalPropertiesClass {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping map_property in query parameter serialization
 
             // Skipping map_of_map_property in query parameter serialization
             // Skipping map_of_map_property in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -138,7 +138,7 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
@@ -165,7 +165,7 @@ impl Animal {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Animal {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("className".to_string()),
             Some(self.class_name.to_string()),
@@ -178,9 +178,9 @@ impl std::string::ToString for Animal {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -278,7 +278,7 @@ impl Animal {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnimalFarm(
     Vec<Animal>
@@ -416,7 +416,7 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
@@ -449,7 +449,7 @@ impl ApiResponse {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ApiResponse {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.code.as_ref().map(|code| {
                 vec![
@@ -474,9 +474,9 @@ impl std::string::ToString for ApiResponse {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -509,7 +509,7 @@ impl std::str::FromStr for ApiResponse {
 
             if let Some(key) = key_result {
                 match key {
-                    "code" => intermediate_rep.code.push(<i32 as std::str::FromStr>::from_str(val)?),
+                    "code" => intermediate_rep.code.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "type" => intermediate_rep.r#type.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "message" => intermediate_rep.message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ApiResponse".to_string())
@@ -577,7 +577,7 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
@@ -600,12 +600,12 @@ impl ArrayOfArrayOfNumberOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ArrayOfArrayOfNumberOnly {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping ArrayArrayNumber in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -700,7 +700,7 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
@@ -723,7 +723,7 @@ impl ArrayOfNumberOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ArrayOfNumberOnly {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.array_number.as_ref().map(|array_number| {
                 vec![
@@ -732,9 +732,9 @@ impl std::string::ToString for ArrayOfNumberOnly {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -829,7 +829,7 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
@@ -868,7 +868,7 @@ impl ArrayTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ArrayTest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.array_of_string.as_ref().map(|array_of_string| {
                 vec![
@@ -889,9 +889,9 @@ impl std::string::ToString for ArrayTest {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -995,7 +995,7 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
@@ -1044,7 +1044,7 @@ impl Capitalization {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Capitalization {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.small_camel.as_ref().map(|small_camel| {
                 vec![
@@ -1093,9 +1093,9 @@ impl std::string::ToString for Capitalization {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1205,7 +1205,7 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
@@ -1237,7 +1237,7 @@ impl Cat {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Cat {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("className".to_string()),
             Some(self.class_name.to_string()),
@@ -1258,9 +1258,9 @@ impl std::string::ToString for Cat {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1295,7 +1295,7 @@ impl std::str::FromStr for Cat {
                 match key {
                     "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val)?),
+                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Cat".to_string())
                 }
             }
@@ -1361,7 +1361,7 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct CatAllOf {
     #[serde(rename = "declawed")]
@@ -1384,7 +1384,7 @@ impl CatAllOf {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for CatAllOf {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.declawed.as_ref().map(|declawed| {
                 vec![
@@ -1393,9 +1393,9 @@ impl std::string::ToString for CatAllOf {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1426,7 +1426,7 @@ impl std::str::FromStr for CatAllOf {
 
             if let Some(key) = key_result {
                 match key {
-                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val)?),
+                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing CatAllOf".to_string())
                 }
             }
@@ -1490,7 +1490,7 @@ impl CatAllOf {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
@@ -1519,7 +1519,7 @@ impl Category {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Category {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
                 vec![
@@ -1536,9 +1536,9 @@ impl std::string::ToString for Category {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1570,7 +1570,7 @@ impl std::str::FromStr for Category {
 
             if let Some(key) = key_result {
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val)?),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Category".to_string())
                 }
@@ -1637,7 +1637,7 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
@@ -1660,7 +1660,7 @@ impl ClassModel {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ClassModel {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self._class.as_ref().map(|_class| {
                 vec![
@@ -1669,9 +1669,9 @@ impl std::string::ToString for ClassModel {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1766,7 +1766,7 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
@@ -1789,7 +1789,7 @@ impl Client {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Client {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.client.as_ref().map(|client| {
                 vec![
@@ -1798,9 +1798,9 @@ impl std::string::ToString for Client {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1895,7 +1895,7 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
@@ -1927,7 +1927,7 @@ impl Dog {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Dog {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("className".to_string()),
             Some(self.class_name.to_string()),
@@ -1948,9 +1948,9 @@ impl std::string::ToString for Dog {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2051,7 +2051,7 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DogAllOf {
     #[serde(rename = "breed")]
@@ -2074,7 +2074,7 @@ impl DogAllOf {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for DogAllOf {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.breed.as_ref().map(|breed| {
                 vec![
@@ -2083,9 +2083,9 @@ impl std::string::ToString for DogAllOf {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2180,7 +2180,7 @@ impl DogAllOf {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
@@ -2204,7 +2204,7 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
                 vec![
@@ -2213,9 +2213,9 @@ impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRigh
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2246,7 +2246,7 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
 
             if let Some(key) = key_result {
                 match key {
-                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val)?),
+                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
                 }
             }
@@ -2310,7 +2310,7 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2346,7 +2346,7 @@ impl EnumArrays {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for EnumArrays {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.just_symbol.as_ref().map(|just_symbol| {
                 vec![
@@ -2365,9 +2365,9 @@ impl std::string::ToString for EnumArrays {
 
             // Skipping array_array_enum in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2516,7 +2516,7 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2562,7 +2562,7 @@ impl EnumTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for EnumTest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.enum_string.as_ref().map(|enum_string| {
                 vec![
@@ -2593,9 +2593,9 @@ impl std::string::ToString for EnumTest {
 
             // Skipping outerEnum in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2632,9 +2632,9 @@ impl std::str::FromStr for EnumTest {
                 match key {
                     "enum_string" => intermediate_rep.enum_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "enum_string_required" => intermediate_rep.enum_string_required.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "enum_integer" => intermediate_rep.enum_integer.push(<i32 as std::str::FromStr>::from_str(val)?),
-                    "enum_number" => intermediate_rep.enum_number.push(<f64 as std::str::FromStr>::from_str(val)?),
-                    "outerEnum" => intermediate_rep.outer_enum.push(<models::OuterEnum as std::str::FromStr>::from_str(val)?),
+                    "enum_integer" => intermediate_rep.enum_integer.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "enum_number" => intermediate_rep.enum_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "outerEnum" => intermediate_rep.outer_enum.push(<models::OuterEnum as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing EnumTest".to_string())
                 }
             }
@@ -2702,7 +2702,7 @@ impl EnumTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
@@ -2781,7 +2781,7 @@ impl FormatTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for FormatTest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.integer.as_ref().map(|integer| {
                 vec![
@@ -2850,9 +2850,9 @@ impl std::string::ToString for FormatTest {
             Some("password".to_string()),
             Some(self.password.to_string()),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2895,17 +2895,17 @@ impl std::str::FromStr for FormatTest {
 
             if let Some(key) = key_result {
                 match key {
-                    "integer" => intermediate_rep.integer.push(<u8 as std::str::FromStr>::from_str(val)?),
-                    "int32" => intermediate_rep.int32.push(<u32 as std::str::FromStr>::from_str(val)?),
-                    "int64" => intermediate_rep.int64.push(<i64 as std::str::FromStr>::from_str(val)?),
-                    "number" => intermediate_rep.number.push(<f64 as std::str::FromStr>::from_str(val)?),
-                    "float" => intermediate_rep.float.push(<f32 as std::str::FromStr>::from_str(val)?),
-                    "double" => intermediate_rep.double.push(<f64 as std::str::FromStr>::from_str(val)?),
+                    "integer" => intermediate_rep.integer.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "int32" => intermediate_rep.int32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "int64" => intermediate_rep.int64.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "number" => intermediate_rep.number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "float" => intermediate_rep.float.push(<f32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "double" => intermediate_rep.double.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "string" => intermediate_rep.string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
-                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val)?),
-                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val)?),
+                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing FormatTest".to_string())
@@ -2983,7 +2983,7 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
@@ -3011,7 +3011,7 @@ impl HasOnlyReadOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for HasOnlyReadOnly {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.bar.as_ref().map(|bar| {
                 vec![
@@ -3028,9 +3028,9 @@ impl std::string::ToString for HasOnlyReadOnly {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3128,7 +3128,7 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
@@ -3151,7 +3151,7 @@ impl List {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for List {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.param_123_list.as_ref().map(|param_123_list| {
                 vec![
@@ -3160,9 +3160,9 @@ impl std::string::ToString for List {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3257,7 +3257,7 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
@@ -3292,7 +3292,7 @@ impl MapTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MapTest {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping map_map_of_string in query parameter serialization
             // Skipping map_map_of_string in query parameter serialization
 
@@ -3301,9 +3301,9 @@ impl std::string::ToString for MapTest {
 
             // Skipping map_of_enum_string in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3404,7 +3404,7 @@ impl MapTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
@@ -3437,7 +3437,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping uuid in query parameter serialization
 
             // Skipping dateTime in query parameter serialization
@@ -3445,9 +3445,9 @@ impl std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
             // Skipping map in query parameter serialization
             // Skipping map in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3481,7 +3481,7 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
             if let Some(key) = key_result {
                 match key {
                     "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val)?),
+                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "map" => return std::result::Result::Err("Parsing a container in this style is not supported in MixedPropertiesAndAdditionalPropertiesClass".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MixedPropertiesAndAdditionalPropertiesClass".to_string())
                 }
@@ -3549,7 +3549,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
@@ -3578,7 +3578,7 @@ impl Model200Response {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Model200Response {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.name.as_ref().map(|name| {
                 vec![
@@ -3595,9 +3595,9 @@ impl std::string::ToString for Model200Response {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3629,7 +3629,7 @@ impl std::str::FromStr for Model200Response {
 
             if let Some(key) = key_result {
                 match key {
-                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val)?),
+                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "class" => intermediate_rep.class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Model200Response".to_string())
                 }
@@ -3696,7 +3696,7 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
@@ -3734,7 +3734,7 @@ impl Name {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Name {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             Some("name".to_string()),
             Some(self.name.to_string()),
@@ -3763,9 +3763,9 @@ impl std::string::ToString for Name {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3799,10 +3799,10 @@ impl std::str::FromStr for Name {
 
             if let Some(key) = key_result {
                 match key {
-                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val)?),
-                    "snake_case" => intermediate_rep.snake_case.push(<i32 as std::str::FromStr>::from_str(val)?),
+                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "snake_case" => intermediate_rep.snake_case.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "123Number" => intermediate_rep.param_123_number.push(<isize as std::str::FromStr>::from_str(val)?),
+                    "123Number" => intermediate_rep.param_123_number.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Name".to_string())
                 }
             }
@@ -3869,7 +3869,7 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
@@ -3892,7 +3892,7 @@ impl NumberOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for NumberOnly {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.just_number.as_ref().map(|just_number| {
                 vec![
@@ -3901,9 +3901,9 @@ impl std::string::ToString for NumberOnly {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3934,7 +3934,7 @@ impl std::str::FromStr for NumberOnly {
 
             if let Some(key) = key_result {
                 match key {
-                    "JustNumber" => intermediate_rep.just_number.push(<f64 as std::str::FromStr>::from_str(val)?),
+                    "JustNumber" => intermediate_rep.just_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing NumberOnly".to_string())
                 }
             }
@@ -3998,7 +3998,7 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
@@ -4021,12 +4021,12 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectContainingObjectWithOnlyAdditionalProperties {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
             // Skipping inner in query parameter serialization
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4057,7 +4057,7 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner" => intermediate_rep.inner.push(<models::ObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(val)?),
+                    "inner" => intermediate_rep.inner.push(<models::ObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectContainingObjectWithOnlyAdditionalProperties".to_string())
                 }
             }
@@ -4121,7 +4121,7 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
 
@@ -4180,7 +4180,7 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
@@ -4231,7 +4231,7 @@ impl Order {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Order {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
                 vec![
@@ -4274,9 +4274,9 @@ impl std::string::ToString for Order {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4312,12 +4312,12 @@ impl std::str::FromStr for Order {
 
             if let Some(key) = key_result {
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val)?),
-                    "petId" => intermediate_rep.pet_id.push(<i64 as std::str::FromStr>::from_str(val)?),
-                    "quantity" => intermediate_rep.quantity.push(<i32 as std::str::FromStr>::from_str(val)?),
-                    "shipDate" => intermediate_rep.ship_date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val)?),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "petId" => intermediate_rep.pet_id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "quantity" => intermediate_rep.quantity.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "shipDate" => intermediate_rep.ship_date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "complete" => intermediate_rep.complete.push(<bool as std::str::FromStr>::from_str(val)?),
+                    "complete" => intermediate_rep.complete.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Order".to_string())
                 }
             }
@@ -4386,7 +4386,7 @@ impl Order {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterBoolean(bool);
 
@@ -4425,7 +4425,7 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
@@ -4458,7 +4458,7 @@ impl OuterComposite {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for OuterComposite {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.my_number.as_ref().map(|my_number| {
                 vec![
@@ -4483,9 +4483,9 @@ impl std::string::ToString for OuterComposite {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4518,9 +4518,9 @@ impl std::str::FromStr for OuterComposite {
 
             if let Some(key) = key_result {
                 match key {
-                    "my_number" => intermediate_rep.my_number.push(<f64 as std::str::FromStr>::from_str(val)?),
+                    "my_number" => intermediate_rep.my_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "my_string" => intermediate_rep.my_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "my_boolean" => intermediate_rep.my_boolean.push(<bool as std::str::FromStr>::from_str(val)?),
+                    "my_boolean" => intermediate_rep.my_boolean.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing OuterComposite".to_string())
                 }
             }
@@ -4634,7 +4634,7 @@ impl OuterEnum {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterNumber(f64);
 
@@ -4673,7 +4673,7 @@ impl OuterNumber {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterString(String);
 
@@ -4725,7 +4725,7 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
@@ -4774,7 +4774,7 @@ impl Pet {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Pet {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
                 vec![
@@ -4803,9 +4803,9 @@ impl std::string::ToString for Pet {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4841,7 +4841,7 @@ impl std::str::FromStr for Pet {
 
             if let Some(key) = key_result {
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val)?),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "category" => intermediate_rep.category.push(<models::Category as std::str::FromStr>::from_str(val)?),
                     "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "photoUrls" => return std::result::Result::Err("Parsing a container in this style is not supported in Pet".to_string()),
@@ -4915,7 +4915,7 @@ impl Pet {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
@@ -4943,7 +4943,7 @@ impl ReadOnlyFirst {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ReadOnlyFirst {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.bar.as_ref().map(|bar| {
                 vec![
@@ -4960,9 +4960,9 @@ impl std::string::ToString for ReadOnlyFirst {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -5061,7 +5061,7 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
@@ -5085,7 +5085,7 @@ impl Return {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Return {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.r#return.as_ref().map(|r#return| {
                 vec![
@@ -5094,9 +5094,9 @@ impl std::string::ToString for Return {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -5127,7 +5127,7 @@ impl std::str::FromStr for Return {
 
             if let Some(key) = key_result {
                 match key {
-                    "return" => intermediate_rep.r#return.push(<i32 as std::str::FromStr>::from_str(val)?),
+                    "return" => intermediate_rep.r#return.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Return".to_string())
                 }
             }
@@ -5191,7 +5191,7 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
@@ -5220,7 +5220,7 @@ impl Tag {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Tag {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
                 vec![
@@ -5237,9 +5237,9 @@ impl std::string::ToString for Tag {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -5271,7 +5271,7 @@ impl std::str::FromStr for Tag {
 
             if let Some(key) = key_result {
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val)?),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Tag".to_string())
                 }
@@ -5337,7 +5337,7 @@ impl Tag {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
@@ -5397,7 +5397,7 @@ impl User {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for User {
     fn to_string(&self) -> String {
-        let params: Vec<String> = vec![
+        let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
                 vec![
@@ -5462,9 +5462,9 @@ impl std::string::ToString for User {
                 ].join(",")
             }),
 
-        ].into_iter().flatten().collect();
+        ];
 
-        params.join(",")
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -5502,14 +5502,14 @@ impl std::str::FromStr for User {
 
             if let Some(key) = key_result {
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val)?),
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "username" => intermediate_rep.username.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "firstName" => intermediate_rep.first_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "lastName" => intermediate_rep.last_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "email" => intermediate_rep.email.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "phone" => intermediate_rep.phone.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    "userStatus" => intermediate_rep.user_status.push(<i32 as std::str::FromStr>::from_str(val)?),
+                    "userStatus" => intermediate_rep.user_status.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing User".to_string())
                 }
             }
