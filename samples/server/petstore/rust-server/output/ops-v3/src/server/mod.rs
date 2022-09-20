@@ -245,10 +245,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // Op10Get - GET /op10
-            &hyper::Method::GET if path.matched(paths::ID_OP10) => {
+            hyper::Method::GET if path.matched(paths::ID_OP10) => {
                                 let result = api_impl.op10_get(
                                         &context
                                     ).await;
@@ -277,7 +277,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op11Get - GET /op11
-            &hyper::Method::GET if path.matched(paths::ID_OP11) => {
+            hyper::Method::GET if path.matched(paths::ID_OP11) => {
                                 let result = api_impl.op11_get(
                                         &context
                                     ).await;
@@ -306,7 +306,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op12Get - GET /op12
-            &hyper::Method::GET if path.matched(paths::ID_OP12) => {
+            hyper::Method::GET if path.matched(paths::ID_OP12) => {
                                 let result = api_impl.op12_get(
                                         &context
                                     ).await;
@@ -335,7 +335,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op13Get - GET /op13
-            &hyper::Method::GET if path.matched(paths::ID_OP13) => {
+            hyper::Method::GET if path.matched(paths::ID_OP13) => {
                                 let result = api_impl.op13_get(
                                         &context
                                     ).await;
@@ -364,7 +364,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op14Get - GET /op14
-            &hyper::Method::GET if path.matched(paths::ID_OP14) => {
+            hyper::Method::GET if path.matched(paths::ID_OP14) => {
                                 let result = api_impl.op14_get(
                                         &context
                                     ).await;
@@ -393,7 +393,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op15Get - GET /op15
-            &hyper::Method::GET if path.matched(paths::ID_OP15) => {
+            hyper::Method::GET if path.matched(paths::ID_OP15) => {
                                 let result = api_impl.op15_get(
                                         &context
                                     ).await;
@@ -422,7 +422,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op16Get - GET /op16
-            &hyper::Method::GET if path.matched(paths::ID_OP16) => {
+            hyper::Method::GET if path.matched(paths::ID_OP16) => {
                                 let result = api_impl.op16_get(
                                         &context
                                     ).await;
@@ -451,7 +451,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op17Get - GET /op17
-            &hyper::Method::GET if path.matched(paths::ID_OP17) => {
+            hyper::Method::GET if path.matched(paths::ID_OP17) => {
                                 let result = api_impl.op17_get(
                                         &context
                                     ).await;
@@ -480,7 +480,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op18Get - GET /op18
-            &hyper::Method::GET if path.matched(paths::ID_OP18) => {
+            hyper::Method::GET if path.matched(paths::ID_OP18) => {
                                 let result = api_impl.op18_get(
                                         &context
                                     ).await;
@@ -509,7 +509,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op19Get - GET /op19
-            &hyper::Method::GET if path.matched(paths::ID_OP19) => {
+            hyper::Method::GET if path.matched(paths::ID_OP19) => {
                                 let result = api_impl.op19_get(
                                         &context
                                     ).await;
@@ -538,7 +538,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op1Get - GET /op1
-            &hyper::Method::GET if path.matched(paths::ID_OP1) => {
+            hyper::Method::GET if path.matched(paths::ID_OP1) => {
                                 let result = api_impl.op1_get(
                                         &context
                                     ).await;
@@ -567,7 +567,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op20Get - GET /op20
-            &hyper::Method::GET if path.matched(paths::ID_OP20) => {
+            hyper::Method::GET if path.matched(paths::ID_OP20) => {
                                 let result = api_impl.op20_get(
                                         &context
                                     ).await;
@@ -596,7 +596,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op21Get - GET /op21
-            &hyper::Method::GET if path.matched(paths::ID_OP21) => {
+            hyper::Method::GET if path.matched(paths::ID_OP21) => {
                                 let result = api_impl.op21_get(
                                         &context
                                     ).await;
@@ -625,7 +625,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op22Get - GET /op22
-            &hyper::Method::GET if path.matched(paths::ID_OP22) => {
+            hyper::Method::GET if path.matched(paths::ID_OP22) => {
                                 let result = api_impl.op22_get(
                                         &context
                                     ).await;
@@ -654,7 +654,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op23Get - GET /op23
-            &hyper::Method::GET if path.matched(paths::ID_OP23) => {
+            hyper::Method::GET if path.matched(paths::ID_OP23) => {
                                 let result = api_impl.op23_get(
                                         &context
                                     ).await;
@@ -683,7 +683,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op24Get - GET /op24
-            &hyper::Method::GET if path.matched(paths::ID_OP24) => {
+            hyper::Method::GET if path.matched(paths::ID_OP24) => {
                                 let result = api_impl.op24_get(
                                         &context
                                     ).await;
@@ -712,7 +712,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op25Get - GET /op25
-            &hyper::Method::GET if path.matched(paths::ID_OP25) => {
+            hyper::Method::GET if path.matched(paths::ID_OP25) => {
                                 let result = api_impl.op25_get(
                                         &context
                                     ).await;
@@ -741,7 +741,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op26Get - GET /op26
-            &hyper::Method::GET if path.matched(paths::ID_OP26) => {
+            hyper::Method::GET if path.matched(paths::ID_OP26) => {
                                 let result = api_impl.op26_get(
                                         &context
                                     ).await;
@@ -770,7 +770,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op27Get - GET /op27
-            &hyper::Method::GET if path.matched(paths::ID_OP27) => {
+            hyper::Method::GET if path.matched(paths::ID_OP27) => {
                                 let result = api_impl.op27_get(
                                         &context
                                     ).await;
@@ -799,7 +799,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op28Get - GET /op28
-            &hyper::Method::GET if path.matched(paths::ID_OP28) => {
+            hyper::Method::GET if path.matched(paths::ID_OP28) => {
                                 let result = api_impl.op28_get(
                                         &context
                                     ).await;
@@ -828,7 +828,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op29Get - GET /op29
-            &hyper::Method::GET if path.matched(paths::ID_OP29) => {
+            hyper::Method::GET if path.matched(paths::ID_OP29) => {
                                 let result = api_impl.op29_get(
                                         &context
                                     ).await;
@@ -857,7 +857,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op2Get - GET /op2
-            &hyper::Method::GET if path.matched(paths::ID_OP2) => {
+            hyper::Method::GET if path.matched(paths::ID_OP2) => {
                                 let result = api_impl.op2_get(
                                         &context
                                     ).await;
@@ -886,7 +886,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op30Get - GET /op30
-            &hyper::Method::GET if path.matched(paths::ID_OP30) => {
+            hyper::Method::GET if path.matched(paths::ID_OP30) => {
                                 let result = api_impl.op30_get(
                                         &context
                                     ).await;
@@ -915,7 +915,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op31Get - GET /op31
-            &hyper::Method::GET if path.matched(paths::ID_OP31) => {
+            hyper::Method::GET if path.matched(paths::ID_OP31) => {
                                 let result = api_impl.op31_get(
                                         &context
                                     ).await;
@@ -944,7 +944,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op32Get - GET /op32
-            &hyper::Method::GET if path.matched(paths::ID_OP32) => {
+            hyper::Method::GET if path.matched(paths::ID_OP32) => {
                                 let result = api_impl.op32_get(
                                         &context
                                     ).await;
@@ -973,7 +973,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op33Get - GET /op33
-            &hyper::Method::GET if path.matched(paths::ID_OP33) => {
+            hyper::Method::GET if path.matched(paths::ID_OP33) => {
                                 let result = api_impl.op33_get(
                                         &context
                                     ).await;
@@ -1002,7 +1002,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op34Get - GET /op34
-            &hyper::Method::GET if path.matched(paths::ID_OP34) => {
+            hyper::Method::GET if path.matched(paths::ID_OP34) => {
                                 let result = api_impl.op34_get(
                                         &context
                                     ).await;
@@ -1031,7 +1031,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op35Get - GET /op35
-            &hyper::Method::GET if path.matched(paths::ID_OP35) => {
+            hyper::Method::GET if path.matched(paths::ID_OP35) => {
                                 let result = api_impl.op35_get(
                                         &context
                                     ).await;
@@ -1060,7 +1060,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op36Get - GET /op36
-            &hyper::Method::GET if path.matched(paths::ID_OP36) => {
+            hyper::Method::GET if path.matched(paths::ID_OP36) => {
                                 let result = api_impl.op36_get(
                                         &context
                                     ).await;
@@ -1089,7 +1089,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op37Get - GET /op37
-            &hyper::Method::GET if path.matched(paths::ID_OP37) => {
+            hyper::Method::GET if path.matched(paths::ID_OP37) => {
                                 let result = api_impl.op37_get(
                                         &context
                                     ).await;
@@ -1118,7 +1118,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op3Get - GET /op3
-            &hyper::Method::GET if path.matched(paths::ID_OP3) => {
+            hyper::Method::GET if path.matched(paths::ID_OP3) => {
                                 let result = api_impl.op3_get(
                                         &context
                                     ).await;
@@ -1147,7 +1147,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op4Get - GET /op4
-            &hyper::Method::GET if path.matched(paths::ID_OP4) => {
+            hyper::Method::GET if path.matched(paths::ID_OP4) => {
                                 let result = api_impl.op4_get(
                                         &context
                                     ).await;
@@ -1176,7 +1176,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op5Get - GET /op5
-            &hyper::Method::GET if path.matched(paths::ID_OP5) => {
+            hyper::Method::GET if path.matched(paths::ID_OP5) => {
                                 let result = api_impl.op5_get(
                                         &context
                                     ).await;
@@ -1205,7 +1205,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op6Get - GET /op6
-            &hyper::Method::GET if path.matched(paths::ID_OP6) => {
+            hyper::Method::GET if path.matched(paths::ID_OP6) => {
                                 let result = api_impl.op6_get(
                                         &context
                                     ).await;
@@ -1234,7 +1234,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op7Get - GET /op7
-            &hyper::Method::GET if path.matched(paths::ID_OP7) => {
+            hyper::Method::GET if path.matched(paths::ID_OP7) => {
                                 let result = api_impl.op7_get(
                                         &context
                                     ).await;
@@ -1263,7 +1263,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op8Get - GET /op8
-            &hyper::Method::GET if path.matched(paths::ID_OP8) => {
+            hyper::Method::GET if path.matched(paths::ID_OP8) => {
                                 let result = api_impl.op8_get(
                                         &context
                                     ).await;
@@ -1292,7 +1292,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Op9Get - GET /op9
-            &hyper::Method::GET if path.matched(paths::ID_OP9) => {
+            hyper::Method::GET if path.matched(paths::ID_OP9) => {
                                 let result = api_impl.op9_get(
                                         &context
                                     ).await;
@@ -1369,81 +1369,81 @@ pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // Op10Get - GET /op10
-            &hyper::Method::GET if path.matched(paths::ID_OP10) => Some("Op10Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP10) => Some("Op10Get"),
             // Op11Get - GET /op11
-            &hyper::Method::GET if path.matched(paths::ID_OP11) => Some("Op11Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP11) => Some("Op11Get"),
             // Op12Get - GET /op12
-            &hyper::Method::GET if path.matched(paths::ID_OP12) => Some("Op12Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP12) => Some("Op12Get"),
             // Op13Get - GET /op13
-            &hyper::Method::GET if path.matched(paths::ID_OP13) => Some("Op13Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP13) => Some("Op13Get"),
             // Op14Get - GET /op14
-            &hyper::Method::GET if path.matched(paths::ID_OP14) => Some("Op14Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP14) => Some("Op14Get"),
             // Op15Get - GET /op15
-            &hyper::Method::GET if path.matched(paths::ID_OP15) => Some("Op15Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP15) => Some("Op15Get"),
             // Op16Get - GET /op16
-            &hyper::Method::GET if path.matched(paths::ID_OP16) => Some("Op16Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP16) => Some("Op16Get"),
             // Op17Get - GET /op17
-            &hyper::Method::GET if path.matched(paths::ID_OP17) => Some("Op17Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP17) => Some("Op17Get"),
             // Op18Get - GET /op18
-            &hyper::Method::GET if path.matched(paths::ID_OP18) => Some("Op18Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP18) => Some("Op18Get"),
             // Op19Get - GET /op19
-            &hyper::Method::GET if path.matched(paths::ID_OP19) => Some("Op19Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP19) => Some("Op19Get"),
             // Op1Get - GET /op1
-            &hyper::Method::GET if path.matched(paths::ID_OP1) => Some("Op1Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP1) => Some("Op1Get"),
             // Op20Get - GET /op20
-            &hyper::Method::GET if path.matched(paths::ID_OP20) => Some("Op20Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP20) => Some("Op20Get"),
             // Op21Get - GET /op21
-            &hyper::Method::GET if path.matched(paths::ID_OP21) => Some("Op21Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP21) => Some("Op21Get"),
             // Op22Get - GET /op22
-            &hyper::Method::GET if path.matched(paths::ID_OP22) => Some("Op22Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP22) => Some("Op22Get"),
             // Op23Get - GET /op23
-            &hyper::Method::GET if path.matched(paths::ID_OP23) => Some("Op23Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP23) => Some("Op23Get"),
             // Op24Get - GET /op24
-            &hyper::Method::GET if path.matched(paths::ID_OP24) => Some("Op24Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP24) => Some("Op24Get"),
             // Op25Get - GET /op25
-            &hyper::Method::GET if path.matched(paths::ID_OP25) => Some("Op25Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP25) => Some("Op25Get"),
             // Op26Get - GET /op26
-            &hyper::Method::GET if path.matched(paths::ID_OP26) => Some("Op26Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP26) => Some("Op26Get"),
             // Op27Get - GET /op27
-            &hyper::Method::GET if path.matched(paths::ID_OP27) => Some("Op27Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP27) => Some("Op27Get"),
             // Op28Get - GET /op28
-            &hyper::Method::GET if path.matched(paths::ID_OP28) => Some("Op28Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP28) => Some("Op28Get"),
             // Op29Get - GET /op29
-            &hyper::Method::GET if path.matched(paths::ID_OP29) => Some("Op29Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP29) => Some("Op29Get"),
             // Op2Get - GET /op2
-            &hyper::Method::GET if path.matched(paths::ID_OP2) => Some("Op2Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP2) => Some("Op2Get"),
             // Op30Get - GET /op30
-            &hyper::Method::GET if path.matched(paths::ID_OP30) => Some("Op30Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP30) => Some("Op30Get"),
             // Op31Get - GET /op31
-            &hyper::Method::GET if path.matched(paths::ID_OP31) => Some("Op31Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP31) => Some("Op31Get"),
             // Op32Get - GET /op32
-            &hyper::Method::GET if path.matched(paths::ID_OP32) => Some("Op32Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP32) => Some("Op32Get"),
             // Op33Get - GET /op33
-            &hyper::Method::GET if path.matched(paths::ID_OP33) => Some("Op33Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP33) => Some("Op33Get"),
             // Op34Get - GET /op34
-            &hyper::Method::GET if path.matched(paths::ID_OP34) => Some("Op34Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP34) => Some("Op34Get"),
             // Op35Get - GET /op35
-            &hyper::Method::GET if path.matched(paths::ID_OP35) => Some("Op35Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP35) => Some("Op35Get"),
             // Op36Get - GET /op36
-            &hyper::Method::GET if path.matched(paths::ID_OP36) => Some("Op36Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP36) => Some("Op36Get"),
             // Op37Get - GET /op37
-            &hyper::Method::GET if path.matched(paths::ID_OP37) => Some("Op37Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP37) => Some("Op37Get"),
             // Op3Get - GET /op3
-            &hyper::Method::GET if path.matched(paths::ID_OP3) => Some("Op3Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP3) => Some("Op3Get"),
             // Op4Get - GET /op4
-            &hyper::Method::GET if path.matched(paths::ID_OP4) => Some("Op4Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP4) => Some("Op4Get"),
             // Op5Get - GET /op5
-            &hyper::Method::GET if path.matched(paths::ID_OP5) => Some("Op5Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP5) => Some("Op5Get"),
             // Op6Get - GET /op6
-            &hyper::Method::GET if path.matched(paths::ID_OP6) => Some("Op6Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP6) => Some("Op6Get"),
             // Op7Get - GET /op7
-            &hyper::Method::GET if path.matched(paths::ID_OP7) => Some("Op7Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP7) => Some("Op7Get"),
             // Op8Get - GET /op8
-            &hyper::Method::GET if path.matched(paths::ID_OP8) => Some("Op8Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP8) => Some("Op8Get"),
             // Op9Get - GET /op9
-            &hyper::Method::GET if path.matched(paths::ID_OP9) => Some("Op9Get"),
+            hyper::Method::GET if path.matched(paths::ID_OP9) => Some("Op9Get"),
             _ => None,
         }
     }

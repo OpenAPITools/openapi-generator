@@ -275,6 +275,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             Some(param_information) => {
         request.headers_mut().append(
             HeaderName::from_static("information"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_information.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {

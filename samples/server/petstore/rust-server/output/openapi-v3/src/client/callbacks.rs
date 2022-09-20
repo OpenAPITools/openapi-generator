@@ -38,12 +38,14 @@ mod paths {
     pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK: usize = 0;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK: regex::Regex =
+            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/(?P<request_query_url>.*)/callback$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK");
     }
     pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: usize = 1;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: regex::Regex =
+            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/(?P<request_query_url>.*)/callback-with-header$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK_WITH_HEADER");
     }
@@ -151,15 +153,15 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => {
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => {
                 // Path parameters
-                let path: &str = &uri.path().to_string();
+                let path: &str = uri.path();
                 let path_params =
                     paths::REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER
-                    .captures(&path)
+                    .captures(path)
                     .unwrap_or_else(||
                         panic!("Path {} matched RE REQUEST_QUERY_URL_CALLBACK_WITH_HEADER in set but failed match against \"{}\"", path, paths::REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER.as_str())
                     );
@@ -215,12 +217,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // CallbackCallbackPost - POST /{$request.query.url}/callback
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
                 // Path parameters
-                let path: &str = &uri.path().to_string();
+                let path: &str = uri.path();
                 let path_params =
                     paths::REGEX_REQUEST_QUERY_URL_CALLBACK
-                    .captures(&path)
+                    .captures(path)
                     .unwrap_or_else(||
                         panic!("Path {} matched RE REQUEST_QUERY_URL_CALLBACK in set but failed match against \"{}\"", path, paths::REGEX_REQUEST_QUERY_URL_CALLBACK.as_str())
                     );
@@ -268,11 +270,11 @@ pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => Some("CallbackCallbackWithHeaderPost"),
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => Some("CallbackCallbackWithHeaderPost"),
             // CallbackCallbackPost - POST /{$request.query.url}/callback
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => Some("CallbackCallbackPost"),
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => Some("CallbackCallbackPost"),
             _ => None,
         }
     }

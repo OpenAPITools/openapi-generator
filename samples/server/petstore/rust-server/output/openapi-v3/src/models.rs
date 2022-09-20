@@ -58,7 +58,7 @@ impl AdditionalPropertiesWithList {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -111,7 +111,7 @@ impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
+        (&self.0).iter()
     }
 }
 
@@ -120,7 +120,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
+        (&mut self.0).iter_mut()
     }
 }
 
@@ -206,7 +206,7 @@ impl AnotherXmlArray {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -259,7 +259,7 @@ impl AnotherXmlInner {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -311,8 +311,9 @@ impl std::str::FromStr for AnotherXmlObject {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub inner_string: Vec<String>,
         }
@@ -330,6 +331,7 @@ impl std::str::FromStr for AnotherXmlObject {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -397,7 +399,7 @@ impl AnotherXmlObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
@@ -437,8 +439,9 @@ impl std::str::FromStr for AnyOfGet202Response {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
         }
 
@@ -455,6 +458,7 @@ impl std::str::FromStr for AnyOfGet202Response {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     _ => return std::result::Result::Err("Unexpected key while parsing AnyOfGet202Response".to_string())
                 }
@@ -513,7 +517,7 @@ impl AnyOfGet202Response {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -551,8 +555,9 @@ impl std::str::FromStr for AnyOfObject {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
         }
 
@@ -569,6 +574,7 @@ impl std::str::FromStr for AnyOfObject {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     _ => return std::result::Result::Err("Unexpected key while parsing AnyOfObject".to_string())
                 }
@@ -627,7 +633,7 @@ impl AnyOfObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -671,7 +677,7 @@ impl AnyOfObjectAnyOf {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -722,8 +728,9 @@ impl std::str::FromStr for AnyOfProperty {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub required_any_of: Vec<models::AnyOfObject>,
             pub optional_any_of: Vec<models::Model12345AnyOfObject>,
@@ -742,6 +749,7 @@ impl std::str::FromStr for AnyOfProperty {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "requiredAnyOf" => intermediate_rep.required_any_of.push(<models::AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -806,7 +814,7 @@ impl AnyOfProperty {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -865,8 +873,9 @@ impl std::str::FromStr for DuplicateXmlObject {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub inner_string: Vec<String>,
             pub inner_array: Vec<models::XmlArray>,
@@ -885,6 +894,7 @@ impl std::str::FromStr for DuplicateXmlObject {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -955,7 +965,7 @@ impl DuplicateXmlObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
@@ -1007,7 +1017,7 @@ impl EnumWithStarObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1059,7 +1069,7 @@ impl Err {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1111,7 +1121,7 @@ impl Error {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1149,8 +1159,9 @@ impl std::str::FromStr for Model12345AnyOfObject {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
         }
 
@@ -1167,6 +1178,7 @@ impl std::str::FromStr for Model12345AnyOfObject {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     _ => return std::result::Result::Err("Unexpected key while parsing Model12345AnyOfObject".to_string())
                 }
@@ -1225,7 +1237,7 @@ impl Model12345AnyOfObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1273,7 +1285,7 @@ impl Model12345AnyOfObjectAnyOf {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1323,8 +1335,9 @@ impl std::str::FromStr for MultigetGet201Response {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub foo: Vec<String>,
         }
@@ -1342,6 +1355,7 @@ impl std::str::FromStr for MultigetGet201Response {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -1403,7 +1417,7 @@ impl MultigetGet201Response {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1442,7 +1456,7 @@ impl MyId {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1485,7 +1499,7 @@ impl<'a> std::iter::IntoIterator for &'a MyIdList {
     type IntoIter = std::slice::Iter<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
+        (&self.0).iter()
     }
 }
 
@@ -1494,7 +1508,7 @@ impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
     type IntoIter = std::slice::IterMut<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
+        (&mut self.0).iter_mut()
     }
 }
 
@@ -1580,7 +1594,7 @@ impl MyIdList {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1685,8 +1699,9 @@ impl std::str::FromStr for NullableTest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub nullable: Vec<String>,
             pub nullable_with_null_default: Vec<String>,
@@ -1708,6 +1723,7 @@ impl std::str::FromStr for NullableTest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
                     "nullableWithNullDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
@@ -1776,7 +1792,7 @@ impl NullableTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1834,8 +1850,9 @@ impl std::str::FromStr for ObjectHeader {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub required_object_header: Vec<bool>,
             pub optional_object_header: Vec<isize>,
@@ -1854,6 +1871,7 @@ impl std::str::FromStr for ObjectHeader {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "requiredObjectHeader" => intermediate_rep.required_object_header.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -1918,7 +1936,7 @@ impl ObjectHeader {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -1976,8 +1994,9 @@ impl std::str::FromStr for ObjectParam {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub required_param: Vec<bool>,
             pub optional_param: Vec<isize>,
@@ -1996,6 +2015,7 @@ impl std::str::FromStr for ObjectParam {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -2060,7 +2080,7 @@ impl ObjectParam {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2123,8 +2143,9 @@ impl std::str::FromStr for ObjectUntypedProps {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub required_untyped: Vec<serde_json::Value>,
             pub required_untyped_nullable: Vec<serde_json::Value>,
@@ -2145,6 +2166,7 @@ impl std::str::FromStr for ObjectUntypedProps {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "required_untyped" => intermediate_rep.required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -2214,7 +2236,7 @@ impl ObjectUntypedProps {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2264,8 +2286,9 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub object_array: Vec<Vec<models::StringObject>>,
         }
@@ -2283,6 +2306,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "objectArray" => return std::result::Result::Err("Parsing a container in this style is not supported in ObjectWithArrayOfObjects".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectWithArrayOfObjects".to_string())
@@ -2343,7 +2367,7 @@ impl ObjectWithArrayOfObjects {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2395,7 +2419,7 @@ impl Ok {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2432,8 +2456,9 @@ impl std::str::FromStr for OneOfGet200Response {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
         }
 
@@ -2450,6 +2475,7 @@ impl std::str::FromStr for OneOfGet200Response {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     _ => return std::result::Result::Err("Unexpected key while parsing OneOfGet200Response".to_string())
                 }
@@ -2508,7 +2534,7 @@ impl OneOfGet200Response {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2547,7 +2573,7 @@ impl OptionalObjectHeader {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2586,7 +2612,7 @@ impl RequiredObjectHeader {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2638,7 +2664,7 @@ impl Result {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2682,7 +2708,7 @@ impl StringEnum {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2734,7 +2760,7 @@ impl StringObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2774,7 +2800,7 @@ impl UuidObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2827,7 +2853,7 @@ impl<'a> std::iter::IntoIterator for &'a XmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
+        (&self.0).iter()
     }
 }
 
@@ -2836,7 +2862,7 @@ impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
+        (&mut self.0).iter_mut()
     }
 }
 
@@ -2922,7 +2948,7 @@ impl XmlArray {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -2975,7 +3001,7 @@ impl XmlInner {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -3040,8 +3066,9 @@ impl std::str::FromStr for XmlObject {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub inner_string: Vec<String>,
             pub other_inner_rename: Vec<isize>,
@@ -3060,6 +3087,7 @@ impl std::str::FromStr for XmlObject {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "innerString" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -3130,7 +3158,7 @@ impl XmlObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());

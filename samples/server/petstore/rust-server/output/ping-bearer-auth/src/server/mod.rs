@@ -137,14 +137,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // PingGet - GET /ping
-            &hyper::Method::GET if path.matched(paths::ID_PING) => {
+            hyper::Method::GET if path.matched(paths::ID_PING) => {
                 {
-                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
-                        &Some(ref authorization) => authorization,
-                        &None => return Ok(Response::builder()
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
@@ -191,9 +191,9 @@ pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // PingGet - GET /ping
-            &hyper::Method::GET if path.matched(paths::ID_PING) => Some("PingGet"),
+            hyper::Method::GET if path.matched(paths::ID_PING) => Some("PingGet"),
             _ => None,
         }
     }

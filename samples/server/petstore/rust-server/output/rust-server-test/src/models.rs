@@ -59,8 +59,9 @@ impl std::str::FromStr for ANullableContainer {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub nullable_thing: Vec<String>,
             pub required_nullable_thing: Vec<String>,
@@ -79,6 +80,7 @@ impl std::str::FromStr for ANullableContainer {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "NullableThing" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ANullableContainer".to_string()),
                     "RequiredNullableThing" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ANullableContainer".to_string()),
@@ -246,8 +248,9 @@ impl std::str::FromStr for AllOfObject {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub sample_property: Vec<String>,
             pub sample_base_propery: Vec<String>,
@@ -266,6 +269,7 @@ impl std::str::FromStr for AllOfObject {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -371,8 +375,9 @@ impl std::str::FromStr for BaseAllOf {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub sample_base_propery: Vec<String>,
         }
@@ -390,6 +395,7 @@ impl std::str::FromStr for BaseAllOf {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -500,8 +506,9 @@ impl std::str::FromStr for DummyPutRequest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub id: Vec<String>,
             pub password: Vec<String>,
@@ -520,6 +527,7 @@ impl std::str::FromStr for DummyPutRequest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "id" => intermediate_rep.id.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -627,8 +635,9 @@ impl std::str::FromStr for GetYamlResponse {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub value: Vec<String>,
         }
@@ -646,6 +655,7 @@ impl std::str::FromStr for GetYamlResponse {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "value" => intermediate_rep.value.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -743,8 +753,9 @@ impl std::str::FromStr for ObjectOfObjects {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub inner: Vec<models::ObjectOfObjectsInner>,
         }
@@ -762,6 +773,7 @@ impl std::str::FromStr for ObjectOfObjects {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "inner" => intermediate_rep.inner.push(<models::ObjectOfObjectsInner as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -872,8 +884,9 @@ impl std::str::FromStr for ObjectOfObjectsInner {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub required_thing: Vec<String>,
             pub optional_thing: Vec<isize>,
@@ -892,6 +905,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "required_thing" => intermediate_rep.required_thing.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),

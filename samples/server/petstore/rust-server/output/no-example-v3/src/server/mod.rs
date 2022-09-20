@@ -137,10 +137,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // OpGet - GET /op
-            &hyper::Method::GET if path.matched(paths::ID_OP) => {
+            hyper::Method::GET if path.matched(paths::ID_OP) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -225,9 +225,9 @@ pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // OpGet - GET /op
-            &hyper::Method::GET if path.matched(paths::ID_OP) => Some("OpGet"),
+            hyper::Method::GET if path.matched(paths::ID_OP) => Some("OpGet"),
             _ => None,
         }
     }

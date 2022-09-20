@@ -49,8 +49,9 @@ impl std::str::FromStr for OpGetRequest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub propery: Vec<String>,
         }
@@ -68,6 +69,7 @@ impl std::str::FromStr for OpGetRequest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "propery" => intermediate_rep.propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),

@@ -58,8 +58,9 @@ impl std::str::FromStr for MultipartRelatedRequest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub object_field: Vec<models::MultipartRequestObjectField>,
             pub optional_binary_field: Vec<swagger::ByteArray>,
@@ -79,6 +80,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -193,8 +195,9 @@ impl std::str::FromStr for MultipartRequestObjectField {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub field_a: Vec<String>,
             pub field_b: Vec<Vec<String>>,
@@ -213,6 +216,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
                     "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
@@ -320,8 +324,9 @@ impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub binary1: Vec<swagger::ByteArray>,
             pub binary2: Vec<swagger::ByteArray>,
@@ -340,6 +345,7 @@ impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "binary1" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipleIdenticalMimeTypesPostRequest".to_string()),
                     "binary2" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipleIdenticalMimeTypesPostRequest".to_string()),

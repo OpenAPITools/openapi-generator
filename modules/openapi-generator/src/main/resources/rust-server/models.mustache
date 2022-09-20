@@ -189,7 +189,7 @@ impl<'a> std::iter::IntoIterator for &'a {{{classname}}} {
     type IntoIter = std::slice::Iter<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
+        (&self.0).iter()
     }
 }
 
@@ -198,7 +198,7 @@ impl<'a> std::iter::IntoIterator for &'a mut {{{classname}}} {
     type IntoIter = std::slice::IterMut<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
+        (&mut self.0).iter_mut()
     }
 }
 
@@ -360,8 +360,9 @@ impl std::str::FromStr for {{{classname}}} {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             {{#vars}}
             pub {{{name}}}: Vec<{{{dataType}}}>,
@@ -381,6 +382,7 @@ impl std::str::FromStr for {{{classname}}} {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
           {{#vars}}
             {{#isBinary}}
@@ -485,7 +487,7 @@ impl {{{classname}}} {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         {{#xmlNamespace}}
         let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
