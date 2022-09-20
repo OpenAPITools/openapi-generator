@@ -10,7 +10,7 @@ Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **op** | str,  | str,  | The operation to perform. |  must be one of ["move", "copy", ]
 **path** | str,  | str,  | A JSON Pointer path. | 
-**from** | 
+**from** | str,  | str,  | A JSON Pointer path. | 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
