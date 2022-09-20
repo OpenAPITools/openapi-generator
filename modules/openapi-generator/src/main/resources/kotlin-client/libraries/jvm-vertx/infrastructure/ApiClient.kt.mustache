@@ -2,6 +2,7 @@ package {{packageName}}.infrastructure
 
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
+import java.nio.charset.StandardCharsets
 {{#jackson}}
 import com.fasterxml.jackson.core.type.TypeReference
 {{/jackson}}
@@ -57,7 +58,7 @@ import com.google.gson.reflect.TypeToken
     protected inline fun <reified T: Any?> responseBody(body: Buffer?, mediaType: String? = "application/json"): T? {
         body ?: return null
 
-        val bodyContent = body.bytes.toString()
+        val bodyContent = String(body.bytes, StandardCharsets.UTF_8)
         if (bodyContent.isEmpty()) {
             return null
         }

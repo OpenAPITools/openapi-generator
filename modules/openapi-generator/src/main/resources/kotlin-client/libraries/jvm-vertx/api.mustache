@@ -144,8 +144,9 @@ import {{packageName}}.infrastructure.ResponseType
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { requestOptions.addHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}requestOptions.addHeader("Content-Type", "{{{mediaType}}}"){{/consumes}}{{/hasConsumes}}{{/hasFormParams}}
         {{#hasProduces}}requestOptions.addHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
-        requestOptions.uri = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}
+
         val client = WebClient.create(vertx)
+        requestOptions.setAbsoluteURI("$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}})
         val request = client.request(HttpMethod.{{httpMethod}}, requestOptions)
 
         {{#hasFormParams}}
