@@ -456,7 +456,7 @@ status | StatusSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-list, tuple,  | tuple,  |  | must be one of ["available", "pending", "sold", ] 
+list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
 Input Type | Accessed Type | Description | Notes

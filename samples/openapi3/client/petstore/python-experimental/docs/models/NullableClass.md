@@ -22,5 +22,77 @@ Key | Input Type | Accessed Type | Description | Notes
 **object_items_nullable** | dict, frozendict.frozendict,  | frozendict.frozendict,  |  | [optional] 
 **any string name** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  | any string name can be used but the value must be the correct type | [optional] 
 
+# array_nullable_prop
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple, None,  | tuple, NoneClass,  |  | 
+
+### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+
+# array_and_items_nullable_prop
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple, None,  | tuple, NoneClass,  |  | 
+
+### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
+
+# array_items_nullable
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+list, tuple,  | tuple,  |  | 
+
+### Tuple Items
+Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | -------------
+dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
+
+# object_nullable_prop
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
+
+### Dictionary Keys
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**any string name** | dict, frozendict.frozendict,  | frozendict.frozendict,  | any string name can be used but the value must be the correct type | [optional] 
+
+# object_and_items_nullable_prop
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
+
+### Dictionary Keys
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**any string name** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  | any string name can be used but the value must be the correct type | [optional] 
+
+# object_items_nullable
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+
+### Dictionary Keys
+Key | Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | ------------- | -------------
+**any string name** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  | any string name can be used but the value must be the correct type | [optional] 
+
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
