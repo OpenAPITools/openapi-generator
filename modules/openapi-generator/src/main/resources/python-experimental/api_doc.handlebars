@@ -161,9 +161,9 @@ Code | Class | Description
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 {{#each responses}}
 {{#if isDefault}}
-default | ApiResponseForDefault | {{message}}
+default | [ApiResponseForDefault](#ApiResponseForDefault) | {{message}}
 {{else}}
-{{code}} | ApiResponseFor{{code}} | {{message}}
+{{code}} | [ApiResponseFor{{code}}](#ApiResponseFor{{code}}) | {{message}}
 {{/if}}
 {{/each}}
 {{#each responses}}

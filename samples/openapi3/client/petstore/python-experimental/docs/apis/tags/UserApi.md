@@ -87,7 +87,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | ApiResponseForDefault | successful operation
+default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
 
 #### ApiResponseForDefault
 Name | Type | Description  | Notes
@@ -184,7 +184,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | ApiResponseForDefault | successful operation
+default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
 
 #### ApiResponseForDefault
 Name | Type | Description  | Notes
@@ -281,7 +281,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | ApiResponseForDefault | successful operation
+default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
 
 #### ApiResponseForDefault
 Name | Type | Description  | Notes
@@ -364,8 +364,8 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid username supplied
-404 | ApiResponseFor404 | User not found
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -456,9 +456,9 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid username supplied
-404 | ApiResponseFor404 | User not found
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -577,8 +577,8 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid username/password supplied
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username/password supplied
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -680,7 +680,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | ApiResponseForDefault | successful operation
+default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
 
 #### ApiResponseForDefault
 Name | Type | Description  | Notes
@@ -790,8 +790,8 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid user supplied
-404 | ApiResponseFor404 | User not found
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid user supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes

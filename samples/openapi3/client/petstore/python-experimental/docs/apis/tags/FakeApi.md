@@ -101,7 +101,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Got object with additional properties with array of enums
+200 | [ApiResponseFor200](#ApiResponseFor200) | Got object with additional properties with array of enums
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -187,7 +187,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output model
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output model
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -272,7 +272,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Got named array of enums
+200 | [ApiResponseFor200](#ApiResponseFor200) | Got named array of enums
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -361,7 +361,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success
+200 | [ApiResponseFor200](#ApiResponseFor200) | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -469,7 +469,7 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success
+200 | [ApiResponseFor200](#ApiResponseFor200) | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -547,7 +547,7 @@ bool,  | BoolClass,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output boolean
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output boolean
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -655,7 +655,7 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success
+200 | [ApiResponseFor200](#ApiResponseFor200) | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -736,7 +736,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -820,7 +820,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output model
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output model
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -909,8 +909,8 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | OK
-default | ApiResponseForDefault | Unexpected error
+200 | [ApiResponseFor200](#ApiResponseFor200) | OK
+default | [ApiResponseForDefault](#ApiResponseForDefault) | Unexpected error
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1039,8 +1039,8 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid username supplied
-404 | ApiResponseFor404 | User not found
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1239,8 +1239,8 @@ str,  | str,  |  | must be one of ["_abc", "-efg", "(xyz)", ] if omitted the ser
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid request
-404 | ApiResponseFor404 | Not found
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid request
+404 | [ApiResponseFor404](#ApiResponseFor404) | Not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1305,7 +1305,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | The instance started successfully
+200 | [ApiResponseFor200](#ApiResponseFor200) | The instance started successfully
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1477,7 +1477,7 @@ bool,  | BoolClass,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Someting wrong
+400 | [ApiResponseFor400](#ApiResponseFor400) | Someting wrong
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1559,7 +1559,7 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1752,7 +1752,7 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#ApiResponseFor200) | success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1890,7 +1890,7 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1969,7 +1969,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | OK
+200 | [ApiResponseFor200](#ApiResponseFor200) | OK
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2046,7 +2046,7 @@ dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#ApiResponseFor200) | success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2135,7 +2135,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output mammal
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output mammal
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2219,7 +2219,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output number
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output number
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2315,7 +2315,7 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | ok
+200 | [ApiResponseFor200](#ApiResponseFor200) | ok
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2397,7 +2397,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output model
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output model
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2718,7 +2718,7 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | success
+200 | [ApiResponseFor200](#ApiResponseFor200) | success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2888,7 +2888,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Success
+200 | [ApiResponseFor200](#ApiResponseFor200) | Success
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -2972,7 +2972,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | ok
+200 | [ApiResponseFor200](#ApiResponseFor200) | ok
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -3028,7 +3028,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | contents without schema definition
+200 | [ApiResponseFor200](#ApiResponseFor200) | contents without schema definition
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -3106,7 +3106,7 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output string
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output string
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -3191,7 +3191,7 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Output enum
+200 | [ApiResponseFor200](#ApiResponseFor200) | Output enum
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -3276,7 +3276,7 @@ bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | file to upload |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -3373,7 +3373,7 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -3479,7 +3479,7 @@ items | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes

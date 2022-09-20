@@ -169,8 +169,8 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | Ok
-405 | ApiResponseFor405 | Invalid input
+200 | [ApiResponseFor200](#ApiResponseFor200) | Ok
+405 | [ApiResponseFor405](#ApiResponseFor405) | Invalid input
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -303,7 +303,7 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid pet value
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid pet value
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -468,8 +468,8 @@ items | str,  | str,  |  | must be one of ["available", "pending", "sold", ] if 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid status value
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid status value
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -665,8 +665,8 @@ items | str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid tag value
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid tag value
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -794,9 +794,9 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid ID supplied
-404 | ApiResponseFor404 | Pet not found
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | Pet not found
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -992,9 +992,9 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid ID supplied
-404 | ApiResponseFor404 | Pet not found
-405 | ApiResponseFor405 | Validation exception
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | Pet not found
+405 | [ApiResponseFor405](#ApiResponseFor405) | Validation exception
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -1135,7 +1135,7 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-405 | ApiResponseFor405 | Invalid input
+405 | [ApiResponseFor405](#ApiResponseFor405) | Invalid input
 
 #### ApiResponseFor405
 Name | Type | Description  | Notes
@@ -1266,7 +1266,7 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -1403,7 +1403,7 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes

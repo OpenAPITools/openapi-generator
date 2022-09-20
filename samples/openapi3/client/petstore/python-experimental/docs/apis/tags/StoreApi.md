@@ -75,8 +75,8 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Invalid ID supplied
-404 | ApiResponseFor404 | Order not found
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | Order not found
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -153,7 +153,7 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -251,9 +251,9 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid ID supplied
-404 | ApiResponseFor404 | Order not found
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#ApiResponseFor404) | Order not found
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
@@ -363,8 +363,8 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | ApiResponseFor200 | successful operation
-400 | ApiResponseFor400 | Invalid Order
+200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid Order
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
