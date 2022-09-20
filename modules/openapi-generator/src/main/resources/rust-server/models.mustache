@@ -58,10 +58,10 @@ impl std::str::FromStr for {{{classname}}} {
 {{^isEnum}}
 {{#dataType}}
 {{#isMap}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 {{^isMap}}
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
@@ -146,7 +146,7 @@ where
 {{/x-item-xml-name}}
 {{/vendorExtensions}}
 {{! vec}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(
 {{#vendorExtensions}}
@@ -243,7 +243,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
