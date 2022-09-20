@@ -20,7 +20,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
