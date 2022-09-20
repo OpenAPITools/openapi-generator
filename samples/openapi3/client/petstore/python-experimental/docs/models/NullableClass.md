@@ -14,12 +14,12 @@ Key | Input Type | Accessed Type | Description | Notes
 **string_prop** | None, str,  | NoneClass, str,  |  | [optional] 
 **date_prop** | None, str, date,  | NoneClass, str,  |  | [optional] 
 **datetime_prop** | None, str, datetime,  | NoneClass, str,  |  | [optional] 
-**array_nullable_prop** | list, tuple, None,  | tuple, NoneClass,  |  | [optional] 
-**array_and_items_nullable_prop** | list, tuple, None,  | tuple, NoneClass,  |  | [optional] 
-**array_items_nullable** | list, tuple,  | tuple,  |  | [optional] 
-**object_nullable_prop** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | [optional] 
-**object_and_items_nullable_prop** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | [optional] 
-**object_items_nullable** | dict, frozendict.frozendict,  | frozendict.frozendict,  |  | [optional] 
+**[array_nullable_prop](#array_nullable_prop)** | list, tuple, None,  | tuple, NoneClass,  |  | [optional] 
+**[array_and_items_nullable_prop](#array_and_items_nullable_prop)** | list, tuple, None,  | tuple, NoneClass,  |  | [optional] 
+**[array_items_nullable](#array_items_nullable)** | list, tuple,  | tuple,  |  | [optional] 
+**[object_nullable_prop](#object_nullable_prop)** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | [optional] 
+**[object_and_items_nullable_prop](#object_and_items_nullable_prop)** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | [optional] 
+**[object_items_nullable](#object_items_nullable)** | dict, frozendict.frozendict,  | frozendict.frozendict,  |  | [optional] 
 **any string name** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  | any string name can be used but the value must be the correct type | [optional] 
 
 # array_nullable_prop

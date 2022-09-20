@@ -10,11 +10,11 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  | Pet object that needs 
 ### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**photoUrls** | list, tuple,  | tuple,  |  | 
+**[photoUrls](#photoUrls)** | list, tuple,  | tuple,  |  | 
 **name** | str,  | str,  |  | 
 **id** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] 
 **category** | [**Category**](Category.md) | [**Category**](Category.md) |  | [optional] 
-**tags** | list, tuple,  | tuple,  |  | [optional] 
+**[tags](#tags)** | list, tuple,  | tuple,  |  | [optional] 
 **status** | str,  | str,  | pet status in the store | [optional] must be one of ["available", "pending", "sold", ] 
 **any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 

@@ -13,11 +13,11 @@ Input Type | Accessed Type | Description | Notes
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
     {{#each getRequiredVarsMap}}
-**{{{@key}}}** | {{#with this}}{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}{{/with}}
+**{{#with this}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}{{/with}}{{{@key}}}{{#with this}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}{{/with}}** | {{#with this}}{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}{{/with}}
     {{/each}}
     {{#each vars}}
     {{#unless required}}
-**{{baseName}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
+**{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{/unless}}{{baseName}}{{#unless complexType}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}** | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | [optional] {{> model_templates/notes_msg }}
     {{/unless}}
     {{/each}}
     {{#with additionalProperties}}

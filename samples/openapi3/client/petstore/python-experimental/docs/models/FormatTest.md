@@ -20,7 +20,7 @@ Key | Input Type | Accessed Type | Description | Notes
 **float32** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
 **double** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
 **float64** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
-**arrayWithUniqueItems** | list, tuple,  | tuple,  |  | [optional] 
+**[arrayWithUniqueItems](#arrayWithUniqueItems)** | list, tuple,  | tuple,  |  | [optional] 
 **string** | str,  | str,  |  | [optional] 
 **binary** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  |  | [optional] 
 **dateTime** | str, datetime,  | str,  |  | [optional] 
