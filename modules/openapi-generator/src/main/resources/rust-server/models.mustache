@@ -287,63 +287,65 @@ impl {{{classname}}} {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for {{{classname}}} {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<String> = vec![
 {{#vars}}
 {{#isByteArray}}
-        // Skipping {{baseName}} in query parameter serialization
+            // Skipping {{baseName}} in query parameter serialization
 {{/isByteArray}}
 {{#isBinary}}
-        // Skipping {{baseName}} in query parameter serialization
+            // Skipping {{baseName}} in query parameter serialization
 {{/isBinary}}
 {{#isMap}}
-        // Skipping {{baseName}} in query parameter serialization
+            // Skipping {{baseName}} in query parameter serialization
 {{/isMap}}
 {{^isPrimitiveType}}
-        // Skipping {{baseName}} in query parameter serialization
+            // Skipping {{baseName}} in query parameter serialization
 {{/isPrimitiveType}}
 {{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
 {{#required}}
-        params.push("{{{baseName}}}".to_string());
+            Some("{{{baseName}}}".to_string()),
 {{^isArray}}
 {{#isNullable}}
-        params.push(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
+            Some(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string())),
 {{/isNullable}}
 {{^isNullable}}
-        params.push(self.{{{name}}}.to_string());
+            Some(self.{{{name}}}.to_string()),
 {{/isNullable}}
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-        params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")));
+            Some(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))),
 {{/isNullable}}
 {{^isNullable}}
-        params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","));
+            Some(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
 {{/isNullable}}
 {{/isArray}}
 {{/required}}
 {{^required}}
-        if let Some(ref {{{name}}}) = self.{{{name}}} {
-            params.push("{{{baseName}}}".to_string());
+            self.{{{name}}}.as_ref().map(|{{name}}}| {
+                "{{{baseName}}}".to_string()
 {{^isArray}}
 {{#isNullable}}
-            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
+                {{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string())
 {{/isNullable}}
 {{^isNullable}}
-            params.push({{{name}}}.to_string());
+                {{{name}}}.to_string()
 {{/isNullable}}
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")));
+                {{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
 {{/isNullable}}
 {{^isNullable}}
-            params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","));
+                {{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
 {{/isNullable}}
 {{/isArray}}
-        }
+            },
 {{/required}}
 {{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
+        ].into_iter().flatten().collect();
+
         params.join(",")
     }
 }
