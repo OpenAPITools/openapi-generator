@@ -63,8 +63,6 @@
                             <executable>cargo</executable>
                             <arguments>
                                 <argument>clippy</argument>
-                                <argument>--</argument>
-                                <argument>-Dwarnings</argument>
                             </arguments>
                         </configuration>
                     </execution>
