@@ -415,7 +415,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
             {{/isNullable}}
             {{^isNullable}}
-            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or("{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
             {{/isNullable}}
             {{/vars}}
         })
