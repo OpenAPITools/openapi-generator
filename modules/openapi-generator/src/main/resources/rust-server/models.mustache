@@ -33,7 +33,7 @@ impl std::fmt::Display for {{{classname}}} {
         match *self {
 {{#allowableValues}}
   {{#enumVars}}
-            {{{classname}}}::{{{name}}} => write!(f, "{}", {{{value}}}),
+            {{{classname}}}::{{{name}}} => write!(f, {{{value}}}),
   {{/enumVars}}
 {{/allowableValues}}
         }
