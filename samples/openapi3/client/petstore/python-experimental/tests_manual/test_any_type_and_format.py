@@ -169,7 +169,7 @@ class TestAnyTypeAndFormat(unittest.TestCase):
             with self.assertRaises(exceptions.ApiValueError):
                 AnyTypeAndFormat(int64=invalid_value)
 
-    def test_double(self):
+    def test_float(self):
         min_bound = decimal.Decimal(-3.4028234663852886e+38)
         max_bound = decimal.Decimal(3.4028234663852886e+38)
         valid_values = [
@@ -197,9 +197,9 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         )
         for invalid_value in invalid_values:
             with self.assertRaises(exceptions.ApiValueError):
-                AnyTypeAndFormat(double=invalid_value)
+                AnyTypeAndFormat(float=invalid_value)
 
-    def test_float(self):
+    def test_double(self):
         min_bound = decimal.Decimal(-1.7976931348623157E+308)
         max_bound = decimal.Decimal(1.7976931348623157E+308)
         valid_values = [
@@ -216,7 +216,7 @@ class TestAnyTypeAndFormat(unittest.TestCase):
             b'abc'
         ]
         for valid_value in valid_values:
-            AnyTypeAndFormat(float=valid_value)
+            AnyTypeAndFormat(double=valid_value)
 
         with decimal.localcontext() as ctx:
             ctx.prec = 310
@@ -230,7 +230,7 @@ class TestAnyTypeAndFormat(unittest.TestCase):
         # invalid values do not work
         for invalid_value in invalid_values:
             with self.assertRaises(exceptions.ApiValueError):
-                AnyTypeAndFormat(float=invalid_value)
+                AnyTypeAndFormat(double=invalid_value)
 
 
 if __name__ == '__main__':
