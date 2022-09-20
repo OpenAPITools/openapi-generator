@@ -8,8 +8,8 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  |  |
 ### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**length** | str,  | str,  |  | [optional] 
-**width** | str,  | str,  |  | [optional] 
+**length** | str,  | str,  |  | [optional] value must be numeric and storable in decimal.Decimal
+**width** | str,  | str,  |  | [optional] value must be numeric and storable in decimal.Decimal
 **cost** | [**Money**](Money.md) | [**Money**](Money.md) |  | [optional] 
 **any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
 

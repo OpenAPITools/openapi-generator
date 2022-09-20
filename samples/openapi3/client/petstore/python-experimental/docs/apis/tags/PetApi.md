@@ -296,7 +296,7 @@ petId | PetIdSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### Return Types, Responses
 
@@ -787,7 +787,7 @@ petId | PetIdSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### Return Types, Responses
 
@@ -1128,7 +1128,7 @@ petId | PetIdSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### Return Types, Responses
 
@@ -1259,7 +1259,7 @@ petId | PetIdSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### Return Types, Responses
 
@@ -1396,7 +1396,7 @@ petId | PetIdSchema | |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### Return Types, Responses
 

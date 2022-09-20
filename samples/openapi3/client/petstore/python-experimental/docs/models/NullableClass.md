@@ -12,8 +12,8 @@ Key | Input Type | Accessed Type | Description | Notes
 **number_prop** | None, decimal.Decimal, int, float,  | NoneClass, decimal.Decimal,  |  | [optional] 
 **boolean_prop** | None, bool,  | NoneClass, BoolClass,  |  | [optional] 
 **string_prop** | None, str,  | NoneClass, str,  |  | [optional] 
-**date_prop** | None, str, date,  | NoneClass, str,  |  | [optional] 
-**datetime_prop** | None, str, datetime,  | NoneClass, str,  |  | [optional] 
+**date_prop** | None, str, date,  | NoneClass, str,  |  | [optional] value must conform to RFC-3339 full-date YYYY-MM-DD
+**datetime_prop** | None, str, datetime,  | NoneClass, str,  |  | [optional] value must conform to RFC-3339 date-time
 **[array_nullable_prop](#array_nullable_prop)** | list, tuple, None,  | tuple, NoneClass,  |  | [optional] 
 **[array_and_items_nullable_prop](#array_and_items_nullable_prop)** | list, tuple, None,  | tuple, NoneClass,  |  | [optional] 
 **[array_items_nullable](#array_items_nullable)** | list, tuple,  | tuple,  |  | [optional] 

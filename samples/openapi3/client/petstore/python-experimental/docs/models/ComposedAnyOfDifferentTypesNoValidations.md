@@ -10,8 +10,8 @@ dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal
 Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 [any_of_0](#any_of_0) | dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
-[any_of_1](#any_of_1) | str, date,  | str,  |  | 
-[any_of_2](#any_of_2) | str, datetime,  | str,  |  | 
+[any_of_1](#any_of_1) | str, date,  | str,  |  | value must conform to RFC-3339 full-date YYYY-MM-DD
+[any_of_2](#any_of_2) | str, datetime,  | str,  |  | value must conform to RFC-3339 date-time
 [any_of_3](#any_of_3) | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  |  | 
 [any_of_4](#any_of_4) | str,  | str,  |  | 
 [any_of_5](#any_of_5) | str,  | str,  |  | 
@@ -20,11 +20,11 @@ Class Name | Input Type | Accessed Type | Description | Notes
 [any_of_8](#any_of_8) | None,  | NoneClass,  |  | 
 [any_of_9](#any_of_9) | list, tuple,  | tuple,  |  | 
 [any_of_10](#any_of_10) | decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
-[any_of_11](#any_of_11) | decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
-[any_of_12](#any_of_12) | decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
+[any_of_11](#any_of_11) | decimal.Decimal, int, float,  | decimal.Decimal,  |  | value must be a 32 bit float
+[any_of_12](#any_of_12) | decimal.Decimal, int, float,  | decimal.Decimal,  |  | value must be a 64 bit float
 [any_of_13](#any_of_13) | decimal.Decimal, int,  | decimal.Decimal,  |  | 
-[any_of_14](#any_of_14) | decimal.Decimal, int,  | decimal.Decimal,  |  | 
-[any_of_15](#any_of_15) | decimal.Decimal, int,  | decimal.Decimal,  |  | 
+[any_of_14](#any_of_14) | decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 32 bit integer
+[any_of_15](#any_of_15) | decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 # any_of_0
 
@@ -38,14 +38,14 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  |  |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str, date,  | str,  |  | 
+str, date,  | str,  |  | value must conform to RFC-3339 full-date YYYY-MM-DD
 
 # any_of_2
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str, datetime,  | str,  |  | 
+str, datetime,  | str,  |  | value must conform to RFC-3339 date-time
 
 # any_of_3
 
@@ -113,14 +113,14 @@ decimal.Decimal, int, float,  | decimal.Decimal,  |  |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
+decimal.Decimal, int, float,  | decimal.Decimal,  |  | value must be a 32 bit float
 
 # any_of_12
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int, float,  | decimal.Decimal,  |  | 
+decimal.Decimal, int, float,  | decimal.Decimal,  |  | value must be a 64 bit float
 
 # any_of_13
 
@@ -134,14 +134,14 @@ decimal.Decimal, int,  | decimal.Decimal,  |  |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 32 bit integer
 
 # any_of_15
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

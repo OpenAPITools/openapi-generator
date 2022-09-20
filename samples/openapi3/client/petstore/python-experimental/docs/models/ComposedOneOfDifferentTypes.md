@@ -14,10 +14,10 @@ Class Name | Input Type | Accessed Type | Description | Notes
 [NumberWithValidations](NumberWithValidations.md) | [**NumberWithValidations**](NumberWithValidations.md) | [**NumberWithValidations**](NumberWithValidations.md) |  | 
 [Animal](Animal.md) | [**Animal**](Animal.md) | [**Animal**](Animal.md) |  | 
 [one_of_2](#one_of_2) | None,  | NoneClass,  |  | 
-[one_of_3](#one_of_3) | str, date,  | str,  |  | 
+[one_of_3](#one_of_3) | str, date,  | str,  |  | value must conform to RFC-3339 full-date YYYY-MM-DD
 [one_of_4](#one_of_4) | dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
 [one_of_5](#one_of_5) | list, tuple,  | tuple,  |  | 
-[one_of_6](#one_of_6) | str, datetime,  | str,  |  | 
+[one_of_6](#one_of_6) | str, datetime,  | str,  |  | value must conform to RFC-3339 date-time
 
 # one_of_2
 
@@ -31,7 +31,7 @@ None,  | NoneClass,  |  |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str, date,  | str,  |  | 
+str, date,  | str,  |  | value must conform to RFC-3339 full-date YYYY-MM-DD
 
 # one_of_4
 
@@ -57,7 +57,7 @@ dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str, datetime,  | str,  |  | 
+str, datetime,  | str,  |  | value must conform to RFC-3339 date-time
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

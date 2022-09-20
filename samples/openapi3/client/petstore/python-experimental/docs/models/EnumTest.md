@@ -10,8 +10,8 @@ Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **enum_string_required** | str,  | str,  |  | must be one of ["UPPER", "lower", "", ] 
 **enum_string** | str,  | str,  |  | [optional] must be one of ["UPPER", "lower", "", ] 
-**enum_integer** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] must be one of [1, -1, ] 
-**enum_number** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] must be one of [1.1, -1.2, ] 
+**enum_integer** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] must be one of [1, -1, ] value must be a 32 bit integer
+**enum_number** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] must be one of [1.1, -1.2, ] value must be a 64 bit float
 **stringEnum** | [**StringEnum**](StringEnum.md) | [**StringEnum**](StringEnum.md) |  | [optional] 
 **IntegerEnum** | [**IntegerEnum**](IntegerEnum.md) | [**IntegerEnum**](IntegerEnum.md) |  | [optional] 
 **StringEnumWithDefaultValue** | [**StringEnumWithDefaultValue**](StringEnumWithDefaultValue.md) | [**StringEnumWithDefaultValue**](StringEnumWithDefaultValue.md) |  | [optional] 

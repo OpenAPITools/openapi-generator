@@ -614,7 +614,7 @@ calls per hour allowed by the user
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  | calls per hour allowed by the user | 
+decimal.Decimal, int,  | decimal.Decimal,  | calls per hour allowed by the user | value must be a 32 bit integer
 
 #### XExpiresAfterSchema
 
@@ -623,7 +623,7 @@ date in UTC when token expires
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-str, datetime,  | str,  | date in UTC when token expires | 
+str, datetime,  | str,  | date in UTC when token expires | value must conform to RFC-3339 date-time
 
 
 #### ApiResponseFor400

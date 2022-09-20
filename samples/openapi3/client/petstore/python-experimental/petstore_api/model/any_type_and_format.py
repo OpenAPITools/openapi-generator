@@ -206,7 +206,7 @@ class AnyTypeAndFormat(
             
             
             class double(
-                schemas.Float32Base,
+                schemas.Float64Base,
                 schemas.AnyTypeSchema,
             ):
             
@@ -230,7 +230,7 @@ class AnyTypeAndFormat(
             
             
             class _float(
-                schemas.Float64Base,
+                schemas.Float32Base,
                 schemas.AnyTypeSchema,
             ):
             

@@ -8,14 +8,14 @@ dict, frozendict.frozendict,  | frozendict.frozendict,  |  |
 ### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**id** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] 
+**id** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] value must be a 64 bit integer
 **username** | str,  | str,  |  | [optional] 
 **firstName** | str,  | str,  |  | [optional] 
 **lastName** | str,  | str,  |  | [optional] 
 **email** | str,  | str,  |  | [optional] 
 **password** | str,  | str,  |  | [optional] 
 **phone** | str,  | str,  |  | [optional] 
-**userStatus** | decimal.Decimal, int,  | decimal.Decimal,  | User Status | [optional] 
+**userStatus** | decimal.Decimal, int,  | decimal.Decimal,  | User Status | [optional] value must be a 32 bit integer
 **[objectWithNoDeclaredProps](#objectWithNoDeclaredProps)** | dict, frozendict.frozendict,  | frozendict.frozendict,  | test code generation for objects Value must be a map of strings to values. It cannot be the &#x27;null&#x27; value. | [optional] 
 **[objectWithNoDeclaredPropsNullable](#objectWithNoDeclaredPropsNullable)** | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  | test code generation for nullable objects. Value must be a map of strings to values or the &#x27;null&#x27; value. | [optional] 
 **anyTypeProp** | dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader,  | frozendict.frozendict, str, decimal.Decimal, BoolClass, NoneClass, tuple, bytes, FileIO | test code generation for any type Here the &#x27;type&#x27; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389 | [optional] 

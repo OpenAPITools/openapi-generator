@@ -12,7 +12,7 @@ Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
 **[photoUrls](#photoUrls)** | list, tuple,  | tuple,  |  | 
 **name** | str,  | str,  |  | 
-**id** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] 
+**id** | decimal.Decimal, int,  | decimal.Decimal,  |  | [optional] value must be a 64 bit integer
 **category** | [**Category**](Category.md) | [**Category**](Category.md) |  | [optional] 
 **[tags](#tags)** | list, tuple,  | tuple,  |  | [optional] 
 **status** | str,  | str,  | pet status in the store | [optional] must be one of ["available", "pending", "sold", ] 

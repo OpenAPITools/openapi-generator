@@ -1021,15 +1021,15 @@ Key | Input Type | Accessed Type | Description | Notes
 **number** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | 
 **pattern_without_delimiter** | str,  | str,  | None | 
 **byte** | str,  | str,  | None | 
-**double** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | 
+**double** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | value must be a 64 bit float
 **integer** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] 
-**int32** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] 
-**int64** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] 
-**float** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | [optional] 
+**int32** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] value must be a 32 bit integer
+**int64** | decimal.Decimal, int,  | decimal.Decimal,  | None | [optional] value must be a 64 bit integer
+**float** | decimal.Decimal, int, float,  | decimal.Decimal,  | None | [optional] value must be a 32 bit float
 **string** | str,  | str,  | None | [optional] 
 **binary** | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  | None | [optional] 
-**date** | str, date,  | str,  | None | [optional] 
-**dateTime** | str, datetime,  | str,  | None | [optional] if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00
+**date** | str, date,  | str,  | None | [optional] value must conform to RFC-3339 full-date YYYY-MM-DD
+**dateTime** | str, datetime,  | str,  | None | [optional] if omitted the server will use the default value of 2010-02-01T10:20:10.11111+01:00value must conform to RFC-3339 date-time
 **password** | str,  | str,  | None | [optional] 
 **callback** | str,  | str,  | None | [optional] 
 **any string name** | dict, frozendict.frozendict, str, date, datetime, int, float, bool, decimal.Decimal, None, list, tuple, bytes, io.FileIO, io.BufferedReader | frozendict.frozendict, str, BoolClass, decimal.Decimal, NoneClass, tuple, bytes, FileIO | any string name can be used but the value must be the correct type | [optional]
@@ -1198,14 +1198,14 @@ str,  | str,  |  | must be one of ["_abc", "-efg", "(xyz)", ] if omitted the ser
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | must be one of [1, -2, ] 
+decimal.Decimal, int,  | decimal.Decimal,  |  | must be one of [1, -2, ] value must be a 32 bit integer
 
 #### EnumQueryDoubleSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int, float,  | decimal.Decimal,  |  | must be one of [1.1, -1.2, ] 
+decimal.Decimal, int, float,  | decimal.Decimal,  |  | must be one of [1.1, -1.2, ] value must be a 64 bit float
 
 ### header_params
 #### RequestHeaderParams
@@ -1434,7 +1434,7 @@ decimal.Decimal, int,  | decimal.Decimal,  |  |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 #### StringGroupSchema
 
@@ -1448,7 +1448,7 @@ decimal.Decimal, int,  | decimal.Decimal,  |  |
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-decimal.Decimal, int,  | decimal.Decimal,  |  | 
+decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 ### header_params
 #### RequestHeaderParams
