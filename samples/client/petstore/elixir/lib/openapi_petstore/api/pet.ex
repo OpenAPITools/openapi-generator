@@ -257,7 +257,7 @@ defmodule OpenapiPetstore.Api.Pet do
   - `connection` (OpenapiPetstore.Connection): Connection to server
   - `pet_id` (integer()): ID of pet to update
   - `opts` (keyword): Optional parameters
-    - `:additional_metadata` (String.t): Additional data to pass to server
+    - `:additionalMetadata` (String.t): Additional data to pass to server
     - `:file` (String.t): file to upload
 
   ### Returns
@@ -297,7 +297,7 @@ defmodule OpenapiPetstore.Api.Pet do
   - `pet_id` (integer()): ID of pet to update
   - `required_file` (String.t): file to upload
   - `opts` (keyword): Optional parameters
-    - `:additional_metadata` (String.t): Additional data to pass to server
+    - `:additionalMetadata` (String.t): Additional data to pass to server
 
   ### Returns
 

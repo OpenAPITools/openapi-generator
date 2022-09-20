@@ -45,8 +45,8 @@ defmodule OpenapiPetstore.Api.Fake do
   - `connection` (OpenapiPetstore.Connection): Connection to server
   - `pet` (Pet): Pet object that needs to be added to the store
   - `opts` (keyword): Optional parameters
-    - `:query1` (String.t): query parameter
-    - `:header1` (String.t): header parameter
+    - `:query_1` (String.t): query parameter
+    - `:header_1` (String.t): header parameter
 
   ### Returns
 
@@ -386,7 +386,7 @@ defmodule OpenapiPetstore.Api.Fake do
     - `:string` (String.t): None
     - `:binary` (String.t): None
     - `:date` (Date.t): None
-    - `:date_time` (DateTime.t): None
+    - `:dateTime` (DateTime.t): None
     - `:password` (String.t): None
     - `:callback` (String.t): None
 
