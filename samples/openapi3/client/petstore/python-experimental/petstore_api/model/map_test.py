@@ -112,13 +112,11 @@ class MapTest(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def UPPER(cls):
                             return cls("UPPER")
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def LOWER(cls):
                             return cls("lower")
                 
@@ -171,9 +169,8 @@ class MapTest(
                         **kwargs,
                     )
         
-            @classmethod
-            @property
-            def indirect_map(cls) -> typing.Type['StringBooleanMap']:
+            @staticmethod
+            def indirect_map() -> typing.Type['StringBooleanMap']:
                 return StringBooleanMap
             __annotations__ = {
                 "map_map_of_string": map_map_of_string,

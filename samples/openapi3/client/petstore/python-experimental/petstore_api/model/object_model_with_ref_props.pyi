@@ -38,9 +38,8 @@ class ObjectModelWithRefProps(
         
         class properties:
         
-            @classmethod
-            @property
-            def myNumber(cls) -> typing.Type['NumberWithValidations']:
+            @staticmethod
+            def myNumber() -> typing.Type['NumberWithValidations']:
                 return NumberWithValidations
             myString = schemas.StrSchema
             myBoolean = schemas.BoolSchema

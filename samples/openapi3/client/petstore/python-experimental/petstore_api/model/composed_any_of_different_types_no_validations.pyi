@@ -73,7 +73,6 @@ class ComposedAnyOfDifferentTypesNoValidations(
         any_of_15 = schemas.Int64Schema
         
         @classmethod
-        @property
         @functools.cache
         def any_of(cls):
             # we need this here to make our import statements work

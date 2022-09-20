@@ -36,19 +36,16 @@ class Drawing(
         
         class properties:
         
-            @classmethod
-            @property
-            def mainShape(cls) -> typing.Type['Shape']:
+            @staticmethod
+            def mainShape() -> typing.Type['Shape']:
                 return Shape
         
-            @classmethod
-            @property
-            def shapeOrNull(cls) -> typing.Type['ShapeOrNull']:
+            @staticmethod
+            def shapeOrNull() -> typing.Type['ShapeOrNull']:
                 return ShapeOrNull
         
-            @classmethod
-            @property
-            def nullableShape(cls) -> typing.Type['NullableShape']:
+            @staticmethod
+            def nullableShape() -> typing.Type['NullableShape']:
                 return NullableShape
             
             
@@ -59,9 +56,8 @@ class Drawing(
             
                 class MetaOapg:
                     
-                    @classmethod
-                    @property
-                    def items(cls) -> typing.Type['Shape']:
+                    @staticmethod
+                    def items() -> typing.Type['Shape']:
                         return Shape
             
                 def __new__(
@@ -84,9 +80,8 @@ class Drawing(
                 "shapes": shapes,
             }
         
-        @classmethod
-        @property
-        def additional_properties(cls) -> typing.Type['Fruit']:
+        @staticmethod
+        def additional_properties() -> typing.Type['Fruit']:
             return Fruit
     
     @typing.overload

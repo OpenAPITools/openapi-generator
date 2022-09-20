@@ -45,38 +45,31 @@ class StringEnum(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def NONE(cls):
         return cls(None)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def PLACED(cls):
         return cls("placed")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def APPROVED(cls):
         return cls("approved")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def DELIVERED(cls):
         return cls("delivered")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def SINGLE_QUOTED(cls):
         return cls("single quoted")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def MULTIPLE_LINES(cls):
         return cls("multiple\nlines")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
         return cls("double quote \n with newline")
 

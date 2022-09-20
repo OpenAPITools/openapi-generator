@@ -49,8 +49,7 @@ class Zebra(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def ZEBRA(cls):
                     return cls("zebra")
             
@@ -66,18 +65,15 @@ class Zebra(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def PLAINS(cls):
                     return cls("plains")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def MOUNTAIN(cls):
                     return cls("mountain")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def GREVYS(cls):
                     return cls("grevys")
             __annotations__ = {

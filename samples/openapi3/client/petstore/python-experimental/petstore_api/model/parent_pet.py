@@ -35,9 +35,8 @@ class ParentPet(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'pet_type': {
                     'ChildCat': ChildCat,
@@ -45,7 +44,6 @@ class ParentPet(
             }
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work

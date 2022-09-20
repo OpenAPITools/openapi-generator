@@ -37,9 +37,8 @@ class Animal(
             "className",
         }
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'className': {
                     'Cat': Cat,

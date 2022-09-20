@@ -67,9 +67,8 @@ class Pet(
                     return super().__getitem__(i)
             id = schemas.Int64Schema
         
-            @classmethod
-            @property
-            def category(cls) -> typing.Type['Category']:
+            @staticmethod
+            def category() -> typing.Type['Category']:
                 return Category
             
             
@@ -80,9 +79,8 @@ class Pet(
             
                 class MetaOapg:
                     
-                    @classmethod
-                    @property
-                    def items(cls) -> typing.Type['Tag']:
+                    @staticmethod
+                    def items() -> typing.Type['Tag']:
                         return Tag
             
                 def __new__(
@@ -111,18 +109,15 @@ class Pet(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def AVAILABLE(cls):
                     return cls("available")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def PENDING(cls):
                     return cls("pending")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def SOLD(cls):
                     return cls("sold")
             __annotations__ = {

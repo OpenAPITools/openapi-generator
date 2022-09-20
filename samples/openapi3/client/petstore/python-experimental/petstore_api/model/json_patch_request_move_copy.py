@@ -54,13 +54,11 @@ class JSONPatchRequestMoveCopy(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def MOVE(cls):
                     return cls("move")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def COPY(cls):
                     return cls("copy")
             __annotations__ = {

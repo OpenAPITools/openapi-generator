@@ -39,10 +39,12 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDictSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    DictSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        DictSchema,
+                    ]
 
         m = Model(a=1, b='hi')
         assert isinstance(m, Model)
@@ -54,10 +56,12 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testListSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    ListSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        ListSchema,
+                    ]
 
         m = Model([1, 'hi'])
         assert isinstance(m, Model)
@@ -69,10 +73,12 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testStrSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    StrSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        StrSchema,
+                    ]
 
         m = Model('hi')
         assert isinstance(m, Model)
@@ -84,10 +90,12 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testNumberSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    NumberSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        NumberSchema,
+                    ]
 
         m = Model(1)
         assert isinstance(m, Model)
@@ -106,10 +114,12 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testIntSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    IntSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        IntSchema,
+                    ]
 
         m = Model(1)
         assert isinstance(m, Model)
@@ -120,15 +130,17 @@ class TestAnyTypeSchema(unittest.TestCase):
 
         with self.assertRaises(petstore_api.exceptions.ApiValueError):
             # can't pass in float into Int
-            m = Model(3.14)
+            Model(3.14)
 
     def testBoolSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    BoolSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        BoolSchema,
+                    ]
 
         m = Model(True)
         assert isinstance(m, Model)
@@ -147,25 +159,29 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testNoneSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    NoneSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        NoneSchema,
+                    ]
 
         m = Model(None)
+        self.assertTrue(m.is_none_oapg())
         assert isinstance(m, Model)
         assert isinstance(m, AnyTypeSchema)
         assert isinstance(m, NoneSchema)
         assert isinstance(m, NoneClass)
-        self.assertTrue(m.is_none_oapg())
 
     def testDateSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    DateSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        DateSchema,
+                    ]
 
         m = Model('1970-01-01')
         assert isinstance(m, Model)
@@ -177,10 +193,12 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDateTimeSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    DateTimeSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        DateTimeSchema,
+                    ]
 
         m = Model('2020-01-01T00:00:00')
         assert isinstance(m, Model)
@@ -192,18 +210,20 @@ class TestAnyTypeSchema(unittest.TestCase):
     def testDecimalSchema(self):
         class Model(ComposedSchema):
             class MetaOapg:
-                all_of = [
-                    AnyTypeSchema,
-                    DecimalSchema,
-                ]
+                @staticmethod
+                def all_of():
+                    return [
+                        AnyTypeSchema,
+                        DecimalSchema,
+                    ]
 
         m = Model('12.34')
+        assert m == '12.34'
+        assert m.as_decimal_oapg == Decimal('12.34')
         assert isinstance(m, Model)
         assert isinstance(m, AnyTypeSchema)
         assert isinstance(m, DecimalSchema)
         assert isinstance(m, str)
-        assert m == '12.34'
-        assert m.as_decimal_oapg == Decimal('12.34')
 
 
 if __name__ == '__main__':

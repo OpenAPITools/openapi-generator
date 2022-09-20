@@ -40,27 +40,22 @@ class EnumClass(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def _ABC(cls):
         return cls("_abc")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def EFG(cls):
         return cls("-efg")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def XYZ(cls):
         return cls("(xyz)")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def COUNT_1M(cls):
         return cls("COUNT_1M")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def COUNT_50M(cls):
         return cls("COUNT_50M")

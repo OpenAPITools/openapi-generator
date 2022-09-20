@@ -47,13 +47,11 @@ class EnumArrays(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def GREATER_THAN_EQUALS(cls):
                     return cls(">=")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def DOLLAR(cls):
                     return cls("$")
             
@@ -76,13 +74,11 @@ class EnumArrays(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def FISH(cls):
                             return cls("fish")
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def CRAB(cls):
                             return cls("crab")
             

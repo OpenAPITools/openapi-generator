@@ -19,7 +19,6 @@
 {{#if allOf}}
 
 @classmethod
-@property
 @functools.cache
 def all_of(cls):
     # we need this here to make our import statements work
@@ -46,7 +45,6 @@ def all_of(cls):
 {{#if oneOf}}
 
 @classmethod
-@property
 @functools.cache
 def one_of(cls):
     # we need this here to make our import statements work
@@ -73,7 +71,6 @@ def one_of(cls):
 {{#if anyOf}}
 
 @classmethod
-@property
 @functools.cache
 def any_of(cls):
     # we need this here to make our import statements work
@@ -101,9 +98,8 @@ def any_of(cls):
 {{#with not}}
 {{#if complexType}}
 
-@classmethod
-@property
-def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+@staticmethod
+def {{baseName}}() -> typing.Type['{{complexType}}']:
     return {{complexType}}
 {{else}}
 {{> model_templates/schema }}

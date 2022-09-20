@@ -38,7 +38,6 @@ class NullableShape(
         one_of_2 = schemas.NoneSchema
         
         @classmethod
-        @property
         @functools.cache
         def one_of(cls):
             # we need this here to make our import statements work

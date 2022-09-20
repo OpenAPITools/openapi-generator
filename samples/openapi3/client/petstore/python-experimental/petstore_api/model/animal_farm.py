@@ -34,9 +34,8 @@ class AnimalFarm(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['Animal']:
+        @staticmethod
+        def items() -> typing.Type['Animal']:
             return Animal
 
     def __new__(

@@ -49,8 +49,7 @@ class DanishPig(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def DANISH_PIG(cls):
                     return cls("DanishPig")
             __annotations__ = {

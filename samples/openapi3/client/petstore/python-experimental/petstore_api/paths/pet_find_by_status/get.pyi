@@ -47,18 +47,15 @@ class StatusSchema(
             schemas.StrSchema
         ):
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def AVAILABLE(cls):
                 return cls("available")
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def PENDING(cls):
                 return cls("pending")
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def SOLD(cls):
                 return cls("sold")
 
@@ -84,9 +81,8 @@ class SchemaFor200ResponseBodyApplicationXml(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['Pet']:
+        @staticmethod
+        def items() -> typing.Type['Pet']:
             return Pet
 
     def __new__(
@@ -111,9 +107,8 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['Pet']:
+        @staticmethod
+        def items() -> typing.Type['Pet']:
             return Pet
 
     def __new__(

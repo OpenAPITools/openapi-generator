@@ -36,9 +36,8 @@ class SchemaFor0ResponseBodyApplicationJson(
         
         class properties:
         
-            @classmethod
-            @property
-            def string(cls) -> typing.Type['Foo']:
+            @staticmethod
+            def string() -> typing.Type['Foo']:
                 return Foo
             __annotations__ = {
                 "string": string,

@@ -37,7 +37,6 @@ class ComposedNone(
         all_of_0 = schemas.AnyTypeSchema
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work

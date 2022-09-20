@@ -54,8 +54,7 @@ class ScaleneTriangle(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def SCALENE_TRIANGLE(cls):
                             return cls("ScaleneTriangle")
                     __annotations__ = {
@@ -99,7 +98,6 @@ class ScaleneTriangle(
                 )
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work

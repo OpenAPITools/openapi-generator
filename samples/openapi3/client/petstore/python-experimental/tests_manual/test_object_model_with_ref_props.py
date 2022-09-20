@@ -29,8 +29,6 @@ class TestObjectModelWithRefProps(unittest.TestCase):
 
     def testObjectModelWithRefProps(self):
         """Test ObjectModelWithRefProps"""
-        self.assertEqual(ObjectModelWithRefProps.MetaOapg.properties.myNumber, NumberWithValidations)
-
         inst = ObjectModelWithRefProps(myNumber=15.0, myString="a", myBoolean=True)
         assert isinstance(inst, ObjectModelWithRefProps)
         assert isinstance(inst, frozendict.frozendict)

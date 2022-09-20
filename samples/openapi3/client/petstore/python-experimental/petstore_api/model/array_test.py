@@ -120,9 +120,8 @@ class ArrayTest(
                     
                         class MetaOapg:
                             
-                            @classmethod
-                            @property
-                            def items(cls) -> typing.Type['ReadOnlyFirst']:
+                            @staticmethod
+                            def items() -> typing.Type['ReadOnlyFirst']:
                                 return ReadOnlyFirst
                     
                         def __new__(

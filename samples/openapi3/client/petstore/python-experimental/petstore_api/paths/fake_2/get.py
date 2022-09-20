@@ -46,13 +46,11 @@ class EnumQueryStringArraySchema(
             schemas.StrSchema
         ):
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def GREATER_THAN(cls):
                 return cls(">")
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def DOLLAR(cls):
                 return cls("$")
 
@@ -82,18 +80,15 @@ class EnumQueryStringSchema(
     schemas.StrSchema
 ):
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def _ABC(cls):
         return cls("_abc")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def EFG(cls):
         return cls("-efg")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def XYZ(cls):
         return cls("(xyz)")
 
@@ -108,13 +103,11 @@ class EnumQueryIntegerSchema(
     schemas.Int32Schema
 ):
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_1(cls):
         return cls(1)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def NEGATIVE_2(cls):
         return cls(-2)
 
@@ -129,13 +122,11 @@ class EnumQueryDoubleSchema(
     schemas.Float64Schema
 ):
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_1_PT_1(cls):
         return cls(1.1)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def NEGATIVE_1_PT_2(cls):
         return cls(-1.2)
 RequestRequiredQueryParams = typing.TypedDict(
@@ -204,13 +195,11 @@ class EnumHeaderStringArraySchema(
             schemas.StrSchema
         ):
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def GREATER_THAN(cls):
                 return cls(">")
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def DOLLAR(cls):
                 return cls("$")
 
@@ -240,18 +229,15 @@ class EnumHeaderStringSchema(
     schemas.StrSchema
 ):
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def _ABC(cls):
         return cls("_abc")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def EFG(cls):
         return cls("-efg")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def XYZ(cls):
         return cls("(xyz)")
 RequestRequiredHeaderParams = typing.TypedDict(
@@ -314,13 +300,11 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def GREATER_THAN(cls):
                             return cls(">")
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def DOLLAR(cls):
                             return cls("$")
             
@@ -350,18 +334,15 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def _ABC(cls):
                     return cls("_abc")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def EFG(cls):
                     return cls("-efg")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def XYZ(cls):
                     return cls("(xyz)")
             __annotations__ = {

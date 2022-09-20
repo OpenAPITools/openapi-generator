@@ -50,8 +50,7 @@ class QuadrilateralInterface(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def QUADRILATERAL(cls):
                     return cls("Quadrilateral")
             quadrilateralType = schemas.StrSchema

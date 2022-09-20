@@ -51,18 +51,15 @@ class EnumTest(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def UPPER(cls):
                     return cls("UPPER")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def LOWER(cls):
                     return cls("lower")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def EMPTY(cls):
                     return cls("")
             
@@ -78,18 +75,15 @@ class EnumTest(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def UPPER(cls):
                     return cls("UPPER")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def LOWER(cls):
                     return cls("lower")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def EMPTY(cls):
                     return cls("")
             
@@ -104,13 +98,11 @@ class EnumTest(
                 schemas.Int32Schema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def POSITIVE_1(cls):
                     return cls(1)
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def NEGATIVE_1(cls):
                     return cls(-1)
             
@@ -125,39 +117,32 @@ class EnumTest(
                 schemas.Float64Schema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def POSITIVE_1_PT_1(cls):
                     return cls(1.1)
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def NEGATIVE_1_PT_2(cls):
                     return cls(-1.2)
         
-            @classmethod
-            @property
-            def stringEnum(cls) -> typing.Type['StringEnum']:
+            @staticmethod
+            def stringEnum() -> typing.Type['StringEnum']:
                 return StringEnum
         
-            @classmethod
-            @property
-            def IntegerEnum(cls) -> typing.Type['IntegerEnum']:
+            @staticmethod
+            def IntegerEnum() -> typing.Type['IntegerEnum']:
                 return IntegerEnum
         
-            @classmethod
-            @property
-            def StringEnumWithDefaultValue(cls) -> typing.Type['StringEnumWithDefaultValue']:
+            @staticmethod
+            def StringEnumWithDefaultValue() -> typing.Type['StringEnumWithDefaultValue']:
                 return StringEnumWithDefaultValue
         
-            @classmethod
-            @property
-            def IntegerEnumWithDefaultValue(cls) -> typing.Type['IntegerEnumWithDefaultValue']:
+            @staticmethod
+            def IntegerEnumWithDefaultValue() -> typing.Type['IntegerEnumWithDefaultValue']:
                 return IntegerEnumWithDefaultValue
         
-            @classmethod
-            @property
-            def IntegerEnumOneValue(cls) -> typing.Type['IntegerEnumOneValue']:
+            @staticmethod
+            def IntegerEnumOneValue() -> typing.Type['IntegerEnumOneValue']:
                 return IntegerEnumOneValue
             __annotations__ = {
                 "enum_string_required": enum_string_required,

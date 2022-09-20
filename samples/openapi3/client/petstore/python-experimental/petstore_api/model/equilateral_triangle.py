@@ -54,8 +54,7 @@ class EquilateralTriangle(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def EQUILATERAL_TRIANGLE(cls):
                             return cls("EquilateralTriangle")
                     __annotations__ = {
@@ -99,7 +98,6 @@ class EquilateralTriangle(
                 )
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work

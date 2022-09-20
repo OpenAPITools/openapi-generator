@@ -49,8 +49,7 @@ class Whale(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def WHALE(cls):
                     return cls("whale")
             hasBaleen = schemas.BoolSchema

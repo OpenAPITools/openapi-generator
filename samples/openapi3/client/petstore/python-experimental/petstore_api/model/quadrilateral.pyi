@@ -34,9 +34,8 @@ class Quadrilateral(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'quadrilateralType': {
                     'ComplexQuadrilateral': ComplexQuadrilateral,
@@ -45,7 +44,6 @@ class Quadrilateral(
             }
         
         @classmethod
-        @property
         @functools.cache
         def one_of(cls):
             # we need this here to make our import statements work

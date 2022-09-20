@@ -39,9 +39,8 @@ class Player(
         class properties:
             name = schemas.StrSchema
         
-            @classmethod
-            @property
-            def enemyPlayer(cls) -> typing.Type['Player']:
+            @staticmethod
+            def enemyPlayer() -> typing.Type['Player']:
                 return Player
             __annotations__ = {
                 "name": name,

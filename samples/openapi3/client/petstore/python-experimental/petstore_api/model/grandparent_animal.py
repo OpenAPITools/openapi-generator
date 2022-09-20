@@ -37,9 +37,8 @@ class GrandparentAnimal(
             "pet_type",
         }
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'pet_type': {
                     'ChildCat': ChildCat,

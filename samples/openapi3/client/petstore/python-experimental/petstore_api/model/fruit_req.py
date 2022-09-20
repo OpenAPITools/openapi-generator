@@ -36,7 +36,6 @@ class FruitReq(
         one_of_0 = schemas.NoneSchema
         
         @classmethod
-        @property
         @functools.cache
         def one_of(cls):
             # we need this here to make our import statements work

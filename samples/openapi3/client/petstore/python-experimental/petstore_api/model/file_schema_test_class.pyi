@@ -36,9 +36,8 @@ class FileSchemaTestClass(
         
         class properties:
         
-            @classmethod
-            @property
-            def file(cls) -> typing.Type['File']:
+            @staticmethod
+            def file() -> typing.Type['File']:
                 return File
             
             
@@ -49,9 +48,8 @@ class FileSchemaTestClass(
             
                 class MetaOapg:
                     
-                    @classmethod
-                    @property
-                    def items(cls) -> typing.Type['File']:
+                    @staticmethod
+                    def items() -> typing.Type['File']:
                         return File
             
                 def __new__(

@@ -38,17 +38,14 @@ class IntegerEnumBig(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_10(cls):
         return cls(10)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_11(cls):
         return cls(11)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_12(cls):
         return cls(12)

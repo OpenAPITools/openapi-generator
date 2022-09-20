@@ -42,9 +42,8 @@ class AdditionalPropertiesWithArrayOfEnums(
         
             class MetaOapg:
                 
-                @classmethod
-                @property
-                def items(cls) -> typing.Type['EnumClass']:
+                @staticmethod
+                def items() -> typing.Type['EnumClass']:
                     return EnumClass
         
             def __new__(

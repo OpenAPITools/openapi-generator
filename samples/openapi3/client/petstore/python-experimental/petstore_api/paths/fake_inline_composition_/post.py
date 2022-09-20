@@ -45,7 +45,6 @@ class CompositionAtRootSchema(
                 min_length = 1
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work
@@ -101,7 +100,6 @@ class CompositionInPropertySchema(
                             min_length = 1
                     
                     @classmethod
-                    @property
                     @functools.cache
                     def all_of(cls):
                         # we need this here to make our import statements work
@@ -218,7 +216,6 @@ class SchemaForRequestBodyApplicationJson(
                 min_length = 1
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work
@@ -274,7 +271,6 @@ class SchemaForRequestBodyMultipartFormData(
                             min_length = 1
                     
                     @classmethod
-                    @property
                     @functools.cache
                     def all_of(cls):
                         # we need this here to make our import statements work
@@ -369,7 +365,6 @@ class SchemaFor200ResponseBodyApplicationJson(
                 min_length = 1
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work
@@ -425,7 +420,6 @@ class SchemaFor200ResponseBodyMultipartFormData(
                             min_length = 1
                     
                     @classmethod
-                    @property
                     @functools.cache
                     def all_of(cls):
                         # we need this here to make our import statements work

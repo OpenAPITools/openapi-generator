@@ -36,7 +36,6 @@ class BooleanEnum(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def TRUE(cls):
         return cls(schemas.BoolClass.TRUE)

@@ -52,18 +52,15 @@ class Order(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def PLACED(cls):
                     return cls("placed")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def APPROVED(cls):
                     return cls("approved")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def DELIVERED(cls):
                     return cls("delivered")
             complete = schemas.BoolSchema

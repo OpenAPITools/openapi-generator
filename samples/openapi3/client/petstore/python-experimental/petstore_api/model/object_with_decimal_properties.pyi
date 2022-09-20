@@ -38,9 +38,8 @@ class ObjectWithDecimalProperties(
             length = schemas.DecimalSchema
             width = schemas.DecimalSchema
         
-            @classmethod
-            @property
-            def cost(cls) -> typing.Type['Money']:
+            @staticmethod
+            def cost() -> typing.Type['Money']:
                 return Money
             __annotations__ = {
                 "length": length,

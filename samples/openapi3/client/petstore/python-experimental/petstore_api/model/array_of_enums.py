@@ -34,9 +34,8 @@ class ArrayOfEnums(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['StringEnum']:
+        @staticmethod
+        def items() -> typing.Type['StringEnum']:
             return StringEnum
 
     def __new__(

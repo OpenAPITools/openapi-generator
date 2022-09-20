@@ -37,12 +37,10 @@ class Currency(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def EUR(cls):
         return cls("eur")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def USD(cls):
         return cls("usd")

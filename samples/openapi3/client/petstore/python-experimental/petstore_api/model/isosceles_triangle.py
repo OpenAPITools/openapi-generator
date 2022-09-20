@@ -54,8 +54,7 @@ class IsoscelesTriangle(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def ISOSCELES_TRIANGLE(cls):
                             return cls("IsoscelesTriangle")
                     __annotations__ = {
@@ -99,7 +98,6 @@ class IsoscelesTriangle(
                 )
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work

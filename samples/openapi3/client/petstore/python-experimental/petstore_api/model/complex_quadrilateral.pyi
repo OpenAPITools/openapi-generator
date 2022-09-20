@@ -54,8 +54,7 @@ class ComplexQuadrilateral(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def COMPLEX_QUADRILATERAL(cls):
                             return cls("ComplexQuadrilateral")
                     __annotations__ = {
@@ -99,7 +98,6 @@ class ComplexQuadrilateral(
                 )
         
         @classmethod
-        @property
         @functools.cache
         def all_of(cls):
             # we need this here to make our import statements work

@@ -50,8 +50,7 @@ class TriangleInterface(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def TRIANGLE(cls):
                     return cls("Triangle")
             triangleType = schemas.StrSchema

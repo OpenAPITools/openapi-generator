@@ -49,8 +49,7 @@ class BasquePig(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def BASQUE_PIG(cls):
                     return cls("BasquePig")
             __annotations__ = {

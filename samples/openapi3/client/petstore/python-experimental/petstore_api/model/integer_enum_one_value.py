@@ -36,7 +36,6 @@ class IntegerEnumOneValue(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_0(cls):
         return cls(0)

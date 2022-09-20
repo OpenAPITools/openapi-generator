@@ -70,7 +70,7 @@ class TestGmFruit(unittest.TestCase):
 
         # make sure that the ModelComposed class properties are correct
         self.assertEqual(
-            GmFruit.MetaOapg.any_of,
+            GmFruit.MetaOapg.any_of(),
             [
                 apple.Apple,
                 banana.Banana,
