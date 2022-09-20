@@ -323,25 +323,27 @@ impl std::string::ToString for {{{classname}}} {
 {{/isArray}}
 {{/required}}
 {{^required}}
-            self.{{{name}}}.as_ref().map(|{{name}}}| {
-                "{{{baseName}}}".to_string()
+            self.{{{name}}}.as_ref().map(|{{{name}}}| {
+                vec![
+                    "{{{baseName}}}".to_string(),
 {{^isArray}}
 {{#isNullable}}
-                {{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string())
+                    {{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()),
 {{/isNullable}}
 {{^isNullable}}
-                {{{name}}}.to_string()
+                    {{{name}}}.to_string(),
 {{/isNullable}}
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-                {{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
+                    {{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
 {{/isNullable}}
 {{^isNullable}}
-                {{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+                    {{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
 {{/isNullable}}
 {{/isArray}}
-            },
+                ].join(",")
+            }),
 {{/required}}
 {{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
