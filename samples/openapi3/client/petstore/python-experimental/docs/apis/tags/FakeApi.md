@@ -1159,9 +1159,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  | Form parameter enum test (string array) | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
 
 ### query_params
 #### RequestQueryParams
@@ -1182,9 +1182,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
 
 #### EnumQueryStringSchema
 
@@ -1223,9 +1223,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | must be one of [">", "$", ] if omitted the server will use the default value of "$"
 
 #### EnumHeaderStringSchema
 
@@ -2825,9 +2825,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 #### IoutilSchema
 
@@ -2837,9 +2837,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 #### HttpSchema
 
@@ -2849,9 +2849,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 #### UrlSchema
 
@@ -2861,9 +2861,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 #### ContextSchema
 
@@ -2873,9 +2873,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 #### RefParamSchema
 Type | Description  | Notes
@@ -3470,9 +3470,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | bytes, io.FileIO, io.BufferedReader,  | bytes, FileIO,  |  | 
 
 ### Return Types, Responses
 

@@ -21,9 +21,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 # array_array_of_integer
 
@@ -33,9 +33,21 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[items](#items) | list, tuple,  | tuple,  |  | 
+
+# items
+
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
+
+### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 
 # array_array_of_model
 
@@ -45,9 +57,21 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[items](#items) | list, tuple,  | tuple,  |  | 
+
+# items
+
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- | -------------
 list, tuple,  | tuple,  |  | 
+
+### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**ReadOnlyFirst**](ReadOnlyFirst.md) | [**ReadOnlyFirst**](ReadOnlyFirst.md) | [**ReadOnlyFirst**](ReadOnlyFirst.md) |  | 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

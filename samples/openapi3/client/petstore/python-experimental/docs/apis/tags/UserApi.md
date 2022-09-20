@@ -175,9 +175,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-[**User**](User.md) | [**User**](User.md) |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**User**](User.md) | [**User**](User.md) | [**User**](User.md) |  | 
 
 ### Return Types, Responses
 
@@ -272,9 +272,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-[**User**](User.md) | [**User**](User.md) |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**User**](User.md) | [**User**](User.md) | [**User**](User.md) |  | 
 
 ### Return Types, Responses
 

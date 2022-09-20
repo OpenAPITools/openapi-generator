@@ -44,10 +44,17 @@ Key | Input Type | Accessed Type | Description | Notes
 {{#if items}}
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
 {{#with items}}
-{{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#unless complexType}}{{#or isArray isMap composedSchemas}}[{{/or}}{{baseName}}{{#or isArray isMap composedSchemas}}](#{{baseName}}){{/or}}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_python_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#unless complexType}}{{> model_templates/schema_accessed_types }}{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{#if description}}{{description}}{{/if}} | {{> model_templates/notes_msg }}
+{{#unless complexType}}
+{{#or isArray isMap composedSchemas}}
+
+# {{baseName}}
+{{> schema_doc }}
+{{/or}}
+{{/unless}}
 {{/with}}
 {{/if}}
 {{#if composedSchemas}}

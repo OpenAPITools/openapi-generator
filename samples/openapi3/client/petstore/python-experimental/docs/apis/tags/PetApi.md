@@ -459,9 +459,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | must be one of ["available", "pending", "sold", ] if omitted the server will use the default value of "available"
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | must be one of ["available", "pending", "sold", ] if omitted the server will use the default value of "available"
 
 ### Return Types, Responses
 
@@ -486,9 +486,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
@@ -498,9 +498,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes
@@ -656,9 +656,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-str,  | str,  |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+items | str,  | str,  |  | 
 
 ### Return Types, Responses
 
@@ -683,9 +683,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### SchemaFor200ResponseBodyApplicationJson
 
@@ -695,9 +695,9 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
-Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
-[**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes

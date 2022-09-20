@@ -30,8 +30,15 @@ Input Type | Accessed Type | Description | Notes
 list, tuple, None,  | tuple, NoneClass,  |  | 
 
 ### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[items](#items) | dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
+
+# items
+
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict,  | frozendict.frozendict,  |  | 
 
 # array_and_items_nullable_prop
@@ -42,8 +49,15 @@ Input Type | Accessed Type | Description | Notes
 list, tuple, None,  | tuple, NoneClass,  |  | 
 
 ### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[items](#items) | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
+
+# items
+
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
 
 # array_items_nullable
@@ -54,8 +68,15 @@ Input Type | Accessed Type | Description | Notes
 list, tuple,  | tuple,  |  | 
 
 ### Tuple Items
+Class Name | Input Type | Accessed Type | Description | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+[items](#items) | dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
+
+# items
+
+## Model Type Info
 Input Type | Accessed Type | Description | Notes
-------------- | ------------- | ------------- | -------------
+------------ | ------------- | ------------- | -------------
 dict, frozendict.frozendict, None,  | frozendict.frozendict, NoneClass,  |  | 
 
 # object_nullable_prop
