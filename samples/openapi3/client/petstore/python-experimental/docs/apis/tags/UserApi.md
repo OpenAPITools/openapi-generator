@@ -76,7 +76,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**User**](User.md) |  | 
@@ -87,9 +87,9 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
+default | [ApiResponseForDefault](#create_user.ApiResponseForDefault) | successful operation
 
-#### ApiResponseForDefault
+#### create_user.ApiResponseForDefault
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -167,7 +167,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -184,9 +184,9 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
+default | [ApiResponseForDefault](#create_users_with_array_input.ApiResponseForDefault) | successful operation
 
-#### ApiResponseForDefault
+#### create_users_with_array_input.ApiResponseForDefault
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -264,7 +264,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -281,9 +281,9 @@ Class Name | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
+default | [ApiResponseForDefault](#create_users_with_list_input.ApiResponseForDefault) | successful operation
 
-#### ApiResponseForDefault
+#### create_users_with_list_input.ApiResponseForDefault
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -352,7 +352,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 username | UsernameSchema | | 
 
-#### UsernameSchema
+# UsernameSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -364,17 +364,17 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username supplied
-404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
+400 | [ApiResponseFor400](#delete_user.ApiResponseFor400) | Invalid username supplied
+404 | [ApiResponseFor404](#delete_user.ApiResponseFor404) | User not found
 
-#### ApiResponseFor400
+#### delete_user.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### delete_user.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -444,7 +444,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 username | UsernameSchema | | 
 
-#### UsernameSchema
+# UsernameSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -456,37 +456,37 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username supplied
-404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
+200 | [ApiResponseFor200](#get_user_by_name.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#get_user_by_name.ApiResponseFor400) | Invalid username supplied
+404 | [ApiResponseFor404](#get_user_by_name.ApiResponseFor404) | User not found
 
-#### ApiResponseFor200
+#### get_user_by_name.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**User**](User.md) |  | 
 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**User**](User.md) |  | 
 
 
-#### ApiResponseFor400
+#### get_user_by_name.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### get_user_by_name.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -558,14 +558,14 @@ username | UsernameSchema | |
 password | PasswordSchema | | 
 
 
-#### UsernameSchema
+# UsernameSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
-#### PasswordSchema
+# PasswordSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -577,24 +577,24 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid username/password supplied
+200 | [ApiResponseFor200](#login_user.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#login_user.ApiResponseFor400) | Invalid username/password supplied
 
-#### ApiResponseFor200
+#### login_user.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | ResponseHeadersFor200 |  |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 str,  | str,  |  | 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -607,7 +607,7 @@ Name | Type | Description  | Notes
 X-Rate-Limit | XRateLimitSchema | | optional
 X-Expires-After | XExpiresAfterSchema | | optional
 
-#### XRateLimitSchema
+# XRateLimitSchema
 
 calls per hour allowed by the user
 
@@ -616,7 +616,7 @@ Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 decimal.Decimal, int,  | decimal.Decimal,  | calls per hour allowed by the user | value must be a 32 bit integer
 
-#### XExpiresAfterSchema
+# XExpiresAfterSchema
 
 date in UTC when token expires
 
@@ -626,7 +626,7 @@ Input Type | Accessed Type | Description | Notes
 str, datetime,  | str,  | date in UTC when token expires | value must conform to RFC-3339 date-time
 
 
-#### ApiResponseFor400
+#### login_user.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -680,9 +680,9 @@ This endpoint does not need any parameter.
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-default | [ApiResponseForDefault](#ApiResponseForDefault) | successful operation
+default | [ApiResponseForDefault](#logout_user.ApiResponseForDefault) | successful operation
 
-#### ApiResponseForDefault
+#### logout_user.ApiResponseForDefault
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -765,7 +765,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**User**](User.md) |  | 
@@ -778,7 +778,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 username | UsernameSchema | | 
 
-#### UsernameSchema
+# UsernameSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -790,17 +790,17 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid user supplied
-404 | [ApiResponseFor404](#ApiResponseFor404) | User not found
+400 | [ApiResponseFor400](#update_user.ApiResponseFor400) | Invalid user supplied
+404 | [ApiResponseFor404](#update_user.ApiResponseFor404) | User not found
 
-#### ApiResponseFor400
+#### update_user.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### update_user.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |

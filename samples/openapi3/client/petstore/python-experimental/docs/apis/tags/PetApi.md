@@ -152,13 +152,13 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pet**](Pet.md) |  | 
 
 
-#### SchemaForRequestBodyApplicationXml
+# SchemaForRequestBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pet**](Pet.md) |  | 
@@ -169,17 +169,17 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | Ok
-405 | [ApiResponseFor405](#ApiResponseFor405) | Invalid input
+200 | [ApiResponseFor200](#add_pet.ApiResponseFor200) | Ok
+405 | [ApiResponseFor405](#add_pet.ApiResponseFor405) | Invalid input
 
-#### ApiResponseFor200
+#### add_pet.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor405
+#### add_pet.ApiResponseFor405
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -277,7 +277,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 api_key | ApiKeySchema | | optional
 
-#### ApiKeySchema
+# ApiKeySchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -291,7 +291,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 petId | PetIdSchema | | 
 
-#### PetIdSchema
+# PetIdSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -303,9 +303,9 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid pet value
+400 | [ApiResponseFor400](#delete_pet.ApiResponseFor400) | Invalid pet value
 
-#### ApiResponseFor400
+#### delete_pet.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -451,7 +451,7 @@ Name | Type | Description  | Notes
 status | StatusSchema | | 
 
 
-#### StatusSchema
+# StatusSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -468,17 +468,17 @@ items | str,  | str,  |  | must be one of ["available", "pending", "sold", ] if 
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid status value
+200 | [ApiResponseFor200](#find_pets_by_status.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#find_pets_by_status.ApiResponseFor400) | Invalid status value
 
-#### ApiResponseFor200
+#### find_pets_by_status.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -490,7 +490,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -502,7 +502,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
-#### ApiResponseFor400
+#### find_pets_by_status.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -648,7 +648,7 @@ Name | Type | Description  | Notes
 tags | TagsSchema | | 
 
 
-#### TagsSchema
+# TagsSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -665,17 +665,17 @@ items | str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid tag value
+200 | [ApiResponseFor200](#find_pets_by_tags.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#find_pets_by_tags.ApiResponseFor400) | Invalid tag value
 
-#### ApiResponseFor200
+#### find_pets_by_tags.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -687,7 +687,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -699,7 +699,7 @@ Class Name | Input Type | Accessed Type | Description | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 [**Pet**](Pet.md) | [**Pet**](Pet.md) | [**Pet**](Pet.md) |  | 
 
-#### ApiResponseFor400
+#### find_pets_by_tags.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -782,7 +782,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 petId | PetIdSchema | | 
 
-#### PetIdSchema
+# PetIdSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -794,37 +794,37 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid ID supplied
-404 | [ApiResponseFor404](#ApiResponseFor404) | Pet not found
+200 | [ApiResponseFor200](#get_pet_by_id.ApiResponseFor200) | successful operation
+400 | [ApiResponseFor400](#get_pet_by_id.ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#get_pet_by_id.ApiResponseFor404) | Pet not found
 
-#### ApiResponseFor200
+#### get_pet_by_id.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationXml, SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationXml
+# SchemaFor200ResponseBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pet**](Pet.md) |  | 
 
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pet**](Pet.md) |  | 
 
 
-#### ApiResponseFor400
+#### get_pet_by_id.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### get_pet_by_id.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -975,13 +975,13 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationJson
+# SchemaForRequestBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pet**](Pet.md) |  | 
 
 
-#### SchemaForRequestBodyApplicationXml
+# SchemaForRequestBodyApplicationXml
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**Pet**](Pet.md) |  | 
@@ -992,25 +992,25 @@ Type | Description  | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#ApiResponseFor400) | Invalid ID supplied
-404 | [ApiResponseFor404](#ApiResponseFor404) | Pet not found
-405 | [ApiResponseFor405](#ApiResponseFor405) | Validation exception
+400 | [ApiResponseFor400](#update_pet.ApiResponseFor400) | Invalid ID supplied
+404 | [ApiResponseFor404](#update_pet.ApiResponseFor404) | Pet not found
+405 | [ApiResponseFor405](#update_pet.ApiResponseFor405) | Validation exception
 
-#### ApiResponseFor400
+#### update_pet.ApiResponseFor400
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor404
+#### update_pet.ApiResponseFor404
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | Unset | body was not defined |
 headers | Unset | headers were not defined |
 
-#### ApiResponseFor405
+#### update_pet.ApiResponseFor405
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -1102,7 +1102,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyApplicationXWwwFormUrlencoded
+# SchemaForRequestBodyApplicationXWwwFormUrlencoded
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -1123,7 +1123,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 petId | PetIdSchema | | 
 
-#### PetIdSchema
+# PetIdSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -1135,9 +1135,9 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-405 | [ApiResponseFor405](#ApiResponseFor405) | Invalid input
+405 | [ApiResponseFor405](#update_pet_with_form.ApiResponseFor405) | Invalid input
 
-#### ApiResponseFor405
+#### update_pet_with_form.ApiResponseFor405
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -1233,7 +1233,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyMultipartFormData
+# SchemaForRequestBodyMultipartFormData
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -1254,7 +1254,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 petId | PetIdSchema | | 
 
-#### PetIdSchema
+# PetIdSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -1266,16 +1266,16 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+200 | [ApiResponseFor200](#upload_file_with_required_file.ApiResponseFor200) | successful operation
 
-#### ApiResponseFor200
+#### upload_file_with_required_file.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiResponse**](ApiResponse.md) |  | 
@@ -1370,7 +1370,7 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 ### body
 
-#### SchemaForRequestBodyMultipartFormData
+# SchemaForRequestBodyMultipartFormData
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -1391,7 +1391,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 petId | PetIdSchema | | 
 
-#### PetIdSchema
+# PetIdSchema
 
 ## Model Type Info
 Input Type | Accessed Type | Description | Notes
@@ -1403,16 +1403,16 @@ decimal.Decimal, int,  | decimal.Decimal,  |  | value must be a 64 bit integer
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-200 | [ApiResponseFor200](#ApiResponseFor200) | successful operation
+200 | [ApiResponseFor200](#upload_image.ApiResponseFor200) | successful operation
 
-#### ApiResponseFor200
+#### upload_image.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
 body | typing.Union[SchemaFor200ResponseBodyApplicationJson, ] |  |
 headers | Unset | headers were not defined |
 
-#### SchemaFor200ResponseBodyApplicationJson
+# SchemaFor200ResponseBodyApplicationJson
 Type | Description  | Notes
 ------------- | ------------- | -------------
 [**ApiResponse**](ApiResponse.md) |  | 
