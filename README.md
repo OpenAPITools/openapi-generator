@@ -868,6 +868,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-06-01 - [API First, using OpenAPI and Spring Boot](https://medium.com/xgeeks/api-first-using-openapi-and-spring-boot-2602c04bb0d3) by [Micael Estrázulas Vianna](https://estrazulas.medium.com/)
 - 2022-07-01 - [Generate API contract using OpenAPI Generator Maven plugin](https://huongdanjava.com/generate-api-contract-using-openapi-generator-maven-plugin.html) by [Khanh Nguyen](https://huongdanjava.com/)
 - 2022-07-22 - [使用OpenAPI Generator Maven plugin开发api优先的java客户端和服务端代码](https://blog.roccoshi.top/2022/java/openapi-generator%E7%9A%84%E4%BD%BF%E7%94%A8/) by [Lincest](https://github.com/Lincest)
+- 2022-08-01 - [Tutorial: Etsy Open API v3 (ruby)](https://blog.tjoyal.dev/etsy-open-api-v3/) by [Thierry Joyal](https://github.com/tjoyal)
+- 2022-09-03 - [OpenAPI Generator For Go Web Development](https://blog.kevinhu.me/2022/09/03/03-openapi-generator/) by [Kevin Hu](https://twitter.com/Oldgunix)
 
 ## [6 - About Us](#table-of-contents)
 
