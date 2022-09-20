@@ -15,6 +15,7 @@ import functools
 import decimal
 import io
 import re
+import types
 import typing
 import uuid
 
@@ -1349,10 +1350,9 @@ class ListBase(ValidatorBase):
         # if we have definitions for an items schema, use it
         # otherwise accept anything
         item_cls = getattr(cls.MetaOapg, 'items', UnsetAnyTypeSchema)
-        import types
         if isinstance(item_cls, types.FunctionType):
             item_cls = item_cls()
-        if isinstance(item_cls, staticmethod):
+        elif isinstance(item_cls, staticmethod):
             item_cls = item_cls.__func__()
         path_to_schemas = {}
         for i, value in enumerate(list_items):
@@ -1618,7 +1618,6 @@ class DictBase(Discriminable, ValidatorBase):
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
-            import types
             if isinstance(schema, types.FunctionType):
                 schema = schema()
             if isinstance(schema, staticmethod):
