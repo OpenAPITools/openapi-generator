@@ -274,6 +274,7 @@ pub struct {{{classname}}} {
 }
 
 impl {{{classname}}} {
+    #[allow(clippy::new_without_default)]
     pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
 {{#vars}}            {{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
