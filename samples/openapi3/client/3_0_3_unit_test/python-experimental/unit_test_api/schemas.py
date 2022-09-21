@@ -263,6 +263,16 @@ class Schema:
             return "is {0}".format(all_class_names[0])
         return "is one of [{0}]".format(", ".join(all_class_names))
 
+    @staticmethod
+    def _get_class_oapg(item_cls: typing.Union[types.FunctionType, staticmethod, typing.Type['Schema']]) -> typing.Type['Schema']:
+        if isinstance(item_cls, types.FunctionType):
+            # referenced schema
+            return item_cls()
+        elif isinstance(item_cls, staticmethod):
+            # referenced schema
+            return item_cls.__func__()
+        return item_cls
+
     @classmethod
     def __type_error_message(
         cls, var_value=None, var_name=None, valid_classes=None, key_type=None
@@ -1331,10 +1341,7 @@ class ListBase(ValidatorBase):
         # if we have definitions for an items schema, use it
         # otherwise accept anything
         item_cls = getattr(cls.MetaOapg, 'items', UnsetAnyTypeSchema)
-        if isinstance(item_cls, types.FunctionType):
-            item_cls = item_cls()
-        elif isinstance(item_cls, staticmethod):
-            item_cls = item_cls.__func__()
+        item_cls = cls._get_class_oapg(item_cls)
         path_to_schemas = {}
         for i, value in enumerate(list_items):
             item_validation_metadata = ValidationMetadata(
@@ -1599,11 +1606,7 @@ class DictBase(Discriminable, ValidatorBase):
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
-            if isinstance(schema, types.FunctionType):
-                schema = schema()
-            if isinstance(schema, staticmethod):
-                # referenced schema
-                schema = schema.__func__()
+            schema = cls._get_class_oapg(schema)
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
@@ -2000,8 +2003,9 @@ class ComposedBase(Discriminable):
             )
             update(path_to_schemas, other_path_to_schemas)
         not_cls = None
-        if hasattr(cls, 'MetaOapg'):
-            not_cls = getattr(cls.MetaOapg, 'not_schema', None)
+        if hasattr(cls, 'MetaOapg') and hasattr(cls.MetaOapg, 'not_schema'):
+            not_cls = cls.MetaOapg.not_schema
+            not_cls = cls._get_class_oapg(not_cls)
         if not_cls:
             other_path_to_schemas = None
             not_exception = ApiValueError(
