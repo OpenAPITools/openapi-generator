@@ -18,8 +18,6 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 ## Requirements.
 
 Python {{generatorLanguageVersion}}
-v3.9 is needed so one can combine classmethod and property decorators to define
-object schema properties as classes
 
 ## Migration from other generators like python and python-legacy
 
@@ -60,6 +58,16 @@ object schema properties as classes
         - A type hint is also generated for additionalProperties accessed using this method
     - So you will need to update you code to use some_instance['optionalProp'] to access optional property
     and additionalProperty values
+8. The location of the api classes has changed
+    - Api classes are located in your_package.apis.tags.some_api
+    - This change was made to eliminate redundant code generation
+    - Legacy generators generated the same endpoint twice if it had > 1 tag on it
+    - This generator defines an endpoint in one class, then inherits that class to generate
+      apis by tags and by paths
+    - This change reduces code and allows quicker run time if you use the path apis
+        - path apis are at your_package.apis.paths.some_path
+    - Those apis will only load their needed models, which is less to load than all of the resources needed in a tag api
+    - So you will need to update your import paths to the api classes
 
 ### Why are Oapg and _oapg used in class and method names?
 Classes can have arbitrarily named properties set on them

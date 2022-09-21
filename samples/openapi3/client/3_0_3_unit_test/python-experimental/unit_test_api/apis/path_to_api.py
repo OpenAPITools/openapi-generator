@@ -1,4 +1,4 @@
-import typing
+import typing_extensions
 
 from unit_test_api.paths import PathValues
 from unit_test_api.apis.paths.request_body_post_additionalproperties_allows_a_schema_which_should_validate_request_body import RequestBodyPostAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody
@@ -176,7 +176,7 @@ from unit_test_api.apis.paths.response_body_post_uniqueitems_validation_response
 from unit_test_api.apis.paths.request_body_post_uniqueitems_false_validation_request_body import RequestBodyPostUniqueitemsFalseValidationRequestBody
 from unit_test_api.apis.paths.response_body_post_uniqueitems_false_validation_response_body_for_content_types import ResponseBodyPostUniqueitemsFalseValidationResponseBodyForContentTypes
 
-PathToApi = typing.TypedDict(
+PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
         PathValues.REQUEST_BODY_POST_ADDITIONALPROPERTIES_ALLOWS_ASCHEMA_WHICH_SHOULD_VALIDATE_REQUEST_BODY: RequestBodyPostAdditionalpropertiesAllowsASchemaWhichShouldValidateRequestBody,

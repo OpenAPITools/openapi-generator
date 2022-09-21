@@ -15,6 +15,7 @@ import functools
 import decimal
 import io
 import re
+import types
 import typing
 import uuid
 
@@ -183,9 +184,17 @@ class Singleton:
         return f'<{self.__class__.__name__}: {super().__repr__()}>'
 
 
+class classproperty:
+
+    def __init__(self, fget):
+        self.fget = fget
+
+    def __get__(self, owner_self, owner_cls):
+        return self.fget(owner_cls)
+
+
 class NoneClass(Singleton):
-    @classmethod
-    @property
+    @classproperty
     def NONE(cls):
         return cls(None)
 
@@ -194,17 +203,15 @@ class NoneClass(Singleton):
 
 
 class BoolClass(Singleton):
-    @classmethod
-    @property
+    @classproperty
     def TRUE(cls):
         return cls(True)
 
-    @classmethod
-    @property
+    @classproperty
     def FALSE(cls):
         return cls(False)
 
-    @functools.cache
+    @functools.lru_cache()
     def __bool__(self) -> bool:
         for key, instance in self._instances.items():
             if self is instance:
@@ -863,39 +870,19 @@ class ValidatorBase:
         )
 
 
-class Validator(typing.Protocol):
-    @classmethod
-    def _validate_oapg(
-        cls,
-        arg,
-        validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
-        pass
-
-
 class EnumMakerBase:
     pass
 
 
-class EnumMakerInterface(Validator):
-    @classmethod
-    @property
-    def _enum_value_to_name(
-        cls
-    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-        pass
-
-
-def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
+def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> 'SchemaEnumMaker':
     class SchemaEnumMaker(EnumMakerBase):
         @classmethod
-        @property
         def _enum_value_to_name(
-                cls
+            cls
         ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
             pass
             try:
-                super_enum_value_to_name = super()._enum_value_to_name
+                super_enum_value_to_name = super()._enum_value_to_name()
             except AttributeError:
                 return enum_value_to_name
             intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
@@ -912,9 +899,9 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
             Validates that arg is in the enum's allowed values
             """
             try:
-                cls._enum_value_to_name[arg]
+                cls._enum_value_to_name()[arg]
             except KeyError:
-                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
+                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name()))
             return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
     return SchemaEnumMaker
@@ -1041,7 +1028,7 @@ class StrBase(ValidatorBase):
 
 class UUIDBase:
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_uuid_oapg(self) -> uuid.UUID:
         return uuid.UUID(self)
 
@@ -1107,7 +1094,7 @@ DEFAULT_ISOPARSER = CustomIsoparser()
 
 class DateBase:
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_date_oapg(self) -> date:
         return DEFAULT_ISOPARSER.parse_isodate(self)
 
@@ -1138,7 +1125,7 @@ class DateBase:
 
 class DateTimeBase:
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_datetime_oapg(self) -> datetime:
         return DEFAULT_ISOPARSER.parse_isodatetime(self)
 
@@ -1175,7 +1162,7 @@ class DecimalBase:
     """
 
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_decimal_oapg(self) -> decimal.Decimal:
         return decimal.Decimal(self)
 
@@ -1344,6 +1331,10 @@ class ListBase(ValidatorBase):
         # if we have definitions for an items schema, use it
         # otherwise accept anything
         item_cls = getattr(cls.MetaOapg, 'items', UnsetAnyTypeSchema)
+        if isinstance(item_cls, types.FunctionType):
+            item_cls = item_cls()
+        elif isinstance(item_cls, staticmethod):
+            item_cls = item_cls.__func__()
         path_to_schemas = {}
         for i, value in enumerate(list_items):
             item_validation_metadata = ValidationMetadata(
@@ -1477,7 +1468,7 @@ class Discriminable:
         """
         if not hasattr(cls.MetaOapg, 'discriminator'):
             return None
-        disc = cls.MetaOapg.discriminator
+        disc = cls.MetaOapg.discriminator()
         if disc_property_name not in disc:
             return None
         discriminated_cls = disc[disc_property_name].get(disc_payload_value)
@@ -1492,21 +1483,24 @@ class Discriminable:
         ):
             return None
         # TODO stop traveling if a cycle is hit
-        for allof_cls in getattr(cls.MetaOapg, 'all_of', []):
-            discriminated_cls = allof_cls.get_discriminated_class_oapg(
-                disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
-            if discriminated_cls is not None:
-                return discriminated_cls
-        for oneof_cls in getattr(cls.MetaOapg, 'one_of', []):
-            discriminated_cls = oneof_cls.get_discriminated_class_oapg(
-                disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
-            if discriminated_cls is not None:
-                return discriminated_cls
-        for anyof_cls in getattr(cls.MetaOapg, 'any_of', []):
-            discriminated_cls = anyof_cls.get_discriminated_class_oapg(
-                disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
-            if discriminated_cls is not None:
-                return discriminated_cls
+        if hasattr(cls.MetaOapg, 'all_of'):
+            for allof_cls in cls.MetaOapg.all_of():
+                discriminated_cls = allof_cls.get_discriminated_class_oapg(
+                    disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
+                if discriminated_cls is not None:
+                    return discriminated_cls
+        if hasattr(cls.MetaOapg, 'one_of'):
+            for oneof_cls in cls.MetaOapg.one_of():
+                discriminated_cls = oneof_cls.get_discriminated_class_oapg(
+                    disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
+                if discriminated_cls is not None:
+                    return discriminated_cls
+        if hasattr(cls.MetaOapg, 'any_of'):
+            for anyof_cls in cls.MetaOapg.any_of():
+                discriminated_cls = anyof_cls.get_discriminated_class_oapg(
+                    disc_property_name=disc_property_name, disc_payload_value=disc_payload_value)
+                if discriminated_cls is not None:
+                    return discriminated_cls
         return None
 
 
@@ -1605,9 +1599,11 @@ class DictBase(Discriminable, ValidatorBase):
                 raise ApiTypeError('Unable to find schema for value={} in class={} at path_to_item={}'.format(
                     value, cls, validation_metadata.path_to_item+(property_name,)
                 ))
-            if isinstance(schema, classmethod):
-                # referenced schema, call classmethod property
-                schema = schema.__func__.fget(properties)
+            if isinstance(schema, types.FunctionType):
+                schema = schema()
+            if isinstance(schema, staticmethod):
+                # referenced schema
+                schema = schema.__func__()
             arg_validation_metadata = ValidationMetadata(
                 from_server=validation_metadata.from_server,
                 configuration=validation_metadata.configuration,
@@ -1678,7 +1674,7 @@ class DictBase(Discriminable, ValidatorBase):
         other_path_to_schemas = cls.__validate_args(arg, validation_metadata=validation_metadata)
         update(_path_to_schemas, other_path_to_schemas)
         try:
-            discriminator = cls.MetaOapg.discriminator
+            discriminator = cls.MetaOapg.discriminator()
         except AttributeError:
             return _path_to_schemas
         # discriminator exists
@@ -1863,7 +1859,7 @@ class ComposedBase(Discriminable):
     @classmethod
     def __get_allof_classes(cls, arg, validation_metadata: ValidationMetadata):
         path_to_schemas = defaultdict(set)
-        for allof_cls in cls.MetaOapg.all_of:
+        for allof_cls in cls.MetaOapg.all_of():
             if validation_metadata.validation_ran_earlier(allof_cls):
                 continue
             other_path_to_schemas = allof_cls._validate_oapg(arg, validation_metadata=validation_metadata)
@@ -1879,7 +1875,7 @@ class ComposedBase(Discriminable):
     ):
         oneof_classes = []
         path_to_schemas = defaultdict(set)
-        for oneof_cls in cls.MetaOapg.one_of:
+        for oneof_cls in cls.MetaOapg.one_of():
             if oneof_cls in path_to_schemas[validation_metadata.path_to_item]:
                 oneof_classes.append(oneof_cls)
                 continue
@@ -1914,7 +1910,7 @@ class ComposedBase(Discriminable):
     ):
         anyof_classes = []
         path_to_schemas = defaultdict(set)
-        for anyof_cls in cls.MetaOapg.any_of:
+        for anyof_cls in cls.MetaOapg.any_of():
             if validation_metadata.validation_ran_earlier(anyof_cls):
                 anyof_classes.append(anyof_cls)
                 continue
@@ -2374,10 +2370,12 @@ class BinarySchema(
     BinaryMixin
 ):
     class MetaOapg:
-        one_of = [
-            BytesSchema,
-            FileSchema,
-        ]
+        @staticmethod
+        def one_of():
+            return [
+                BytesSchema,
+                FileSchema,
+            ]
 
     def __new__(cls, arg: typing.Union[io.FileIO, io.BufferedReader, bytes], **kwargs: Configuration):
         return super().__new__(cls, arg)
@@ -2456,7 +2454,7 @@ class DictSchema(
 schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema, AnyTypeSchema}
 
 
-@functools.cache
+@functools.lru_cache()
 def get_new_class(
     class_name: str,
     bases: typing.Tuple[typing.Type[typing.Union[Schema, typing.Any]], ...]
