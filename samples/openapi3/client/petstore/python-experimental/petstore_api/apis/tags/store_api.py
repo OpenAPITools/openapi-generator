@@ -11,7 +11,7 @@
 
 from petstore_api.paths.store_order_order_id.delete import DeleteOrder
 from petstore_api.paths.store_inventory.get import GetInventory
-from petstore_api.paths.store_order_order_id_1.get import GetOrderById
+from petstore_api.paths.store_order_order_id.get import GetOrderById
 from petstore_api.paths.store_order.post import PlaceOrder
 
 

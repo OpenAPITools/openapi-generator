@@ -297,6 +297,12 @@ public class DefaultCodegen implements CodegenConfig {
     // from deeper schema defined locations
     protected boolean addSchemaImportsFromV3SpecLocations = false;
 
+    protected boolean addSuffixToDuplicateOperationNicknames = true;
+
+    public boolean getAddSuffixToDuplicateOperationNicknames() {
+        return addSuffixToDuplicateOperationNicknames;
+    }
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;

@@ -111,6 +111,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addSchemaImportsFromV3SpecLocations = true;
         sortModelPropertiesByRequiredFlag = Boolean.TRUE;
         sortParamsByRequiredFlag = Boolean.TRUE;
+        addSuffixToDuplicateOperationNicknames = false;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
