@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -43,23 +44,23 @@ class File(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["sourceURI"]) -> MetaOapg.properties.sourceURI: ...
+    def __getitem__(self, name: typing_extensions.Literal["sourceURI"]) -> MetaOapg.properties.sourceURI: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["sourceURI", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["sourceURI", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["sourceURI"]) -> typing.Union[MetaOapg.properties.sourceURI, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["sourceURI"]) -> typing.Union[MetaOapg.properties.sourceURI, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["sourceURI", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["sourceURI", ], str]):
         return super().get_item_oapg(name)
     
 

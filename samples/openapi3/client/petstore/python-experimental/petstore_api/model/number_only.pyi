@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -41,23 +42,23 @@ class NumberOnly(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["JustNumber"]) -> MetaOapg.properties.JustNumber: ...
+    def __getitem__(self, name: typing_extensions.Literal["JustNumber"]) -> MetaOapg.properties.JustNumber: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["JustNumber", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["JustNumber", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["JustNumber"]) -> typing.Union[MetaOapg.properties.JustNumber, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["JustNumber"]) -> typing.Union[MetaOapg.properties.JustNumber, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["JustNumber", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["JustNumber", ], str]):
         return super().get_item_oapg(name)
     
 

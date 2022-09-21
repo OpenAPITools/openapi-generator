@@ -41,7 +41,7 @@ class ApiTestMixin:
         )
 
     @staticmethod
-    def headers_for_content_type(content_type: str) -> dict[str, str]:
+    def headers_for_content_type(content_type: str) -> typing.Dict[str, str]:
         return {'content-type': content_type}
 
     @classmethod
@@ -50,7 +50,7 @@ class ApiTestMixin:
         body: typing.Union[str, bytes],
         status: int = 200,
         content_type: str = json_content_type,
-        headers: typing.Optional[dict[str, str]] = None,
+        headers: typing.Optional[typing.Dict[str, str]] = None,
         preload_content: bool = True
     ) -> urllib3.HTTPResponse:
         if headers is None:

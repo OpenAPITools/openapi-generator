@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -30,14 +32,14 @@ RequiredStringGroupSchema = schemas.IntSchema
 RequiredInt64GroupSchema = schemas.Int64Schema
 StringGroupSchema = schemas.IntSchema
 Int64GroupSchema = schemas.Int64Schema
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
         'required_string_group': typing.Union[RequiredStringGroupSchema, decimal.Decimal, int, ],
         'required_int64_group': typing.Union[RequiredInt64GroupSchema, decimal.Decimal, int, ],
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'string_group': typing.Union[StringGroupSchema, decimal.Decimal, int, ],
@@ -80,13 +82,13 @@ request_query_int64_group = api_client.QueryParameter(
 # header params
 RequiredBooleanGroupSchema = schemas.BoolSchema
 BooleanGroupSchema = schemas.BoolSchema
-RequestRequiredHeaderParams = typing.TypedDict(
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
         'required_boolean_group': typing.Union[RequiredBooleanGroupSchema, bool, ],
     }
 )
-RequestOptionalHeaderParams = typing.TypedDict(
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
     'RequestOptionalHeaderParams',
     {
         'boolean_group': typing.Union[BooleanGroupSchema, bool, ],

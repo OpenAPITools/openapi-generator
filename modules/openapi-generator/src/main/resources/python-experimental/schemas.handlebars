@@ -204,7 +204,7 @@ class BoolClass(Singleton):
     def FALSE(cls):
         return cls(False)
 
-    @functools.cache
+    @functools.lru_cache()
     def __bool__(self) -> bool:
         for key, instance in self._instances.items():
             if self is instance:
@@ -863,29 +863,11 @@ class ValidatorBase:
         )
 
 
-class Validator(typing.Protocol):
-    @classmethod
-    def _validate_oapg(
-        cls,
-        arg,
-        validation_metadata: ValidationMetadata,
-    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
-        pass
-
-
 class EnumMakerBase:
     pass
 
 
-class EnumMakerInterface(Validator):
-    @classproperty
-    def _enum_value_to_name(
-        cls
-    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-        pass
-
-
-def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
+def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> 'SchemaEnumMaker':
     class SchemaEnumMaker(EnumMakerBase):
         @classmethod
         @property
@@ -1040,7 +1022,7 @@ class StrBase(ValidatorBase):
 
 class UUIDBase:
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_uuid_oapg(self) -> uuid.UUID:
         return uuid.UUID(self)
 
@@ -1106,7 +1088,7 @@ DEFAULT_ISOPARSER = CustomIsoparser()
 
 class DateBase:
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_date_oapg(self) -> date:
         return DEFAULT_ISOPARSER.parse_isodate(self)
 
@@ -1137,7 +1119,7 @@ class DateBase:
 
 class DateTimeBase:
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_datetime_oapg(self) -> datetime:
         return DEFAULT_ISOPARSER.parse_isodatetime(self)
 
@@ -1174,7 +1156,7 @@ class DecimalBase:
     """
 
     @property
-    @functools.cache
+    @functools.lru_cache()
     def as_decimal_oapg(self) -> decimal.Decimal:
         return decimal.Decimal(self)
 
@@ -2466,7 +2448,7 @@ class DictSchema(
 schema_type_classes = {NoneSchema, DictSchema, ListSchema, NumberSchema, StrSchema, BoolSchema, AnyTypeSchema}
 
 
-@functools.cache
+@functools.lru_cache()
 def get_new_class(
     class_name: str,
     bases: typing.Tuple[typing.Type[typing.Union[Schema, typing.Any]], ...]

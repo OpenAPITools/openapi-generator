@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -28,14 +30,14 @@ from . import path
 # query params
 UsernameSchema = schemas.StrSchema
 PasswordSchema = schemas.StrSchema
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
         'username': typing.Union[UsernameSchema, str, ],
         'password': typing.Union[PasswordSchema, str, ],
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
     },
@@ -75,7 +77,7 @@ x_expires_after_parameter = api_client.HeaderParameter(
 )
 SchemaFor200ResponseBodyApplicationXml = schemas.StrSchema
 SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
-ResponseHeadersFor200 = typing.TypedDict(
+ResponseHeadersFor200 = typing_extensions.TypedDict(
     'ResponseHeadersFor200',
     {
         'X-Rate-Limit': XRateLimitSchema,

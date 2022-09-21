@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -27,12 +29,12 @@ from . import path
 
 # header params
 ApiKeySchema = schemas.StrSchema
-RequestRequiredHeaderParams = typing.TypedDict(
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
     }
 )
-RequestOptionalHeaderParams = typing.TypedDict(
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
     'RequestOptionalHeaderParams',
     {
         'api_key': typing.Union[ApiKeySchema, str, ],
@@ -52,13 +54,13 @@ request_header_api_key = api_client.HeaderParameter(
 )
 # path params
 PetIdSchema = schemas.Int64Schema
-RequestRequiredPathParams = typing.TypedDict(
+RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
     }
 )
-RequestOptionalPathParams = typing.TypedDict(
+RequestOptionalPathParams = typing_extensions.TypedDict(
     'RequestOptionalPathParams',
     {
     },

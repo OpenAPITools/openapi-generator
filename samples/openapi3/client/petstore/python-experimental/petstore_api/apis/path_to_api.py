@@ -1,4 +1,4 @@
-import typing
+import typing_extensions
 
 from petstore_api.paths import PathValues
 from petstore_api.apis.paths.foo import Foo
@@ -49,7 +49,7 @@ from petstore_api.apis.paths.fake_response_without_schema import FakeResponseWit
 from petstore_api.apis.paths.fake_json_patch import FakeJsonPatch
 from petstore_api.apis.paths.fake_delete_coffee_id import FakeDeleteCoffeeId
 
-PathToApi = typing.TypedDict(
+PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
         PathValues.FOO: Foo,

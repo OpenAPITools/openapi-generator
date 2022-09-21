@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -129,12 +131,12 @@ class EnumQueryDoubleSchema(
     @schemas.classproperty
     def NEGATIVE_1_PT_2(cls):
         return cls(-1.2)
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, list, tuple, ],
@@ -240,12 +242,12 @@ class EnumHeaderStringSchema(
     @schemas.classproperty
     def XYZ(cls):
         return cls("(xyz)")
-RequestRequiredHeaderParams = typing.TypedDict(
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
     }
 )
-RequestOptionalHeaderParams = typing.TypedDict(
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
     'RequestOptionalHeaderParams',
     {
         'enum_header_string_array': typing.Union[EnumHeaderStringArraySchema, list, tuple, ],
@@ -351,29 +353,29 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
+    def __getitem__(self, name: typing_extensions.Literal["enum_form_string_array"]) -> MetaOapg.properties.enum_form_string_array: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
+    def __getitem__(self, name: typing_extensions.Literal["enum_form_string"]) -> MetaOapg.properties.enum_form_string: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["enum_form_string_array", "enum_form_string", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["enum_form_string_array"]) -> typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enum_form_string_array"]) -> typing.Union[MetaOapg.properties.enum_form_string_array, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enum_form_string"]) -> typing.Union[MetaOapg.properties.enum_form_string, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["enum_form_string_array", "enum_form_string", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["enum_form_string_array", "enum_form_string", ], str]):
         return super().get_item_oapg(name)
     
 

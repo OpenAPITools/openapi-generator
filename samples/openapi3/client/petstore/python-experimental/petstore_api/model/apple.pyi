@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -62,29 +63,29 @@ class Apple(
     cultivar: MetaOapg.properties.cultivar
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
+    def __getitem__(self, name: typing_extensions.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["origin"]) -> MetaOapg.properties.origin: ...
+    def __getitem__(self, name: typing_extensions.Literal["origin"]) -> MetaOapg.properties.origin: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["cultivar", "origin", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["cultivar", "origin", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["cultivar"]) -> MetaOapg.properties.cultivar: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["origin"]) -> typing.Union[MetaOapg.properties.origin, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["origin"]) -> typing.Union[MetaOapg.properties.origin, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["cultivar", "origin", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["cultivar", "origin", ], str]):
         return super().get_item_oapg(name)
     
 

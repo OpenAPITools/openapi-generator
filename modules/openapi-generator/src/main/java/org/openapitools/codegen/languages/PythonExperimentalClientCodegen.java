@@ -2637,7 +2637,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public String generatorLanguageVersion() { return ">=3.8"; };
+    public String generatorLanguageVersion() { return ">=3.7"; };
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {

@@ -20,7 +20,7 @@ class ApiTestMixin(unittest.TestCase):
         method: str = 'POST',
         body: typing.Optional[bytes] = None,
         content_type: typing.Optional[str] = 'application/json',
-        fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
+        fields: typing.Optional[typing.Tuple[api_client.RequestField, ...]] = None,
         accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
     ):
@@ -77,7 +77,7 @@ class ApiTestMixin(unittest.TestCase):
         )
 
     @staticmethod
-    def headers_for_content_type(content_type: str) -> dict[str, str]:
+    def headers_for_content_type(content_type: str) -> typing.Dict[str, str]:
         return {'content-type': content_type}
 
     @classmethod
@@ -86,7 +86,7 @@ class ApiTestMixin(unittest.TestCase):
         body: typing.Union[str, bytes],
         status: int = 200,
         content_type: str = json_content_type,
-        headers: typing.Optional[dict[str, str]] = None,
+        headers: typing.Optional[typing.Dict[str, str]] = None,
         preload_content: bool = True
     ) -> urllib3.HTTPResponse:
         if headers is None:
