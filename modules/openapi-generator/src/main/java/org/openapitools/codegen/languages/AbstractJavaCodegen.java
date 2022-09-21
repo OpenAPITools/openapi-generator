@@ -66,6 +66,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String WITH_XML = "withXml";
     public static final String SUPPORT_JAVA6 = "supportJava6";
@@ -623,7 +624,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
-            setDateLibrary(additionalProperties.get("dateLibrary").toString());
+            setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+        }
+
+        if (additionalProperties.containsKey(USE_ONE_OF_INTERFACES)) {
+            setUseOneOfInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_ONE_OF_INTERFACES).toString()));
+            if (useOneOfInterfaces) {
+                additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+            }
         }
 
         if ("joda".equals(dateLibrary)) {
