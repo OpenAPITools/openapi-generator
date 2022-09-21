@@ -877,13 +877,12 @@ class EnumMakerBase:
 def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> 'SchemaEnumMaker':
     class SchemaEnumMaker(EnumMakerBase):
         @classmethod
-        @property
         def _enum_value_to_name(
-                cls
+            cls
         ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
             pass
             try:
-                super_enum_value_to_name = super()._enum_value_to_name
+                super_enum_value_to_name = super()._enum_value_to_name()
             except AttributeError:
                 return enum_value_to_name
             intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
@@ -900,9 +899,9 @@ def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, 
             Validates that arg is in the enum's allowed values
             """
             try:
-                cls._enum_value_to_name[arg]
+                cls._enum_value_to_name()[arg]
             except KeyError:
-                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name))
+                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name()))
             return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
     return SchemaEnumMaker
