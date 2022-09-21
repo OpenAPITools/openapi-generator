@@ -725,6 +725,29 @@ paths:
       responses:
         '200':
           description: successful operation
+  /fake/test_optional_body_parameter:
+    post:
+      tags:
+        - fake
+      summary: Add a new pet to the store (optional body)
+      description: ''
+      operationId: addPetOptional
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '405':
+          description: Invalid input
+      security:
+        - http_auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalPet'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -767,6 +790,34 @@ components:
                     type: string
       description: Pet object that needs to be added to the store
       required: true
+    OptionalPet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        multipart/related:  # message with binary body part
+          schema:
+            type: object
+            properties: # Request parts
+              jsonData:
+                $ref: '#/components/schemas/Pet'
+              binaryDataN2Information:
+                type: string
+                format: binary
+          encoding:
+            jsonData:
+              contentType:  application/json
+            binaryDataN2Information:
+              contentType:  application/vnd.3gpp.ngap
+              headers:
+                Content-Id:
+                  schema:
+                    type: string
+      description: Pet object that needs to be added to the store
+      required: false
   securitySchemes:
     http_auth:
       type : http

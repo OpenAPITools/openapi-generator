@@ -522,7 +522,7 @@
       {{/hasFormParams}}
       {{#hasBodyParam}}
       {{#bodyParams}}
-      if (!missing(`{{paramName}}`)) {
+      if (!is.null(`{{paramName}}`)) {
         {{#isArray}}
         body.items <- paste(unlist(lapply(`{{paramName}}`, function(param) {
                                                              param$toJSONString()

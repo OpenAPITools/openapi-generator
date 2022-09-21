@@ -13,6 +13,31 @@
 #'
 #' @section Methods:
 #' \describe{
+#' \strong{ add_pet_optional } \emph{ Add a new pet to the store (optional body) }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } pet \link{Pet}
+#' \item \emph{ @returnType } \link{Pet} \cr
+#'
+#' \item On encountering errors, an error of subclass ApiException will be thrown.
+#'
+#' \item status code : 200 | successful operation
+#'
+#' \item return type : Pet
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' \item status code : 405 | Invalid input
+#'
+#'
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' \strong{ fake_data_file } \emph{ test data_file to ensure it&#39;s escaped correctly }
 #' 
 #'
@@ -89,6 +114,43 @@
 #'
 #' @examples
 #' \dontrun{
+#' ####################  add_pet_optional  ####################
+#'
+#' library(petstore)
+#' var_pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+#'
+#' #Add a new pet to the store (optional body)
+#' api_instance <- petstore_api$new()
+#'
+#' # Configure HTTP basic authorization: http_auth
+#' api_instance$api_client$username <- Sys.getenv("USERNAME")
+#' api_instance$api_client$password <- Sys.getenv("PASSWORD")
+#'
+#' result <- tryCatch(
+#'              
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance$fake_api$add_pet_optional(pet = var_pet, data_file = "result.txt"),
+#'              
+#'              
+#'              api_instance$fake_api$add_pet_optional(pet = var_pet),
+#'              ApiException = function(ex) ex
+#'           )
+#' # In case of error, print the error object
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `add_pet_optional`:")
+#'   dput(result$ApiException$toString())
+#'   
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   
+#' } else {
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
+#' }
+#'
+#'
+#'
 #' ####################  fake_data_file  ####################
 #'
 #' library(petstore)
@@ -220,6 +282,122 @@ FakeApi <- R6::R6Class(
         self$api_client <- api_client
       } else {
         self$api_client <- ApiClient$new()
+      }
+    },
+    #' Add a new pet to the store (optional body)
+    #'
+    #' @description
+    #' Add a new pet to the store (optional body)
+    #'
+    #' @param pet (optional) Pet object that needs to be added to the store
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return Pet
+    #' @export
+    add_pet_optional = function(pet = NULL, data_file = NULL, ...) {
+      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
+      }
+    },
+    #' Add a new pet to the store (optional body)
+    #'
+    #' @description
+    #' Add a new pet to the store (optional body)
+    #'
+    #' @param pet (optional) Pet object that needs to be added to the store
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (Pet) with additional information such as HTTP status code, headers
+    #' @export
+    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+
+      if (!is.null(`pet`)) {
+        local_var_body <- `pet`$toJSONString()
+      } else {
+        body <- NULL
+      }
+
+      local_var_url_path <- "/fake/test_optional_body_parameter"
+      # HTTP basic auth
+      if (!is.null(self$api_client$username) || !is.null(self$api_client$password)) {
+        header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
+      }
+
+      # The Accept request HTTP header
+      local_var_accepts <- list("application/xml", "application/json")
+
+      # The Content-Type representation header
+      local_var_content_types <- list("application/json", "application/xml", "multipart/related")
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "POST",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+            write(local_var_resp$response, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          error = function(e) {
+             rlang::abort(message = "Failed to deserialize response",
+                          .subclass = "ApiException",
+                          ApiException = ApiException$new(http_response = local_var_resp))
+          }
+        )
+        local_var_resp$content <- deserialized_resp_obj
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
+        }
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api client exception encountered."
+        }
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api server exception encountered."
+        }
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
     #' test data_file to ensure it's escaped correctly
