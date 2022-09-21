@@ -64,6 +64,9 @@ Pet <- R6::R6Class(
         self$`tags` <- `tags`
       }
       if (!is.null(`status`)) {
+        if (!(`status` %in% c("available", "pending", "sold"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".", sep = ""))
+        }
         stopifnot(is.character(`status`), length(`status`) == 1)
         self$`status` <- `status`
       }
@@ -131,6 +134,9 @@ Pet <- R6::R6Class(
         self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[Tag]", loadNamespace("petstore"))
       }
       if (!is.null(this_object$`status`)) {
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("available", "pending", "sold"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".", sep = ""))
+        }
         self$`status` <- this_object$`status`
       }
       self
@@ -211,6 +217,9 @@ Pet <- R6::R6Class(
       self$`name` <- this_object$`name`
       self$`photoUrls` <- ApiClient$new()$deserializeObj(this_object$`photoUrls`, "array[character]", loadNamespace("petstore"))
       self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[Tag]", loadNamespace("petstore"))
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("available", "pending", "sold"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".", sep = ""))
+      }
       self$`status` <- this_object$`status`
       self
     },

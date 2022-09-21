@@ -52,6 +52,11 @@
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
         {{^isContainer}}
+        {{#isEnum}}
+        if (!(`{{name}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          stop(paste("Error! \"", `{{name}}`, "\" cannot be assigned to `{{name}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+        }
+        {{/isEnum}}
         {{#isInteger}}
         stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
         {{/isInteger}}
@@ -97,6 +102,11 @@
       {{#optionalVars}}
       if (!is.null(`{{name}}`)) {
         {{^isContainer}}
+        {{#isEnum}}
+        if (!(`{{name}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          stop(paste("Error! \"", `{{name}}`, "\" cannot be assigned to `{{name}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+        }
+        {{/isEnum}}
         {{#isInteger}}
         stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
         {{/isInteger}}
@@ -219,6 +229,11 @@
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
+        {{#isEnum}}
+        if (!is.null(this_object$`{{baseName}}`) && !(this_object$`{{baseName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+        }
+        {{/isEnum}}
         self$`{{name}}` <- this_object$`{{baseName}}`
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
@@ -340,6 +355,11 @@
       {{/isContainer}}
       {{^isContainer}}
       {{#isPrimitiveType}}
+      {{#isEnum}}
+      if (!is.null(this_object$`{{baseName}}`) && !(this_object$`{{baseName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+      }
+      {{/isEnum}}
       self$`{{name}}` <- this_object$`{{name}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
