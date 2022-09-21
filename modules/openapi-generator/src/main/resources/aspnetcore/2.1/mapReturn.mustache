@@ -1,4 +1,8 @@
 
+            // var example = exampleJson != null
+            // ? JsonConvert.DeserializeObject<{{{returnType}}}>(exampleJson)
+            // : new {{{returnType}}}();
+
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<{{{returnType}}}>(exampleJson)
-            : new {{{returnType}}}();
+            ? JsonConvert.DeserializeObject<Dictionary<{{{returnType}}}>>(exampleJson)
+            : new Dictionary<{{{returnType}}}>();

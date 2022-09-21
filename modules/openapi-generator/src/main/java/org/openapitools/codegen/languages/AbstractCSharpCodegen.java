@@ -118,7 +118,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         );
 
         mapTypes = new HashSet<>(
-                Arrays.asList("IDictionary", "Dictionary")
+                Arrays.asList("IDictionary") //, "Dictionary")
         );
 
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -428,6 +428,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+        // if (property.isInnerEnum && property.items != null) {
+        //     // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
+        //     property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
+        // }
+        // if (property.isMap || property.isContainer) {
+        //     // maps of enums will be marked both isMap and isEnum
+        //     property.isEnum = false;
+        //     property.isInnerEnum = false;
+        //     property.isString = false;
+        // }
     }
 
     @Override
@@ -712,7 +722,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
+                            // operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
                         }
                     }
 
