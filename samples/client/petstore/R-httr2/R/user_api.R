@@ -500,7 +500,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
         body <- NULL
@@ -608,7 +608,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
@@ -719,7 +719,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
@@ -1288,7 +1288,7 @@ UserApi <- R6::R6Class(
 
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
         body <- NULL

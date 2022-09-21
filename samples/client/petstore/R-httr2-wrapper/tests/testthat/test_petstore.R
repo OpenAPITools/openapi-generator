@@ -242,6 +242,39 @@ test_that("array test in path parameters", {
   expect_error(fake_api$fake_path_array(array_dummy), "")
 })
 
+test_that("optional body parameters test", {
+  fake_api <- FakeApi$new()
+  expect_error(fake_api$add_pet_optional(), "")
+
+  pet_optional_test <- Pet$new("name_test",
+    photoUrls = list("photo_test", "second test"),
+    category = Category$new(id = 44550, name = "test_cat"),
+    id = 44550,
+    tags = list(
+      Tag$new(id = 44550, name = "tag_test"), Tag$new(id = 4880, name = "unknown 2")
+    ),
+    status = "available"
+  )
+  expect_error(fake_api$add_pet_optional(pet_optional_test), "")
+  #result <- fake_api$add_pet_optional(pet_optional_test)
+
+  #response <- pet_api$get_pet_by_id(44550)
+  #expect_equal(response$id, 44550)
+  #expect_equal(response$name, "name_test")
+  #expect_equal(
+  #  response$photoUrls,
+  #  list("photo_test", "second test")
+  #)
+  #expect_equal(response$status, "available")
+  #expect_equal(response$category, Category$new(id = 44500, name = "test_cat"))
+
+  #expect_equal(pet$tags, response$tags)
+  #expect_equal(
+  #  response$tags,
+  #  list(Tag$new(id = 44550, name = "tag_test"), Tag$new(id = 4880, name = "unknown"))
+  #)
+})
+
 test_that("set validation test", {
   fake_api <- FakeApi$new()
   # array input invalid (not unique)

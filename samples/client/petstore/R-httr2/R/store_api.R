@@ -652,7 +652,7 @@ StoreApi <- R6::R6Class(
       }
 
 
-      if (!missing(`order`)) {
+      if (!is.null(`order`)) {
         local_var_body <- `order`$toJSONString()
       } else {
         body <- NULL
