@@ -118,7 +118,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         );
 
         mapTypes = new HashSet<>(
-                Arrays.asList("IDictionary") //, "Dictionary")
+                Arrays.asList("IDictionary", "Dictionary")
         );
 
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -722,7 +722,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            // operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
+                            operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
                         }
                     }
 
