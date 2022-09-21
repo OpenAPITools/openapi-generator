@@ -612,45 +612,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
-     * Include queryParams in uriParams taking into account the paramName
-     *
-     * @param queryParams The query parameters
-     * @param uriParams The path parameters
-     * return templatized query string
-     */
-    public String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
-        StringBuilder queryBuilder = new StringBuilder();
-        queryParams.forEach((name, values) -> {
-            try {
-                final String encodedName = URLEncoder.encode(name.toString(), "UTF-8");
-                if (CollectionUtils.isEmpty(values)) {
-                    if (queryBuilder.length() != 0) {
-                        queryBuilder.append('&');
-                    }
-                    queryBuilder.append(encodedName);
-                } else {
-                    int valueItemCounter = 0;
-                    for (Object value : values) {
-                        if (queryBuilder.length() != 0) {
-                            queryBuilder.append('&');
-                        }
-                        queryBuilder.append(encodedName);
-                        if (value != null) {
-                            String templatizedKey = encodedName + valueItemCounter++;
-                            uriParams.put(templatizedKey, value.toString());
-                            queryBuilder.append('=').append("{").append(templatizedKey).append("}");
-                        }
-                    }
-                }
-            } catch (UnsupportedEncodingException e) {
-
-            }
-        });
-        return queryBuilder.toString();
-
-    }
-
-    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
@@ -671,19 +632,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        Map<String,Object> uriParams = new HashMap<>();
-        uriParams.putAll(pathParams);
-
-        String finalUri = path;
-
-        if (queryParams != null && !queryParams.isEmpty()) {
-            //Include queryParams in uriParams taking into account the paramName
-            String queryUri = generateQueryUri(queryParams, uriParams);
-            //Append to finalUri the templatized query string like "?param1={param1Value}&.......
-            finalUri += "?" + queryUri;
-        }
-        String expandedPath = this.expandPath(finalUri, uriParams);
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath);
+        String expandedPath = this.expandPath(path, pathParams);
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath).queryParams(queryParams);
 
         URI uri;
         try {
