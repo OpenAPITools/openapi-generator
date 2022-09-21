@@ -66,15 +66,22 @@ pub fn parse_deep_object(prefix: &str, value: &serde_json::Value) -> Vec<(String
         let mut params = vec![];
 
         for (key, value) in object {
-            if value.is_object() {
-                params.append(&mut parse_deep_object(
+            match value {
+                serde_json::Value::Object(_) => params.append(&mut parse_deep_object(
                     &format!("{}[{}]", prefix, key),
                     value,
-                ));
-                continue;
+                )),
+                serde_json::Value::Array(array) => {
+                    for (i, value) in array.iter().enumerate() {
+                        params.append(&mut parse_deep_object(
+                            &format!("{}[{}][{}]", prefix, key, i),
+                            value,
+                        ));
+                    }
+                },
+                serde_json::Value::String(s) => params.push((format!("{}[{}]", prefix, key), s.clone())),
+                _ => params.push((format!("{}[{}]", prefix, key), value.to_string())),
             }
-
-            params.push((format!("{}[{}]", prefix, key), value.to_string()));
         }
 
         return params;
