@@ -46,7 +46,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
          * @deprecated{{/isDeprecated}}
          * @throws {RequiredError}
          */
-        {{nickname}}: async ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        {{nickname}}: async ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined
@@ -230,7 +230,7 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          * @deprecated{{/isDeprecated}}
          * @throws {RequiredError}
          */
-        async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+        async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -259,7 +259,7 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
          * @deprecated{{/isDeprecated}}
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options?: any): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
             return localVarFp.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(axios, basePath));
         },
     {{/operation}}
@@ -288,7 +288,7 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options?: AxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
 {{/operation}}
 }
@@ -309,7 +309,7 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
      * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
      * @memberof {{classname}}{{operationIdCamelCase}}
      */
-    readonly {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    readonly {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}
     {{^-last}}
 
     {{/-last}}
@@ -359,7 +359,7 @@ export class {{classname}} extends BaseAPI {
     }
     {{/useSingleRequestParameter}}
     {{^useSingleRequestParameter}}
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig) {
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options?: AxiosRequestConfig) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}
@@ -369,3 +369,40 @@ export class {{classname}} extends BaseAPI {
     {{/operation}}
 }
 {{/operations}}
+{{#hasEnums}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+{{#stringEnums}}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum {{operationIdCamelCase}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/stringEnums}}
+{{^stringEnums}}
+/**
+ * @export
+ */
+export const {{operationIdCamelCase}}{{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+export type {{operationIdCamelCase}}{{enumName}} = typeof {{operationIdCamelCase}}{{enumName}}[keyof typeof {{operationIdCamelCase}}{{enumName}}];
+{{/stringEnums}}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}
