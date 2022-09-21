@@ -428,16 +428,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        // if (property.isInnerEnum && property.items != null) {
-        //     // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
-        //     property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
-        // }
-        // if (property.isMap || property.isContainer) {
-        //     // maps of enums will be marked both isMap and isEnum
-        //     property.isEnum = false;
-        //     property.isInnerEnum = false;
-        //     property.isString = false;
-        // }
     }
 
     @Override
