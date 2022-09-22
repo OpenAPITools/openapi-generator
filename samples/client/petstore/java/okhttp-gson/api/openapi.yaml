@@ -2376,7 +2376,6 @@ components:
       required:
       - className
       type: object
-      x-oag-internal-only: true
       example: null
     ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
       properties:

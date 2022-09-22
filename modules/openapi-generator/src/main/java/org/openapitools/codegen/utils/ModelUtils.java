@@ -1821,10 +1821,11 @@ public class ModelUtils {
     }
 
     /**
-     * Returns true if the schema marked as internal only.
+     * Sets extension "x-oag-internal-only" to true or false
+     * so as to mark the model as internal only accordingly.
      *
      * @param schema the schema.
-     * @param flag true or false
+     * @param flag true or false.
      *
      */
     public static void setInternalOnly(Schema schema, boolean flag) {
@@ -1834,7 +1835,7 @@ public class ModelUtils {
     }
 
     /**
-     * Returns true if the schema marked as internal only.
+     * Returns true if the extension "x-oag-interal-only" is already set
      *
      * @param schema the schema.
      *

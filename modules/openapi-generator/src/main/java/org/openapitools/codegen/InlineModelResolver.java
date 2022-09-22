@@ -563,7 +563,9 @@ public class InlineModelResolver {
                 String existing = matchGenerated(innerModel);
                 if (existing == null) {
                     innerModelName = addSchemas(innerModelName, innerModel);
-                    if (setInternalOnly) {
+                    // if not parent and not yet set x-oag-internal-only
+                    // and setInternalOnly is true (only use case is allOf)
+                    if (setInternalOnly && !ModelUtils.isParent(innerModel) && !ModelUtils.isInternalOnlySet(innerModel)) {
                         ModelUtils.setInternalOnly(innerModel, true);
                     }
                     Schema schema = new Schema().$ref(innerModelName);

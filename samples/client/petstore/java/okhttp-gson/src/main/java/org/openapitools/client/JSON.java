@@ -115,6 +115,16 @@ public class JSON {
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
+                .registerTypeSelector(org.openapitools.client.model.InlineSchemaDiscriminatorAllOf.class, new TypeSelector<org.openapitools.client.model.InlineSchemaDiscriminatorAllOf>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.InlineSchemaDiscriminatorAllOf> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("InlineSchemaDiscriminator", org.openapitools.client.model.InlineSchemaDiscriminator.class);
+                        classByDiscriminatorValue.put("InlineSchemaDiscriminator_allOf", org.openapitools.client.model.InlineSchemaDiscriminatorAllOf.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
                 .registerTypeSelector(org.openapitools.client.model.Mammal.class, new TypeSelector<org.openapitools.client.model.Mammal>() {
                     @Override
                     public Class<? extends org.openapitools.client.model.Mammal> getClassForElement(JsonElement readElement) {

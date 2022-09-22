@@ -194,6 +194,7 @@ Class | Method | HTTP request | Description
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InlineSchemaDiscriminator](docs/InlineSchemaDiscriminator.md)
+ - [InlineSchemaDiscriminatorAllOf](docs/InlineSchemaDiscriminatorAllOf.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)

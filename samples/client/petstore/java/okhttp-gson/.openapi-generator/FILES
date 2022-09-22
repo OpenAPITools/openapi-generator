@@ -47,6 +47,7 @@ docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InlineSchemaDiscriminator.md
+docs/InlineSchemaDiscriminatorAllOf.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
 docs/MapTest.md
@@ -165,6 +166,7 @@ src/main/java/org/openapitools/client/model/GrandparentAnimal.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
 src/main/java/org/openapitools/client/model/InlineSchemaDiscriminator.java
+src/main/java/org/openapitools/client/model/InlineSchemaDiscriminatorAllOf.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
 src/main/java/org/openapitools/client/model/MapTest.java
