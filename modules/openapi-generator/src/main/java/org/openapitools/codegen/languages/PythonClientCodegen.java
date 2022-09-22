@@ -239,7 +239,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         typeMapping.put("decimal", "str");
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.STABLE)
                 .build();
     }
 
