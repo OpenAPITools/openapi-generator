@@ -21,6 +21,18 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
+test_that("Invalid enum value test", {
+  expect_error(Pet$new("name_test",
+    photoUrls = list("photo_test", "second test"),
+    category = Category$new(id = 450, name = "test_cat"),
+    id = pet_id,
+    tags = list(
+      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
+    ),
+    status = "error_available"
+  ), "Error! \"error_available\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".")
+})
+
 test_that("Additional Properties test", {
   # test tag
   t <- Tag$new(id = 393, name = "something")
