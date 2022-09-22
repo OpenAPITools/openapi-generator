@@ -101,7 +101,7 @@ class TestValidateResults(unittest.TestCase):
         for path, schema_classes in path_to_schemas.items():
             Animal._process_schema_classes_oapg(schema_classes)
         assert path_to_schemas == {
-            ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of[1], frozendict.frozendict},
+            ("args[0]",): {Animal, Dog, Dog.MetaOapg.all_of()[1], frozendict.frozendict},
             ("args[0]", "className"): {StrSchema, str},
             ("args[0]", "color"): {StrSchema, str},
         }

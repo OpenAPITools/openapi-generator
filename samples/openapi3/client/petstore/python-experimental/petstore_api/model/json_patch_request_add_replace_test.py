@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -55,18 +56,15 @@ class JSONPatchRequestAddReplaceTest(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def ADD(cls):
                     return cls("add")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def REPLACE(cls):
                     return cls("replace")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def TEST(cls):
                     return cls("test")
             __annotations__ = {
@@ -81,28 +79,28 @@ class JSONPatchRequestAddReplaceTest(
     value: MetaOapg.properties.value
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["op"]) -> MetaOapg.properties.op: ...
+    def __getitem__(self, name: typing_extensions.Literal["op"]) -> MetaOapg.properties.op: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["path"]) -> MetaOapg.properties.path: ...
+    def __getitem__(self, name: typing_extensions.Literal["path"]) -> MetaOapg.properties.path: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["value"]) -> MetaOapg.properties.value: ...
+    def __getitem__(self, name: typing_extensions.Literal["value"]) -> MetaOapg.properties.value: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["op"], typing.Literal["path"], typing.Literal["value"], ]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["op"], typing_extensions.Literal["path"], typing_extensions.Literal["value"], ]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["op"]) -> MetaOapg.properties.op: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["op"]) -> MetaOapg.properties.op: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["path"]) -> MetaOapg.properties.path: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["path"]) -> MetaOapg.properties.path: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["value"]) -> MetaOapg.properties.value: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["value"]) -> MetaOapg.properties.value: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["op"], typing.Literal["path"], typing.Literal["value"], ]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["op"], typing_extensions.Literal["path"], typing_extensions.Literal["value"], ]):
         return super().get_item_oapg(name)
 
     def __new__(

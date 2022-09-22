@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -51,35 +52,35 @@ class ObjectWithDifficultlyNamedProps(
     
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
+    def __getitem__(self, name: typing_extensions.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["$special[property.name]"]) -> MetaOapg.properties.special_property_name: ...
+    def __getitem__(self, name: typing_extensions.Literal["$special[property.name]"]) -> MetaOapg.properties.special_property_name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["123Number"]) -> MetaOapg.properties._123_number: ...
+    def __getitem__(self, name: typing_extensions.Literal["123Number"]) -> MetaOapg.properties._123_number: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["123-list", "$special[property.name]", "123Number", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["123-list", "$special[property.name]", "123Number", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["123-list"]) -> MetaOapg.properties._123_list: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["$special[property.name]"]) -> typing.Union[MetaOapg.properties.special_property_name, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["$special[property.name]"]) -> typing.Union[MetaOapg.properties.special_property_name, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["123Number"]) -> typing.Union[MetaOapg.properties._123_number, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["123Number"]) -> typing.Union[MetaOapg.properties._123_number, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["123-list", "$special[property.name]", "123Number", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["123-list", "$special[property.name]", "123Number", ], str]):
         return super().get_item_oapg(name)
     
 

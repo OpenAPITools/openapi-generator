@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -31,12 +33,12 @@ ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         '1': typing.Union[Model1Schema, str, ],
@@ -88,12 +90,12 @@ Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-RequestRequiredHeaderParams = typing.TypedDict(
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
     }
 )
-RequestOptionalHeaderParams = typing.TypedDict(
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
     'RequestOptionalHeaderParams',
     {
         '1': typing.Union[Model1Schema, str, ],
@@ -135,7 +137,7 @@ ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-RequestRequiredPathParams = typing.TypedDict(
+RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         '1': typing.Union[Model1Schema, str, ],
@@ -145,7 +147,7 @@ RequestRequiredPathParams = typing.TypedDict(
         'A-B': typing.Union[ABSchema, str, ],
     }
 )
-RequestOptionalPathParams = typing.TypedDict(
+RequestOptionalPathParams = typing_extensions.TypedDict(
     'RequestOptionalPathParams',
     {
     },
@@ -193,12 +195,12 @@ ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
-RequestRequiredCookieParams = typing.TypedDict(
+RequestRequiredCookieParams = typing_extensions.TypedDict(
     'RequestRequiredCookieParams',
     {
     }
 )
-RequestOptionalCookieParams = typing.TypedDict(
+RequestOptionalCookieParams = typing_extensions.TypedDict(
     'RequestOptionalCookieParams',
     {
         '1': typing.Union[Model1Schema, str, ],

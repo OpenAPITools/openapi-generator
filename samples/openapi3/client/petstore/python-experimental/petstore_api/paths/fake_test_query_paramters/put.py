@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 
 from petstore_api import api_client, exceptions
@@ -16,6 +17,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -143,7 +145,7 @@ class ContextSchema(
     def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 RefParamSchema = StringWithValidation
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
         'pipe': typing.Union[PipeSchema, list, tuple, ],
@@ -154,7 +156,7 @@ RequestRequiredQueryParams = typing.TypedDict(
         'refParam': typing.Union[RefParamSchema, ],
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
     },

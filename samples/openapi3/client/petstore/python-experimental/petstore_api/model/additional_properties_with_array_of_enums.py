@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -42,9 +43,8 @@ class AdditionalPropertiesWithArrayOfEnums(
         
             class MetaOapg:
                 
-                @classmethod
-                @property
-                def items(cls) -> typing.Type['EnumClass']:
+                @staticmethod
+                def items() -> typing.Type['EnumClass']:
                     return EnumClass
         
             def __new__(

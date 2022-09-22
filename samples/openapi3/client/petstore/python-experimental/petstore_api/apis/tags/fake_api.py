@@ -19,10 +19,10 @@ from petstore_api.paths.fake_case_sensitive_params.put import CaseSensitiveParam
 from petstore_api.paths.fake.patch import ClientModel
 from petstore_api.paths.fake_refs_composed_one_of_number_with_validations.post import ComposedOneOfDifferentTypes
 from petstore_api.paths.fake_delete_coffee_id.delete import DeleteCoffee
-from petstore_api.paths.fake_1.post import EndpointParameters
-from petstore_api.paths.fake_2.get import EnumParameters
+from petstore_api.paths.fake.post import EndpointParameters
+from petstore_api.paths.fake.get import EnumParameters
 from petstore_api.paths.fake_health.get import FakeHealthGet
-from petstore_api.paths.fake_3.delete import GroupParameters
+from petstore_api.paths.fake.delete import GroupParameters
 from petstore_api.paths.fake_inline_additional_properties.post import InlineAdditionalProperties
 from petstore_api.paths.fake_inline_composition_.post import InlineComposition
 from petstore_api.paths.fake_json_form_data.get import JsonFormData

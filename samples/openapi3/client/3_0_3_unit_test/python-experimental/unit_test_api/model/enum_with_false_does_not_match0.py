@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -36,7 +37,6 @@ class EnumWithFalseDoesNotMatch0(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def FALSE(cls):
         return cls(schemas.BoolClass.FALSE)

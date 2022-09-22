@@ -3,12 +3,12 @@
 
 @typing.overload
 {{#if complexType}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> '{{complexType}}': ...
 {{else}}
 {{#if nameInSnakeCase}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{name}}: ...
 {{else}}
-def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
+def __getitem__(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> MetaOapg.properties.{{baseName}}: ...
 {{/if}}
 {{/if}}
 {{/each}}
@@ -16,7 +16,7 @@ def __getitem__(self, name: typing.Literal["{{{baseName}}}"]) -> MetaOapg.proper
 @typing.overload
 def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
 
-def __getitem__(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
+def __getitem__(self, name: typing.Union[typing_extensions.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
     # dict_instance[name] accessor
     return super().__getitem__(name)
 
@@ -26,12 +26,12 @@ def __getitem__(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseNa
 
 @typing.overload
 {{#if complexType}}
-def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}'{{complexType}}'{{#unless required}}, schemas.Unset]{{/unless}}: ...
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}'{{complexType}}'{{#unless required}}, schemas.Unset]{{/unless}}: ...
 {{else}}
 {{#if nameInSnakeCase}}
-def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{name}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{name}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
 {{else}}
-def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{baseName}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
+def get_item_oapg(self, name: typing_extensions.Literal["{{{baseName}}}"]) -> {{#unless required}}typing.Union[{{/unless}}MetaOapg.properties.{{baseName}}{{#unless required}}, schemas.Unset]{{/unless}}: ...
 {{/if}}
 {{/if}}
 {{/each}}
@@ -39,7 +39,7 @@ def get_item_oapg(self, name: typing.Literal["{{{baseName}}}"]) -> {{#unless req
 @typing.overload
 def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
 
-def get_item_oapg(self, name: typing.Union[typing.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
+def get_item_oapg(self, name: typing.Union[typing_extensions.Literal[{{#each vars}}"{{{baseName}}}", {{/each}}], str]):
     return super().get_item_oapg(name)
 
 {{/if}}

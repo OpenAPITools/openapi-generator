@@ -55,7 +55,7 @@ class TestFruit(unittest.TestCase):
 
         # make sure that the ModelComposed class properties are correct
         self.assertEqual(
-            Fruit.MetaOapg.one_of,
+            Fruit.MetaOapg.one_of(),
             [
                 apple.Apple,
                 banana.Banana,

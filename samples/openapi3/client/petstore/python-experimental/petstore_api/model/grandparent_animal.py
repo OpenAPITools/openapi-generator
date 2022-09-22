@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -37,9 +38,8 @@ class GrandparentAnimal(
             "pet_type",
         }
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'pet_type': {
                     'ChildCat': ChildCat,
@@ -56,23 +56,23 @@ class GrandparentAnimal(
     pet_type: MetaOapg.properties.pet_type
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
+    def __getitem__(self, name: typing_extensions.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["pet_type", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["pet_type", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["pet_type"]) -> MetaOapg.properties.pet_type: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["pet_type", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["pet_type", ], str]):
         return super().get_item_oapg(name)
     
 

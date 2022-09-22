@@ -10,9 +10,8 @@ required = {
 {{#each mappedModels}}
 {{#if @first}}
 
-@classmethod
-@property
-def discriminator(cls):
+@staticmethod
+def discriminator():
     return {
         '{{{propertyBaseName}}}': {
 {{/if}}
@@ -30,9 +29,8 @@ class properties:
 {{#each vars}}
 {{#if complexType}}
 
-    @classmethod
-    @property
-    def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+    @staticmethod
+    def {{baseName}}() -> typing.Type['{{complexType}}']:
         return {{complexType}}
 {{else}}
     {{> model_templates/schema }}
@@ -51,9 +49,8 @@ class properties:
 {{#with additionalProperties}}
 {{#if complexType}}
 
-@classmethod
-@property
-def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+@staticmethod
+def {{baseName}}() -> typing.Type['{{complexType}}']:
     return {{complexType}}
 {{else}}
 {{> model_templates/schema }}

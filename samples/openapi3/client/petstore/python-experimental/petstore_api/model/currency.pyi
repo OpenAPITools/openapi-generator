@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -37,12 +38,10 @@ class Currency(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def EUR(cls):
         return cls("eur")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def USD(cls):
         return cls("usd")

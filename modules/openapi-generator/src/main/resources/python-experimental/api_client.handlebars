@@ -13,6 +13,7 @@ from multiprocessing.pool import ThreadPool
 import re
 import tempfile
 import typing
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 from urllib.parse import urlparse, quote
@@ -704,7 +705,7 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
         )
 
     @staticmethod
-    def __to_headers(in_data: typing.Tuple[typing.Tuple[str, str], ...]) -> HTTPHeaderDict[str, str]:
+    def __to_headers(in_data: typing.Tuple[typing.Tuple[str, str], ...]) -> HTTPHeaderDict:
         data = tuple(t for t in in_data if t)
         headers = HTTPHeaderDict()
         if not data:
@@ -716,7 +717,7 @@ class HeaderParameter(ParameterBase, StyleSimpleSerializer):
         self,
         in_data: typing.Union[
             Schema, Decimal, int, float, str, date, datetime, None, bool, list, tuple, dict, frozendict.frozendict]
-    ) -> HTTPHeaderDict[str, str]:
+    ) -> HTTPHeaderDict:
         if self.schema:
             cast_in_data = self.schema(in_data)
             cast_in_data = self._json_encoder.default(cast_in_data)
@@ -1270,7 +1271,7 @@ class Api:
         self.api_client = api_client
 
     @staticmethod
-    def _verify_typed_dict_inputs_oapg(cls: typing.Type[typing.TypedDict], data: typing.Dict[str, typing.Any]):
+    def _verify_typed_dict_inputs_oapg(cls: typing.Type[typing_extensions.TypedDict], data: typing.Dict[str, typing.Any]):
         """
         Ensures that:
         - required keys are present
@@ -1342,9 +1343,9 @@ class Api:
         return host
 
 
-class SerializedRequestBody(typing.TypedDict, total=False):
+class SerializedRequestBody(typing_extensions.TypedDict, total=False):
     body: typing.Union[str, bytes]
-    fields: typing.Tuple[typing.Union[RequestField, tuple[str, str]], ...]
+    fields: typing.Tuple[typing.Union[RequestField, typing.Tuple[str, str]], ...]
 
 
 class RequestBody(StyleFormSerializer, JSONDetector):

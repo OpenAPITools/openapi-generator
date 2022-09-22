@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -37,9 +39,8 @@ class SchemaForRequestBodyApplicationJson(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['User']:
+        @staticmethod
+        def items() -> typing.Type['User']:
             return User
 
     def __new__(

@@ -70,7 +70,7 @@ class TestFruitReq(unittest.TestCase):
 
         # make sure that the ModelComposed class properties are correct
         self.assertEqual(
-            FruitReq.MetaOapg.one_of,
+            FruitReq.MetaOapg.one_of(),
             [
                 schemas.NoneSchema,
                 apple_req.AppleReq,

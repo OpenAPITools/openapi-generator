@@ -1,15 +1,13 @@
 {{#if isNull}}
 
-@classmethod
-@property
+@schemas.classproperty
 def NONE(cls):
     return cls(None)
 {{/if}}
 {{#with allowableValues}}
 {{#each enumVars}}
 
-@classmethod
-@property
+@schemas.classproperty
 def {{name}}(cls):
     return cls({{{value}}})
 {{/each}}

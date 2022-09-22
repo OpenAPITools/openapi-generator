@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -112,13 +113,11 @@ class MapTest(
                         schemas.StrSchema
                     ):
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def UPPER(cls):
                             return cls("UPPER")
                         
-                        @classmethod
-                        @property
+                        @schemas.classproperty
                         def LOWER(cls):
                             return cls("lower")
                 
@@ -171,9 +170,8 @@ class MapTest(
                         **kwargs,
                     )
         
-            @classmethod
-            @property
-            def indirect_map(cls) -> typing.Type['StringBooleanMap']:
+            @staticmethod
+            def indirect_map() -> typing.Type['StringBooleanMap']:
                 return StringBooleanMap
             __annotations__ = {
                 "map_map_of_string": map_map_of_string,
@@ -183,41 +181,41 @@ class MapTest(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_map_of_string"]) -> MetaOapg.properties.map_map_of_string: ...
+    def __getitem__(self, name: typing_extensions.Literal["map_map_of_string"]) -> MetaOapg.properties.map_map_of_string: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["map_of_enum_string"]) -> MetaOapg.properties.map_of_enum_string: ...
+    def __getitem__(self, name: typing_extensions.Literal["map_of_enum_string"]) -> MetaOapg.properties.map_of_enum_string: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["direct_map"]) -> MetaOapg.properties.direct_map: ...
+    def __getitem__(self, name: typing_extensions.Literal["direct_map"]) -> MetaOapg.properties.direct_map: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["indirect_map"]) -> 'StringBooleanMap': ...
+    def __getitem__(self, name: typing_extensions.Literal["indirect_map"]) -> 'StringBooleanMap': ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["map_map_of_string"]) -> typing.Union[MetaOapg.properties.map_map_of_string, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["map_map_of_string"]) -> typing.Union[MetaOapg.properties.map_map_of_string, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["map_of_enum_string"]) -> typing.Union[MetaOapg.properties.map_of_enum_string, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["map_of_enum_string"]) -> typing.Union[MetaOapg.properties.map_of_enum_string, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["direct_map"]) -> typing.Union[MetaOapg.properties.direct_map, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["direct_map"]) -> typing.Union[MetaOapg.properties.direct_map, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["indirect_map"]) -> typing.Union['StringBooleanMap', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["indirect_map"]) -> typing.Union['StringBooleanMap', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map", ], str]):
         return super().get_item_oapg(name)
     
 

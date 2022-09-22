@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -51,8 +52,7 @@ class JSONPatchRequestRemove(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def REMOVE(cls):
                     return cls("remove")
             __annotations__ = {
@@ -65,22 +65,22 @@ class JSONPatchRequestRemove(
     path: MetaOapg.properties.path
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["op"]) -> MetaOapg.properties.op: ...
+    def __getitem__(self, name: typing_extensions.Literal["op"]) -> MetaOapg.properties.op: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["path"]) -> MetaOapg.properties.path: ...
+    def __getitem__(self, name: typing_extensions.Literal["path"]) -> MetaOapg.properties.path: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["op"], typing.Literal["path"], ]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["op"], typing_extensions.Literal["path"], ]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["op"]) -> MetaOapg.properties.op: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["op"]) -> MetaOapg.properties.op: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["path"]) -> MetaOapg.properties.path: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["path"]) -> MetaOapg.properties.path: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["op"], typing.Literal["path"], ]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["op"], typing_extensions.Literal["path"], ]):
         return super().get_item_oapg(name)
 
     def __new__(

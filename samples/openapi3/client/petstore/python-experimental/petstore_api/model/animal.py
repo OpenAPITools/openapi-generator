@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -37,9 +38,8 @@ class Animal(
             "className",
         }
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'className': {
                     'Cat': Cat,
@@ -58,29 +58,29 @@ class Animal(
     className: MetaOapg.properties.className
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
+    def __getitem__(self, name: typing_extensions.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["color"]) -> MetaOapg.properties.color: ...
+    def __getitem__(self, name: typing_extensions.Literal["color"]) -> MetaOapg.properties.color: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["className", "color", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["className", "color", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["className"]) -> MetaOapg.properties.className: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["className"]) -> MetaOapg.properties.className: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["color"]) -> typing.Union[MetaOapg.properties.color, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["color"]) -> typing.Union[MetaOapg.properties.color, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["className", "color", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["className", "color", ], str]):
         return super().get_item_oapg(name)
     
 

@@ -27,6 +27,7 @@ REQUIRES = [
   "frozendict >= 2.0.3",
   "pem>=19.3.0",
   "pycryptodome>=3.9.0",
+  "typing_extensions",
 ]
 
 setup(
@@ -37,7 +38,7 @@ setup(
     author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
-    python_requires=">=3.9",
+    python_requires=">=3.7",
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,

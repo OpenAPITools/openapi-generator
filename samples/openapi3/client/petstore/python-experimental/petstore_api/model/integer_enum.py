@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -38,17 +39,14 @@ class IntegerEnum(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_0(cls):
         return cls(0)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_1(cls):
         return cls(1)
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def POSITIVE_2(cls):
         return cls(2)

@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -63,23 +64,23 @@ class ArrayOfNumberOnly(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["ArrayNumber"]) -> MetaOapg.properties.ArrayNumber: ...
+    def __getitem__(self, name: typing_extensions.Literal["ArrayNumber"]) -> MetaOapg.properties.ArrayNumber: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["ArrayNumber", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["ArrayNumber", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["ArrayNumber"]) -> typing.Union[MetaOapg.properties.ArrayNumber, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["ArrayNumber", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["ArrayNumber", ], str]):
         return super().get_item_oapg(name)
     
 

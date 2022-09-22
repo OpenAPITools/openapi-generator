@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -49,22 +50,22 @@ class BananaReq(
     lengthCm: MetaOapg.properties.lengthCm
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
+    def __getitem__(self, name: typing_extensions.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["sweet"]) -> MetaOapg.properties.sweet: ...
+    def __getitem__(self, name: typing_extensions.Literal["sweet"]) -> MetaOapg.properties.sweet: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["lengthCm"], typing.Literal["sweet"], ]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["lengthCm"], typing_extensions.Literal["sweet"], ]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["lengthCm"]) -> MetaOapg.properties.lengthCm: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["sweet"]) -> typing.Union[MetaOapg.properties.sweet, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["sweet"]) -> typing.Union[MetaOapg.properties.sweet, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["lengthCm"], typing.Literal["sweet"], ]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["lengthCm"], typing_extensions.Literal["sweet"], ]):
         return super().get_item_oapg(name)
 
     def __new__(

@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -38,9 +39,8 @@ class ObjectWithDecimalProperties(
             length = schemas.DecimalSchema
             width = schemas.DecimalSchema
         
-            @classmethod
-            @property
-            def cost(cls) -> typing.Type['Money']:
+            @staticmethod
+            def cost() -> typing.Type['Money']:
                 return Money
             __annotations__ = {
                 "length": length,
@@ -49,35 +49,35 @@ class ObjectWithDecimalProperties(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["length"]) -> MetaOapg.properties.length: ...
+    def __getitem__(self, name: typing_extensions.Literal["length"]) -> MetaOapg.properties.length: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["width"]) -> MetaOapg.properties.width: ...
+    def __getitem__(self, name: typing_extensions.Literal["width"]) -> MetaOapg.properties.width: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["cost"]) -> 'Money': ...
+    def __getitem__(self, name: typing_extensions.Literal["cost"]) -> 'Money': ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["length", "width", "cost", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["length"]) -> typing.Union[MetaOapg.properties.length, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["width"]) -> typing.Union[MetaOapg.properties.width, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["cost"]) -> typing.Union['Money', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["length", "width", "cost", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["length", "width", "cost", ], str]):
         return super().get_item_oapg(name)
     
 

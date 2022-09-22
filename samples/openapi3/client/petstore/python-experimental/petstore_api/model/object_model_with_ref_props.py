@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -38,9 +39,8 @@ class ObjectModelWithRefProps(
         
         class properties:
         
-            @classmethod
-            @property
-            def myNumber(cls) -> typing.Type['NumberWithValidations']:
+            @staticmethod
+            def myNumber() -> typing.Type['NumberWithValidations']:
                 return NumberWithValidations
             myString = schemas.StrSchema
             myBoolean = schemas.BoolSchema
@@ -51,35 +51,35 @@ class ObjectModelWithRefProps(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["myNumber"]) -> 'NumberWithValidations': ...
+    def __getitem__(self, name: typing_extensions.Literal["myNumber"]) -> 'NumberWithValidations': ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["myString"]) -> MetaOapg.properties.myString: ...
+    def __getitem__(self, name: typing_extensions.Literal["myString"]) -> MetaOapg.properties.myString: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["myBoolean"]) -> MetaOapg.properties.myBoolean: ...
+    def __getitem__(self, name: typing_extensions.Literal["myBoolean"]) -> MetaOapg.properties.myBoolean: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["myNumber", "myString", "myBoolean", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["myNumber", "myString", "myBoolean", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["myNumber"]) -> typing.Union['NumberWithValidations', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["myNumber"]) -> typing.Union['NumberWithValidations', schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["myString"]) -> typing.Union[MetaOapg.properties.myString, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["myString"]) -> typing.Union[MetaOapg.properties.myString, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["myBoolean"]) -> typing.Union[MetaOapg.properties.myBoolean, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["myBoolean"]) -> typing.Union[MetaOapg.properties.myBoolean, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["myNumber", "myString", "myBoolean", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["myNumber", "myString", "myBoolean", ], str]):
         return super().get_item_oapg(name)
     
 

@@ -13,10 +13,10 @@ from petstore_api.paths.user.post import CreateUser
 from petstore_api.paths.user_create_with_array.post import CreateUsersWithArrayInput
 from petstore_api.paths.user_create_with_list.post import CreateUsersWithListInput
 from petstore_api.paths.user_username.delete import DeleteUser
-from petstore_api.paths.user_username_1.get import GetUserByName
+from petstore_api.paths.user_username.get import GetUserByName
 from petstore_api.paths.user_login.get import LoginUser
 from petstore_api.paths.user_logout.get import LogoutUser
-from petstore_api.paths.user_username_2.put import UpdateUser
+from petstore_api.paths.user_username.put import UpdateUser
 
 
 class UserApi(

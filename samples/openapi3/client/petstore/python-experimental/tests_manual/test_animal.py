@@ -43,7 +43,7 @@ class TestAnimal(unittest.TestCase):
         animal = Animal(className='Cat', color='black')
         assert isinstance(animal, frozendict.frozendict)
         assert isinstance(animal, Cat)
-        assert isinstance(animal, Cat.MetaOapg.all_of[1])
+        assert isinstance(animal, Cat.MetaOapg.all_of()[1])
         assert isinstance(animal, Animal)
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Cat'
@@ -56,7 +56,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict.frozendict)
         assert isinstance(animal, Cat)
-        assert isinstance(animal, Cat.MetaOapg.all_of[1])
+        assert isinstance(animal, Cat.MetaOapg.all_of()[1])
         assert set(animal.keys()) == {'className', 'color', 'declawed'}
         assert animal.className == 'Cat'
         assert animal["color"] == 'black'
@@ -70,7 +70,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict.frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog.MetaOapg.all_of[1])
+        assert isinstance(animal, Dog.MetaOapg.all_of()[1])
         assert set(animal.keys()) == {'className', 'color'}
         assert animal.className == 'Dog'
         assert animal["color"] == 'black'
@@ -82,7 +82,7 @@ class TestAnimal(unittest.TestCase):
         assert isinstance(animal, Animal)
         assert isinstance(animal, frozendict.frozendict)
         assert isinstance(animal, Dog)
-        assert isinstance(animal, Dog.MetaOapg.all_of[1])
+        assert isinstance(animal, Dog.MetaOapg.all_of()[1])
         assert set(animal.keys()) == {'className', 'color', 'breed'}
         assert animal.className == 'Dog'
         assert animal["color"] == 'black'

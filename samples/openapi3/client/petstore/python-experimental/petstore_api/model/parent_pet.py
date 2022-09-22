@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -35,9 +36,8 @@ class ParentPet(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def discriminator(cls):
+        @staticmethod
+        def discriminator():
             return {
                 'pet_type': {
                     'ChildCat': ChildCat,
@@ -45,8 +45,7 @@ class ParentPet(
             }
         
         @classmethod
-        @property
-        @functools.cache
+        @functools.lru_cache()
         def all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run

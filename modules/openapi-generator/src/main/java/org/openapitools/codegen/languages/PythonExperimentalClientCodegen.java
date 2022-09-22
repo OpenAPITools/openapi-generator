@@ -20,7 +20,6 @@ import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import com.google.common.base.CaseFormat;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -112,6 +111,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         addSchemaImportsFromV3SpecLocations = true;
         sortModelPropertiesByRequiredFlag = Boolean.TRUE;
         sortParamsByRequiredFlag = Boolean.TRUE;
+        addSuffixToDuplicateOperationNicknames = false;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(
@@ -2638,7 +2638,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public String generatorLanguageVersion() { return ">=3.9"; };
+    public String generatorLanguageVersion() { return ">=3.7"; };
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {

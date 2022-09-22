@@ -1,11 +1,11 @@
-import typing
+import typing_extensions
 
 from {{packageName}}.apis.tags import TagValues
 {{#each tagModuleNameToApiClassname}}
 from {{packageName}}.apis.tags.{{@key}} import {{this}}
 {{/each}}
 
-TagToApi = typing.TypedDict(
+TagToApi = typing_extensions.TypedDict(
     'TagToApi',
     {
 {{#each tagEnumToApiClassname}}

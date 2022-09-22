@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -45,8 +47,7 @@ class CompositionAtRootSchema(
                 min_length = 1
         
         @classmethod
-        @property
-        @functools.cache
+        @functools.lru_cache()
         def all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -101,8 +102,7 @@ class CompositionInPropertySchema(
                             min_length = 1
                     
                     @classmethod
-                    @property
-                    @functools.cache
+                    @functools.lru_cache()
                     def all_of(cls):
                         # we need this here to make our import statements work
                         # we must store _composed_schemas in here so the code is only run
@@ -133,23 +133,23 @@ class CompositionInPropertySchema(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    def __getitem__(self, name: typing_extensions.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["someProp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["someProp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["someProp", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -167,12 +167,12 @@ class CompositionInPropertySchema(
             _configuration=_configuration,
             **kwargs,
         )
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'compositionAtRoot': typing.Union[CompositionAtRootSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
@@ -218,8 +218,7 @@ class SchemaForRequestBodyApplicationJson(
                 min_length = 1
         
         @classmethod
-        @property
-        @functools.cache
+        @functools.lru_cache()
         def all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -274,8 +273,7 @@ class SchemaForRequestBodyMultipartFormData(
                             min_length = 1
                     
                     @classmethod
-                    @property
-                    @functools.cache
+                    @functools.lru_cache()
                     def all_of(cls):
                         # we need this here to make our import statements work
                         # we must store _composed_schemas in here so the code is only run
@@ -306,23 +304,23 @@ class SchemaForRequestBodyMultipartFormData(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    def __getitem__(self, name: typing_extensions.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["someProp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["someProp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["someProp", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -369,8 +367,7 @@ class SchemaFor200ResponseBodyApplicationJson(
                 min_length = 1
         
         @classmethod
-        @property
-        @functools.cache
+        @functools.lru_cache()
         def all_of(cls):
             # we need this here to make our import statements work
             # we must store _composed_schemas in here so the code is only run
@@ -425,8 +422,7 @@ class SchemaFor200ResponseBodyMultipartFormData(
                             min_length = 1
                     
                     @classmethod
-                    @property
-                    @functools.cache
+                    @functools.lru_cache()
                     def all_of(cls):
                         # we need this here to make our import statements work
                         # we must store _composed_schemas in here so the code is only run
@@ -457,23 +453,23 @@ class SchemaFor200ResponseBodyMultipartFormData(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
+    def __getitem__(self, name: typing_extensions.Literal["someProp"]) -> MetaOapg.properties.someProp: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["someProp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["someProp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["someProp"]) -> typing.Union[MetaOapg.properties.someProp, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["someProp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["someProp", ], str]):
         return super().get_item_oapg(name)
     
 

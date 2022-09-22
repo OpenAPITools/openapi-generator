@@ -1,4 +1,4 @@
-import typing
+import typing_extensions
 
 from petstore_api.apis.tags import TagValues
 from petstore_api.apis.tags.pet_api import PetApi
@@ -9,7 +9,7 @@ from petstore_api.apis.tags.default_api import DefaultApi
 from petstore_api.apis.tags.fake_api import FakeApi
 from petstore_api.apis.tags.fake_classname_tags123_api import FakeClassnameTags123Api
 
-TagToApi = typing.TypedDict(
+TagToApi = typing_extensions.TypedDict(
     'TagToApi',
     {
         TagValues.PET: PetApi,

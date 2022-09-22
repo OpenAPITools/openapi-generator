@@ -25,6 +25,7 @@ REQUIRES = [
   "certifi",
   "python-dateutil",
   "frozendict >= 2.0.3",
+  "typing_extensions",
 ]
 
 setup(
@@ -35,7 +36,7 @@ setup(
     author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "openapi 3.0.3 sample spec"],
-    python_requires=">=3.9",
+    python_requires=">=3.7",
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,

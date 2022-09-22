@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -34,9 +35,8 @@ class RefInAdditionalproperties(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def additional_properties(cls) -> typing.Type['PropertyNamedRefThatIsNotAReference']:
+        @staticmethod
+        def additional_properties() -> typing.Type['PropertyNamedRefThatIsNotAReference']:
             return PropertyNamedRefThatIsNotAReference
     
     def __getitem__(self, name: typing.Union[str, ]) -> 'PropertyNamedRefThatIsNotAReference':

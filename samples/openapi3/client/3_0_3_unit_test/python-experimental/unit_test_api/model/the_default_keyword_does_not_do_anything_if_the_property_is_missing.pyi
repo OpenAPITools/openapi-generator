@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -46,23 +47,23 @@ class TheDefaultKeywordDoesNotDoAnythingIfThePropertyIsMissing(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["alpha"]) -> MetaOapg.properties.alpha: ...
+    def __getitem__(self, name: typing_extensions.Literal["alpha"]) -> MetaOapg.properties.alpha: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["alpha", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["alpha", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["alpha"]) -> typing.Union[MetaOapg.properties.alpha, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["alpha"]) -> typing.Union[MetaOapg.properties.alpha, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["alpha", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["alpha", ], str]):
         return super().get_item_oapg(name)
     
 

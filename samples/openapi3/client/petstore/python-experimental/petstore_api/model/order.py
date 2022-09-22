@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -52,18 +53,15 @@ class Order(
                 schemas.StrSchema
             ):
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def PLACED(cls):
                     return cls("placed")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def APPROVED(cls):
                     return cls("approved")
                 
-                @classmethod
-                @property
+                @schemas.classproperty
                 def DELIVERED(cls):
                     return cls("delivered")
             complete = schemas.BoolSchema
@@ -77,53 +75,53 @@ class Order(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["id"]) -> MetaOapg.properties.id: ...
+    def __getitem__(self, name: typing_extensions.Literal["id"]) -> MetaOapg.properties.id: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["petId"]) -> MetaOapg.properties.petId: ...
+    def __getitem__(self, name: typing_extensions.Literal["petId"]) -> MetaOapg.properties.petId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["quantity"]) -> MetaOapg.properties.quantity: ...
+    def __getitem__(self, name: typing_extensions.Literal["quantity"]) -> MetaOapg.properties.quantity: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["shipDate"]) -> MetaOapg.properties.shipDate: ...
+    def __getitem__(self, name: typing_extensions.Literal["shipDate"]) -> MetaOapg.properties.shipDate: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["status"]) -> MetaOapg.properties.status: ...
+    def __getitem__(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["complete"]) -> MetaOapg.properties.complete: ...
+    def __getitem__(self, name: typing_extensions.Literal["complete"]) -> MetaOapg.properties.complete: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["id"]) -> typing.Union[MetaOapg.properties.id, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["id"]) -> typing.Union[MetaOapg.properties.id, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["petId"]) -> typing.Union[MetaOapg.properties.petId, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["petId"]) -> typing.Union[MetaOapg.properties.petId, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["quantity"]) -> typing.Union[MetaOapg.properties.quantity, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["quantity"]) -> typing.Union[MetaOapg.properties.quantity, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["shipDate"]) -> typing.Union[MetaOapg.properties.shipDate, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["shipDate"]) -> typing.Union[MetaOapg.properties.shipDate, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["status"]) -> typing.Union[MetaOapg.properties.status, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["complete"]) -> typing.Union[MetaOapg.properties.complete, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["complete"]) -> typing.Union[MetaOapg.properties.complete, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "petId", "quantity", "shipDate", "status", "complete", ], str]):
         return super().get_item_oapg(name)
     
 

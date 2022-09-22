@@ -32,13 +32,13 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         class EnumPlusPrim(IntegerMax10, IntegerEnumOneValue):
             pass
 
-        assert EnumPlusPrim._enum_value_to_name == {0: "POSITIVE_0"}
+        assert EnumPlusPrim._enum_value_to_name() == {0: "POSITIVE_0"}
 
         # order of base classes does not matter
         class EnumPlusPrim(IntegerEnumOneValue, IntegerMax10):
             pass
 
-        assert EnumPlusPrim._enum_value_to_name == {0: "POSITIVE_0"}
+        assert EnumPlusPrim._enum_value_to_name() == {0: "POSITIVE_0"}
 
         enum_value = EnumPlusPrim.POSITIVE_0
         assert isinstance(enum_value, EnumPlusPrim)
@@ -62,13 +62,13 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         class IntegerOneEnum(IntegerEnum, IntegerEnumOneValue):
             pass
 
-        assert IntegerOneEnum._enum_value_to_name == {0: "POSITIVE_0"}
+        assert IntegerOneEnum._enum_value_to_name() == {0: "POSITIVE_0"}
 
         # order of base classes does not matter
         class IntegerOneEnum(IntegerEnumOneValue, IntegerEnum):
             pass
 
-        assert IntegerOneEnum._enum_value_to_name == {0: "POSITIVE_0"}
+        assert IntegerOneEnum._enum_value_to_name() == {0: "POSITIVE_0"}
 
         enum_value = IntegerOneEnum.POSITIVE_0
         assert isinstance(enum_value, IntegerOneEnum)

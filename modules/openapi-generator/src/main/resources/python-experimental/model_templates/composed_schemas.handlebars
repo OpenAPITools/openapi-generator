@@ -19,8 +19,7 @@
 {{#if allOf}}
 
 @classmethod
-@property
-@functools.cache
+@functools.lru_cache()
 def all_of(cls):
     # we need this here to make our import statements work
     # we must store _composed_schemas in here so the code is only run
@@ -46,8 +45,7 @@ def all_of(cls):
 {{#if oneOf}}
 
 @classmethod
-@property
-@functools.cache
+@functools.lru_cache()
 def one_of(cls):
     # we need this here to make our import statements work
     # we must store _composed_schemas in here so the code is only run
@@ -73,8 +71,7 @@ def one_of(cls):
 {{#if anyOf}}
 
 @classmethod
-@property
-@functools.cache
+@functools.lru_cache()
 def any_of(cls):
     # we need this here to make our import statements work
     # we must store _composed_schemas in here so the code is only run
@@ -101,9 +98,8 @@ def any_of(cls):
 {{#with not}}
 {{#if complexType}}
 
-@classmethod
-@property
-def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+@staticmethod
+def {{baseName}}() -> typing.Type['{{complexType}}']:
     return {{complexType}}
 {{else}}
 {{> model_templates/schema }}

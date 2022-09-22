@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 
 from petstore_api import api_client, exceptions
@@ -16,6 +17,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -41,23 +43,23 @@ class MapBeanSchema(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["keyword"]) -> MetaOapg.properties.keyword: ...
+    def __getitem__(self, name: typing_extensions.Literal["keyword"]) -> MetaOapg.properties.keyword: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["keyword", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["keyword", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["keyword"]) -> typing.Union[MetaOapg.properties.keyword, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["keyword"]) -> typing.Union[MetaOapg.properties.keyword, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["keyword", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["keyword", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -75,12 +77,12 @@ class MapBeanSchema(
             _configuration=_configuration,
             **kwargs,
         )
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'mapBean': typing.Union[MapBeanSchema, dict, frozendict.frozendict, ],

@@ -1,4 +1,4 @@
-import typing
+import typing_extensions
 
 from unit_test_api.apis.tags import TagValues
 from unit_test_api.apis.tags.operation_request_body_api import OperationRequestBodyApi
@@ -30,7 +30,7 @@ from unit_test_api.apis.tags.required_api import RequiredApi
 from unit_test_api.apis.tags.type_api import TypeApi
 from unit_test_api.apis.tags.unique_items_api import UniqueItemsApi
 
-TagToApi = typing.TypedDict(
+TagToApi = typing_extensions.TypedDict(
     'TagToApi',
     {
         TagValues.OPERATION_REQUEST_BODY: OperationRequestBodyApi,

@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 
 from petstore_api import api_client, exceptions
@@ -16,6 +17,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -28,7 +30,7 @@ from . import path
 SomeVarSchema = schemas.StrSchema
 SomeVarSchema = schemas.StrSchema
 SomeVarSchema = schemas.StrSchema
-RequestRequiredQueryParams = typing.TypedDict(
+RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
         'someVar': typing.Union[SomeVarSchema, str, ],
@@ -36,7 +38,7 @@ RequestRequiredQueryParams = typing.TypedDict(
         'some_var': typing.Union[SomeVarSchema, str, ],
     }
 )
-RequestOptionalQueryParams = typing.TypedDict(
+RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
     },

@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -39,9 +40,8 @@ class Player(
         class properties:
             name = schemas.StrSchema
         
-            @classmethod
-            @property
-            def enemyPlayer(cls) -> typing.Type['Player']:
+            @staticmethod
+            def enemyPlayer() -> typing.Type['Player']:
                 return Player
             __annotations__ = {
                 "name": name,
@@ -49,29 +49,29 @@ class Player(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["name"]) -> MetaOapg.properties.name: ...
+    def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing.Literal["enemyPlayer"]) -> 'Player': ...
+    def __getitem__(self, name: typing_extensions.Literal["enemyPlayer"]) -> 'Player': ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing.Literal["name", "enemyPlayer", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "enemyPlayer", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing.Literal["enemyPlayer"]) -> typing.Union['Player', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enemyPlayer"]) -> typing.Union['Player', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing.Literal["name", "enemyPlayer", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "enemyPlayer", ], str]):
         return super().get_item_oapg(name)
     
 

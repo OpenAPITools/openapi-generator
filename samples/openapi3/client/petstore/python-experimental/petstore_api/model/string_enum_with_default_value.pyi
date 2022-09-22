@@ -15,6 +15,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -38,17 +39,14 @@ class StringEnumWithDefaultValue(
     Do not edit the class manually.
     """
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def PLACED(cls):
         return cls("placed")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def APPROVED(cls):
         return cls("approved")
     
-    @classmethod
-    @property
+    @schemas.classproperty
     def DELIVERED(cls):
         return cls("delivered")

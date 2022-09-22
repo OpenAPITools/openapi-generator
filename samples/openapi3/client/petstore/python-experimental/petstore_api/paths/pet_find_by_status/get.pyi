@@ -7,6 +7,7 @@
 """
 
 from dataclasses import dataclass
+import typing_extensions
 import urllib3
 from urllib3._collections import HTTPHeaderDict
 
@@ -17,6 +18,7 @@ import functools  # noqa: F401
 import io  # noqa: F401
 import re  # noqa: F401
 import typing  # noqa: F401
+import typing_extensions  # noqa: F401
 import uuid  # noqa: F401
 
 import frozendict  # noqa: F401
@@ -47,18 +49,15 @@ class StatusSchema(
             schemas.StrSchema
         ):
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def AVAILABLE(cls):
                 return cls("available")
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def PENDING(cls):
                 return cls("pending")
             
-            @classmethod
-            @property
+            @schemas.classproperty
             def SOLD(cls):
                 return cls("sold")
 
@@ -84,9 +83,8 @@ class SchemaFor200ResponseBodyApplicationXml(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['Pet']:
+        @staticmethod
+        def items() -> typing.Type['Pet']:
             return Pet
 
     def __new__(
@@ -111,9 +109,8 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     class MetaOapg:
         
-        @classmethod
-        @property
-        def items(cls) -> typing.Type['Pet']:
+        @staticmethod
+        def items() -> typing.Type['Pet']:
             return Pet
 
     def __new__(
