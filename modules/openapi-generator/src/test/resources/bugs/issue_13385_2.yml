@@ -20,4 +20,4 @@ components:
         picture:
           type: string
           format: byte
-          nullable: true
+          nullable: false
