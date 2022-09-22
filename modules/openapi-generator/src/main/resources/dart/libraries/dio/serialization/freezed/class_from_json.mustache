@@ -1,0 +1,19 @@
+{{^hasDiscriminatorWithNonEmptyMapping}}
+factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+{{/hasDiscriminatorWithNonEmptyMapping}}
+
+{{#hasDiscriminatorWithNonEmptyMapping}}
+    factory {{classname}}.fromJson(Map<String, dynamic> json) {
+        {{#discriminator}}
+        switch(json['{{propertyBaseName}}']){
+            {{#mappedModels}}
+                case '{{mappingName}}':
+                    return {{classname}}.{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}(
+                        {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}} : {{modelName}}.fromJson(json),
+                    );
+            {{/mappedModels}}
+        }
+        {{/discriminator}}
+        return {{classname}}.unknown();
+    }
+{{/hasDiscriminatorWithNonEmptyMapping}}

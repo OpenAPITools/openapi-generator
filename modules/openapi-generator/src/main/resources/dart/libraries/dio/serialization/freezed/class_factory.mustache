@@ -1,0 +1,21 @@
+{{^hasDiscriminatorWithNonEmptyMapping}}
+const factory {{classname}}({
+{{#vars}}
+    {{#description}}
+        /// {{{.}}}
+    {{/description}}
+    @JsonKey(name: r'{{baseName}}') {{>serialization/freezed/variable_type}} {{name}},
+{{/vars}}
+}) = _{{classname}};
+{{/hasDiscriminatorWithNonEmptyMapping}}
+
+{{#hasDiscriminatorWithNonEmptyMapping}}
+    {{#discriminator}}
+    {{#mappedModels}}
+        const factory {{classname}}.{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}({
+            required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}
+        }) = {{classname}}{{mappingName}};
+    {{/mappedModels}}
+    const factory {{classname}}.unknown() = {{classname}}Unknown;
+    {{/discriminator}}
+{{/hasDiscriminatorWithNonEmptyMapping}}

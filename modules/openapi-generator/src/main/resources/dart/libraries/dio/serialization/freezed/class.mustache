@@ -1,8 +1,4 @@
-//ignore_for_file: invalid_annotation_target
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part '{{classFilename}}.g.dart';
-part '{{classFilename}}.freezed.dart';
+part of 'models.dart';
 
 /// {{{description}}}{{^description}}{{classname}}{{/description}}
 {{#hasVars}}
@@ -17,16 +13,16 @@ part '{{classFilename}}.freezed.dart';
 class {{classname}} with _${{classname}} {
 const {{classname}}._();
 
-const factory {{classname}}({
-{{#vars}}
-    {{#description}}
-        /// {{{.}}}
-    {{/description}}
-    @JsonKey(name: r'{{baseName}}') {{>serialization/freezed/variable_type}} {{name}},
-{{/vars}}
-}) = _{{classname}};
 
-factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+{{>serialization/freezed/class_factory}}
+
+{{>serialization/freezed/class_from_json}}
+
+{{! toJson is only required for oneOf types}}
+{{#hasDiscriminatorWithNonEmptyMapping}}
+{{>serialization/freezed/class_to_json}}
+{{/hasDiscriminatorWithNonEmptyMapping}}
+
 }
 
 {{!

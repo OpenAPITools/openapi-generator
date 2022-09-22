@@ -286,6 +286,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private void configureSerializationLibraryFreezed(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/freezed/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
+        supportingFiles.add(new SupportingFile("serialization/freezed/models.dart.mustache", modelPackage, "models.dart"));
 
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
@@ -518,7 +519,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
             // ancestorOnlyProperties are properties defined by all ancestors
             // NOTE: oneOf,anyOf are NOT considered ancestors
-            // since a child in dart must implEment ALL OF the parent (using implements)
+            // since a child in dart must implement ALL OF the parent (using implements)
             Map<String, CodegenProperty> ancestorOnlyProperties = new HashMap<>();
 
             // combines both selfOnlyProperties and ancestorOnlyProperties

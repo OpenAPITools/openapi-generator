@@ -1,0 +1,9 @@
+//ignore_for_file: invalid_annotation_target
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'models.freezed.dart';
+part 'models.g.dart';
+
+{{! Add part deifinition for all models}}
+{{#models}}{{#model}}part '{{classFilename}}.dart';{{/model}}{{/models}}
+
