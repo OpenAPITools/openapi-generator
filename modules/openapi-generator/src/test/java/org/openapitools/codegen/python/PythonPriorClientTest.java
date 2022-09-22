@@ -344,7 +344,7 @@ public class PythonPriorClientTest {
 
     @Test(description = "parse date and date-time example value")
     public void parseDateAndDateTimeExamplesTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python-prior/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         final DefaultCodegen codegen = new PythonPriorClientCodegen();
 
         Schema modelSchema = ModelUtils.getSchema(openAPI, "DateTimeTest");
@@ -417,7 +417,7 @@ public class PythonPriorClientTest {
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("python")
+                .setGeneratorName("python-prior")
                 .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
@@ -511,7 +511,7 @@ public class PythonPriorClientTest {
     @Test(description = "tests NoProxyPyClient")
     public void testNoProxyPyClient() throws Exception {
 
-        final String gen = "python";
+        final String gen = "python-prior";
         final String spec = "src/test/resources/3_0/petstore.yaml";
 
         File output = Files.createTempDirectory("test").toFile();
