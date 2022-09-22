@@ -9,6 +9,7 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_usage_api.py
 tox.ini
 x_auth_id_alias/__init__.py
 x_auth_id_alias/api/__init__.py

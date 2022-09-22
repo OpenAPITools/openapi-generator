@@ -2,9 +2,9 @@
 # which makes it default to false
 # that false setting is needed for composed schemas to work
 # Composed schemas are schemas that contain the allOf/oneOf/anyOf keywords. v2 specs only support the allOf keyword.
-generatorName: python
-outputDir: samples/client/petstore/python
-inputSpec: modules/openapi-generator/src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml
-templateDir: modules/openapi-generator/src/main/resources/python
+generatorName: python-prior
+outputDir: samples/client/petstore/python-prior
+inputSpec: modules/openapi-generator/src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-prior
 additionalProperties:
   packageName: petstore_api
