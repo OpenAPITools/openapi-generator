@@ -211,7 +211,7 @@ public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
      */
     @Override
     public String getName() {
-        return "python";
+        return "python-prior";
     }
 
     @Override

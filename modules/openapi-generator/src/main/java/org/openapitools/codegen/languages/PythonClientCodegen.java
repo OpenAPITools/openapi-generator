@@ -69,8 +69,8 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonExperimentalClientCodegen.class);
+public class PythonClientCodegen extends AbstractPythonCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
 
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
@@ -105,7 +105,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     // for apis.tags tag api definition
     private Map<String, String> tagEnumToApiClassname = new LinkedHashMap<>();
 
-    public PythonExperimentalClientCodegen() {
+    public PythonClientCodegen() {
         super();
         loadDeepObjectIntoItems = false;
         importBaseType = false;
@@ -162,7 +162,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         apiPackage = "apis";
         outputFolder = "generated-code" + File.separatorChar + "python";
 
-        embeddedTemplateDir = templateDir = "python-experimental";
+        embeddedTemplateDir = templateDir = "python";
 
         testFolder = "test";
 
@@ -704,7 +704,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      */
     @Override
     public String getName() {
-        return "python-experimental";
+        return "python";
     }
 
     @Override

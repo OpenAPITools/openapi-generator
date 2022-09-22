@@ -28,10 +28,10 @@ import java.io.File;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class PythonClientOptionsTest extends AbstractOptionsTest {
+public class PythonPriorClientOptionsTest extends AbstractOptionsTest {
     private PythonPriorClientCodegen clientCodegen = mock(PythonPriorClientCodegen.class, mockSettings);
 
-    public PythonClientOptionsTest() {
+    public PythonPriorClientOptionsTest() {
         super(new PythonClientOptionsProvider());
     }
 
