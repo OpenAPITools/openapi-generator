@@ -235,8 +235,8 @@ public class InlineModelResolver {
             if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
                     schema.getProperties() != null || schema.getAdditionalProperties() != null ||
                     schema instanceof ComposedSchema) {
-                LOGGER.error("Illegal schema found with $ref combined with other properties," +
-                        " no properties should be defined alongside a $ref:\n " + schema.toString());
+                LOGGER.warn("The object cannot be extended with additional properties and " +
+                        "any properties added SHALL be ignored:\n " + schema.toString());
             }
             return;
         }
