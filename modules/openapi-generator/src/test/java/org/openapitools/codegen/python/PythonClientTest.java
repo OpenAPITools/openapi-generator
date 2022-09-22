@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonPriorClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -51,7 +51,7 @@ public class PythonClientTest {
     @Test(description = "convert a python model with dots")
     public void modelTest() {
         final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         codegen.setOpenAPI(openAPI);
@@ -82,7 +82,7 @@ public class PythonClientTest {
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -127,7 +127,7 @@ public class PythonClientTest {
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -165,7 +165,7 @@ public class PythonClientTest {
                 .addProperties("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -188,7 +188,7 @@ public class PythonClientTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema()
                 .description("a sample model")
@@ -218,7 +218,7 @@ public class PythonClientTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema()
                 .description("a sample model")
@@ -251,7 +251,7 @@ public class PythonClientTest {
 
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema()
                 .description("a sample model")
@@ -287,7 +287,7 @@ public class PythonClientTest {
     // should not start with 'null'. need help from the community to investigate further
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonPriorClientCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final Schema model = new ArraySchema()
@@ -321,7 +321,7 @@ public class PythonClientTest {
     // should not start with 'null'. need help from the community to investigate further
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema sample = new Schema()
                 .description("a map model")
@@ -345,7 +345,7 @@ public class PythonClientTest {
     @Test(description = "parse date and date-time example value")
     public void parseDateAndDateTimeExamplesTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
 
         Schema modelSchema = ModelUtils.getSchema(openAPI, "DateTimeTest");
         String defaultValue = codegen.toDefaultValue(modelSchema);
@@ -354,7 +354,7 @@ public class PythonClientTest {
 
     @Test(description = "format imports of models containing special characters")
     public void importSpecialModelNameTest() {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonPriorClientCodegen codegen = new PythonPriorClientCodegen();
 
         String importValue = codegen.toModelImport("special.ModelName");
         Assert.assertEquals(importValue, "from models.special_model_name import SpecialModelName");
@@ -362,7 +362,7 @@ public class PythonClientTest {
 
     @Test(description = "format imports of models containing special characters")
     public void defaultSettingInPrimitiveModelWithValidations() {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonPriorClientCodegen codegen = new PythonPriorClientCodegen();
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema noDefault = new Schema()
@@ -434,7 +434,7 @@ public class PythonClientTest {
     @Test(description = "tests ObjectWithValidations")
     public void testObjectWithValidations() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         String modelName = "FreeFormWithValidation";
@@ -446,7 +446,7 @@ public class PythonClientTest {
     @Test(description = "tests RegexObjects")
     public void testRegexObjects() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_11521.yaml");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         String modelName = "DateTimeObject";
@@ -466,7 +466,7 @@ public class PythonClientTest {
     @Test(description = "tests uuid example works even if a pattern is provided")
     public void testUuidExampleWorksEvenIfPatternIsDefined() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issues_13069.yaml");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonPriorClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         Operation operation = openAPI.getPaths().get("/test").getGet();
@@ -485,7 +485,7 @@ public class PythonClientTest {
     @Test(description = "tests RecursiveToExample")
     public void testRecursiveToExample() throws IOException {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8052_recursive_model.yaml");
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonPriorClientCodegen codegen = new PythonPriorClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         final Operation operation = openAPI.getPaths().get("/geojson").getPost();
@@ -552,7 +552,7 @@ public class PythonClientTest {
 
     @Test(dataProvider = "testToModelData")
     public void testToModel(String prefix, String suffix, String input, String want) {
-        PythonClientCodegen codegen = new PythonClientCodegen();
+        PythonPriorClientCodegen codegen = new PythonPriorClientCodegen();
         codegen.setModelNamePrefix(prefix);
         codegen.setModelNameSuffix(suffix);
         Assert.assertEquals(codegen.toModelName(input), want);

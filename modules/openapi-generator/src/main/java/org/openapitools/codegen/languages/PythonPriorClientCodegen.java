@@ -53,18 +53,18 @@ import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
-public class PythonClientCodegen extends PythonLegacyClientCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
+public class PythonPriorClientCodegen extends PythonLegacyClientCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonPriorClientCodegen.class);
 
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
     private DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
-    public PythonClientCodegen() {
+    public PythonPriorClientCodegen() {
         super();
 
-        embeddedTemplateDir = templateDir = "python";
+        embeddedTemplateDir = templateDir = "python-prior";
 
         // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
         // In principle, this should be enabled by default for all code generators. However due to limitations
