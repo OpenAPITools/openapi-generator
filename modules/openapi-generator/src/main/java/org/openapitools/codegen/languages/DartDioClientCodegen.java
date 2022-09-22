@@ -518,7 +518,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
             // ancestorOnlyProperties are properties defined by all ancestors
             // NOTE: oneOf,anyOf are NOT considered ancestors
-            // since a child in dart must implment ALL OF the parent (using implements)
+            // since a child in dart must implEment ALL OF the parent (using implements)
             Map<String, CodegenProperty> ancestorOnlyProperties = new HashMap<>();
 
             // combines both selfOnlyProperties and ancestorOnlyProperties
