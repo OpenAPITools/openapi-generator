@@ -1422,6 +1422,11 @@ components:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
+    InlineSchemaDiscriminator:
+      allOf:
+      - $ref: '#/components/schemas/InlineSchemaDiscriminator_allOf'
+      - $ref: '#/components/schemas/Address'
+      - $ref: '#/components/schemas/Cat_allOf'
     Address:
       additionalProperties:
         type: integer
@@ -2357,16 +2362,31 @@ components:
           type: boolean
       type: object
       example: null
+    InlineSchemaDiscriminator_allOf:
+      discriminator:
+        propertyName: className
+      properties:
+        className:
+          type: string
+        color:
+          default: red
+          type: string
+      required:
+      - className
+      type: object
+      example: null
     ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
       properties:
         breed:
           type: string
       type: object
+      x-oag-internal-only: true
     ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
       properties:
         color:
           type: string
       type: object
+      x-oag-internal-only: true
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
       - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'

@@ -106,6 +106,25 @@ public class JSON {
                                 getDiscriminatorValue(readElement, "pet_type"));
                     }
           })
+                .registerTypeSelector(org.openapitools.client.model.InlineSchemaDiscriminator.class, new TypeSelector<org.openapitools.client.model.InlineSchemaDiscriminator>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.InlineSchemaDiscriminator> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("InlineSchemaDiscriminator", org.openapitools.client.model.InlineSchemaDiscriminator.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.InlineSchemaDiscriminatorAllOf.class, new TypeSelector<org.openapitools.client.model.InlineSchemaDiscriminatorAllOf>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.InlineSchemaDiscriminatorAllOf> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("InlineSchemaDiscriminator", org.openapitools.client.model.InlineSchemaDiscriminator.class);
+                        classByDiscriminatorValue.put("InlineSchemaDiscriminator_allOf", org.openapitools.client.model.InlineSchemaDiscriminatorAllOf.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
                 .registerTypeSelector(org.openapitools.client.model.Mammal.class, new TypeSelector<org.openapitools.client.model.Mammal>() {
                     @Override
                     public Class<? extends org.openapitools.client.model.Mammal> getClassForElement(JsonElement readElement) {
@@ -235,8 +254,6 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOf.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInner.CustomTypeAdapterFactory());
-        gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.CustomTypeAdapterFactory());
-        gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfNumberOnly.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.ArrayTest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Banana.CustomTypeAdapterFactory());
@@ -267,6 +284,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.GmFruit.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.HasOnlyReadOnly.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.HealthCheckResult.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.InlineSchemaDiscriminator.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.IsoscelesTriangle.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Mammal.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.MapTest.CustomTypeAdapterFactory());

@@ -1424,6 +1424,24 @@ components:
           properties:
             declawed:
               type: boolean
+    InlineSchemaDiscriminator:
+      allOf:
+        - type: object
+          discriminator:
+            propertyName: className
+          required:
+            - className
+          properties:
+            className:
+              type: string
+            color:
+              type: string
+              default: red
+        - $ref: '#/components/schemas/Address'
+        - type: object
+          properties:
+            declawed:
+              type: boolean
     Address:
       type: object
       additionalProperties:

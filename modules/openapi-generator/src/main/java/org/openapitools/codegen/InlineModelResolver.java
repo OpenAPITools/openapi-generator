@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
@@ -297,10 +298,6 @@ public class InlineModelResolver {
         if (schema instanceof ArraySchema) {
             ArraySchema array = (ArraySchema) schema;
             Schema items = array.getItems();
-            /*if (items.getTitle() != null) {
-                LOGGER.info("schema title {}", items);
-                throw new RuntimeException("getTitle for array item is not null");
-            }*/
             if (items == null) {
                 LOGGER.error("Illegal schema found with array type but no items," +
                         " items must be defined for array schemas:\n " + schema.toString());
@@ -329,6 +326,15 @@ public class InlineModelResolver {
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
                         Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
+
+                        // Mark as internal only if it's not a parent, which means it's an inline schema
+                        // defined in allOf that doesn't need to be created.
+                        // Do not override if the extension "x-oag-internal-only" is already defined.
+                        if (!ModelUtils.isParent(inner) && !ModelUtils.isInternalOnlySet(inner)) {
+                            // use extension to mark the model as internal used only
+                            ModelUtils.setInternalOnly(inner, true);
+                        }
+
                         newAllOf.add(refSchema); // replace with ref
                         atLeastOneModel = true;
                     } else {
@@ -531,7 +537,7 @@ public class InlineModelResolver {
      * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      */
-    private void flattenComposedChildren(String key, List<Schema> children) {
+    private void flattenComposedChildren(String key, List<Schema> children, boolean setInternalOnly) {
         if (children == null || children.isEmpty()) {
             return;
         }
@@ -557,6 +563,9 @@ public class InlineModelResolver {
                 String existing = matchGenerated(innerModel);
                 if (existing == null) {
                     innerModelName = addSchemas(innerModelName, innerModel);
+                    //if (setInternalOnly) {
+                    //    ModelUtils.setInternalOnly(innerModel, true);
+                    //}
                     Schema schema = new Schema().$ref(innerModelName);
                     schema.setRequired(component.getRequired());
                     listIterator.set(schema);
@@ -584,9 +593,9 @@ public class InlineModelResolver {
             if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
-                flattenComposedChildren(modelName + "_allOf", m.getAllOf());
-                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
-                flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
+                flattenComposedChildren(modelName + "_allOf", m.getAllOf(), true);
+                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf(), false);
+                flattenComposedChildren(modelName + "_oneOf", m.getOneOf(), false);
             } else if (model instanceof Schema) {
                 gatherInlineModels(model, modelName);
             }

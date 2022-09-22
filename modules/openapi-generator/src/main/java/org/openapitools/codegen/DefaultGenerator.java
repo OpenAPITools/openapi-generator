@@ -452,7 +452,7 @@ public class DefaultGenerator implements Generator {
             try {
                 //don't generate models that have an import mapping
                 if (config.schemaMapping().containsKey(name)) {
-                    LOGGER.debug("Model {} not imported due to import mapping", name);
+                    LOGGER.debug("Model {} not imported due to schema mapping", name);
 
                     for (String templateName : config.modelTemplateFiles().keySet()) {
                         // HACK: Because this returns early, could lead to some invalid model reporting.
@@ -477,7 +477,10 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
+                if (ModelUtils.isInternalOnly(schema)) {
+                    LOGGER.info("Model {} not generated since it's internal only (x-oag-internal-only: true).", name);
+                    continue;
+                } else if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation

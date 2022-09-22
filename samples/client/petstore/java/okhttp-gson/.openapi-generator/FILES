@@ -13,8 +13,6 @@ docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfInlineAllOf.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md
-docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md
-docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
@@ -50,6 +48,8 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/InlineSchemaDiscriminator.md
+docs/InlineSchemaDiscriminatorAllOf.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
 docs/MapTest.md
@@ -137,8 +137,6 @@ src/main/java/org/openapitools/client/model/AppleReq.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInner.java
-src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.java
-src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Banana.java
@@ -171,6 +169,8 @@ src/main/java/org/openapitools/client/model/GmFruit.java
 src/main/java/org/openapitools/client/model/GrandparentAnimal.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
+src/main/java/org/openapitools/client/model/InlineSchemaDiscriminator.java
+src/main/java/org/openapitools/client/model/InlineSchemaDiscriminatorAllOf.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
 src/main/java/org/openapitools/client/model/MapTest.java
