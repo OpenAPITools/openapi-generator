@@ -34,4 +34,5 @@ class IntegerMax10(
 
 
     class MetaOapg:
+        format = 'int64'
         inclusive_maximum = 10

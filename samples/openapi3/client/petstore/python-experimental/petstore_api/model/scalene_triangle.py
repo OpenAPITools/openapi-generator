@@ -47,13 +47,15 @@ class ScaleneTriangle(
                     
                     
                     class triangleType(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "ScaleneTriangle": "SCALENE_TRIANGLE",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
+                    
+                    
+                        class MetaOapg:
+                            enum_value_to_name = {
+                                "ScaleneTriangle": "SCALENE_TRIANGLE",
+                            }
                         
                         @schemas.classproperty
                         def SCALENE_TRIANGLE(cls):

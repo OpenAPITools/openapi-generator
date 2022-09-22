@@ -47,11 +47,7 @@ class ScaleneTriangle(
                     
                     
                     class triangleType(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "ScaleneTriangle": "SCALENE_TRIANGLE",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
                         

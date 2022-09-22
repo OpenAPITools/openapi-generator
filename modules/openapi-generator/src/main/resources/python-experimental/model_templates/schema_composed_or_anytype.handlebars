@@ -15,7 +15,7 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     schemas.ComposedBase,
     {{/if}}
     {{#if isEnum}}
-    {{> model_templates/enum_value_to_name }}
+    schemas.EnumBase,
     {{/if}}
     {{> model_templates/xbase_schema }}
 {{/if}}
@@ -31,12 +31,21 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 {{/if}}
     """
 {{/if}}
-{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars getFormat}}
+{{#or hasValidation composedSchemas getItems additionalProperties getRequiredVarsMap getHasDiscriminatorWithNonEmptyMapping vars getFormat isEnum}}
 
 
     class MetaOapg:
 {{#if getFormat}}
         format = '{{getFormat}}'
+{{/if}}
+{{#if isEnum}}
+{{#with allowableValues}}
+        enum_value_to_name = {
+{{#each enumVars}}
+            {{{value}}}: "{{name}}",
+{{/each}}
+        }
+{{/with}}
 {{/if}}
 {{#if getItems}}
         {{> model_templates/list_partial }}

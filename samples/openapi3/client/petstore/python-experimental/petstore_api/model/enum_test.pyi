@@ -42,13 +42,7 @@ class EnumTest(
             
             
             class enum_string_required(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "UPPER": "UPPER",
-                        "lower": "LOWER",
-                        "": "EMPTY",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 
@@ -66,13 +60,7 @@ class EnumTest(
             
             
             class enum_string(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "UPPER": "UPPER",
-                        "lower": "LOWER",
-                        "": "EMPTY",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 
@@ -90,12 +78,7 @@ class EnumTest(
             
             
             class enum_integer(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        1: "POSITIVE_1",
-                        -1: "NEGATIVE_1",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.Int32Schema
             ):
                 
@@ -109,12 +92,7 @@ class EnumTest(
             
             
             class enum_number(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        1.1: "POSITIVE_1_PT_1",
-                        -1.2: "NEGATIVE_1_PT_2",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.Float64Schema
             ):
                 

@@ -63,6 +63,7 @@ class FormatTest(
             
             
                 class MetaOapg:
+                    format = 'password'
                     max_length = 64
                     min_length = 10
             
@@ -85,6 +86,7 @@ class FormatTest(
             
             
                 class MetaOapg:
+                    format = 'int32'
                     inclusive_maximum = 200
                     inclusive_minimum = 20
             int64 = schemas.Int64Schema
@@ -96,6 +98,7 @@ class FormatTest(
             
             
                 class MetaOapg:
+                    format = 'float'
                     inclusive_maximum = 987.6
                     inclusive_minimum = 54.3
             float32 = schemas.Float32Schema
@@ -107,6 +110,7 @@ class FormatTest(
             
             
                 class MetaOapg:
+                    format = 'double'
                     inclusive_maximum = 123.4
                     inclusive_minimum = 67.8
             float64 = schemas.Float64Schema

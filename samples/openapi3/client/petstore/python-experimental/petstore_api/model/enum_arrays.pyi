@@ -39,12 +39,7 @@ class EnumArrays(
             
             
             class just_symbol(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        ">=": "GREATER_THAN_EQUALS",
-                        "$": "DOLLAR",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 
@@ -66,12 +61,7 @@ class EnumArrays(
                     
                     
                     class items(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "fish": "FISH",
-                                "crab": "CRAB",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
                         

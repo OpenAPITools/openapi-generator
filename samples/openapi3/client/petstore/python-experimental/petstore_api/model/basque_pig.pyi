@@ -42,11 +42,7 @@ class BasquePig(
             
             
             class className(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "BasquePig": "BASQUE_PIG",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

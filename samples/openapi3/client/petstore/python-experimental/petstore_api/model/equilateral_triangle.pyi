@@ -47,11 +47,7 @@ class EquilateralTriangle(
                     
                     
                     class triangleType(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "EquilateralTriangle": "EQUILATERAL_TRIANGLE",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
                         

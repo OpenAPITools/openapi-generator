@@ -43,6 +43,7 @@ class ArrayWithValidationsInItems(
         
         
             class MetaOapg:
+                format = 'int64'
                 inclusive_maximum = 7
 
     def __new__(
