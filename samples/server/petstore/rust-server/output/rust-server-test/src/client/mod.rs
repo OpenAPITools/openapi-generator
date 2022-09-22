@@ -394,7 +394,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/allOf",
+            "{}//allOf",
             self.base_path
         );
 
@@ -471,7 +471,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/dummy",
+            "{}//dummy",
             self.base_path
         );
 
@@ -540,7 +540,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/dummy",
+            "{}//dummy",
             self.base_path
         );
 
@@ -616,7 +616,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/file_response",
+            "{}//file_response",
             self.base_path
         );
 
@@ -693,7 +693,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/get-structured-yaml",
+            "{}//get-structured-yaml",
             self.base_path
         );
 
@@ -769,7 +769,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/html",
+            "{}//html",
             self.base_path
         );
 
@@ -853,7 +853,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/post-yaml",
+            "{}//post-yaml",
             self.base_path
         );
 
@@ -929,7 +929,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/raw_json",
+            "{}//raw_json",
             self.base_path
         );
 
@@ -1007,7 +1007,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/solo-object",
+            "{}//solo-object",
             self.base_path
         );
 

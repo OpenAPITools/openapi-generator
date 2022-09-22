@@ -30,7 +30,7 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
-            r"^/ping$"
+            r"^//ping$"
         ])
         .expect("Unable to create global regex set");
     }

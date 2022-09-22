@@ -396,7 +396,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/multipart_related_request",
+            "{}//multipart_related_request",
             self.base_path
         );
 
@@ -539,7 +539,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/multipart_request",
+            "{}//multipart_request",
             self.base_path
         );
 
@@ -689,7 +689,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/multiple-identical-mime-types",
+            "{}//multiple-identical-mime-types",
             self.base_path
         );
 

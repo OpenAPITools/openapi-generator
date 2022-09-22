@@ -57,30 +57,30 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
-            r"^/any-of$",
-            r"^/callback-with-header$",
-            r"^/complex-query-param$",
-            r"^/enum_in_path/(?P<path_param>[^/?#]*)$",
-            r"^/json-complex-query-param$",
-            r"^/mandatory-request-header$",
-            r"^/merge-patch-json$",
-            r"^/multiget$",
-            r"^/multiple_auth_scheme$",
-            r"^/one-of$",
-            r"^/override-server$",
-            r"^/paramget$",
-            r"^/readonly_auth_scheme$",
-            r"^/register-callback$",
-            r"^/repos$",
-            r"^/repos/(?P<repoId>[^/?#]*)$",
-            r"^/required_octet_stream$",
-            r"^/responses_with_headers$",
-            r"^/rfc7807$",
-            r"^/untyped_property$",
-            r"^/uuid$",
-            r"^/xml$",
-            r"^/xml_extra$",
-            r"^/xml_other$"
+            r"^//any-of$",
+            r"^//callback-with-header$",
+            r"^//complex-query-param$",
+            r"^//enum_in_path/(?P<path_param>[^/?#]*)$",
+            r"^//json-complex-query-param$",
+            r"^//mandatory-request-header$",
+            r"^//merge-patch-json$",
+            r"^//multiget$",
+            r"^//multiple_auth_scheme$",
+            r"^//one-of$",
+            r"^//override-server$",
+            r"^//paramget$",
+            r"^//readonly_auth_scheme$",
+            r"^//register-callback$",
+            r"^//repos$",
+            r"^//repos/(?P<repoId>[^/?#]*)$",
+            r"^//required_octet_stream$",
+            r"^//responses_with_headers$",
+            r"^//rfc7807$",
+            r"^//untyped_property$",
+            r"^//uuid$",
+            r"^//xml$",
+            r"^//xml_extra$",
+            r"^//xml_other$"
         ])
         .expect("Unable to create global regex set");
     }
@@ -91,7 +91,7 @@ mod paths {
     lazy_static! {
         pub static ref REGEX_ENUM_IN_PATH_PATH_PARAM: regex::Regex =
             #[allow(clippy::invalid_regex)]
-            regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
+            regex::Regex::new(r"^//enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
     pub(crate) static ID_JSON_COMPLEX_QUERY_PARAM: usize = 4;
@@ -109,7 +109,7 @@ mod paths {
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             #[allow(clippy::invalid_regex)]
-            regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
+            regex::Regex::new(r"^//repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
     pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 16;

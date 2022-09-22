@@ -422,7 +422,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op10",
+            "{}//op10",
             self.base_path
         );
 
@@ -490,7 +490,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op11",
+            "{}//op11",
             self.base_path
         );
 
@@ -558,7 +558,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op12",
+            "{}//op12",
             self.base_path
         );
 
@@ -626,7 +626,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op13",
+            "{}//op13",
             self.base_path
         );
 
@@ -694,7 +694,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op14",
+            "{}//op14",
             self.base_path
         );
 
@@ -762,7 +762,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op15",
+            "{}//op15",
             self.base_path
         );
 
@@ -830,7 +830,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op16",
+            "{}//op16",
             self.base_path
         );
 
@@ -898,7 +898,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op17",
+            "{}//op17",
             self.base_path
         );
 
@@ -966,7 +966,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op18",
+            "{}//op18",
             self.base_path
         );
 
@@ -1034,7 +1034,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op19",
+            "{}//op19",
             self.base_path
         );
 
@@ -1102,7 +1102,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op1",
+            "{}//op1",
             self.base_path
         );
 
@@ -1170,7 +1170,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op20",
+            "{}//op20",
             self.base_path
         );
 
@@ -1238,7 +1238,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op21",
+            "{}//op21",
             self.base_path
         );
 
@@ -1306,7 +1306,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op22",
+            "{}//op22",
             self.base_path
         );
 
@@ -1374,7 +1374,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op23",
+            "{}//op23",
             self.base_path
         );
 
@@ -1442,7 +1442,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op24",
+            "{}//op24",
             self.base_path
         );
 
@@ -1510,7 +1510,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op25",
+            "{}//op25",
             self.base_path
         );
 
@@ -1578,7 +1578,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op26",
+            "{}//op26",
             self.base_path
         );
 
@@ -1646,7 +1646,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op27",
+            "{}//op27",
             self.base_path
         );
 
@@ -1714,7 +1714,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op28",
+            "{}//op28",
             self.base_path
         );
 
@@ -1782,7 +1782,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op29",
+            "{}//op29",
             self.base_path
         );
 
@@ -1850,7 +1850,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op2",
+            "{}//op2",
             self.base_path
         );
 
@@ -1918,7 +1918,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op30",
+            "{}//op30",
             self.base_path
         );
 
@@ -1986,7 +1986,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op31",
+            "{}//op31",
             self.base_path
         );
 
@@ -2054,7 +2054,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op32",
+            "{}//op32",
             self.base_path
         );
 
@@ -2122,7 +2122,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op33",
+            "{}//op33",
             self.base_path
         );
 
@@ -2190,7 +2190,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op34",
+            "{}//op34",
             self.base_path
         );
 
@@ -2258,7 +2258,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op35",
+            "{}//op35",
             self.base_path
         );
 
@@ -2326,7 +2326,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op36",
+            "{}//op36",
             self.base_path
         );
 
@@ -2394,7 +2394,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op37",
+            "{}//op37",
             self.base_path
         );
 
@@ -2462,7 +2462,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op3",
+            "{}//op3",
             self.base_path
         );
 
@@ -2530,7 +2530,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op4",
+            "{}//op4",
             self.base_path
         );
 
@@ -2598,7 +2598,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op5",
+            "{}//op5",
             self.base_path
         );
 
@@ -2666,7 +2666,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op6",
+            "{}//op6",
             self.base_path
         );
 
@@ -2734,7 +2734,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op7",
+            "{}//op7",
             self.base_path
         );
 
@@ -2802,7 +2802,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op8",
+            "{}//op8",
             self.base_path
         );
 
@@ -2870,7 +2870,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op9",
+            "{}//op9",
             self.base_path
         );
 

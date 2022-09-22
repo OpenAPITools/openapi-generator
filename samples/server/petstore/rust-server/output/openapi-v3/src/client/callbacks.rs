@@ -30,8 +30,8 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
-            r"^/(?P<request_query_url>.*)/callback$",
-            r"^/(?P<request_query_url>.*)/callback-with-header$"
+            r"^//(?P<request_query_url>.*)/callback$",
+            r"^//(?P<request_query_url>.*)/callback-with-header$"
         ])
         .expect("Unable to create global regex set");
     }
@@ -39,14 +39,14 @@ mod paths {
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK: regex::Regex =
             #[allow(clippy::invalid_regex)]
-            regex::Regex::new(r"^/(?P<request_query_url>.*)/callback$")
+            regex::Regex::new(r"^//(?P<request_query_url>.*)/callback$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK");
     }
     pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: usize = 1;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: regex::Regex =
             #[allow(clippy::invalid_regex)]
-            regex::Regex::new(r"^/(?P<request_query_url>.*)/callback-with-header$")
+            regex::Regex::new(r"^//(?P<request_query_url>.*)/callback-with-header$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK_WITH_HEADER");
     }
 }

@@ -38,14 +38,14 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
-            r"^/allOf$",
-            r"^/dummy$",
-            r"^/file_response$",
-            r"^/get-structured-yaml$",
-            r"^/html$",
-            r"^/post-yaml$",
-            r"^/raw_json$",
-            r"^/solo-object$"
+            r"^//allOf$",
+            r"^//dummy$",
+            r"^//file_response$",
+            r"^//get-structured-yaml$",
+            r"^//html$",
+            r"^//post-yaml$",
+            r"^//raw_json$",
+            r"^//solo-object$"
         ])
         .expect("Unable to create global regex set");
     }

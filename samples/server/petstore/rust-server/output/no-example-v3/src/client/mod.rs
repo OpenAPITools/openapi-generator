@@ -387,7 +387,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/op",
+            "{}//op",
             self.base_path
         );
 

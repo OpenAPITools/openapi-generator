@@ -37,9 +37,9 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
-            r"^/multipart_related_request$",
-            r"^/multipart_request$",
-            r"^/multiple-identical-mime-types$"
+            r"^//multipart_related_request$",
+            r"^//multipart_request$",
+            r"^//multiple-identical-mime-types$"
         ])
         .expect("Unable to create global regex set");
     }

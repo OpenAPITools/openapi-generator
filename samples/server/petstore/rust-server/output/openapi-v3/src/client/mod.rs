@@ -414,7 +414,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/any-of",
+            "{}//any-of",
             self.base_path
         );
 
@@ -524,7 +524,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/callback-with-header",
+            "{}//callback-with-header",
             self.base_path
         );
 
@@ -595,7 +595,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/complex-query-param",
+            "{}//complex-query-param",
             self.base_path
         );
 
@@ -668,7 +668,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/enum_in_path/{path_param}",
+            "{}//enum_in_path/{path_param}",
             self.base_path
             ,path_param=utf8_percent_encode(&param_path_param.to_string(), ID_ENCODE_SET)
         );
@@ -738,7 +738,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/json-complex-query-param",
+            "{}//json-complex-query-param",
             self.base_path
         );
 
@@ -814,7 +814,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/mandatory-request-header",
+            "{}//mandatory-request-header",
             self.base_path
         );
 
@@ -894,7 +894,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/merge-patch-json",
+            "{}//merge-patch-json",
             self.base_path
         );
 
@@ -971,7 +971,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/multiget",
+            "{}//multiget",
             self.base_path
         );
 
@@ -1127,7 +1127,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/multiple_auth_scheme",
+            "{}//multiple_auth_scheme",
             self.base_path
         );
 
@@ -1214,7 +1214,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/one-of",
+            "{}//one-of",
             self.base_path
         );
 
@@ -1362,7 +1362,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/paramget",
+            "{}//paramget",
             self.base_path
         );
 
@@ -1451,7 +1451,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/readonly_auth_scheme",
+            "{}//readonly_auth_scheme",
             self.base_path
         );
 
@@ -1539,7 +1539,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/register-callback",
+            "{}//register-callback",
             self.base_path
         );
 
@@ -1610,7 +1610,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/required_octet_stream",
+            "{}//required_octet_stream",
             self.base_path
         );
 
@@ -1686,7 +1686,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/responses_with_headers",
+            "{}//responses_with_headers",
             self.base_path
         );
 
@@ -1847,7 +1847,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/rfc7807",
+            "{}//rfc7807",
             self.base_path
         );
 
@@ -1954,7 +1954,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/untyped_property",
+            "{}//untyped_property",
             self.base_path
         );
 
@@ -2034,7 +2034,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/uuid",
+            "{}//uuid",
             self.base_path
         );
 
@@ -2112,7 +2112,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/xml_extra",
+            "{}//xml_extra",
             self.base_path
         );
 
@@ -2198,7 +2198,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/xml_other",
+            "{}//xml_other",
             self.base_path
         );
 
@@ -2294,7 +2294,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/xml_other",
+            "{}//xml_other",
             self.base_path
         );
 
@@ -2380,7 +2380,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/xml",
+            "{}//xml",
             self.base_path
         );
 
@@ -2466,7 +2466,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/xml",
+            "{}//xml",
             self.base_path
         );
 
@@ -2554,7 +2554,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/repos",
+            "{}//repos",
             self.base_path
         );
 
@@ -2632,7 +2632,7 @@ impl<S, C> Api<C> for Client<S, C> where
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/repos/{repo_id}",
+            "{}//repos/{repo_id}",
             self.base_path
             ,repo_id=utf8_percent_encode(&param_repo_id.to_string(), ID_ENCODE_SET)
         );

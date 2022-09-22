@@ -11,8 +11,8 @@ use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
-pub const BASE_PATH: &str = "";
-pub const API_VERSION: &str = "2.3.4";
+pub const BASE_PATH: &'static str = "/";
+pub const API_VERSION: &'static str = "2.3.4";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum AllOfGetResponse {
