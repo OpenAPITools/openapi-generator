@@ -24,17 +24,7 @@ from petstore_api import schemas  # noqa: F401
 
 
 class StringEnum(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
-            schemas.NoneClass.NONE: "NONE",
-            "placed": "PLACED",
-            "approved": "APPROVED",
-            "delivered": "DELIVERED",
-            "single quoted": "SINGLE_QUOTED",
-            "multiple\nlines": "MULTIPLE_LINES",
-            "double quote \n with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
-        }
-    ),
+    schemas.EnumBase,
     schemas.StrBase,
     schemas.NoneBase,
     schemas.Schema,
@@ -45,10 +35,18 @@ class StringEnum(
 
     Do not edit the class manually.
     """
-    
-    @schemas.classproperty
-    def NONE(cls):
-        return cls(None)
+
+
+    class MetaOapg:
+        enum_value_to_name = {
+            "placed": "PLACED",
+            "approved": "APPROVED",
+            "delivered": "DELIVERED",
+            "single quoted": "SINGLE_QUOTED",
+            "multiple\nlines": "MULTIPLE_LINES",
+            "double quote \n with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
+            schemas.NoneClass.NONE: "NONE",
+        }
     
     @schemas.classproperty
     def PLACED(cls):
@@ -73,6 +71,10 @@ class StringEnum(
     @schemas.classproperty
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
         return cls("double quote \n with newline")
+    
+    @schemas.classproperty
+    def NONE(cls):
+        return cls(None)
 
 
     def __new__(

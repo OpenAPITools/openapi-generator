@@ -41,15 +41,17 @@ class StatusSchema(
         
         
         class items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
+            schemas.EnumBase,
+            schemas.StrSchema
+        ):
+        
+        
+            class MetaOapg:
+                enum_value_to_name = {
                     "available": "AVAILABLE",
                     "pending": "PENDING",
                     "sold": "SOLD",
                 }
-            ),
-            schemas.StrSchema
-        ):
             
             @schemas.classproperty
             def AVAILABLE(cls):

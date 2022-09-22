@@ -404,7 +404,7 @@ class Schema:
             """
             cls._process_schema_classes_oapg(schema_classes)
             enum_schema = any(
-                hasattr(this_cls, '_enum_value_to_name') for this_cls in schema_classes)
+                issubclass(this_cls, EnumBase) for this_cls in schema_classes)
             inheritable_primitive_type = schema_classes.intersection(cls.__inheritable_primitive_types_set)
             chosen_schema_classes = schema_classes - inheritable_primitive_type
             suffix = tuple(inheritable_primitive_type)
@@ -873,41 +873,22 @@ class ValidatorBase:
         )
 
 
-class EnumMakerBase:
-    pass
-
-
-def SchemaEnumMakerClsFactory(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> 'SchemaEnumMaker':
-    class SchemaEnumMaker(EnumMakerBase):
-        @classmethod
-        def _enum_value_to_name(
-            cls
-        ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
-            pass
-            try:
-                super_enum_value_to_name = super()._enum_value_to_name()
-            except AttributeError:
-                return enum_value_to_name
-            intersection = dict(enum_value_to_name.items() & super_enum_value_to_name.items())
-            return intersection
-
-        @classmethod
-        def _validate_oapg(
-            cls,
-            arg,
-            validation_metadata: ValidationMetadata,
-        ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
-            """
-            SchemaEnumMaker _validate_oapg
-            Validates that arg is in the enum's allowed values
-            """
-            try:
-                cls._enum_value_to_name()[arg]
-            except KeyError:
-                raise ApiValueError("Invalid value {} passed in to {}, {}".format(arg, cls, cls._enum_value_to_name()))
-            return super()._validate_oapg(arg, validation_metadata=validation_metadata)
-
-    return SchemaEnumMaker
+class EnumBase:
+    @classmethod
+    def _validate_oapg(
+        cls,
+        arg,
+        validation_metadata: ValidationMetadata,
+    ) -> typing.Dict[typing.Tuple[typing.Union[str, int], ...], typing.Set[typing.Union['Schema', str, decimal.Decimal, BoolClass, NoneClass, frozendict.frozendict, tuple]]]:
+        """
+        EnumBase _validate_oapg
+        Validates that arg is in the enum's allowed values
+        """
+        try:
+            cls.MetaOapg.enum_value_to_name[arg]
+        except KeyError:
+            raise ApiValueError("Invalid value {} passed in to {}, allowed_values={}".format(arg, cls, cls.MetaOapg.enum_value_to_name.keys()))
+        return super()._validate_oapg(arg, validation_metadata=validation_metadata)
 
 
 class BoolBase:

@@ -42,11 +42,7 @@ class Whale(
             
             
             class className(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "whale": "WHALE",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

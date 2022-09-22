@@ -47,13 +47,15 @@ class SimpleQuadrilateral(
                     
                     
                     class quadrilateralType(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
+                    
+                    
+                        class MetaOapg:
+                            enum_value_to_name = {
+                                "SimpleQuadrilateral": "SIMPLE_QUADRILATERAL",
+                            }
                         
                         @schemas.classproperty
                         def SIMPLE_QUADRILATERAL(cls):

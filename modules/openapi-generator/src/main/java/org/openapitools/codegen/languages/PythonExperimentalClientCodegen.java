@@ -55,6 +55,7 @@ import org.openapitools.codegen.api.TemplateProcessor;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -1226,6 +1227,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         // our enum var names are keys in a python dict, so change spaces to underscores
         if (value.length() == 0) {
             return "EMPTY";
+        } else if (value.equals("null")) {
+            return "NONE";
         }
 
         String intPattern = "^[-\\+]?\\d+$";
@@ -1289,26 +1292,80 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return varName;
     }
 
-    /**
-     * Return the enum value in the language specified format
-     * e.g. status becomes "status"
-     *
-     * @param value    enum variable name
-     * @param datatype data type
-     * @return the sanitized value for enum
-     */
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "float".equals(datatype) || datatype.equals("int, float")) {
-            return value;
-        } else if ("bool".equals(datatype)) {
-            if (value.equals("true")) {
-                return "schemas.BoolClass.TRUE";
-            }
-            return "schemas.BoolClass.FALSE";
-        } else {
-            String fixedValue = (String) processTestExampleData(value);
-            return ensureQuotes(fixedValue);
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Map<String, Object>> enumVars = new ArrayList<>();
+        int truncateIdx = 0;
+
+        if (isRemoveEnumValuePrefix()) {
+            String commonPrefix = findCommonPrefixOfVars(values);
+            truncateIdx = commonPrefix.length();
         }
+
+        for (Object value : values) {
+            Map<String, Object> enumVar = new HashMap<>();
+            String enumName;
+            if (truncateIdx == 0) {
+                enumName = String.valueOf(value);
+            } else {
+                enumName = value.toString().substring(truncateIdx);
+                if (enumName.isEmpty()) {
+                    enumName = value.toString();
+                }
+            }
+
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            if (value instanceof Integer) {
+                enumVar.put("value", value);
+            } else if (value instanceof Double) {
+                enumVar.put("value", value);
+            } else if (value instanceof Long) {
+                enumVar.put("value", value);
+            } else if (value instanceof Float) {
+                enumVar.put("value", value);
+            } else if (value instanceof BigDecimal) {
+                enumVar.put("value", value);
+            } else if (value == null) {
+                enumVar.put("value", "schemas.NoneClass.NONE");
+            } else if (value instanceof Boolean) {
+                if (value.equals(Boolean.TRUE)) {
+                    enumVar.put("value", "schemas.BoolClass.TRUE");
+                } else {
+                    enumVar.put("value", "schemas.BoolClass.FALSE");
+                }
+            } else {
+                String fixedValue = (String) processTestExampleData(value);
+                enumVar.put("value", ensureQuotes(fixedValue));
+            }
+            enumVar.put("isString", isDataTypeString(dataType));
+            enumVars.add(enumVar);
+        }
+
+        if (enumUnknownDefaultCase) {
+            // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+            // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
+            Map<String, Object> enumVar = new HashMap<>();
+            String enumName = enumUnknownDefaultCaseName;
+
+            String enumValue;
+            if (isDataTypeString(dataType)) {
+                enumValue = enumUnknownDefaultCaseName;
+            } else {
+                // This is a dummy value that attempts to avoid collisions with previously specified cases.
+                // Int.max / 192
+                // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                enumValue = String.valueOf(11184809);
+            }
+
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("value", toEnumValue(enumValue, dataType));
+            enumVar.put("isString", isDataTypeString(dataType));
+            enumVars.add(enumVar);
+        }
+
+        return enumVars;
     }
 
     @Override

@@ -46,15 +46,17 @@ class JSONPatchRequestAddReplaceTest(
             
             
             class op(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
                         "add": "ADD",
                         "replace": "REPLACE",
                         "test": "TEST",
                     }
-                ),
-                schemas.StrSchema
-            ):
                 
                 @schemas.classproperty
                 def ADD(cls):

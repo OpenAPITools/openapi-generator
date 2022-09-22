@@ -2224,6 +2224,7 @@ components:
           multiple
           lines
         - "double quote \n with newline"
+        - null
     IntegerEnum:
       type: integer
       enum:

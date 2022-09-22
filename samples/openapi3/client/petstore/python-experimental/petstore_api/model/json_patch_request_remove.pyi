@@ -44,11 +44,7 @@ class JSONPatchRequestRemove(
             
             
             class op(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "remove": "REMOVE",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

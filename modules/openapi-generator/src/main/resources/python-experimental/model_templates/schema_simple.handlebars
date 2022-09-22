@@ -2,7 +2,7 @@
 
 class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}(
 {{#if isEnum}}
-    {{> model_templates/enum_value_to_name }}
+    schemas.EnumBase,
 {{/if}}
     {{> model_templates/xbase_schema }}
 ):
@@ -18,12 +18,24 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
     """
 {{/if}}
 {{#unless isStub}}
-{{#if hasValidation}}
+{{#or hasValidation isEnum getFormat}}
 
 
     class MetaOapg:
-        {{> model_templates/validations }}
+{{#if getFormat}}
+        format = '{{getFormat}}'
 {{/if}}
+        {{> model_templates/validations }}
+{{#if isEnum}}
+{{#with allowableValues}}
+        enum_value_to_name = {
+{{#each enumVars}}
+            {{{value}}}: "{{name}}",
+{{/each}}
+        }
+{{/with}}
+{{/if}}
+{{/or}}
 {{/unless}}
 {{#if isEnum}}
     {{> model_templates/enums }}

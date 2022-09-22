@@ -42,13 +42,15 @@ class Whale(
             
             
             class className(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "whale": "WHALE",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "whale": "WHALE",
+                    }
                 
                 @schemas.classproperty
                 def WHALE(cls):

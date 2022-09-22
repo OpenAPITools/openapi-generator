@@ -47,13 +47,15 @@ class EquilateralTriangle(
                     
                     
                     class triangleType(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "EquilateralTriangle": "EQUILATERAL_TRIANGLE",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
+                    
+                    
+                        class MetaOapg:
+                            enum_value_to_name = {
+                                "EquilateralTriangle": "EQUILATERAL_TRIANGLE",
+                            }
                         
                         @schemas.classproperty
                         def EQUILATERAL_TRIANGLE(cls):

@@ -39,13 +39,7 @@ class StatusSchema(
         
         
         class items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
-                    "available": "AVAILABLE",
-                    "pending": "PENDING",
-                    "sold": "SOLD",
-                }
-            ),
+            schemas.EnumBase,
             schemas.StrSchema
         ):
             

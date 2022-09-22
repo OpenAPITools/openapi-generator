@@ -42,13 +42,15 @@ class Zebra(
             
             
             class className(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "zebra": "ZEBRA",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "zebra": "ZEBRA",
+                    }
                 
                 @schemas.classproperty
                 def ZEBRA(cls):
@@ -56,15 +58,17 @@ class Zebra(
             
             
             class type(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
                         "plains": "PLAINS",
                         "mountain": "MOUNTAIN",
                         "grevys": "GREVYS",
                     }
-                ),
-                schemas.StrSchema
-            ):
                 
                 @schemas.classproperty
                 def PLAINS(cls):

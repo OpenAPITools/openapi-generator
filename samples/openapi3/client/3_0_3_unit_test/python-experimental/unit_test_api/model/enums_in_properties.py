@@ -42,13 +42,15 @@ class EnumsInProperties(
             
             
             class bar(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "bar": "BAR",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "bar": "BAR",
+                    }
                 
                 @schemas.classproperty
                 def BAR(cls):
@@ -56,13 +58,15 @@ class EnumsInProperties(
             
             
             class foo(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "foo": "FOO",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "foo": "FOO",
+                    }
                 
                 @schemas.classproperty
                 def FOO(cls):

@@ -38,6 +38,7 @@ class OrderIdSchema(
 
 
     class MetaOapg:
+        format = 'int64'
         inclusive_maximum = 5
         inclusive_minimum = 1
 RequestRequiredPathParams = typing_extensions.TypedDict(

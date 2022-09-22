@@ -37,12 +37,7 @@ class EnumQueryStringArraySchema(
         
         
         class items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
-                    ">": "GREATER_THAN",
-                    "$": "DOLLAR",
-                }
-            ),
+            schemas.EnumBase,
             schemas.StrSchema
         ):
             
@@ -70,13 +65,7 @@ class EnumQueryStringArraySchema(
 
 
 class EnumQueryStringSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
-            "_abc": "_ABC",
-            "-efg": "EFG",
-            "(xyz)": "XYZ",
-        }
-    ),
+    schemas.EnumBase,
     schemas.StrSchema
 ):
     
@@ -94,12 +83,7 @@ class EnumQueryStringSchema(
 
 
 class EnumQueryIntegerSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
-            1: "POSITIVE_1",
-            -2: "NEGATIVE_2",
-        }
-    ),
+    schemas.EnumBase,
     schemas.Int32Schema
 ):
     
@@ -113,12 +97,7 @@ class EnumQueryIntegerSchema(
 
 
 class EnumQueryDoubleSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
-            1.1: "POSITIVE_1_PT_1",
-            -1.2: "NEGATIVE_1_PT_2",
-        }
-    ),
+    schemas.EnumBase,
     schemas.Float64Schema
 ):
     
@@ -141,12 +120,7 @@ class EnumHeaderStringArraySchema(
         
         
         class items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
-                    ">": "GREATER_THAN",
-                    "$": "DOLLAR",
-                }
-            ),
+            schemas.EnumBase,
             schemas.StrSchema
         ):
             
@@ -174,13 +148,7 @@ class EnumHeaderStringArraySchema(
 
 
 class EnumHeaderStringSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
-            "_abc": "_ABC",
-            "-efg": "EFG",
-            "(xyz)": "XYZ",
-        }
-    ),
+    schemas.EnumBase,
     schemas.StrSchema
 ):
     
@@ -217,12 +185,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                     
                     
                     class items(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                ">": "GREATER_THAN",
-                                "$": "DOLLAR",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
                         
@@ -250,13 +213,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
             class enum_form_string(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "_abc": "_ABC",
-                        "-efg": "EFG",
-                        "(xyz)": "XYZ",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

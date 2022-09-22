@@ -1,14 +1,20 @@
-{{#if isNull}}
-
-@schemas.classproperty
-def NONE(cls):
-    return cls(None)
-{{/if}}
 {{#with allowableValues}}
 {{#each enumVars}}
 
 @schemas.classproperty
 def {{name}}(cls):
+    {{#eq value "schemas.NoneClass.NONE"}}
+    return cls(None)
+    {{else}}
+    {{#eq value "schemas.BoolClass.TRUE"}}
+    return cls(True)
+    {{else}}
+    {{#eq value "schemas.BoolClass.FALSE"}}
+    return cls(False)
+    {{else}}
     return cls({{{value}}})
+    {{/eq}}
+    {{/eq}}
+    {{/eq}}
 {{/each}}
 {{/with}}
