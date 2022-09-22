@@ -477,13 +477,15 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 162);
+        Assert.assertEquals(files.size(), 153);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
                 "import xyz.abcdef.invoker.JSON;");
-        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
-                "import xyz.abcdef.invoker.JSON;");
+        // DogAllOf.java is no longer created as of https://github.com/OpenAPITools/openapi-generator/pull/13498
+        // (children of allOf are no longer created automatically)
+        //TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
+        //        "import xyz.abcdef.invoker.JSON;");
     }
 
     @Test
