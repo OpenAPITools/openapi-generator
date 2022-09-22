@@ -25,6 +25,7 @@ REQUIRES = [
   "certifi",
   "python-dateutil",
   "frozendict >= 2.0.3",
+  "typing_extensions",
 ]
 
 setup(

@@ -27,6 +27,7 @@ REQUIRES = [
   "frozendict >= 2.0.3",
   "pem>=19.3.0",
   "pycryptodome>=3.9.0",
+  "typing_extensions",
 ]
 
 setup(
