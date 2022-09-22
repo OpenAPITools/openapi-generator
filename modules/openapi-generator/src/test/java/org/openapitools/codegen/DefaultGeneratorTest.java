@@ -660,7 +660,7 @@ public class DefaultGeneratorTest {
 
         Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
         LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
-        Assert.assertEquals(servers.get(0).url, "");
+        Assert.assertEquals(servers.get(0).url, "/");
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }

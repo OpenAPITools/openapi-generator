@@ -1525,7 +1525,11 @@ public class DefaultGenerator implements Generator {
     }
 
     private String removeTrailingSlash(String value) {
-        return StringUtils.removeEnd(value, "/");
+        if(value.equals("/")) {
+            return value;
+        } else {
+            return StringUtils.removeEnd(value, "/");
+        }
     }
 
 }
