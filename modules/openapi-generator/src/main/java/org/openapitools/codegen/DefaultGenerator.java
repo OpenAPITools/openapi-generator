@@ -478,7 +478,7 @@ public class DefaultGenerator implements Generator {
                 Schema schema = schemas.get(name);
 
                 if (ModelUtils.isInternalOnly(schema)) {
-                    LOGGER.info("Model {} not generated since it's internal only (x-oag-internal-only: true).", name);
+                    LOGGER.info("Model {} not generated since it's marked as internal only (x-oag-internal-only: true).", name);
                     continue;
                 } else if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases

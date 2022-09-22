@@ -563,9 +563,9 @@ public class InlineModelResolver {
                 String existing = matchGenerated(innerModel);
                 if (existing == null) {
                     innerModelName = addSchemas(innerModelName, innerModel);
-                    //if (setInternalOnly) {
-                    //    ModelUtils.setInternalOnly(innerModel, true);
-                    //}
+                    if (setInternalOnly) {
+                        ModelUtils.setInternalOnly(innerModel, true);
+                    }
                     Schema schema = new Schema().$ref(innerModelName);
                     schema.setRequired(component.getRequired());
                     listIterator.set(schema);
