@@ -34,4 +34,5 @@ class IntegerMin15(
 
 
     class MetaOapg:
+        format = 'int64'
         inclusive_minimum = 15

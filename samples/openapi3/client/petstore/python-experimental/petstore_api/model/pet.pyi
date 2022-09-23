@@ -100,13 +100,7 @@ class Pet(
             
             
             class status(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "available": "AVAILABLE",
-                        "pending": "PENDING",
-                        "sold": "SOLD",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

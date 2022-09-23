@@ -32,13 +32,9 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         class EnumPlusPrim(IntegerMax10, IntegerEnumOneValue):
             pass
 
-        assert EnumPlusPrim._enum_value_to_name() == {0: "POSITIVE_0"}
-
         # order of base classes does not matter
         class EnumPlusPrim(IntegerEnumOneValue, IntegerMax10):
             pass
-
-        assert EnumPlusPrim._enum_value_to_name() == {0: "POSITIVE_0"}
 
         enum_value = EnumPlusPrim.POSITIVE_0
         assert isinstance(enum_value, EnumPlusPrim)
@@ -59,16 +55,12 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         assert isinstance(val, decimal.Decimal)
 
     def test_valid_enum_plus_enum(self):
-        class IntegerOneEnum(IntegerEnum, IntegerEnumOneValue):
-            pass
-
-        assert IntegerOneEnum._enum_value_to_name() == {0: "POSITIVE_0"}
-
-        # order of base classes does not matter
         class IntegerOneEnum(IntegerEnumOneValue, IntegerEnum):
             pass
 
-        assert IntegerOneEnum._enum_value_to_name() == {0: "POSITIVE_0"}
+        # order of base classes does not matter
+        class IntegerOneEnum(IntegerEnum, IntegerEnumOneValue):
+            pass
 
         enum_value = IntegerOneEnum.POSITIVE_0
         assert isinstance(enum_value, IntegerOneEnum)
@@ -76,12 +68,6 @@ class TestCombineNonObjectSchemas(unittest.TestCase):
         assert isinstance(enum_value, decimal.Decimal)
         # we can access this enum from our class
         assert IntegerOneEnum.POSITIVE_0 == 0
-
-        # accessing invalid enum throws an exception
-        invalid_enums = ['POSITIVE_1', 'POSITIVE_2']
-        for invalid_enum in invalid_enums:
-            with self.assertRaises(petstore_api.ApiValueError):
-                getattr(IntegerOneEnum, invalid_enum)
 
 
 if __name__ == '__main__':

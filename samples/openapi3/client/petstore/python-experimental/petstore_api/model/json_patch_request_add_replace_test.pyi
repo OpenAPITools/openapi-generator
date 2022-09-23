@@ -46,13 +46,7 @@ class JSONPatchRequestAddReplaceTest(
             
             
             class op(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "add": "ADD",
-                        "replace": "REPLACE",
-                        "test": "TEST",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

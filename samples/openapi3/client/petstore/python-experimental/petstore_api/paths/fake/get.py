@@ -39,14 +39,16 @@ class EnumQueryStringArraySchema(
         
         
         class items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
+            schemas.EnumBase,
+            schemas.StrSchema
+        ):
+        
+        
+            class MetaOapg:
+                enum_value_to_name = {
                     ">": "GREATER_THAN",
                     "$": "DOLLAR",
                 }
-            ),
-            schemas.StrSchema
-        ):
             
             @schemas.classproperty
             def GREATER_THAN(cls):
@@ -72,15 +74,17 @@ class EnumQueryStringArraySchema(
 
 
 class EnumQueryStringSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
+    schemas.EnumBase,
+    schemas.StrSchema
+):
+
+
+    class MetaOapg:
+        enum_value_to_name = {
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
         }
-    ),
-    schemas.StrSchema
-):
     
     @schemas.classproperty
     def _ABC(cls):
@@ -96,14 +100,17 @@ class EnumQueryStringSchema(
 
 
 class EnumQueryIntegerSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
+    schemas.EnumBase,
+    schemas.Int32Schema
+):
+
+
+    class MetaOapg:
+        format = 'int32'
+        enum_value_to_name = {
             1: "POSITIVE_1",
             -2: "NEGATIVE_2",
         }
-    ),
-    schemas.Int32Schema
-):
     
     @schemas.classproperty
     def POSITIVE_1(cls):
@@ -115,14 +122,17 @@ class EnumQueryIntegerSchema(
 
 
 class EnumQueryDoubleSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
+    schemas.EnumBase,
+    schemas.Float64Schema
+):
+
+
+    class MetaOapg:
+        format = 'double'
+        enum_value_to_name = {
             1.1: "POSITIVE_1_PT_1",
             -1.2: "NEGATIVE_1_PT_2",
         }
-    ),
-    schemas.Float64Schema
-):
     
     @schemas.classproperty
     def POSITIVE_1_PT_1(cls):
@@ -188,14 +198,16 @@ class EnumHeaderStringArraySchema(
         
         
         class items(
-            schemas.SchemaEnumMakerClsFactory(
-                enum_value_to_name={
+            schemas.EnumBase,
+            schemas.StrSchema
+        ):
+        
+        
+            class MetaOapg:
+                enum_value_to_name = {
                     ">": "GREATER_THAN",
                     "$": "DOLLAR",
                 }
-            ),
-            schemas.StrSchema
-        ):
             
             @schemas.classproperty
             def GREATER_THAN(cls):
@@ -221,15 +233,17 @@ class EnumHeaderStringArraySchema(
 
 
 class EnumHeaderStringSchema(
-    schemas.SchemaEnumMakerClsFactory(
-        enum_value_to_name={
+    schemas.EnumBase,
+    schemas.StrSchema
+):
+
+
+    class MetaOapg:
+        enum_value_to_name = {
             "_abc": "_ABC",
             "-efg": "EFG",
             "(xyz)": "XYZ",
         }
-    ),
-    schemas.StrSchema
-):
     
     @schemas.classproperty
     def _ABC(cls):
@@ -293,14 +307,16 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
                     
                     
                     class items(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
+                        schemas.EnumBase,
+                        schemas.StrSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            enum_value_to_name = {
                                 ">": "GREATER_THAN",
                                 "$": "DOLLAR",
                             }
-                        ),
-                        schemas.StrSchema
-                    ):
                         
                         @schemas.classproperty
                         def GREATER_THAN(cls):
@@ -326,15 +342,17 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
             class enum_form_string(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
                         "_abc": "_ABC",
                         "-efg": "EFG",
                         "(xyz)": "XYZ",
                     }
-                ),
-                schemas.StrSchema
-            ):
                 
                 @schemas.classproperty
                 def _ABC(cls):

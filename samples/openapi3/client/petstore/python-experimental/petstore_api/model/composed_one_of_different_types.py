@@ -94,6 +94,7 @@ class ComposedOneOfDifferentTypes(
         
         
             class MetaOapg:
+                format = 'date-time'
                 regex=[{
                     'pattern': r'^2020.*',  # noqa: E501
                 }]

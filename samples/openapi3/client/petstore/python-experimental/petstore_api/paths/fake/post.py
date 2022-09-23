@@ -62,6 +62,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
                 class MetaOapg:
+                    format = 'int32'
                     inclusive_maximum = 200
                     inclusive_minimum = 20
             int64 = schemas.Int64Schema
@@ -83,6 +84,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
                 class MetaOapg:
+                    format = 'float'
                     inclusive_maximum = 987.6
             
             
@@ -92,6 +94,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
                 class MetaOapg:
+                    format = 'double'
                     inclusive_maximum = 123.4
                     inclusive_minimum = 67.8
             
@@ -131,6 +134,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             
             
                 class MetaOapg:
+                    format = 'password'
                     max_length = 64
                     min_length = 10
             callback = schemas.StrSchema

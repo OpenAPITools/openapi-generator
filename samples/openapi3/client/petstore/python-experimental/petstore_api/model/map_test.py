@@ -104,14 +104,16 @@ class MapTest(
                     
                     
                     class additional_properties(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
+                        schemas.EnumBase,
+                        schemas.StrSchema
+                    ):
+                    
+                    
+                        class MetaOapg:
+                            enum_value_to_name = {
                                 "UPPER": "UPPER",
                                 "lower": "LOWER",
                             }
-                        ),
-                        schemas.StrSchema
-                    ):
                         
                         @schemas.classproperty
                         def UPPER(cls):

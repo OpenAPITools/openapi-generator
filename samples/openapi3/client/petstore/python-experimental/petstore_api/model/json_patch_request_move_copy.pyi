@@ -46,12 +46,7 @@ class JSONPatchRequestMoveCopy(
             
             
             class op(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "move": "MOVE",
-                        "copy": "COPY",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
                 

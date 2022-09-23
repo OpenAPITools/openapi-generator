@@ -47,13 +47,15 @@ class IsoscelesTriangle(
                     
                     
                     class triangleType(
-                        schemas.SchemaEnumMakerClsFactory(
-                            enum_value_to_name={
-                                "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
-                            }
-                        ),
+                        schemas.EnumBase,
                         schemas.StrSchema
                     ):
+                    
+                    
+                        class MetaOapg:
+                            enum_value_to_name = {
+                                "IsoscelesTriangle": "ISOSCELES_TRIANGLE",
+                            }
                         
                         @schemas.classproperty
                         def ISOSCELES_TRIANGLE(cls):

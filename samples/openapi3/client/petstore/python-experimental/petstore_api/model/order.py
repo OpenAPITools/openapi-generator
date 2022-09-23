@@ -43,15 +43,17 @@ class Order(
             
             
             class status(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
                         "placed": "PLACED",
                         "approved": "APPROVED",
                         "delivered": "DELIVERED",
                     }
-                ),
-                schemas.StrSchema
-            ):
                 
                 @schemas.classproperty
                 def PLACED(cls):

@@ -43,13 +43,15 @@ class QuadrilateralInterface(
             
             
             class shapeType(
-                schemas.SchemaEnumMakerClsFactory(
-                    enum_value_to_name={
-                        "Quadrilateral": "QUADRILATERAL",
-                    }
-                ),
+                schemas.EnumBase,
                 schemas.StrSchema
             ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "Quadrilateral": "QUADRILATERAL",
+                    }
                 
                 @schemas.classproperty
                 def QUADRILATERAL(cls):
