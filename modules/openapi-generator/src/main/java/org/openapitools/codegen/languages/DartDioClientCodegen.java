@@ -286,7 +286,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private void configureSerializationLibraryFreezed(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/freezed/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
-        supportingFiles.add(new SupportingFile("serialization/freezed/models.dart.mustache", srcFolder + File.separator + modelPackage, "models.dart"));
+        supportingFiles.add(new SupportingFile("serialization/freezed/models.dart.mustache", modelPackage, "models.dart"));
 
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
