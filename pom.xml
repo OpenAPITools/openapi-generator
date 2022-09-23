@@ -745,6 +745,30 @@
             </modules>
         </profile>
         <profile>
+            <id>java-helidon-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-helidon-client</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-helidon-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-helidon-server</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
