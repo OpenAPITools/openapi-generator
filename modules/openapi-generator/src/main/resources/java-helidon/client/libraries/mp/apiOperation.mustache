@@ -1,0 +1,28 @@
+{{>licenseInfo}}
+package {{invokerPackage}};
+
+import io.swagger.v3.oas.models.Operation;
+
+public class ApiOperation {
+    private final String path;
+    private final String method;
+    private final Operation operation;
+
+    public ApiOperation(String path, String method, Operation operation) {
+        this.path = path;
+        this.method = method;
+        this.operation = operation;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+}
