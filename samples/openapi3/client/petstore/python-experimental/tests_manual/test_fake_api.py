@@ -770,7 +770,7 @@ class TestFakeApi(ApiTestMixin):
 
             mock_request.return_value = self.response("")
             kwargs = {
-                'op': add',
+                'op': 'add',
                 'path': '/a/b/c',
                 'from': '/a/b',
             }
