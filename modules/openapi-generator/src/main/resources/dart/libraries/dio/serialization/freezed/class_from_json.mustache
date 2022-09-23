@@ -8,7 +8,7 @@ factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}From
         switch(json['{{propertyBaseName}}']){
             {{#mappedModels}}
                 case '{{mappingName}}':
-                    return {{classname}}.{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}(
+                    return {{classname}}.{{#lambda.camelcase}}{{mappingName}}{{/lambda.camelcase}}(
                         {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}} : {{modelName}}.fromJson(json),
                     );
             {{/mappedModels}}

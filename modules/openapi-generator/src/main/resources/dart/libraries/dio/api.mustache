@@ -5,8 +5,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 {{#operations}}
-{{#imports}}import '{{.}}';
-{{/imports}}
+{{! No need to Import all the required model files as freezed uses the part of directive for it models}}
+{{^useFreezed}}
+    {{#imports}}import '{{.}}';
+    {{/imports}}
+{{/useFreezed}}
 
 class {{classname}} {
 

@@ -2,7 +2,7 @@
   Map<String, dynamic> toJson() {
     return when(
       {{#mappedModels}}
-          {{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}: ({{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}) => {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}.toJson(),
+          {{#lambda.camelcase}}{{mappingName}}{{/lambda.camelcase}}: ({{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}) => {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}.toJson(),
       {{/mappedModels}}
       {{! adds an unknown case to handle one Of}}
       unknown: () => <String, dynamic>{},
