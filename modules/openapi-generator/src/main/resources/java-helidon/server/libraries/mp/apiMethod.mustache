@@ -1,0 +1,7 @@
+    @{{httpMethod}}{{#subresourceOperation}}
+    @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
+    @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
+    @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+    public {{#supportAsync}}CompletionStage<{{/supportAsync}}Response{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
+        return {{#supportAsync}}CompletableFuture.supplyAsync(() -> {{/supportAsync}}Response.ok().entity("magic!").build(){{#supportAsync}}){{/supportAsync}};
+    }
