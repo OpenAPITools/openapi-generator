@@ -12,7 +12,7 @@ const factory {{classname}}({
 {{#hasDiscriminatorWithNonEmptyMapping}}
     {{#discriminator}}
     {{#mappedModels}}
-        const factory {{classname}}.{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}({
+        const factory {{classname}}.{{#lambda.camelcase}}{{mappingName}}{{/lambda.camelcase}}({
             required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}
         }) = {{classname}}{{mappingName}};
     {{/mappedModels}}
