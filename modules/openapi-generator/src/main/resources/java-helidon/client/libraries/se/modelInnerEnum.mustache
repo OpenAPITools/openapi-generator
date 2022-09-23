@@ -1,0 +1,95 @@
+  /**
+   * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+   */
+{{#gson}}
+  @JsonAdapter({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.Adapter.class)
+{{/gson}}
+{{#jsonb}}
+  @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
+  @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
+{{/jsonb}}
+{{#withXml}}
+  @XmlType(name="{{datatypeWithEnum}}")
+  @XmlEnum({{dataType}}.class)
+{{/withXml}}
+  {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+    {{#allowableValues}}
+      {{#enumVars}}
+    {{#enumDescription}}
+    /**
+     * {{.}}
+     */
+    {{/enumDescription}}
+    {{#withXml}}
+    @XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
+    {{/withXml}}
+    {{{name}}}({{{value}}}){{^-last}},
+    {{/-last}}{{#-last}};{{/-last}}
+      {{/enumVars}}
+    {{/allowableValues}}
+
+    private {{{dataType}}} value;
+
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{{dataType}}} value) {
+      this.value = value;
+    }
+
+{{#jackson}}
+    @JsonValue
+{{/jackson}}
+    public {{{dataType}}} getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+{{#jackson}}
+    @JsonCreator
+{{/jackson}}
+    public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
+      for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/isNullable}}
+    }
+{{#gson}}
+
+    public static class Adapter extends TypeAdapter<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} read(final JsonReader jsonReader) throws IOException {
+        {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = {{#isFloat}}(float){{/isFloat}} jsonReader.{{#isNumber}}nextString(){{/isNumber}}{{#isInteger}}nextInt(){{/isInteger}}{{^isNumber}}{{^isInteger}}{{#isFloat}}nextDouble{{/isFloat}}{{^isFloat}}next{{{dataType}}}{{/isFloat}}(){{/isInteger}}{{/isNumber}};
+        return {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
+      }
+    }
+{{/gson}}
+{{#jsonb}}
+    public static final class Deserializer implements JsonbDeserializer<{{datatypeWithEnum}}> {
+      @Override
+      public {{datatypeWithEnum}} deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
+        for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
+          if (String.valueOf(b.value).equals(parser.getString())) {
+            return b;
+          }
+        }
+        {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");{{/useNullForUnknownEnumValue}}
+      }
+    }
+
+    public static final class Serializer implements JsonbSerializer<{{datatypeWithEnum}}> {
+      @Override
+      public void serialize({{datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
+        generator.write(obj.value);
+      }
+    }
+{{/jsonb}}
+  }
