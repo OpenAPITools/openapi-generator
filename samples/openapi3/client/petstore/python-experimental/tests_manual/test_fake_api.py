@@ -771,10 +771,10 @@ class TestFakeApi(ApiTestMixin):
             mock_request.return_value = self.response("")
             body = json_patch_request.JSONPatchRequest(
                 [
-                    json_patch_request_add_replace_test.JSONPatchRequestAddReplaceTest(
+                    json_patch_request_add_replace_test.JSONPatchRequestMoveCopy(
                         op='add',
                         path='/a/b/c',
-                        value='foo',
+                        from='/a/b',
                     )
                 ]
             )
