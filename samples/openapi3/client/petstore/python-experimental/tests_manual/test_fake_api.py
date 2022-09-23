@@ -766,7 +766,7 @@ class TestFakeApi(ApiTestMixin):
     def test_json_patch(self):
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             from petstore_api.model import json_patch_request
-            from petstore_api.model import json_patch_request_add_replace_test
+            from petstore_api.model import json_patch_request_move_copy
 
             mock_request.return_value = self.response("")
             kwargs = {
@@ -776,7 +776,7 @@ class TestFakeApi(ApiTestMixin):
             }
             body = json_patch_request.JSONPatchRequest(
                 [
-                    json_patch_request_add_replace_test.JSONPatchRequestMoveCopy(**kwargs)
+                    json_patch_request_move_copy.JSONPatchRequestMoveCopy(**kwargs)
                 ]
             )
             api_response = self.api.json_patch(body)
