@@ -30,8 +30,10 @@
 
   <ItemGroup>
     <None Remove="System.Web" />
+    <None Remove="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 </Project>
