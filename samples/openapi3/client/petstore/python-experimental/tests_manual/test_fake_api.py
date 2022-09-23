@@ -769,13 +769,14 @@ class TestFakeApi(ApiTestMixin):
             from petstore_api.model import json_patch_request_add_replace_test
 
             mock_request.return_value = self.response("")
+            kwargs = {
+                'op': add',
+                'path': '/a/b/c',
+                'from': '/a/b',
+            }
             body = json_patch_request.JSONPatchRequest(
                 [
-                    json_patch_request_add_replace_test.JSONPatchRequestMoveCopy(
-                        op='add',
-                        path='/a/b/c',
-                        from='/a/b',
-                    )
+                    json_patch_request_add_replace_test.JSONPatchRequestMoveCopy(**kwargs)
                 ]
             )
             api_response = self.api.json_patch(body)
