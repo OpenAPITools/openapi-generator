@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>6.1.1-SNAPSHOT</version>
+    <version>6.2.0</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1140,7 +1140,7 @@
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/php-lumen</module>-->
-                <module>samples/server/petstore/rust-server</module>
+                <!--<module>samples/server/petstore/rust-server</module>-->
                 <!-- clients -->
                 <module>samples/client/petstore/perl</module>
                 <!--<module>samples/client/petstore/bash</module>-->

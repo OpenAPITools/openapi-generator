@@ -19,7 +19,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>6.1.1-SNAPSHOT</version>
+                <version>6.2.0</version>
                 <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>
