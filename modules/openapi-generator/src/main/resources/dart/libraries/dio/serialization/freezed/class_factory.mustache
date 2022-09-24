@@ -12,9 +12,9 @@ const factory {{classname}}({
 {{#hasDiscriminatorWithNonEmptyMapping}}
     {{#discriminator}}
     {{#mappedModels}}
-        const factory {{classname}}.{{#lambda.camelcase}}{{mappingName}}{{/lambda.camelcase}}({
+        const factory {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}({
             required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}
-        }) = {{classname}}{{mappingName}};
+        }) = {{classname}}{{#lambda.titlecase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.titlecase}};
     {{/mappedModels}}
     const factory {{classname}}.unknown() = {{classname}}Unknown;
     {{/discriminator}}
