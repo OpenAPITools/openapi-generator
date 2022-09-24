@@ -7,8 +7,8 @@ false	   false	 Type?
 }}
 
 {{#required}}
-    {{#required}}required {{/required}}{{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/built_value/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}
+    {{#required}}required {{/required}}{{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/freezed/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}
 {{/required}}
 {{^required}}
-    {{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/built_value/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}?
+    {{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/freezed/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}?
 {{/required}}
