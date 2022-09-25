@@ -1,0 +1,10 @@
+{{#with items}}
+{{#if complexType}}
+
+@staticmethod
+def {{baseName}}() -> typing.Type['{{complexType}}']:
+    return {{complexType}}
+{{else}}
+{{> model_templates/schema }}
+{{/if}}
+{{/with}}

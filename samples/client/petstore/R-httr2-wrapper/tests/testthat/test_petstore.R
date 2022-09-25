@@ -21,6 +21,18 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
+test_that("Invalid enum value test", {
+  expect_error(Pet$new("name_test",
+    photoUrls = list("photo_test", "second test"),
+    category = Category$new(id = 450, name = "test_cat"),
+    id = pet_id,
+    tags = list(
+      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
+    ),
+    status = "error_available"
+  ), "Error! \"error_available\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".")
+})
+
 test_that("Additional Properties test", {
   # test tag
   t <- Tag$new(id = 393, name = "something")
@@ -234,7 +246,79 @@ test_that("GetPetById with data_file", {
   expect_equal(response$name, "name_test")
 })
 
+test_that("array test in path parameters", {
+  fake_api <- FakeApi$new()
+  # array input for path parameter
+  #array_dummy <- list(1, 2, 2, 3)
+  array_dummy <- list("hello world", "1&2")
+  expect_error(fake_api$fake_path_array(array_dummy), "")
+})
+
+test_that("optional body parameters test", {
+  fake_api <- FakeApi$new()
+  expect_error(fake_api$add_pet_optional(), "")
+
+  pet_optional_test <- Pet$new("name_test",
+    photoUrls = list("photo_test", "second test"),
+    category = Category$new(id = 44550, name = "test_cat"),
+    id = 44550,
+    tags = list(
+      Tag$new(id = 44550, name = "tag_test"), Tag$new(id = 4880, name = "unknown 2")
+    ),
+    status = "available"
+  )
+  expect_error(fake_api$add_pet_optional(pet_optional_test), "")
+  #result <- fake_api$add_pet_optional(pet_optional_test)
+
+  #response <- pet_api$get_pet_by_id(44550)
+  #expect_equal(response$id, 44550)
+  #expect_equal(response$name, "name_test")
+  #expect_equal(
+  #  response$photoUrls,
+  #  list("photo_test", "second test")
+  #)
+  #expect_equal(response$status, "available")
+  #expect_equal(response$category, Category$new(id = 44500, name = "test_cat"))
+
+  #expect_equal(pet$tags, response$tags)
+  #expect_equal(
+  #  response$tags,
+  #  list(Tag$new(id = 44550, name = "tag_test"), Tag$new(id = 4880, name = "unknown"))
+  #)
+})
+
+test_that("set validation test", {
+  fake_api <- FakeApi$new()
+  # array input invalid (not unique)
+  set_dummy <- list(1, 2, 2, 3)
+  array_dummy <- list(1, 2, 2, 3)
+  result <- tryCatch(fake_api$fake_set_query(set_dummy, array_dummy),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.")
+
+  # vector input invalid (not unique)
+  set_dummy <- c(1, 2, 2, 3)
+  array_dummy <- c(1, 2, 2, 3)
+  result <- tryCatch(fake_api$fake_set_query(set_dummy, array_dummy),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.")
+})
+
 test_that("find_pets_by_status", {
+  # input invalid
+  var_status <- c("something") # array[character] | Tags to filter by
+  result <- tryCatch(pet_api$find_pets_by_status(var_status),
+                     ApiException = function(ex) ex
+  )
+
+  expect_equal(result$ApiException$reason, "Invalid value for `status` when calling PetApi$find_pets_by_status. Must be [available, pending, sold].")
+})
+
+test_that("find_pets_by_tags", {
   pet_tag_test <- Pet$new("name_test",
     photoUrls = list("photo_test", "second test"),
     category = Category$new(id = 4455, name = "test_cat"),
@@ -301,6 +385,33 @@ test_that("Tests validateJSON", {
   
 })
 
+# test set in object
+test_that("Tests set in object", {
+  invalid_set  <-
+  '{"self": 123, "private": "red", "super": "something", "set_test": ["1","2","2","4"]}'
+  expect_error(Special$new()$fromJSON(invalid_set), "Error! Items in `set_test` are not unique")
+
+  special_json <-
+  '{"self": 123, "private": "red", "super": "something", "set_test": ["1","2","4"]}'
+  # test fromJSON
+  special <- Special$new()$fromJSON(special_json)
+  expect_equal(special$item_self, 123)
+  expect_equal(special$item_private, "red")
+  expect_equal(special$item_super, "something")
+
+  # test toJSONString
+  expect_true(grepl('"private"', special$toJSONString()))
+  expect_true(grepl('"self"', special$toJSONString()))
+  expect_true(grepl('"super"', special$toJSONString()))
+  expect_equal('{"set_test":["1","2","4"],"self":123,"private":"red","super":"something"}', special$toJSONString())
+
+  # round trip test
+  s1 <- Special$new()$fromJSONString(special_json)
+  s2 <- Special$new()$fromJSONString(s1$toJSONString())
+  expect_equal(s1, s2)
+
+})
+
 # test object with special item names: self, private, super
 test_that("Tests special item names", {
   special_json <-
@@ -312,7 +423,7 @@ test_that("Tests special item names", {
   expect_equal(special$item_private, "red")
   expect_equal(special$item_super, "something")
 
-  # test toJSONString 
+  # test toJSONString
   expect_true(grepl('"private"', special$toJSONString()))
   expect_true(grepl('"self"', special$toJSONString()))
   expect_true(grepl('"super"', special$toJSONString()))

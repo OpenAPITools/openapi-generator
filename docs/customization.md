@@ -110,7 +110,7 @@ java -cp "out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.ja
 Note the `my-codegen` is an option for `-g` now, and you can use the usual arguments for generating your code:
 
 ```sh
-java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
   org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o ./out/myClient

@@ -314,7 +314,7 @@ StoreApi <- R6::R6Class(
 
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{orderId\\}", URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
       }
 
 
@@ -537,7 +537,7 @@ StoreApi <- R6::R6Class(
 
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
-        local_var_url_path <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{orderId\\}", URLencode(as.character(`order_id`), reserved = TRUE), local_var_url_path)
       }
 
 
@@ -652,7 +652,7 @@ StoreApi <- R6::R6Class(
       }
 
 
-      if (!missing(`order`)) {
+      if (!is.null(`order`)) {
         local_var_body <- `order`$toJSONString()
       } else {
         body <- NULL

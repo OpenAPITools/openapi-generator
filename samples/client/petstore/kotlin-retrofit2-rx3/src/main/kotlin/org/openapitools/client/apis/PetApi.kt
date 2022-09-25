@@ -5,6 +5,7 @@ import retrofit2.http.*
 import okhttp3.RequestBody
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.Completable
+import com.squareup.moshi.Json
 
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
@@ -36,6 +37,16 @@ interface PetApi {
      */
     @DELETE("pet/{petId}")
     fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Completable
+
+
+    /**
+    * enum for parameter status
+    */
+    enum class Status_findPetsByStatus(val value: kotlin.String) {
+        @Json(name = "available") available("available"),
+        @Json(name = "pending") pending("pending"),
+        @Json(name = "sold") sold("sold")
+    }
 
     /**
      * Finds Pets by status

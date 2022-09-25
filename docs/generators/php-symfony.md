@@ -62,7 +62,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>array</li>
 <li>bool</li>
 <li>byte</li>
-<li>double</li>
 <li>float</li>
 <li>int</li>
 <li>mixed</li>
