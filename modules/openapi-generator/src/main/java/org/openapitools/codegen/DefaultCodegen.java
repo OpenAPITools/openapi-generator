@@ -3767,9 +3767,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             Map<String, Object> allowableValues = new HashMap<>();
             allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
+            property.allowableValues = allowableValues;
         }
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
@@ -3868,6 +3866,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
         }
 
+        updateCodegenPropertyEnum(property);
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
@@ -6724,9 +6723,13 @@ public class DefaultCodegen implements CodegenConfig {
             ;
         } else if (ModelUtils.isArraySchema(ps)) {
             Schema inner = getSchemaItems((ArraySchema) ps);
-            CodegenProperty arrayInnerProperty = fromProperty("inner", inner, false);
+            CodegenProperty arrayInnerProperty = fromProperty(getNameOrInner(ps), inner, false);
             codegenParameter.items = arrayInnerProperty;
-            codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
+            if (arrayInnerProperty.mostInnerItems == null) {
+                codegenParameter.mostInnerItems = arrayInnerProperty;
+            } else {
+                codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
+            }
             codegenParameter.isPrimitiveType = false;
             codegenParameter.isContainer = true;
             // hoist items data into the array property
@@ -6797,6 +6800,10 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterNullable(codegenParameter, codegenProperty);
 
         return codegenParameter;
+    }
+
+    private static String getNameOrInner(Schema ps) {
+        return ps.getName() == null ? "inner": ps.getName();
     }
 
     protected void addBodyModelSchema(CodegenParameter codegenParameter, String name, Schema schema, Set<String> imports, String bodyParameterName, boolean forceSimpleRef) {

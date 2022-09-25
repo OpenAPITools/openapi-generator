@@ -69,7 +69,7 @@ public class OASOrder {
           order.petId = 123456789L;
           order.quantity = 0;
           order.shipDate = Datetime.newInstanceGmt(2000, 1, 23, 4, 56, 7);
-          order.status = StatusEnum.PLACED;
+          order.status = StatusEnum.STATUSENUM_PLACED;
           order.complete = true;
         return order;
     }

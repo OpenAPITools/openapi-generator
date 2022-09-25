@@ -546,6 +546,41 @@ public interface FakeApi {
   }
 
   /**
+   * Gets or Sets enumFormStringArray
+   */
+  public enum EnumFormStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumFormStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumFormStringArrayEnum fromValue(String value) {
+      for (EnumFormStringArrayEnum b : EnumFormStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
    * Form parameter enum test (string)
    */
   public enum EnumFormStringEnum {
@@ -592,7 +627,7 @@ public interface FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
@@ -619,8 +654,8 @@ public interface FakeApi {
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") EnumQueryStringEnum enumQueryString,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) EnumQueryIntegerEnum enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) EnumQueryDoubleEnum enumQueryDouble,
-        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
+        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "EnumFormStringArrayEnum.DOLLAR") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<EnumFormStringArrayEnum> enumFormStringArray,
+        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) EnumFormStringEnum enumFormString
     ) {
         return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }

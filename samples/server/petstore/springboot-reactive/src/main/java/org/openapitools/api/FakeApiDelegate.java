@@ -34,6 +34,7 @@ import static org.openapitools.api.FakeApi.EnumQueryStringArrayEnum;
 import static org.openapitools.api.FakeApi.EnumQueryStringEnum;
 import static org.openapitools.api.FakeApi.EnumQueryIntegerEnum;
 import static org.openapitools.api.FakeApi.EnumQueryDoubleEnum;
+import static org.openapitools.api.FakeApi.EnumFormStringArrayEnum;
 import static org.openapitools.api.FakeApi.EnumFormStringEnum;
 /**
  * A delegate to be called by the {@link FakeApiController}}.
@@ -242,7 +243,7 @@ public interface FakeApiDelegate {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)

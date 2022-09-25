@@ -556,6 +556,41 @@ public interface FakeApi {
   }
 
   /**
+   * Gets or Sets enumFormStringArray
+   */
+  public enum EnumFormStringArrayEnum {
+    GREATER_THAN(">"),
+    
+    DOLLAR("$");
+
+    private String value;
+
+    EnumFormStringArrayEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumFormStringArrayEnum fromValue(String value) {
+      for (EnumFormStringArrayEnum b : EnumFormStringArrayEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  /**
    * Form parameter enum test (string)
    */
   public enum EnumFormStringEnum {
@@ -602,7 +637,7 @@ public interface FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
@@ -628,8 +663,8 @@ public interface FakeApi {
         @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") EnumQueryStringEnum enumQueryString,
         @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) EnumQueryIntegerEnum enumQueryInteger,
         @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) EnumQueryDoubleEnum enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString,
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<EnumFormStringArrayEnum> enumFormStringArray,
+        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) EnumFormStringEnum enumFormString,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);

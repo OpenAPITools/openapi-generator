@@ -437,7 +437,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to InnerEnum.Dollar)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object?&gt;&gt;</returns>
@@ -456,7 +456,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to InnerEnum.Dollar)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
@@ -474,7 +474,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to InnerEnum.Dollar)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
@@ -2007,7 +2007,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to InnerEnum.Dollar)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
@@ -2031,7 +2031,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to InnerEnum.Dollar)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
@@ -2061,7 +2061,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to InnerEnum.Dollar)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>

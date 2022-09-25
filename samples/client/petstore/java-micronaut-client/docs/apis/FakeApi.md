@@ -301,7 +301,7 @@ To test enum parameters
 | **enumQueryString** | `String`| Query parameter enum test (string) | [optional parameter] [default to `-efg`] [enum: `_abc`, `-efg`, `(xyz)`] |
 | **enumQueryInteger** | `Integer`| Query parameter enum test (double) | [optional parameter] [enum: `1`, `-2`] |
 | **enumQueryDouble** | `Double`| Query parameter enum test (double) | [optional parameter] [enum: `1.1`, `-1.2`] |
-| **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional parameter] [default to `$`] [enum: `>`, `$`] |
+| **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional parameter] [default to `EnumFormStringArrayEnum.DOLLAR`] [enum: `>`, `$`] |
 | **enumFormString** | `String`| Form parameter enum test (string) | [optional parameter] [default to `-efg`] [enum: `_abc`, `-efg`, `(xyz)`] |
 
 

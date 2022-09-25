@@ -532,7 +532,7 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
         * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
         * @param enumQueryInteger Query parameter enum test (double) (optional)
         * @param enumQueryDouble Query parameter enum test (double) (optional)
-        * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+        * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
         * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param resultHandler Asynchronous result handler
     */
@@ -549,7 +549,7 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
-    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to EnumFormStringArrayEnum.DOLLAR)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
