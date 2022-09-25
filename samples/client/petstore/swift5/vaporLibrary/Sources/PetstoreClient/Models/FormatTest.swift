@@ -22,13 +22,13 @@ public final class FormatTest: Content, Hashable {
     public var string: String?
     public var byte: Data
     public var binary: Data?
-    public var date: Date
+    public var date: DateWithoutTime
     public var dateTime: Date?
     public var uuid: UUID?
     public var password: String
     public var bigDecimal: Decimal?
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: Data? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String, bigDecimal: Decimal? = nil) {
+    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: Data? = nil, date: DateWithoutTime, dateTime: Date? = nil, uuid: UUID? = nil, password: String, bigDecimal: Decimal? = nil) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64

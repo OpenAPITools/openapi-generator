@@ -488,7 +488,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestEndpointParameters>
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: DateWithoutTime? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestEndpointParameters>
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -510,7 +510,7 @@ let int64 = 987 // Int64 | None (optional)
 let float = 987 // Float | None (optional)
 let string = "string_example" // String | None (optional)
 let binary = Data([9, 8, 7]) // Data | None (optional)
-let date = Date() // Date | None (optional)
+let date = 987 // DateWithoutTime | None (optional)
 let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
@@ -545,7 +545,7 @@ Name | Type | Description  | Notes
  **float** | **Float** | None | [optional] 
  **string** | **String** | None | [optional] 
  **binary** | **Data** | None | [optional] 
- **date** | **Date** | None | [optional] 
+ **date** | **DateWithoutTime** | None | [optional] 
  **dateTime** | **Date** | None | [optional] 
  **password** | **String** | None | [optional] 
  **callback** | **String** | None | [optional] 

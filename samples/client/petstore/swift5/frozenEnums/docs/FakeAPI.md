@@ -364,7 +364,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: DateWithoutTime? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -386,7 +386,7 @@ let string = "string_example" // String | None (optional)
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
 let byte = Data([9, 8, 7]) // Data | None
 let binary = URL(string: "https://example.com")! // URL | None (optional)
-let date = Date() // Date | None (optional)
+let date = 987 // DateWithoutTime | None (optional)
 let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
@@ -418,7 +418,7 @@ Name | Type | Description  | Notes
  **patternWithoutDelimiter** | **String** | None | 
  **byte** | **Data** | None | 
  **binary** | **URL** | None | [optional] 
- **date** | **Date** | None | [optional] 
+ **date** | **DateWithoutTime** | None | [optional] 
  **dateTime** | **Date** | None | [optional] 
  **password** | **String** | None | [optional] 
  **callback** | **String** | None | [optional] 
