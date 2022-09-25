@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 
 @Configuration
-public class EnumConverters {
+public class EnumConverterConfiguration {
 
     @Bean
     Converter<String, EnumClass> EnumClassConverter() {

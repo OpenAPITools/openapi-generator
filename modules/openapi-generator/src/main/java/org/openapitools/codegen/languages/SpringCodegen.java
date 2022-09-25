@@ -499,7 +499,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 if (containsEnums()) {
                     supportingFiles.add(new SupportingFile("converter.mustache",
-                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverters.java"));
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
                 }
                 supportingFiles.add(new SupportingFile("application.mustache",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
@@ -599,13 +599,17 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private boolean containsEnums() {
-        if (this.openAPI == null) {
+        if (openAPI == null) {
             return false;
-        } else {
-            Components components = this.openAPI.getComponents();
-            return (components == null || components.getSchemas() == null || components.getSchemas().values().stream()
-                    .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty()));
         }
+
+        Components components = this.openAPI.getComponents();
+        if (components == null || components.getSchemas() == null) {
+            return  false;
+        }
+
+        return components.getSchemas().values().stream()
+                .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
     @Override

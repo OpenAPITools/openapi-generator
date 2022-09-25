@@ -1,14 +1,14 @@
 package org.openapitools.configuration;
 
-import org.openapitools.model.EnumClass;
-import org.openapitools.model.OuterEnum;
+import org.openapitools.virtualan.model.EnumClass;
+import org.openapitools.virtualan.model.OuterEnum;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 
 @Configuration
-public class EnumConverters {
+public class EnumConverterConfiguration {
 
     @Bean
     Converter<String, EnumClass> EnumClassConverter() {
