@@ -15,22 +15,22 @@ import Foundation
 /// an appropriate padding in order to transform to GMT+0 which is the assumed timezone in ISO 8601. 
 /// When decoding, GMT+0 can be assumed (again: ISO8601) so there is no padding necessary and wrappedDate 
 /// can be used safely.
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct DateWithoutTime: Codable, Hashable, Equatable {
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let wrappedDate: Date
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let timezone: TimeZone
+internal struct DateWithoutTime: Codable, Hashable, Equatable {
+    internal let wrappedDate: Date
+    internal let timezone: TimeZone
     
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: CodingKey, CaseIterable {
+    internal enum CodingKeys: CodingKey, CaseIterable {
         case wrappedDate
         case timezone
     }
     
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         self.wrappedDate = try container.decode(Date.self)
         self.timezone = OpenISO8601DateFormatter.withoutTime.timeZone
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init?(wrappedDate: Date?, timezone: TimeZone = .current) {
+    internal init?(wrappedDate: Date?, timezone: TimeZone = .current) {
         guard let wrappedDate = wrappedDate else {
             return nil
         }
@@ -38,12 +38,12 @@ import Foundation
         self.init(wrappedDate: wrappedDate, timezone: timezone)
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(wrappedDate: Date, timezone: TimeZone) {
+    internal init(wrappedDate: Date, timezone: TimeZone) {
         self.wrappedDate = wrappedDate
         self.timezone = timezone
     }
     
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(OpenISO8601DateFormatter.withoutTime.string(from: normalizedWrappedDate()))
     }
