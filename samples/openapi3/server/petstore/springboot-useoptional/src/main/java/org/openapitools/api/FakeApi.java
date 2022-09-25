@@ -252,7 +252,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true) @Valid @RequestParam(value = "query", required = true) {{{{datatypeWithEnum}}} query,
+        @NotNull @Parameter(name = "query", description = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
         @Parameter(name = "body", description = "", required = true) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -714,7 +714,6 @@ public interface FakeApi {
         value = "/fake"
     )
     default ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) {{{{datatypeWithEnum}}} requiredStringGroup,
         @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
         @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
@@ -806,11 +805,11 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) {{{{datatypeWithEnum}}} pipe,
-        @NotNull @Parameter(name = "ioutil", description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) {{{{datatypeWithEnum}}} ioutil,
-        @NotNull @Parameter(name = "http", description = "", required = true) @Valid @RequestParam(value = "http", required = true) {{{{datatypeWithEnum}}} http,
-        @NotNull @Parameter(name = "url", description = "", required = true) @Valid @RequestParam(value = "url", required = true) {{{{datatypeWithEnum}}} url,
-        @NotNull @Parameter(name = "context", description = "", required = true) @Valid @RequestParam(value = "context", required = true) {{{{datatypeWithEnum}}} context
+        @NotNull @Parameter(name = "pipe", description = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull @Parameter(name = "ioutil", description = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
+        @NotNull @Parameter(name = "http", description = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull @Parameter(name = "url", description = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull @Parameter(name = "context", description = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -845,7 +844,7 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") {{{{datatypeWithEnum}}} petId,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
