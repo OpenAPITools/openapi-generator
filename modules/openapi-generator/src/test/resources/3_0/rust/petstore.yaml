@@ -812,9 +812,11 @@ components:
           - $ref: '#/components/schemas/Baz'
           - nullable: false
     Baz:
+      description: Test handling of empty variants
       enum:
       - A
       - B
+      - ""
       type: string
     TypeTesting:
       description: Test handling of different field data types

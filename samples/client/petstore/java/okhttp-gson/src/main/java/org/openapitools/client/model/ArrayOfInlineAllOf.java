@@ -263,17 +263,19 @@ public class ArrayOfInlineAllOf {
       if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      JsonArray jsonArrayarrayAllofDogProperty = jsonObj.getAsJsonArray("array_allof_dog_property");
-      if (jsonArrayarrayAllofDogProperty != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("array_allof_dog_property").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `array_allof_dog_property` to be an array in the JSON string but got `%s`", jsonObj.get("array_allof_dog_property").toString()));
-        }
+      if (jsonObj.get("array_allof_dog_property") != null && !jsonObj.get("array_allof_dog_property").isJsonNull()) {
+        JsonArray jsonArrayarrayAllofDogProperty = jsonObj.getAsJsonArray("array_allof_dog_property");
+        if (jsonArrayarrayAllofDogProperty != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("array_allof_dog_property").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `array_allof_dog_property` to be an array in the JSON string but got `%s`", jsonObj.get("array_allof_dog_property").toString()));
+          }
 
-        // validate the optional field `array_allof_dog_property` (array)
-        for (int i = 0; i < jsonArrayarrayAllofDogProperty.size(); i++) {
-          ArrayOfInlineAllOfArrayAllofDogPropertyInner.validateJsonObject(jsonArrayarrayAllofDogProperty.get(i).getAsJsonObject());
-        };
+          // validate the optional field `array_allof_dog_property` (array)
+          for (int i = 0; i < jsonArrayarrayAllofDogProperty.size(); i++) {
+            ArrayOfInlineAllOfArrayAllofDogPropertyInner.validateJsonObject(jsonArrayarrayAllofDogProperty.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 

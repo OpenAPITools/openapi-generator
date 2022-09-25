@@ -18,7 +18,7 @@ class EnumTest {
     /** @var int $enumInteger */
     public $enumInteger = 0;
 
-    /** @var double $enumNumber */
+    /** @var float $enumNumber */
     public $enumNumber = 0;
 
     /** @var string|null $outerEnum */

@@ -10,11 +10,11 @@
 """
 
 
-import sys
 import unittest
 
 import petstore_api
 from petstore_api.model.string_enum import StringEnum
+from petstore_api.schemas import Singleton, NoneClass
 
 
 class TestStringEnum(unittest.TestCase):
@@ -29,24 +29,28 @@ class TestStringEnum(unittest.TestCase):
     def testStringEnum(self):
         """Test StringEnum"""
         inst = StringEnum(None)
-        self.assertIsNone(inst)
+        assert isinstance(inst, StringEnum)
+        assert isinstance(inst, NoneClass)
+        assert repr(inst) == '<DynamicSchema: None>'
 
         inst = StringEnum('approved')
         assert isinstance(inst, StringEnum)
+        assert isinstance(inst, Singleton)
+        assert isinstance(inst, str)
+        assert inst == 'approved'
+        assert repr(inst) == "<DynamicSchema: 'approved'>"
 
         with self.assertRaises(petstore_api.ApiValueError):
             StringEnum('garbage')
 
         # make sure that we can access its allowed_values
-        assert StringEnum.allowed_values[('value',)] == {
-            'None': None,
-            'PLACED': "placed",
-            'APPROVED': "approved",
-            'DELIVERED': "delivered",
-            'DOUBLE_QUOTE_WITH_NEWLINE': "double quote \n with newline",
-            'MULTIPLE_LINES': "multiple\nlines",
-            'SINGLE_QUOTED': "single quoted"
-        }
+        assert isinstance(StringEnum.NONE, NoneClass)
+        assert StringEnum.PLACED == 'placed'
+        assert StringEnum.APPROVED == 'approved'
+        assert StringEnum.DELIVERED == 'delivered'
+        assert StringEnum.DOUBLE_QUOTE_WITH_NEWLINE == "double quote \n with newline"
+        assert StringEnum.MULTIPLE_LINES == "multiple\nlines"
+        assert StringEnum.SINGLE_QUOTED == "single quoted"
 
 
 if __name__ == '__main__':
