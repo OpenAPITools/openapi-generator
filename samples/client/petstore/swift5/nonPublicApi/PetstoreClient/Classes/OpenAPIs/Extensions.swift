@@ -91,6 +91,12 @@ extension Date: JSONEncodable {
     }
 }
 
+extension DateWithoutTime: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return OpenISO8601DateFormatter.withoutTime.string(from: self.normalizedWrappedDate())
+    }
+}
+
 extension JSONEncodable where Self: Encodable {
     func encodeToJSON() -> Any {
         guard let data = try? CodableHelper.jsonEncoder.encode(self) else {
