@@ -10,51 +10,51 @@ namespace app\Models;
 class FormatTest {
 
     /** @var int $integer */
-    private $integer;
+    public $integer = 0;
 
     /** @var int $int32 */
-    private $int32;
+    public $int32 = 0;
 
     /** @var int $int64 */
-    private $int64;
+    public $int64 = 0;
 
     /** @var float $number */
-    private $number;
+    public $number = 0;
 
     /** @var float $float */
-    private $float;
+    public $float = 0;
 
-    /** @var double $double */
-    private $double;
+    /** @var float $double */
+    public $double = 0;
 
-    /** @var Decimal $decimal */
-    private $decimal;
+    /** @var float $decimal */
+    public $decimal = "";
 
     /** @var string $string */
-    private $string;
+    public $string = "";
 
     /** @var string $byte */
-    private $byte;
+    public $byte = "";
 
     /** @var \SplFileObject $binary */
-    private $binary;
+    public $binary;
 
     /** @var \DateTime $date */
-    private $date;
+    public $date;
 
     /** @var \DateTime $dateTime */
-    private $dateTime;
+    public $dateTime;
 
     /** @var string $uuid */
-    private $uuid;
+    public $uuid = "";
 
     /** @var string $password */
-    private $password;
+    public $password = "";
 
     /** @var string $patternWithDigits A string that is a 10 digit number. Can have leading zeros.*/
-    private $patternWithDigits;
+    public $patternWithDigits = "";
 
     /** @var string $patternWithDigitsAndDelimiter A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.*/
-    private $patternWithDigitsAndDelimiter;
+    public $patternWithDigitsAndDelimiter = "";
 
 }

@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
     name: "PetstoreClient",
     platforms: [
-        .iOS(.v9),
-        .macOS(.v10_11),
-        .tvOS(.v9),
+        .iOS(.v10),
+        .macOS(.v10_12),
+        .tvOS(.v10),
         .watchOS(.v3),
     ],
     products: [
@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
-        .package(url: "https://github.com/Alamofire/Alamofire", from: "4.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

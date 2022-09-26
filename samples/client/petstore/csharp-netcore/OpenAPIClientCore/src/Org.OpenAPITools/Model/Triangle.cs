@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+        /// Get the actual instance of `EquilateralTriangle`. If the actual instance is not `EquilateralTriangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of EquilateralTriangle</returns>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+        /// Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of IsoscelesTriangle</returns>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+        /// Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of ScaleneTriangle</returns>

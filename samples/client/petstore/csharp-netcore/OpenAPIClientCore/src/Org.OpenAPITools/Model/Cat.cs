@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Declawed: ").Append(Declawed).Append("\n");
@@ -108,7 +108,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = hashCode * 59 + this.Declawed.GetHashCode();
+                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
                 return hashCode;
             }
         }
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -130,7 +130,10 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach (var x in base.BaseValidate(validationContext))
+            {
+                yield return x;
+            }
             yield break;
         }
     }

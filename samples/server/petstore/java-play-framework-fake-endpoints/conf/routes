@@ -22,7 +22,7 @@ GET     /v2/fake                     controllers.FakeApiController.testEnumParam
 DELETE     /v2/fake                     controllers.FakeApiController.testGroupParameters(request: Request)
 POST     /v2/fake/inline-additionalProperties                     controllers.FakeApiController.testInlineAdditionalProperties(request: Request)
 GET     /v2/fake/jsonFormData                     controllers.FakeApiController.testJsonFormData(request: Request)
-PUT     /v2/fake/test-query-paramters                     controllers.FakeApiController.testQueryParameterCollectionFormat(request: Request)
+PUT     /v2/fake/test-query-parameters                     controllers.FakeApiController.testQueryParameterCollectionFormat(request: Request)
 
 #Functions for FakeClassnameTags123 API
 PATCH     /v2/fake_classname_test                     controllers.FakeClassnameTags123ApiController.testClassname(request: Request)

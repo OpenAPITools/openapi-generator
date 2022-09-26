@@ -32,10 +32,10 @@ public class StoreApiServiceImpl implements StoreApi {
      */
     public void deleteOrder(String orderId) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Returns pet inventories by status
      *
@@ -44,10 +44,10 @@ public class StoreApiServiceImpl implements StoreApi {
      */
     public Map<String, Integer> getInventory() {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Find purchase order by ID
      *
@@ -56,19 +56,18 @@ public class StoreApiServiceImpl implements StoreApi {
      */
     public Order getOrderById(Long orderId) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Place an order for a pet
      *
      */
     public Order placeOrder(Order body) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
-}
 
+}

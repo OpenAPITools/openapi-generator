@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
@@ -12,11 +13,8 @@ import io.swagger.annotations.*;
 @ApiModel(description="Describes the result of uploading an image resource")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class ModelApiResponse   {
   
-
   private Integer code;
-
   private String type;
-
   private String message;
 
   /**

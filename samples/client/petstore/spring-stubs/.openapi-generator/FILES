@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 pom.xml
 src/main/java/org/openapitools/api/ApiUtil.java

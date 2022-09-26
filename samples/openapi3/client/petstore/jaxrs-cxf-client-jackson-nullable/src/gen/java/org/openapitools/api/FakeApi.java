@@ -195,7 +195,7 @@ public interface FakeApi  {
     public void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2);
 
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     @ApiOperation(value = "", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })

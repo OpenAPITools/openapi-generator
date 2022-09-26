@@ -49,6 +49,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public static final String PROP_SERVE_STATIC_DESC = "serve will serve files from the directory 'static'.";
     public static final Boolean PROP_SERVE_STATIC_DEFAULT = Boolean.TRUE;
 
+    public static final String USE_CUSTOM_MONAD = "useCustomMonad";
+    public static final String USE_CUSTOM_MONAD_DESC = "use a custom monad instead of the default Handler";
+    public static final Boolean USE_CUSTOM_MONAD_DEFAULT = Boolean.FALSE;
+
     /**
      * Configures the type of generator.
      *
@@ -86,6 +90,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
@@ -169,7 +174,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Bool",
                         "String",
@@ -213,6 +218,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DESC).defaultValue(PROP_SERVE_STATIC_DEFAULT.toString()));
+        cliOptions.add(new CliOption(USE_CUSTOM_MONAD, USE_CUSTOM_MONAD_DESC).defaultValue(USE_CUSTOM_MONAD_DEFAULT.toString()));
     }
 
     public void setBooleanProperty(String property, Boolean defaultValue) {
@@ -232,6 +238,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         setBooleanProperty(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DEFAULT);
+        setBooleanProperty(USE_CUSTOM_MONAD, USE_CUSTOM_MONAD_DEFAULT);
     }
 
     /**
@@ -286,14 +293,14 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String[] words = title.split(" ");
 
         // The package name is made by appending the lowercased words of the title interspersed with dashes
-        List<String> wordsLower = new ArrayList<String>();
+        List<String> wordsLower = new ArrayList<>();
         for (String word : words) {
             wordsLower.add(word.toLowerCase(Locale.ROOT));
         }
         String cabalName = joinStrings("-", wordsLower);
 
         // The API name is made by appending the capitalized words of the title
-        List<String> wordsCaps = new ArrayList<String>();
+        List<String> wordsCaps = new ArrayList<>();
         for (String word : words) {
             wordsCaps.add(firstLetterToUpper(word));
         }
@@ -446,7 +453,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     // IdType is provided by the capture params.
     private List<String> pathToServantRoute(String path, List<CodegenParameter> pathParams) {
         // Map the capture params by their names.
-        HashMap<String, String> captureTypes = new HashMap<String, String>();
+        HashMap<String, String> captureTypes = new HashMap<>();
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
@@ -462,7 +469,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // Convert the path into a list of servant route components.
-        List<String> pathComponents = new ArrayList<String>();
+        List<String> pathComponents = new ArrayList<>();
         for (String piece : path.split("/")) {
             if (piece.startsWith("{") && piece.endsWith("}")) {
                 String name = piece.substring(1, piece.length() - 1);
@@ -479,7 +486,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     // Extract the arguments that are passed in the route path parameters
     private List<String> pathToClientType(String path, List<CodegenParameter> pathParams) {
         // Map the capture params by their names.
-        HashMap<String, String> captureTypes = new HashMap<String, String>();
+        HashMap<String, String> captureTypes = new HashMap<>();
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
@@ -490,7 +497,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // Convert the path into a list of servant route components.
-        List<String> type = new ArrayList<String>();
+        List<String> type = new ArrayList<>();
         for (String piece : path.split("/")) {
             if (piece.startsWith("{") && piece.endsWith("}")) {
                 String name = piece.substring(1, piece.length() - 1);
@@ -569,7 +576,16 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " 200 '[JSON] " + returnType);
+
+        String code = "200";
+        for (CodegenResponse r : op.responses) {
+            if (r.code.matches("2[0-9][0-9]")) {
+                code = r.code;
+                break;
+            }
+        }
+
+        path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " " + code + " '[JSON] " + returnType);
         type.add("m " + returnType);
 
         op.vendorExtensions.put("x-route-type", joinStrings(" :> ", path));
@@ -605,8 +621,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String name = string;
         //Check if it is a reserved word, in which case the underscore is added when property name is generated.
         if (string.startsWith("_")) {
-            if (reservedWords.contains(string.substring(1, string.length()))) {
-                name = string.substring(1, string.length());
+            if (reservedWords.contains(string.substring(1))) {
+                name = string.substring(1);
             } else if (reservedWordsMappings.containsValue(string)) {
                 name = LEADING_UNDERSCORE.matcher(string).replaceFirst("");
             }
@@ -685,7 +701,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file.toString();
+            String command = haskellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -701,4 +717,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
 }

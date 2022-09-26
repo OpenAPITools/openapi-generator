@@ -89,7 +89,7 @@ public class QueryParamBinder implements AnnotatedClientArgumentRequestBinder<Qu
             ArgumentConversionContext<Object> context, Object value, String key, ClientRequestUriContext uriContext
     ) {
         if (value instanceof Iterable) {
-            // noinspection unechecked
+            // noinspection unchecked
             Iterable<?> iterable = (Iterable<?>) value;
 
             for (Object item : iterable) {
@@ -147,7 +147,7 @@ public class QueryParamBinder implements AnnotatedClientArgumentRequestBinder<Qu
     ) {
         if (value instanceof Iterable) {
             StringBuilder builder = new StringBuilder();
-            // noinspection unechecked
+            // noinspection unchecked
             Iterable<?> iterable = (Iterable<?>) value;
 
             boolean first = true;

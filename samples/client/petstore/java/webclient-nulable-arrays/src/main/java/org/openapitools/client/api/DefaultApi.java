@@ -49,7 +49,7 @@ public class DefaultApi {
     /**
      * 
      * 
-     * <p><b>200</b>
+     * <p><b>200</b> - 
      * @return List&lt;ByteArrayObject&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
@@ -79,7 +79,7 @@ public class DefaultApi {
     /**
      * 
      * 
-     * <p><b>200</b>
+     * <p><b>200</b> - 
      * @return List&lt;ByteArrayObject&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
@@ -88,8 +88,26 @@ public class DefaultApi {
         return nullableArrayTestGetRequestCreation().bodyToFlux(localVarReturnType);
     }
 
+    /**
+     * 
+     * 
+     * <p><b>200</b> - 
+     * @return ResponseEntity&lt;List&lt;ByteArrayObject&gt;&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<List<ByteArrayObject>>> nullableArrayTestGetWithHttpInfo() throws WebClientResponseException {
         ParameterizedTypeReference<ByteArrayObject> localVarReturnType = new ParameterizedTypeReference<ByteArrayObject>() {};
         return nullableArrayTestGetRequestCreation().toEntityList(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - 
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec nullableArrayTestGetWithResponseSpec() throws WebClientResponseException {
+        return nullableArrayTestGetRequestCreation();
     }
 }

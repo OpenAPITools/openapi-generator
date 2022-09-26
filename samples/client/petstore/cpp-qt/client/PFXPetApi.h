@@ -15,10 +15,12 @@
 #include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
+#include "PFXOauth.h"
 
 #include "PFXApiResponse.h"
 #include "PFXHttpFileElement.h"
 #include "PFXPet.h"
+#include <QSet>
 #include <QString>
 
 #include <QObject>
@@ -53,14 +55,17 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     void abortRequests();
-    QString getParamStylePrefix(QString style);
-    QString getParamStyleSuffix(QString style);
-    QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
+    QString getParamStylePrefix(const QString &style);
+    QString getParamStyleSuffix(const QString &style);
+    QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 
     /**
-    * @param[in]  body PFXPet [required]
+    * @param[in]  pfx_pet PFXPet [required]
     */
-    void addPet(const PFXPet &body);
+    void addPet(const PFXPet &pfx_pet);
+
+
+    void allPets();
 
     /**
     * @param[in]  pet_id qint64 [required]
@@ -84,9 +89,9 @@ public:
     void getPetById(const qint64 &pet_id);
 
     /**
-    * @param[in]  body PFXPet [required]
+    * @param[in]  pfx_pet PFXPet [required]
     */
-    void updatePet(const PFXPet &body);
+    void updatePet(const PFXPet &pfx_pet);
 
     /**
     * @param[in]  pet_id qint64 [required]
@@ -113,11 +118,20 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QNetworkAccessManager* _manager;
-    QMap<QString, QString> defaultHeaders;
-    bool isResponseCompressionEnabled;
-    bool isRequestCompressionEnabled;
+    QMap<QString, QString> _defaultHeaders;
+    bool _isResponseCompressionEnabled;
+    bool _isRequestCompressionEnabled;
+    PFXHttpRequestInput _latestInput;
+    PFXHttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
 
     void addPetCallback(PFXHttpRequestWorker *worker);
+    void allPetsCallback(PFXHttpRequestWorker *worker);
     void deletePetCallback(PFXHttpRequestWorker *worker);
     void findPetsByStatusCallback(PFXHttpRequestWorker *worker);
     void findPetsByTagsCallback(PFXHttpRequestWorker *worker);
@@ -129,6 +143,7 @@ private:
 signals:
 
     void addPetSignal();
+    void allPetsSignal(QSet<PFXPet> summary);
     void deletePetSignal();
     void findPetsByStatusSignal(QList<PFXPet> summary);
     void findPetsByTagsSignal(QList<PFXPet> summary);
@@ -138,6 +153,7 @@ signals:
     void uploadFileSignal(PFXApiResponse summary);
 
     void addPetSignalFull(PFXHttpRequestWorker *worker);
+    void allPetsSignalFull(PFXHttpRequestWorker *worker, QSet<PFXPet> summary);
     void deletePetSignalFull(PFXHttpRequestWorker *worker);
     void findPetsByStatusSignalFull(PFXHttpRequestWorker *worker, QList<PFXPet> summary);
     void findPetsByTagsSignalFull(PFXHttpRequestWorker *worker, QList<PFXPet> summary);
@@ -147,6 +163,7 @@ signals:
     void uploadFileSignalFull(PFXHttpRequestWorker *worker, PFXApiResponse summary);
 
     void addPetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void allPetsSignalE(QSet<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
     void deletePetSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByStatusSignalE(QList<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByTagsSignalE(QList<PFXPet> summary, QNetworkReply::NetworkError error_type, QString error_str);
@@ -156,6 +173,7 @@ signals:
     void uploadFileSignalE(PFXApiResponse summary, QNetworkReply::NetworkError error_type, QString error_str);
 
     void addPetSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void allPetsSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void deletePetSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByStatusSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void findPetsByTagsSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
@@ -166,6 +184,10 @@ signals:
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
 };
 
 } // namespace test_namespace

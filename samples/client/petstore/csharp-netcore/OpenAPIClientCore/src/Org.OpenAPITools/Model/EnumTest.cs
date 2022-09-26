@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = true)]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
         /// <summary>
         /// Defines EnumInteger
@@ -228,7 +228,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
             sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
@@ -281,15 +281,15 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.EnumString.GetHashCode();
-                hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
-                hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
-                hashCode = hashCode * 59 + this.EnumIntegerOnly.GetHashCode();
-                hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
-                hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
-                hashCode = hashCode * 59 + this.OuterEnumInteger.GetHashCode();
-                hashCode = hashCode * 59 + this.OuterEnumDefaultValue.GetHashCode();
-                hashCode = hashCode * 59 + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumStringRequired.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.GetHashCode();
                 return hashCode;
             }
         }
@@ -299,7 +299,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

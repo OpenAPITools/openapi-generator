@@ -1,7 +1,6 @@
 ApiResponse.avsc
+ApiResponseStatuses.avsc
 Category.avsc
-InlineObject.avsc
-InlineObject1.avsc
 Order.avsc
 Pet.avsc
 Tag.avsc

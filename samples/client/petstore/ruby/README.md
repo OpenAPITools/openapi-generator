@@ -93,7 +93,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *Petstore::FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *Petstore::FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-*Petstore::FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*Petstore::FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *Petstore::FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *Petstore::PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *Petstore::PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Petstore::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Petstore::Animal](docs/Animal.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -141,10 +142,10 @@ Class | Method | HTTP request | Description
  - [Petstore::File](docs/File.md)
  - [Petstore::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Petstore::Foo](docs/Foo.md)
+ - [Petstore::FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
- - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::MapTest](docs/MapTest.md)
  - [Petstore::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -163,6 +164,7 @@ Class | Method | HTTP request | Description
  - [Petstore::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Petstore::SingleRefType](docs/SingleRefType.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)

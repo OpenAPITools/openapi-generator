@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the date time format.
         /// </summary>
-        /// <value>Date time foramt.</value>
+        /// <value>Date time format.</value>
         string DateTimeFormat { get; }
 
         /// <summary>
@@ -100,11 +100,25 @@ namespace Org.OpenAPITools.Client
         string Password { get; }
 
         /// <summary>
+        /// Get the servers associated with the operation.
+        /// </summary>
+        /// <value>Operation servers.</value>
+        IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers { get; }
+
+        /// <summary>
         /// Gets the API key with prefix.
         /// </summary>
         /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
         /// <returns>API key with prefix.</returns>
         string GetApiKeyWithPrefix(string apiKeyIdentifier);
+
+        /// <summary>
+        /// Gets the Operation server url at the provided index.
+        /// </summary>
+        /// <param name="operation">Operation server name.</param>
+        /// <param name="index">Index of the operation server settings.</param>
+        /// <returns></returns>
+        string GetOperationServerUrl(string operation, int index);
 
         /// <summary>
         /// Gets certificate collection to be sent with requests.

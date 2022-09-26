@@ -25,28 +25,28 @@ namespace {{packageName}}.{{apiPackage}}
         #region Synchronous Operations
         {{#operation}}
         /// <summary>
-        /// {{summary}}
+        /// {{{summary}}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>{{returnType}}</returns>
+        {{/allParams}}/// <returns>{{{returnType}}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
         {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 
         /// <summary>
-        /// {{summary}}
+        /// {{{summary}}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{/allParams}}/// <returns>ApiResponse of {{{returnType}}}{{^returnType}}Object(void){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -57,15 +57,15 @@ namespace {{packageName}}.{{apiPackage}}
         #region Asynchronous Operations
         {{#operation}}
         /// <summary>
-        /// {{summary}}
+        /// {{{summary}}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{returnType}}{{^returnType}}void{{/returnType}}</returns>
+        /// <returns>Task of {{{returnType}}}{{^returnType}}void{{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -75,7 +75,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// {{summary}}
         /// </summary>
         /// <remarks>
-        /// {{notes}}
+        /// {{{notes}}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
@@ -200,11 +200,11 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#operation}}
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>{{returnType}}</returns>
+        {{/allParams}}/// <returns>{{{returnType}}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -215,11 +215,11 @@ namespace {{packageName}}.{{apiPackage}}
         }
 
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{/allParams}}/// <returns>ApiResponse of {{{returnType}}}{{^returnType}}Object(void){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -307,7 +307,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isBasicBasic}}
             {{#isBasicBearer}}
-            // http beerer authentication required
+            // http bearer authentication required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
@@ -350,12 +350,12 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#supportsAsync}}
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{returnType}}{{^returnType}}void{{/returnType}}</returns>
+        /// <returns>Task of {{{returnType}}}{{^returnType}}void{{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -367,7 +367,7 @@ namespace {{packageName}}.{{apiPackage}}
         }
 
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{{summary}}} {{{notes}}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>

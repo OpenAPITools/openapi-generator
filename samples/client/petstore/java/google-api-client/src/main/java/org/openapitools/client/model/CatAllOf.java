@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * CatAllOf
@@ -36,6 +37,8 @@ public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
+  public CatAllOf() {
+  }
 
   public CatAllOf declawed(Boolean declawed) {
     

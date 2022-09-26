@@ -1,0 +1,42 @@
+    {{^generateControllerFromExamples}}
+        {{!The body needs to be implemented by user}}
+        // TODO implement {{nickname}}();
+        {{^generateOperationsToReturnNotImplemented}}
+        {{#reactive}}{{#wrapInHttpResponse}}return Mono.fromCallable(HttpResponse::ok);{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}return Mono.empty();{{/wrapInHttpResponse}}{{/reactive}}{{^reactive}}{{#wrapInHttpResponse}}return HttpResponse.ok();{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}{{#returnType}}return null;{{/returnType}}{{/wrapInHttpResponse}}{{/reactive}}
+        {{/generateOperationsToReturnNotImplemented}}
+        {{#generateOperationsToReturnNotImplemented}}
+        {{#reactive}}{{#wrapInHttpResponse}}return Mono.just(HttpResponse.status(HttpStatus.NOT_IMPLEMENTED));{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));{{/wrapInHttpResponse}}{{/reactive}}{{^reactive}}{{#wrapInHttpResponse}}return HttpResponse.status(HttpStatus.NOT_IMPLEMENTED);{{/wrapInHttpResponse}}{{^wrapInHttpResponse}}throw new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null);{{/wrapInHttpResponse}}{{/reactive}}
+        {{/generateOperationsToReturnNotImplemented}}
+    {{/generateControllerFromExamples}}
+    {{#generateControllerFromExamples}}
+        {{!The body is generated to verify that example values are passed correctly}}
+        {{#allParams}}
+            {{^isFile}}
+        {{{dataType}}} {{paramName}}Expected = {{{example}}};
+        assert {{paramName}}.equals({{paramName}}Expected) : "The parameter {{paramName}} was expected to match its example value";
+            {{/isFile}}
+        {{/allParams}}
+        {{!
+        return type present
+        }}{{#returnType}}return {{!
+        reactive start
+        }}{{#reactive}}Mono.fromCallable(() -> {{/reactive}}{{!
+        wrapInHttpResponse start
+        }}{{#wrapInHttpResponse}}HttpResponse.ok({{/wrapInHttpResponse}}{{!
+        body
+        }}{{#vendorExtensions.example}}{{{vendorExtensions.example}}}{{/vendorExtensions.example}}{{^vendorExtensions.example}}{{^wrapInHttpResponse}}null{{/wrapInHttpResponse}}{{/vendorExtensions.example}}{{!
+        wrapInHttpResponse end
+        }}{{#wrapInHttpResponse}}){{/wrapInHttpResponse}}{{!
+        reactive end
+        }}{{#reactive}}){{/reactive}};{{/returnType}}{{!
+        return type not present
+        }}{{^returnType}}{{!
+        reactive
+        }}{{#reactive}}return {{!
+        wrapInHttpResponse
+        }}{{#wrapInHttpResponse}}Mono.fromCallable(HttpResponse::ok){{/wrapInHttpResponse}}{{^wrapInHttpResponse}}Mono.fromCallable(() -> null){{/wrapInHttpResponse}};{{/reactive}}{{!
+        not reactive
+        }}{{^reactive}}{{!
+        wrapInHttpResponse
+        }}{{#wrapInHttpResponse}}return HttpResponse.ok();{{/wrapInHttpResponse}}{{/reactive}}{{/returnType}}
+    {{/generateControllerFromExamples}}

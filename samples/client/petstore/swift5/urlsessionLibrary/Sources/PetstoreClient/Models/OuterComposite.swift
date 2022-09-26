@@ -10,12 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.OuterComposite")
-public typealias OuterComposite = PetstoreClient.OuterComposite
+@available(*, deprecated, renamed: "PetstoreClientAPI.OuterComposite")
+public typealias OuterComposite = PetstoreClientAPI.OuterComposite
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
-public final class OuterComposite: Codable, Hashable {
+public final class OuterComposite: Codable, JSONEncodable, Hashable {
 
     public var myNumber: Double?
     public var myString: String?

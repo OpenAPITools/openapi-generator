@@ -2,13 +2,14 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class BigCat extends Cat {
   
@@ -67,6 +68,23 @@ LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(Strin
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    BigCat bigCat = (BigCat) o;
+    return Objects.equals(kind, bigCat.kind) &&
+        super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(kind, super.hashCode());
+  }
 
   @Override
   public String toString() {

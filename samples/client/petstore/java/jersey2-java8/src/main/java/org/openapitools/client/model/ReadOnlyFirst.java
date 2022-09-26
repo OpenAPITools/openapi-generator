@@ -43,6 +43,16 @@ public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAZ = "baz";
   private String baz;
 
+  public ReadOnlyFirst() { 
+  }
+
+  @JsonCreator
+  public ReadOnlyFirst(
+    @JsonProperty(JSON_PROPERTY_BAR) String bar
+  ) {
+    this();
+    this.bar = bar;
+  }
 
    /**
    * Get bar

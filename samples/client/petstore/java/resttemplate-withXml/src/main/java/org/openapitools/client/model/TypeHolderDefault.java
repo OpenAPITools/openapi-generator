@@ -26,8 +26,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * TypeHolderDefault
@@ -39,7 +42,6 @@ import javax.xml.bind.annotation.*;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderDefault")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "TypeHolderDefault")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -68,6 +70,8 @@ public class TypeHolderDefault {
   @XmlElement(name = "arrayItem")
   private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderDefault() {
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     

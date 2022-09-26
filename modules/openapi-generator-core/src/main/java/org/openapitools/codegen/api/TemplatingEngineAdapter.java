@@ -62,7 +62,7 @@ public interface TemplatingEngineAdapter {
      * @param bundle       The map of values to pass to the template
      * @param templateFile The name of the template (e.g. model.mustache )
      * @return the processed template result
-     * @throws IOException an error ocurred in the template processing
+     * @throws IOException an error occurred in the template processing
      */
     String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle,
                            String templateFile) throws IOException;

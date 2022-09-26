@@ -1,0 +1,8 @@
+openapi: 3.0.0
+info:
+  description: test
+  version: test
+  title: test
+paths:
+  /test:
+    $ref: 'npe-test-spec-file.yaml#/test'

@@ -21,10 +21,13 @@ import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.options.TypeScriptNodeClientOptionsProvider;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
+import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
     private TypeScriptNodeClientCodegen clientCodegen = mock(TypeScriptNodeClientCodegen.class, mockSettings);
 
@@ -45,5 +48,6 @@ public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setParamNaming(TypeScriptNodeClientOptionsProvider.PARAM_NAMING_VALUE);
         verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.SUPPORTS_ES6_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptNodeClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

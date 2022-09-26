@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * XmlItem
@@ -61,7 +62,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@JsonTypeName("XmlItem")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {
@@ -152,6 +152,8 @@ public class XmlItem {
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = null;
 
+  public XmlItem() {
+  }
 
   public XmlItem attributeString(String attributeString) {
     
@@ -269,7 +271,7 @@ public class XmlItem {
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<Integer>();
+      this.wrappedArray = new ArrayList<>();
     }
     this.wrappedArray.add(wrappedArrayItem);
     return this;
@@ -412,7 +414,7 @@ public class XmlItem {
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<Integer>();
+      this.nameArray = new ArrayList<>();
     }
     this.nameArray.add(nameArrayItem);
     return this;
@@ -447,7 +449,7 @@ public class XmlItem {
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<Integer>();
+      this.nameWrappedArray = new ArrayList<>();
     }
     this.nameWrappedArray.add(nameWrappedArrayItem);
     return this;
@@ -590,7 +592,7 @@ public class XmlItem {
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<Integer>();
+      this.prefixArray = new ArrayList<>();
     }
     this.prefixArray.add(prefixArrayItem);
     return this;
@@ -625,7 +627,7 @@ public class XmlItem {
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<Integer>();
+      this.prefixWrappedArray = new ArrayList<>();
     }
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
     return this;
@@ -768,7 +770,7 @@ public class XmlItem {
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<Integer>();
+      this.namespaceArray = new ArrayList<>();
     }
     this.namespaceArray.add(namespaceArrayItem);
     return this;
@@ -803,7 +805,7 @@ public class XmlItem {
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<Integer>();
+      this.namespaceWrappedArray = new ArrayList<>();
     }
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
     return this;
@@ -946,7 +948,7 @@ public class XmlItem {
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<Integer>();
+      this.prefixNsArray = new ArrayList<>();
     }
     this.prefixNsArray.add(prefixNsArrayItem);
     return this;
@@ -981,7 +983,7 @@ public class XmlItem {
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<Integer>();
+      this.prefixNsWrappedArray = new ArrayList<>();
     }
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
     return this;

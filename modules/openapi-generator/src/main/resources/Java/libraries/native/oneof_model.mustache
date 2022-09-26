@@ -60,12 +60,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
             switch (discriminatorValue) {
-        	{{#mappedModels}}
+            {{#mappedModels}}
                 case "{{{mappingName}}}":
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
                     new{{classname}}.setActualInstance(deserialized);
                     return new{{classname}};
-        	{{/mappedModels}}
+            {{/mappedModels}}
                 default:
                     log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
             }
@@ -217,7 +217,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#oneOf}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `{{{.}}}`

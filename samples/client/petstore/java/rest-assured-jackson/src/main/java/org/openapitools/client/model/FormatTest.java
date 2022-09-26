@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -96,6 +97,8 @@ public class FormatTest {
   public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
   private BigDecimal bigDecimal;
 
+  public FormatTest() {
+  }
 
   public FormatTest integer(Integer integer) {
     

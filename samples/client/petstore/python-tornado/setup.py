@@ -36,6 +36,7 @@ setup(
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     license="Apache-2.0",
+    long_description_content_type='text/markdown',
     long_description="""\
     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  # noqa: E501
     """

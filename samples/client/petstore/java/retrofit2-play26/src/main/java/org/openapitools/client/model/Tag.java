@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -33,7 +34,6 @@ import javax.validation.Valid;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@JsonTypeName("Tag")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";
@@ -42,6 +42,8 @@ public class Tag {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public Tag() {
+  }
 
   public Tag id(Long id) {
     

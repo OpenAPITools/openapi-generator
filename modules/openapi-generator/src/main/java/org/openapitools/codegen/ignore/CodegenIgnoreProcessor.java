@@ -17,19 +17,17 @@
 
 package org.openapitools.codegen.ignore;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.io.Files;
 import org.openapitools.codegen.ignore.rules.DirectoryRule;
 import org.openapitools.codegen.ignore.rules.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * Presents a processing utility for parsing and evaluating files containing common ignore patterns. (.openapi-generator-ignore)
@@ -91,7 +89,7 @@ public class CodegenIgnoreProcessor {
             if (legacyIgnoreFile.exists() && legacyIgnoreFile.isFile()) {
                 LOGGER.info(String.format(Locale.ROOT, "Legacy support: '%s' file renamed to '%s'.", legacyIgnoreFile.getName(), targetIgnoreFile.getName()));
                 try {
-                    Files.move(legacyIgnoreFile, targetIgnoreFile);
+                    Files.move(legacyIgnoreFile.toPath(), targetIgnoreFile.toPath(), REPLACE_EXISTING);
                     loadFromFile(targetIgnoreFile);
                 } catch (IOException e) {
                     LOGGER.error(String.format(Locale.ROOT, "Could not rename file: %s", e.getMessage()));
@@ -107,7 +105,9 @@ public class CodegenIgnoreProcessor {
     }
 
     void loadCodegenRules(final File codegenIgnore) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(codegenIgnore), Charset.forName("UTF-8")))) {
+        try (FileInputStream fileInputStream = new FileInputStream(codegenIgnore);
+             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+             BufferedReader reader = new BufferedReader(inputStreamReader)) {
             String line;
 
             // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore
@@ -143,8 +143,8 @@ public class CodegenIgnoreProcessor {
         if(this.ignoreFile == null) return true;
 
         File file = new File(this.ignoreFile.getAbsoluteFile().getParentFile().toURI().relativize(targetFile.toURI()).getPath());
-        Boolean directoryExcluded = false;
-        Boolean exclude = false;
+        boolean directoryExcluded = false;
+        boolean exclude = false;
         if(exclusionRules.size() == 0 && inclusionRules.size() == 0) {
             return true;
         }
@@ -207,10 +207,10 @@ public class CodegenIgnoreProcessor {
     /**
      * Allows a consumer to manually inspect explicit "inclusion rules". That is, patterns in the ignore file which have been negated.
      *
-     * @return A {@link ImmutableList#copyOf(Collection)} of rules which possibly negate exclusion rules in the ignore file.
+     * @return A {@link Collections#unmodifiableList(List)} of rules which possibly negate exclusion rules in the ignore file.
      */
     public List<Rule> getInclusionRules() {
-        return ImmutableList.copyOf(inclusionRules);
+        return Collections.unmodifiableList(inclusionRules);
     }
 
     /**
@@ -219,9 +219,9 @@ public class CodegenIgnoreProcessor {
      *
      * NOTE: Existence in this list doesn't mean a file is excluded. The rule can be overridden by {@link CodegenIgnoreProcessor#getInclusionRules()} rules.
      *
-     * @return A {@link ImmutableList#copyOf(Collection)} of rules which define exclusions by patterns in the ignore file.
+     * @return A {@link Collections#unmodifiableList(List)} of rules which define exclusions by patterns in the ignore file.
      */
     public List<Rule> getExclusionRules() {
-        return ImmutableList.copyOf(exclusionRules);
+        return Collections.unmodifiableList((exclusionRules));
     }
 }

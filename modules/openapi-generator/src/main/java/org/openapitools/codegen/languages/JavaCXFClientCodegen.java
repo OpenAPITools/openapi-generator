@@ -23,6 +23,8 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,13 +66,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         modelPackage = "org.openapitools.model";
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -157,6 +159,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
             if (openApiNullable) {
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                     property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
+                    findByName(property.name, model.readOnlyVars)
+                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }
@@ -165,7 +169,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
     }

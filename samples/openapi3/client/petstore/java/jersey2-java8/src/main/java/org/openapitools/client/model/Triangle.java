@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -348,7 +349,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+     * Get the actual instance of `EquilateralTriangle`. If the actual instance is not `EquilateralTriangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `EquilateralTriangle`
@@ -359,7 +360,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+     * Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `IsoscelesTriangle`
@@ -370,7 +371,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+     * Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `ScaleneTriangle`

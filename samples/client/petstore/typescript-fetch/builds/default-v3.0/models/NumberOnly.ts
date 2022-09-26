@@ -27,6 +27,15 @@ export interface NumberOnly {
     justNumber?: number;
 }
 
+/**
+ * Check if a given object implements the NumberOnly interface.
+ */
+export function instanceOfNumberOnly(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function NumberOnlyFromJSON(json: any): NumberOnly {
     return NumberOnlyFromJSONTyped(json, false);
 }

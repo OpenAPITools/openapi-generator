@@ -1346,7 +1346,7 @@ public class FakeApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/fake/test-query-paramters";
+    String localVarPath = "/fake/test-query-parameters";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "pipe", pipe));

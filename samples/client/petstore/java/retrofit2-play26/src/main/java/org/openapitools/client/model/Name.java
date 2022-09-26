@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -36,7 +37,6 @@ import javax.validation.Valid;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@JsonTypeName("Name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
@@ -51,6 +51,18 @@ public class Name {
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   private Integer _123number;
 
+  public Name() {
+  }
+
+  @JsonCreator
+  public Name(
+    @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
+    @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number
+  ) {
+    this();
+    this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
 
   public Name name(Integer name) {
     

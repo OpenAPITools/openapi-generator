@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
-    id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.3"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.1.1"
 }
 
 version = "1.0.0"
@@ -27,10 +27,10 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.xml:micronaut-jackson-xml")
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-oauth2")
     implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.swagger:swagger-annotations:1.5.9")
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 
@@ -42,3 +42,5 @@ java {
     sourceCompatibility = JavaVersion.toVersion("1.8")
     targetCompatibility = JavaVersion.toVersion("1.8")
 }
+
+graalvmNative.toolchainDetection = false

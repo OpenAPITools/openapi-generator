@@ -20,6 +20,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.*;
@@ -58,7 +61,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
@@ -125,13 +128,12 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> newObjs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) newObjs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap newObjs = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap operations = newObjs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
 

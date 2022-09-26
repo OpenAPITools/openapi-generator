@@ -107,6 +107,7 @@ class {{classname}}(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -142,7 +143,9 @@ class {{classname}}(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -158,8 +161,7 @@ class {{classname}}(object):
 {{^isNullable}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
-        if self.api_client.client_side_validation and ('{{paramName}}' not in local_var_params or  # noqa: E501
-                                                        local_var_params['{{paramName}}'] is None):  # noqa: E501
+        if self.api_client.client_side_validation and local_var_params.get('{{paramName}}') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
@@ -214,12 +216,12 @@ class {{classname}}(object):
 
         query_params = []
 {{#queryParams}}
-        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] is not None:  # noqa: E501
+        if local_var_params.get('{{paramName}}') is not None:  # noqa: E501
             query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isArray}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/queryParams}}
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 {{#headerParams}}
         if '{{paramName}}' in local_var_params:
             header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}}  # noqa: E501
@@ -247,8 +249,12 @@ class {{classname}}(object):
         {{/hasProduces}}
         {{#hasConsumes}}
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}],
+                '{{httpMethod}}', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         {{/hasConsumes}}
         # Authentication setting

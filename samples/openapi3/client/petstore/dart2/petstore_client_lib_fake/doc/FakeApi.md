@@ -25,7 +25,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 # **fakeHealthGet**
@@ -565,7 +565,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -582,11 +582,12 @@ final enumQueryStringArray = []; // List<String> | Query parameter enum test (st
 final enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 final enumQueryInteger = 56; // int | Query parameter enum test (double)
 final enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-final enumFormStringArray = [enumFormStringArray_example]; // List<String> | Form parameter enum test (string array)
+final enumQueryModelArray = []; // List<EnumClass> | 
+final enumFormStringArray = []; // List<String> | Form parameter enum test (string array)
 final enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {
-    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 } catch (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
 }
@@ -602,6 +603,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
+ **enumQueryModelArray** | [**List<EnumClass>**](EnumClass.md)|  | [optional] [default to const []]
  **enumFormStringArray** | [**List<String>**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
@@ -683,6 +685,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -723,6 +727,8 @@ No authorization required
 
 test json serialization of form data
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -761,7 +767,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -777,10 +783,11 @@ final ioutil = []; // List<String> |
 final http = []; // List<String> | 
 final url = []; // List<String> | 
 final context = []; // List<String> | 
+final allowEmpty = allowEmpty_example; // String | 
 final language = ; // Map<String, String> | 
 
 try {
-    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -795,6 +802,7 @@ Name | Type | Description  | Notes
  **http** | [**List<String>**](String.md)|  | [default to const []]
  **url** | [**List<String>**](String.md)|  | [default to const []]
  **context** | [**List<String>**](String.md)|  | [default to const []]
+ **allowEmpty** | **String**|  | 
  **language** | [**Map<String, String>**](String.md)|  | [optional] [default to const {}]
 
 ### Return type

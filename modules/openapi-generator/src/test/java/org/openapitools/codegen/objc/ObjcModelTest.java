@@ -295,8 +295,8 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
-    @Test(description = "test udid")
-    public void udidAndPasswordDataModelTest() {
+    @Test(description = "test uuid")
+    public void uuidAndPasswordDataModelTest() {
         final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);

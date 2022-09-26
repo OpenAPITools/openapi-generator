@@ -9,13 +9,13 @@ Name | Type | Description | Notes
 **int64** | **int** |  | [optional]
 **number** | **float** |  |
 **float** | **float** |  | [optional]
-**double** | **double** |  | [optional]
-**decimal** | [**Decimal**](Decimal.md) |  | [optional]
+**double** | **float** |  | [optional]
+**decimal** | **float** |  | [optional]
 **string** | **string** |  | [optional]
 **byte** | **string** |  |
-**binary** | [**\SplFileObject**](\SplFileObject.md) |  | [optional]
-**date** | [**\DateTime**](\DateTime.md) |  |
-**date_time** | [**\DateTime**](\DateTime.md) |  | [optional]
+**binary** | **\SplFileObject** |  | [optional]
+**date** | **\DateTime** |  |
+**date_time** | **\DateTime** |  | [optional]
 **uuid** | **string** |  | [optional]
 **password** | **string** |  |
 **pattern_with_digits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional]

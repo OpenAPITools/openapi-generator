@@ -134,8 +134,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineAdditionalPropertiesWithHttpInfo**](docs/FakeApi.md#testInlineAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testJsonFormDataWithHttpInfo**](docs/FakeApi.md#testJsonFormDataWithHttpInfo) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
-*FakeApi* | [**testQueryParameterCollectionFormatWithHttpInfo**](docs/FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**testQueryParameterCollectionFormatWithHttpInfo**](docs/FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *FakeClassnameTags123Api* | [**testClassnameWithHttpInfo**](docs/FakeClassnameTags123Api.md#testClassnameWithHttpInfo) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
@@ -216,6 +216,8 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelFile](docs/ModelFile.md)
+ - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)

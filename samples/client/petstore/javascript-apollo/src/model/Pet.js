@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -22,54 +22,10 @@ import Tag from './Tag';
  */
 class Pet {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {Category} category
-     * @type {Category}
-     */
-    category;
-    /**
-     * @member {String} name
-     * @type {String}
-     */
-    name;
-    /**
-     * @member {Array.<CodegenProperty{openApiType='string', baseName='photoUrls', complexType='null', getter='getPhotoUrls', setter='setPhotoUrls', description='null', dataType='String', datatypeWithEnum='String', dataFormat='null', name='photoUrls', min='null', max='null', defaultValue='null', defaultValueWithParam=' = ApiClient.convertToType(data['photoUrls'], 'String');', baseType='String', containerType='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "type" : "string"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=true, isNumeric=false, isInteger=false, isLong=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='PhotoUrls', nameInSnakeCase='PHOTO_URLS', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false}>} photoUrls
-     * @type {Array.<CodegenProperty{openApiType='string', baseName='photoUrls', complexType='null', getter='getPhotoUrls', setter='setPhotoUrls', description='null', dataType='String', datatypeWithEnum='String', dataFormat='null', name='photoUrls', min='null', max='null', defaultValue='null', defaultValueWithParam=' = ApiClient.convertToType(data['photoUrls'], 'String');', baseType='String', containerType='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "type" : "string"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=true, isNumeric=false, isInteger=false, isLong=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='PhotoUrls', nameInSnakeCase='PHOTO_URLS', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false}>}
-     */
-    photoUrls;
-    /**
-     * @member {Array.<CodegenProperty{openApiType='Tag', baseName='tags', complexType='Tag', getter='getTags', setter='setTags', description='null', dataType='Tag', datatypeWithEnum='Tag', dataFormat='null', name='tags', min='null', max='null', defaultValue='null', defaultValueWithParam=' = Tag.constructFromObject(data['tags']);', baseType='Tag', containerType='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "$ref" : "#/components/schemas/Tag"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=true, isContainer=false, isString=false, isNumeric=false, isInteger=false, isLong=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='Tags', nameInSnakeCase='TAGS', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false}>} tags
-     * @type {Array.<CodegenProperty{openApiType='Tag', baseName='tags', complexType='Tag', getter='getTags', setter='setTags', description='null', dataType='Tag', datatypeWithEnum='Tag', dataFormat='null', name='tags', min='null', max='null', defaultValue='null', defaultValueWithParam=' = Tag.constructFromObject(data['tags']);', baseType='Tag', containerType='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "$ref" : "#/components/schemas/Tag"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=true, isContainer=false, isString=false, isNumeric=false, isInteger=false, isLong=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='Tags', nameInSnakeCase='TAGS', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false}>}
-     */
-    tags;
-    /**
-     * @member {Pet.StatusEnum} status
-     * @type {Pet.StatusEnum}
-     */
-    status;
-
-    
-
-    /**
      * Constructs a new <code>Pet</code>.
-     * A pet for sale in the pet store
      * @alias module:model/Pet
      * @param name {String} 
-     * @param photoUrls {Array.<CodegenProperty{openApiType='string', baseName='photoUrls', complexType='null', getter='getPhotoUrls', setter='setPhotoUrls', description='null', dataType='String', datatypeWithEnum='String', dataFormat='null', name='photoUrls', min='null', max='null', defaultValue='null', defaultValueWithParam=' = ApiClient.convertToType(data['photoUrls'], 'String');', baseType='String', containerType='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "type" : "string"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=true, isNumeric=false, isInteger=false, isLong=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='PhotoUrls', nameInSnakeCase='PHOTO_URLS', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false}>} 
+     * @param photoUrls {Array.<String>} 
      */
     constructor(name, photoUrls) { 
         
@@ -118,7 +74,43 @@ class Pet {
         }
         return obj;
     }
+
+
 }
+
+/**
+ * @member {Number} id
+ */
+Pet.prototype['id'] = undefined;
+
+/**
+ * @member {module:model/Category} category
+ */
+Pet.prototype['category'] = undefined;
+
+/**
+ * @member {String} name
+ */
+Pet.prototype['name'] = undefined;
+
+/**
+ * @member {Array.<String>} photoUrls
+ */
+Pet.prototype['photoUrls'] = undefined;
+
+/**
+ * @member {Array.<module:model/Tag>} tags
+ */
+Pet.prototype['tags'] = undefined;
+
+/**
+ * pet status in the store
+ * @member {module:model/Pet.StatusEnum} status
+ */
+Pet.prototype['status'] = undefined;
+
+
+
 
 
 /**

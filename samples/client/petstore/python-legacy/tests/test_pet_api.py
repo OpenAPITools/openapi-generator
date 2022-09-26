@@ -14,6 +14,12 @@ $ nosetests -v
 import os
 import unittest
 
+try:
+    from unittest.mock import patch
+except ImportError:
+    # Python 2.7
+    from mock import patch
+
 import petstore_api
 from petstore_api import Configuration
 from petstore_api.rest import ApiException
@@ -292,6 +298,27 @@ class PetApiTests(unittest.TestCase):
             raise Exception("expected an error")
         except ApiException as e:
             self.assertEqual(404, e.status)
+
+    @patch.object(petstore_api.ApiClient, 'call_api')
+    @patch.object(petstore_api.ApiClient, 'select_header_content_type')
+    def test_call_select_header_content_type(self, mock_select_ct, mock_call_api):
+        mock_select_ct.return_value = 'application/json'
+        self.pet_api.add_pet({'id': 1000, 'name': 'my pet'})
+        mock_select_ct.assert_called_once_with(
+            ['application/json', 'application/xml'],
+            'POST',
+            {'id': 1000, 'name': 'my pet'})
+        mock_call_api.assert_called_once()
+        self.assertEqual(mock_call_api.mock_calls[0][1][4],
+            {'Content-Type': 'application/json'})
+
+    @patch.object(petstore_api.ApiClient, 'call_api')
+    def test_call_with_forced_content_type(self, mock_call_api):
+        mock_call_api.return_value = 'application/xml'
+        self.pet_api.add_pet('<mock></mock>', _content_type='application/xml')
+        mock_call_api.assert_called_once()
+        self.assertEqual(mock_call_api.mock_calls[0][1][4],
+            {'Content-Type': 'application/xml'})
 
 if __name__ == '__main__':
     unittest.main()

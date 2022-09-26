@@ -55,7 +55,7 @@ These options allow some customization of the code generation process.
 **haskell-http-client additional properties:**
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------------------|
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | true              |
 | allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | false    |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | false                |
@@ -76,6 +76,7 @@ These options allow some customization of the code generation process.
 | requestType                     | Set the name of the type used to generate requests                                                                            |          | OpenAPIPetstoreRequest                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
 | useKatip                        | Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger       | true     | true                      |
+| queryExtraUnreserved            | Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'                                   |          |           |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 
@@ -112,7 +113,7 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | OpenAPIPetstore.Client    | use the "dispatch" functions to send requests       |
-| OpenAPIPetstore.Core      | core funcions, config and request types             |
+| OpenAPIPetstore.Core      | core functions, config and request types            |
 | OpenAPIPetstore.API       | construct api requests                              |
 | OpenAPIPetstore.Model     | describes api models                                |
 | OpenAPIPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |

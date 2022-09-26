@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using Org.OpenAPITools.Client.Auth;
 
 namespace Org.OpenAPITools.Client
 {
@@ -25,6 +26,30 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <value>Access token.</value>
         string AccessToken { get; }
+
+        /// <summary>
+        /// Gets the OAuth token URL.
+        /// </summary>
+        /// <value>OAuth Token URL.</value>
+        string OAuthTokenUrl { get; }
+
+        /// <summary>
+        /// Gets the OAuth client ID.
+        /// </summary>
+        /// <value>OAuth Client ID.</value>
+        string OAuthClientId { get; }
+
+        /// <summary>
+        /// Gets the OAuth client secret.
+        /// </summary>
+        /// <value>OAuth Client Secret.</value>
+        string OAuthClientSecret { get; }
+
+        /// <summary>
+        /// Gets the OAuth flow.
+        /// </summary>
+        /// <value>OAuth Flow.</value>
+        OAuthFlow? OAuthFlow { get; }
 
         /// <summary>
         /// Gets the API key.
@@ -47,7 +72,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the date time format.
         /// </summary>
-        /// <value>Date time foramt.</value>
+        /// <value>Date time format.</value>
         string DateTimeFormat { get; }
 
         /// <summary>
@@ -100,11 +125,25 @@ namespace Org.OpenAPITools.Client
         string Password { get; }
 
         /// <summary>
+        /// Get the servers associated with the operation.
+        /// </summary>
+        /// <value>Operation servers.</value>
+        IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers { get; }
+
+        /// <summary>
         /// Gets the API key with prefix.
         /// </summary>
         /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
         /// <returns>API key with prefix.</returns>
         string GetApiKeyWithPrefix(string apiKeyIdentifier);
+
+        /// <summary>
+        /// Gets the Operation server url at the provided index.
+        /// </summary>
+        /// <param name="operation">Operation server name.</param>
+        /// <param name="index">Index of the operation server settings.</param>
+        /// <returns></returns>
+        string GetOperationServerUrl(string operation, int index);
 
         /// <summary>
         /// Gets certificate collection to be sent with requests.

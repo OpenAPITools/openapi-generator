@@ -11,8 +11,10 @@
  * Do not edit the class manually.
  */
 
-import { Observable, of, Subscriber } from 'rxjs';
-import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
+import { of } from 'rxjs';
+import type { Observable, Subscriber } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import type { AjaxConfig, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
 import { servers } from './servers';
 
@@ -80,20 +82,20 @@ export class BaseAPI {
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
     protected request<T>(requestOpts: RequestOpts): Observable<T>
-    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<RawAjaxResponse<T>>
-    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | RawAjaxResponse<T>> {
-        return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<AjaxResponse<T>>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | AjaxResponse<T>> {
+        return this.rxjsRequest<T>(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
                 const { status, response } = res;
                 if (status >= 200 && status < 300) {
-                    return responseOpts?.respone === 'raw' ? res : response;
+                    return responseOpts?.response === 'raw' ? res : response;
                 }
                 throw res;
             })
         );
     }
 
-    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType, progressSubscriber }: RequestOpts): RequestArgs => {
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType, progressSubscriber }: RequestOpts): AjaxConfig => {
         // only add the queryString to the URL if there are query parameters.
         // this is done to avoid urls ending with a '?' character which buggy webservers
         // do not handle correctly sometimes.
@@ -109,14 +111,14 @@ export class BaseAPI {
         };
     }
 
-    private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> =>
+    private rxjsRequest = <T>(params: AjaxConfig): Observable<AjaxResponse<T>> =>
         of(params).pipe(
             map((request) => {
                 this.middleware.filter((item) => item.pre).forEach((mw) => (request = mw.pre!(request)));
                 return request;
             }),
             concatMap((args) =>
-                ajax(args).pipe(
+                ajax<T>(args).pipe(
                     map((response) => {
                         this.middleware.filter((item) => item.post).forEach((mw) => (response = mw.post!(response)));
                         return response;
@@ -138,7 +140,7 @@ export class BaseAPI {
  * export for not being a breaking change
  */
 export class RequiredError extends Error {
-    name: 'RequiredError' = 'RequiredError';
+    override name: 'RequiredError' = 'RequiredError';
 }
 
 export const COLLECTION_FORMATS = {
@@ -154,28 +156,23 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 
-export interface RequestOpts extends AjaxRequest {
+export interface RequestOpts extends AjaxConfig {
+    // TODO: replace custom 'query' prop with 'queryParams'
     query?: HttpQuery; // additional prop
     // the following props have improved types over AjaxRequest
     method: HttpMethod;
     headers?: HttpHeaders;
     body?: HttpBody;
-    responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
     progressSubscriber?: Subscriber<ProgressEvent>;
 }
 
 export interface ResponseOpts {
-    respone?: 'raw';
+    response?: 'raw';
 }
 
 export interface OperationOpts {
     progressSubscriber?: Subscriber<ProgressEvent>;
     responseOpts?: ResponseOpts;
-}
-
-// AjaxResponse with typed response
-export interface RawAjaxResponse<T> extends AjaxResponse {
-    response: T;
 }
 
 export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
@@ -187,29 +184,13 @@ const queryString = (params: HttpQuery): string => Object.entries(params)
     )
     .join('&');
 
-// alias fallback for not being a breaking change
-export const querystring = queryString;
-
-/**
- * @deprecated
- */
-export const throwIfRequired = (params: {[key: string]: any}, key: string, nickname: string) => {
-    if (!params || params[key] == null) {
-        throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
-    }
-};
-
 export const throwIfNullOrUndefined = (value: any, paramName: string, nickname: string) => {
     if (value == null) {
         throw new Error(`Parameter "${paramName}" was null or undefined when calling "${nickname}".`);
     }
 };
 
-// alias for easier importing
-export interface RequestArgs extends AjaxRequest {}
-export interface ResponseArgs extends AjaxResponse {}
-
 export interface Middleware {
-    pre?(request: RequestArgs): RequestArgs;
-    post?(response: ResponseArgs): ResponseArgs;
+    pre?(request: AjaxConfig): AjaxConfig;
+    post?(response: AjaxResponse<any>): AjaxResponse<any>;
 }

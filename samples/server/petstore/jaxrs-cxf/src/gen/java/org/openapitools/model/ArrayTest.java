@@ -7,7 +7,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class ArrayTest  {
   
@@ -90,6 +92,24 @@ public class ArrayTest  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayTest arrayTest = (ArrayTest) o;
+    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+  }
 
   @Override
   public String toString() {

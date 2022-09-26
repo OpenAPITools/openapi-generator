@@ -1,5 +1,5 @@
 language: node_js
 cache: npm
 node_js:
-  - "5"
-  - "5.11"
+  - "6"
+  - "6.1"

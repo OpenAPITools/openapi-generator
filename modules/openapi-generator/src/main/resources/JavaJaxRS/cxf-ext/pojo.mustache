@@ -25,7 +25,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @ApiModel(description="{{{description}}}")
 {{/description}}{{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
@@ -45,6 +48,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
 {{#isDateTime}}
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSSX")
 {{/isDateTime}}
+{{#vendorExtensions.x-field-extra-annotation}}
+{{{vendorExtensions.x-field-extra-annotation}}}
+{{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
@@ -88,7 +94,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
    * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
 {{/isReadOnly}}
    */
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+ {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+ {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

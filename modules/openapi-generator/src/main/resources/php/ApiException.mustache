@@ -1,7 +1,7 @@
 <?php
 /**
  * ApiException
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -30,7 +30,6 @@ use \Exception;
  */
 class ApiException extends Exception
 {
-
     /**
      * The HTTP body of the server response either as Json or string.
      *
@@ -88,7 +87,7 @@ class ApiException extends Exception
     }
 
     /**
-     * Sets the deseralized response object (during deserialization)
+     * Sets the deserialized response object (during deserialization)
      *
      * @param mixed $obj Deserialized response object
      *
@@ -100,7 +99,7 @@ class ApiException extends Exception
     }
 
     /**
-     * Gets the deseralized response object (during deserialization)
+     * Gets the deserialized response object (during deserialization)
      *
      * @return mixed the deserialized response object
      */

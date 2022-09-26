@@ -14,7 +14,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 Building the API client library requires:
 
 1. Java 1.8+
-2. Maven/Gradle
+2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
 
@@ -50,7 +50,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-openapi3-jersey2-java8:1.0.0"
+  repositories {
+    mavenCentral()     // Needed if the 'petstore-openapi3-jersey2-java8' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-openapi3-jersey2-java8' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "org.openapitools:petstore-openapi3-jersey2-java8:1.0.0"
+  }
 ```
 
 ### Others
@@ -147,7 +154,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -204,6 +211,7 @@ Class | Method | HTTP request | Description
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
+ - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)
  - [FruitReq](docs/FruitReq.md)
@@ -211,13 +219,14 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelFile](docs/ModelFile.md)
+ - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)

@@ -3,7 +3,6 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -13,12 +12,22 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Cat extends Animal implements Serializable {
-  
+@JsonTypeName("Cat")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Cat extends Animal implements Serializable {
   private @Valid Boolean declawed;
+
+  protected Cat(CatBuilder<?, ?> b) {
+    super(b);
+    this.declawed = b.declawed;
+  }
+
+  public Cat() {
+  }
 
   /**
    **/
@@ -28,14 +37,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
@@ -81,5 +89,30 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static CatBuilder<?, ?> builder() {
+    return new CatBuilderImpl();
+  }
+
+  private static final class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
+
+    @Override
+    protected CatBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Cat build() {
+      return new Cat(this);
+    }
+  }
+
+  public static abstract class CatBuilder<C extends Cat, B extends CatBuilder<C, B>> extends AnimalBuilder<C, B> {
+    private Boolean declawed;
+
+    public B declawed(Boolean declawed) {
+      this.declawed = declawed;
+      return self();
+    }
+  }
 }
 

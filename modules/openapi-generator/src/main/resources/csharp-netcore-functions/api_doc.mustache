@@ -1,0 +1,134 @@
+# {{packageName}}.{{apiPackage}}.{{classname}}{{#description}}
+{{description}}{{/description}}
+
+All URIs are relative to *{{{basePath}}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+<a name="{{{operationIdLowerCase}}}"></a>
+# **{{{operationId}}}**
+> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+
+{{{summary}}}{{#notes}}
+
+{{{notes}}}{{/notes}}
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+{{#useHttpClient}}
+using System.Net.Http;
+{{/useHttpClient}}
+using {{packageName}}.{{apiPackage}};
+using {{packageName}}.Client;
+using {{packageName}}.{{modelPackage}};
+
+namespace Example
+{
+    public class {{operationId}}Example
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "{{{basePath}}}";
+            {{#hasAuthMethods}}
+            {{#authMethods}}
+            {{#isBasicBasic}}
+            // Configure HTTP basic authorization: {{{name}}}
+            config.Username = "YOUR_USERNAME";
+            config.Password = "YOUR_PASSWORD";
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // Configure Bearer token for authorization: {{{name}}}
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+            {{/isBasicBearer}}
+            {{#isApiKey}}
+            // Configure API key authorization: {{{name}}}
+            config.AddApiKey("{{{keyParamName}}}", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // config.AddApiKeyPrefix("{{{keyParamName}}}", "Bearer");
+            {{/isApiKey}}
+            {{#isOAuth}}
+            // Configure OAuth2 access token for authorization: {{{name}}}
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isOAuth}}
+            {{/authMethods}}
+
+            {{/hasAuthMethods}}
+            {{#useHttpClient}}
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new {{classname}}(httpClient, config, httpClientHandler);
+            {{/useHttpClient}}
+            {{^useHttpClient}}
+            var apiInstance = new {{classname}}(config);
+            {{/useHttpClient}}
+            {{#allParams}}
+            {{#isPrimitiveType}}
+            var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            {{/isPrimitiveType}}
+            {{/allParams}}
+
+            try
+            {
+                {{#summary}}
+                // {{{.}}}
+                {{/summary}}
+                {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+                Debug.WriteLine(result);{{/returnType}}
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+{{/operation}}
+{{/operations}}

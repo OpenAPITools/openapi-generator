@@ -81,6 +81,7 @@ void (empty response body)
 > createUsersWithArrayInput(user)
 
 
+
 ### Example
 
 
@@ -143,6 +144,7 @@ void (empty response body)
 
 # **createUsersWithListInput**
 > createUsersWithListInput(user)
+
 
 
 ### Example
@@ -264,6 +266,7 @@ void (empty response body)
 > User getUserByName()
 
 
+
 ### Example
 
 
@@ -319,6 +322,7 @@ No authorization required
 > string loginUser()
 
 
+
 ### Example
 
 
@@ -367,13 +371,14 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  * Set-Cookie - Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. <br>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when toekn expires <br>  |
+**200** | successful operation |  * Set-Cookie - Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. <br>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
 **400** | Invalid username/password supplied |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **logoutUser**
 > logoutUser()
+
 
 
 ### Example

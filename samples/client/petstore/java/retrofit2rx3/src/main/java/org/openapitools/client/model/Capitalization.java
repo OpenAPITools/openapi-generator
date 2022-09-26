@@ -53,6 +53,8 @@ public class Capitalization {
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
   private String ATT_NAME;
 
+  public Capitalization() {
+  }
 
   public Capitalization smallCamel(String smallCamel) {
     

@@ -29,6 +29,26 @@ import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * ArrayOfNumberOnly
  */
@@ -49,7 +69,7 @@ public class ArrayOfNumberOnly implements Parcelable {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -70,6 +90,7 @@ public class ArrayOfNumberOnly implements Parcelable {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
 
 
   @Override
@@ -130,5 +151,94 @@ public class ArrayOfNumberOnly implements Parcelable {
       return new ArrayOfNumberOnly[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("ArrayNumber");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to ArrayOfNumberOnly
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has required fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfNumberOnly is not found in the empty JSON string", ArrayOfNumberOnly.openapiRequiredFields.toString()));
+        }
+      }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!ArrayOfNumberOnly.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayOfNumberOnly` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+      // ensure the json data is an array
+      if ((jsonObj.get("ArrayNumber") != null && !jsonObj.get("ArrayNumber").isJsonNull()) && !jsonObj.get("ArrayNumber").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `ArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayNumber").toString()));
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!ArrayOfNumberOnly.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'ArrayOfNumberOnly' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<ArrayOfNumberOnly> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(ArrayOfNumberOnly.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<ArrayOfNumberOnly>() {
+           @Override
+           public void write(JsonWriter out, ArrayOfNumberOnly value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public ArrayOfNumberOnly read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of ArrayOfNumberOnly given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ArrayOfNumberOnly
+  * @throws IOException if the JSON string is invalid with respect to ArrayOfNumberOnly
+  */
+  public static ArrayOfNumberOnly fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ArrayOfNumberOnly.class);
+  }
+
+ /**
+  * Convert an instance of ArrayOfNumberOnly to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

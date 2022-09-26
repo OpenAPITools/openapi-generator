@@ -19,19 +19,18 @@ namespace test_namespace {
 PFXUserApi::PFXUserApi(const int timeOut)
     : _timeOut(timeOut),
       _manager(nullptr),
-      isResponseCompressionEnabled(false),
-      isRequestCompressionEnabled(false) {
+      _isResponseCompressionEnabled(false),
+      _isRequestCompressionEnabled(false) {
     initializeServerConfigs();
 }
 
 PFXUserApi::~PFXUserApi() {
 }
 
-void PFXUserApi::initializeServerConfigs(){
+void PFXUserApi::initializeServerConfigs() {
     //Default server
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
-    QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
     defaultConf.append(PFXServerConfiguration(
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
@@ -58,23 +57,24 @@ void PFXUserApi::initializeServerConfigs(){
 * returns 0 on success and -1, -2 or -3 on failure.
 * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
 */
-int PFXUserApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
+int PFXUserApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
     auto it = _serverConfigs.find(operation);
-    if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
+    if (it != _serverConfigs.end() && serverIndex < it.value().size()) {
       return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
     }
     return -3;
 }
-void PFXUserApi::setServerIndex(const QString &operation, int serverIndex){
-    if(_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size() )
+void PFXUserApi::setServerIndex(const QString &operation, int serverIndex) {
+    if (_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size()) {
         _serverIndices[operation] = serverIndex;
+    }
 }
 
-void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
-    _apiKeys.insert(apiKeyName,apiKey);
+void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
-void PFXUserApi::setBearerToken(const QString &token){
+void PFXUserApi::setBearerToken(const QString &token) {
     _bearerToken = token;
 }
 
@@ -107,14 +107,14 @@ void PFXUserApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     * returns the index of the new server config on success and -1 if the operation is not found
     */
-int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-    if(_serverConfigs.contains(operation)){
+int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+    if (_serverConfigs.contains(operation)) {
         _serverConfigs[operation].append(PFXServerConfiguration(
                     url,
                     description,
                     variables));
         return _serverConfigs[operation].size()-1;
-    }else{
+    } else {
         return -1;
     }
 }
@@ -125,10 +125,16 @@ int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-    for(auto e : _serverIndices.keys()){
+void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
+    }
+#else
+    for (auto &e : _serverIndices.keys()) {
         setServerIndex(e, addServerConfiguration(e, url, description, variables));
     }
+#endif
 }
 
 /**
@@ -137,90 +143,90 @@ void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &de
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXUserApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+void PFXUserApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 }
 
 void PFXUserApi::addHeaders(const QString &key, const QString &value) {
-    defaultHeaders.insert(key, value);
+    _defaultHeaders.insert(key, value);
 }
 
 void PFXUserApi::enableRequestCompression() {
-    isRequestCompressionEnabled = true;
+    _isRequestCompressionEnabled = true;
 }
 
 void PFXUserApi::enableResponseCompression() {
-    isResponseCompressionEnabled = true;
+    _isResponseCompressionEnabled = true;
 }
 
-void PFXUserApi::abortRequests(){
+void PFXUserApi::abortRequests() {
     emit abortRequestsSignal();
 }
 
-QString PFXUserApi::getParamStylePrefix(QString style){
-    if(style == "matrix"){
+QString PFXUserApi::getParamStylePrefix(const QString &style) {
+    if (style == "matrix") {
         return ";";
-    }else if(style == "label"){
+    } else if (style == "label") {
         return ".";
-    }else if(style == "form"){
+    } else if (style == "form") {
         return "&";
-    }else if(style == "simple"){
+    } else if (style == "simple") {
         return "";
-    }else if(style == "spaceDelimited"){
+    } else if (style == "spaceDelimited") {
         return "&";
-    }else if(style == "pipeDelimited"){
+    } else if (style == "pipeDelimited") {
         return "&";
-    }else{
+    } else {
         return "none";
     }
 }
 
-QString PFXUserApi::getParamStyleSuffix(QString style){
-    if(style == "matrix"){
+QString PFXUserApi::getParamStyleSuffix(const QString &style) {
+    if (style == "matrix") {
         return "=";
-    }else if(style == "label"){
+    } else if (style == "label") {
         return "";
-    }else if(style == "form"){
+    } else if (style == "form") {
         return "=";
-    }else if(style == "simple"){
+    } else if (style == "simple") {
         return "";
-    }else if(style == "spaceDelimited"){
+    } else if (style == "spaceDelimited") {
         return "=";
-    }else if(style == "pipeDelimited"){
+    } else if (style == "pipeDelimited") {
         return "=";
-    }else{
+    } else {
         return "none";
     }
 }
 
-QString PFXUserApi::getParamStyleDelimiter(QString style, QString name, bool isExplode){
+QString PFXUserApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
 
-    if(style == "matrix"){
+    if (style == "matrix") {
         return (isExplode) ? ";" + name + "=" : ",";
 
-    }else if(style == "label"){
+    } else if (style == "label") {
         return (isExplode) ? "." : ",";
 
-    }else if(style == "form"){
+    } else if (style == "form") {
         return (isExplode) ? "&" + name + "=" : ",";
 
-    }else if(style == "simple"){
+    } else if (style == "simple") {
         return ",";
-    }else if(style == "spaceDelimited"){
+    } else if (style == "spaceDelimited") {
         return (isExplode) ? "&" + name + "=" : " ";
 
-    }else if(style == "pipeDelimited"){
+    } else if (style == "pipeDelimited") {
         return (isExplode) ? "&" + name + "=" : "|";
 
-    }else if(style == "deepObject"){
+    } else if (style == "deepObject") {
         return (isExplode) ? "&" : "none";
 
-    }else {
+    } else {
         return "none";
     }
 }
 
-void PFXUserApi::createUser(const PFXUser &body) {
+void PFXUserApi::createUser(const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -230,15 +236,24 @@ void PFXUserApi::createUser(const PFXUser &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        
+        QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -247,15 +262,11 @@ void PFXUserApi::createUser(const PFXUser &body) {
 }
 
 void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -268,7 +279,7 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
+void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -277,16 +288,24 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     PFXHttpRequestInput input(fullPath, "POST");
 
     {
-        QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
+        QJsonDocument doc(::test_namespace::toJsonValue(pfx_user).toArray());
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -295,15 +314,11 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
 }
 
 void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -316,7 +331,7 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
     }
 }
 
-void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
+void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
     QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -325,16 +340,24 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     PFXHttpRequestInput input(fullPath, "POST");
 
     {
-        QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
+        QJsonDocument doc(::test_namespace::toJsonValue(pfx_user).toArray());
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -343,15 +366,11 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
 }
 
 void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -372,8 +391,8 @@ void PFXUserApi::deleteUser(const QString &username) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
-        if(pathStyle == "")
+        QString pathStyle = "simple";
+        if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -387,12 +406,20 @@ void PFXUserApi::deleteUser(const QString &username) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -401,15 +428,11 @@ void PFXUserApi::deleteUser(const QString &username) {
 }
 
 void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -430,8 +453,8 @@ void PFXUserApi::getUserByName(const QString &username) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
-        if(pathStyle == "")
+        QString pathStyle = "simple";
+        if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -445,12 +468,20 @@ void PFXUserApi::getUserByName(const QString &username) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -459,15 +490,11 @@ void PFXUserApi::getUserByName(const QString &username) {
 }
 
 void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     PFXUser output(QString(worker->response));
     worker->deleteLater();
@@ -487,12 +514,12 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     
     {
-        queryStyle = "";
-        if(queryStyle == "")
+        queryStyle = "form";
+        if (queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "username", false);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "username", true);
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -502,12 +529,12 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     }
     
     {
-        queryStyle = "";
-        if(queryStyle == "")
+        queryStyle = "form";
+        if (queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "password", false);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "password", true);
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -521,12 +548,20 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -535,15 +570,11 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
 }
 
 void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     QString output;
     ::test_namespace::fromStringValue(QString(worker->response), output);
@@ -567,12 +598,20 @@ void PFXUserApi::logoutUser() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -581,15 +620,11 @@ void PFXUserApi::logoutUser() {
 }
 
 void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -602,7 +637,7 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
+void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
     QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
     
     
@@ -610,8 +645,8 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         QString usernamePathParam("{");
         usernamePathParam.append("username").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
-        if(pathStyle == "")
+        QString pathStyle = "simple";
+        if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -626,15 +661,24 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        
+        QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -643,15 +687,11 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
 }
 
 void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -664,4 +704,53 @@ void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
+void PFXUserApi::tokenAvailable(){
+
+    oauthToken token;
+    switch (_OauthMethod) {
+    case 1: //implicit flow
+        token = _implicitFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _implicitFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = _authFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _authFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = _credentialFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
+    }
+}
 } // namespace test_namespace

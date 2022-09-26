@@ -1,0 +1,4 @@
+generatorName: typescript
+outputDir: samples/client/others/typescript/builds/with-unique-items
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript/unique_items.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript

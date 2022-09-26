@@ -14,51 +14,51 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method `add_pet`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`add_pet`]
+#[derive(Clone, Debug, Default)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
     pub pet: crate::models::Pet
 }
 
-/// struct for passing parameters to the method `delete_pet`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`delete_pet`]
+#[derive(Clone, Debug, Default)]
 pub struct DeletePetParams {
     /// Pet id to delete
     pub pet_id: i64,
     pub api_key: Option<String>
 }
 
-/// struct for passing parameters to the method `find_pets_by_status`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`find_pets_by_status`]
+#[derive(Clone, Debug, Default)]
 pub struct FindPetsByStatusParams {
     /// Status values that need to be considered for filter
     pub status: Vec<String>
 }
 
-/// struct for passing parameters to the method `find_pets_by_tags`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`find_pets_by_tags`]
+#[derive(Clone, Debug, Default)]
 pub struct FindPetsByTagsParams {
     /// Tags to filter by
     pub tags: Vec<String>
 }
 
-/// struct for passing parameters to the method `get_pet_by_id`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`get_pet_by_id`]
+#[derive(Clone, Debug, Default)]
 pub struct GetPetByIdParams {
     /// ID of pet to return
     pub pet_id: i64
 }
 
-/// struct for passing parameters to the method `update_pet`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`update_pet`]
+#[derive(Clone, Debug, Default)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
     pub pet: crate::models::Pet
 }
 
-/// struct for passing parameters to the method `update_pet_with_form`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`update_pet_with_form`]
+#[derive(Clone, Debug, Default)]
 pub struct UpdatePetWithFormParams {
     /// ID of pet that needs to be updated
     pub pet_id: i64,
@@ -68,8 +68,8 @@ pub struct UpdatePetWithFormParams {
     pub status: Option<String>
 }
 
-/// struct for passing parameters to the method `upload_file`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`upload_file`]
+#[derive(Clone, Debug, Default)]
 pub struct UploadFileParams {
     /// ID of pet to update
     pub pet_id: i64,
@@ -80,7 +80,7 @@ pub struct UploadFileParams {
 }
 
 
-/// struct for typed successes of method `add_pet`
+/// struct for typed successes of method [`add_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetSuccess {
@@ -88,14 +88,14 @@ pub enum AddPetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `delete_pet`
+/// struct for typed successes of method [`delete_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `find_pets_by_status`
+/// struct for typed successes of method [`find_pets_by_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusSuccess {
@@ -103,7 +103,7 @@ pub enum FindPetsByStatusSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `find_pets_by_tags`
+/// struct for typed successes of method [`find_pets_by_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsSuccess {
@@ -111,7 +111,7 @@ pub enum FindPetsByTagsSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `get_pet_by_id`
+/// struct for typed successes of method [`get_pet_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdSuccess {
@@ -119,7 +119,7 @@ pub enum GetPetByIdSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `update_pet`
+/// struct for typed successes of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetSuccess {
@@ -127,14 +127,14 @@ pub enum UpdatePetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `update_pet_with_form`
+/// struct for typed successes of method [`update_pet_with_form`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `upload_file`
+/// struct for typed successes of method [`upload_file`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileSuccess {
@@ -142,7 +142,7 @@ pub enum UploadFileSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `add_pet`
+/// struct for typed errors of method [`add_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetError {
@@ -150,7 +150,7 @@ pub enum AddPetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `delete_pet`
+/// struct for typed errors of method [`delete_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetError {
@@ -158,7 +158,7 @@ pub enum DeletePetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `find_pets_by_status`
+/// struct for typed errors of method [`find_pets_by_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
@@ -166,7 +166,7 @@ pub enum FindPetsByStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `find_pets_by_tags`
+/// struct for typed errors of method [`find_pets_by_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
@@ -174,7 +174,7 @@ pub enum FindPetsByTagsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_pet_by_id`
+/// struct for typed errors of method [`get_pet_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdError {
@@ -183,7 +183,7 @@ pub enum GetPetByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_pet`
+/// struct for typed errors of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetError {
@@ -193,7 +193,7 @@ pub enum UpdatePetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_pet_with_form`
+/// struct for typed errors of method [`update_pet_with_form`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormError {
@@ -201,7 +201,7 @@ pub enum UpdatePetWithFormError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `upload_file`
+/// struct for typed errors of method [`upload_file`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {
@@ -209,20 +209,23 @@ pub enum UploadFileError {
 }
 
 
+/// 
 pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let pet = params.pet;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet", configuration.base_path);
+    let local_var_uri_str = format!("{}/pet", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     local_var_req_builder = local_var_req_builder.json(&pet);
@@ -244,24 +247,27 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     }
 }
 
+/// 
 pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let pet_id = params.pet_id;
     let api_key = params.api_key;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(local_var_param_value) = api_key {
         local_var_req_builder = local_var_req_builder.header("api_key", local_var_param_value.to_string());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
@@ -284,20 +290,25 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
 
 /// Multiple status values can be provided with comma separated strings
 pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let status = params.status;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/findByStatus", configuration.base_path);
+    let local_var_uri_str = format!("{}/pet/findByStatus", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    local_var_req_builder = local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    local_var_req_builder = match "csv" {
+        "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
@@ -320,20 +331,25 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let tags = params.tags;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/findByTags", configuration.base_path);
+    let local_var_uri_str = format!("{}/pet/findByTags", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    local_var_req_builder = local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    local_var_req_builder = match "csv" {
+        "multi" => local_var_req_builder.query(&tags.into_iter().map(|p| ("tags".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
@@ -356,19 +372,21 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
 
 /// Returns a single pet
 pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let pet_id = params.pet_id;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_apikey) = configuration.api_key {
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
         let local_var_key = local_var_apikey.key.clone();
         let local_var_value = match local_var_apikey.prefix {
             Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
@@ -394,20 +412,23 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     }
 }
 
+/// 
 pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let pet = params.pet;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet", configuration.base_path);
+    let local_var_uri_str = format!("{}/pet", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     local_var_req_builder = local_var_req_builder.json(&pet);
@@ -429,22 +450,25 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     }
 }
 
+/// 
 pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let pet_id = params.pet_id;
     let name = params.name;
     let status = params.status;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form_params = std::collections::HashMap::new();
@@ -473,22 +497,25 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     }
 }
 
+/// 
 pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     let pet_id = params.pet_id;
     let additional_metadata = params.additional_metadata;
     let file = params.file;
 
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
+    let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", local_var_configuration.base_path, petId=pet_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form = reqwest::multipart::Form::new();

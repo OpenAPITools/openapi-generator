@@ -12,25 +12,27 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * Status of the deployment request
  * @export
- * @enum {string}
  */
-export enum DeploymentRequestStatus {
-    New = 'New',
-    Prepared = 'Prepared',
-    Printed = 'Printed',
-    Tested = 'Tested',
-    Completed = 'Completed',
-    Cancelled = 'Cancelled',
-    Promoted = 'Promoted',
-    Assigned = 'Assigned',
-    Ready = 'Ready',
-    Packaged = 'Packaged',
-    Pairing = 'Pairing',
-    Paired = 'Paired'
-}
+export const DeploymentRequestStatus = {
+    New: 'New',
+    Prepared: 'Prepared',
+    Printed: 'Printed',
+    Tested: 'Tested',
+    Completed: 'Completed',
+    Cancelled: 'Cancelled',
+    Promoted: 'Promoted',
+    Assigned: 'Assigned',
+    Ready: 'Ready',
+    Packaged: 'Packaged',
+    Pairing: 'Pairing',
+    Paired: 'Paired'
+} as const;
+export type DeploymentRequestStatus = typeof DeploymentRequestStatus[keyof typeof DeploymentRequestStatus];
+
 
 export function DeploymentRequestStatusFromJSON(json: any): DeploymentRequestStatus {
     return DeploymentRequestStatusFromJSONTyped(json, false);

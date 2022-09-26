@@ -5,7 +5,7 @@
  */
 export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
-    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+    [key: string]: {{{additionalPropertiesType}}}{{^additionalPropertiesIsAnyType}}{{#hasVars}} | any{{/hasVars}}{{/additionalPropertiesIsAnyType}};
 
 {{/additionalPropertiesType}}
 {{#vars}}
@@ -17,12 +17,13 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
      * @deprecated
     {{/deprecated}}
      */
-    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    '{{baseName}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
 }{{#hasEnums}}
 
 {{#vars}}
 {{#isEnum}}
+{{#stringEnums}}
 /**
     * @export
     * @enum {string}
@@ -39,6 +40,23 @@ export enum {{enumName}} {
     {{/enumVars}}
 {{/allowableValues}}
 }
+{{/stringEnums}}
+{{^stringEnums}}
+export const {{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
+    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+
+export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
+{{/stringEnums}}
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}

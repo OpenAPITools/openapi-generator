@@ -63,10 +63,18 @@ namespace Org.OpenAPITools.Model
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
-            this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+            if (_byte == null)
+            {
+                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+            }
+            this.Byte = _byte;
             this.Date = date;
             // to ensure "password" is required (not null)
-            this.Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+            if (password == null)
+            {
+                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+            }
+            this.Password = password;
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;
@@ -103,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = true)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -133,7 +141,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -145,7 +153,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -164,7 +172,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = true)]
         public string Password { get; set; }
 
         /// <summary>
@@ -193,7 +201,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
@@ -254,33 +262,53 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Integer.GetHashCode();
-                hashCode = hashCode * 59 + this.Int32.GetHashCode();
-                hashCode = hashCode * 59 + this.Int64.GetHashCode();
-                hashCode = hashCode * 59 + this.Number.GetHashCode();
-                hashCode = hashCode * 59 + this.Float.GetHashCode();
-                hashCode = hashCode * 59 + this.Double.GetHashCode();
-                hashCode = hashCode * 59 + this.Decimal.GetHashCode();
+                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                hashCode = (hashCode * 59) + this.Number.GetHashCode();
+                hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
                 if (this.String != null)
-                    hashCode = hashCode * 59 + this.String.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.String.GetHashCode();
+                }
                 if (this.Byte != null)
-                    hashCode = hashCode * 59 + this.Byte.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Byte.GetHashCode();
+                }
                 if (this.Binary != null)
-                    hashCode = hashCode * 59 + this.Binary.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Binary.GetHashCode();
+                }
                 if (this.Date != null)
-                    hashCode = hashCode * 59 + this.Date.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
+                }
                 if (this.DateTime != null)
-                    hashCode = hashCode * 59 + this.DateTime.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                }
                 if (this.Uuid != null)
-                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
                 if (this.Password != null)
-                    hashCode = hashCode * 59 + this.Password.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                }
                 if (this.PatternWithDigits != null)
-                    hashCode = hashCode * 59 + this.PatternWithDigits.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PatternWithDigits.GetHashCode();
+                }
                 if (this.PatternWithDigitsAndDelimiter != null)
-                    hashCode = hashCode * 59 + this.PatternWithDigitsAndDelimiter.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -290,64 +318,64 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
-            if(this.Integer > (int)100)
+            if (this.Integer > (int)100)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int) minimum
-            if(this.Integer < (int)10)
+            if (this.Integer < (int)10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             // Int32 (int) maximum
-            if(this.Int32 > (int)200)
+            if (this.Int32 > (int)200)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
-            if(this.Int32 < (int)20)
+            if (this.Int32 < (int)20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // Number (decimal) maximum
-            if(this.Number > (decimal)543.2)
+            if (this.Number > (decimal)543.2)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
-            if(this.Number < (decimal)32.1)
+            if (this.Number < (decimal)32.1)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // Float (float) maximum
-            if(this.Float > (float)987.6)
+            if (this.Float > (float)987.6)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
             // Float (float) minimum
-            if(this.Float < (float)54.3)
+            if (this.Float < (float)54.3)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
             // Double (double) maximum
-            if(this.Double > (double)123.4)
+            if (this.Double > (double)123.4)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
             // Double (double) minimum
-            if(this.Double < (double)67.8)
+            if (this.Double < (double)67.8)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
@@ -360,13 +388,13 @@ namespace Org.OpenAPITools.Model
             }
 
             // Password (string) maxLength
-            if(this.Password != null && this.Password.Length > 64)
+            if (this.Password != null && this.Password.Length > 64)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
-            if(this.Password != null && this.Password.Length < 10)
+            if (this.Password != null && this.Password.Length < 10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }

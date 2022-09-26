@@ -1,12 +1,12 @@
 package org.openapitools.codegen;
 
-import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.api.TemplateProcessor;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class DryRunTemplateManager implements TemplateProcessor {
      * @return An immutable copy of the dry run status.
      */
     public Map<String, DryRunStatus> getDryRunStatusMap() {
-        return ImmutableMap.copyOf(dryRunStatusMap);
+        return Collections.unmodifiableMap(dryRunStatusMap);
     }
 
     /**

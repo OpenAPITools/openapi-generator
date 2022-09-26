@@ -43,6 +43,8 @@ public class AdditionalPropertiesInteger {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesInteger() { 
+  }
 
   public AdditionalPropertiesInteger name(String name) {
     this.name = name;

@@ -21,6 +21,15 @@
       "type": ["null", "string"],
       "doc": "",
       "default": null
+    },
+    {
+      "name": "statuses",
+      "type": ["null", {
+        "type": "array",
+        "items": "model.ApiResponseStatuses"
+      }],
+      "doc": "",
+      "default": null
     }
   ]
 

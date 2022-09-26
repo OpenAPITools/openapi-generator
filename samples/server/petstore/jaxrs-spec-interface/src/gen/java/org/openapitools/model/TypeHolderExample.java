@@ -14,17 +14,19 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderExample  implements Serializable {
-  
+@JsonTypeName("TypeHolderExample")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class TypeHolderExample  implements Serializable {
   private @Valid String stringItem;
   private @Valid BigDecimal numberItem;
   private @Valid Float floatItem;
   private @Valid Integer integerItem;
   private @Valid Boolean boolItem;
-  private @Valid List<Integer> arrayItem = new ArrayList<Integer>();
+  private @Valid List<Integer> arrayItem = new ArrayList<>();
 
   /**
    **/
@@ -34,8 +36,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty("string_item")
   @NotNull
@@ -43,18 +43,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return stringItem;
   }
 
+  @JsonProperty("string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", required = true, value = "")
@@ -64,18 +63,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return numberItem;
   }
 
+  @JsonProperty("number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderExample floatItem(Float floatItem) {
     this.floatItem = floatItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", required = true, value = "")
@@ -85,18 +83,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return floatItem;
   }
 
+  @JsonProperty("float_item")
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderExample integerItem(Integer integerItem) {
     this.integerItem = integerItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", required = true, value = "")
@@ -106,18 +103,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return integerItem;
   }
 
+  @JsonProperty("integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderExample boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", required = true, value = "")
@@ -127,18 +123,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return boolItem;
   }
 
+  @JsonProperty("bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
@@ -148,10 +143,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return arrayItem;
   }
 
+  @JsonProperty("array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
+  public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
+
+    this.arrayItem.add(arrayItemItem);
+    return this;
+  }
+
+  public TypeHolderExample removeArrayItemItem(Integer arrayItemItem) {
+    if (arrayItemItem != null && this.arrayItem != null) {
+      this.arrayItem.remove(arrayItemItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

@@ -54,8 +54,10 @@ public class TypeHolderExample {
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderExample() {
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     

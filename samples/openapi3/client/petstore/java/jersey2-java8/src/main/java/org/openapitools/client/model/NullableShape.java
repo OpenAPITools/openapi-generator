@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -311,7 +312,7 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+     * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Quadrilateral`
@@ -322,7 +323,7 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+     * Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Triangle`

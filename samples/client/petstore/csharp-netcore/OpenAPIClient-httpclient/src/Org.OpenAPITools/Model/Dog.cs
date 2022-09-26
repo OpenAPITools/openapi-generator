@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Breed: ").Append(Breed).Append("\n");
@@ -121,9 +121,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = base.GetHashCode();
                 if (this.Breed != null)
-                    hashCode = hashCode * 59 + this.Breed.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Breed.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -133,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -145,7 +149,10 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach (var x in base.BaseValidate(validationContext))
+            {
+                yield return x;
+            }
             yield break;
         }
     }

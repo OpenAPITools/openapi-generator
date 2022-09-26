@@ -26,8 +26,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ArrayOfNumberOnly
@@ -35,7 +38,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,6 +50,8 @@ public class ArrayOfNumberOnly {
   @XmlElement(name = "arrayNumber")
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() {
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     

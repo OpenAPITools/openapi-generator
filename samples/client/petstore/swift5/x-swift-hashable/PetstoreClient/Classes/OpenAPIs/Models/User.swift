@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct User: Codable {
+public struct User: Codable, JSONEncodable {
 
     public var id: Int64?
     public var username: String?

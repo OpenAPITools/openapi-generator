@@ -25,8 +25,11 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * EnumArrays
@@ -35,7 +38,6 @@ import javax.xml.bind.annotation.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@JsonTypeName("EnumArrays")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -130,6 +132,8 @@ public class EnumArrays {
   @XmlElement(name = "arrayEnum")
   private List<ArrayEnumEnum> arrayEnum = null;
 
+  public EnumArrays() {
+  }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     

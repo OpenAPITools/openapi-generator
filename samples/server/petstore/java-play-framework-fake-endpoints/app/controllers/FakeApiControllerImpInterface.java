@@ -22,7 +22,9 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
 import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
@@ -30,11 +32,12 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public abstract class FakeApiControllerImpInterface {
     @Inject private Config configuration;
+    @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
     public Result createXmlItemHttp(Http.Request request, XmlItem xmlItem) throws Exception {
         createXmlItem(request, xmlItem);
-return ok();
+        return ok();
 
     }
 
@@ -42,8 +45,9 @@ return ok();
 
     public Result fakeOuterBooleanSerializeHttp(Http.Request request, Boolean body) throws Exception {
         Boolean obj = fakeOuterBooleanSerialize(request, body);
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -51,11 +55,14 @@ return ok(result);
 
     public Result fakeOuterCompositeSerializeHttp(Http.Request request, OuterComposite body) throws Exception {
         OuterComposite obj = fakeOuterCompositeSerialize(request, body);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -63,11 +70,14 @@ return ok(result);
 
     public Result fakeOuterNumberSerializeHttp(Http.Request request, BigDecimal body) throws Exception {
         BigDecimal obj = fakeOuterNumberSerialize(request, body);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -75,8 +85,9 @@ return ok(result);
 
     public Result fakeOuterStringSerializeHttp(Http.Request request, String body) throws Exception {
         String obj = fakeOuterStringSerialize(request, body);
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -84,7 +95,7 @@ return ok(result);
 
     public Result testBodyWithFileSchemaHttp(Http.Request request, FileSchemaTestClass body) throws Exception {
         testBodyWithFileSchema(request, body);
-return ok();
+        return ok();
 
     }
 
@@ -92,7 +103,7 @@ return ok();
 
     public Result testBodyWithQueryParamsHttp(Http.Request request, @NotNull String query, User body) throws Exception {
         testBodyWithQueryParams(request, query, body);
-return ok();
+        return ok();
 
     }
 
@@ -100,11 +111,14 @@ return ok();
 
     public Result testClientModelHttp(Http.Request request, Client body) throws Exception {
         Client obj = testClientModel(request, body);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -112,7 +126,7 @@ return ok(result);
 
     public Result testEndpointParametersHttp(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart<TemporaryFile> binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
         testEndpointParameters(request, number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
-return ok();
+        return ok();
 
     }
 
@@ -120,7 +134,7 @@ return ok();
 
     public Result testEnumParametersHttp(Http.Request request, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws Exception {
         testEnumParameters(request, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
-return ok();
+        return ok();
 
     }
 
@@ -128,7 +142,7 @@ return ok();
 
     public Result testGroupParametersHttp(Http.Request request, @NotNull Integer requiredStringGroup, Boolean requiredBooleanGroup, @NotNull Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws Exception {
         testGroupParameters(request, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
-return ok();
+        return ok();
 
     }
 
@@ -136,7 +150,7 @@ return ok();
 
     public Result testInlineAdditionalPropertiesHttp(Http.Request request, Map<String, String> param) throws Exception {
         testInlineAdditionalProperties(request, param);
-return ok();
+        return ok();
 
     }
 
@@ -144,7 +158,7 @@ return ok();
 
     public Result testJsonFormDataHttp(Http.Request request, String param, String param2) throws Exception {
         testJsonFormData(request, param, param2);
-return ok();
+        return ok();
 
     }
 
@@ -152,7 +166,7 @@ return ok();
 
     public Result testQueryParameterCollectionFormatHttp(Http.Request request, @NotNull List<String> pipe, @NotNull List<String> ioutil, @NotNull List<String> http, @NotNull List<String> url, @NotNull List<String> context) throws Exception {
         testQueryParameterCollectionFormat(request, pipe, ioutil, http, url, context);
-return ok();
+        return ok();
 
     }
 

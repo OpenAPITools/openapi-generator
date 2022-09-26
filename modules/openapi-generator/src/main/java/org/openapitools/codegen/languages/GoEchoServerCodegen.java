@@ -17,19 +17,20 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-
-import java.io.File;
-import java.util.*;
-
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 
 public class GoEchoServerCodegen extends AbstractGoCodegen {
-    static final Logger LOGGER = LoggerFactory.getLogger(GoEchoServerCodegen.class);
-
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "openapi-go-echo-server";
@@ -108,11 +109,11 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             if (op.path != null) {
                 op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");

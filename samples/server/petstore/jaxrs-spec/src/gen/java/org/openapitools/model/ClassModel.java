@@ -11,14 +11,23 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  **/
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ClassModel  implements Serializable {
-  
+@JsonTypeName("ClassModel")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ClassModel  implements Serializable {
   private @Valid String propertyClass;
+
+  protected ClassModel(ClassModelBuilder<?, ?> b) {
+    this.propertyClass = b.propertyClass;
+  }
+
+  public ClassModel() {
+  }
 
   /**
    **/
@@ -28,14 +37,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
@@ -80,5 +88,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static ClassModelBuilder<?, ?> builder() {
+    return new ClassModelBuilderImpl();
+  }
+
+  private static final class ClassModelBuilderImpl extends ClassModelBuilder<ClassModel, ClassModelBuilderImpl> {
+
+    @Override
+    protected ClassModelBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ClassModel build() {
+      return new ClassModel(this);
+    }
+  }
+
+  public static abstract class ClassModelBuilder<C extends ClassModel, B extends ClassModelBuilder<C, B>>  {
+    private String propertyClass;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B propertyClass(String propertyClass) {
+      this.propertyClass = propertyClass;
+      return self();
+    }
+  }
 }
 

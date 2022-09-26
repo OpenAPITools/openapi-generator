@@ -65,6 +65,7 @@ void OpenAPIPetApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManag
 
 FHttpRetrySystem::FManager& OpenAPIPetApi::GetHttpRetryManager()
 {
+	checkf(RetryManager, TEXT("OpenAPIPetApi: RetryManager is null.  You may have meant to set it with SetHttpRetryManager first, or you may not be using a custom RetryManager at all."))
 	return *RetryManager;
 }
 

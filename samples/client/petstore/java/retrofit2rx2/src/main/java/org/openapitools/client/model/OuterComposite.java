@@ -42,6 +42,8 @@ public class OuterComposite {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     

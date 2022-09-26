@@ -23,8 +23,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * DogAllOf
@@ -42,6 +45,8 @@ public class DogAllOf {
   @XmlElement(name = "breed")
   private String breed;
 
+  public DogAllOf() {
+  }
 
   public DogAllOf breed(String breed) {
     

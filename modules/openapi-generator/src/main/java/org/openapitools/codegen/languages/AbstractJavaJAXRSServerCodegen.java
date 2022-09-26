@@ -24,6 +24,9 @@ import io.swagger.v3.oas.models.PathItem;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,12 +64,13 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
@@ -142,8 +146,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         }
 
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
@@ -166,17 +171,23 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        return jaxrsPostProcessOperations(objs);
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap updatedObjs = jaxrsPostProcessOperations(objs);
+        OperationMap operations = updatedObjs.getOperations();
+        if (operations != null) {
+            List<CodegenOperation> ops = operations.getOperation();
+            for (CodegenOperation co : ops) {
+                handleImplicitHeaders(co);
+            }
+        }
+        return updatedObjs;
     }
 
-    static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    static OperationsMap jaxrsPostProcessOperations(OperationsMap objs) {
+        OperationMap operations = objs.getOperations();
         String commonPath = null;
         if (operations != null) {
-            @SuppressWarnings("unchecked")
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
                 if (operation.hasConsumes == Boolean.TRUE) {
                     Map<String, String> firstType = operation.consumes.get(0);

@@ -6,10 +6,10 @@
 
 import Foundation
 
-@available(*, deprecated, renamed: "PetstoreClient.Configuration")
-public typealias Configuration = PetstoreClient.Configuration
+@available(*, deprecated, renamed: "PetstoreClientAPI.Configuration")
+public typealias Configuration = PetstoreClientAPI.Configuration
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 open class Configuration {
     
     // This value is used to configure the date formatter that is used to serialize dates into JSON format.

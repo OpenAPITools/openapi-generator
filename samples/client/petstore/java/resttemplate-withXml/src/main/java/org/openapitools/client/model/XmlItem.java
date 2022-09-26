@@ -26,8 +26,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * XmlItem
@@ -63,7 +66,6 @@ import javax.xml.bind.annotation.*;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@JsonTypeName("XmlItem")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(namespace="http://a.com/schema", name = "XmlItem")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -217,6 +219,8 @@ public class XmlItem {
   @XmlElementWrapper(namespace="http://f.com/schema", name = "prefix_ns_wrapped_array")
   private List<Integer> prefixNsWrappedArray = null;
 
+  public XmlItem() {
+  }
 
   public XmlItem attributeString(String attributeString) {
     

@@ -28,8 +28,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.QuadrilateralInterface;
-import org.openapitools.client.model.ShapeInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -49,6 +47,8 @@ public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   private String quadrilateralType;
 
+  public ComplexQuadrilateral() { 
+  }
 
   public ComplexQuadrilateral shapeType(String shapeType) {
     this.shapeType = shapeType;

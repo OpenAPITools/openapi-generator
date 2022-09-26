@@ -242,6 +242,8 @@ public class EnumTest {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     

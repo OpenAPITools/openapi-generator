@@ -84,17 +84,11 @@ module {{moduleName}}
     attr_accessor :client_side_validation
 
 {{^isFaraday}}
-{{> configuration_tls_typhoeus_partial}}
+{{> configuration_typhoeus_partial}}
 {{/isFaraday}}
 {{#isFaraday}}
-{{> configuration_tls_faraday_partial}}
+{{> configuration_faraday_partial}}
 {{/isFaraday}}
-    # Set this to customize parameters encoding of array parameter with multi collectionFormat.
-    # Default to nil.
-    #
-    # @see The params_encoding option of Ethon. Related source code:
-    # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
-    attr_accessor :params_encoding
 
     attr_accessor :inject_format
 
@@ -110,7 +104,6 @@ module {{moduleName}}
       @server_operation_variables = {}
       @api_key = {}
       @api_key_prefix = {}
-      @timeout = 0
       @client_side_validation = true
       {{#isFaraday}}
       @ssl_verify = true
@@ -118,13 +111,19 @@ module {{moduleName}}
       @ssl_ca_file = nil
       @ssl_client_cert = nil
       @ssl_client_key = nil
+      @middlewares = Hash.new { |h, k| h[k] = [] }
+      @timeout = 60
+      # return data as binary instead of file
+      @return_binary_data = false
+      @params_encoder = nil
       {{/isFaraday}}
       {{^isFaraday}}
       @verify_ssl = true
       @verify_ssl_host = true
-      @params_encoding = nil
       @cert_file = nil
       @key_file = nil
+      @timeout = 0
+      @params_encoding = nil
       {{/isFaraday}}
       @debugging = false
       @inject_format = false
@@ -345,5 +344,62 @@ module {{moduleName}}
 
       url
     end
+
+    {{#isFaraday}}
+    # Adds middleware to the stack
+    def use(*middleware)
+      set_faraday_middleware(:use, *middleware)
+    end
+
+    # Adds request middleware to the stack
+    def request(*middleware)
+      set_faraday_middleware(:request, *middleware)
+    end
+
+    # Adds response middleware to the stack
+    def response(*middleware)
+      set_faraday_middleware(:response, *middleware)
+    end
+
+    # Adds Faraday middleware setting information to the stack
+    #
+    # @example Use the `set_faraday_middleware` method to set middleware information
+    #   config.set_faraday_middleware(:request, :retry, max: 3, methods: [:get, :post], retry_statuses: [503])
+    #   config.set_faraday_middleware(:response, :logger, nil, { bodies: true, log_level: :debug })
+    #   config.set_faraday_middleware(:use, Faraday::HttpCache, store: Rails.cache, shared_cache: false)
+    #   config.set_faraday_middleware(:insert, 0, FaradayMiddleware::FollowRedirects, { standards_compliant: true, limit: 1 })
+    #   config.set_faraday_middleware(:swap, 0, Faraday::Response::Logger)
+    #   config.set_faraday_middleware(:delete, Faraday::Multipart::Middleware)
+    #
+    # @see https://github.com/lostisland/faraday/blob/v2.3.0/lib/faraday/rack_builder.rb#L92-L143
+    def set_faraday_middleware(operation, key, *args, &block)
+      unless [:request, :response, :use, :insert, :insert_before, :insert_after, :swap, :delete].include?(operation)
+        fail ArgumentError, "Invalid faraday middleware operation #{operation}. Must be" \
+                            " :request, :response, :use, :insert, :insert_before, :insert_after, :swap or :delete."
+      end
+
+      @middlewares[operation] << [key, args, block]
+    end
+    ruby2_keywords(:set_faraday_middleware) if respond_to?(:ruby2_keywords, true)
+
+    # Set up middleware on the connection
+    def configure_middleware(connection)
+      return if @middlewares.empty?
+
+      [:request, :response, :use, :insert, :insert_before, :insert_after, :swap].each do |operation|
+        next unless @middlewares.key?(operation)
+
+        @middlewares[operation].each do |key, args, block|
+          connection.builder.send(operation, key, *args, &block)
+        end
+      end
+
+      if @middlewares.key?(:delete)
+        @middlewares[:delete].each do |key, _args, _block|
+          connection.builder.delete(key)
+        end
+      end
+    end
+    {{/isFaraday}}
   end
 end

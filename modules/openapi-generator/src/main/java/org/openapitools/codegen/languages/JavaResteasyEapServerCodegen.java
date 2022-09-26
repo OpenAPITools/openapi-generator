@@ -23,6 +23,8 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.languages.features.SwaggerFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 
 import java.io.File;
 import java.util.HashMap;
@@ -44,7 +46,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         useBeanValidation = true;
         outputFolder = "generated-code/JavaJaxRS-Resteasy-eap";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
@@ -118,11 +120,6 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        return super.postProcessOperationsWithModels(objs, allModels);
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         // Add imports for Jackson
@@ -136,15 +133,13 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         // Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));

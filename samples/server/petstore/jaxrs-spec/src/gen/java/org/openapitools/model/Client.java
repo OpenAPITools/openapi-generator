@@ -11,12 +11,21 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Client  implements Serializable {
-  
+@JsonTypeName("Client")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Client  implements Serializable {
   private @Valid String client;
+
+  protected Client(ClientBuilder<?, ?> b) {
+    this.client = b.client;
+  }
+
+  public Client() {
+  }
 
   /**
    **/
@@ -26,14 +35,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
     return client;
   }
 
+  @JsonProperty("client")
   public void setClient(String client) {
     this.client = client;
   }
@@ -78,5 +86,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static ClientBuilder<?, ?> builder() {
+    return new ClientBuilderImpl();
+  }
+
+  private static final class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
+
+    @Override
+    protected ClientBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Client build() {
+      return new Client(this);
+    }
+  }
+
+  public static abstract class ClientBuilder<C extends Client, B extends ClientBuilder<C, B>>  {
+    private String client;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B client(String client) {
+      this.client = client;
+      return self();
+    }
+  }
 }
 
