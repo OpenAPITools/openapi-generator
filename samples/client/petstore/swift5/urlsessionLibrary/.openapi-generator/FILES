@@ -14,7 +14,6 @@ Sources/PetstoreClient/APIs/StoreAPI.swift
 Sources/PetstoreClient/APIs/UserAPI.swift
 Sources/PetstoreClient/CodableHelper.swift
 Sources/PetstoreClient/Configuration.swift
-Sources/PetstoreClient/DateWithoutTime.swift
 Sources/PetstoreClient/Extensions.swift
 Sources/PetstoreClient/JSONDataEncoding.swift
 Sources/PetstoreClient/JSONEncodingHelper.swift
@@ -59,6 +58,7 @@ Sources/PetstoreClient/Models/Tag.swift
 Sources/PetstoreClient/Models/TypeHolderDefault.swift
 Sources/PetstoreClient/Models/TypeHolderExample.swift
 Sources/PetstoreClient/Models/User.swift
+Sources/PetstoreClient/OpenAPIDateWithoutTime.swift
 Sources/PetstoreClient/OpenISO8601DateFormatter.swift
 Sources/PetstoreClient/SynchronizedDictionary.swift
 Sources/PetstoreClient/URLSessionImplementations.swift

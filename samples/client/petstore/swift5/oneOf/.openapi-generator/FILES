@@ -8,7 +8,6 @@ PetstoreClient/Classes/OpenAPIs/APIs.swift
 PetstoreClient/Classes/OpenAPIs/APIs/DefaultAPI.swift
 PetstoreClient/Classes/OpenAPIs/CodableHelper.swift
 PetstoreClient/Classes/OpenAPIs/Configuration.swift
-PetstoreClient/Classes/OpenAPIs/DateWithoutTime.swift
 PetstoreClient/Classes/OpenAPIs/Extensions.swift
 PetstoreClient/Classes/OpenAPIs/JSONDataEncoding.swift
 PetstoreClient/Classes/OpenAPIs/JSONEncodingHelper.swift
@@ -16,6 +15,7 @@ PetstoreClient/Classes/OpenAPIs/Models.swift
 PetstoreClient/Classes/OpenAPIs/Models/Apple.swift
 PetstoreClient/Classes/OpenAPIs/Models/Banana.swift
 PetstoreClient/Classes/OpenAPIs/Models/Fruit.swift
+PetstoreClient/Classes/OpenAPIs/OpenAPIDateWithoutTime.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift

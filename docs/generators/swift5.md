@@ -78,13 +78,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Character</li>
 <li>Data</li>
 <li>Date</li>
-<li>DateWithoutTime</li>
 <li>Decimal</li>
 <li>Double</li>
 <li>Float</li>
 <li>Int</li>
 <li>Int32</li>
 <li>Int64</li>
+<li>OpenAPIDateWithoutTime</li>
 <li>String</li>
 <li>URL</li>
 <li>UUID</li>
