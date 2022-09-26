@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "types": [
-      "node"
-    ],
     "declaration": true,
     "target": "es6",
     "module": "commonjs",
