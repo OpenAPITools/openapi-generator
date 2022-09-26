@@ -13,18 +13,18 @@
 import sys
 import unittest
 
+import frozendict
+
 import petstore_api
-try:
-    from petstore_api.model import quadrilateral
-except ImportError:
-    quadrilateral = sys.modules[
-        'petstore_api.model.quadrilateral']
-try:
-    from petstore_api.model import triangle
-except ImportError:
-    triangle = sys.modules[
-        'petstore_api.model.triangle']
+from petstore_api.schemas import Singleton
 from petstore_api.model.shape import Shape
+from petstore_api.model import complex_quadrilateral
+from petstore_api.model import simple_quadrilateral
+from petstore_api.model import triangle
+from petstore_api.model import triangle_interface
+from petstore_api.model import equilateral_triangle
+from petstore_api.model import isosceles_triangle
+from petstore_api.model import scalene_triangle
 
 
 class TestShape(unittest.TestCase):
@@ -44,71 +44,74 @@ class TestShape(unittest.TestCase):
 
     def testShape(self):
         """Test Shape"""
-        from petstore_api.model import complex_quadrilateral
-        from petstore_api.model import simple_quadrilateral
-        from petstore_api.model import equilateral_triangle
-        from petstore_api.model import isosceles_triangle
-        from petstore_api.model import scalene_triangle
 
-        tri = triangle.Triangle(
-            shape_type="Triangle",
-            triangle_type="EquilateralTriangle"
+        tri = Shape(
+            shapeType="Triangle",
+            triangleType="EquilateralTriangle"
         )
         assert isinstance(tri, equilateral_triangle.EquilateralTriangle)
+        assert isinstance(tri, triangle.Triangle)
+        assert isinstance(tri, triangle_interface.TriangleInterface)
+        assert isinstance(tri, Shape)
+        assert isinstance(tri, frozendict.frozendict)
+        assert isinstance(tri.shapeType, str)
+        assert isinstance(tri.shapeType, Singleton)
 
-        tri = triangle.Triangle(
-            shape_type="Triangle",
-            triangle_type="IsoscelesTriangle"
+        tri = Shape(
+            shapeType="Triangle",
+            triangleType="IsoscelesTriangle"
         )
         assert isinstance(tri, isosceles_triangle.IsoscelesTriangle)
 
-        tri = triangle.Triangle(
-            shape_type="Triangle",
-            triangle_type="ScaleneTriangle"
+        tri = Shape(
+            shapeType="Triangle",
+            triangleType="ScaleneTriangle"
         )
         assert isinstance(tri, scalene_triangle.ScaleneTriangle)
 
         quad = Shape(
-            shape_type="Quadrilateral",
-            quadrilateral_type="ComplexQuadrilateral"
+            shapeType="Quadrilateral",
+            quadrilateralType="ComplexQuadrilateral"
         )
         assert isinstance(quad, complex_quadrilateral.ComplexQuadrilateral)
 
         quad = Shape(
-            shape_type="Quadrilateral",
-            quadrilateral_type="SimpleQuadrilateral"
+            shapeType="Quadrilateral",
+            quadrilateralType="SimpleQuadrilateral"
         )
         assert isinstance(quad, simple_quadrilateral.SimpleQuadrilateral)
 
-        # No discriminator provided.
-        err_msg = ("Cannot deserialize input data due to missing discriminator. "
-                   "The discriminator property '{}' is missing at path: ()"
-                   )
+        # data missing
         with self.assertRaisesRegex(
-                petstore_api.ApiValueError,
-                err_msg.format("shapeType")
+                petstore_api.exceptions.ApiValueError,
+                r"Cannot deserialize input data due to missing discriminator. The discriminator "
+                r"property 'shapeType' is missing at path: \('args\[0\]',\)"
         ):
-            Shape()
+            Shape({})
 
         # invalid shape_type (first discriminator). 'Circle' does not exist in the model.
-        err_msg = ("Cannot deserialize input data due to invalid discriminator "
-                   "value. The OpenAPI document has no mapping for discriminator "
-                   "property '{}'='{}' at path: ()"
-                   )
+        err_msg = (
+            r"Invalid discriminator value was passed in to Shape.shapeType Only the values "
+            r"\['Quadrilateral', 'Triangle'\] are allowed at \('args\[0\]', 'shapeType'\)"
+        )
         with self.assertRaisesRegex(
                 petstore_api.ApiValueError,
-                err_msg.format("shapeType", "Circle")
+                err_msg
         ):
-            Shape(shape_type="Circle")
+            Shape(shapeType="Circle")
 
         # invalid quadrilateral_type (second discriminator)
+        err_msg = (
+            r"Invalid discriminator value was passed in to Quadrilateral.quadrilateralType Only the values "
+            r"\['ComplexQuadrilateral', 'SimpleQuadrilateral'\] are allowed at \('args\[0\]', 'quadrilateralType'\)"
+        )
         with self.assertRaisesRegex(
                 petstore_api.ApiValueError,
-                err_msg.format("quadrilateralType", "Triangle")
+                err_msg
         ):
             Shape(
-                shape_type="Quadrilateral",
-                quadrilateral_type="Triangle"
+                shapeType="Quadrilateral",
+                quadrilateralType="Triangle"
             )
 
 if __name__ == '__main__':
