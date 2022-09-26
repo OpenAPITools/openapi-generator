@@ -1,0 +1,4 @@
+# OpenAPI Generator Ignore
+# This test file has changes required for testing and should not be overwritten
+src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
+

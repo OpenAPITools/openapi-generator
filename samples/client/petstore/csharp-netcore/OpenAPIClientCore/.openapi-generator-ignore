@@ -1,0 +1,4 @@
+# OpenAPI Generator Ignore
+# This project file holds config used in "live" testing
+src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
+
