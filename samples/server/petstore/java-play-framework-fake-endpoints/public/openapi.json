@@ -2851,6 +2851,7 @@
           }
         },
         "type" : "object",
+        "x-oag-internal-only" : true,
         "example" : null
       },
       "Cat_allOf" : {
@@ -2860,6 +2861,7 @@
           }
         },
         "type" : "object",
+        "x-oag-internal-only" : true,
         "example" : null
       },
       "BigCat_allOf" : {
@@ -2870,6 +2872,7 @@
           }
         },
         "type" : "object",
+        "x-oag-internal-only" : true,
         "example" : null
       }
     },

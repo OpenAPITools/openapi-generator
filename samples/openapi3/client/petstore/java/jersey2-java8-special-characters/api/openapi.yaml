@@ -48,11 +48,13 @@ components:
         prop1:
           type: string
       type: object
+      x-oag-internal-only: true
       example: null
     MySchemaName___Characters_allOf:
       properties:
         prop2:
           type: string
       type: object
+      x-oag-internal-only: true
       example: null
 

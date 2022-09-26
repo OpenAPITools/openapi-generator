@@ -14,15 +14,12 @@ app/apimodels/ArrayOfArrayOfNumberOnly.java
 app/apimodels/ArrayOfNumberOnly.java
 app/apimodels/ArrayTest.java
 app/apimodels/BigCat.java
-app/apimodels/BigCatAllOf.java
 app/apimodels/Capitalization.java
 app/apimodels/Cat.java
-app/apimodels/CatAllOf.java
 app/apimodels/Category.java
 app/apimodels/ClassModel.java
 app/apimodels/Client.java
 app/apimodels/Dog.java
-app/apimodels/DogAllOf.java
 app/apimodels/EnumArrays.java
 app/apimodels/EnumClass.java
 app/apimodels/EnumTest.java

@@ -27,10 +27,8 @@ from petstore_api.model.basque_pig import BasquePig
 from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.capitalization import Capitalization
 from petstore_api.model.cat import Cat
-from petstore_api.model.cat_all_of import CatAllOf
 from petstore_api.model.category import Category
 from petstore_api.model.child_cat import ChildCat
-from petstore_api.model.child_cat_all_of import ChildCatAllOf
 from petstore_api.model.class_model import ClassModel
 from petstore_api.model.client import Client
 from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
@@ -38,7 +36,6 @@ from petstore_api.model.composed_one_of_number_with_validations import ComposedO
 from petstore_api.model.composed_schema_with_props_and_no_add_props import ComposedSchemaWithPropsAndNoAddProps
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.dog import Dog
-from petstore_api.model.dog_all_of import DogAllOf
 from petstore_api.model.drawing import Drawing
 from petstore_api.model.egress_threshold_options import EgressThresholdOptions
 from petstore_api.model.enum_arrays import EnumArrays

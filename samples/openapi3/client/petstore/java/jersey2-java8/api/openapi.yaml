@@ -2286,12 +2286,14 @@ components:
         breed:
           type: string
       type: object
+      x-oag-internal-only: true
       example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      x-oag-internal-only: true
       example: null
     ChildCat_allOf:
       properties:
@@ -2304,6 +2306,7 @@ components:
           type: string
           x-enum-as-string: true
       type: object
+      x-oag-internal-only: true
       example: null
   securitySchemes:
     petstore_auth:

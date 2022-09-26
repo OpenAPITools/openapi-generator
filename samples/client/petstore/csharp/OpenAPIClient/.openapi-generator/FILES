@@ -14,13 +14,11 @@ docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
@@ -87,12 +85,10 @@ src/Org.OpenAPITools/Model/ArrayOfNumberOnly.cs
 src/Org.OpenAPITools/Model/ArrayTest.cs
 src/Org.OpenAPITools/Model/Capitalization.cs
 src/Org.OpenAPITools/Model/Cat.cs
-src/Org.OpenAPITools/Model/CatAllOf.cs
 src/Org.OpenAPITools/Model/Category.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
-src/Org.OpenAPITools/Model/DogAllOf.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs

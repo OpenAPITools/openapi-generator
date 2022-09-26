@@ -144,9 +144,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ChildSchema](docs/ChildSchema.md)
- - [ChildSchemaAllOf](docs/ChildSchemaAllOf.md)
  - [MySchemaNameCharacters](docs/MySchemaNameCharacters.md)
- - [MySchemaNameCharactersAllOf](docs/MySchemaNameCharactersAllOf.md)
  - [Parent](docs/Parent.md)
 
 
