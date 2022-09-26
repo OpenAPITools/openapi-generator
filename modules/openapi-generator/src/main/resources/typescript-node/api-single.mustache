@@ -267,9 +267,9 @@ export class {{classname}} {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            {{#returnType}}
+                            {{#returnBaseType}}
                             body = ObjectSerializer.deserialize(body, "{{{.}}}");
-                            {{/returnType}}
+                            {{/returnBaseType}}
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));

@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/test": {
+      "get": {
+        "summary": "Test",
+        "operationId": "test",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscriminatedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DiscriminatedResult": {
+        "title": "DiscriminatedResult",
+        "discriminator": {
+          "propertyName": "type_name",
+          "mapping": {
+            "TypeFirst": "#/components/schemas/TypeFirst",
+            "TypeSecond": "#/components/schemas/TypeSecond",
+            "TypeThird": "#/components/schemas/TypeThird"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/TypeFirst"
+          },
+          {
+            "$ref": "#/components/schemas/TypeSecond"
+          },
+          {
+            "$ref": "#/components/schemas/TypeThird"
+          }
+        ]
+      },
+      "TypeFirst": {
+        "title": "TypeFirst",
+        "type": "object",
+        "properties": {
+          "additional_enum": {
+            "title": "TypeFirst Enum",
+            "default": "TypeFirst",
+            "enum": ["TypeFirst"],
+            "type": "string"
+          },
+          "value": {
+            "title": "Value1",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type_name": {
+            "title": "Type Name",
+            "default": "TypeFirst",
+            "enum": ["TypeFirst"],
+            "type": "string"
+          }
+        },
+        "required": ["value"]
+      },
+      "TypeSecond": {
+        "title": "TypeSecond",
+        "type": "object",
+        "properties": {
+          "additional_enum": {
+            "title": "TypeSecond Enum",
+            "default": "TypeSecond",
+            "enum": ["TypeSecond"],
+            "type": "string"
+          },
+          "value": {
+            "title": "Value2",
+            "type": "string",
+            "items": {
+              "type": "number"
+            }
+          },
+          "type_name": {
+            "title": "Type Name",
+            "default": "TypeSecond",
+            "enum": ["TypeSecond"],
+            "type": "string"
+          }
+        },
+        "required": ["value"]
+      },
+      "TypeThird": {
+        "title": "TypeThird",
+        "type": "object",
+        "properties": {
+          "additional_enum": {
+            "title": "TypeThird Enum",
+            "default": "TypeThird",
+            "enum": ["TypeThird"],
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "type_name": {
+            "title": "Type Name",
+            "default": "TypeThird",
+            "enum": ["TypeThird"],
+            "type": "string"
+          }
+        },
+        "required": ["value"]
+      }
+    }
+  }
+}

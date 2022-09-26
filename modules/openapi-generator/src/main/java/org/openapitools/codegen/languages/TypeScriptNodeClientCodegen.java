@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -33,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -122,6 +122,20 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         // see comment in getTypeDeclaration
         if (op.isResponseFile) {
             op.returnType = "Buffer";
+        }
+        else if (op.discriminator != null) {
+            // when there's a discriminator, we do not really return a type that's defined directly, which is
+            // a somewhat dummy type used for discrimination, but a type that's an union of discriminated types instead
+            String returnType = op.returnType;
+            Set<String> discriminatedModels = op.discriminator.getMappedModels()
+                    .stream()
+                    .map(model -> model.getModelName())
+                    .collect(Collectors.toSet());
+            op.imports =  discriminatedModels;
+            op.returnType = discriminatedModels
+                    .stream()
+                    .collect(Collectors.joining(" | "));
+            op.returnBaseType = returnType;
         }
     }
 
