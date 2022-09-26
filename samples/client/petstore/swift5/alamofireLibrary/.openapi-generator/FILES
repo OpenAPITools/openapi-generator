@@ -11,6 +11,7 @@ PetstoreClient/Classes/OpenAPIs/APIs/FakeClassnameTags123API.swift
 PetstoreClient/Classes/OpenAPIs/APIs/PetAPI.swift
 PetstoreClient/Classes/OpenAPIs/APIs/StoreAPI.swift
 PetstoreClient/Classes/OpenAPIs/APIs/UserAPI.swift
+PetstoreClient/Classes/OpenAPIs/AlamofireImplementations.swift
 PetstoreClient/Classes/OpenAPIs/CodableHelper.swift
 PetstoreClient/Classes/OpenAPIs/Configuration.swift
 PetstoreClient/Classes/OpenAPIs/Extensions.swift
@@ -59,7 +60,6 @@ PetstoreClient/Classes/OpenAPIs/Models/TypeHolderExample.swift
 PetstoreClient/Classes/OpenAPIs/Models/User.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
-PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
 README.md
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
