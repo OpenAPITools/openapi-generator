@@ -4,7 +4,7 @@
 
 {{^withSeparateModelsAndApi}}
 import * as fs from 'fs';
-import { Stream } from 'stream';
+import { Readable } from 'stream';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { randomUUID } from 'crypto';
@@ -22,7 +22,7 @@ export interface RequestDetailedFile {
   }
 }
 
-export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile | Stream;
+export type RequestFile = Readable;
 
 {{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}{{/model}}
