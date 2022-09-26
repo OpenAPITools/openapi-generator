@@ -17,10 +17,4 @@
     <ProjectReference Include="..\Org.OpenAPITools\Org.OpenAPITools.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Others\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Others\" />
-  </ItemGroup>
 </Project>
