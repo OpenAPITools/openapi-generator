@@ -77,6 +77,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_2_1,
             FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
+            FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_5_0,
             FrameworkStrategy.NET_6_0
     );
@@ -731,6 +732,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
                             s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
                             s.equals(FrameworkStrategy.NET_5_0) ||
+                            s.equals(FrameworkStrategy.NETFRAMEWORK_4_8) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
                 setNullableReferenceTypes(true);
@@ -1240,6 +1242,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
         static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8 compatible", "net48", Boolean.FALSE) {
         };
         static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
         };

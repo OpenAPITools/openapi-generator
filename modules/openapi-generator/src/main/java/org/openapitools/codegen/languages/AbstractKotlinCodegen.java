@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -778,7 +779,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // Fallback, replace unknowns with underscore.
-        word = word.replaceAll("\\W+", "_");
+        word = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS).matcher(word).replaceAll("_");
         if (word.matches("\\d.*")) {
             word = "_" + word;
         }
@@ -1000,6 +1001,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
     }
 
+    private String fixNumberValue(String number, Schema p) {
+        if (ModelUtils.isFloatSchema(p)) {
+            return number + "f";
+        } else if (ModelUtils.isDoubleSchema(p)) {
+            if (number.contains(".")) {
+                return number;
+            }
+            return number + ".0";
+        } else if (ModelUtils.isLongSchema(p)) {
+            return number + "L";
+        }
+        return number;
+    }
+
     @Override
     public String toDefaultValue(Schema schema) {
         Schema p = ModelUtils.getReferencedSchema(this.openAPI, schema);
@@ -1013,11 +1028,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                return fixNumberValue(p.getDefault().toString(), p);
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                return fixNumberValue(p.getDefault().toString(), p);
             }
         } else if (ModelUtils.isURISchema(p)) {
             if (p.getDefault() != null) {
@@ -1027,6 +1042,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 String arrInstantiationType = ModelUtils.isSet(p) ? "set" : "arrayList";
 
+                if (!(p.getDefault() instanceof ArrayNode)) {
+                    return null;
+                }
                 ArrayNode _default = (ArrayNode) p.getDefault();
                 if (_default.isEmpty()) {
                     return arrInstantiationType + "Of()";

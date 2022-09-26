@@ -176,7 +176,7 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
         case r'$': return EnumArraysJustSymbolEnum.dollar;
         default:
@@ -250,7 +250,7 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'fish': return EnumArraysArrayEnumEnum.fish;
         case r'crab': return EnumArraysArrayEnumEnum.crab;
         default:

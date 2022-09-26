@@ -49,7 +49,7 @@
                     &param_{{{paramName}}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
       {{/isArray}}
       {{^isArray}}
-                    &param_{{{paramName}}}.to_string());
+                    &param_{{{paramName}}}{{^isString}}.to_string(){{/isString}});
       {{/isArray}}
     {{/x-consumes-json}}
   {{/vendorExtensions}}
@@ -60,10 +60,8 @@
 {{#authMethods}}
   {{#isApiKey}}
     {{#isKeyInQuery}}
-            if let Some(auth_data) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
-                if let AuthData::ApiKey(ref api_key) = *auth_data {
-                    query_string.append_pair("{{keyParamName}}", api_key);
-                }
+            if let Some(AuthData::ApiKey(ref api_key)) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
+                query_string.append_pair("{{keyParamName}}", api_key);
             }
     {{/isKeyInQuery}}
   {{/isApiKey}}
@@ -187,8 +185,8 @@
         // no such boundary is used.
         let mut boundary = generate_boundary();
         for b in boundary.iter_mut() {
-            if b == &('/' as u8) {
-                *b = '=' as u8;
+            if b == &(b'/') {
+                *b = b'=';
             }
         }
 
@@ -257,7 +255,7 @@
         {{/x-consumes-plain-text}}
         {{#required}}
         {{#x-consumes-xml}}
-        let body = param_{{{paramName}}}.to_xml();
+        let body = param_{{{paramName}}}.as_xml();
         {{/x-consumes-xml}}
         {{#x-consumes-json}}
         let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
@@ -266,7 +264,7 @@
         {{^required}}
         let body = param_{{{paramName}}}.map(|ref body| {
             {{#x-consumes-xml}}
-            body.to_xml()
+            body.as_xml()
             {{/x-consumes-xml}}
             {{#x-consumes-json}}
             serde_json::to_string(body).expect("impossible to fail to serialize")
@@ -305,8 +303,10 @@
         });
 
 {{#hasAuthMethods}}
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
             {{#authMethods}}
                 {{#isBasicBasic}}
@@ -364,6 +364,7 @@
 {{/required}}
         request.headers_mut().append(
             HeaderName::from_static("{{{nameInLowerCase}}}"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_{{{paramName}}}.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -398,12 +399,11 @@
                                 return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
                             },
                         };
-                        let response_{{{name}}} = response_{{{name}}}.0;
   {{#required}}
-                        response_{{{name}}}
+                        response_{{{name}}}.0
   {{/required}}
   {{^required}}
-                        Some(response_{{{name}}})
+                        Some(response_{{{name}}}.0)
   {{/required}}
                         },
   {{#required}}
@@ -450,7 +450,7 @@
 {{#headers}}
   {{#-first}}
                     {
-                        body: body,
+                        body,
   {{/-first}}
                         {{{name}}}: response_{{name}},
   {{#-last}}

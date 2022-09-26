@@ -17,10 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -43,9 +41,8 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     private boolean useSingleRequestParameter = false;
     private boolean supportAsync = true;
@@ -69,7 +66,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
-    protected String enumSuffix = ""; // default to empty string for backward compatibility
     protected Map<String, String> unsignedMapping;
 
     public CodegenType getTag() {
@@ -123,22 +119,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         hideGenerationTimestamp = Boolean.TRUE;
 
         embeddedTemplateDir = templateDir = "rust";
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "abstract", "alignof", "as", "become", "box",
-                        "break", "const", "continue", "crate", "do",
-                        "else", "enum", "extern", "false", "final",
-                        "fn", "for", "if", "impl", "in",
-                        "let", "loop", "macro", "match", "mod",
-                        "move", "mut", "offsetof", "override", "priv",
-                        "proc", "pub", "pure", "ref", "return",
-                        "Self", "self", "sizeof", "static", "struct",
-                        "super", "trait", "true", "type", "typeof",
-                        "unsafe", "unsized", "use", "virtual", "where",
-                        "while", "yield", "async", "await", "dyn", "try"
-                )
-        );
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -411,97 +391,13 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return '_' + name;
-    }
-
-    @Override
     public String apiFileFolder() {
         return (outputFolder + File.separator + apiFolder).replace("/", File.separator);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + File.separator + modelFolder).replace("/", File.separator);
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // translate @ for properties (like @type) to at_. 
-        // Otherwise an additional "type" property will leed to duplcates
-        name = name.replaceAll("^@", "at_");
-
-        // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
-
-        // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$"))
-            return name.toLowerCase(Locale.ROOT);
-
-        // snake_case, e.g. PetId => pet_id
-        name = underscore(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
-
-        // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
-            name = "var_" + name;
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        return toVarName(name);
-    }
-
-    @Override
-    public String toModelName(String name) {
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(toModelFilename(name));
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-
-        if (!Strings.isNullOrEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!Strings.isNullOrEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-
-        name = sanitizeName(name);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
-                    "model_" + name);
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        return underscore(name);
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // e.g. PetApi.rs => pet_api.rs
-        return underscore(name) + "_api";
     }
 
     @Override
@@ -512,16 +408,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelDocFileFolder() {
         return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String toModelDocFilename(String name) {
-        return toModelName(name);
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
     }
 
     @Override
@@ -605,19 +491,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return type;
-    }
-
-    @Override
-    public String toOperationId(String operationId) {
-        String sanitizedOperationId = sanitizeName(operationId);
-
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, StringUtils.underscore("call_" + operationId));
-            sanitizedOperationId = "call_" + sanitizedOperationId;
-        }
-
-        return StringUtils.underscore(sanitizedOperationId);
     }
 
     @Override
@@ -714,72 +587,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return escapeText(value);
-        }
-    }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
-    }
-
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "Empty";
-        }
-
-        // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "Minus");
-            varName = varName.replaceAll("\\+", "Plus");
-            varName = varName.replaceAll("\\.", "Dot");
-            return varName;
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return getSymbolName(name);
-        }
-
-        // string
-        String enumName = camelize(sanitizeName(name));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
-        } else {
-            return enumName;
-        }
-    }
-
-    @Override
-    public String toEnumName(CodegenProperty property) {
-        String name = property.name;
-        if (!org.apache.commons.lang3.StringUtils.isEmpty(enumSuffix)) {
-            name = name + "_" + enumSuffix;
-        }
-        // camelize the enum name
-        // phone_number => PhoneNumber
-        String enumName = camelize(toModelName(name));
-
-        // remove [] for array or map of enum
-        enumName = enumName.replace("[]", "");
-
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
     }
 
     @Override

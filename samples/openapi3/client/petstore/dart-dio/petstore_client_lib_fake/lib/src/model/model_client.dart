@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -11,61 +12,97 @@ part 'model_client.g.dart';
 ///
 /// Properties:
 /// * [client] 
+@BuiltValue()
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
-    @BuiltValueField(wireName: r'client')
-    String? get client;
+  @BuiltValueField(wireName: r'client')
+  String? get client;
 
-    ModelClient._();
+  ModelClient._();
 
-    @BuiltValueHook(initializeBuilder: true)
-    static void _defaults(ModelClientBuilder b) => b;
+  factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
 
-    factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(ModelClientBuilder b) => b;
 
-    @BuiltValueSerializer(custom: true)
-    static Serializer<ModelClient> get serializer => _$ModelClientSerializer();
+  @BuiltValueSerializer(custom: true)
+  static Serializer<ModelClient> get serializer => _$ModelClientSerializer();
 }
 
-class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
-    @override
-    final Iterable<Type> types = const [ModelClient, _$ModelClient];
+class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
+  @override
+  final Iterable<Type> types = const [ModelClient, _$ModelClient];
 
-    @override
-    final String wireName = r'ModelClient';
+  @override
+  final String wireName = r'ModelClient';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, ModelClient object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
-        if (object.client != null) {
-            result
-                ..add(r'client')
-                ..add(serializers.serialize(object.client,
-                    specifiedType: const FullType(String)));
-        }
-        return result;
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    ModelClient object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    if (object.client != null) {
+      yield r'client';
+      yield serializers.serialize(
+        object.client,
+        specifiedType: const FullType(String),
+      );
     }
+  }
 
-    @override
-    ModelClient deserialize(Serializers serializers, Iterable<Object?> serialized,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = ModelClientBuilder();
+  @override
+  Object serialize(
+    Serializers serializers,
+    ModelClient object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            
-            switch (key) {
-                case r'client':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.client = valueDes;
-                    break;
-            }
-        }
-        return result.build();
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required ModelClientBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'client':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.client = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
     }
+  }
+
+  @override
+  ModelClient deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = ModelClientBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

@@ -28,15 +28,28 @@ class TestIntegerEnumOneValue(unittest.TestCase):
 
     def testIntegerEnumOneValue(self):
         """Test IntegerEnumOneValue"""
-        model = IntegerEnumOneValue()
-        assert model.value == 0, "With only one option, the value is assigned automatically"
+
+        with self.assertRaises(TypeError):
+            """
+            a value must be passed in
+            We cannot auto assign values because that would break composition if
+            received payloads included this with no inputs and we the 0 value to the data to the incoming payload
+            One is not allowed to mutate incoming payloads because then:
+            - order of composed schema ingestion matters
+            - one can have default value collisions
+            - the added data will make expected schemas not match payloads
+            """
+            model = IntegerEnumOneValue()
 
         model = IntegerEnumOneValue(0)
-        assert model.value == 0, "We can also pass in the value as a positional arg"
+        assert model == 0, "We can also pass in the value as a positional arg"
 
-        model = IntegerEnumOneValue(value=0)
-        assert model.value == 0, "We can also pass in the value as a named argument"
+        # one cannot pass the value with the value keyword
+        with self.assertRaises(TypeError):
+            model = IntegerEnumOneValue(value=0)
 
+        # one can pass in the enum value
+        model = IntegerEnumOneValue(IntegerEnumOneValue.POSITIVE_0)
 
 if __name__ == '__main__':
     unittest.main()

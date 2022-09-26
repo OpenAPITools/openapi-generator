@@ -161,6 +161,14 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    @SuppressWarnings("static-method")
+    public String sanitizeName(String name) {
+        String sanitizedName = super.sanitizeName(name);
+        sanitizedName = sanitizedName.replaceAll("-", "");
+        return sanitizedName;
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
@@ -188,7 +196,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            sanitizedName = sanitizedName.replaceFirst("^([^_a-zA-Z])", reservedWordPrefix + "$1");
+            return sanitizedName;
         }
     }
 
