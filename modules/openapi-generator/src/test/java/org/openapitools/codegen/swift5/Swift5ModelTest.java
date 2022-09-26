@@ -155,10 +155,10 @@ public class Swift5ModelTest {
         Assert.assertFalse(property3.isContainer);
 
         Assert.assertEquals(property7.baseName, "dateOfBirth");
-        Assert.assertEquals(property7.dataType, "DateWithoutTime");
+        Assert.assertEquals(property7.dataType, "OpenAPIDateWithoutTime");
         Assert.assertEquals(property7.name, "dateOfBirth");
         Assert.assertNull(property7.defaultValue);
-        Assert.assertEquals(property7.baseType, "DateWithoutTime");
+        Assert.assertEquals(property7.baseType, "OpenAPIDateWithoutTime");
         Assert.assertFalse(property7.required);
         Assert.assertFalse(property7.isContainer);
     }

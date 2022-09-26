@@ -150,7 +150,7 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "Date");
     }
 
-    @Test(description = "returns DateWithoutTime when response format is date and cli option is enabled", enabled = true)
+    @Test(description = "returns OpenAPIDateWithoutTime when response format is date and cli option is enabled", enabled = true)
     public void dateWithoutTimeTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
@@ -162,8 +162,8 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "DateWithoutTime");
-        Assert.assertEquals(op.bodyParam.dataType, "DateWithoutTime");
+        Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
+        Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
     }
 
     @Test(enabled = true)

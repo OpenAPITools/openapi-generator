@@ -136,7 +136,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "String",
                         "Data",
                         "Date",
-                        "DateWithoutTime",
+                        "OpenAPIDateWithoutTime",
                         "Character",
                         "UUID",
                         "URL",
@@ -528,7 +528,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(USE_CUSTOM_DATE_WITHOUT_TIME, useCustomDateWithoutTime);
         if (useCustomDateWithoutTime) {
-            typeMapping.put("date", "DateWithoutTime");
+            typeMapping.put("date", "OpenAPIDateWithoutTime");
         } else {
             typeMapping.put("date", "Date");
         }
@@ -588,9 +588,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
                 sourceFolder,
                 "OpenISO8601DateFormatter.swift"));
-        supportingFiles.add(new SupportingFile("DateWithoutTime.mustache",
+        if (additionalProperties.containsKey(USE_CUSTOM_DATE_WITHOUT_TIME)) {
+            supportingFiles.add(new SupportingFile("OpenAPIDateWithoutTime.mustache",
                 sourceFolder,
-                "DateWithoutTime.swift"));
+                "OpenAPIDateWithoutTime.swift"));
+        }
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
