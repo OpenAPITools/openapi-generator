@@ -53,7 +53,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
 |useBacktickEscapes|Escape reserved words using backticks (default: false)| |false|
 |useClasses|Use final classes for models instead of structs (default: false)| |false|
-|useCustomDateWithoutTime|[WARNING] This option will be removed and enabled by default in the future. Uses a custom type to de- and encode dates without time information (default: false)| |false|
+|useCustomDateWithoutTime|Uses a custom type to de- and encode dates without time information to support OpenAPIs date format (default: false)| |false|
 |useJsonEncodable|Make models conform to JSONEncodable protocol (default: true)| |true|
 |useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: false).| |null|
 
