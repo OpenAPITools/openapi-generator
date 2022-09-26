@@ -312,7 +312,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
-            "Uses a custom type to de- and encode dates without time information to support OpenAPIs date format (default: false)")
+            "Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)")
             .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
