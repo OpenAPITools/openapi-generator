@@ -30,6 +30,10 @@
     `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
     `additional_properties` = list(),
     {{/isAdditionalPropertiesTrue}}
+    {{#discriminator}}
+    `_discriminator_property_name` = '{{discriminator.propertyName}}',
+    {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}},{{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
+    {{/discriminator}}
     #' Initialize a new {{{classname}}} class.
     #'
     #' @description
@@ -215,6 +219,15 @@
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      {{#discriminator}}
+      data_type <- this_object[_discriminator_property_name]
+      {{#discriminator.mappedModels}}
+      data_type <- _discriminator_mapping_name[data_type] # use discriminator mapping to lookup the type
+      {{/discriminator.mappedModels}}
+      // deserialize based on data type
+      return(ApiClient$new()$deserializeObj(this_object, data_type, loadNamespace("{{packageName}}")))
+
+      {{/discriminator}}
       {{#vars}}
       if (!is.null(this_object$`{{baseName}}`)) {
         {{#isContainer}}
