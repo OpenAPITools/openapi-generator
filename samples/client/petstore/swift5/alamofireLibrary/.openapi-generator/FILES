@@ -58,6 +58,7 @@ PetstoreClient/Classes/OpenAPIs/Models/Tag.swift
 PetstoreClient/Classes/OpenAPIs/Models/TypeHolderDefault.swift
 PetstoreClient/Classes/OpenAPIs/Models/TypeHolderExample.swift
 PetstoreClient/Classes/OpenAPIs/Models/User.swift
+PetstoreClient/Classes/OpenAPIs/OpenAPIDateWithoutTime.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 README.md

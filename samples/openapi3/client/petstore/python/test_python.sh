@@ -10,14 +10,16 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 ### set virtualenv
-if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --always-copy
+if [ -z "$VENVV" ]; then
+		python3 -m venv $VENV
 		source $VENV/bin/activate
     DEACTIVE=true
 fi
 
 ### install dependencies
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
+### locally install the package, needed for pycharm problem checking
+pip install -e .
 
 ### run tests
 tox || exit 1

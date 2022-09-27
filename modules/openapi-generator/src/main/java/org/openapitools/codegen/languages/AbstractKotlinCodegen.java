@@ -1001,6 +1001,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
     }
 
+    private String fixNumberValue(String number, Schema p) {
+        if (ModelUtils.isFloatSchema(p)) {
+            return number + "f";
+        } else if (ModelUtils.isDoubleSchema(p)) {
+            if (number.contains(".")) {
+                return number;
+            }
+            return number + ".0";
+        } else if (ModelUtils.isLongSchema(p)) {
+            return number + "L";
+        }
+        return number;
+    }
+
     @Override
     public String toDefaultValue(Schema schema) {
         Schema p = ModelUtils.getReferencedSchema(this.openAPI, schema);
@@ -1014,11 +1028,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                return fixNumberValue(p.getDefault().toString(), p);
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                return fixNumberValue(p.getDefault().toString(), p);
             }
         } else if (ModelUtils.isURISchema(p)) {
             if (p.getDefault() != null) {
