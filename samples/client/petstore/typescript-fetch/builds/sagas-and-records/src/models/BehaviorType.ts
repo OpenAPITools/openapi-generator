@@ -22,7 +22,6 @@ export const BehaviorType = {
     Involuntary: 'Involuntary',
     Overt: 'Overt'
 } as const;
-
 export type BehaviorType = typeof BehaviorType[keyof typeof BehaviorType];
 
 

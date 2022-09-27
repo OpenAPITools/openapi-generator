@@ -191,45 +191,69 @@ class FormatTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (integer != null) {
-      json[r'integer'] = integer;
+    if (this.integer != null) {
+      json[r'integer'] = this.integer;
+    } else {
+      json[r'integer'] = null;
     }
-    if (int32 != null) {
-      json[r'int32'] = int32;
+    if (this.int32 != null) {
+      json[r'int32'] = this.int32;
+    } else {
+      json[r'int32'] = null;
     }
-    if (int64 != null) {
-      json[r'int64'] = int64;
+    if (this.int64 != null) {
+      json[r'int64'] = this.int64;
+    } else {
+      json[r'int64'] = null;
     }
-      json[r'number'] = number;
-    if (float != null) {
-      json[r'float'] = float;
+      json[r'number'] = this.number;
+    if (this.float != null) {
+      json[r'float'] = this.float;
+    } else {
+      json[r'float'] = null;
     }
-    if (double_ != null) {
-      json[r'double'] = double_;
+    if (this.double_ != null) {
+      json[r'double'] = this.double_;
+    } else {
+      json[r'double'] = null;
     }
-    if (decimal != null) {
-      json[r'decimal'] = decimal;
+    if (this.decimal != null) {
+      json[r'decimal'] = this.decimal;
+    } else {
+      json[r'decimal'] = null;
     }
-    if (string != null) {
-      json[r'string'] = string;
+    if (this.string != null) {
+      json[r'string'] = this.string;
+    } else {
+      json[r'string'] = null;
     }
-      json[r'byte'] = byte;
-    if (binary != null) {
-      json[r'binary'] = binary;
+      json[r'byte'] = this.byte;
+    if (this.binary != null) {
+      json[r'binary'] = this.binary;
+    } else {
+      json[r'binary'] = null;
     }
-      json[r'date'] = _dateFormatter.format(date.toUtc());
-    if (dateTime != null) {
-      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+      json[r'date'] = _dateFormatter.format(this.date.toUtc());
+    if (this.dateTime != null) {
+      json[r'dateTime'] = this.dateTime!.toUtc().toIso8601String();
+    } else {
+      json[r'dateTime'] = null;
     }
-    if (uuid != null) {
-      json[r'uuid'] = uuid;
+    if (this.uuid != null) {
+      json[r'uuid'] = this.uuid;
+    } else {
+      json[r'uuid'] = null;
     }
-      json[r'password'] = password;
-    if (patternWithDigits != null) {
-      json[r'pattern_with_digits'] = patternWithDigits;
+      json[r'password'] = this.password;
+    if (this.patternWithDigits != null) {
+      json[r'pattern_with_digits'] = this.patternWithDigits;
+    } else {
+      json[r'pattern_with_digits'] = null;
     }
-    if (patternWithDigitsAndDelimiter != null) {
-      json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+    if (this.patternWithDigitsAndDelimiter != null) {
+      json[r'pattern_with_digits_and_delimiter'] = this.patternWithDigitsAndDelimiter;
+    } else {
+      json[r'pattern_with_digits_and_delimiter'] = null;
     }
     return json;
   }

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -47,6 +46,16 @@ public class Dog extends Animal {
 
   public void setBreed(String breed) {
     this.breed = breed;
+  }
+
+  public Dog className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Dog color(String color) {
+    super.setColor(color);
+    return this;
   }
 
   @Override

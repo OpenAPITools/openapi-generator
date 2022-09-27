@@ -13,7 +13,7 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.model.InlineResponseDefault;
+import org.openapitools.client.model.FooGetDefaultResponse;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -39,7 +39,7 @@ public class DefaultApiTest {
      */
     @Test
     public void fooGetTest()  {
-        InlineResponseDefault response = api.fooGet().block();
+        FooGetDefaultResponse response = api.fooGet().block();
 
         // TODO: test validations
     }

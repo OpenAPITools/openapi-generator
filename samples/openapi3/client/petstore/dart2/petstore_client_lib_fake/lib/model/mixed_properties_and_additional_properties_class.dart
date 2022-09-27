@@ -54,13 +54,17 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (uuid != null) {
-      json[r'uuid'] = uuid;
+    if (this.uuid != null) {
+      json[r'uuid'] = this.uuid;
+    } else {
+      json[r'uuid'] = null;
     }
-    if (dateTime != null) {
-      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+    if (this.dateTime != null) {
+      json[r'dateTime'] = this.dateTime!.toUtc().toIso8601String();
+    } else {
+      json[r'dateTime'] = null;
     }
-      json[r'map'] = map;
+      json[r'map'] = this.map;
     return json;
   }
 
@@ -85,7 +89,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
       return MixedPropertiesAndAdditionalPropertiesClass(
         uuid: mapValueOfType<String>(json, r'uuid'),
         dateTime: mapDateTime(json, r'dateTime', ''),
-        map: mapValueOfType<Map<String, Animal>>(json, r'map') ?? const {},
+        map: Animal.mapFromJson(json[r'map']) ?? const {},
       );
     }
     return null;

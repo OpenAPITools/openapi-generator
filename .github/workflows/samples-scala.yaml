@@ -19,6 +19,7 @@ jobs:
         sample:
           # clients
           - samples/client/petstore/scalaz
+          #- samples/client/petstore/scala-sttp # won't pass while the same tests in circleci pass
           # servers
           - samples/server/petstore/scala-lagom-server
           - samples/server/petstore/scala-play-server
@@ -27,7 +28,7 @@ jobs:
           - samples/server/petstore/scala-finch # cannot be tested with jdk11
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 8

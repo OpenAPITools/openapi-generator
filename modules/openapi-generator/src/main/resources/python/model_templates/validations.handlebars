@@ -1,0 +1,48 @@
+{{#neq getUniqueItemsBoolean null}}
+unique_items = {{#if getUniqueItemsBoolean}}True{{else}}False{{/if}}
+{{/neq}}
+{{#neq maxLength null}}
+max_length = {{maxLength}}
+{{/neq}}
+{{#neq minLength null}}
+min_length = {{minLength}}
+{{/neq}}
+{{#neq maxItems null}}
+max_items = {{maxItems}}
+{{/neq}}
+{{#neq minItems null}}
+min_items = {{minItems}}
+{{/neq}}
+{{#neq maxProperties null }}
+max_properties = {{maxProperties}}
+{{/neq}}
+{{#neq minProperties null}}
+min_properties = {{minProperties}}
+{{/neq}}
+{{#neq maximum null}}
+{{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}} = {{maximum}}
+{{/neq}}
+{{#neq minimum null}}
+{{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}} = {{minimum}}
+{{/neq}}
+{{#neq pattern null}}
+regex=[{
+{{#if vendorExtensions.x-regex}}
+    'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
+{{else}}
+    'pattern': r'{{{pattern}}}',  # noqa: E501
+{{/if}}
+{{#each vendorExtensions.x-modifiers}}
+{{#if @first}}
+    'flags': (
+{{/if}}
+        {{#unless @first}}| {{/unless}}re.{{.}}
+{{#if @last}}
+    )
+{{/if}}
+{{/each}}
+}]
+{{/neq}}
+{{#neq multipleOf null}}
+multiple_of = {{multipleOf}}
+{{/neq}}

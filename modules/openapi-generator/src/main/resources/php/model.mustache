@@ -4,7 +4,7 @@
 /**
  * {{classname}}
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -39,9 +39,7 @@ use \{{invokerPackage}}\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
 {{^isEnum}}
- * @implements \ArrayAccess<TKey, TValue>
- * @template TKey int|null
- * @template TValue mixed|null
+ * @implements \ArrayAccess<string, mixed>
 {{/isEnum}}
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}

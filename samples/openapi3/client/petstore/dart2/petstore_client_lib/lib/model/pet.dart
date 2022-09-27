@@ -70,17 +70,23 @@ class Pet {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (category != null) {
-      json[r'category'] = category;
+    if (this.category != null) {
+      json[r'category'] = this.category;
+    } else {
+      json[r'category'] = null;
     }
-      json[r'name'] = name;
-      json[r'photoUrls'] = photoUrls;
-      json[r'tags'] = tags;
-    if (status != null) {
-      json[r'status'] = status;
+      json[r'name'] = this.name;
+      json[r'photoUrls'] = this.photoUrls;
+      json[r'tags'] = this.tags;
+    if (this.status != null) {
+      json[r'status'] = this.status;
+    } else {
+      json[r'status'] = null;
     }
     return json;
   }
@@ -225,7 +231,7 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'available': return PetStatusEnum.available;
         case r'pending': return PetStatusEnum.pending;
         case r'sold': return PetStatusEnum.sold;

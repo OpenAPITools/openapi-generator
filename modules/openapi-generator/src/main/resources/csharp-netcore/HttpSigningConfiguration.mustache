@@ -317,14 +317,18 @@ namespace {{packageName}}.Client
         /// <returns>ECDSA signature</returns>
         private string GetECDSASignature(byte[] dataToSign)
         {
-            if (!File.Exists(KeyFilePath))
+            string keyStr = string.Empty;
+            if (File.Exists(KeyFilePath))
             {
-                throw new Exception("key file path does not exist.");
+                keyStr = File.ReadAllText(KeyFilePath);
+            }
+            else
+            {
+                keyStr = KeyFilePath;
             }
 
             const string ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
             const string ecKeyFooter = "-----END EC PRIVATE KEY-----";
-            var keyStr = File.ReadAllText(KeyFilePath);
             var ecKeyBase64String = keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim();
             var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
             var ecdsa = ECDsa.Create();
@@ -422,11 +426,15 @@ namespace {{packageName}}.Client
             bool isPrivateKeyFile = true;
             byte[] pemkey = null;
 
-            if (!File.Exists(pemfile))
+            string pemstr = string.Empty;
+            if (File.Exists(pemfile))
             {
-                throw new Exception("private key file does not exist.");
+                pemstr = File.ReadAllText(pemfile).Trim();
             }
-            string pemstr = File.ReadAllText(pemfile).Trim();
+            else
+            {
+                pemstr = pemfile;
+            }
 
             if (pemstr.StartsWith(pempubheader) && pemstr.EndsWith(pempubfooter))
             {
@@ -717,9 +725,16 @@ namespace {{packageName}}.Client
         /// <returns>Private Key Type</returns>
         private PrivateKeyType GetKeyType(string keyFilePath)
         {
-            if (!File.Exists(keyFilePath))
+            string[] key = null;
+
+            if (File.Exists(keyFilePath))
             {
-                throw new Exception("Key file path does not exist.");
+                key = File.ReadAllLines(keyFilePath);
+            }
+            else
+            {
+                // The ApiKeyFilePath is passed as string
+                key = new string[] { keyFilePath };
             }
 
             const string ecPrivateKeyHeader = "BEGIN EC PRIVATE KEY";
@@ -729,7 +744,6 @@ namespace {{packageName}}.Client
             //var pkcs8Header = "BEGIN PRIVATE KEY";
             //var pkcs8Footer = "END PRIVATE KEY";
             PrivateKeyType keyType;
-            var key = File.ReadAllLines(keyFilePath);
 
             if (key[0].Contains(rsaPrivateKeyHeader) &&
                 key[key.Length - 1].ToString().Contains(rsaPrivateFooter))
@@ -743,7 +757,7 @@ namespace {{packageName}}.Client
             }
             else
             {
-                throw new Exception("Either the key is invalid or key is not supported");
+                throw new Exception("The key file path does not exist or key is invalid or key is not supported");
             }
             return keyType;
         }

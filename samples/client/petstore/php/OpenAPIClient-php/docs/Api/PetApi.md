@@ -1,18 +1,18 @@
 # OpenAPI\Client\PetApi
 
-All URIs are relative to http://petstore.swagger.io:80/v2.
+All URIs are relative to http://petstore.swagger.io:80/v2, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet()**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet()**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus()**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags()**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById()**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet()**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm()**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile()**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile()**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**addPet()**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet()**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus()**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags()**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById()**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet()**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm()**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile()**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**uploadFileWithRequiredFile()**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 ## `addPet()`
@@ -20,6 +20,21 @@ Method | HTTP request | Description
 ```php
 addPet($pet)
 ```
+### URI(s):
+- http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
+    - Variables:
+      - server: target server
+        - Allowed values:
+          - petstore
+          - qa-petstore
+          - dev-petstore
+        - Default value: petstore
+
+      - port:  No description provided
+        - Allowed values:
+          - 80
+          - 8080
+        - Default value: 80
 
 Add a new pet to the store
 
@@ -44,8 +59,12 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
 );
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
+$hostIndex = 0;
+$variables = [
+];
+
 try {
-    $apiInstance->addPet($pet);
+    $apiInstance->addPet($pet, $hostIndex, $variables);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
@@ -53,9 +72,13 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+| hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
+| variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |
+
+
 
 ### Return type
 
@@ -113,10 +136,10 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| Pet id to delete |
- **api_key** | **string**|  | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **int**| Pet id to delete | |
+| **api_key** | **string**|  | [optional] |
 
 ### Return type
 
@@ -174,9 +197,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | |
 
 ### Return type
 
@@ -234,9 +257,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](../Model/string.md)| Tags to filter by |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **tags** | [**string[]**](../Model/string.md)| Tags to filter by | |
 
 ### Return type
 
@@ -296,9 +319,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to return |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **int**| ID of pet to return | |
 
 ### Return type
 
@@ -322,6 +345,21 @@ Name | Type | Description  | Notes
 ```php
 updatePet($pet)
 ```
+### URI(s):
+- http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
+    - Variables:
+      - server: target server
+        - Allowed values:
+          - petstore
+          - qa-petstore
+          - dev-petstore
+        - Default value: petstore
+
+      - port:  No description provided
+        - Allowed values:
+          - 80
+          - 8080
+        - Default value: 80
 
 Update an existing pet
 
@@ -346,8 +384,12 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
 );
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
+$hostIndex = 0;
+$variables = [
+];
+
 try {
-    $apiInstance->updatePet($pet);
+    $apiInstance->updatePet($pet, $hostIndex, $variables);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -355,9 +397,13 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+| hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
+| variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |
+
+
 
 ### Return type
 
@@ -416,11 +462,11 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet that needs to be updated |
- **name** | **string**| Updated name of the pet | [optional]
- **status** | **string**| Updated status of the pet | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **int**| ID of pet that needs to be updated | |
+| **name** | **string**| Updated name of the pet | [optional] |
+| **status** | **string**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -480,11 +526,11 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
- **additional_metadata** | **string**| Additional data to pass to server | [optional]
- **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **int**| ID of pet to update | |
+| **additional_metadata** | **string**| Additional data to pass to server | [optional] |
+| **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional] |
 
 ### Return type
 
@@ -544,11 +590,11 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
- **required_file** | **\SplFileObject****\SplFileObject**| file to upload |
- **additional_metadata** | **string**| Additional data to pass to server | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **int**| ID of pet to update | |
+| **required_file** | **\SplFileObject****\SplFileObject**| file to upload | |
+| **additional_metadata** | **string**| Additional data to pass to server | [optional] |
 
 ### Return type
 

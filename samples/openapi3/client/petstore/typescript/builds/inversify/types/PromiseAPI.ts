@@ -1,5 +1,4 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
-import * as models from '../models/all';
 import { Configuration} from '../configuration'
 import { injectable, inject, optional } from "inversify";
 import { AbstractConfiguration } from "../services/configuration";

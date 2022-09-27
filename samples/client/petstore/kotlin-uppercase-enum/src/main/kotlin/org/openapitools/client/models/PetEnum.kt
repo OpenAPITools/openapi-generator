@@ -21,21 +21,30 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 /**
  * An enum with complex-ish naming
  *
- * Values: MY_FIRST_VALUE,MY_SECOND_VALUE
+ * Values: MY_FIRST_VALUE,MY_SECOND_VALUE,UNKNOWN_DEFAULT_OPEN_API
  */
-
+@Serializable(with = PetEnumSerializer::class)
 enum class PetEnum(val value: kotlin.String) {
 
-    @Json(name = "myFirstValue")
+    @SerialName(value = "myFirstValue")
     MY_FIRST_VALUE("myFirstValue"),
 
-    @Json(name = "MY_SECOND_VALUE")
-    MY_SECOND_VALUE("MY_SECOND_VALUE");
+    @SerialName(value = "MY_SECOND_VALUE")
+    MY_SECOND_VALUE("MY_SECOND_VALUE"),
+
+    @SerialName(value = "unknown_default_open_api")
+    UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
 
     /**
      * Override toString() to avoid using the enum variable name as the value, and instead use
@@ -61,6 +70,21 @@ enum class PetEnum(val value: kotlin.String) {
             it == value || normalizedData == "$value".lowercase()
           }
         }
+    }
+}
+
+@Serializer(forClass = PetEnum::class)
+internal object PetEnumSerializer : KSerializer<PetEnum> {
+    override val descriptor = kotlin.String.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): PetEnum {
+        val value = decoder.decodeSerializableValue(kotlin.String.serializer())
+        return PetEnum.values().firstOrNull { it.value == value }
+            ?: PetEnum.UNKNOWN_DEFAULT_OPEN_API
+    }
+
+    override fun serialize(encoder: Encoder, value: PetEnum) {
+        encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
     }
 }
 

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -17,6 +19,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 
+@CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
 
     private JavaFileAssert(final CompilationUnit actual) {
@@ -55,6 +58,15 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
             .hasSize(1);
 
         return new MethodAssert(this, methods.get(0));
+    }
+
+    public ConstructorAssert assertConstructor(final String... paramTypes) {
+        Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
+        Assertions.assertThat(constructorDeclaration)
+            .withFailMessage("No constructor with parameter(s) %s", Arrays.toString(paramTypes))
+            .isPresent();
+
+        return new ConstructorAssert(this, constructorDeclaration.get());
     }
 
     public PropertyAssert hasProperty(final String propertyName) {

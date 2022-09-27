@@ -1,17 +1,11 @@
 package org.openapitools.codegen.kotlin.spring;
 
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.collect.testing.Helpers;
-
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -23,11 +17,15 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
+
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class KotlinSpringServerCodegenTest {
 
@@ -48,7 +46,7 @@ public class KotlinSpringServerCodegenTest {
         File outputModel = Files.createTempDirectory("test").toFile().getCanonicalFile();
         FileUtils.copyDirectory(new File(resultSourcePath, baseModelPackage), new File(outputModel, baseModelPackage));
         //no exception
-        ClassLoader cl = KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
+        KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
     }
 
     @Test
@@ -85,7 +83,6 @@ public class KotlinSpringServerCodegenTest {
         codegen.setServerPort("8181");
         codegen.setExceptionHandler(false);
         codegen.setGradleBuildFile(false);
-        codegen.setSwaggerAnnotations(true);
         codegen.setServiceInterface(true);
         codegen.setServiceImplementation(true);
         codegen.setUseBeanValidation(false);
@@ -104,8 +101,6 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
         Assert.assertFalse(codegen.getGradleBuildFile());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
-        Assert.assertTrue(codegen.getSwaggerAnnotations());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), true);
         Assert.assertTrue(codegen.getServiceInterface());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
@@ -125,7 +120,6 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVER_PORT, "8088");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.EXCEPTION_HANDLER, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.GRADLE_BUILD_FILE, false);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
@@ -150,8 +144,6 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
         Assert.assertFalse(codegen.getGradleBuildFile());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
-        Assert.assertTrue(codegen.getSwaggerAnnotations());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), true);
         Assert.assertTrue(codegen.getServiceInterface());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
@@ -180,8 +172,6 @@ public class KotlinSpringServerCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.DELEGATE_PATTERN), true);
         Assert.assertEquals(codegen.additionalProperties().get("isDelegate"), "true");
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), false);
-        Assert.assertTrue(codegen.getSwaggerAnnotations());
 
         Assert.assertEquals(codegen.apiTemplateFiles().get("apiController.mustache"), "Controller.kt");
         Assert.assertEquals(codegen.apiTemplateFiles().get("apiDelegate.mustache"), "Delegate.kt");

@@ -35,7 +35,6 @@ export enum {{classname}}{{enumName}} {
 {{/allowableValues}}
 }
 {{/stringEnums}}{{^stringEnums}}
-{{#typescriptThreePlus}}
 /**
  * @export
  */
@@ -46,18 +45,6 @@ export const {{classname}}{{enumName}} = {
     {{/enumVars}}
 {{/allowableValues}}
 } as const;
-{{/typescriptThreePlus}}
-{{^typescriptThreePlus}}
-/**
- * @export
- */
-export const {{classname}}{{enumName}} = {
-{{#allowableValues}}
-    {{#enumVars}}
-    {{{name}}}: {{{value}}} as {{{value}}}{{^-last}},{{/-last}}
-    {{/enumVars}}
-{{/allowableValues}}
-};{{/typescriptThreePlus}}
 export type {{classname}}{{enumName}} = typeof {{classname}}{{enumName}}[keyof typeof {{classname}}{{enumName}}];
 {{/stringEnums}}
 {{/isEnum}}{{/vars}}{{/hasEnums}}

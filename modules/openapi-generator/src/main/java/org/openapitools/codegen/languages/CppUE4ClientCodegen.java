@@ -145,6 +145,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                         "TArray",
                         "TArray<uint8>",  // For byte arrays
                         "TMap",
+                        "TSet",
                         "TSharedPtr<FJsonObject>",
                         "TSharedPtr<FJsonValue>")
         );
@@ -180,6 +181,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         typeMapping.put("date-time", "FDateTime");
         typeMapping.put("DateTime", "FDateTime");
         typeMapping.put("array", "TArray");
+        typeMapping.put("set", "TSet");
         typeMapping.put("list", "TArray");
         typeMapping.put("map", "TMap");
         typeMapping.put("object", "TSharedPtr<FJsonObject>");
@@ -383,11 +385,9 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ap.getItems()) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
-            return getSchemaType(p) + "<FString, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<FString, " + getTypeDeclaration(getAdditionalProperties(p)) + ">";
         }
 
         if (pointerClasses.contains(openAPIType)) {

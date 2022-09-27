@@ -38,8 +38,10 @@ class SpecialModelName {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
-      json[r'$special[property.name]'] = dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+    if (this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
+      json[r'$special[property.name]'] = this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+    } else {
+      json[r'$special[property.name]'] = null;
     }
     return json;
   }

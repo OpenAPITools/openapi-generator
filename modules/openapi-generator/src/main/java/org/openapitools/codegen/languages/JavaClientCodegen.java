@@ -69,10 +69,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String GRADLE_PROPERTIES = "gradleProperties";
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
-    public static final String ERROR_OBJECT_SUBTYPE = "errorObjectSubtype";
-
-    public static final String MICROPROFILE_DEFAULT = "default";
-    public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -89,6 +85,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
     public static final String APACHE = "apache-httpclient";
+    public static final String MICROPROFILE_REST_CLIENT_VERSION = "microprofileRestClientVersion";
+    public static final String MICROPROFILE_REST_CLIENT_DEFAULT_VERSION = "2.0";
+    public static final String MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE = "javax";
+    public static final String MICROPROFILE_DEFAULT = "default";
+    public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -118,10 +119,22 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean supportStreaming = false;
     protected String gradleProperties;
     protected String errorObjectType;
-    protected List<String> errorObjectSubtype;
     protected String authFolder;
     protected String serializationLibrary = null;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected String rootJavaEEPackage;
+    protected Map<String, MpRestClientVersion> mpRestClientVersions = new HashMap<>();
+    protected boolean useSingleRequestParameter = false;
+
+    private static class MpRestClientVersion {
+        public final String rootPackage;
+        public final String pomTemplate;
+
+        public MpRestClientVersion(String rootPackage, String pomTemplate) {
+            this.rootPackage = rootPackage;
+            this.pomTemplate = pomTemplate;
+        }
+    }
 
     public JavaClientCodegen() {
         super();
@@ -138,6 +151,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         artifactId = "openapi-java-client";
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
+        rootJavaEEPackage = MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE;
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
@@ -166,6 +180,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
+        cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson support this option."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey3' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -203,6 +219,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // and the discriminator mapping schemas in the OAS document.
         this.setLegacyDiscriminatorBehavior(false);
 
+        initMpRestClientVersionToRootPackage();
+    }
+
+    private void initMpRestClientVersionToRootPackage() {
+        mpRestClientVersions.put("1.4.1", new MpRestClientVersion("javax", "pom.mustache"));
+        mpRestClientVersions.put("2.0", new MpRestClientVersion("javax", "pom.mustache"));
+        mpRestClientVersions.put("3.0", new MpRestClientVersion("jakarta", "pom_3.0.mustache"));
     }
 
     @Override
@@ -261,6 +284,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+
         if (!useRxJava && !useRxJava2 && !useRxJava3) {
             additionalProperties.put(DO_NOT_USE_RX, true);
         }
@@ -279,6 +307,28 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        if (!additionalProperties.containsKey(MICROPROFILE_REST_CLIENT_VERSION)) {
+            additionalProperties.put(MICROPROFILE_REST_CLIENT_VERSION, MICROPROFILE_REST_CLIENT_DEFAULT_VERSION);
+        } else {
+            String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
+            if (!mpRestClientVersions.containsKey(mpRestClientVersion)) {
+                throw new IllegalArgumentException(
+                        String.format(Locale.ROOT,
+                                "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
+                                mpRestClientVersion,
+                                String.join(", ", mpRestClientVersions.keySet())
+                        )
+                );
+            }
+        }
+        if (!additionalProperties.containsKey("rootJavaEEPackage")) {
+            String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
+            if (mpRestClientVersions.containsKey(mpRestClientVersion)) {
+                rootJavaEEPackage = mpRestClientVersions.get(mpRestClientVersion).rootPackage;
+            }
+            additionalProperties.put("rootJavaEEPackage", rootJavaEEPackage);
+        }
 
         if (additionalProperties.containsKey(CONFIG_KEY)) {
             this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
@@ -341,11 +391,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
         }
         additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
-
-        if (additionalProperties.containsKey(ERROR_OBJECT_SUBTYPE)) {
-            this.setErrorObjectSubtype((List<String>) additionalProperties.get(ERROR_OBJECT_SUBTYPE));
-        }
-        additionalProperties.put(ERROR_OBJECT_SUBTYPE, errorObjectSubtype);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -542,7 +587,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (MICROPROFILE.equals(getLibrary())) {
             supportingFiles.clear(); // Don't need extra files provided by Java Codegen
             String apiExceptionFolder = (sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
+            String pomTemplate = mpRestClientVersions.get(mpRestClientVersion).pomTemplate;
+            supportingFiles.add(new SupportingFile(pomTemplate, "", "pom.xml"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
@@ -552,6 +599,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+            }
+
+            if ("3.0".equals(mpRestClientVersion)) {
+                additionalProperties.put("microprofile3", true);
             }
         } else if (APACHE.equals(getLibrary())) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
@@ -640,13 +691,26 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
+
+        if (useSingleRequestParameter && (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary()))) {
+            // loop through operations to set x-group-parameters extenion to true if useSingleRequestParameter option is enabled
+            OperationMap operations = objs.getOperations();
+            if (operations != null) {
+                List<CodegenOperation> ops = operations.getOperation();
+                for (CodegenOperation operation : ops) {
+                    if (!operation.vendorExtensions.containsKey("x-group-parameters")) {
+                        operation.vendorExtensions.put("x-group-parameters", true);
+                    }
+                }
+            }
+        }
+
         if (RETROFIT_2.equals(getLibrary())) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
                     if (operation.hasConsumes == Boolean.TRUE) {
-
                         if (isMultipartType(operation.consumes)) {
                             operation.isMultipart = Boolean.TRUE;
                         } else {
@@ -669,14 +733,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                                 if (one.isQueryParam && another.isPathParam) {
                                     return 1;
                                 }
-
                                 return 0;
                             }
                         });
                     }
                 }
             }
-
         }
 
         // camelize path variables for Feign client
@@ -864,6 +926,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         // only add JsonNullable and related imports to optional and nullable values
                         addImports |= isOptionalNullable;
                         var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                        findByName(var.name, cm.readOnlyVars)
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
                     }
 
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
@@ -913,8 +977,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary())) {
-                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
-
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
                     cm.isNullable = true;
@@ -941,6 +1003,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
+    }
+
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     public void setUseRxJava(boolean useRxJava) {
@@ -1024,10 +1094,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
-    }
-
-    public void setErrorObjectSubtype(final List<String> errorObjectSubtype) {
-        this.errorObjectSubtype = errorObjectSubtype;
     }
 
     /**

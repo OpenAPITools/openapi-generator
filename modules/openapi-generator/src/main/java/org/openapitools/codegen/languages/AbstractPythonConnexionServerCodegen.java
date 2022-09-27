@@ -16,6 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -42,11 +48,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
+    private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
+        @Override
+        public void serialize(Boolean value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            gen.writeRawValue(value ? "True" : "False");
+        }
+    }
+
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonConnexionServerCodegen.class);
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
@@ -59,6 +73,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
+
+    // An object mapper that is used to convert an example string to
+    // a "python-compliant" example string (boolean as True/False).
+    final ObjectMapper MAPPER = new ObjectMapper();
 
     protected int serverPort = 8080;
     protected String controllerPackage;
@@ -79,6 +97,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         fixBodyName = fixBodyNameValue;
         modelPackage = "models";
         testPackage = "test";
+
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Boolean.class, new PythonBooleanSerializer());
+        MAPPER.registerModule(simpleModule);
 
         // TODO may remove these later to default to the setting in abstract python base class instead
         languageSpecificPrimitives.add("List");
@@ -695,7 +717,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             if (operation.requestBodyExamples != null) {
                 for (Map<String, String> example : operation.requestBodyExamples) {
                     if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
-                        operation.bodyParam.example = example.get("example");
+                        // Make an example dictionary more python-like (Booleans True/False).
+                        // If fails, use the original string.
+                        try {
+                            Map<String, Object> result = MAPPER.readValue(example.get("example"),
+                                    new TypeReference<Map<String, Object>>() {
+                                    });
+                            operation.bodyParam.example = MAPPER.writeValueAsString(result);
+                        } catch (IOException e) {
+                            operation.bodyParam.example = example.get("example");
+                        }
                     }
                 }
             }

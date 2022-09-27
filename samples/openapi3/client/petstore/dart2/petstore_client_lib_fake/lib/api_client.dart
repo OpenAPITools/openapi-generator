@@ -11,18 +11,13 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2'}) {
-    // Setup authentications (key: authentication name, value: authentication).
-    _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
-    _authentications[r'api_key_query'] = ApiKeyAuth('query', 'api_key_query');
-    _authentications[r'bearer_test'] = HttpBearerAuth();
-    _authentications[r'http_basic_test'] = HttpBasicAuth();
-    _authentications[r'petstore_auth'] = OAuth();
-  }
+  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.authentication,});
 
   final String basePath;
+  final Authentication? authentication;
 
   var _client = Client();
+  final _defaultHeaderMap = <String, String>{};
 
   /// Returns the current HTTP [Client] instance to use in this class.
   ///
@@ -34,22 +29,10 @@ class ApiClient {
     _client = newClient;
   }
 
-  final _defaultHeaderMap = <String, String>{};
-  final _authentications = <String, Authentication>{};
+  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
 
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
-  }
-
-  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
-
-  /// Returns an unmodifiable [Map] of the authentications, since none should be added
-  /// or deleted.
-  Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
-
-  T? getAuthentication<T extends Authentication>(String name) {
-    final authentication = _authentications[name];
-    return authentication is T ? authentication : null;
   }
 
   // We don't use a Map<String, String> for queryParams.
@@ -62,9 +45,8 @@ class ApiClient {
     Map<String, String> headerParams,
     Map<String, String> formParams,
     String? contentType,
-    List<String> authNames,
   ) async {
-    _updateParamsForAuth(authNames, queryParams, headerParams);
+    await authentication?.applyToParams(queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
@@ -182,22 +164,6 @@ class ApiClient {
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
   String serialize(Object? value) => value == null ? '' : json.encode(value);
 
-  /// Update query and header parameters based on authentication settings.
-  /// @param authNames The authentications to apply
-  void _updateParamsForAuth(
-    List<String> authNames,
-    List<QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) {
-    for(final authName in authNames) {
-      final auth = _authentications[authName];
-      if (auth == null) {
-        throw ArgumentError('Authentication undefined: $authName');
-      }
-      auth.applyToParams(queryParams, headerParams);
-    }
-  }
-
   static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
     try {
       switch (targetType) {
@@ -213,8 +179,12 @@ class ApiClient {
           }
           final valueString = '$value'.toLowerCase();
           return valueString == 'true' || valueString == '1';
+        case 'DateTime':
+          return value is DateTime ? value : DateTime.tryParse(value);
         case 'AdditionalPropertiesClass':
           return AdditionalPropertiesClass.fromJson(value);
+        case 'AllOfWithSingleRef':
+          return AllOfWithSingleRef.fromJson(value);
         case 'Animal':
           return Animal.fromJson(value);
         case 'ApiResponse':
@@ -251,14 +221,14 @@ class ApiClient {
           return FileSchemaTestClass.fromJson(value);
         case 'Foo':
           return Foo.fromJson(value);
+        case 'FooGetDefaultResponse':
+          return FooGetDefaultResponse.fromJson(value);
         case 'FormatTest':
           return FormatTest.fromJson(value);
         case 'HasOnlyReadOnly':
           return HasOnlyReadOnly.fromJson(value);
         case 'HealthCheckResult':
           return HealthCheckResult.fromJson(value);
-        case 'InlineResponseDefault':
-          return InlineResponseDefault.fromJson(value);
         case 'MapTest':
           return MapTest.fromJson(value);
         case 'MixedPropertiesAndAdditionalPropertiesClass':
@@ -299,6 +269,8 @@ class ApiClient {
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value);
+        case 'SingleRefType':
+          return SingleRefTypeTypeTransformer().decode(value);
         case 'SpecialModelName':
           return SpecialModelName.fromJson(value);
         case 'Tag':

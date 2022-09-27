@@ -82,22 +82,32 @@ class Order {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (petId != null) {
-      json[r'petId'] = petId;
+    if (this.petId != null) {
+      json[r'petId'] = this.petId;
+    } else {
+      json[r'petId'] = null;
     }
-    if (quantity != null) {
-      json[r'quantity'] = quantity;
+    if (this.quantity != null) {
+      json[r'quantity'] = this.quantity;
+    } else {
+      json[r'quantity'] = null;
     }
-    if (shipDate != null) {
-      json[r'shipDate'] = shipDate!.toUtc().toIso8601String();
+    if (this.shipDate != null) {
+      json[r'shipDate'] = this.shipDate!.toUtc().toIso8601String();
+    } else {
+      json[r'shipDate'] = null;
     }
-    if (status != null) {
-      json[r'status'] = status;
+    if (this.status != null) {
+      json[r'status'] = this.status;
+    } else {
+      json[r'status'] = null;
     }
-      json[r'complete'] = complete;
+      json[r'complete'] = this.complete;
     return json;
   }
 
@@ -237,7 +247,7 @@ class OrderStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OrderStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'placed': return OrderStatusEnum.placed;
         case r'approved': return OrderStatusEnum.approved;
         case r'delivered': return OrderStatusEnum.delivered;

@@ -584,7 +584,7 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public uploadFile(petId: number, additionalMetadata?: string, file?: File, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body: models.ApiResponse;  },
     { response: JQueryXHR; errorThrown: string }
     > {

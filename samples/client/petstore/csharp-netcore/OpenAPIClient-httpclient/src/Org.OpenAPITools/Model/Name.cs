@@ -56,8 +56,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets NameProperty
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
-        public int NameProperty { get; set; }
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        public int _Name { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase

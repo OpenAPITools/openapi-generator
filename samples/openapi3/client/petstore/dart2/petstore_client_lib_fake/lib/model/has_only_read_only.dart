@@ -49,11 +49,15 @@ class HasOnlyReadOnly {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (bar != null) {
-      json[r'bar'] = bar;
+    if (this.bar != null) {
+      json[r'bar'] = this.bar;
+    } else {
+      json[r'bar'] = null;
     }
-    if (foo != null) {
-      json[r'foo'] = foo;
+    if (this.foo != null) {
+      json[r'foo'] = this.foo;
+    } else {
+      json[r'foo'] = null;
     }
     return json;
   }

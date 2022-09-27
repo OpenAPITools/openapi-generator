@@ -1,0 +1,107 @@
+[
+    {
+        "description": "propertyNames validation",
+        "schema": {
+            "propertyNames": {"maxLength": 3}
+        },
+        "tests": [
+            {
+                "description": "all property names valid",
+                "data": {
+                    "f": {},
+                    "foo": {}
+                },
+                "valid": true
+            },
+            {
+                "description": "some property names invalid",
+                "data": {
+                    "foo": {},
+                    "foobar": {}
+                },
+                "valid": false
+            },
+            {
+                "description": "object without properties is valid",
+                "data": {},
+                "valid": true
+            },
+            {
+                "description": "ignores arrays",
+                "data": [1, 2, 3, 4],
+                "valid": true
+            },
+            {
+                "description": "ignores strings",
+                "data": "foobar",
+                "valid": true
+            },
+            {
+                "description": "ignores other non-objects",
+                "data": 12,
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "propertyNames validation with pattern",
+        "schema": {
+            "propertyNames": { "pattern": "^a+$" }
+        },
+        "tests": [
+            {
+                "description": "matching property names valid",
+                "data": {
+                    "a": {},
+                    "aa": {},
+                    "aaa": {}
+                },
+                "valid": true
+            },
+            {
+                "description": "non-matching property name is invalid",
+                "data": {
+                    "aaA": {}
+                },
+                "valid": false
+            },
+            {
+                "description": "object without properties is valid",
+                "data": {},
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "propertyNames with boolean schema true",
+        "schema": {"propertyNames": true},
+        "tests": [
+            {
+                "description": "object with any properties is valid",
+                "data": {"foo": 1},
+                "valid": true
+            },
+            {
+                "description": "empty object is valid",
+                "data": {},
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "propertyNames with boolean schema false",
+        "schema": {"propertyNames": false},
+        "tests": [
+            {
+                "description": "object with any properties is invalid",
+                "data": {"foo": 1},
+                "valid": false
+            },
+            {
+                "description": "empty object is valid",
+                "data": {},
+                "valid": true
+            }
+        ]
+    }
+]

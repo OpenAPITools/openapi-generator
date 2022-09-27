@@ -38,8 +38,10 @@ class NumberOnly {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (justNumber != null) {
-      json[r'JustNumber'] = justNumber;
+    if (this.justNumber != null) {
+      json[r'JustNumber'] = this.justNumber;
+    } else {
+      json[r'JustNumber'] = null;
     }
     return json;
   }

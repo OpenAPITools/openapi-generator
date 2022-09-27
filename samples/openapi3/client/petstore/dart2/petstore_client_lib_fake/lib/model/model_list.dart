@@ -38,8 +38,10 @@ class ModelList {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (n123list != null) {
-      json[r'123-list'] = n123list;
+    if (this.n123list != null) {
+      json[r'123-list'] = this.n123list;
+    } else {
+      json[r'123-list'] = null;
     }
     return json;
   }

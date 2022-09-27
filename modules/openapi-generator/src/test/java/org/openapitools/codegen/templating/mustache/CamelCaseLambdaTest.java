@@ -34,6 +34,15 @@ public class CamelCaseLambdaTest extends LambdaTest {
     }
 
     @Test
+    public void camelCaseSpaceTest() {
+        // Given
+        Map<String, Object> ctx = context("camelcase", new CamelCaseLambda());
+
+        // When & Then
+        test("inputTextApi", "{{#camelcase}}Input text  api{{/camelcase}}", ctx);
+    }
+
+    @Test
     public void camelCaseReservedWordTest() {
         // Given
         Map<String, Object> ctx = context("camelcase", new CamelCaseLambda().generator(generator));

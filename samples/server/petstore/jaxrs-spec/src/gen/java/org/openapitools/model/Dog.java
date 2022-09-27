@@ -3,7 +3,6 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -20,15 +19,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Dog")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Dog extends Animal implements Serializable {
-  
   private @Valid String breed;
 
   protected Dog(DogBuilder<?, ?> b) {
-  super(b);
-  this.breed = b.breed;
+    super(b);
+    this.breed = b.breed;
   }
 
-  public Dog() { }
+  public Dog() {
+  }
 
   /**
    **/

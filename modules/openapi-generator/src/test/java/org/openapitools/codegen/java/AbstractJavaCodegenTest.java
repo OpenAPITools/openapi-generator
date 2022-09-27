@@ -55,6 +55,14 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
     }
 
+    /**
+     * As of Java 9, '_' is a keyword, and may not be used as an identifier.
+     */
+    @Test
+    public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
+    }
+
     @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
@@ -674,13 +682,13 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void getTypeDeclarationGivenImportMappingTest() {
+    public void getTypeDeclarationGivenSchemaMappingTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        codegen.importMapping().put("MyStringType", "com.example.foo");
+        codegen.schemaMapping().put("MyStringType", "com.example.foo");
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
         String defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<MyStringType>");
+        Assert.assertEquals(defaultValue, "List<com.example.foo>");
     }
 
     @Test

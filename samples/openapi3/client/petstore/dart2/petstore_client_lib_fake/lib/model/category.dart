@@ -43,10 +43,12 @@ class Category {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-      json[r'name'] = name;
+      json[r'name'] = this.name;
     return json;
   }
 

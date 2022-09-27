@@ -42,7 +42,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
-  public AdditionalPropertiesNumber() { 
+  public AdditionalPropertiesNumber() {
+
   }
 
   public AdditionalPropertiesNumber name(String name) {

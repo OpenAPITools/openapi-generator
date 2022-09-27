@@ -59,6 +59,8 @@ commands: # a reusable command with parameters
             # This is a broad list of cache paths to include many possible development environments
             # You can probably delete some of these entries
             - vendor/bundle
+            - ~/.nvm
+            - ~/.pyenv
             - ~/virtualenvs
             - ~/.m2
             - ~/.ivy2
@@ -78,6 +80,8 @@ commands: # a reusable command with parameters
             # This is a broad list of cache paths to include many possible development environments
             # You can probably delete some of these entries
             - vendor/bundle
+            - ~/.nvm
+            - ~/.pyenv
             - ~/virtualenvs
             - ~/.m2
             - ~/.ivy2

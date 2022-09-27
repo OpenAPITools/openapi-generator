@@ -1,5 +1,4 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
-import * as models from '../models/all';
 import { Configuration} from '../configuration'
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -7,9 +6,11 @@ import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
-import { InlineObject } from '../models/InlineObject';
+import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
+import { PetsFilteredPatchRequest } from '../models/PetsFilteredPatchRequest';
+import { PetsPatchRequest } from '../models/PetsPatchRequest';
 
 import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
 export class ObservableDefaultApi {
@@ -28,10 +29,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param inlineObject 
+     * @param filePostRequest 
      */
-    public filePost(inlineObject?: InlineObject, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.filePost(inlineObject, _options);
+    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.filePost(filePostRequest, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -50,10 +51,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param petByAgePetByType 
+     * @param petsFilteredPatchRequest 
      */
-    public petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.petsFilteredPatch(petByAgePetByType, _options);
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.petsFilteredPatch(petsFilteredPatchRequest, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -72,10 +73,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param catDog 
+     * @param petsPatchRequest 
      */
-    public petsPatch(catDog?: Cat | Dog, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.petsPatch(catDog, _options);
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.petsPatch(petsPatchRequest, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);

@@ -38,8 +38,10 @@ class ModelClient {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (client != null) {
-      json[r'client'] = client;
+    if (this.client != null) {
+      json[r'client'] = this.client;
+    } else {
+      json[r'client'] = null;
     }
     return json;
   }

@@ -47,10 +47,10 @@ class MapTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'map_map_of_string'] = mapMapOfString;
-      json[r'map_of_enum_string'] = mapOfEnumString;
-      json[r'direct_map'] = directMap;
-      json[r'indirect_map'] = indirectMap;
+      json[r'map_map_of_string'] = this.mapMapOfString;
+      json[r'map_of_enum_string'] = this.mapOfEnumString;
+      json[r'direct_map'] = this.directMap;
+      json[r'indirect_map'] = this.indirectMap;
     return json;
   }
 
@@ -186,7 +186,7 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   MapTestMapOfEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
         case r'lower': return MapTestMapOfEnumStringEnum.lower;
         default:

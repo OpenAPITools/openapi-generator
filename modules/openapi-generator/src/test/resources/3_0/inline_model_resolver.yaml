@@ -7,6 +7,14 @@ info:
 servers:
   - url: http://api.example.xyz/v1
 paths:
+  /resolve_request_body_invalid_ref:
+    post:
+      requestBody:
+        $ref: '#/components/schemas/Invalid'
+      operationId: resolveRequestBodyInvalidRef
+      responses:
+        '200':
+          description: OK
   /resolve_inline_request_body:
     post:
       requestBody:
@@ -160,6 +168,26 @@ paths:
           # Swagger parser doesn't use MapSchema currently,
           # so we need to set a MapSchema instance as the schema manually for testing.
           # see InlineModelResolverTest#resolveInlineMapSchemaInResponse()
+  /resolve_inline_request_body_allof:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - type: object
+                properties:
+                  name:
+                    type: string
+                  address:
+                    type: object
+                    properties:
+                      street:
+                        type: string
+      operationId: resolveInlineRequestBodyAllOf
+      responses:
+        '200':
+          description: OK
   /arbitrary_object_request_body:
     post:
       requestBody:
@@ -328,6 +356,7 @@ paths:
                         data:
                           type: string
 components:
+  requestBodies: {}
   schemas:
     Users:
       type: array
@@ -382,7 +411,7 @@ components:
         title: ArbitraryObjectModelWithArrayInlineWithTitleInner
         type: object
         properties:
-          arbitrary_object_model_with_array_inline_with_title:
+          arbitrary_object_model_with_array_inline_with_title_property:
             type: object
     EmptyExampleOnStringTypeModels:
       type: string

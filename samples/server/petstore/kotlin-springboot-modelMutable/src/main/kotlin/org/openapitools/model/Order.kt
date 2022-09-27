@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * An order for a pets from the pet store
@@ -25,22 +25,22 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Order(
 
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("id") var id: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("petId") var petId: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("quantity") var quantity: kotlin.Int? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
 
-    @ApiModelProperty(example = "null", value = "Order Status")
+    @Schema(example = "null", description = "Order Status")
     @field:JsonProperty("status") var status: Order.Status? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @Schema(example = "null", description = "")
     @field:JsonProperty("complete") var complete: kotlin.Boolean? = false
 ) {
 
@@ -49,13 +49,10 @@ data class Order(
     * Values: placed,approved,delivered
     */
     enum class Status(val value: kotlin.String) {
-    
+
         @JsonProperty("placed") placed("placed"),
-    
         @JsonProperty("approved") approved("approved"),
-    
-        @JsonProperty("delivered") delivered("delivered");
-    
+        @JsonProperty("delivered") delivered("delivered")
     }
 
 }

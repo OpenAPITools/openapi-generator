@@ -26,7 +26,6 @@ import org.openapitools.client.infrastructure.*
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
@@ -43,7 +42,7 @@ open class StoreApi(
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     * @param orderId ID of the order that needs to be deleted 
+     * @param orderId ID of the order that needs to be deleted
      * @return void
      */
     open suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
@@ -54,7 +53,6 @@ open class StoreApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -86,7 +84,6 @@ open class StoreApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -117,7 +114,7 @@ open class StoreApi(
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param orderId ID of pet that needs to be fetched 
+     * @param orderId ID of pet that needs to be fetched
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
@@ -129,7 +126,6 @@ open class StoreApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -150,7 +146,7 @@ open class StoreApi(
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet 
+     * @param body order placed for purchasing the pet
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
@@ -161,7 +157,6 @@ open class StoreApi(
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(

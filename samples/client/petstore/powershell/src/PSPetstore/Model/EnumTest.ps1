@@ -26,12 +26,6 @@ No description available.
 No description available.
 .PARAMETER OuterEnum
 No description available.
-.PARAMETER OuterEnumInteger
-No description available.
-.PARAMETER OuterEnumDefaultValue
-No description available.
-.PARAMETER OuterEnumIntegerDefaultValue
-No description available.
 .OUTPUTS
 
 EnumTest<PSCustomObject>
@@ -62,16 +56,7 @@ function Initialize-PSEnumTest {
         ${EnumNumber},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [PSCustomObject]
-        ${OuterEnum},
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = $true)]
-        [PSCustomObject]
-        ${OuterEnumInteger},
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = $true)]
-        [PSCustomObject]
-        ${OuterEnumDefaultValue},
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = $true)]
-        [PSCustomObject]
-        ${OuterEnumIntegerDefaultValue}
+        ${OuterEnum}
     )
 
     Process {
@@ -90,9 +75,6 @@ function Initialize-PSEnumTest {
             "enum_integer_only" = ${EnumIntegerOnly}
             "enum_number" = ${EnumNumber}
             "outerEnum" = ${OuterEnum}
-            "outerEnumInteger" = ${OuterEnumInteger}
-            "outerEnumDefaultValue" = ${OuterEnumDefaultValue}
-            "outerEnumIntegerDefaultValue" = ${OuterEnumIntegerDefaultValue}
         }
 
 
@@ -130,7 +112,7 @@ function ConvertFrom-PSJsonToEnumTest {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSEnumTest
-        $AllProperties = ("enum_string", "enum_string_required", "enum_integer", "enum_integer_only", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue")
+        $AllProperties = ("enum_string", "enum_string_required", "enum_integer", "enum_integer_only", "enum_number", "outerEnum")
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -177,24 +159,6 @@ function ConvertFrom-PSJsonToEnumTest {
             $OuterEnum = $JsonParameters.PSobject.Properties["outerEnum"].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "outerEnumInteger"))) { #optional property not found
-            $OuterEnumInteger = $null
-        } else {
-            $OuterEnumInteger = $JsonParameters.PSobject.Properties["outerEnumInteger"].value
-        }
-
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "outerEnumDefaultValue"))) { #optional property not found
-            $OuterEnumDefaultValue = $null
-        } else {
-            $OuterEnumDefaultValue = $JsonParameters.PSobject.Properties["outerEnumDefaultValue"].value
-        }
-
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "outerEnumIntegerDefaultValue"))) { #optional property not found
-            $OuterEnumIntegerDefaultValue = $null
-        } else {
-            $OuterEnumIntegerDefaultValue = $JsonParameters.PSobject.Properties["outerEnumIntegerDefaultValue"].value
-        }
-
         $PSO = [PSCustomObject]@{
             "enum_string" = ${EnumString}
             "enum_string_required" = ${EnumStringRequired}
@@ -202,9 +166,6 @@ function ConvertFrom-PSJsonToEnumTest {
             "enum_integer_only" = ${EnumIntegerOnly}
             "enum_number" = ${EnumNumber}
             "outerEnum" = ${OuterEnum}
-            "outerEnumInteger" = ${OuterEnumInteger}
-            "outerEnumDefaultValue" = ${OuterEnumDefaultValue}
-            "outerEnumIntegerDefaultValue" = ${OuterEnumIntegerDefaultValue}
         }
 
         return $PSO
