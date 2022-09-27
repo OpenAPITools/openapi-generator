@@ -1,5 +1,6 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-#![allow(unused_imports)]
+#![allow(unused_imports, unused_attributes)]
+#![allow(clippy::derive_partial_eq_without_eq, clippy::blacklisted_name)]
 
 use async_trait::async_trait;
 use futures::Stream;
@@ -273,6 +274,7 @@ pub enum GetRepoInfoResponse {
 
 /// API
 #[async_trait]
+#[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
         Poll::Ready(Ok(()))
@@ -408,6 +410,7 @@ pub trait Api<C: Send + Sync> {
 
 /// API where `Context` isn't passed on every API call
 #[async_trait]
+#[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
 
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
@@ -854,7 +857,7 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
 pub trait CallbackContextWrapperExt<C: Send + Sync> where Self: Sized
 {
     /// Binds this API to a context.
-    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
+    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
 }
 
 impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackContextWrapperExt<C> for T {
