@@ -139,15 +139,13 @@ import {{packageName}}.infrastructure.ResponseType
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
-        val requestOptions = RequestOptions()
-        {{#hasFormParams}}requestOptions.addHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
-        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { requestOptions.addHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
-        {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}requestOptions.addHeader("Content-Type", "{{{mediaType}}}"){{/consumes}}{{/hasConsumes}}{{/hasFormParams}}
-        {{#hasProduces}}requestOptions.addHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
-
         val client = WebClient.create(vertx)
-        requestOptions.setAbsoluteURI("$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}})
-        val request = client.request(HttpMethod.{{httpMethod}}, requestOptions)
+        val request = client.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}"))
+
+        {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
+        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
+        {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}request.putHeader("Content-Type", "{{{mediaType}}}"){{/consumes}}{{/hasConsumes}}{{/hasFormParams}}
+        {{#hasProduces}}request.putHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
 
         {{#hasFormParams}}
         val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
@@ -167,14 +165,14 @@ import {{packageName}}.infrastructure.ResponseType
         if (apiKey["{{keyParamName}}"] != null) {
             if (apiKeyPrefix["{{keyParamName}}"] != null) {
                 {{#isKeyInHeader}}
-                requestOptions.addHeader("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                request.putHeader("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
                request.queryParams().add("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInQuery}}
             } else {
                 {{#isKeyInHeader}}
-                requestOptions.addHeader("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                request.putHeader("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
                 request.queryParams().add("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
