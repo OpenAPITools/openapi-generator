@@ -197,10 +197,8 @@ import {{packageName}}.infrastructure.ResponseType
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
-            }
+        accessToken?.let { accessToken ->
+            request.bearerTokenAuthentication(accessToken)
         }
         {{/isOAuth}}
         {{/authMethods}}
