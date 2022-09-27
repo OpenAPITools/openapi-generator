@@ -85,6 +85,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
+    protected String authFolder = "Auth";
     protected String derivedApiPackage = "DefaultApi";
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
