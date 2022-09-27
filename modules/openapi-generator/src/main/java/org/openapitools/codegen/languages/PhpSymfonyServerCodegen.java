@@ -106,12 +106,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         importMapping.clear();
 
         supportsInheritance = true;
-        srcBasePath = ".";
+        srcBasePath = "";
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
         setBundleAlias("open_api_server");
         modelDirName = "Model";
-        docsBasePath = "Resources" + "/" + "docs";
+        docsBasePath = "docs";
         apiDocPath = docsBasePath + "/" + apiDirName;
         modelDocPath = docsBasePath + "/" + modelDirName;
         outputFolder = "generated-code" + File.separator + "php";
@@ -147,7 +147,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 Arrays.asList(
                         "bool",
                         "int",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -183,7 +182,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("decimal", "float");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
@@ -317,6 +316,9 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("bundleExtensionName", bundleExtensionName);
         additionalProperties.put("bundleAlias", bundleAlias);
 
+        // add trailing slash for mustache templates
+        additionalProperties.put("relativeSrcBasePath", srcBasePath.isEmpty() ? "" : srcBasePath + "/");
+
         // make api and model src path available in mustache template
         additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
         additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
@@ -337,11 +339,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         final String configDir = "Resources" + File.separator + "config";
         final String dependencyInjectionDir = "DependencyInjection";
+        final String compilerDir = dependencyInjectionDir + File.separator + "Compiler";
 
         supportingFiles.add(new SupportingFile("Controller.mustache", toSrcPath(controllerPackage, srcBasePath), "Controller.php"));
-        supportingFiles.add(new SupportingFile("Bundle.mustache", "", bundleClassName + ".php"));
-        supportingFiles.add(new SupportingFile("Extension.mustache", dependencyInjectionDir, bundleExtensionName + ".php"));
-        supportingFiles.add(new SupportingFile("ApiPass.mustache", dependencyInjectionDir + File.separator + "Compiler", bundleName + "ApiPass.php"));
+        supportingFiles.add(new SupportingFile("Bundle.mustache", toSrcPath("", srcBasePath), bundleClassName + ".php"));
+        supportingFiles.add(new SupportingFile("Extension.mustache", toSrcPath(dependencyInjectionDir, srcBasePath), bundleExtensionName + ".php"));
+        supportingFiles.add(new SupportingFile("ApiPass.mustache", toSrcPath(compilerDir, srcBasePath), bundleName + "ApiPass.php"));
         supportingFiles.add(new SupportingFile("ApiServer.mustache", toSrcPath(apiPackage, srcBasePath), "ApiServer.php"));
 
         // Serialization components
@@ -358,10 +361,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("testing/AppKernel.mustache", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
         supportingFiles.add(new SupportingFile("testing/ControllerTest.mustache", toSrcPath(controllerTestsPackage, srcBasePath), "ControllerTest.php"));
-        supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yml"));
+        supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yaml"));
 
-        supportingFiles.add(new SupportingFile("routing.mustache", configDir, "routing.yml"));
-        supportingFiles.add(new SupportingFile("services.mustache", configDir, "services.yml"));
+        supportingFiles.add(new SupportingFile("routing.mustache", toSrcPath(configDir, srcBasePath), "routing.yaml"));
+        supportingFiles.add(new SupportingFile("services.mustache", toSrcPath(configDir, srcBasePath), "services.yaml"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", "", "autoload.php"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -588,7 +591,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";

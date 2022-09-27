@@ -146,8 +146,8 @@ public class JavaModelEnumTest {
         discriminator.setPropertyName("model_type");
         parentModel.setDiscriminator(discriminator);
 
-        final ComposedSchema composedSchema = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref(parentModel.getName()));
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.addAllOfItem(new Schema().$ref(parentModel.getName()));
         composedSchema.setName("sample");
 
         final JavaClientCodegen codegen = new JavaClientCodegen();

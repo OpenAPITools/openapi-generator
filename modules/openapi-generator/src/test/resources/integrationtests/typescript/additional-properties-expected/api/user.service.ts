@@ -142,10 +142,10 @@ export class UserService {
         }
 
         let localVarPath = `/user`;
-        return this.httpClient.post<any>(`${this.configuration.basePath}${localVarPath}`,
-            body,
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -206,10 +206,10 @@ export class UserService {
         }
 
         let localVarPath = `/user`;
-        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
-            body,
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

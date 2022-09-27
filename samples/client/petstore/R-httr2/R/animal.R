@@ -17,6 +17,8 @@ Animal <- R6::R6Class(
   public = list(
     `className` = NULL,
     `color` = NULL,
+    `_discriminator_property_name` = 'className',
+    `_discriminator_mapping_name` = c('Cat' = 'Cat','Dog' = 'Dog'),
     #' Initialize a new Animal class.
     #'
     #' @description

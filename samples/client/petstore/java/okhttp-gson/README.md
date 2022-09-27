@@ -164,6 +164,7 @@ Class | Method | HTTP request | Description
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)

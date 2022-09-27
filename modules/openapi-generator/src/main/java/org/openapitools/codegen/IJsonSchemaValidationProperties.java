@@ -3,6 +3,7 @@ package org.openapitools.codegen;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,14 @@ import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 public interface IJsonSchemaValidationProperties {
+    CodegenProperty getContains();
+
+    void setContains(CodegenProperty contains);
+
+    LinkedHashMap<String, List<String>> getDependentRequired();
+
+    void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired);
+
     String getPattern();
 
     void setPattern(String pattern);
@@ -201,6 +210,10 @@ public interface IJsonSchemaValidationProperties {
     boolean getSchemaIsFromAdditionalProperties();
 
     void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties);
+
+    void setFormat(String format);
+
+    String getFormat();
 
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance

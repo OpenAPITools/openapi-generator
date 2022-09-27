@@ -92,9 +92,6 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 .stability(Stability.BETA)
                 .build();
 
-        //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
-        typeMapping.put("double", "float");
-
         // remove these from primitive types to make the output works
         languageSpecificPrimitives.remove("\\DateTime");
         languageSpecificPrimitives.remove("\\SplFileObject");

@@ -500,7 +500,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
         body <- NULL
@@ -608,7 +608,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
@@ -719,7 +719,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         body.items <- paste(unlist(lapply(`user`, function(param) {
                                                              param$toJSONString()
                                                          })), collapse = ",")
@@ -832,7 +832,7 @@ UserApi <- R6::R6Class(
 
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
-        local_var_url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{username\\}", URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
       }
 
       # API key authentication
@@ -940,7 +940,7 @@ UserApi <- R6::R6Class(
 
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
-        local_var_url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{username\\}", URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
       }
 
 
@@ -1288,7 +1288,7 @@ UserApi <- R6::R6Class(
 
 
 
-      if (!missing(`user`)) {
+      if (!is.null(`user`)) {
         local_var_body <- `user`$toJSONString()
       } else {
         body <- NULL
@@ -1296,7 +1296,7 @@ UserApi <- R6::R6Class(
 
       local_var_url_path <- "/user/{username}"
       if (!missing(`username`)) {
-        local_var_url_path <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
+        local_var_url_path <- gsub("\\{username\\}", URLencode(as.character(`username`), reserved = TRUE), local_var_url_path)
       }
 
       # API key authentication

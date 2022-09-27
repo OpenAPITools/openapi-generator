@@ -189,6 +189,26 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     }
 
+    // use content.mediaType.schema.getContains instead of this
+    @Override
+    public CodegenProperty getContains() {
+        return null;
+    }
+
+    // use content.mediaType.schema.setContains instead of this
+    @Override
+    public void setContains(CodegenProperty contains) {}
+
+    // use content.mediaType.schema.getDependentRequired instead of this
+    @Override
+    public LinkedHashMap<String, List<String>> getDependentRequired() {
+        return null;
+    }
+
+    // use content.mediaType.schema.setDependentRequired instead of this
+    @Override
+    public void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired) {}
+
     // use content.mediaType.schema.getIsBooleanSchemaTrue instead of this
     @Override
     public boolean getIsBooleanSchemaTrue() {
@@ -208,6 +228,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     // use content.mediaType.schema.setIsBooleanSchemaFalse instead of this
     @Override
     public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {}
+
+    // use content.mediaType.schema.getFormat instead of this
+    @Override
+    public String getFormat() {
+        return null;
+    }
+
+    // use content.mediaType.schema.setFormat instead of this
+    @Override
+    public void setFormat(String format) {}
 
     public LinkedHashMap<String, CodegenMediaType> getContent() {
         return content;

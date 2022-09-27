@@ -263,7 +263,7 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'UPPER': return EnumTestEnumStringEnum.UPPER;
         case r'lower': return EnumTestEnumStringEnum.lower;
         case r'': return EnumTestEnumStringEnum.empty;
@@ -340,7 +340,7 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
         case r'lower': return EnumTestEnumStringRequiredEnum.lower;
         case r'': return EnumTestEnumStringRequiredEnum.empty;
@@ -415,7 +415,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case 1: return EnumTestEnumIntegerEnum.number1;
         case -1: return EnumTestEnumIntegerEnum.numberNegative1;
         default:
@@ -489,7 +489,7 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case '1.1': return EnumTestEnumNumberEnum.number1Period1;
         case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
         default:

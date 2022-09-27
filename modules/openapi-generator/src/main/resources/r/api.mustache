@@ -382,18 +382,125 @@
       {{/headerParams}}
       {{#queryParams}}
       {{#isArray}}
+      {{#uniqueItems}}
+      # check if items are unique
+      if (!identical(`{{{paramName}}}`, unique(`{{{paramName}}}`))) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unqiue.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Items must be unique.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Items must be unique."))
+        {{/useRlangExceptionHandling}}
+      }
       {{#isExplode}}
       # explore
       for (query_item in `{{{paramName}}}`) {
+        {{#items}}
+        {{#isEnum}}
+        # validate enum values
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+        {{/isEnum}}
+        {{/items}}
         query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
       }
       {{/isExplode}}
       {{^isExplode}}
       # no explore
+      {{#items}}
+      {{#isEnum}}
+      # validate enum values
+      for (query_item in `{{{paramName}}}`) {
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+      }
+      {{/isEnum}}
+      {{/items}}
       query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
       {{/isExplode}}
+      {{/uniqueItems}}
+      {{^uniqueItems}}
+      {{#isExplode}}
+      # explore
+      for (query_item in `{{{paramName}}}`) {
+        {{#items}}
+        {{#isEnum}}
+        # validate enum values
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+        {{/isEnum}}
+        {{/items}}
+        query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
+      }
+      {{/isExplode}}
+      {{^isExplode}}
+      # no explore
+      {{#items}}
+      {{#isEnum}}
+      # validate enum values
+      for (query_item in `{{{paramName}}}`) {
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+      }
+      {{/isEnum}}
+      {{/items}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/isExplode}}
+      {{/uniqueItems}}
       {{/isArray}}
       {{^isArray}}
+      {{#isEnum}}
+      if (!(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/isEnum}}
       query_params[["{{baseName}}"]] <- `{{paramName}}`
       {{/isArray}}
 
@@ -415,7 +522,7 @@
       {{/hasFormParams}}
       {{#hasBodyParam}}
       {{#bodyParams}}
-      if (!missing(`{{paramName}}`)) {
+      if (!is.null(`{{paramName}}`)) {
         {{#isArray}}
         body.items <- paste(unlist(lapply(`{{paramName}}`, function(param) {
                                                              param$toJSONString()
@@ -435,7 +542,14 @@
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
-        local_var_url_path <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), local_var_url_path)
+        {{=< >=}}
+        <#isArray>
+        local_var_url_path <- gsub("\\{<baseName>\\}", paste(URLencode(as.character(`<paramName>`), reserved = TRUE), collapse= ",", sep=""), local_var_url_path)
+        </isArray>
+        <^isArray>
+        local_var_url_path <- gsub("\\{<baseName>\\}", URLencode(as.character(`<paramName>`), reserved = TRUE), local_var_url_path)
+        </isArray>
+        <={{ }}=>
       }
 
       {{/pathParams}}

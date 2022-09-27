@@ -280,17 +280,19 @@ public class Drawing {
       if (jsonObj.get("nullableShape") != null && !jsonObj.get("nullableShape").isJsonNull()) {
         NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
       }
-      JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
-      if (jsonArrayshapes != null) {
-        // ensure the json data is an array
-        if (!jsonObj.get("shapes").isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
-        }
+      if (jsonObj.get("shapes") != null && !jsonObj.get("shapes").isJsonNull()) {
+        JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
+        if (jsonArrayshapes != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("shapes").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
+          }
 
-        // validate the optional field `shapes` (array)
-        for (int i = 0; i < jsonArrayshapes.size(); i++) {
-          Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
-        };
+          // validate the optional field `shapes` (array)
+          for (int i = 0; i < jsonArrayshapes.size(); i++) {
+            Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
+          };
+        }
       }
   }
 

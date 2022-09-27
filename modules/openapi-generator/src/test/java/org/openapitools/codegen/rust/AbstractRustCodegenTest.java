@@ -117,6 +117,9 @@ public class AbstractRustCodegenTest {
         Assert.assertEquals(fakeRustCodegen.toEnumVarName("SCREAMING_SNAKE_CASE", null), "ScreamingSnakeCase");
         // Prefix is added when starting with a number
         Assert.assertEquals(fakeRustCodegen.toEnumVarName("1_pending", null), "Variant1Pending");
+        // Empty strings need to be mapped to "Empty"
+        // https://github.com/OpenAPITools/openapi-generator/issues/13453
+        Assert.assertEquals(fakeRustCodegen.toEnumVarName("", null), "Empty");
     }
 
     @Test
