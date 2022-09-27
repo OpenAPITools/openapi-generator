@@ -59,6 +59,11 @@
   infoLink: "https://e.baidu.com"
   pinned: false
 -
+  caption: "Bandwidth"
+  image: "img/companies/bandwidth.png"
+  infoLink: "https://dev.bandwidth.com/"
+  pinned: false
+-
   caption: "Banzai Cloud"
   image: "img/companies/banzai_cloud.png"
   infoLink: "https://banzaicloud.com/"
