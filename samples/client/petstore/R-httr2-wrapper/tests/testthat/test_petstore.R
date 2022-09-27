@@ -21,6 +21,15 @@ pet_api$api_client$username <- "username123"
 pet_api$api_client$password <- "password123"
 result <- pet_api$add_pet(pet)
 
+test_that("Test discriminator and mapping", {
+  d <- '{"breed": "bulldog","color":"white","className":"Dog"}'
+  dog <- ApiClient$new()$deserialize(d, "Animal", loadNamespace("petstore"))
+  expect_equal(class(dog)[1], "Dog")
+  expect_equal(dog$breed, "bulldog")
+  expect_equal(dog$color, "white")
+  expect_equal(dog$className, "Dog")
+})
+
 test_that("Invalid enum value test", {
   expect_error(Pet$new("name_test",
     photoUrls = list("photo_test", "second test"),
