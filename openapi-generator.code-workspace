@@ -41,7 +41,12 @@
 			"**/.classpath": true,
 			"**/.factorypath": true,
 			"**/.project": true,
-			"**/.settings": true
+			"**/.settings": true,
+			"modules/openapi-generator-cli": true,
+			"modules/openapi-generator-core": true,
+			"modules/openapi-generator-gradle-plugin": true,
+			"modules/openapi-generator-maven-plugin": true,
+			"modules/openapi-generator-online": true,
 		},
 		"files.trimFinalNewlines": false,
 		"files.trimTrailingWhitespace": true,
@@ -63,6 +68,15 @@
 		"java.format.enabled": true,
 
 		"maven.pomfile.autoUpdateEffectivePOM": true,
+		"java.configuration.updateBuildConfiguration": "disabled",
+		"maven.excludedFolders": [
+			"**/.*",
+			"**/node_modules",
+			"**/target",
+			"**/bin",
+			"**/archetype-resources",
+			"samples",
+		],
 	},
 	"extensions": {
 		"recommendations": [
@@ -71,8 +85,7 @@
 			"formulahendry.code-runner",
 			"visualstudioexptteam.vscodeintellicode",
 			"42crunch.vscode-openapi",
-			"mermade.openapi-lint"
-
+			"mermade.openapi-lint",
 		]
-	}
+	},
 }
