@@ -874,6 +874,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 
 ## [6 - About Us](#table-of-contents)
 
+What's the design philosophy or principle behind OpenAPI Generator?
+
+We focus on developer experience. The generators should produce code, config, documentation, and more that are easily understandable and consumable by users. We focused on simple use cases to start with (bottom-up approach). Since then the project and the community have grown a lot: 300k weekly downloads via NPM CLI wrapper, 20M downloads via openapi-generator-cli docker image just to highlight a few. We've gradually supported more features (e.g. oneOf, anyOf introduced in OpenAPI 3.0) in various generators and we will continue this approach to deliver something based on our understanding of user demand and what they want, and continue to add support of new features introduced in OpenAPI specification (such as v3.1 and future versions of the OpenAPI specification).
+
 ### [6.1 - OpenAPI Generator Core Team](#table-of-contents)
 
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
