@@ -35,11 +35,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName</param>
-        /// <param name="specialModelNameProperty">specialModelNameProperty</param>
-        public SpecialModelName(long? specialPropertyName = default, string? specialModelNameProperty = default)
+        /// <param name="specialModelName">specialModelName</param>
+        public SpecialModelName(long? specialPropertyName = default, string? specialModelName = default)
         {
             SpecialPropertyName = specialPropertyName;
-            SpecialModelNameProperty = specialModelNameProperty;
+            SpecialModelName = specialModelName;
         }
 
         /// <summary>
@@ -49,10 +49,10 @@ namespace Org.OpenAPITools.Model
         public long? SpecialPropertyName { get; set; }
 
         /// <summary>
-        /// Gets or Sets SpecialModelNameProperty
+        /// Gets or Sets SpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string? SpecialModelNameProperty { get; set; }
+        public string? SpecialModelName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            sb.Append("  SpecialModelNameProperty: ").Append(SpecialModelNameProperty).Append("\n");
+            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -105,9 +105,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
-                if (this.SpecialModelNameProperty != null)
+                if (this._SpecialModelName != null)
                 {
-                    hashCode = (hashCode * 59) + this.SpecialModelNameProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this._SpecialModelName.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
