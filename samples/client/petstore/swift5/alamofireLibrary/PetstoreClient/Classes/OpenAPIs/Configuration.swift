@@ -16,11 +16,11 @@ open class Configuration {
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
     /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
-    public static var dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer.data())
+    public static var dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer())
     /// ResponseSerializer that will be used by the generator for `String` responses
     ///
     /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
-    public static var stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer.string())
+    public static var stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
 }
 
 /// Type-erased response serializer
