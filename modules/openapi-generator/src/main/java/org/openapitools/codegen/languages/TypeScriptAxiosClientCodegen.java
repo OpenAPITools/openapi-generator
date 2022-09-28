@@ -168,18 +168,14 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
-        boolean hasEnum = false;
         for (CodegenOperation op : operations.getOperations().getOperation()) {
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
-                    hasEnum = true;
                     param.datatypeWithEnum = param.datatypeWithEnum
                             .replace(param.enumName, op.operationIdCamelCase + param.enumName);
                 }
             }
         }
-
-        operations.put("hasEnums", hasEnum);
     }
 
     @Override

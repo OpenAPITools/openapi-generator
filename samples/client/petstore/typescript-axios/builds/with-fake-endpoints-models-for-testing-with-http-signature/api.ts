@@ -1466,6 +1466,7 @@ export class AnotherFakeApi extends BaseAPI {
 }
 
 
+
 /**
  * DefaultApi - axios parameter creator
  * @export
@@ -1558,6 +1559,7 @@ export class DefaultApi extends BaseAPI {
         return DefaultApiFp(this.configuration).fooGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -1960,14 +1962,14 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2413,14 +2415,14 @@ export const FakeApiFp = function(configuration?: Configuration) {
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2602,14 +2604,14 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2803,14 +2805,14 @@ export class FakeApi extends BaseAPI {
     /**
      * To test enum parameters
      * @summary To test enum parameters
-     * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-     * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-     * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-     * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-     * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-     * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-     * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-     * @param {string} [enumFormString] Form parameter enum test (string)
+     * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+     * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+     * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+     * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+     * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+     * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+     * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FakeApi
@@ -3068,6 +3070,7 @@ export class FakeClassnameTags123Api extends BaseAPI {
 }
 
 
+
 /**
  * PetApi - axios parameter creator
  * @export
@@ -3162,7 +3165,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3519,7 +3522,7 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3634,7 +3637,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3746,7 +3749,7 @@ export class PetApi extends BaseAPI {
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
-     * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+     * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
@@ -4148,6 +4151,7 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -4743,5 +4747,6 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
