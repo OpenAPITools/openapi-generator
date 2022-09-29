@@ -44,13 +44,13 @@ import com.google.gson.reflect.TypeToken
             )
             in 400..499 -> ClientError(
                 response.statusMessage(),
-                responseBody<T>(response.body(), contentType),
+                response.bodyAsString(),
                 code,
                 headers
             )
             else -> ServerError(
                 response.statusMessage(),
-                responseBody<T>(response.body(), contentType),
+                response.bodyAsString(),
                 code,
                 headers
             )
