@@ -1319,16 +1319,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (!fullJavaUtil) {
             if ("array".equals(property.containerType)) {
-                model.imports.add("ArrayList");
+                model.imports.add(instantiationTypes.get("array"));
             } else if ("set".equals(property.containerType)) {
-                model.imports.add("LinkedHashSet");
+                model.imports.add(instantiationTypes.get("set"));
                 boolean canNotBeWrappedToNullable = !openApiNullable || !property.isNullable;
                 if (canNotBeWrappedToNullable) {
                     model.imports.add("JsonDeserialize");
-                    property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
+                    property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = " + instantiationTypes.get("set") + ".class)");
                 }
             } else if ("map".equals(property.containerType)) {
-                model.imports.add("HashMap");
+                model.imports.add(instantiationTypes.get("map"));
             }
         }
 
