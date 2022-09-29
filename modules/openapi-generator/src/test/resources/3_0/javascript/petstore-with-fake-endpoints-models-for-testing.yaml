@@ -1908,3 +1908,28 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    Pig:
+      nullable: true
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+      required:
+        - className
+        - color
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+        size:
+          type: integer
+      required:
+        - className
+        - size
