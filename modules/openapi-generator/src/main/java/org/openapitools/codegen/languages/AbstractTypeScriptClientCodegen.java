@@ -25,10 +25,10 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
-import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -46,7 +46,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.*;
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1130,5 +1131,52 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.TYPESCRIPT;
+    }
+
+    @Override
+    protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
+        super.updateModelForComposedSchema(m, schema, allDefinitions);
+
+        if(m.discriminator != null) {
+            // in that case the type itself is just a discriminator
+            // it is not a real type being used in the app
+            m.vars.clear();
+            m.allVars.clear();
+
+            CodegenProperty discriminatorProp = fromProperty(m.discriminator.getPropertyName(), schema, true);
+            discriminatorProp.setRequired(true);
+            discriminatorProp.isNullable = false;
+            m.setHasRequired(true);
+            m.setRequiredVars(Arrays.asList(discriminatorProp));
+            Set<String> subtypes = new HashSet<>();
+            Set<String> baseNames = new HashSet<>();
+            for (CodegenDiscriminator.MappedModel discriminatedModel : m.discriminator.getMappedModels()) {
+                CodegenProperty cp = fromProperty(
+                        discriminatorProp.getName(),
+                        allDefinitions.get(discriminatedModel.getModelName()),
+                        true,
+                        true
+                );
+                cp
+                        .getVars()
+                        .stream()
+                        .filter(p -> p.getName().equals(discriminatorProp.getName()))
+                        .findFirst().ifPresent(p -> {
+                            subtypes.add(p.getDataType());
+                            baseNames.add(p.getBaseName());
+                        });
+            }
+            if (baseNames.size() != 1) {
+                throw new RuntimeException(
+                        "It was not possible to find any discriminator property in subtypes, or prop names differ, please verify your schema"
+                );
+            }
+            discriminatorProp.setDatatype(subtypes.stream().collect(Collectors.joining(" | ")));
+            discriminatorProp.setBaseName(baseNames.stream().findFirst().get());
+            m.vars.add(discriminatorProp);
+            m.allVars.add(discriminatorProp);
+            m.setHasRequired(true);
+            m.requiredVars = Arrays.asList(discriminatorProp);
+        }
     }
 }

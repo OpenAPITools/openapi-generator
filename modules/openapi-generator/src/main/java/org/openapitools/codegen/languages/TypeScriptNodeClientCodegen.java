@@ -125,16 +125,17 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
         else if (op.discriminator != null) {
             // when there's a discriminator, we do not really return a type that's defined directly, which is
-            // a somewhat dummy type used for discrimination, but a type that's an union of discriminated types instead
+            // a somewhat dummy type used for discrimination, but a type that's a union of discriminated types instead
             String returnType = op.returnType;
             Set<String> discriminatedModels = op.discriminator.getMappedModels()
                     .stream()
                     .map(model -> model.getModelName())
                     .collect(Collectors.toSet());
             op.imports =  discriminatedModels;
-            op.returnType = discriminatedModels
+            String type = discriminatedModels
                     .stream()
                     .collect(Collectors.joining(" | "));
+            op.returnType = op.isArray ? "Array<" + type + ">" : type;
             op.returnBaseType = returnType;
         }
     }
