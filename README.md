@@ -583,6 +583,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Arduino](https://www.arduino.cc/)
 - [b<>com](https://b-com.com/en)
 - [百度营销](https://e.baidu.com)
+- [Bandwidth](https://dev.bandwidth.com)
 - [Banzai Cloud](https://banzaicloud.com)
 - [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
@@ -872,6 +873,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-09-03 - [OpenAPI Generator For Go Web Development](https://blog.kevinhu.me/2022/09/03/03-openapi-generator/) by [Kevin Hu](https://twitter.com/Oldgunix)
 
 ## [6 - About Us](#table-of-contents)
+
+What's the design philosophy or principle behind OpenAPI Generator?
+
+We focus on developer experience. The generators should produce code, config, documentation, and more that are easily understandable and consumable by users. We focused on simple use cases to start with (bottom-up approach). Since then the project and the community have grown a lot: 300k weekly downloads via NPM CLI wrapper, 20M downloads via openapi-generator-cli docker image just to highlight a few. We've gradually supported more features (e.g. oneOf, anyOf introduced in OpenAPI 3.0) in various generators and we will continue this approach to deliver something based on our understanding of user demand and what they want, and continue to add support of new features introduced in OpenAPI specification (such as v3.1 and future versions of the OpenAPI specification).
 
 ### [6.1 - OpenAPI Generator Core Team](#table-of-contents)
 

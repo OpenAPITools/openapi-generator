@@ -30,6 +30,10 @@
     `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
     `additional_properties` = list(),
     {{/isAdditionalPropertiesTrue}}
+    {{#discriminator}}
+    `_discriminator_property_name` = '{{discriminator.propertyName}}',
+    {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}},{{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
+    {{/discriminator}}
     #' Initialize a new {{{classname}}} class.
     #'
     #' @description
