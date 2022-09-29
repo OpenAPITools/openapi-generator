@@ -460,7 +460,7 @@
                 </plugins>
             </build>
         </profile>
-        <!-- CI related -->
+        <!-- CI related  -->
         <profile>
             <!-- This profile will run much more in-depth static analysis checks. -->
             <id>static-analysis</id>
