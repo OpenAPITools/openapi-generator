@@ -286,6 +286,9 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         if (ModelUtils.isMapSchema(schema)) {
             // API-2916 default values for Map properties cause unexpected issues for PUT requests
             return "null";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            // BUG FIX Lists default value should be null
+            return "null";
         } else {
             return super.toDefaultValue(schema);
         }
