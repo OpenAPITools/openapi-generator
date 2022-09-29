@@ -43,21 +43,23 @@ class Pig {
             var errorMessages = [];
             //obj = obj || new Pig();
             try {
+                // validate the JSON data
+                BasquePig.validateJSON(data);
                 obj = new Pig(BasquePig.contructFromObject(data, obj));
                 match++;
-            }
-            catch(err) {
+            } catch(err) {
                 // json data failed to deserialize into BasquePig
-                errorMessages.push("Failed to desserialize into JOSN data into BasquePig: " + err)
+                errorMessages.push("Failed to desserialize JOSN data into BasquePig: " + err)
             }
 
             try {
+                // validate the JSON data
+                DanishPig.validateJSON(data);
                 obj = new Pig(DanishPig.contructFromObject(data, obj));
                 match++;
-            }
-            catch(err) {
+            } catch(err) {
                 // json data failed to deserialize into DanishPig
-                errorMessages.push("Failed to desserialize into JOSN data into DanishPig: " + err)
+                errorMessages.push("Failed to desserialize JOSN data into DanishPig: " + err)
             }
 
             if (match > 1) {
@@ -129,8 +131,6 @@ Pig.prototype['color'] = undefined;
  * @member {Number} size
  */
 Pig.prototype['size'] = undefined;
-
-
 
 
 Pig.OneOf = ["BasquePig", "DanishPig"];
