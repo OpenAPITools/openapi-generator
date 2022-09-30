@@ -100,10 +100,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
+        apiTestTemplateFiles.put("api_test.mustache", ".go");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-        // default HIDE_GENERATION_TIMESTAMP to true
+                // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.IS_GO_SUBMODULE, CodegenConstants.IS_GO_SUBMODULE_DESC));
@@ -302,6 +303,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator;
+    }
+
+    @Override
+    public String apiTestFileFolder()  {
+        return outputFolder + File.separator + "test" + File.separator;
     }
 
     @Override
