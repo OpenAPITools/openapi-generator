@@ -28,17 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 {{/useCoroutines}}
 
-import {{packageName}}.infrastructure.ApiClient
-import {{packageName}}.infrastructure.ApiResponse
-import {{packageName}}.infrastructure.Redirection
-import {{packageName}}.infrastructure.Informational
-import {{packageName}}.infrastructure.Success
-import {{packageName}}.infrastructure.ClientError
-import {{packageName}}.infrastructure.ServerError
-import {{packageName}}.infrastructure.ClientException
-import {{packageName}}.infrastructure.ServerException
-import {{packageName}}.infrastructure.Serializer
-import {{packageName}}.infrastructure.ResponseType
+import {{packageName}}.infrastructure.*
 
 @Suppress ("UNUSED")
 {{#operations}}
@@ -140,8 +130,8 @@ import {{packageName}}.infrastructure.ResponseType
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
-        val client = WebClient.create(vertx)
-        val request = client.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
+        val vertxClient = WebClient.create(vertx)
+        val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
         {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
