@@ -1049,7 +1049,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (addNullableImports) {
                 Map<String, String> imports2Classnames = new HashMap<>();
                 imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
-                imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                 addImports(imports, cm, imports2Classnames);
             }
         }
