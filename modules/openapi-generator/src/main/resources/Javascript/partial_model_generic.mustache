@@ -63,9 +63,9 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
         {{#requiredVars}}
         {{#-first}}
         // check to make sure all required properties are present in the JSON string
-        for (property in {{classname}}.RequiredProperties) {
+        for (const property of {{classname}}.RequiredProperties) {
             if (!data[property]) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + data);
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
         }
         {{/-first}}
@@ -79,7 +79,7 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
             throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
         }
         // validate the required field `{{{baseName}}}` (array)
-        for (item in data['{{{baseName}}}']) {
+        for (const item of data['{{{baseName}}}']) {
             {{{items.dataType}}}.validateJsonObject(item);
         };
         {{/isRequired}}
@@ -90,7 +90,7 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
                 throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
             }
             // validate the optional field `{{{baseName}}}` (array)
-            for (item in data['{{{baseName}}}']) {
+            for (const item of data['{{{baseName}}}']) {
                 {{{items.dataType}}}.validateJsonObject(item);
             };
         }

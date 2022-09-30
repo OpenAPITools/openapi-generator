@@ -45,6 +45,7 @@ import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
 import Model200Response from './model/Model200Response';
 import Name from './model/Name';
+import NestedOneOf from './model/NestedOneOf';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
 import ObjectWithDeprecatedFields from './model/ObjectWithDeprecatedFields';
@@ -300,6 +301,12 @@ export {
      * @property {module:model/Name}
      */
     Name,
+
+    /**
+     * The NestedOneOf model constructor.
+     * @property {module:model/NestedOneOf}
+     */
+    NestedOneOf,
 
     /**
      * The NullableClass model constructor.

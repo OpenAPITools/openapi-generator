@@ -38,40 +38,39 @@ class Pig {
      * @return {module:model/Pig} The populated <code>Pig</code> instance.
      */
     static constructFromObject(data, obj) {
-        if (data) {
-            var match = 0;
-            var errorMessages = [];
-            //obj = obj || new Pig();
-            try {
-                // validate the JSON data
-                BasquePig.validateJSON(data);
-                obj = new Pig(BasquePig.contructFromObject(data, obj));
-                match++;
-            } catch(err) {
-                // json data failed to deserialize into BasquePig
-                errorMessages.push("Failed to desserialize JOSN data into BasquePig: " + err)
-            }
-
-            try {
-                // validate the JSON data
-                DanishPig.validateJSON(data);
-                obj = new Pig(DanishPig.contructFromObject(data, obj));
-                match++;
-            } catch(err) {
-                // json data failed to deserialize into DanishPig
-                errorMessages.push("Failed to desserialize JOSN data into DanishPig: " + err)
-            }
-
-            if (match > 1) {
-                throw new Error("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. JSON data: " + data);
-            } else if (match === 0) {
-                throw new Error("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: " +
-                                errorMessages.join(", "));
-            } else { // only 1 match
-                return obj;
-            }
+        var match = 0;
+        var errorMessages = [];
+        //obj = obj || new Pig();
+        try {
+            // validate the JSON data
+            BasquePig.validateJSON(data);
+            // create BasquePig frmo JSON data
+            obj = new Pig(BasquePig.constructFromObject(data));
+            match++;
+        } catch(err) {
+            // json data failed to deserialize into BasquePig
+            errorMessages.push("Failed to desserialize JSON data into BasquePig: " + err)
         }
-        return obj;
+
+        try {
+            // validate the JSON data
+            DanishPig.validateJSON(data);
+            // create DanishPig frmo JSON data
+            obj = new Pig(DanishPig.constructFromObject(data));
+            match++;
+        } catch(err) {
+            // json data failed to deserialize into DanishPig
+            errorMessages.push("Failed to desserialize JSON data into DanishPig: " + err)
+        }
+
+        if (match > 1) {
+            throw new Error("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. JSON data: " + JSON.stringify(data));
+        } else if (match === 0) {
+            throw new Error("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: " +
+                            errorMessages.join(", "));
+        } else { // only 1 match
+            return obj;
+        }
     }
 
     /**
@@ -109,10 +108,10 @@ class Pig {
      * @return {string}
      */
     toJSON = function(){
-        if (getActualInstance() === null) {
+        if (this.getActualInstance() === null) {
             return null;
         }
-        return JSON.stringify(getActualInstance());
+        return this.getActualInstance();
     }
 
 }

@@ -197,6 +197,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [OpenApiPetstore.Model200Response](docs/Model200Response.md)
  - [OpenApiPetstore.Name](docs/Name.md)
+ - [OpenApiPetstore.NestedOneOf](docs/NestedOneOf.md)
  - [OpenApiPetstore.NullableClass](docs/NullableClass.md)
  - [OpenApiPetstore.NumberOnly](docs/NumberOnly.md)
  - [OpenApiPetstore.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)

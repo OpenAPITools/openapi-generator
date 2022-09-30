@@ -70,9 +70,9 @@ class Cat {
      */
     static validateJSON(data) {
         // check to make sure all required properties are present in the JSON string
-        for (property in Cat.RequiredProperties) {
+        for (const property of Cat.RequiredProperties) {
             if (!data[property]) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + data);
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
         }
 

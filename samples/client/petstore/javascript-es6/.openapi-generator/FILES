@@ -38,6 +38,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/Name.md
+docs/NestedOneOf.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -102,6 +103,7 @@ src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js
 src/model/Model200Response.js
 src/model/Name.js
+src/model/NestedOneOf.js
 src/model/NullableClass.js
 src/model/NumberOnly.js
 src/model/ObjectWithDeprecatedFields.js

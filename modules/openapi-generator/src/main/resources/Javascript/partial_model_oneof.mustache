@@ -28,32 +28,30 @@ class {{classname}} {
      */
     {{/emitJSDoc}}
     static constructFromObject(data, obj) {
-        if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
-            var match = 0;
-            var errorMessages = [];
-            //obj = obj || new {{classname}}();
-            {{#oneOf}}
-            try {
-                // validate the JSON data
-                {{{.}}}.validateJSON(data);
-                obj = new {{classname}}({{{.}}}.contructFromObject(data, obj));
-                match++;
-            } catch(err) {
-                // json data failed to deserialize into {{{.}}}
-                errorMessages.push("Failed to desserialize JOSN data into {{{.}}}: " + err)
-            }
-
-            {{/oneOf}}
-            if (match > 1) {
-                throw new Error("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. JSON data: " + data);
-            } else if (match === 0) {
-                throw new Error("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " +
-                                errorMessages.join(", "));
-            } else { // only 1 match
-                return obj;
-            }
+        var match = 0;
+        var errorMessages = [];
+        //obj = obj || new {{classname}}();
+        {{#oneOf}}
+        try {
+            // validate the JSON data
+            {{{.}}}.validateJSON(data);
+            // create {{{.}}} frmo JSON data
+            obj = new {{classname}}({{{.}}}.constructFromObject(data));
+            match++;
+        } catch(err) {
+            // json data failed to deserialize into {{{.}}}
+            errorMessages.push("Failed to desserialize JSON data into {{{.}}}: " + err)
         }
-        return obj;
+
+        {{/oneOf}}
+        if (match > 1) {
+            throw new Error("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. JSON data: " + JSON.stringify(data));
+        } else if (match === 0) {
+            throw new Error("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " +
+                            errorMessages.join(", "));
+        } else { // only 1 match
+            return obj;
+        }
     }
 
     {{#emitJSDoc}}
@@ -98,11 +96,11 @@ class {{classname}} {
     {{/emitJSDoc}}
     toJSON = function(){
         {{#isNullable}}
-        if (getActualInstance() === null) {
+        if (this.getActualInstance() === null) {
             return null;
         }
         {{/isNullable}}
-        return JSON.stringify(getActualInstance());
+        return this.getActualInstance();
     }
 
 }

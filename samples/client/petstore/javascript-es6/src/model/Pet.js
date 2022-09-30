@@ -82,9 +82,9 @@ class Pet {
      */
     static validateJSON(data) {
         // check to make sure all required properties are present in the JSON string
-        for (property in Pet.RequiredProperties) {
+        for (const property of Pet.RequiredProperties) {
             if (!data[property]) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + data);
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
         }
         // validate the optional field `category`
@@ -105,7 +105,7 @@ class Pet {
                 throw new Error("Expected the field `tags` to be an array in the JSON data but got " + data['tags']);
             }
             // validate the optional field `tags` (array)
-            for (item in data['tags']) {
+            for (const item of data['tags']) {
                 Tag.validateJsonObject(item);
             };
         }

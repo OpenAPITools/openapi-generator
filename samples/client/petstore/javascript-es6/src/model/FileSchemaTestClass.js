@@ -73,7 +73,7 @@ class FileSchemaTestClass {
                 throw new Error("Expected the field `files` to be an array in the JSON data but got " + data['files']);
             }
             // validate the optional field `files` (array)
-            for (item in data['files']) {
+            for (const item of data['files']) {
                 File.validateJsonObject(item);
             };
         }
