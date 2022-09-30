@@ -116,4 +116,10 @@ model_type_holder_example.go
 model_user.go
 model_xml_item.go
 response.go
+test/api_another_fake_test.go
+test/api_fake_classname_tags123_test.go
+test/api_fake_test.go
+test/api_pet_test.go
+test/api_store_test.go
+test/api_user_test.go
 utils.go
