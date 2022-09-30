@@ -140,7 +140,7 @@ import datetimeimport datetimeimport datetimeimport datetimeimport datetimeimpor
 import time
 import petstore_api
 from pprint import pprint
-from petstore_api.apis import another_fake_api
+from petstore_api.apis.tags import another_fake_api
 from petstore_api.model.client import Client
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
