@@ -14,8 +14,11 @@ import ApiClient from '../ApiClient';
 {{/-first}}
 {{/oneOf}}
 {{^oneOf}}
-{{#anyOf.0}}
-{{/anyOf.0}}
+{{#anyOf}}
+{{#-first}}
+// TODO: add anyof model support
+{{/-first}}
+{{/anyOf}}
 {{^anyOf}}
 {{>partial_model_generic}}
 {{/anyOf}}
