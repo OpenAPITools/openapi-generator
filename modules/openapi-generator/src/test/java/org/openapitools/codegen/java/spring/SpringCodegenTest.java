@@ -1576,9 +1576,6 @@ public class SpringCodegenTest {
                 .assertMethod("equals")
                 .bodyContainsLines("return equalsNullable(this.picture, testObject.picture);");
 
-        JavaFileAssert.assertThat(files.get("TestObject.java")).printFileContent()
-                .hasImports("com.fasterxml.jackson.annotation.JsonIgnore");
-
     }
 
     @Test
