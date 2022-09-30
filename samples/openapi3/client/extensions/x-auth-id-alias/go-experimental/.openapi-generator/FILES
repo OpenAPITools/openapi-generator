@@ -10,5 +10,4 @@ git_push.sh
 go.mod
 go.sum
 response.go
-test/api_usage_test.go
 utils.go
