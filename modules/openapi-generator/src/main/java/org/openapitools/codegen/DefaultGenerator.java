@@ -907,7 +907,7 @@ public class DefaultGenerator implements Generator {
 
         List<File> files = new ArrayList<>();
         // models
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         generateModels(files, allModels, filteredSchemas);
         // apis
