@@ -46,6 +46,7 @@ import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
 import Model200Response from './model/Model200Response';
 import Name from './model/Name';
+import NestedColor from './model/NestedColor';
 import NestedOneOf from './model/NestedOneOf';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
@@ -308,6 +309,12 @@ export {
      * @property {module:model/Name}
      */
     Name,
+
+    /**
+     * The NestedColor model constructor.
+     * @property {module:model/NestedColor}
+     */
+    NestedColor,
 
     /**
      * The NestedOneOf model constructor.

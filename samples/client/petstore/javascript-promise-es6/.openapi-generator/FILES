@@ -39,6 +39,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/Name.md
+docs/NestedColor.md
 docs/NestedOneOf.md
 docs/NullableClass.md
 docs/NumberOnly.md
@@ -105,6 +106,7 @@ src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js
 src/model/Model200Response.js
 src/model/Name.js
+src/model/NestedColor.js
 src/model/NestedOneOf.js
 src/model/NullableClass.js
 src/model/NumberOnly.js
@@ -123,3 +125,4 @@ src/model/Return.js
 src/model/SpecialModelName.js
 src/model/Tag.js
 src/model/User.js
+test/model/NestedColor.spec.js

@@ -27,7 +27,7 @@ class Pig {
      * @param {(module:model/BasquePig|module:model/DanishPig)} The actual instance to initialize Pig.
      */
     constructor(obj = null) {
-        this.setActualInstance(obj);
+        this.actualInstance = obj;
     }
 
     /**
@@ -38,35 +38,37 @@ class Pig {
      * @return {module:model/Pig} The populated <code>Pig</code> instance.
      */
     static constructFromObject(data, obj) {
+        if (!data) {
+            return new Pig();
+        }
         var match = 0;
         var errorMessages = [];
-        //obj = obj || new Pig();
         try {
             // validate the JSON data
             BasquePig.validateJSON(data);
-            // create BasquePig frmo JSON data
+            // create BasquePig from JSON data
             obj = new Pig(BasquePig.constructFromObject(data));
             match++;
         } catch(err) {
             // json data failed to deserialize into BasquePig
-            errorMessages.push("Failed to desserialize JSON data into BasquePig: " + err)
+            errorMessages.push("Failed to construct BasquePig: " + err)
         }
 
         try {
             // validate the JSON data
             DanishPig.validateJSON(data);
-            // create DanishPig frmo JSON data
+            // create DanishPig from JSON data
             obj = new Pig(DanishPig.constructFromObject(data));
             match++;
         } catch(err) {
             // json data failed to deserialize into DanishPig
-            errorMessages.push("Failed to desserialize JSON data into DanishPig: " + err)
+            errorMessages.push("Failed to construct DanishPig: " + err)
         }
 
         if (match > 1) {
-            throw new Error("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. JSON data: " + JSON.stringify(data));
+            throw new Error("Multiple matches found constructing `Pig` with oneOf schemas BasquePig, DanishPig. JSON data: " + JSON.stringify(data));
         } else if (match === 0) {
-            throw new Error("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: " +
+            throw new Error("No match found constructing `Pig` with oneOf schemas BasquePig, DanishPig. Details: " +
                             errorMessages.join(", "));
         } else { // only 1 match
             return obj;
@@ -83,24 +85,10 @@ class Pig {
 
     /**
      * Sets the actaul instance, which can be <code>BasquePig</code>, <code>DanishPig</code>.
-     * @param {(module:model/BasquePig|module:model/DanishPig)} The actual instance.
+     * @param {(module:model/BasquePig|module:model/DanishPig)} obj The actual instance.
      */
     setActualInstance(obj) {
-        if (obj instanceof BasquePig) {
-            this.actualInstance = obj;
-            return;
-        }
-        if (obj instanceof DanishPig) {
-            this.actualInstance = obj;
-            return;
-        }
-        if (obj === null) {
-           this.actualInstance = null;
-           return;
-        }
-
-        throw new Error('Failed to set actual instance, which must be [BasquePig, DanishPig]: ' + obj);
-
+       this.actualInstance = Pig.constructFromObject(obj).getActualInstance();
     }
 
     /**
@@ -108,9 +96,6 @@ class Pig {
      * @return {string}
      */
     toJSON = function(){
-        if (this.getActualInstance() === null) {
-            return null;
-        }
         return this.getActualInstance();
     }
 
