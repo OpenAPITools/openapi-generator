@@ -26,6 +26,7 @@ import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
+import Color from './model/Color';
 import DanishPig from './model/DanishPig';
 import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
@@ -187,6 +188,12 @@ export {
      * @property {module:model/Client}
      */
     Client,
+
+    /**
+     * The Color model constructor.
+     * @property {module:model/Color}
+     */
+    Color,
 
     /**
      * The DanishPig model constructor.

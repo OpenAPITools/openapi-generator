@@ -30,10 +30,173 @@ class {{classname}} {
     static constructFromObject(data, obj) {
         var match = 0;
         var errorMessages = [];
-        //obj = obj || new {{classname}}();
         {{#composedSchemas.oneOf}}
+        {{#description}}
+        // {{{description}}}
+        {{/description}}
         try {
+            {{^isNullable}}
+            if (!data) {
+                throw new Error("Invalid data. Must not be null.");
+            }
+            {{/isNullable}}
             {{#isPrimitiveType}}
+            {{#isArray}}
+            // validate array data type
+            if (!Array.isArray(data)) {
+                throw new Error("Invalid data type. Expecting array. Data: " + data);
+            }
+            {{#minItems}}
+            {{#maxItems}}
+            if (data.length > {{{maxItems}}} || data.length < {{{minItems}}}) {
+                throw new Error("Invalid array size. Minimim: {{minItems}}. Maximum: {{maxItems}}. Data: " + data);
+            }
+            {{/maxItems}}
+            {{^maxItems}}
+            if (data.length < {{{minItems}}} {
+                throw new Error("Invalid array size. Minimim: {{minItems}}. Data: " + data);
+            }
+            {{/maxItems}}
+            {{/minItems}}
+            {{^minItems}}
+            {{#maxItems}}
+            if (data.length > {{{maxItems}}}) {
+                throw new Error("Invalid array size. Maximum: {{maxItems}}. Data: " + data);
+            }
+            {{/maxItems}}
+            {{/minItems}}
+            {{#items.isInteger}}
+            // validate array of integer
+            for (const item of data) {
+                if (!(typeof item === 'number' && item % 1 === 0)) {
+                    throw new Error("Invalid array items. Must be integer. Data: " + data);
+                }
+                {{#maximum}}
+                {{#minimum}}
+                if (item > {{maximum}} || item < {{minimum}}) {
+                    throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Min.: {{minimum}}. Data: " + data);
+                }
+                {{/minimum}}
+                {{^minimum}}
+                if (item > {{maximum}}) {
+                    throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Data: " + data);
+                }
+                {{/minimum}}
+                {{/maximum}}
+                {{^maximum}}
+                {{#minimum}}
+                if (item < {{minimum}}) {
+                    throw new Error("Invalid integer value in an array items. Min.: {{minimum}}. Data: " + data);
+                }
+                {{/minimum}}
+                {{/maximum}}
+            }
+            {{/items.isInteger}}
+            {{#items.isString}}
+            // validate array of string
+            for (const item of data) {
+                if (!(typeof item === 'number' && item % 1 === 0)) {
+                    throw new Error("Invalid array items. Must be string. Data: " + data);
+                }
+                {{#pattern}}
+                if (!{{{pattern}}}.test(item)) {
+                    throw new Error("Invalid string value in an array items. Must conform to {{{.}}}. Data: " + item);
+                }
+                {{/pattern}}
+                {{#minLength}}
+                {{#maxLength}}
+                if (item.length > {{maxLength}} && item.length < {{minLength}}) {
+                    throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Min. length: {{{minLength}}}. Data: " + item);
+                }
+                {{/maxLength}}
+                {{^maxLength}}
+                if (item.length < {{minLength}}) {
+                    throw new Error("Invalid string value in an array items. Min. length: {{{minLength}}}. Data: " + item);
+                }
+                {{/maxLength}}
+                {{/minLength}}
+                {{^minLength}}
+                {{#maxLength}}
+                if (item.length > {{maxLength}}) {
+                    throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Data: " + item)
+                }
+                {{/maxLength}}
+                {{/minLength}}
+            }
+            {{/items.isString}}
+            {{#items.isNumber}}
+            // validate array of string
+            for (const item of data) {
+                if (!(typeof data === 'number' && data % 1 != 0)) {
+                    throw new Error("Invalid array items. Must be number. Data: " + JSON.stringify(data));
+                }
+            }
+            {{/items.isNumber}}
+            {{/isArray}}
+            {{^isArray}}
+            {{#isInteger}}
+            // validate array of integer
+            if (!(typeof data === 'number' && data % 1 === 0)) {
+                throw new Error("Invalid array items. Must be integer. Data: " + JSON.stringify(data));
+            }
+            {{#maximum}}
+            {{#minimum}}
+            if (data > {{maximum}} || data < {{minimum}}) {
+                throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Min.: {{minimum}}. Data: " + JSON.stringify(data));
+            }
+            {{/minimum}}
+            {{^minimum}}
+            if (data > {{maximum}}) {
+                throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Data: " + JSON.stringify(data));
+            }
+            {{/minimum}}
+            {{/maximum}}
+            {{^maximum}}
+            {{#minimum}}
+            if (data < {{minimum}}) {
+                throw new Error("Invalid integer value in an array items. Min.: {{minimum}}. Data: " + JSON.stringify(data));
+            }
+            {{/minimum}}
+            {{/maximum}}
+            {{/isInteger}}
+            {{#isString}}
+            // validate array of string
+            if (!(typeof data === 'string')) {
+                throw new Error("Invalid data. Must be string. Data: " + JSON.stringify(data));
+            }
+            {{#pattern}}
+            if (!{{{pattern}}}.test(data)) {
+                throw new Error("Invalid string value in an array items. Must conform to {{{.}}}. Data: " + JSON.stringify(data));
+            }
+            {{/pattern}}
+            {{#minLength}}
+            {{#maxLength}}
+            if (data.length > {{maxLength}} && data.length < {{minLength}}) {
+                throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Min. length: {{{minLength}}}. Data: " + JSON.stringify(data));
+            }
+            {{/maxLength}}
+            {{^maxLength}}
+            if (data.length < {{minLength}}) {
+                throw new Error("Invalid string value in an array items. Min. length: {{{minLength}}}. Data: " + data);
+            }
+            {{/maxLength}}
+            {{/minLength}}
+            {{^minLength}}
+            {{#maxLength}}
+            if (data.length > {{maxLength}}) {
+                throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Data: " + JSON.stringify(data));
+            }
+            {{/maxLength}}
+            {{/minLength}}
+            {{/isString}}
+            {{#isNumber}}
+            // validate array of string
+            if (!(typeof data === 'number' && data % 1 != 0)) {
+                throw new Error("Invalid array items. Must be number. Data: " + JSON.stringify(data));
+            }
+            {{/isNumber}}
+            {{/isArray}}
+            obj = data; // passed validations
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
             // validate the JSON data
@@ -77,6 +240,54 @@ class {{classname}} {
     setActualInstance(obj) {
         {{#composedSchemas.oneOf}}
         {{#isPrimitiveType}}
+        {{#isArray}}
+        if (Array.isArray(obj)) {
+            {{#items.isNumber}}
+            // validate number 
+            if (typeof data === 'number' && data % 1 != 0) {
+               this.actualInstance = obj;
+               return;
+            }
+            {{/items.isNumber}}
+            {{#items.isInteger}}
+            // validate integer
+            if (typeof data === 'number' && data % 1 === 0) {
+               this.actualInstance = obj;
+               return;
+            }
+            {{/items.isInteger}}
+            {{#items.isString}}
+            // validate string
+            if (typeof data === 'string') {
+               this.actualInstance = obj;
+               return;
+            }
+            {{/items.isString}}
+        }
+        {{/isArray}}
+        {{^isArray}}
+        {{#isNumber}}
+        // validate number
+        if (typeof data === 'number' && data % 1 != 0) {
+           this.actualInstance = obj;
+           return;
+        }
+        {{/isNumber}}
+        {{#isInteger}}
+        // validate integer 
+        if (typeof data === 'number' && data % 1 === 0) {
+           this.actualInstance = obj;
+           return;
+        }
+        {{/isInteger}}
+        {{#isString}}
+        // validate string
+        if (typeof data === 'string') {
+           this.actualInstance = obj;
+           return;
+        }
+        {{/isString}}
+        {{/isArray}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         if (obj instanceof {{{dataType}}}) {
@@ -93,7 +304,6 @@ class {{classname}} {
         {{/isNullable}}
 
         throw new Error('Failed to set actual instance, which must be {{oneOf}}: ' + obj);
-
     }
 
     {{#emitJSDoc}}

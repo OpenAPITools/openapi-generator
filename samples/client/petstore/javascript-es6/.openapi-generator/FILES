@@ -16,6 +16,7 @@ docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
+docs/Color.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
@@ -38,6 +39,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/Name.md
+docs/NestedColor.md
 docs/NestedOneOf.md
 docs/NullableClass.md
 docs/NumberOnly.md
@@ -84,6 +86,7 @@ src/model/CatAllOf.js
 src/model/Category.js
 src/model/ClassModel.js
 src/model/Client.js
+src/model/Color.js
 src/model/DanishPig.js
 src/model/DeprecatedObject.js
 src/model/Dog.js
@@ -103,6 +106,7 @@ src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js
 src/model/Model200Response.js
 src/model/Name.js
+src/model/NestedColor.js
 src/model/NestedOneOf.js
 src/model/NullableClass.js
 src/model/NumberOnly.js

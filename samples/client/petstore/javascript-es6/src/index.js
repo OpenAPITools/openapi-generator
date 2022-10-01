@@ -26,6 +26,7 @@ import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
+import Color from './model/Color';
 import DanishPig from './model/DanishPig';
 import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
@@ -45,6 +46,7 @@ import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
 import Model200Response from './model/Model200Response';
 import Name from './model/Name';
+import NestedColor from './model/NestedColor';
 import NestedOneOf from './model/NestedOneOf';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
@@ -189,6 +191,12 @@ export {
     Client,
 
     /**
+     * The Color model constructor.
+     * @property {module:model/Color}
+     */
+    Color,
+
+    /**
      * The DanishPig model constructor.
      * @property {module:model/DanishPig}
      */
@@ -301,6 +309,12 @@ export {
      * @property {module:model/Name}
      */
     Name,
+
+    /**
+     * The NestedColor model constructor.
+     * @property {module:model/NestedColor}
+     */
+    NestedColor,
 
     /**
      * The NestedOneOf model constructor.

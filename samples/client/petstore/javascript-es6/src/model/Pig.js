@@ -40,8 +40,10 @@ class Pig {
     static constructFromObject(data, obj) {
         var match = 0;
         var errorMessages = [];
-        //obj = obj || new Pig();
         try {
+            if (!data) {
+                throw new Error("Invalid data. Must not be null.");
+            }
             // validate the JSON data
             BasquePig.validateJSON(data);
             // create BasquePig frmo JSON data
@@ -53,6 +55,9 @@ class Pig {
         }
 
         try {
+            if (!data) {
+                throw new Error("Invalid data. Must not be null.");
+            }
             // validate the JSON data
             DanishPig.validateJSON(data);
             // create DanishPig frmo JSON data
@@ -100,7 +105,6 @@ class Pig {
         }
 
         throw new Error('Failed to set actual instance, which must be [BasquePig, DanishPig]: ' + obj);
-
     }
 
     /**

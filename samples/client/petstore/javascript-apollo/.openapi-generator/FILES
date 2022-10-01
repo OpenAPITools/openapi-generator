@@ -16,6 +16,7 @@ docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
+docs/Color.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
@@ -84,6 +85,7 @@ src/model/CatAllOf.js
 src/model/Category.js
 src/model/ClassModel.js
 src/model/Client.js
+src/model/Color.js
 src/model/DanishPig.js
 src/model/DeprecatedObject.js
 src/model/Dog.js

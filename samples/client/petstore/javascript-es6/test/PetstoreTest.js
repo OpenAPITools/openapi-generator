@@ -95,6 +95,19 @@ describe('Petstore', function() {
       expect(JSON.stringify(result)).to.be(nested_one_of_json);
     });
 
+    it('should run Color constructFromObject correctly', function() {
+      var json = '"#00FF00"';
+      var bpig = OpenAPIPetstore.Color.constructFromObject(JSON.parse(json), null);
+      expect(JSON.stringify(bpig)).to.be(json);
+    });
+
+    it('should deserialize nested oneOf models correctly', function() {
+      var json = '{"nested":"#00FF00","size":256}'
+      var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(json), OpenAPIPetstore.NestedColor);
+      expect(result).to.be.a(OpenAPIPetstore.NestedColor);
+      expect(JSON.stringify(result)).to.be('{"size":256,"nested":"#00FF00"}');
+    });
+
   });
 });
 

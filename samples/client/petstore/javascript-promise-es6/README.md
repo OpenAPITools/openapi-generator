@@ -176,6 +176,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
+ - [OpenApiPetstore.Color](docs/Color.md)
  - [OpenApiPetstore.DanishPig](docs/DanishPig.md)
  - [OpenApiPetstore.DeprecatedObject](docs/DeprecatedObject.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
