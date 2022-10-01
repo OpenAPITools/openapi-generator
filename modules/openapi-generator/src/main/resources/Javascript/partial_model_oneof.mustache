@@ -31,19 +31,23 @@ class {{classname}} {
         var match = 0;
         var errorMessages = [];
         //obj = obj || new {{classname}}();
-        {{#oneOf}}
+        {{#composedSchemas.oneOf}}
         try {
+            {{#isPrimitiveType}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
             // validate the JSON data
-            {{{.}}}.validateJSON(data);
-            // create {{{.}}} frmo JSON data
-            obj = new {{classname}}({{{.}}}.constructFromObject(data));
+            {{{dataType}}}.validateJSON(data);
+            // create {{{dataType}}} frmo JSON data
+            obj = new {{classname}}({{{dataType}}}.constructFromObject(data));
+            {{/isPrimitiveType}}
             match++;
         } catch(err) {
-            // json data failed to deserialize into {{{.}}}
-            errorMessages.push("Failed to desserialize JSON data into {{{.}}}: " + err)
+            // json data failed to deserialize into {{{dataType}}}
+            errorMessages.push("Failed to desserialize JSON data into {{{dataType}}}: " + err)
         }
 
-        {{/oneOf}}
+        {{/composedSchemas.oneOf}}
         if (match > 1) {
             throw new Error("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. JSON data: " + JSON.stringify(data));
         } else if (match === 0) {
@@ -71,12 +75,16 @@ class {{classname}} {
      */
     {{/emitJSDoc}}
     setActualInstance(obj) {
-        {{#oneOf}}
-        if (obj instanceof {{{.}}}) {
+        {{#composedSchemas.oneOf}}
+        {{#isPrimitiveType}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        if (obj instanceof {{{dataType}}}) {
             this.actualInstance = obj;
             return;
         }
-        {{/oneOf}}
+        {{/isPrimitiveType}}
+        {{/composedSchemas.oneOf}}
         {{#isNullable}}
         if (obj === null) {
            this.actualInstance = null;
