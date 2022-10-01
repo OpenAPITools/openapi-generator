@@ -71,25 +71,25 @@ class {{classname}} {
                 if (!(typeof item === 'number' && item % 1 === 0)) {
                     throw new Error("Invalid array items. Must be integer. Data: " + data);
                 }
-                {{#maximum}}
-                {{#minimum}}
-                if (item > {{maximum}} || item < {{minimum}}) {
-                    throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Min.: {{minimum}}. Data: " + data);
+                {{#items.maximum}}
+                {{#items.minimum}}
+                if (item > {{items.maximum}} || item < {{items.minimum}}) {
+                    throw new Error("Invalid integer value in an array items. Max.: {{items.maximum}}. Min.: {{items.minimum}}. Data: " + data);
                 }
-                {{/minimum}}
-                {{^minimum}}
-                if (item > {{maximum}}) {
-                    throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Data: " + data);
+                {{/items.minimum}}
+                {{^items.minimum}}
+                if (item > {{items.maximum}}) {
+                    throw new Error("Invalid integer value in an array items. Max.: {{items.maximum}}. Data: " + data);
                 }
-                {{/minimum}}
-                {{/maximum}}
-                {{^maximum}}
-                {{#minimum}}
-                if (item < {{minimum}}) {
-                    throw new Error("Invalid integer value in an array items. Min.: {{minimum}}. Data: " + data);
+                {{/items.minimum}}
+                {{/items.maximum}}
+                {{^items.maximum}}
+                {{#items.minimum}}
+                if (item < {{items.minimum}}) {
+                    throw new Error("Invalid integer value in an array items. Min.: {{items.minimum}}. Data: " + data);
                 }
-                {{/minimum}}
-                {{/maximum}}
+                {{/items.minimum}}
+                {{/items.maximum}}
             }
             {{/items.isInteger}}
             {{#items.isString}}
@@ -98,30 +98,30 @@ class {{classname}} {
                 if (!(typeof item === 'number' && item % 1 === 0)) {
                     throw new Error("Invalid array items. Must be string. Data: " + data);
                 }
-                {{#pattern}}
-                if (!{{{pattern}}}.test(item)) {
-                    throw new Error("Invalid string value in an array items. Must conform to {{{.}}}. Data: " + item);
+                {{#items.pattern}}
+                if (!{{{items.pattern}}}.test(item)) {
+                    throw new Error("Invalid string value in an array items. Must conform to {{{items.pattern}}}. Data: " + item);
                 }
-                {{/pattern}}
-                {{#minLength}}
-                {{#maxLength}}
-                if (item.length > {{maxLength}} && item.length < {{minLength}}) {
-                    throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Min. length: {{{minLength}}}. Data: " + item);
+                {{/items.pattern}}
+                {{#items.minLength}}
+                {{#items.maxLength}}
+                if (item.length > {{items.maxLength}} && item.length < {{items.minLength}}) {
+                    throw new Error("Invalid string value in an array items. Max. length: {{{items.maxLength}}}. Min. length: {{{items.minLength}}}. Data: " + item);
                 }
-                {{/maxLength}}
-                {{^maxLength}}
-                if (item.length < {{minLength}}) {
-                    throw new Error("Invalid string value in an array items. Min. length: {{{minLength}}}. Data: " + item);
+                {{/items.maxLength}}
+                {{^items.maxLength}}
+                if (item.length < {{items.minLength}}) {
+                    throw new Error("Invalid string value in an array items. Min. length: {{{items.minLength}}}. Data: " + item);
                 }
-                {{/maxLength}}
-                {{/minLength}}
-                {{^minLength}}
-                {{#maxLength}}
-                if (item.length > {{maxLength}}) {
-                    throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Data: " + item)
+                {{/items.maxLength}}
+                {{/items.minLength}}
+                {{^items.minLength}}
+                {{#items.maxLength}}
+                if (item.length > {{items.maxLength}}) {
+                    throw new Error("Invalid string value in an array items. Max. length: {{{items.maxLength}}}. Data: " + item)
                 }
-                {{/maxLength}}
-                {{/minLength}}
+                {{/items.maxLength}}
+                {{/items.minLength}}
             }
             {{/items.isString}}
             {{#items.isNumber}}
@@ -207,14 +207,14 @@ class {{classname}} {
             match++;
         } catch(err) {
             // json data failed to deserialize into {{{dataType}}}
-            errorMessages.push("Failed to desserialize JSON data into {{{dataType}}}: " + err)
+            errorMessages.push("Failed to construct {{{dataType}}}: " + err)
         }
 
         {{/composedSchemas.oneOf}}
         if (match > 1) {
-            throw new Error("Multiple matches found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. JSON data: " + JSON.stringify(data));
+            throw new Error("Multiple matches found constructing `{{{classname}}}` with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. JSON data: " + JSON.stringify(data));
         } else if (match === 0) {
-            throw new Error("No match found when deserializing the payload into {{{classname}}} with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " +
+            throw new Error("No match found constructing `{{{classname}}}` with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " +
                             errorMessages.join(", "));
         } else { // only 1 match
             return obj;
@@ -243,21 +243,21 @@ class {{classname}} {
         {{#isArray}}
         if (Array.isArray(obj)) {
             {{#items.isNumber}}
-            // validate number 
+            // array of number?
             if (typeof data === 'number' && data % 1 != 0) {
                this.actualInstance = obj;
                return;
             }
             {{/items.isNumber}}
             {{#items.isInteger}}
-            // validate integer
+            // array of integer?
             if (typeof data === 'number' && data % 1 === 0) {
                this.actualInstance = obj;
                return;
             }
             {{/items.isInteger}}
             {{#items.isString}}
-            // validate string
+            // array of string?
             if (typeof data === 'string') {
                this.actualInstance = obj;
                return;
@@ -267,21 +267,21 @@ class {{classname}} {
         {{/isArray}}
         {{^isArray}}
         {{#isNumber}}
-        // validate number
+        // number?
         if (typeof data === 'number' && data % 1 != 0) {
            this.actualInstance = obj;
            return;
         }
         {{/isNumber}}
         {{#isInteger}}
-        // validate integer 
+        // integer?
         if (typeof data === 'number' && data % 1 === 0) {
            this.actualInstance = obj;
            return;
         }
         {{/isInteger}}
         {{#isString}}
-        // validate string
+        // string?
         if (typeof data === 'string') {
            this.actualInstance = obj;
            return;
@@ -290,6 +290,7 @@ class {{classname}} {
         {{/isArray}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
+        // object `{{{dataType}}}` ?
         if (obj instanceof {{{dataType}}}) {
             this.actualInstance = obj;
             return;
@@ -297,6 +298,7 @@ class {{classname}} {
         {{/isPrimitiveType}}
         {{/composedSchemas.oneOf}}
         {{#isNullable}}
+        // null?
         if (obj === null) {
            this.actualInstance = null;
            return;

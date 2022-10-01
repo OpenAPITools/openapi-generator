@@ -56,12 +56,15 @@ class Color {
                 if (!(typeof item === 'number' && item % 1 === 0)) {
                     throw new Error("Invalid array items. Must be integer. Data: " + data);
                 }
+                if (item > 255 || item < 0) {
+                    throw new Error("Invalid integer value in an array items. Max.: 255. Min.: 0. Data: " + data);
+                }
             }
             obj = data; // passed validations
             match++;
         } catch(err) {
             // json data failed to deserialize into [Number]
-            errorMessages.push("Failed to desserialize JSON data into [Number]: " + err)
+            errorMessages.push("Failed to construct [Number]: " + err)
         }
 
         // RGBA four element array with values 0-255.
@@ -81,12 +84,15 @@ class Color {
                 if (!(typeof item === 'number' && item % 1 === 0)) {
                     throw new Error("Invalid array items. Must be integer. Data: " + data);
                 }
+                if (item > 255 || item < 0) {
+                    throw new Error("Invalid integer value in an array items. Max.: 255. Min.: 0. Data: " + data);
+                }
             }
             obj = data; // passed validations
             match++;
         } catch(err) {
             // json data failed to deserialize into [Number]
-            errorMessages.push("Failed to desserialize JSON data into [Number]: " + err)
+            errorMessages.push("Failed to construct [Number]: " + err)
         }
 
         // Hex color string, such as #00FF00.
@@ -108,13 +114,13 @@ class Color {
             match++;
         } catch(err) {
             // json data failed to deserialize into String
-            errorMessages.push("Failed to desserialize JSON data into String: " + err)
+            errorMessages.push("Failed to construct String: " + err)
         }
 
         if (match > 1) {
-            throw new Error("Multiple matches found when deserializing the payload into Color with oneOf schemas String, [Number]. JSON data: " + JSON.stringify(data));
+            throw new Error("Multiple matches found constructing `Color` with oneOf schemas String, [Number]. JSON data: " + JSON.stringify(data));
         } else if (match === 0) {
-            throw new Error("No match found when deserializing the payload into Color with oneOf schemas String, [Number]. Details: " +
+            throw new Error("No match found constructing `Color` with oneOf schemas String, [Number]. Details: " +
                             errorMessages.join(", "));
         } else { // only 1 match
             return obj;
@@ -135,20 +141,20 @@ class Color {
      */
     setActualInstance(obj) {
         if (Array.isArray(obj)) {
-            // validate integer
+            // array of integer?
             if (typeof data === 'number' && data % 1 === 0) {
                this.actualInstance = obj;
                return;
             }
         }
         if (Array.isArray(obj)) {
-            // validate integer
+            // array of integer?
             if (typeof data === 'number' && data % 1 === 0) {
                this.actualInstance = obj;
                return;
             }
         }
-        // validate string
+        // string?
         if (typeof data === 'string') {
            this.actualInstance = obj;
            return;

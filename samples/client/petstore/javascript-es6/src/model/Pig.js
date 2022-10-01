@@ -51,7 +51,7 @@ class Pig {
             match++;
         } catch(err) {
             // json data failed to deserialize into BasquePig
-            errorMessages.push("Failed to desserialize JSON data into BasquePig: " + err)
+            errorMessages.push("Failed to construct BasquePig: " + err)
         }
 
         try {
@@ -65,13 +65,13 @@ class Pig {
             match++;
         } catch(err) {
             // json data failed to deserialize into DanishPig
-            errorMessages.push("Failed to desserialize JSON data into DanishPig: " + err)
+            errorMessages.push("Failed to construct DanishPig: " + err)
         }
 
         if (match > 1) {
-            throw new Error("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. JSON data: " + JSON.stringify(data));
+            throw new Error("Multiple matches found constructing `Pig` with oneOf schemas BasquePig, DanishPig. JSON data: " + JSON.stringify(data));
         } else if (match === 0) {
-            throw new Error("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: " +
+            throw new Error("No match found constructing `Pig` with oneOf schemas BasquePig, DanishPig. Details: " +
                             errorMessages.join(", "));
         } else { // only 1 match
             return obj;
@@ -91,14 +91,17 @@ class Pig {
      * @param {(module:model/BasquePig|module:model/DanishPig)} The actual instance.
      */
     setActualInstance(obj) {
+        // object `BasquePig` ?
         if (obj instanceof BasquePig) {
             this.actualInstance = obj;
             return;
         }
+        // object `DanishPig` ?
         if (obj instanceof DanishPig) {
             this.actualInstance = obj;
             return;
         }
+        // null?
         if (obj === null) {
            this.actualInstance = null;
            return;
