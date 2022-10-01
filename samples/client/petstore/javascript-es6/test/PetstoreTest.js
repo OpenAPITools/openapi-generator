@@ -80,6 +80,15 @@ describe('Petstore', function() {
       expect(JSON.stringify(pig)).to.be('{"className":"BasquePig","color":"red"}');
     });
 
+    it('should throw an error when running Pig constructFromObject with incorrect data', function() {
+      try {
+        var bpig = '[1,2,3]';
+        var pig = OpenAPIPetstore.Pig.constructFromObject(JSON.parse(bpig));
+      } catch (err) {
+        expect(err).to.be.eql(new Error('No match found constructing `Pig` with oneOf schemas BasquePig, DanishPig. Details: Failed to construct BasquePig: Error: The required field `className` is not found in the JSON data: [1,2,3], Failed to construct DanishPig: Error: The required field `className` is not found in the JSON data: [1,2,3]'));
+      }
+    });
+
     it('should deserialize simple models correctly', function() {
       var tag_json = '{"id":1,"name":"tag_name"}';
       var tag_result = OpenAPIPetstore.ApiClient.convertToType(tag_json, OpenAPIPetstore.Tag);
@@ -93,6 +102,25 @@ describe('Petstore', function() {
       var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(nested_one_of_json), OpenAPIPetstore.NestedOneOf);
       expect(result).to.be.a(OpenAPIPetstore.NestedOneOf);
       expect(JSON.stringify(result)).to.be(nested_one_of_json);
+    });
+
+    it('should run Color constructFromObject correctly from array', function() {
+      // construct from RgbColor
+      let array_integer = [0,128,255];
+      let color = OpenAPIPetstore.Color.constructFromObject(array_integer, null);
+      expect(color).to.be.a(OpenAPIPetstore.Color);
+      expect(color.getActualInstance()).to.be.eql(array_integer);
+    });
+
+    it('should throw an error when running Color constructFromObject with invalid array', function() {
+      // construct from RgbColor
+      let array_integer = [0,128,9255];
+      try {
+        let color = OpenAPIPetstore.Color.constructFromObject(array_integer, null);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('No match found constructing `Color` with oneOf schemas String, [Number]. Details: Failed to construct [Number]: Error: Invalid integer value in an array items. Max.: 255. Min.: 0. Data: 0,128,9255, Failed to construct [Number]: Error: Invalid array size. Minimim: 4. Maximum: 4. Data: 0,128,9255, Failed to construct String: Error: Invalid data. Must be string. Data: [0,128,9255]'));
+      }
     });
 
     it('should run Color constructFromObject correctly', function() {

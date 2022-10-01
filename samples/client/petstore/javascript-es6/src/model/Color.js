@@ -26,7 +26,7 @@ class Color {
      * @param {(module:model/String|module:model/[Number])} The actual instance to initialize Color.
      */
     constructor(obj = null) {
-        this.setActualInstance(obj);
+        this.actualInstance = obj;
     }
 
     /**
@@ -37,13 +37,13 @@ class Color {
      * @return {module:model/Color} The populated <code>Color</code> instance.
      */
     static constructFromObject(data, obj) {
+        if (!data) {
+            return new Color();
+        }
         var match = 0;
         var errorMessages = [];
         // RGB three element array with values 0-255.
         try {
-            if (!data) {
-                throw new Error("Invalid data. Must not be null.");
-            }
             // validate array data type
             if (!Array.isArray(data)) {
                 throw new Error("Invalid data type. Expecting array. Data: " + data);
@@ -60,7 +60,7 @@ class Color {
                     throw new Error("Invalid integer value in an array items. Max.: 255. Min.: 0. Data: " + data);
                 }
             }
-            obj = data; // passed validations
+            obj = new Color(data);
             match++;
         } catch(err) {
             // json data failed to deserialize into [Number]
@@ -69,9 +69,6 @@ class Color {
 
         // RGBA four element array with values 0-255.
         try {
-            if (!data) {
-                throw new Error("Invalid data. Must not be null.");
-            }
             // validate array data type
             if (!Array.isArray(data)) {
                 throw new Error("Invalid data type. Expecting array. Data: " + data);
@@ -88,7 +85,7 @@ class Color {
                     throw new Error("Invalid integer value in an array items. Max.: 255. Min.: 0. Data: " + data);
                 }
             }
-            obj = data; // passed validations
+            obj = new Color(data);
             match++;
         } catch(err) {
             // json data failed to deserialize into [Number]
@@ -97,9 +94,6 @@ class Color {
 
         // Hex color string, such as #00FF00.
         try {
-            if (!data) {
-                throw new Error("Invalid data. Must not be null.");
-            }
             // validate array of string
             if (!(typeof data === 'string')) {
                 throw new Error("Invalid data. Must be string. Data: " + JSON.stringify(data));
@@ -110,7 +104,7 @@ class Color {
             if (data.length > 7 && data.length < 7) {
                 throw new Error("Invalid string value in an array items. Max. length: 7. Min. length: 7. Data: " + JSON.stringify(data));
             }
-            obj = data; // passed validations
+            obj = new Color(data);
             match++;
         } catch(err) {
             // json data failed to deserialize into String
@@ -137,30 +131,10 @@ class Color {
 
     /**
      * Sets the actaul instance, which can be <code>String</code>, <code>[Number]</code>.
-     * @param {(module:model/String|module:model/[Number])} The actual instance.
+     * @param {(module:model/String|module:model/[Number])} obj The actual instance.
      */
     setActualInstance(obj) {
-        if (Array.isArray(obj)) {
-            // array of integer?
-            if (typeof data === 'number' && data % 1 === 0) {
-               this.actualInstance = obj;
-               return;
-            }
-        }
-        if (Array.isArray(obj)) {
-            // array of integer?
-            if (typeof data === 'number' && data % 1 === 0) {
-               this.actualInstance = obj;
-               return;
-            }
-        }
-        // string?
-        if (typeof data === 'string') {
-           this.actualInstance = obj;
-           return;
-        }
-
-        throw new Error('Failed to set actual instance, which must be [String, [Number]]: ' + obj);
+       this.actualInstance = Color.constructFromObject(obj).getActualInstance();
     }
 
     /**

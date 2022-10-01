@@ -27,7 +27,7 @@ class Pig {
      * @param {(module:model/BasquePig|module:model/DanishPig)} The actual instance to initialize Pig.
      */
     constructor(obj = null) {
-        this.setActualInstance(obj);
+        this.actualInstance = obj;
     }
 
     /**
@@ -38,15 +38,15 @@ class Pig {
      * @return {module:model/Pig} The populated <code>Pig</code> instance.
      */
     static constructFromObject(data, obj) {
+        if (!data) {
+            return new Pig();
+        }
         var match = 0;
         var errorMessages = [];
         try {
-            if (!data) {
-                throw new Error("Invalid data. Must not be null.");
-            }
             // validate the JSON data
             BasquePig.validateJSON(data);
-            // create BasquePig frmo JSON data
+            // create BasquePig from JSON data
             obj = new Pig(BasquePig.constructFromObject(data));
             match++;
         } catch(err) {
@@ -55,12 +55,9 @@ class Pig {
         }
 
         try {
-            if (!data) {
-                throw new Error("Invalid data. Must not be null.");
-            }
             // validate the JSON data
             DanishPig.validateJSON(data);
-            // create DanishPig frmo JSON data
+            // create DanishPig from JSON data
             obj = new Pig(DanishPig.constructFromObject(data));
             match++;
         } catch(err) {
@@ -88,26 +85,10 @@ class Pig {
 
     /**
      * Sets the actaul instance, which can be <code>BasquePig</code>, <code>DanishPig</code>.
-     * @param {(module:model/BasquePig|module:model/DanishPig)} The actual instance.
+     * @param {(module:model/BasquePig|module:model/DanishPig)} obj The actual instance.
      */
     setActualInstance(obj) {
-        // object `BasquePig` ?
-        if (obj instanceof BasquePig) {
-            this.actualInstance = obj;
-            return;
-        }
-        // object `DanishPig` ?
-        if (obj instanceof DanishPig) {
-            this.actualInstance = obj;
-            return;
-        }
-        // null?
-        if (obj === null) {
-           this.actualInstance = null;
-           return;
-        }
-
-        throw new Error('Failed to set actual instance, which must be [BasquePig, DanishPig]: ' + obj);
+       this.actualInstance = Pig.constructFromObject(obj).getActualInstance();
     }
 
     /**
@@ -115,9 +96,6 @@ class Pig {
      * @return {string}
      */
     toJSON = function(){
-        if (this.getActualInstance() === null) {
-            return null;
-        }
         return this.getActualInstance();
     }
 

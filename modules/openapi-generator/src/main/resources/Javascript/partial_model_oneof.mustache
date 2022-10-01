@@ -15,7 +15,7 @@ class {{classname}} {
      */
     {{/emitJSDoc}}
     constructor(obj = null) {
-        this.setActualInstance(obj);
+        this.actualInstance = obj;
     }
 
     {{#emitJSDoc}}
@@ -28,6 +28,9 @@ class {{classname}} {
      */
     {{/emitJSDoc}}
     static constructFromObject(data, obj) {
+        if (!data) {
+            return new {{classname}}();
+        }
         var match = 0;
         var errorMessages = [];
         {{#composedSchemas.oneOf}}
@@ -35,11 +38,6 @@ class {{classname}} {
         // {{{description}}}
         {{/description}}
         try {
-            {{^isNullable}}
-            if (!data) {
-                throw new Error("Invalid data. Must not be null.");
-            }
-            {{/isNullable}}
             {{#isPrimitiveType}}
             {{#isArray}}
             // validate array data type
@@ -196,12 +194,12 @@ class {{classname}} {
             }
             {{/isNumber}}
             {{/isArray}}
-            obj = data; // passed validations
+            obj = new {{classname}}(data);
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
             // validate the JSON data
             {{{dataType}}}.validateJSON(data);
-            // create {{{dataType}}} frmo JSON data
+            // create {{{dataType}}} from JSON data
             obj = new {{classname}}({{{dataType}}}.constructFromObject(data));
             {{/isPrimitiveType}}
             match++;
@@ -234,78 +232,11 @@ class {{classname}} {
     {{#emitJSDoc}}
     /**
      * Sets the actaul instance, which can be {{#oneOf}}<code>{{{.}}}</code>{{^-last}}, {{/-last}}{{/oneOf}}.
-     * @param {{=< >=}}{(<#oneOf>module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><&.><^-last>|</-last></oneOf>)}<={{ }}=> The actual instance.
+     * @param {{=< >=}}{(<#oneOf>module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><&.><^-last>|</-last></oneOf>)}<={{ }}=> obj The actual instance.
      */
     {{/emitJSDoc}}
     setActualInstance(obj) {
-        {{#composedSchemas.oneOf}}
-        {{#isPrimitiveType}}
-        {{#isArray}}
-        if (Array.isArray(obj)) {
-            {{#items.isNumber}}
-            // array of number?
-            if (typeof data === 'number' && data % 1 != 0) {
-               this.actualInstance = obj;
-               return;
-            }
-            {{/items.isNumber}}
-            {{#items.isInteger}}
-            // array of integer?
-            if (typeof data === 'number' && data % 1 === 0) {
-               this.actualInstance = obj;
-               return;
-            }
-            {{/items.isInteger}}
-            {{#items.isString}}
-            // array of string?
-            if (typeof data === 'string') {
-               this.actualInstance = obj;
-               return;
-            }
-            {{/items.isString}}
-        }
-        {{/isArray}}
-        {{^isArray}}
-        {{#isNumber}}
-        // number?
-        if (typeof data === 'number' && data % 1 != 0) {
-           this.actualInstance = obj;
-           return;
-        }
-        {{/isNumber}}
-        {{#isInteger}}
-        // integer?
-        if (typeof data === 'number' && data % 1 === 0) {
-           this.actualInstance = obj;
-           return;
-        }
-        {{/isInteger}}
-        {{#isString}}
-        // string?
-        if (typeof data === 'string') {
-           this.actualInstance = obj;
-           return;
-        }
-        {{/isString}}
-        {{/isArray}}
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        // object `{{{dataType}}}` ?
-        if (obj instanceof {{{dataType}}}) {
-            this.actualInstance = obj;
-            return;
-        }
-        {{/isPrimitiveType}}
-        {{/composedSchemas.oneOf}}
-        {{#isNullable}}
-        // null?
-        if (obj === null) {
-           this.actualInstance = null;
-           return;
-        }
-        {{/isNullable}}
-
-        throw new Error('Failed to set actual instance, which must be {{oneOf}}: ' + obj);
+       this.actualInstance = {{classname}}.constructFromObject(obj).getActualInstance();
     }
 
     {{#emitJSDoc}}
@@ -315,11 +246,6 @@ class {{classname}} {
      */
     {{/emitJSDoc}}
     toJSON = function(){
-        {{#isNullable}}
-        if (this.getActualInstance() === null) {
-            return null;
-        }
-        {{/isNullable}}
         return this.getActualInstance();
     }
 
