@@ -1,0 +1,265 @@
+
+{{#emitJSDoc}}
+/**
+ * The {{classname}} model module.
+ * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
+ * @version {{projectVersion}}
+ */
+{{/emitJSDoc}}
+class {{classname}} {
+    {{#emitJSDoc}}/**
+     * Constructs a new <code>{{classname}}</code>.{{#description}}
+     * {{.}}{{/description}}
+     * @alias module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
+     * @param {{=< >=}}{(<#oneOf>module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><&.><^-last>|</-last></oneOf>)}<={{ }}=> The actual instance to initialize {{classname}}.
+     */
+    {{/emitJSDoc}}
+    constructor(obj = null) {
+        this.actualInstance = obj;
+    }
+
+    {{#emitJSDoc}}
+    /**
+     * Constructs a <code>{{classname}}</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
+     * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
+     */
+    {{/emitJSDoc}}
+    static constructFromObject(data, obj) {
+        if (!data) {
+            return new {{classname}}();
+        }
+        var match = 0;
+        var errorMessages = [];
+        {{#composedSchemas.oneOf}}
+        {{#description}}
+        // {{{description}}}
+        {{/description}}
+        try {
+            {{#isPrimitiveType}}
+            {{#isArray}}
+            // validate array data type
+            if (!Array.isArray(data)) {
+                throw new Error("Invalid data type. Expecting array. Data: " + data);
+            }
+            {{#minItems}}
+            {{#maxItems}}
+            if (data.length > {{{maxItems}}} || data.length < {{{minItems}}}) {
+                throw new Error("Invalid array size. Minimim: {{minItems}}. Maximum: {{maxItems}}. Data: " + data);
+            }
+            {{/maxItems}}
+            {{^maxItems}}
+            if (data.length < {{{minItems}}}) {
+                throw new Error("Invalid array size. Minimim: {{minItems}}. Data: " + data);
+            }
+            {{/maxItems}}
+            {{/minItems}}
+            {{^minItems}}
+            {{#maxItems}}
+            if (data.length > {{{maxItems}}}) {
+                throw new Error("Invalid array size. Maximum: {{maxItems}}. Data: " + data);
+            }
+            {{/maxItems}}
+            {{/minItems}}
+            {{#items.isInteger}}
+            // validate array of integer
+            for (const item of data) {
+                if (!(typeof item === 'number' && item % 1 === 0)) {
+                    throw new Error("Invalid array items. Must be integer. Data: " + data);
+                }
+                {{#items.maximum}}
+                {{#items.minimum}}
+                if (item > {{items.maximum}} || item < {{items.minimum}}) {
+                    throw new Error("Invalid integer value in an array items. Max.: {{items.maximum}}. Min.: {{items.minimum}}. Data: " + data);
+                }
+                {{/items.minimum}}
+                {{^items.minimum}}
+                if (item > {{items.maximum}}) {
+                    throw new Error("Invalid integer value in an array items. Max.: {{items.maximum}}. Data: " + data);
+                }
+                {{/items.minimum}}
+                {{/items.maximum}}
+                {{^items.maximum}}
+                {{#items.minimum}}
+                if (item < {{items.minimum}}) {
+                    throw new Error("Invalid integer value in an array items. Min.: {{items.minimum}}. Data: " + data);
+                }
+                {{/items.minimum}}
+                {{/items.maximum}}
+            }
+            {{/items.isInteger}}
+            {{#items.isString}}
+            // validate array of string
+            for (const item of data) {
+                if (!(typeof item === 'number' && item % 1 === 0)) {
+                    throw new Error("Invalid array items. Must be string. Data: " + data);
+                }
+                {{#items.pattern}}
+                if (!{{{items.pattern}}}.test(item)) {
+                    throw new Error("Invalid string value in an array items. Must conform to {{{items.pattern}}}. Data: " + item);
+                }
+                {{/items.pattern}}
+                {{#items.minLength}}
+                {{#items.maxLength}}
+                if (item.length > {{items.maxLength}} && item.length < {{items.minLength}}) {
+                    throw new Error("Invalid string value in an array items. Max. length: {{{items.maxLength}}}. Min. length: {{{items.minLength}}}. Data: " + item);
+                }
+                {{/items.maxLength}}
+                {{^items.maxLength}}
+                if (item.length < {{items.minLength}}) {
+                    throw new Error("Invalid string value in an array items. Min. length: {{{items.minLength}}}. Data: " + item);
+                }
+                {{/items.maxLength}}
+                {{/items.minLength}}
+                {{^items.minLength}}
+                {{#items.maxLength}}
+                if (item.length > {{items.maxLength}}) {
+                    throw new Error("Invalid string value in an array items. Max. length: {{{items.maxLength}}}. Data: " + item)
+                }
+                {{/items.maxLength}}
+                {{/items.minLength}}
+            }
+            {{/items.isString}}
+            {{#items.isNumber}}
+            // validate array of string
+            for (const item of data) {
+                if (!(typeof data === 'number' && data % 1 != 0)) {
+                    throw new Error("Invalid array items. Must be number. Data: " + JSON.stringify(data));
+                }
+            }
+            {{/items.isNumber}}
+            {{/isArray}}
+            {{^isArray}}
+            {{#isInteger}}
+            // validate array of integer
+            if (!(typeof data === 'number' && data % 1 === 0)) {
+                throw new Error("Invalid array items. Must be integer. Data: " + JSON.stringify(data));
+            }
+            {{#maximum}}
+            {{#minimum}}
+            if (data > {{maximum}} || data < {{minimum}}) {
+                throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Min.: {{minimum}}. Data: " + JSON.stringify(data));
+            }
+            {{/minimum}}
+            {{^minimum}}
+            if (data > {{maximum}}) {
+                throw new Error("Invalid integer value in an array items. Max.: {{maximum}}. Data: " + JSON.stringify(data));
+            }
+            {{/minimum}}
+            {{/maximum}}
+            {{^maximum}}
+            {{#minimum}}
+            if (data < {{minimum}}) {
+                throw new Error("Invalid integer value in an array items. Min.: {{minimum}}. Data: " + JSON.stringify(data));
+            }
+            {{/minimum}}
+            {{/maximum}}
+            {{/isInteger}}
+            {{#isString}}
+            // validate array of string
+            if (!(typeof data === 'string')) {
+                throw new Error("Invalid data. Must be string. Data: " + JSON.stringify(data));
+            }
+            {{#pattern}}
+            if (!{{{pattern}}}.test(data)) {
+                throw new Error("Invalid string value in an array items. Must conform to {{{.}}}. Data: " + JSON.stringify(data));
+            }
+            {{/pattern}}
+            {{#minLength}}
+            {{#maxLength}}
+            if (data.length > {{maxLength}} && data.length < {{minLength}}) {
+                throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Min. length: {{{minLength}}}. Data: " + JSON.stringify(data));
+            }
+            {{/maxLength}}
+            {{^maxLength}}
+            if (data.length < {{minLength}}) {
+                throw new Error("Invalid string value in an array items. Min. length: {{{minLength}}}. Data: " + data);
+            }
+            {{/maxLength}}
+            {{/minLength}}
+            {{^minLength}}
+            {{#maxLength}}
+            if (data.length > {{maxLength}}) {
+                throw new Error("Invalid string value in an array items. Max. length: {{{maxLength}}}. Data: " + JSON.stringify(data));
+            }
+            {{/maxLength}}
+            {{/minLength}}
+            {{/isString}}
+            {{#isNumber}}
+            // validate array of string
+            if (!(typeof data === 'number' && data % 1 != 0)) {
+                throw new Error("Invalid array items. Must be number. Data: " + JSON.stringify(data));
+            }
+            {{/isNumber}}
+            {{/isArray}}
+            obj = new {{classname}}(data);
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            // validate the JSON data
+            {{{dataType}}}.validateJSON(data);
+            // create {{{dataType}}} from JSON data
+            obj = new {{classname}}({{{dataType}}}.constructFromObject(data));
+            {{/isPrimitiveType}}
+            match++;
+        } catch(err) {
+            // json data failed to deserialize into {{{dataType}}}
+            errorMessages.push("Failed to construct {{{dataType}}}: " + err)
+        }
+
+        {{/composedSchemas.oneOf}}
+        if (match > 1) {
+            throw new Error("Multiple matches found constructing `{{{classname}}}` with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. JSON data: " + JSON.stringify(data));
+        } else if (match === 0) {
+            throw new Error("No match found constructing `{{{classname}}}` with oneOf schemas {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " +
+                            errorMessages.join(", "));
+        } else { // only 1 match
+            return obj;
+        }
+    }
+
+    {{#emitJSDoc}}
+    /**
+     * Gets the actaul instance, which can be {{#oneOf}}<code>{{{.}}}</code>{{^-last}}, {{/-last}}{{/oneOf}}.
+     * @return {{=< >=}}{(<#oneOf>module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><&.><^-last>|</-last></oneOf>)}<={{ }}=> The actual instance.
+     */
+    {{/emitJSDoc}}
+    getActualInstance() {
+        return this.actualInstance;
+    }
+
+    {{#emitJSDoc}}
+    /**
+     * Sets the actaul instance, which can be {{#oneOf}}<code>{{{.}}}</code>{{^-last}}, {{/-last}}{{/oneOf}}.
+     * @param {{=< >=}}{(<#oneOf>module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><&.><^-last>|</-last></oneOf>)}<={{ }}=> obj The actual instance.
+     */
+    {{/emitJSDoc}}
+    setActualInstance(obj) {
+       this.actualInstance = {{classname}}.constructFromObject(obj).getActualInstance();
+    }
+
+    {{#emitJSDoc}}
+    /**
+     * Returns the JSON representation of the actual intance.
+     * @return {string}
+     */
+    {{/emitJSDoc}}
+    toJSON = function(){
+        return this.getActualInstance();
+    }
+
+}
+
+{{#vars}}{{#emitJSDoc}}/**{{#description}}
+ * {{{.}}}{{/description}}
+ * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
+ * @default {{{.}}}{{/defaultValue}}
+ */{{/emitJSDoc}}
+{{classname}}.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
+
+{{/vars}}
+
+{{classname}}.OneOf = [{{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}}];
+
+export default {{classname}};
