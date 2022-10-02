@@ -51,7 +51,7 @@ class {{classname}} {
             }
             {{/maxItems}}
             {{^maxItems}}
-            if (data.length < {{{minItems}}} {
+            if (data.length < {{{minItems}}}) {
                 throw new Error("Invalid array size. Minimim: {{minItems}}. Data: " + data);
             }
             {{/maxItems}}
