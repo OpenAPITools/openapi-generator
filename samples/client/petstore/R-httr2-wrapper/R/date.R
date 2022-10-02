@@ -103,6 +103,10 @@ Date <- R6::R6Class(
         self$`percent_description` <- this_object$`percent_description`
       }
       if (!is.null(this_object$`url_property`)) {
+        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+          stop(paste("Error! Invalid URL:", this_object$`url_property`))
+        }
         self$`url_property` <- this_object$`url_property`
       }
       # process additional properties/fields in the payload
@@ -168,6 +172,10 @@ Date <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
       self$`percent_description` <- this_object$`percent_description`
+      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+        stop(paste("Error! Invalid URL:", this_object$`url_property`))
+      }
       self$`url_property` <- this_object$`url_property`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {

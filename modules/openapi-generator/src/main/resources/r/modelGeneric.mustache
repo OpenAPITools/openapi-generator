@@ -382,6 +382,12 @@
         stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
       }
       {{/isEnum}}
+      {{#isUri}}
+      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`{{name}}`))) {
+        stop(paste("Error! Invalid URL:", this_object$`{{name}}`))
+      }
+      {{/isUri}}
       self$`{{name}}` <- this_object$`{{name}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
@@ -517,6 +523,12 @@
         return(FALSE)
       }
       {{/pattern}}
+      {{#isUri}}
+      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", self$`{{{name}}}`))) {
+        return(FALSE)
+      }
+      {{/isUri}}
       {{#maxItems}}
       if (length(self$`{{{name}}}`) > {{maxItems}}) {
         return(FALSE)
@@ -577,6 +589,12 @@
         invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must conform to the pattern {{{pattern}}}."
       }
       {{/pattern}}
+      {{#isUri}}
+      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", self$`{{name}}`))) {
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be URL."
+      }
+      {{/isUri}}
       {{#maxItems}}
       if (length(self$`{{{name}}}`) > {{maxItems}}) {
         invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, number of items must be less than or equal to {{maxItems}}."
