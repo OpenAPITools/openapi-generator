@@ -169,7 +169,9 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -261,7 +263,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.stringResponseSerializer,
+                          completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -273,7 +277,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is URL.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 do {
@@ -319,7 +325,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -331,7 +339,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is Data.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -343,7 +353,9 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         default:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {

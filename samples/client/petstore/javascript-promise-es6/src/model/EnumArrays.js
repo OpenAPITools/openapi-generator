@@ -57,8 +57,28 @@ class EnumArrays {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>EnumArrays</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>EnumArrays</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['just_symbol'] && !(typeof data['just_symbol'] === 'string' || data['just_symbol'] instanceof String)) {
+            throw new Error("Expected the field `just_symbol` to be a primitive type in the JSON string but got " + data['just_symbol']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['array_enum'])) {
+            throw new Error("Expected the field `array_enum` to be an array in the JSON data but got " + data['array_enum']);
+        }
+
+        return true;
+    }
+
 
 }
+
+
 
 /**
  * @member {module:model/EnumArrays.JustSymbolEnum} just_symbol
