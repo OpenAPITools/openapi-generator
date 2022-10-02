@@ -52,6 +52,7 @@ import com.google.gson.stream.JsonWriter;
   }
 
 {{#jackson}}
+{{#jackson}}
   @JsonCreator
 {{/jackson}}
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
@@ -62,6 +63,7 @@ import com.google.gson.stream.JsonWriter;
     }
     {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
+{{/jackson}}
 {{#gson}}
 
   public static class Adapter extends TypeAdapter<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> {

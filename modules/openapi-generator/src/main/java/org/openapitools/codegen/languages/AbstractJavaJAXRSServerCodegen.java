@@ -40,6 +40,12 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     public static final String USE_TAGS = "useTags";
 
     /**
+     * JACKSON is the name of the property used in mustache templates to control whether 
+     * jackson library should be used in the generated code.
+     */
+    public static final String JACKSON = "jackson";
+
+    /**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
      */
@@ -74,7 +80,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put(JACKSON, "true");
+        // set JACKSON to true as by default JAXRS generators use jackson. Only JAXRS-SPEC
+        // has currently the cli option available to disable the use of jackson.
+        additionalProperties.put(JACKSON, Boolean.TRUE);
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
