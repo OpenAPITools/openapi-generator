@@ -842,6 +842,40 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void uniqueItemsSet() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/setSchema.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Response");
+        CodegenModel cm = codegen.fromModel("Response", schema);
+        Assert.assertFalse(cm.getImports().contains("List"), "expect List import");
+        Assert.assertFalse(cm.getImports().contains("ArrayList"), "expect ArrayList import");
+        Assert.assertTrue(cm.getImports().contains("Set"), "expect no Set import");
+        Assert.assertTrue(cm.getImports().contains("LinkedHashSet"), "expect no LinkedHashSet import");
+    }
+
+    @Test
+    public void uniqueItemsArray() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        // overrides to keep uniqueItems=true arrays as arrays in generated code
+        codegen.typeMapping().put("set", codegen.typeMapping().get("array"));
+        codegen.instantiationTypes().put("set", codegen.instantiationTypes().get("array"));
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/setSchema.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Response");
+        CodegenModel cm = codegen.fromModel("Response", schema);
+        Assert.assertTrue(cm.getImports().contains("List"), "expect List import");
+        Assert.assertTrue(cm.getImports().contains("ArrayList"), "expect ArrayList import");
+        Assert.assertFalse(cm.getImports().contains("Set"), "expect no Set import");
+        Assert.assertFalse(cm.getImports().contains("LinkedHashSet"), "expect no LinkedHashSet import");
+    }
+
+    @Test
     public void srcMainFolderShouldNotBeOperatingSystemSpecificPaths() {
         // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
         // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
