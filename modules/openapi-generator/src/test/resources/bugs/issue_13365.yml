@@ -27,5 +27,14 @@ components:
       properties:
         name:
           type: string
+          maxLength: 50
+          format: email
+        id:
+          type: integer
+    Alien:
+      type: object
+      properties:
+        name:
+          type: string
         id:
           type: integer

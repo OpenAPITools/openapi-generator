@@ -37,13 +37,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.assertj.core.api.Assertions;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -1546,14 +1547,9 @@ public class SpringCodegenTest {
 
     @Test
     public void requiredFieldShouldIncludeNotNullAnnotation_issue13365() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_13365.yml", null, new ParseOptions()).getOpenAPI();
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
@@ -1565,30 +1561,25 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
         DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
+        //Assert that NotNull annotation exists alone with no other BeanValidation annotations
         JavaFileAssert.assertThat(files.get("Person.java"))
                 .printFileContent().assertMethod("getName").assertMethodAnnotations()
-                .containsWithName("NotNull");
+                .containsWithName("NotNull").anyMatch(annotation ->
+                        !annotation.getNameAsString().equals("Valid") ||
+                                !annotation.getNameAsString().equals("Pattern") ||
+                                !annotation.getNameAsString().equals("Email") ||
+                                !annotation.getNameAsString().equals("Size"));
 
     }
 
     @Test
     public void nonRequiredFieldShouldNotIncludeNotNullAnnotation_issue13365() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_13365_2.yml", null, new ParseOptions()).getOpenAPI();
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
@@ -1600,29 +1591,18 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(files.get("Person.java"))
+        JavaFileAssert.assertThat(files.get("Alien.java"))
                 .printFileContent().assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
     }
 
     @Test
     public void requiredFieldShouldIncludeNotNullAnnotationWithBeanValidationTrue_issue13365() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_13365.yml", null, new ParseOptions()).getOpenAPI();
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "false");
@@ -1634,17 +1614,11 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         JavaFileAssert.assertThat(files.get("Person.java"))
                 .printFileContent().assertMethod("getName").assertMethodAnnotations()
-                .containsWithName("NotNull");
+                .containsWithName("NotNull").containsWithName("Size").containsWithName("Email");
 
     }
 }
