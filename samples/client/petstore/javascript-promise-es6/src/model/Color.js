@@ -145,6 +145,14 @@ class Color {
         return this.getActualInstance();
     }
 
+    /**
+     * Create an instance of Color from a JSON string.
+     * @param {string} json_string JSON string.
+     * @return {module:model/Color} An instance of Color.
+     */
+    static fromJSON = function(json_string){
+        return Color.constructFromObject(JSON.parse(json_string));
+    }
 }
 
 

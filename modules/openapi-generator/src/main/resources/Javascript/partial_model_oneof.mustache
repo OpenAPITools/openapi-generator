@@ -249,6 +249,16 @@ class {{classname}} {
         return this.getActualInstance();
     }
 
+    {{#emitJSDoc}}
+    /**
+     * Create an instance of {{classname}} from a JSON string.
+     * @param {string} json_string JSON string.
+     * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><&classname>}<={{ }}=> An instance of {{classname}}.
+     */
+    {{/emitJSDoc}}
+    static fromJSON = function(json_string){
+        return {{classname}}.constructFromObject(JSON.parse(json_string));
+    }
 }
 
 {{#vars}}{{#emitJSDoc}}/**{{#description}}

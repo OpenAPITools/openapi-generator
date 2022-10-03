@@ -99,6 +99,14 @@ class Pig {
         return this.getActualInstance();
     }
 
+    /**
+     * Create an instance of Pig from a JSON string.
+     * @param {string} json_string JSON string.
+     * @return {module:model/Pig} An instance of Pig.
+     */
+    static fromJSON = function(json_string){
+        return Pig.constructFromObject(JSON.parse(json_string));
+    }
 }
 
 /**

@@ -187,6 +187,22 @@ describe('Petstore', function() {
       }
     });
 
+    it('should test fromJSON in oneOf models', function() {
+      // invalid RgbaColor >255
+      try {
+        let json = '[1,11,128,256]';
+        OpenAPIPetstore.Color.fromJSON(json);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('[Error: No match found constructing Color with oneOf schemas String, [Number]. Details: Failed to desserialize JSON data into [Number]: Error: Invalid array size. Minimim: 3. Maximum: 3. Data: 1,11,128,256, Failed to desserialize JSON data into [Number]: Error: Invalid integer value in an array items. Max.: 255. Min.: 0. Data: 1,11,128,256, Failed to desserialize JSON data into String: Error: Invalid data. Must be string. Data: [1,11,128,256]'));
+      }
+
+      // valid RgbColor
+      let json = '[0,128,255]';
+      let color = OpenAPIPetstore.Color.fromJSON(json);
+      expect(JSON.stringify(color)).to.be(json);
+    });
+
     it('should deserialize nested oneOf models correctly', function() {
       var json = '{"nested":"#00FF00","size":256}'
       var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(json), OpenAPIPetstore.NestedColor);
