@@ -31,6 +31,27 @@ from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 SchemaForRequestBodyApplicationJson = FileSchemaTestClass
 
 
+request_body_file_schema_test_class = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _body_with_file_schema_oapg(

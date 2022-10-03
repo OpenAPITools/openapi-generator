@@ -108,6 +108,51 @@ class EnumQueryDoubleSchema(
     @schemas.classproperty
     def NEGATIVE_1_PT_2(cls):
         return cls(-1.2)
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        'enum_query_string_array': typing.Union[EnumQueryStringArraySchema, list, tuple, ],
+        'enum_query_string': typing.Union[EnumQueryStringSchema, str, ],
+        'enum_query_integer': typing.Union[EnumQueryIntegerSchema, decimal.Decimal, int, ],
+        'enum_query_double': typing.Union[EnumQueryDoubleSchema, decimal.Decimal, int, float, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_enum_query_string_array = api_client.QueryParameter(
+    name="enum_query_string_array",
+    style=api_client.ParameterStyle.FORM,
+    schema=EnumQueryStringArraySchema,
+    explode=True,
+)
+request_query_enum_query_string = api_client.QueryParameter(
+    name="enum_query_string",
+    style=api_client.ParameterStyle.FORM,
+    schema=EnumQueryStringSchema,
+    explode=True,
+)
+request_query_enum_query_integer = api_client.QueryParameter(
+    name="enum_query_integer",
+    style=api_client.ParameterStyle.FORM,
+    schema=EnumQueryIntegerSchema,
+    explode=True,
+)
+request_query_enum_query_double = api_client.QueryParameter(
+    name="enum_query_double",
+    style=api_client.ParameterStyle.FORM,
+    schema=EnumQueryDoubleSchema,
+    explode=True,
+)
 # header params
 
 
@@ -163,6 +208,35 @@ class EnumHeaderStringSchema(
     @schemas.classproperty
     def XYZ(cls):
         return cls("(xyz)")
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
+    'RequestRequiredHeaderParams',
+    {
+    }
+)
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
+    'RequestOptionalHeaderParams',
+    {
+        'enum_header_string_array': typing.Union[EnumHeaderStringArraySchema, list, tuple, ],
+        'enum_header_string': typing.Union[EnumHeaderStringSchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
+    pass
+
+
+request_header_enum_header_string_array = api_client.HeaderParameter(
+    name="enum_header_string_array",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=EnumHeaderStringArraySchema,
+)
+request_header_enum_header_string = api_client.HeaderParameter(
+    name="enum_header_string",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=EnumHeaderStringSchema,
+)
 # body param
 
 
@@ -276,6 +350,38 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             _configuration=_configuration,
             **kwargs,
         )
+
+
+request_body_body = api_client.RequestBody(
+    content={
+        'application/x-www-form-urlencoded': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationXWwwFormUrlencoded),
+    },
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
+
+
+@dataclass
+class ApiResponseFor404(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_404 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor404,
+)
 
 
 class BaseApi(api_client.Api):

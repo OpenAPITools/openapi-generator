@@ -31,6 +31,27 @@ from unit_test_api.model.allof_with_the_first_empty_schema import AllofWithTheFi
 SchemaForRequestBodyApplicationJson = AllofWithTheFirstEmptySchema
 
 
+request_body_allof_with_the_first_empty_schema = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _post_allof_with_the_first_empty_schema_request_body_oapg(
