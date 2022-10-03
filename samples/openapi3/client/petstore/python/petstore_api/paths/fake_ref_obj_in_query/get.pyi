@@ -28,6 +28,42 @@ from petstore_api.model.foo import Foo
 
 # query params
 MapBeanSchema = Foo
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        'mapBean': typing.Union[MapBeanSchema, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_map_bean = api_client.QueryParameter(
+    name="mapBean",
+    style=api_client.ParameterStyle.DEEP_OBJECT,
+    schema=MapBeanSchema,
+    explode=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
 
 
 class BaseApi(api_client.Api):

@@ -31,6 +31,27 @@ from unit_test_api.model.nested_oneof_to_check_validation_semantics import Neste
 SchemaForRequestBodyApplicationJson = NestedOneofToCheckValidationSemantics
 
 
+request_body_nested_oneof_to_check_validation_semantics = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _post_nested_oneof_to_check_validation_semantics_request_body_oapg(

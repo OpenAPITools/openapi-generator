@@ -63,6 +63,7 @@ docs/models/File.md
 docs/models/FileSchemaTestClass.md
 docs/models/Foo.md
 docs/models/FormatTest.md
+docs/models/FromSchema.md
 docs/models/Fruit.md
 docs/models/FruitReq.md
 docs/models/GmFruit.md
@@ -99,6 +100,7 @@ docs/models/ObjectModelWithRefProps.md
 docs/models/ObjectWithDecimalProperties.md
 docs/models/ObjectWithDifficultlyNamedProps.md
 docs/models/ObjectWithInlineCompositionProperty.md
+docs/models/ObjectWithInvalidNamedRefedProperties.md
 docs/models/ObjectWithValidations.md
 docs/models/Order.md
 docs/models/ParentPet.md
@@ -248,6 +250,8 @@ petstore_api/model/foo.py
 petstore_api/model/foo.pyi
 petstore_api/model/format_test.py
 petstore_api/model/format_test.pyi
+petstore_api/model/from_schema.py
+petstore_api/model/from_schema.pyi
 petstore_api/model/fruit.py
 petstore_api/model/fruit.pyi
 petstore_api/model/fruit_req.py
@@ -320,6 +324,8 @@ petstore_api/model/object_with_difficultly_named_props.py
 petstore_api/model/object_with_difficultly_named_props.pyi
 petstore_api/model/object_with_inline_composition_property.py
 petstore_api/model/object_with_inline_composition_property.pyi
+petstore_api/model/object_with_invalid_named_refed_properties.py
+petstore_api/model/object_with_invalid_named_refed_properties.pyi
 petstore_api/model/object_with_validations.py
 petstore_api/model/object_with_validations.pyi
 petstore_api/model/order.py
@@ -384,4 +390,6 @@ setup.py
 test-requirements.txt
 test/__init__.py
 test/test_models/__init__.py
+test/test_models/test_from_schema.py
+test/test_models/test_object_with_invalid_named_refed_properties.py
 tox.ini

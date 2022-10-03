@@ -31,6 +31,27 @@ from unit_test_api.model.additionalproperties_allows_a_schema_which_should_valid
 SchemaForRequestBodyApplicationJson = AdditionalpropertiesAllowsASchemaWhichShouldValidate
 
 
+request_body_additionalproperties_allows_a_schema_which_should_validate = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _post_additionalproperties_allows_a_schema_which_should_validate_request_body_oapg(

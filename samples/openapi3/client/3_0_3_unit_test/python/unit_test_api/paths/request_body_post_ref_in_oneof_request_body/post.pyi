@@ -31,6 +31,27 @@ from unit_test_api.model.ref_in_oneof import RefInOneof
 SchemaForRequestBodyApplicationJson = RefInOneof
 
 
+request_body_ref_in_oneof = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _post_ref_in_oneof_request_body_oapg(

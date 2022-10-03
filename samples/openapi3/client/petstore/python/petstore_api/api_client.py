@@ -1048,7 +1048,7 @@ class ApiClient:
     ) -> urllib3.HTTPResponse:
 
         # header parameters
-        headers = headers or {}
+        headers = headers or HTTPHeaderDict()
         headers.update(self.default_headers)
         if self.cookie:
             headers['Cookie'] = self.cookie
