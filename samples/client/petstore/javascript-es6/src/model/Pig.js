@@ -27,10 +27,10 @@ class Pig {
      * @param {(module:model/BasquePig|module:model/DanishPig)} instance The actual instance to initialize Pig.
      */
     constructor(instance = null) {
-        if (instance === null)  {
+        if (instance === null) {
             this.actualInstance = null;
             return;
-        } 
+        }
         var match = 0;
         var errorMessages = [];
         try {

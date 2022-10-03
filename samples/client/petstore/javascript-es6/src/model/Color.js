@@ -26,10 +26,10 @@ class Color {
      * @param {(module:model/String|module:model/[Number])} instance The actual instance to initialize Color.
      */
     constructor(instance = null) {
-        if (instance === null)  {
+        if (instance === null) {
             this.actualInstance = null;
             return;
-        } 
+        }
         var match = 0;
         var errorMessages = [];
         // RGB three element array with values 0-255.
