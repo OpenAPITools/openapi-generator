@@ -74,6 +74,12 @@ describe('Petstore', function() {
       }
     });
 
+    it('should run Pig new correctly', function() {
+      var bpig = OpenAPIPetstore.BasquePig.constructFromObject(JSON.parse('{"className":"BasquePig","color":"red"}'));
+      var pig = new OpenAPIPetstore.Pig(bpig);
+      expect(JSON.stringify(pig)).to.be('{"className":"BasquePig","color":"red"}');
+    });
+
     it('should run Pig constructFromObject correctly', function() {
       var bpig = '{"className":"BasquePig","color":"red"}';
       var pig = OpenAPIPetstore.Pig.constructFromObject(JSON.parse(bpig));
@@ -96,14 +102,6 @@ describe('Petstore', function() {
       //expect(tag_result.id).to.be(1);
       //expect(JSON.stringify(tag_result)).to.be(tag_json);
     });
-
-    it('should deserialize nested oneOf models correctly', function() {
-      var nested_one_of_json = '{"size":28,"nested_pig":{"className":"BasquePig","color":"red"}}'
-      var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(nested_one_of_json), OpenAPIPetstore.NestedOneOf);
-      expect(result).to.be.a(OpenAPIPetstore.NestedOneOf);
-      expect(JSON.stringify(result)).to.be(nested_one_of_json);
-    });
-
     it('should run Color constructFromObject correctly from array', function() {
       // construct from RgbColor
       let array_integer = [0,128,255];
@@ -123,6 +121,23 @@ describe('Petstore', function() {
       }
     });
 
+    it('should run Color new correctly', function() {
+      // valid hex color
+      var input = "#00FF00";
+      var color = new OpenAPIPetstore.Color(input);
+      expect(color.getActualInstance()).to.be(input);
+
+      // valid RgbColor
+      input = [0,128,255];
+      color = new OpenAPIPetstore.Color(input);
+      expect(color.getActualInstance()).to.be(input);
+
+      // valid RgbaColor 
+      input = [0,128,200,255];
+      color = new OpenAPIPetstore.Color(input);
+      expect(color.getActualInstance()).to.be(input);
+    });
+
     it('should run Color constructFromObject correctly', function() {
       // valid hex color
       var json = '"#00FF00"';
@@ -139,6 +154,54 @@ describe('Petstore', function() {
       color = OpenAPIPetstore.Color.constructFromObject(JSON.parse(json), null);
       expect(JSON.stringify(color)).to.be(json);
     });
+
+    it('should thrown an error when running Color new with invalid data', function() {
+      // invalid hex color
+      try {
+        let input = "#00FF00ZZZZ";
+        new OpenAPIPetstore.Color(input);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('No match found constructing Color with oneOf schemas String, [Number]. Details: Failed to desserialize JSON data into [Number]: Error: Invalid data type. Expecting array. Data: #00FF00ZZZZ, Failed to desserialize JSON data into [Number]: Error: Invalid data type. Expecting array. Data: #00FF00ZZZZ, Failed to desserialize JSON data into String: Error: Invalid string value in an array items. Must conform to /^#(?:[0-9a-fA-F]{3}){1,2}$/. Data: "#00FF00ZZZZ"'));
+      }
+
+      // invalid RgbColor <0
+      try {
+        let input = [-1,128,255];
+        new OpenAPIPetstore.Color(input);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('No match found constructing Color with oneOf schemas String, [Number]. Details: Failed to desserialize JSON data into [Number]: Error: Invalid integer value in an array items. Max.: 255. Min.: 0. Data: -1,128,255, Failed to desserialize JSON data into [Number]: Error: Invalid array size. Minimim: 4. Maximum: 4. Data: -1,128,255, Failed to desserialize JSON data into String: Error: Invalid data. Must be string. Data: [-1,128,255]'));
+      }
+
+      // invalid RgbColor >255
+      try {
+        let input = [1,128,256];
+        new OpenAPIPetstore.Color(input);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('No match found constructing Color with oneOf schemas String, [Number]. Details: Failed to desserialize JSON data into [Number]: Error: Invalid integer value in an array items. Max.: 255. Min.: 0. Data: 1,128,256, Failed to desserialize JSON data into [Number]: Error: Invalid array size. Minimim: 4. Maximum: 4. Data: 1,128,256, Failed to desserialize JSON data into String: Error: Invalid data. Must be string. Data: [1,128,256]'));
+      }
+
+      // invalid RgbaColor <0
+      try {
+        let input = [-1,1,128,255];
+        new OpenAPIPetstore.Color(input);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('No match found constructing Color with oneOf schemas String, [Number]. Details: Failed to desserialize JSON data into [Number]: Error: Invalid array size. Minimim: 3. Maximum: 3. Data: -1,1,128,255, Failed to desserialize JSON data into [Number]: Error: Invalid integer value in an array items. Max.: 255. Min.: 0. Data: -1,1,128,255, Failed to desserialize JSON data into String: Error: Invalid data. Must be string. Data: [-1,1,128,255]'));
+      }
+
+      // invalid RgbaColor >255
+      try {
+        let input = [1,11,128,256];
+        new OpenAPIPetstore.Color(input);
+        expect(true).to.be(false); // this line should not run if the error is thrown correctly
+      } catch (err) {
+        expect(err).to.be.eql(new Error('[Error: No match found constructing Color with oneOf schemas String, [Number]. Details: Failed to desserialize JSON data into [Number]: Error: Invalid array size. Minimim: 3. Maximum: 3. Data: 1,11,128,256, Failed to desserialize JSON data into [Number]: Error: Invalid integer value in an array items. Max.: 255. Min.: 0. Data: 1,11,128,256, Failed to desserialize JSON data into String: Error: Invalid data. Must be string. Data: [1,11,128,256]'));
+      }
+    });
+
 
     it('should thrown an error when running Color constructFromObject with invalid data', function() {
       // invalid hex color
@@ -203,11 +266,18 @@ describe('Petstore', function() {
       expect(JSON.stringify(color)).to.be(json);
     });
 
-    it('should deserialize nested oneOf models correctly', function() {
+    it('should deserialize NestedColor with nested oneOf model color correctly', function() {
       var json = '{"nested":"#00FF00","size":256}'
       var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(json), OpenAPIPetstore.NestedColor);
       expect(result).to.be.a(OpenAPIPetstore.NestedColor);
       expect(JSON.stringify(result)).to.be('{"size":256,"nested":"#00FF00"}');
+    });
+
+    it('should deserialize NestedOneOf with nested oneOf model correctly', function() {
+      var nested_one_of_json = '{"size":28,"nested_pig":{"className":"BasquePig","color":"red"}}'
+      var result = OpenAPIPetstore.ApiClient.convertToType(JSON.parse(nested_one_of_json), OpenAPIPetstore.NestedOneOf);
+      expect(result).to.be.a(OpenAPIPetstore.NestedOneOf);
+      expect(JSON.stringify(result)).to.be(nested_one_of_json);
     });
 
   });
