@@ -57,8 +57,7 @@ import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
-        DocumentationProviderFeatures {
+public abstract class AbstractJavaCodegen extends DefaultCodegen implements DocumentationProviderFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
@@ -611,9 +610,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("Arrays", "java.util.Arrays");
         importMapping.put("Objects", "java.util.Objects");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
-        // import JsonCreator if JsonProperty is imported
-        // used later in recursive import in postProcessingModels
-        importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
             setSupportAsync(Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString()));
@@ -1367,12 +1363,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * Checks if any model contains an enum
+     * @param modelsMap
+     * @return true
+     */
+    private boolean modelsContainEnum(ModelsMap modelsMap) {
+        return modelsMap.getModels().stream()
+            .filter(model -> model.getModel().hasEnums)
+            .findAny()
+            .isPresent();
+    }
+
     @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
+    public ModelsMap postProcessModels(ModelsMap modelsMap) {
         // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = objs.getImports();
+        List<Map<String, String>> recursiveImports = modelsMap.getImports();
         if (recursiveImports == null)
-            return objs;
+            return modelsMap;
+
 
         ListIterator<Map<String, String>> listIterator = recursiveImports.listIterator();
         while (listIterator.hasNext()) {
@@ -1386,16 +1395,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        if (modelsContainEnum(modelsMap)) {
+            recursiveImports.add(Collections.singletonMap("import", "com.fasterxml.jackson.annotation.JsonCreator"));
+        }
+
         // add x-implements for serializable to all models
-        for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
+        for (ModelMap modelMap : modelsMap.getModels()) {
+            CodegenModel model = modelMap.getModel();
             if (this.serializableModel) {
-                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+                model.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+                ((ArrayList<String>) model.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 
-        return postProcessModelsEnum(objs);
+        return postProcessModelsEnum(modelsMap);
     }
 
     @Override

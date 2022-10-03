@@ -46,6 +46,12 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         }
     }
 
+    /**
+     * Asserts that a given method with the correct parameters is in the Java class.
+     * @param methodName the name of the method
+     * @param paramTypes the types of the method parameters
+     * @return assertion
+     */
     public MethodAssert assertMethod(final String methodName, final String... paramTypes) {
         List<MethodDeclaration> methods = paramTypes.length == 0
             ? actual.getType(0).getMethodsByName(methodName)
@@ -88,6 +94,12 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
+    public JavaFileAssert doesNotHaveImports(final String... imports) {
+        Assertions.assertThat(actual.getImports().stream().map(NodeWithName::getNameAsString))
+            .doesNotContainAnyElementsOf(Arrays.asList(imports));
+        return this;
+    }
+
     public JavaFileAssert printFileContent() {
         System.out.println(actual);
         return this;
@@ -103,6 +115,20 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
             )
             .contains(lines);
+
+        return this;
+    }
+
+    public JavaFileAssert fileDoesNotContain(final String... lines) {
+        final String actualBody = actual.getTokenRange()
+            .orElseThrow(() -> new IllegalStateException("Empty file"))
+            .toString();
+        Assertions.assertThat(actualBody)
+            .withFailMessage(
+                "File should not contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+            )
+            .doesNotContain(lines);
 
         return this;
     }

@@ -1696,4 +1696,24 @@ public class SpringCodegenTest {
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
+
+    @Test
+    public void thatJsonCreatorImportIsAddedForEnums() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        
+        final String jsonCreatorImport = "com.fasterxml.jackson.annotation.JsonCreator";
+        final String jsonCreatorAnnotation = "@JsonCreator";
+        final String fileWithEnum = "Pet.java";
+        final String fileWithoutEnum = "User.java";
+
+        JavaFileAssert.assertThat(files.get(fileWithEnum))
+            .fileContains(jsonCreatorAnnotation)
+            .hasImports(jsonCreatorImport);
+
+        JavaFileAssert.assertThat(files.get(fileWithoutEnum))
+            .fileDoesNotContain(jsonCreatorAnnotation)
+            .doesNotHaveImports(jsonCreatorImport);
+    }
 }
