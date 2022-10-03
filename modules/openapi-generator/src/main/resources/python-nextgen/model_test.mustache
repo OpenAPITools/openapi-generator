@@ -1,0 +1,64 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from __future__ import absolute_import
+
+import unittest
+import datetime
+
+{{#models}}
+{{#model}}
+import {{packageName}}
+from {{modelPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
+from {{packageName}}.rest import ApiException
+
+class Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+{{^interfaces}}
+
+    def make_instance(self, include_optional):
+        """Test {{classname}}
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = {{packageName}}.models.{{classFilename}}.{{classname}}()  # noqa: E501
+        if include_optional :
+            return {{classname}}(
+{{#vars}}
+                {{name}} = {{{example}}}{{^example}}None{{/example}}{{^-last}}, {{/-last}}
+{{/vars}}
+            )
+        else :
+            return {{classname}}(
+{{#vars}}
+{{#required}}
+                {{name}} = {{{example}}}{{^example}}None{{/example}},
+{{/required}}
+{{/vars}}
+        )
+{{/interfaces}}
+
+    def test{{classname}}(self):
+        """Test {{classname}}"""
+{{^interfaces}}
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
+{{/interfaces}}
+{{#interfaces}}
+{{#-last}}
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+{{/-last}}
+{{/interfaces}}
+{{/model}}
+{{/models}}
+
+if __name__ == '__main__':
+    unittest.main()
