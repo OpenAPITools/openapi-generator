@@ -135,7 +135,11 @@ import {{packageName}}.infrastructure.*
 
         {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
-        {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}request.putHeader("Content-Type", "{{{mediaType}}}"){{/consumes}}{{/hasConsumes}}{{/hasFormParams}}
+        {{^hasFormParams}}{{#hasConsumes}}
+            {{#consumes}}
+                    request.putHeader("Content-Type", "{{{mediaType}}}")
+            {{/consumes}}
+        {{/hasConsumes}}{{/hasFormParams}}
         {{#hasProduces}}request.putHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
 
         {{#hasFormParams}}
