@@ -599,4 +599,14 @@ test_that("Tests URL validation", {
   invalid_json <- '{"className":"date","percent_description":"abc","url_property":"invalid_url"}'
   expect_error(Date$public_methods$validateJSON(invalid_json), 'Error! Invalid URL: invalid_url') # should throw exception
 
+  # test fromJSONString with valid data
+  d <- Date$new()
+  d$fromJSONString(valid_json)
+  expect_equal(d$className, "date")
+  expect_equal(d$percent_description, "abc")
+  expect_equal(d$url_property, "https://abc.com/a/1/b/2")
+
+  # test fromJSONString with invalid data
+  d <- Date$new()
+  expect_error(d$fromJSONString(invalid_json), 'Error! Invalid URL: invalid_url') # should throw exception
 })
