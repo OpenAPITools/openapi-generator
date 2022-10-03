@@ -871,6 +871,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-07-22 - [使用OpenAPI Generator Maven plugin开发api优先的java客户端和服务端代码](https://blog.roccoshi.top/2022/java/openapi-generator%E7%9A%84%E4%BD%BF%E7%94%A8/) by [Lincest](https://github.com/Lincest)
 - 2022-08-01 - [Tutorial: Etsy Open API v3 (ruby)](https://blog.tjoyal.dev/etsy-open-api-v3/) by [Thierry Joyal](https://github.com/tjoyal)
 - 2022-09-03 - [OpenAPI Generator For Go Web Development](https://blog.kevinhu.me/2022/09/03/03-openapi-generator/) by [Kevin Hu](https://twitter.com/Oldgunix)
+- 2022-10-01 - [OpenAPI Generatorをカスタマイズしたコードを生成する（Swagger Codegenとほぼ同じ）](https://nainaistar.hatenablog.com/entry/2022/10/03/120000) by [きり丸](https://twitter.com/nainaistar)
 
 ## [6 - About Us](#table-of-contents)
 
