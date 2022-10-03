@@ -428,6 +428,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+        if (property.isInnerEnum && property.items != null) {
+            // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
+            property.dataType = property.datatypeWithEnum;
+        }
+        if (property.isMap || property.isContainer) {
+            // maps of enums will be marked both isMap and isEnum, correct that now
+            property.isEnum = false;
+            property.isInnerEnum = false;
+            property.isString = false;
+        }
     }
 
     @Override
@@ -459,7 +470,56 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
+
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+
+            // TODO: why do these collections contain different instances?
+            // fixing allVars should suffice instead of patching every collection
+            for (CodegenProperty property : model.allVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.vars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.readWriteVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.optionalVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.parentVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.requiredVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.readOnlyVars){
+                patchProperty(model, property);
+            }
+            for (CodegenProperty property : model.nonNullableVars){
+                patchProperty(model, property);
+            }
+        }
         return processed;
+    }
+
+    private void patchProperty(CodegenModel model, CodegenProperty property){
+        /**
+        * Hotfix for this issue
+        * https://github.com/OpenAPITools/openapi-generator/issues/12155
+        */
+        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null){
+            List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
+            if (composedSchemas.size() == 0) {
+                return;
+            }
+            CodegenProperty composedProperty = composedSchemas.stream().findFirst().get();
+            property.dataType = composedProperty.dataType;
+            property.datatypeWithEnum = composedProperty.datatypeWithEnum;
+            property.isMap = composedProperty.isMap;
+            property.isContainer = composedProperty.isContainer;
+        }
     }
 
     @Override
