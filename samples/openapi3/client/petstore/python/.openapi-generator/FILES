@@ -390,6 +390,4 @@ setup.py
 test-requirements.txt
 test/__init__.py
 test/test_models/__init__.py
-test/test_models/test_from_schema.py
-test/test_models/test_object_with_invalid_named_refed_properties.py
 tox.ini
