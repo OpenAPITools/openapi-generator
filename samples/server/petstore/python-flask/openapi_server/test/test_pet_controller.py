@@ -71,7 +71,7 @@ class TestPetController(BaseTestCase):
 
         Finds Pets by status
         """
-        query_string = [('status', ['available'])]
+        query_string = [('status', 'available')]
         headers = { 
             'Accept': 'application/json',
             'Authorization': 'Bearer special-key',
