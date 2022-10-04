@@ -48,6 +48,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
+    public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
@@ -76,6 +77,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
 
     public AbstractKotlinCodegen() {
         super();
@@ -398,6 +400,21 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        objs = super.updateAllModels(objs);
+
+        if (!additionalModelTypeAnnotations.isEmpty()) {
+            for (String modelName : objs.keySet()) {
+                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+                models.put(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, additionalModelTypeAnnotations);
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
         for (ModelMap mo : objs.getModels()) {
@@ -503,6 +520,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             this.setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
         } else {
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
+        }
+
+        if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
+            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
+            this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
         }
 
         additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
@@ -1089,5 +1111,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+    }
+
+    public List<String> getAdditionalModelTypeAnnotations() {
+        return additionalModelTypeAnnotations;
+    }
+
+    public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
+        this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
     }
 }
