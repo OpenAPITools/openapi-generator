@@ -708,7 +708,7 @@ PetApi <- R6::R6Class(
       }
 
 
-      if (!missing(`pet`)) {
+      if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
         body <- NULL
@@ -1568,7 +1568,7 @@ PetApi <- R6::R6Class(
       }
 
 
-      if (!missing(`pet`)) {
+      if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
         body <- NULL

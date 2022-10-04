@@ -568,6 +568,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             // basePath on the front.
             for (CodegenParameter param : op.pathParams) {
                 // Replace {baseName} with (?P<baseName>[^/?#]*) for regex
+                // TODO: Sanitize baseName to avoid using '-' (see clippy::invalid_regex)
                 String paramSearch = "{" + param.baseName + "}";
                 String paramReplace = "(?P<" + param.baseName + ">[^/?#]*)";
 

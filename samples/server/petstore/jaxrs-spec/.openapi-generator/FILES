@@ -5,6 +5,7 @@ src/gen/java/org/openapitools/api/FakeApi.java
 src/gen/java/org/openapitools/api/FakeClassnameTestApi.java
 src/gen/java/org/openapitools/api/PetApi.java
 src/gen/java/org/openapitools/api/RestApplication.java
+src/gen/java/org/openapitools/api/RestResourceRoot.java
 src/gen/java/org/openapitools/api/StoreApi.java
 src/gen/java/org/openapitools/api/UserApi.java
 src/gen/java/org/openapitools/model/AdditionalPropertiesAnyType.java

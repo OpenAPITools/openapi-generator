@@ -429,8 +429,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // no such boundary is used.
         let mut boundary = generate_boundary();
         for b in boundary.iter_mut() {
-            if b == &('/' as u8) {
-                *b = '=' as u8;
+            if b == &(b'/') {
+                *b = b'=';
             }
         }
 
@@ -722,8 +722,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // no such boundary is used.
         let mut boundary = generate_boundary();
         for b in boundary.iter_mut() {
-            if b == &('/' as u8) {
-                *b = '=' as u8;
+            if b == &(b'/') {
+                *b = b'=';
             }
         }
 

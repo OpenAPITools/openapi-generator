@@ -4,11 +4,77 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**add_pet_optional**](FakeApi.md#add_pet_optional) | **POST** /fake/test_optional_body_parameter | Add a new pet to the store (optional body)
 [**fake_data_file**](FakeApi.md#fake_data_file) | **GET** /fake/data_file | test data_file to ensure it&#39;s escaped correctly
 [**fake_path_array**](FakeApi.md#fake_path_array) | **GET** /fake/path_array/{path_array}/testing | test array parameter in path
 [**fake_regular_expression**](FakeApi.md#fake_regular_expression) | **GET** /fake/regular_expression | test regular expression to ensure no exception
 [**fake_set_query**](FakeApi.md#fake_set_query) | **GET** /fake/set_query_parameter | test set query parameter
 
+
+# **add_pet_optional**
+> Pet add_pet_optional(pet = var.pet)
+
+Add a new pet to the store (optional body)
+
+
+
+### Example
+```R
+library(petstore)
+
+# Add a new pet to the store (optional body)
+#
+# prepare function argument(s)
+var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
+
+api_instance <- FakeApi$new()
+# Configure HTTP basic authorization: http_auth
+api_instance$api_client$username <- Sys.getenv("USERNAME")
+api_instance$api_client$password <- Sys.getenv("PASSWORD")
+result <- tryCatch(
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance$add_pet_optional(pet = var_pet, data_file = "result.txt"),
+             api_instance$add_pet_optional(pet = var_pet),
+             ApiException = function(ex) ex
+          )
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `add_pet_optional`:")
+  dput(result$ApiException$toString())
+  # error object
+  dput(result$ApiException$error_object$toJSONString())
+} else {
+  # deserialized response object
+  print("The response is ...")
+  dput(result$toString())
+}
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[http_auth](../README.md#http_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml, multipart/related
+ - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **405** | Invalid input |  -  |
 
 # **fake_data_file**
 > User fake_data_file(dummy, var_data_file = var.var_data_file)

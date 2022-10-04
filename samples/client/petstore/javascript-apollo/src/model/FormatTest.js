@@ -107,8 +107,46 @@ class FormatTest {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>FormatTest</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>FormatTest</code>.
+     */
+    static validateJSON(data) {
+        // check to make sure all required properties are present in the JSON string
+        for (const property of FormatTest.RequiredProperties) {
+            if (!data[property]) {
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
+            }
+        }
+        // ensure the json data is a string
+        if (data['string'] && !(typeof data['string'] === 'string' || data['string'] instanceof String)) {
+            throw new Error("Expected the field `string` to be a primitive type in the JSON string but got " + data['string']);
+        }
+        // ensure the json data is a string
+        if (data['uuid'] && !(typeof data['uuid'] === 'string' || data['uuid'] instanceof String)) {
+            throw new Error("Expected the field `uuid` to be a primitive type in the JSON string but got " + data['uuid']);
+        }
+        // ensure the json data is a string
+        if (data['password'] && !(typeof data['password'] === 'string' || data['password'] instanceof String)) {
+            throw new Error("Expected the field `password` to be a primitive type in the JSON string but got " + data['password']);
+        }
+        // ensure the json data is a string
+        if (data['pattern_with_digits'] && !(typeof data['pattern_with_digits'] === 'string' || data['pattern_with_digits'] instanceof String)) {
+            throw new Error("Expected the field `pattern_with_digits` to be a primitive type in the JSON string but got " + data['pattern_with_digits']);
+        }
+        // ensure the json data is a string
+        if (data['pattern_with_digits_and_delimiter'] && !(typeof data['pattern_with_digits_and_delimiter'] === 'string' || data['pattern_with_digits_and_delimiter'] instanceof String)) {
+            throw new Error("Expected the field `pattern_with_digits_and_delimiter` to be a primitive type in the JSON string but got " + data['pattern_with_digits_and_delimiter']);
+        }
+
+        return true;
+    }
+
 
 }
+
+FormatTest.RequiredProperties = ["number", "byte", "date", "password"];
 
 /**
  * @member {Number} integer
