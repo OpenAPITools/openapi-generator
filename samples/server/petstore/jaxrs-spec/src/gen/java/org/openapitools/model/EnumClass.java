@@ -1,8 +1,10 @@
 package org.openapitools.model;
 
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

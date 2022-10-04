@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
@@ -19,7 +21,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
 public class ArrayTest  implements Serializable {
   private @Valid List<String> arrayOfString = null;
   private @Valid List<List<Long>> arrayArrayOfInteger = null;

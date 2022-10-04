@@ -3,20 +3,29 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
+
+
 
 import io.swagger.annotations.*;
+
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
+
 
 @Path("/store")
 @Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+
 public class StoreApi {
 
     @DELETE
