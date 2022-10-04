@@ -81,12 +81,6 @@ elif [ "$NODE_INDEX" = "4" ]; then
   (cd samples/openapi3/client/petstore/python && make test)
   (cd samples/openapi3/client/petstore/python-prior && make test)
   (cd samples/openapi3/client/3_0_3_unit_test/python && make test)
-
-  (cd samples/server/petstore/python-aiohttp/ && make test-all)
-  (cd samples/server/petstore/python-aiohttp-srclayout/ && make test-all)
-  (cd samples/server/petstore/python-fastapi/ && docker buld .)
-  (cd samples/server/petstore/python-flask/ && make test-all)
-
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   java -version
