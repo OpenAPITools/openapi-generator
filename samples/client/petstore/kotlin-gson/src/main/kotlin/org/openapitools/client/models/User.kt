@@ -36,6 +36,7 @@ import com.google.gson.annotations.SerializedName
  * @param userStatus User Status
  */
 
+
 data class User (
 
     @SerializedName("id")

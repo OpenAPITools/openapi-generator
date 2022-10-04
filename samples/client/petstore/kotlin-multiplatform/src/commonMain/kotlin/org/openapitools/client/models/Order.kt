@@ -36,6 +36,7 @@ import kotlinx.serialization.encoding.*
  * @param complete 
  */
 @Serializable
+
 data class Order (
 
     @SerialName(value = "id") val id: kotlin.Long? = null,

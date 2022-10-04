@@ -39,6 +39,7 @@ import java.io.Serializable
  * @param userStatus User Status
  */
 @KSerializable
+
 data class User (
 
     @SerialName(value = "id")

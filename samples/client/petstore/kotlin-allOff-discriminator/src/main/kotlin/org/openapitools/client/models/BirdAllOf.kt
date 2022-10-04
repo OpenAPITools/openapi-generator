@@ -29,6 +29,7 @@ import com.squareup.moshi.Json
  * @param featherType 
  */
 
+
 data class BirdAllOf (
 
     @Json(name = "featherType")

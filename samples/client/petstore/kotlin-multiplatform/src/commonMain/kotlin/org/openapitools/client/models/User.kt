@@ -38,6 +38,7 @@ import kotlinx.serialization.encoding.*
  * @param userStatus User Status
  */
 @Serializable
+
 data class User (
 
     @SerialName(value = "id") val id: kotlin.Long? = null,

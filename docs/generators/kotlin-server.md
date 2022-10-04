@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-server|
 |artifactVersion|Generated artifact's package version.| |1.0.0|

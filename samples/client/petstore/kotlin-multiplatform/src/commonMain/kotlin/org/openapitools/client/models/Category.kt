@@ -32,6 +32,7 @@ import kotlinx.serialization.encoding.*
  * @param name 
  */
 @Serializable
+
 data class Category (
 
     @SerialName(value = "id") val id: kotlin.Long? = null,

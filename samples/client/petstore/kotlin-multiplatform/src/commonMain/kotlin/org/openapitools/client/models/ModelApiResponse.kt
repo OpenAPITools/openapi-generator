@@ -33,6 +33,7 @@ import kotlinx.serialization.encoding.*
  * @param message 
  */
 @Serializable
+
 data class ModelApiResponse (
 
     @SerialName(value = "code") val code: kotlin.Int? = null,

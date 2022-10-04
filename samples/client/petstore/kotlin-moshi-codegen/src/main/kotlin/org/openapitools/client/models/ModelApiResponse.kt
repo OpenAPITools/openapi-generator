@@ -32,6 +32,7 @@ import com.squareup.moshi.JsonClass
  * @param message 
  */
 @JsonClass(generateAdapter = true)
+
 data class ModelApiResponse (
 
     @Json(name = "code")

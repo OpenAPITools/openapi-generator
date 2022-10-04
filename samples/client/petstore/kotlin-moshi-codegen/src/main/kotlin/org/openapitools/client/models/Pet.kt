@@ -37,6 +37,7 @@ import com.squareup.moshi.JsonClass
  * @param status pet status in the store
  */
 @JsonClass(generateAdapter = true)
+
 data class Pet (
 
     @Json(name = "name")

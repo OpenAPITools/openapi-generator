@@ -40,6 +40,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 @Serializable
+
 data class Tag (
 
     @SerialName(value = "id")

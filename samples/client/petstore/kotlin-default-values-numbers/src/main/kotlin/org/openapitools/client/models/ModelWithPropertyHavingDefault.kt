@@ -36,6 +36,7 @@ import com.google.gson.annotations.SerializedName
  * @param propertyDouble3 
  */
 
+
 data class ModelWithPropertyHavingDefault (
 
     @SerializedName("propertyInt")
