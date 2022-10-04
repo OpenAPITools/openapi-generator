@@ -3,6 +3,8 @@ install.packages("petstore_1.0.0.tar.gz",repos=NULL, type="source")
 library(petstore)
 library(jsonlite)
 
+
+
 var_status <- list("something inside", "explode please", "123") # array[character] | Status values that need to be considered for filter
 
 # Finds Pets by status

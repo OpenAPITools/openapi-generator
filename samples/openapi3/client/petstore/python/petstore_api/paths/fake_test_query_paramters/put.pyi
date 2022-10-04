@@ -143,6 +143,80 @@ class ContextSchema(
     def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 RefParamSchema = StringWithValidation
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'pipe': typing.Union[PipeSchema, list, tuple, ],
+        'ioutil': typing.Union[IoutilSchema, list, tuple, ],
+        'http': typing.Union[HttpSchema, list, tuple, ],
+        'url': typing.Union[UrlSchema, list, tuple, ],
+        'context': typing.Union[ContextSchema, list, tuple, ],
+        'refParam': typing.Union[RefParamSchema, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_pipe = api_client.QueryParameter(
+    name="pipe",
+    style=api_client.ParameterStyle.FORM,
+    schema=PipeSchema,
+    required=True,
+    explode=True,
+)
+request_query_ioutil = api_client.QueryParameter(
+    name="ioutil",
+    style=api_client.ParameterStyle.FORM,
+    schema=IoutilSchema,
+    required=True,
+)
+request_query_http = api_client.QueryParameter(
+    name="http",
+    style=api_client.ParameterStyle.SPACE_DELIMITED,
+    schema=HttpSchema,
+    required=True,
+)
+request_query_url = api_client.QueryParameter(
+    name="url",
+    style=api_client.ParameterStyle.FORM,
+    schema=UrlSchema,
+    required=True,
+)
+request_query_context = api_client.QueryParameter(
+    name="context",
+    style=api_client.ParameterStyle.FORM,
+    schema=ContextSchema,
+    required=True,
+    explode=True,
+)
+request_query_ref_param = api_client.QueryParameter(
+    name="refParam",
+    style=api_client.ParameterStyle.FORM,
+    schema=RefParamSchema,
+    required=True,
+    explode=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
 
 
 class BaseApi(api_client.Api):

@@ -1863,19 +1863,44 @@ class ComposedBase(Discriminable):
                 path_to_schemas = oneof_cls._validate_oapg(arg, validation_metadata=validation_metadata)
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and oneof_cls is discriminated_cls:
+                {{#if nonCompliantUseDiscriminatorIfCompositionFails}}
+                    """
+                    suppress exception because code was generated with
+                    nonCompliantUseDiscriminatorIfCompositionFails=true
+                    """
+                    pass
+                {{else}}
                     raise ex
+                {{/if}}
                 continue
             oneof_classes.append(oneof_cls)
         if not oneof_classes:
+            {{#if nonCompliantUseDiscriminatorIfCompositionFails}}
+            if discriminated_cls:
+                """
+                return without exception because code was generated with
+                nonCompliantUseDiscriminatorIfCompositionFails=true
+                """
+                return {}
+            {{/if}}
             raise ApiValueError(
                 "Invalid inputs given to generate an instance of {}. None "
                 "of the oneOf schemas matched the input data.".format(cls)
             )
         elif len(oneof_classes) > 1:
+            {{#if nonCompliantUseDiscriminatorIfCompositionFails}}
+            if discriminated_cls:
+                """
+                return without exception because code was generated with
+                nonCompliantUseDiscriminatorIfCompositionFails=true
+                """
+                return {}
+            {{/if}}
             raise ApiValueError(
                 "Invalid inputs given to generate an instance of {}. Multiple "
                 "oneOf schemas {} matched the inputs, but a max of one is allowed.".format(cls, oneof_classes)
             )
+        # exactly one class matches
         return path_to_schemas
 
     @classmethod
@@ -1896,11 +1921,27 @@ class ComposedBase(Discriminable):
                 other_path_to_schemas = anyof_cls._validate_oapg(arg, validation_metadata=validation_metadata)
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and anyof_cls is discriminated_cls:
+                {{#if nonCompliantUseDiscriminatorIfCompositionFails}}
+                    """
+                    suppress exception because code was generated with
+                    nonCompliantUseDiscriminatorIfCompositionFails=true
+                    """
+                    pass
+                {{else}}
                     raise ex
+                {{/if}}
                 continue
             anyof_classes.append(anyof_cls)
             update(path_to_schemas, other_path_to_schemas)
         if not anyof_classes:
+            {{#if nonCompliantUseDiscriminatorIfCompositionFails}}
+            if discriminated_cls:
+                """
+                return without exception because code was generated with
+                nonCompliantUseDiscriminatorIfCompositionFails=true
+                """
+                return {}
+            {{/if}}
             raise ApiValueError(
                 "Invalid inputs given to generate an instance of {}. None "
                 "of the anyOf schemas matched the input data.".format(cls)
@@ -1940,7 +1981,9 @@ class ComposedBase(Discriminable):
         )
 
         # process composed schema
-        discriminator = getattr(cls, 'discriminator', None)
+        discriminator = None
+        if hasattr(cls, 'MetaOapg') and hasattr(cls.MetaOapg, 'discriminator'):
+            discriminator = cls.MetaOapg.discriminator()
         discriminated_cls = None
         if discriminator and arg and isinstance(arg, frozendict.frozendict):
             disc_property_name = list(discriminator.keys())[0]

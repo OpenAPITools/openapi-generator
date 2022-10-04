@@ -2769,8 +2769,8 @@ components:
     Player:
       type: object
       description: a model that includes a self reference this forces properties and additionalProperties
-                   to be lazy loaded in python models because the Player class has not fully loaded when defining
-                   properties
+        to be lazy loaded in python models because the Player class has not fully loaded when defining
+        properties
       properties:
         name:
           type: string
@@ -2942,3 +2942,20 @@ components:
           format: double
         float:
           format: float
+    FromSchema:
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+    ObjectWithInvalidNamedRefedProperties:
+      type: object
+      properties:
+        from:
+          $ref: "#/components/schemas/FromSchema"
+        "!reference":
+          $ref: "#/components/schemas/ArrayWithValidationsInItems"
+      required:
+        - from
+        - "!reference"

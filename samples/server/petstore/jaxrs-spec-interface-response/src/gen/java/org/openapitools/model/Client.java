@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Client")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Client  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Client  implements Serializable {
   private @Valid String client;
 
   /**
@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.client = client;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

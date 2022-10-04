@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("TypeHolderDefault")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderDefault  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class TypeHolderDefault  implements Serializable {
   private @Valid String stringItem = "what";
   private @Valid BigDecimal numberItem;
   private @Valid Integer integerItem;
@@ -35,8 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
   @NotNull
@@ -49,14 +47,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.stringItem = stringItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -71,14 +67,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.numberItem = numberItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderDefault integerItem(Integer integerItem) {
     this.integerItem = integerItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -93,14 +87,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.integerItem = integerItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderDefault boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -115,14 +107,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.boolItem = boolItem;
   }
 
-/**
+  /**
    **/
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
