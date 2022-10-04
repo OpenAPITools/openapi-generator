@@ -49,11 +49,8 @@ class MapTest(object):
         'indirect_map': 'indirect_map'
     }
 
-    def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None):  # noqa: E501
         """MapTest - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._map_map_of_string = None
         self._map_of_enum_string = None
@@ -110,8 +107,7 @@ class MapTest(object):
         :type map_of_enum_string: dict(str, str)
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                not set(map_of_enum_string.keys()).issubset(set(allowed_values))):  # noqa: E501
+        if not set(map_of_enum_string.keys()).issubset(set(allowed_values)):  # noqa: E501
             raise ValueError(
                 "Invalid keys in `map_of_enum_string` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(map_of_enum_string.keys()) - set(allowed_values))),  # noqa: E501

@@ -47,11 +47,8 @@ class ArrayTest(object):
         'array_array_of_model': 'array_array_of_model'
     }
 
-    def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None):  # noqa: E501
         """ArrayTest - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._array_of_string = None
         self._array_array_of_integer = None
@@ -83,11 +80,9 @@ class ArrayTest(object):
         :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
         :type array_of_string: list[str]
         """
-        if (self.local_vars_configuration.client_side_validation and
-                array_of_string is not None and len(array_of_string) > 3):
+        if array_of_string is not None and len(array_of_string) > 3:
             raise ValueError("Invalid value for `array_of_string`, number of items must be less than or equal to `3`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                array_of_string is not None and len(array_of_string) < 0):
+        if array_of_string is not None and len(array_of_string) < 0:
             raise ValueError("Invalid value for `array_of_string`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._array_of_string = array_of_string

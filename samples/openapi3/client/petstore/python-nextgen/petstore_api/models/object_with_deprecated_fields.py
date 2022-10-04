@@ -49,11 +49,8 @@ class ObjectWithDeprecatedFields(object):
         'bars': 'bars'
     }
 
-    def __init__(self, uuid=None, id=None, deprecated_ref=None, bars=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, uuid=None, id=None, deprecated_ref=None, bars=None):  # noqa: E501
         """ObjectWithDeprecatedFields - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._uuid = None
         self._id = None

@@ -49,11 +49,8 @@ class Name(object):
         '_123_number': '123Number'
     }
 
-    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None):  # noqa: E501
         """Name - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._name = None
         self._snake_case = None
@@ -87,7 +84,7 @@ class Name(object):
         :param name: The name of this Name.  # noqa: E501
         :type name: int
         """
-        if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
+        if name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name

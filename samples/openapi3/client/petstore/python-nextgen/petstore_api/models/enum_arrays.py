@@ -45,11 +45,8 @@ class EnumArrays(object):
         'array_enum': 'array_enum'
     }
 
-    def __init__(self, just_symbol=None, array_enum=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, just_symbol=None, array_enum=None):  # noqa: E501
         """EnumArrays - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._just_symbol = None
         self._array_enum = None
@@ -79,7 +76,7 @@ class EnumArrays(object):
         :type just_symbol: str
         """
         allowed_values = [">=", "$"]  # noqa: E501
-        if self.local_vars_configuration.client_side_validation and just_symbol not in allowed_values:  # noqa: E501
+        if just_symbol not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `just_symbol` ({0}), must be one of {1}"  # noqa: E501
                 .format(just_symbol, allowed_values)
@@ -106,8 +103,7 @@ class EnumArrays(object):
         :type array_enum: list[str]
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                not set(array_enum).issubset(set(allowed_values))):  # noqa: E501
+        if not set(array_enum).issubset(set(allowed_values)):  # noqa: E501
             raise ValueError(
                 "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(array_enum) - set(allowed_values))),  # noqa: E501

@@ -45,11 +45,8 @@ class Model200Response(object):
         '_class': 'class'
     }
 
-    def __init__(self, name=None, _class=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, name=None, _class=None):  # noqa: E501
         """Model200Response - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._name = None
         self.__class = None

@@ -73,11 +73,8 @@ class FormatTest(object):
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, decimal=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, decimal=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._integer = None
         self._int32 = None
@@ -144,11 +141,9 @@ class FormatTest(object):
         :param integer: The integer of this FormatTest.  # noqa: E501
         :type integer: int
         """
-        if (self.local_vars_configuration.client_side_validation and
-                integer is not None and integer > 100):  # noqa: E501
+        if integer is not None and integer > 100:  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                integer is not None and integer < 10):  # noqa: E501
+        if integer is not None and integer < 10:  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
         self._integer = integer
@@ -171,11 +166,9 @@ class FormatTest(object):
         :param int32: The int32 of this FormatTest.  # noqa: E501
         :type int32: int
         """
-        if (self.local_vars_configuration.client_side_validation and
-                int32 is not None and int32 > 200):  # noqa: E501
+        if int32 is not None and int32 > 200:  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                int32 is not None and int32 < 20):  # noqa: E501
+        if int32 is not None and int32 < 20:  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
         self._int32 = int32
@@ -219,13 +212,11 @@ class FormatTest(object):
         :param number: The number of this FormatTest.  # noqa: E501
         :type number: float
         """
-        if self.local_vars_configuration.client_side_validation and number is None:  # noqa: E501
+        if number is None:  # noqa: E501
             raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                number is not None and number > 543.2):  # noqa: E501
+        if number is not None and number > 543.2:  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                number is not None and number < 32.1):  # noqa: E501
+        if number is not None and number < 32.1:  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
         self._number = number
@@ -248,11 +239,9 @@ class FormatTest(object):
         :param float: The float of this FormatTest.  # noqa: E501
         :type float: float
         """
-        if (self.local_vars_configuration.client_side_validation and
-                float is not None and float > 987.6):  # noqa: E501
+        if float is not None and float > 987.6:  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                float is not None and float < 54.3):  # noqa: E501
+        if float is not None and float < 54.3:  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
 
         self._float = float
@@ -275,11 +264,9 @@ class FormatTest(object):
         :param double: The double of this FormatTest.  # noqa: E501
         :type double: float
         """
-        if (self.local_vars_configuration.client_side_validation and
-                double is not None and double > 123.4):  # noqa: E501
+        if double is not None and double > 123.4:  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                double is not None and double < 67.8):  # noqa: E501
+        if double is not None and double < 67.8:  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
         self._double = double
@@ -323,8 +310,7 @@ class FormatTest(object):
         :param string: The string of this FormatTest.  # noqa: E501
         :type string: str
         """
-        if (self.local_vars_configuration.client_side_validation and
-                string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
+        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self._string = string
@@ -347,7 +333,7 @@ class FormatTest(object):
         :param byte: The byte of this FormatTest.  # noqa: E501
         :type byte: str
         """
-        if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
+        if byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
 
         self._byte = byte
@@ -391,7 +377,7 @@ class FormatTest(object):
         :param date: The date of this FormatTest.  # noqa: E501
         :type date: date
         """
-        if self.local_vars_configuration.client_side_validation and date is None:  # noqa: E501
+        if date is None:  # noqa: E501
             raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
 
         self._date = date
@@ -456,13 +442,11 @@ class FormatTest(object):
         :param password: The password of this FormatTest.  # noqa: E501
         :type password: str
         """
-        if self.local_vars_configuration.client_side_validation and password is None:  # noqa: E501
+        if password is None:  # noqa: E501
             raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                password is not None and len(password) > 64):
+        if password is not None and len(password) > 64:
             raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
-        if (self.local_vars_configuration.client_side_validation and
-                password is not None and len(password) < 10):
+        if password is not None and len(password) < 10:
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
         self._password = password
@@ -487,8 +471,7 @@ class FormatTest(object):
         :param pattern_with_digits: The pattern_with_digits of this FormatTest.  # noqa: E501
         :type pattern_with_digits: str
         """
-        if (self.local_vars_configuration.client_side_validation and
-                pattern_with_digits is not None and not re.search(r'^\d{10}$', pattern_with_digits)):  # noqa: E501
+        if pattern_with_digits is not None and not re.search(r'^\d{10}$', pattern_with_digits):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_with_digits`, must be a follow pattern or equal to `/^\d{10}$/`")  # noqa: E501
 
         self._pattern_with_digits = pattern_with_digits
@@ -513,8 +496,7 @@ class FormatTest(object):
         :param pattern_with_digits_and_delimiter: The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
         :type pattern_with_digits_and_delimiter: str
         """
-        if (self.local_vars_configuration.client_side_validation and
-                pattern_with_digits_and_delimiter is not None and not re.search(r'^image_\d{1,3}$', pattern_with_digits_and_delimiter, flags=re.IGNORECASE)):  # noqa: E501
+        if pattern_with_digits_and_delimiter is not None and not re.search(r'^image_\d{1,3}$', pattern_with_digits_and_delimiter, flags=re.IGNORECASE):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_with_digits_and_delimiter`, must be a follow pattern or equal to `/^image_\d{1,3}$/i`")  # noqa: E501
 
         self._pattern_with_digits_and_delimiter = pattern_with_digits_and_delimiter

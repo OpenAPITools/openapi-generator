@@ -43,11 +43,8 @@ class OuterObjectWithEnumProperty(object):
         'value': 'value'
     }
 
-    def __init__(self, value=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, value=None):  # noqa: E501
         """OuterObjectWithEnumProperty - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._value = None
         self.discriminator = None
@@ -72,7 +69,7 @@ class OuterObjectWithEnumProperty(object):
         :param value: The value of this OuterObjectWithEnumProperty.  # noqa: E501
         :type value: OuterEnumInteger
         """
-        if self.local_vars_configuration.client_side_validation and value is None:  # noqa: E501
+        if value is None:  # noqa: E501
             raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
 
         self._value = value

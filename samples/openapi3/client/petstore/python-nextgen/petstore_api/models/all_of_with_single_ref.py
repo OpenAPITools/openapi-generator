@@ -45,11 +45,8 @@ class AllOfWithSingleRef(object):
         'single_ref_type': 'SingleRefType'
     }
 
-    def __init__(self, username=None, single_ref_type=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, username=None, single_ref_type=None):  # noqa: E501
         """AllOfWithSingleRef - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._username = None
         self._single_ref_type = None

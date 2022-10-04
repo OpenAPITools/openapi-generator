@@ -43,11 +43,8 @@ class HealthCheckResult(object):
         'nullable_message': 'NullableMessage'
     }
 
-    def __init__(self, nullable_message=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, nullable_message=None):  # noqa: E501
         """HealthCheckResult - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._nullable_message = None
         self.discriminator = None

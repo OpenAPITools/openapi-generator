@@ -45,11 +45,8 @@ class Category(object):
         'name': 'name'
     }
 
-    def __init__(self, id=None, name='default-name', local_vars_configuration=None):  # noqa: E501
+    def __init__(self, id=None, name='default-name'):  # noqa: E501
         """Category - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._id = None
         self._name = None
@@ -98,7 +95,7 @@ class Category(object):
         :param name: The name of this Category.  # noqa: E501
         :type name: str
         """
-        if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
+        if name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name

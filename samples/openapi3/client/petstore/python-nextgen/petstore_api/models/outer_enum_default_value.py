@@ -50,11 +50,8 @@ class OuterEnumDefaultValue(object):
     attribute_map = {
     }
 
-    def __init__(self, local_vars_configuration=None):  # noqa: E501
+    def __init__(self):  # noqa: E501
         """OuterEnumDefaultValue - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
         self.discriminator = None
 
     def to_dict(self, serialize=False):

@@ -50,11 +50,8 @@ class Animal(object):
         'Dog': 'Dog'
     }
 
-    def __init__(self, class_name=None, color='red', local_vars_configuration=None):  # noqa: E501
+    def __init__(self, class_name=None, color='red'):  # noqa: E501
         """Animal - a model defined in OpenAPI"""  # noqa: E501
-        if local_vars_configuration is None:
-            local_vars_configuration = Configuration.get_default_copy()
-        self.local_vars_configuration = local_vars_configuration
 
         self._class_name = None
         self._color = None
@@ -82,7 +79,7 @@ class Animal(object):
         :param class_name: The class_name of this Animal.  # noqa: E501
         :type class_name: str
         """
-        if self.local_vars_configuration.client_side_validation and class_name is None:  # noqa: E501
+        if class_name is None:  # noqa: E501
             raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
         self._class_name = class_name
