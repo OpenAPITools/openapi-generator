@@ -5494,7 +5494,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
         // import only if it's not allOf composition schema (without discriminator)
-        if (!(composed.getAllOf() != null && childSchema.getDiscriminator() == null)) {
+        if (!(composed.getAllOf() != null && childSchema != null &&childSchema.getDiscriminator() == null)) {
             addImport(model, modelName);
         } else {
             LOGGER.debug("Skipped import for allOf composition schema {}", modelName);
