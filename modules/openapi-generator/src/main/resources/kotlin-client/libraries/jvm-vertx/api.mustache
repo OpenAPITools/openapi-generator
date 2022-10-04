@@ -86,7 +86,7 @@ import {{packageName}}.infrastructure.*
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{#nullableReturnType}} or null{{/nullableReturnType}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{#nullableReturnType}}{{^isResponseOptional}} or null{{/isResponseOptional}}{{/nullableReturnType}}{{#isResponseOptional}} or null{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -98,10 +98,10 @@ import {{packageName}}.infrastructure.*
     {{#isDeprecated}}
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
-    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{^useCoroutines}}Future<{{/useCoroutines}}{{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{^useCoroutines}}>{{/useCoroutines}} {
+    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}_{{operationId}}>{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{^useCoroutines}}Future<{{/useCoroutines}}{{#returnType}}{{{returnType}}}{{#nullableReturnType}}{{^isResponseOptional}}?{{/isResponseOptional}}{{/nullableReturnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{^useCoroutines}}>{{/useCoroutines}} {
         return {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}).map { localVarResponse ->
             when (localVarResponse.responseType) {
-                ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
+                ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}{{^isResponseOptional}}?{{/isResponseOptional}}{{/nullableReturnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
@@ -135,7 +135,11 @@ import {{packageName}}.infrastructure.*
 
         {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
-        {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}request.putHeader("Content-Type", "{{{mediaType}}}"){{/consumes}}{{/hasConsumes}}{{/hasFormParams}}
+        {{^hasFormParams}}{{#hasConsumes}}
+            {{#consumes}}
+                    request.putHeader("Content-Type", "{{{mediaType}}}")
+            {{/consumes}}
+        {{/hasConsumes}}{{/hasFormParams}}
         {{#hasProduces}}request.putHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
 
         {{#hasFormParams}}
