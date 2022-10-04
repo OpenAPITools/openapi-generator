@@ -1,7 +1,14 @@
 package {{invokerPackage}};
 
+
+{{#useJakartaEE}}
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+{{/useJakartaEE}}
+{{^useJakartaEE}}
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+{{/useJakartaEE}}
 
 @ApplicationPath(RestResourceRoot.APPLICATION_PATH)
 public class RestApplication extends Application {
