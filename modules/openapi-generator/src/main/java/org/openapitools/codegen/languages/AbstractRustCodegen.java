@@ -61,6 +61,17 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return word != null && reservedWords.contains(word);
     }
 
+    /**
+     * Determine the best fitting Rust type for an integer property. This is intended for use when a specific format
+     * has not been defined in the specification. Where the minimum or maximum is not known then the returned type
+     * will default to having at least 32 bits.
+     * @param minimum The minimum value as set in the specification.
+     * @param exclusiveMinimum If the minimum value itself is excluded by the specification.
+     * @param maximum The maximum value as set in the specification.
+     * @param exclusiveMaximum If the maximum value itself is excluded by the specification.
+     * @param preferUnsigned Use unsigned types where the effective minimum is greater than or equal to zero.
+     * @return The Rust data type name.
+     */
     @VisibleForTesting
     public String bestFittingIntegerType(@Nullable BigInteger minimum,
                                   boolean exclusiveMinimum,
@@ -114,6 +125,12 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         throw new RuntimeException("Number is too large to fit into i128");
     }
 
+    /**
+     * Determine if an integer property can be guaranteed to fit into an unsigned data type.
+     * @param minimum The minimum value as set in the specification.
+     * @param exclusiveMinimum If boundary values are excluded by the specification.
+     * @return True if the effective minimum is greater than or equal to zero.
+     */
     @VisibleForTesting
     public boolean canFitIntoUnsigned(@Nullable BigInteger minimum, boolean exclusiveMinimum) {
         return Optional.ofNullable(minimum).map(min -> {
