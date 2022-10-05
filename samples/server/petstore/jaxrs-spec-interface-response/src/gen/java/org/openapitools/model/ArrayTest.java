@@ -19,11 +19,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest  implements Serializable {
-  
-  private @Valid List<String> arrayOfString = new ArrayList<>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ArrayTest  implements Serializable {
+  private @Valid List<String> arrayOfString = null;
+  private @Valid List<List<Long>> arrayArrayOfInteger = null;
+  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   /**
    **/
@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayOfString = arrayOfString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -62,14 +60,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -99,14 +95,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

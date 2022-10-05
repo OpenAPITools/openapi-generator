@@ -8,7 +8,7 @@ from openapi_server import util
 T = typing.TypeVar('T')
 
 
-class Model():
+class Model(object):
     # openapiTypes: The key is attribute name and the
     # value is attribute type.
     openapi_types: typing.Dict[str, type] = {}

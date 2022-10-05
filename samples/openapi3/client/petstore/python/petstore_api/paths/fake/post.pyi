@@ -257,6 +257,38 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         )
 
 
+request_body_body = api_client.RequestBody(
+    content={
+        'application/x-www-form-urlencoded': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationXWwwFormUrlencoded),
+    },
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
+
+
+@dataclass
+class ApiResponseFor404(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_404 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor404,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _endpoint_parameters_oapg(

@@ -1115,5 +1115,9 @@ components:
         percent_description:
           description: using % in the description
           type: string
+        url_property:
+          type: string
+          format: uri
       required:
         - className
+        - url_property

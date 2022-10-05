@@ -31,26 +31,249 @@ ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query__1 = api_client.QueryParameter(
+    name="1",
+    style=api_client.ParameterStyle.FORM,
+    schema=Model1Schema,
+    explode=True,
+)
+request_query_a_b = api_client.QueryParameter(
+    name="aB",
+    style=api_client.ParameterStyle.FORM,
+    schema=ABSchema,
+    explode=True,
+)
+request_query_ab = api_client.QueryParameter(
+    name="Ab",
+    style=api_client.ParameterStyle.FORM,
+    schema=AbSchema,
+    explode=True,
+)
+request_query__self = api_client.QueryParameter(
+    name="self",
+    style=api_client.ParameterStyle.FORM,
+    schema=ModelSelfSchema,
+    explode=True,
+)
+request_query_a_b2 = api_client.QueryParameter(
+    name="A-B",
+    style=api_client.ParameterStyle.FORM,
+    schema=ABSchema,
+    explode=True,
+)
 # header params
 Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
+    'RequestRequiredHeaderParams',
+    {
+    }
+)
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
+    'RequestOptionalHeaderParams',
+    {
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
+    pass
+
+
+request_header__2 = api_client.HeaderParameter(
+    name="1",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=Model1Schema,
+)
+request_header_a_b3 = api_client.HeaderParameter(
+    name="aB",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ABSchema,
+)
+request_header__self2 = api_client.HeaderParameter(
+    name="self",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ModelSelfSchema,
+)
+request_header_a_b4 = api_client.HeaderParameter(
+    name="A-B",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ABSchema,
+)
 # path params
 Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path__3 = api_client.PathParameter(
+    name="1",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=Model1Schema,
+    required=True,
+)
+request_path_a_b5 = api_client.PathParameter(
+    name="aB",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ABSchema,
+    required=True,
+)
+request_path_ab2 = api_client.PathParameter(
+    name="Ab",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=AbSchema,
+    required=True,
+)
+request_path__self3 = api_client.PathParameter(
+    name="self",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ModelSelfSchema,
+    required=True,
+)
+request_path_a_b6 = api_client.PathParameter(
+    name="A-B",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ABSchema,
+    required=True,
+)
 # cookie params
 Model1Schema = schemas.StrSchema
 ABSchema = schemas.StrSchema
 AbSchema = schemas.StrSchema
 ModelSelfSchema = schemas.StrSchema
 ABSchema = schemas.StrSchema
+RequestRequiredCookieParams = typing_extensions.TypedDict(
+    'RequestRequiredCookieParams',
+    {
+    }
+)
+RequestOptionalCookieParams = typing_extensions.TypedDict(
+    'RequestOptionalCookieParams',
+    {
+        '1': typing.Union[Model1Schema, str, ],
+        'aB': typing.Union[ABSchema, str, ],
+        'Ab': typing.Union[AbSchema, str, ],
+        'self': typing.Union[ModelSelfSchema, str, ],
+        'A-B': typing.Union[ABSchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookieParams):
+    pass
+
+
+request_cookie__4 = api_client.CookieParameter(
+    name="1",
+    style=api_client.ParameterStyle.FORM,
+    schema=Model1Schema,
+    explode=True,
+)
+request_cookie_a_b7 = api_client.CookieParameter(
+    name="aB",
+    style=api_client.ParameterStyle.FORM,
+    schema=ABSchema,
+    explode=True,
+)
+request_cookie_ab3 = api_client.CookieParameter(
+    name="Ab",
+    style=api_client.ParameterStyle.FORM,
+    schema=AbSchema,
+    explode=True,
+)
+request_cookie__self4 = api_client.CookieParameter(
+    name="self",
+    style=api_client.ParameterStyle.FORM,
+    schema=ModelSelfSchema,
+    explode=True,
+)
+request_cookie_a_b8 = api_client.CookieParameter(
+    name="A-B",
+    style=api_client.ParameterStyle.FORM,
+    schema=ABSchema,
+    explode=True,
+)
 # body param
 SchemaForRequestBodyApplicationJson = schemas.AnyTypeSchema
+
+
+request_body_body = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+)
 SchemaFor200ResponseBodyApplicationJson = schemas.AnyTypeSchema
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
 _all_accept_content_types = (
     'application/json',
 )

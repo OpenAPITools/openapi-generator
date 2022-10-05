@@ -28,6 +28,59 @@ from petstore_api import schemas  # noqa: F401
 SomeVarSchema = schemas.StrSchema
 SomeVarSchema = schemas.StrSchema
 SomeVarSchema = schemas.StrSchema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'someVar': typing.Union[SomeVarSchema, str, ],
+        'SomeVar': typing.Union[SomeVarSchema, str, ],
+        'some_var': typing.Union[SomeVarSchema, str, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_some_var = api_client.QueryParameter(
+    name="someVar",
+    style=api_client.ParameterStyle.FORM,
+    schema=SomeVarSchema,
+    required=True,
+    explode=True,
+)
+request_query_some_var2 = api_client.QueryParameter(
+    name="SomeVar",
+    style=api_client.ParameterStyle.FORM,
+    schema=SomeVarSchema,
+    required=True,
+    explode=True,
+)
+request_query_some_var3 = api_client.QueryParameter(
+    name="some_var",
+    style=api_client.ParameterStyle.FORM,
+    schema=SomeVarSchema,
+    required=True,
+    explode=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
 
 
 class BaseApi(api_client.Api):

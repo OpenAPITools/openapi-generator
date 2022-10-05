@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString</param>
         /// <param name="directMap">directMap</param>
         /// <param name="indirectMap">indirectMap</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
         {
             MapMapOfString = mapMapOfString;
             MapOfEnumString = mapOfEnumString;
@@ -63,18 +63,17 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-        [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
-
         /// <summary>
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [JsonPropertyName("map_of_enum_string")]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets DirectMap
@@ -144,7 +143,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                if (this.MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                }
                 if (this.DirectMap != null)
                 {
                     hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();

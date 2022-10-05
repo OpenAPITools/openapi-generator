@@ -32,6 +32,53 @@ SchemaForRequestBodyApplicationJson = Pet
 SchemaForRequestBodyApplicationXml = Pet
 
 
+request_body_pet = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+        'application/xml': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationXml),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
+
+
+@dataclass
+class ApiResponseFor404(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_404 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor404,
+)
+
+
+@dataclass
+class ApiResponseFor405(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_405 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor405,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _update_pet_oapg(

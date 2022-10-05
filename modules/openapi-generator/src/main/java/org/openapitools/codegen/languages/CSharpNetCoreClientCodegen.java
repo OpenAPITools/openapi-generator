@@ -1489,6 +1489,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 cm.readOnlyVars.removeIf(item -> item.baseName.equals(v.baseName));
                 cm.requiredVars.removeIf(item -> item.baseName.equals(v.baseName));
                 cm.allVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.nonNullableVars.removeIf(item -> item.baseName.equals(v.baseName));
             });
     }
 

@@ -871,6 +871,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-07-22 - [使用OpenAPI Generator Maven plugin开发api优先的java客户端和服务端代码](https://blog.roccoshi.top/2022/java/openapi-generator%E7%9A%84%E4%BD%BF%E7%94%A8/) by [Lincest](https://github.com/Lincest)
 - 2022-08-01 - [Tutorial: Etsy Open API v3 (ruby)](https://blog.tjoyal.dev/etsy-open-api-v3/) by [Thierry Joyal](https://github.com/tjoyal)
 - 2022-09-03 - [OpenAPI Generator For Go Web Development](https://blog.kevinhu.me/2022/09/03/03-openapi-generator/) by [Kevin Hu](https://twitter.com/Oldgunix)
+- 2022-10-01 - [OpenAPI Generatorをカスタマイズしたコードを生成する（Swagger Codegenとほぼ同じ）](https://nainaistar.hatenablog.com/entry/2022/10/03/120000) by [きり丸](https://twitter.com/nainaistar)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -1113,13 +1114,20 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl              | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                               |
 | PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), [@ybelenko](https://github.com/ybelenko) (2018/07), @renepardon (2018/12)                     |
 | PowerShell        | @wing328 (2020/05)                                                                                                                                                                                                                                  |
-| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @arun-nalla (2019/11) @spacether (2019/11) [:heart:][spacether sponsorship]               |
+| Python            | @spacether (2019/11) [:heart:][spacether sponsorship]               |
 | R                 | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                       |
 | Ruby              | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                             |
 | Rust              | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05)                                                                                                                               |
 | Scala             | @clasnake (2017/07), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04)                                                          |
 | Swift             | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11)                                                                                                                                       |
 | TypeScript        | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) @davidgamero (2022/03) @mkusaka (2022/04) |
+
+
+Past Members of Technical Committee:
+| Languages/Generators         | Member (join date)                                                                                                                                                                                                                |
+| :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @arun-nalla (2019/11)  |
+
 
 :heart: = Link to support the contributor directly
 

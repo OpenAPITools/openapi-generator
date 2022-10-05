@@ -165,7 +165,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
@@ -259,7 +259,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:

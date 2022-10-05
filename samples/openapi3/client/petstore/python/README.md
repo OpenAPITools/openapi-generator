@@ -140,7 +140,7 @@ import datetimeimport datetimeimport datetimeimport datetimeimport datetimeimpor
 import time
 import petstore_api
 from pprint import pprint
-from petstore_api.apis import another_fake_api
+from petstore_api.apis.tags import another_fake_api
 from petstore_api.model.client import Client
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -284,6 +284,7 @@ Class | Method | HTTP request | Description
  - [FileSchemaTestClass](docs/models/FileSchemaTestClass.md)
  - [Foo](docs/models/Foo.md)
  - [FormatTest](docs/models/FormatTest.md)
+ - [FromSchema](docs/models/FromSchema.md)
  - [Fruit](docs/models/Fruit.md)
  - [FruitReq](docs/models/FruitReq.md)
  - [GmFruit](docs/models/GmFruit.md)
@@ -320,6 +321,7 @@ Class | Method | HTTP request | Description
  - [ObjectWithDecimalProperties](docs/models/ObjectWithDecimalProperties.md)
  - [ObjectWithDifficultlyNamedProps](docs/models/ObjectWithDifficultlyNamedProps.md)
  - [ObjectWithInlineCompositionProperty](docs/models/ObjectWithInlineCompositionProperty.md)
+ - [ObjectWithInvalidNamedRefedProperties](docs/models/ObjectWithInvalidNamedRefedProperties.md)
  - [ObjectWithValidations](docs/models/ObjectWithValidations.md)
  - [Order](docs/models/Order.md)
  - [ParentPet](docs/models/ParentPet.md)
