@@ -22,9 +22,9 @@ class PetModelTests(unittest.TestCase):
         self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
         self.pet.id = 1
         self.pet.status = "available"
-        cate = petstore_api.Category()
+        cate = petstore_api.Category(name="dog")
         cate.id = 1
-        cate.name = "dog"
+        #cate.name = "dog"
         self.pet.category = cate
         tag = petstore_api.Tag()
         tag.id = 1
@@ -43,9 +43,9 @@ class PetModelTests(unittest.TestCase):
         self.pet1 = petstore_api.Pet(name="test name", photo_urls=["string"])
         self.pet1.id = 1
         self.pet1.status = "available"
-        cate1 = petstore_api.Category()
+        cate1 = petstore_api.Category(name="dog")
         cate1.id = 1
-        cate1.name = "dog"
+        #cate1.name = "dog"
         self.pet.category = cate1
         tag1 = petstore_api.Tag()
         tag1.id = 1
@@ -54,9 +54,9 @@ class PetModelTests(unittest.TestCase):
         self.pet2 = petstore_api.Pet(name="test name", photo_urls=["string"])
         self.pet2.id = 1
         self.pet2.status = "available"
-        cate2 = petstore_api.Category()
+        cate2 = petstore_api.Category(name="dog")
         cate2.id = 1
-        cate2.name = "dog"
+        #cate2.name = "dog"
         self.pet.category = cate2
         tag2 = petstore_api.Tag()
         tag2.id = 1

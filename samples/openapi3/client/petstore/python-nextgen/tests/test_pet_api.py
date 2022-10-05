@@ -64,9 +64,9 @@ class PetApiTests(unittest.TestCase):
         self.setUpFiles()
 
     def setUpModels(self):
-        self.category = petstore_api.Category()
+        self.category = petstore_api.Category(name="dog")
         self.category.id = id_gen()
-        self.category.name = "dog"
+        #self.category.name = "dog"
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "python-pet-tag"

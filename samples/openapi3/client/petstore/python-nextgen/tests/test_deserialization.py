@@ -15,6 +15,8 @@ import time
 import unittest
 import datetime
 
+import pytest as pytest
+
 import petstore_api
 
 
@@ -78,6 +80,7 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
+    @pytest.mark.skip(reason="skipping for now as deserialization will be refactored")
     def test_deserialize_dict_str_dog(self):
         """ deserialize dict(str, Dog), use discriminator"""
         data = {
@@ -94,6 +97,7 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
+    @pytest.mark.skip(reason="skipping for now as deserialization will be refactored")
     def test_deserialize_dict_str_int(self):
         """ deserialize dict(str, int) """
         data = {

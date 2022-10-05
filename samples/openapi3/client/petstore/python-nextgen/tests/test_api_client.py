@@ -150,7 +150,7 @@ class ApiClientTests(unittest.TestCase):
                                   "http://foo.bar.com/4"]}
         pet = petstore_api.Pet(name=pet_dict["name"], photo_urls=pet_dict["photoUrls"])
         pet.id = pet_dict["id"]
-        cate = petstore_api.Category()
+        cate = petstore_api.Category(name="something")
         cate.id = pet_dict["category"]["id"]
         cate.name = pet_dict["category"]["name"]
         pet.category = cate

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -452,4 +453,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String generatorLanguageVersion() { return "2.7 and 3.4+"; };
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        final Schema additionalProperties = getAdditionalProperties(schema);
+
+        if (additionalProperties != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
+    }
 }
