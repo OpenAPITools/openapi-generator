@@ -165,7 +165,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
@@ -259,7 +259,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:

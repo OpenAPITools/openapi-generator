@@ -13,6 +13,10 @@ open class Configuration {
     // You must set it prior to encoding any dates, and it will only be read once.
     @available(*, unavailable, message: "To set a different date format, use CodableHelper.dateFormatter instead.")
     public static var dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+    /// Configures the range of HTTP status codes that will result in a successful response
+    ///
+    /// If a HTTP status code is outside of this range the response will be interpreted as failed.
+    public static var successfulStatusCodeRange: Range = 200..<300
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
     /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
@@ -23,7 +27,7 @@ open class Configuration {
     public static var stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
 }
 
-/// Type-erased response serializer
+/// Type-erased ResponseSerializer
 ///
 /// This is needed in order to use `ResponseSerializer` as a Type in `Configuration`. Obsolete with `any` keyword in Swift >= 5.7
 public struct AnyResponseSerializer<T>: ResponseSerializer {
