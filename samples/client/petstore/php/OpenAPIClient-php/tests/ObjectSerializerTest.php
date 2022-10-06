@@ -327,6 +327,15 @@ class ObjectSerializerTest extends TestCase
                 true,
                 'filter%5Bor%5D%5B0%5D%5Bname%5D=John&filter%5Bor%5D%5B1%5D%5Bemail%5D=john%40doe.com'
             ],
+            'form DateTime object, explode on, required true' => [
+                new DateTime('2021-10-06T20:17:16'), 'dateTime', '\DateTime', 'form', true, true, 'dateTime=2021-10-06T20%3A17%3A16%2B00%3A00',
+            ],
+            'form null DateTime object, explode on, required true' => [
+                null, 'dateTime', '\DateTime', 'form', true, true, 'dateTime=',
+            ],
+            'form null DateTime object, explode on, required false' => [
+                null, 'dateTime', '\DateTime', 'form', true, false, '',
+            ],
         ];
     }
 
