@@ -1036,12 +1036,20 @@ public class SpringCodegen extends AbstractJavaCodegen
         final List<Map<String, String>> imports = objs.getImports();
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
-            // for enum model
+            boolean addNullableImports = false;
+            for (CodegenProperty var : cm.vars) {
+                addNullableImports = isAddNullableImports(cm, addNullableImports, var);
+            }
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 final Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
                 imports.add(item);
+            }
+            if (addNullableImports) {
+                Map<String, String> imports2Classnames = new HashMap<>();
+                imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
+                addImports(imports, cm, imports2Classnames);
             }
         }
 

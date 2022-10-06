@@ -2149,4 +2149,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;
     }
+
+    public boolean isAddNullableImports(CodegenModel cm, boolean addImports, CodegenProperty var) {
+        if (this.openApiNullable) {
+            boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+            // only add JsonNullable and related imports to optional and nullable values
+            addImports |= isOptionalNullable;
+            var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+            findByName(var.name, cm.readOnlyVars)
+                    .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
+        }
+        return addImports;
+    }
+    public static void addImports(List<Map<String, String>> imports, CodegenModel cm, Map<String, String> imports2Classnames) {
+        for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
+            cm.imports.add(entry.getKey());
+            Map<String, String> importsItem = new HashMap<>();
+            importsItem.put("import", entry.getValue());
+            imports.add(importsItem);
+        }
+    }
 }
