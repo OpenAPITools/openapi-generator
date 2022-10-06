@@ -372,9 +372,13 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{/isMap}}
 {{#isMap}}
 	var{{{classname}}} := _{{{classname}}}{}
+	
+	err = json.Unmarshal(bytes, &var{{{classname}}})
 
-	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
+	if err == nil {
 		*o = {{{classname}}}(var{{{classname}}})
+	} else {
+		return err
 	}
 
 	additionalProperties := make(map[string]interface{})
