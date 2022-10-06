@@ -336,7 +336,12 @@ public class {{classname}} {
             {{#isExplode}}
                 {{#hasVars}}
                     {{#vars}}
+                        {{#isArray}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                        {{^isArray}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}

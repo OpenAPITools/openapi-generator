@@ -17,10 +17,41 @@
 
 package org.openapitools.codegen.java;
 
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.testng.Assert;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,42 +75,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.testng.Assert;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
-
-import com.google.common.collect.ImmutableMap;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class JavaClientCodegenTest {
 
@@ -951,7 +950,7 @@ public class JavaClientCodegenTest {
      *
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
-     * how we can fix it accordingly. 
+     * how we can fix it accordingly.
      */
     @Test
     @Ignore
@@ -1231,7 +1230,7 @@ public class JavaClientCodegenTest {
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");
     }
-    
+
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/8352
      */
@@ -1664,5 +1663,29 @@ public class JavaClientCodegenTest {
                     .hasParameter("xNonNullHeaderParameter")
                     .assertParameterAnnotations()
                     .containsWithName("NotNull");
+    }
+
+    @Test
+    public void testNativeClientExplodedQueryParamWithArrayProperty() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+            "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()));"
+        );
     }
 }
