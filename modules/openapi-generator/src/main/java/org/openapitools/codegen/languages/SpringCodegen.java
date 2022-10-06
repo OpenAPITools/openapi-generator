@@ -83,6 +83,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
+    public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
@@ -110,6 +111,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String basePackage = "org.openapitools";
     protected boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
+    protected boolean useFeignClient = false;
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
@@ -491,6 +493,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");
                     this.setSingleContentTypes(true);
                 }
+                additionalProperties.put(USE_FEIGN_CLIENT, "true");
+                this.setUseFeignClient(true);
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 supportingFiles.add(new SupportingFile("application.mustache",
@@ -844,6 +848,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
+    }
+
+    public void setUseFeignClient( boolean useFeignClient ) {
+        this.useFeignClient = useFeignClient;
     }
 
     public void setSkipDefaultInterface(boolean skipDefaultInterface) {

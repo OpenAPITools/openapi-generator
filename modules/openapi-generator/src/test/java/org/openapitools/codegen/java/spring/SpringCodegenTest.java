@@ -673,6 +673,20 @@ public class SpringCodegenTest {
         assertFileNotContains(petApiControllerFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
     }
 
+   @Test
+   public void testNoRequestMappingAnnotation() throws IOException {
+      final SpringCodegen codegen = new SpringCodegen();
+      codegen.setLibrary( "spring-cloud" );
+
+      final Map<String, File> files = generateFiles( codegen, "src/test/resources/2_0/petstore.yaml" );
+
+      // Check that the @RequestMapping annotation is not generated in the Api file
+      final File petApiFile = files.get( "PetApi.java" );
+      JavaFileAssert.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
+            .containsWithName( "Generated" ).containsWithName( "Tag" );
+
+   }
+
     @Test
     public void testSettersForConfigValues() throws Exception {
         final SpringCodegen codegen = new SpringCodegen();
