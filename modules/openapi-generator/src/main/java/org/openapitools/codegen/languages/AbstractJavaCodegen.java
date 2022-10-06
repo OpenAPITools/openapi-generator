@@ -1297,7 +1297,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
         }
+
+        // additional import for different cases
+        addAdditionalImports(codegenModel, codegenModel.oneOf);
+        addAdditionalImports(codegenModel, codegenModel.anyOf);
         return codegenModel;
+    }
+
+    private void addAdditionalImports(CodegenModel model, Set<String> dataTypeSet) {
+        for (String dataType : dataTypeSet) {
+            if (null != importMapping().get(dataType)) {
+                model.imports.add(dataType);
+            }
+        }
     }
 
     @Override
