@@ -37,6 +37,9 @@ open class PetAPI {
     /**
      Add a new pet to the store
      - POST /pet
+     - API Key:
+       - type: apiKey api_key_query (QUERY)
+       - name: api_key_query
      - OAuth:
        - type: oauth2
        - name: petstore_auth

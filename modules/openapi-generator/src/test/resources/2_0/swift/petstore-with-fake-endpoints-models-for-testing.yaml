@@ -45,6 +45,7 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+        - api_key_query: []
     put:
       tags:
         - pet
