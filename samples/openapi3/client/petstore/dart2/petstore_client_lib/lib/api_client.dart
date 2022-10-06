@@ -143,19 +143,25 @@ class ApiClient {
     );
   }
 
-  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false,}) async =>
+  Future<dynamic> deserializeAsync(Uint8List responseBytes, String targetType, {bool growable = false,}) async =>
     // ignore: deprecated_member_use_from_same_package
-    deserialize(json, targetType, growable: growable);
+    deserialize(responseBytes, targetType, growable: growable);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
-  dynamic deserialize(String json, String targetType, {bool growable = false,}) {
+  dynamic deserialize(Uint8List responseBytes, String targetType, {bool growable = false,}) {
     // Remove all spaces. Necessary for regular expressions as well.
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
+    // if the expected target type is a byte-array, then just return the response bytes as-is
+    if (targetType == 'Uint8List') {
+      return responseBytes;
+    }
+
+    final decodedString = const Utf8Decoder().convert(responseBytes);
     // If the expected target type is String, nothing to do...
     return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable);
+      ? decodedString
+      : _deserialize(jsonDecode(decodedString), targetType, growable: growable);
   }
 
   // ignore: deprecated_member_use_from_same_package
