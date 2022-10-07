@@ -450,7 +450,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
                 if (var.name.equalsIgnoreCase(cm.classname)) {
-                    var.name = var.name + "Property";
+                    var.name = "_" + var.name;
                 }
             }
         }
