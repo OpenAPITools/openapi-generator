@@ -3,10 +3,20 @@ name: Samples Java Client JDK11
 on:
   push:
     paths:
-      - 'samples/client/petstore/java*/**'
+      - 'samples/client/petstore/java/**'
+      - 'samples/client/petstore/java-micronaut-client/**'
+      - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/java-micronaut-client/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
+      - samples/openapi3/client/petstore/java/native/**
   pull_request:
     paths:
-      - 'samples/client/petstore/java*/**'
+      - 'samples/client/petstore/java/**'
+      - 'samples/client/petstore/java-micronaut-client/**'
+      - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/java-micronaut-client/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
+      - samples/openapi3/client/petstore/java/native/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -16,6 +26,7 @@ jobs:
       matrix:
         sample:
           # clients
+          - samples/client/petstore/java-micronaut-client
           - samples/client/petstore/jaxrs-cxf-client
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-async
@@ -38,6 +49,8 @@ jobs:
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/jersey1
+          - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
+          - samples/openapi3/client/petstore/java/native
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
