@@ -1,4 +1,4 @@
-{{>licenseInfo}}
+                                                                                    {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{#useAxiosHttpModule}}
@@ -76,7 +76,7 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
 {{#queryParams}}
         {{#isArray}}
         if ({{paramName}}) {
@@ -96,7 +96,7 @@ export class {{classname}} {
             queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}};
+            queryParameters.append('{{baseName}}',{{paramName}}.toString());
         {{/isDateTime}}
         }
         {{/isArray}}
@@ -179,7 +179,7 @@ export class {{classname}} {
 
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: { append(param: string, value: any): void; };
+        let formParams = new URLSearchParams();
         let useForm = false;
         let convertFormParamsToString = false;
 {{#formParams}}
@@ -191,7 +191,7 @@ export class {{classname}} {
 {{/isFile}}
 {{/formParams}}
         if (useForm) {
-            formParams = new FormData();
+            //formParams = new FormData();
         } else {
             // formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
