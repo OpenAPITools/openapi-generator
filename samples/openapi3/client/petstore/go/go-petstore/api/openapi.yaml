@@ -667,6 +667,12 @@ paths:
       responses:
         "400":
           description: Someting wrong
+        "5XX":
+          content:
+            applicatino/json:
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
+          description: Someting wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)

@@ -176,9 +176,7 @@ public class TriangleInterface {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (TriangleInterface.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!TriangleInterface.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in TriangleInterface is not found in the empty JSON string", TriangleInterface.openapiRequiredFields.toString()));
         }
       }
@@ -189,7 +187,7 @@ public class TriangleInterface {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if ((jsonObj.get("triangleType") != null && !jsonObj.get("triangleType").isJsonNull()) && !jsonObj.get("triangleType").isJsonPrimitive()) {
+      if (!jsonObj.get("triangleType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `triangleType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("triangleType").toString()));
       }
   }

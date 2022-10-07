@@ -162,9 +162,7 @@ public class AdditionalPropertiesArray implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (AdditionalPropertiesArray.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!AdditionalPropertiesArray.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesArray is not found in the empty JSON string", AdditionalPropertiesArray.openapiRequiredFields.toString()));
         }
       }

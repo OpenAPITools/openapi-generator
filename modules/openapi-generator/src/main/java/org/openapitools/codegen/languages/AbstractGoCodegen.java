@@ -330,6 +330,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return apiName;
     }
 
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_test";
+    }
+
     /**
      * Return the golang implementation type for the specified property.
      *

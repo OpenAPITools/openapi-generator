@@ -376,9 +376,7 @@ public class Order {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Order.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Order.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Order is not found in the empty JSON string", Order.openapiRequiredFields.toString()));
         }
       }

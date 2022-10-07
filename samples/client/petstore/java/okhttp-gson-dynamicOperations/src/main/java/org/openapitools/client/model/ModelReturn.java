@@ -139,9 +139,7 @@ public class ModelReturn {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ModelReturn.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ModelReturn.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelReturn is not found in the empty JSON string", ModelReturn.openapiRequiredFields.toString()));
         }
       }

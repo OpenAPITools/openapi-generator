@@ -17,8 +17,10 @@
   "license": "Unlicense",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc --outDir dist/",
+    "build": "tsc && tsc -p tsconfig.esm.json",
     "prepare": "npm run build"
   },
   "dependencies": {

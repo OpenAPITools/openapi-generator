@@ -593,6 +593,9 @@ test_that("Tests anyOf", {
 })
 
 test_that("Tests URL validation", {
+  valid_json <- '{"className":"date","percent_description":"abc","url_property":"https://stackoverflow.com/a/1/b/2"}'
+  Date$public_methods$validateJSON(valid_json) # shouldn't throw exception
+
   valid_json <- '{"className":"date","percent_description":"abc","url_property":"https://abc.com/a/1/b/2"}'
   Date$public_methods$validateJSON(valid_json) # shouldn't throw exception
 
