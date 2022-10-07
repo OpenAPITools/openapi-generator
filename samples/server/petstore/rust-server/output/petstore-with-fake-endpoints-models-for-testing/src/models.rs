@@ -3807,7 +3807,7 @@ pub struct Name {
 
     #[serde(rename = "123Number")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub param_123_number: Option<isize>,
+    pub param_123_number: Option<i32>,
 
 }
 
@@ -3877,7 +3877,7 @@ impl std::str::FromStr for Name {
             pub name: Vec<i32>,
             pub snake_case: Vec<i32>,
             pub property: Vec<String>,
-            pub param_123_number: Vec<isize>,
+            pub param_123_number: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -3902,7 +3902,7 @@ impl std::str::FromStr for Name {
                     #[allow(clippy::redundant_clone)]
                     "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "123Number" => intermediate_rep.param_123_number.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "123Number" => intermediate_rep.param_123_number.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Name".to_string())
                 }
             }

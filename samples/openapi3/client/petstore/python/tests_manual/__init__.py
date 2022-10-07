@@ -55,10 +55,11 @@ class ApiTestMixin(unittest.TestCase):
         content_type: typing.Optional[str] = 'application/json',
         accept_content_type: typing.Optional[str] = 'application/json',
         stream: bool = False,
+        headers: typing.Optional[typing.Dict] = None
     ):
-        headers = {
-            'User-Agent': cls.user_agent
-        }
+        if headers is None:
+            headers = {}
+        headers['User-Agent'] = cls.user_agent
         if accept_content_type:
             headers['Accept'] = accept_content_type
         if content_type:

@@ -29,7 +29,33 @@ from petstore_api.model.composed_one_of_different_types import ComposedOneOfDiff
 
 # body param
 SchemaForRequestBodyApplicationJson = ComposedOneOfDifferentTypes
+
+
+request_body_composed_one_of_different_types = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+)
 SchemaFor200ResponseBodyApplicationJson = ComposedOneOfDifferentTypes
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
 _all_accept_content_types = (
     'application/json',
 )

@@ -27,6 +27,30 @@ from petstore_api import schemas  # noqa: F401
 
 # path params
 PetIdSchema = schemas.Int64Schema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path_pet_id = api_client.PathParameter(
+    name="petId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=PetIdSchema,
+    required=True,
+)
 # body param
 
 
@@ -88,6 +112,26 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             _configuration=_configuration,
             **kwargs,
         )
+
+
+request_body_body = api_client.RequestBody(
+    content={
+        'application/x-www-form-urlencoded': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationXWwwFormUrlencoded),
+    },
+)
+
+
+@dataclass
+class ApiResponseFor405(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_405 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor405,
+)
 
 
 class BaseApi(api_client.Api):

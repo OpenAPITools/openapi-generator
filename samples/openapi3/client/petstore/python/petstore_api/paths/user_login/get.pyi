@@ -28,10 +28,87 @@ from petstore_api import schemas  # noqa: F401
 # query params
 UsernameSchema = schemas.StrSchema
 PasswordSchema = schemas.StrSchema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'username': typing.Union[UsernameSchema, str, ],
+        'password': typing.Union[PasswordSchema, str, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_username = api_client.QueryParameter(
+    name="username",
+    style=api_client.ParameterStyle.FORM,
+    schema=UsernameSchema,
+    required=True,
+    explode=True,
+)
+request_query_password = api_client.QueryParameter(
+    name="password",
+    style=api_client.ParameterStyle.FORM,
+    schema=PasswordSchema,
+    required=True,
+    explode=True,
+)
 XRateLimitSchema = schemas.Int32Schema
 XExpiresAfterSchema = schemas.DateTimeSchema
 SchemaFor200ResponseBodyApplicationXml = schemas.StrSchema
 SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
+ResponseHeadersFor200 = typing_extensions.TypedDict(
+    'ResponseHeadersFor200',
+    {
+        'X-Rate-Limit': XRateLimitSchema,
+        'X-Expires-After': XExpiresAfterSchema,
+    }
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationXml,
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
+    headers: ResponseHeadersFor200
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/xml': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationXml),
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+    headers=[
+        x_rate_limit_parameter,
+        x_expires_after_parameter,
+    ]
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
 _all_accept_content_types = (
     'application/xml',
     'application/json',

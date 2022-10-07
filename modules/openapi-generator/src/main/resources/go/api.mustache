@@ -371,7 +371,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
 		{{/is4xx}}
 		{{#is5xx}}
-		if localVarHTTPResponse.StatusCode >= 500
+		if localVarHTTPResponse.StatusCode >= 500 {
 		{{/is5xx}}
 		{{/range}}
 		{{^range}}

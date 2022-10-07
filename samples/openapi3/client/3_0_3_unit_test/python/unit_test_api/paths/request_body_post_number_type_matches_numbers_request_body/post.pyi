@@ -29,6 +29,27 @@ from unit_test_api import schemas  # noqa: F401
 SchemaForRequestBodyApplicationJson = schemas.NumberSchema
 
 
+request_body_body = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _post_number_type_matches_numbers_request_body_oapg(
