@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -135,7 +136,7 @@ namespace Org.OpenAPITools.Client
                 var stringCollection = new ArrayList();
                 foreach (var item in collection)
                 {
-                    stringCollection.Add(Convert.ToString(item, CultureInfo.InvariantCulture));
+                    stringCollection.Add(Convert.ToString(item, System.Globalization.CultureInfo.InvariantCulture));
                 }
                 return string.Join(",", stringCollection.ToArray());
             }
