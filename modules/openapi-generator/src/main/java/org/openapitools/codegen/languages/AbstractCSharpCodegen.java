@@ -474,6 +474,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
 
+            // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
             // fixing allVars should suffice instead of patching every collection
             for (CodegenProperty property : model.allVars){
