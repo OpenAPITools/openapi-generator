@@ -1,0 +1,40 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{^useAbstractClass}}
+import java.util.logging.Logger;{{/useAbstractClass}}
+
+import io.helidon.webserver.ServerRequest;
+import io.helidon.webserver.ServerResponse;
+
+{{#operations}}
+public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClass}}{{#useAbstractClass}}extends{{/useAbstractClass}} {{classname}} {
+
+    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
+{{^useAbstractClass}}
+    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+{{#jackson}}
+    private static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
+{{#jsonb}}
+    private static final Jsonb JSONB = JsonbBuilder.create();{{/jsonb}}
+{{/useAbstractClass}}
+{{#operation}}
+
+{{#useAbstractClass}}
+    public void handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(ServerRequest request, ServerResponse response{{#allParams}}, {{>dataType}} {{paramName}}{{/allParams}}) {
+{{/useAbstractClass}}
+{{^useAbstractClass}}
+    public void {{{operationId}}}(ServerRequest request, ServerResponse response{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}) {
+{{/useAbstractClass}}
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+{{/operation}}
+
+{{#useAbstractClass}}
+    public Void handleError(ServerRequest request, ServerResponse response, Throwable throwable) {
+        return response.send(throwable);
+    }
+{{/useAbstractClass}}
+}
+{{/operations}}

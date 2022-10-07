@@ -1,0 +1,25 @@
+# Example Logging Configuration File
+# For more information see $JAVA_HOME/jre/lib/logging.properties
+
+## Send messages to the console
+handlers=io.helidon.common.HelidonConsoleHandler
+#
+## HelidonConsoleHandler uses a SimpleFormatter subclass that replaces "!thread!" with the current thread
+java.util.logging.SimpleFormatter.format=%1$tY.%1$tm.%1$td %1$tH:%1$tM:%1$tS %4$s %3$s !thread!: %5$s%6$s%n
+#
+## Global logging level. Can be overridden by specific loggers
+.level=INFO
+
+# Quiet Weld
+org.jboss.level=WARNING
+
+#
+# Component specific log levels
+#io.helidon.webserver.level=INFO
+#io.helidon.config.level=INFO
+#io.helidon.security.level=INFO
+#io.helidon.microprofile.level=INFO
+#io.helidon.common.level=INFO
+#io.netty.level=INFO
+#org.glassfish.jersey.level=INFO
+#org.jboss.weld=INFO
