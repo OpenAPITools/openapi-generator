@@ -1476,42 +1476,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
-        ArrayList<CodegenModel> allModels = new ArrayList<CodegenModel>();
-        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-            allModels.add(model);
-
-            // https://github.com/OpenAPITools/openapi-generator/issues/12324
-            // fixing allVars should suffice instead of patching every collection
-            for (CodegenProperty property : model.allVars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.vars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.readWriteVars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.optionalVars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.parentVars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.requiredVars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.readOnlyVars){
-                patchProperty(model, property);
-            }
-            for (CodegenProperty property : model.nonNullableVars){
-                patchProperty(model, property);
-            }
-        }
-
         // other libraries probably want these fixes, but lets avoid breaking changes for now
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
             return objs;
+        }
+
+        ArrayList<CodegenModel> allModels = new ArrayList<>();
+        for (String key : objs.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, objs);
+            allModels.add(model);
         }
 
         for (CodegenModel cm : allModels) {
@@ -1531,28 +1504,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
-    }
-
-    /**
-     * Hotfix for this issue
-     * https://github.com/OpenAPITools/openapi-generator/issues/12155
-     */
-    private void patchProperty(CodegenModel model, CodegenProperty property){
-         if (property.name.equalsIgnoreCase(model.classname)) {
-             property.name = property.name + "Property";
-         }
-
-        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null){
-            List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
-            if (composedSchemas.size() == 0) {
-                return;
-            }
-            CodegenProperty composedProperty = composedSchemas.stream().findFirst().get();
-            property.dataType = composedProperty.dataType;
-            property.datatypeWithEnum = composedProperty.datatypeWithEnum;
-            property.isMap = composedProperty.isMap;
-            property.isContainer = composedProperty.isContainer;
-        }
     }
 
     /**
