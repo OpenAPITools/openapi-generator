@@ -135,26 +135,26 @@ func (h *HttpSignatureAuth) SetPrivateKey(privateKey string) error {
 // are invalid.
 func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Context, error) {
 	if h.KeyId == "" {
-		return nil, fmt.Errorf("Key ID must be specified")
+		return nil, fmt.Errorf("key ID must be specified")
 	}
 	if h.PrivateKeyPath == "" && h.privateKey == nil {
-		return nil, fmt.Errorf("Private key path must be specified")
+		return nil, fmt.Errorf("private key path must be specified")
 	}
 	if _, ok := supportedSigningSchemes[h.SigningScheme]; !ok {
-		return nil, fmt.Errorf("Invalid signing scheme: '%v'", h.SigningScheme)
+		return nil, fmt.Errorf("invalid signing scheme: '%v'", h.SigningScheme)
 	}
 	m := make(map[string]bool)
 	for _, h := range h.SignedHeaders {
 		if strings.EqualFold(h, HttpHeaderAuthorization) {
-			return nil, fmt.Errorf("Signed headers cannot include the 'Authorization' header")
+			return nil, fmt.Errorf("signed headers cannot include the 'Authorization' header")
 		}
 		m[h] = true
 	}
 	if len(m) != len(h.SignedHeaders) {
-		return nil, fmt.Errorf("List of signed headers cannot have duplicate names")
+		return nil, fmt.Errorf("list of signed headers cannot have duplicate names")
 	}
 	if h.SignatureMaxValidity < 0 {
-		return nil, fmt.Errorf("Signature max validity must be a positive value")
+		return nil, fmt.Errorf("signature max validity must be a positive value")
 	}
 	if err := h.loadPrivateKey(); err != nil {
 		return nil, err
@@ -177,7 +177,7 @@ func (h *HttpSignatureAuth) GetPublicKey() (crypto.PublicKey, error) {
 	default:
 		// Do not change '%T' to anything else such as '%v'!
 		// The value of the private key must not be returned.
-		return nil, fmt.Errorf("Unsupported key: %T", h.privateKey)
+		return nil, fmt.Errorf("unsupported key: %T", h.privateKey)
 	}
 }
 
@@ -190,7 +190,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	var file *os.File
 	file, err = os.Open(h.PrivateKeyPath)
 	if err != nil {
-		return fmt.Errorf("Cannot load private key '%s'. Error: %v", h.PrivateKeyPath, err)
+		return fmt.Errorf("cannot load private key '%s'. Error: %v", h.PrivateKeyPath, err)
 	}
 	defer func() {
 		err = file.Close()
@@ -208,7 +208,7 @@ func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {
 		// No PEM data has been found.
-		return fmt.Errorf("File '%s' does not contain PEM data", h.PrivateKeyPath)
+		return fmt.Errorf("file '%s' does not contain PEM data", h.PrivateKeyPath)
 	}
 	var privKey []byte
 	var err error
@@ -234,7 +234,7 @@ func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 			return err
 		}
 	default:
-		return fmt.Errorf("Key '%s' is not supported", pemBlock.Type)
+		return fmt.Errorf("key '%s' is not supported", pemBlock.Type)
 	}
 	return nil
 }
@@ -257,7 +257,7 @@ func SignRequest(
 	auth HttpSignatureAuth) error {
 
 	if auth.privateKey == nil {
-		return fmt.Errorf("Private key is not set")
+		return fmt.Errorf("private key is not set")
 	}
 	now := time.Now()
 	date := now.UTC().Format(http.TimeFormat)
@@ -271,7 +271,7 @@ func SignRequest(
 	var expiresUnix float64
 
 	if auth.SignatureMaxValidity < 0 {
-		return fmt.Errorf("Signature validity must be a positive value")
+		return fmt.Errorf("signature validity must be a positive value")
 	}
 	if auth.SignatureMaxValidity > 0 {
 		e := now.Add(auth.SignatureMaxValidity)
@@ -287,10 +287,10 @@ func SignRequest(
 		h = crypto.SHA256
 		prefix = "SHA-256="
 	default:
-		return fmt.Errorf("Unsupported signature scheme: %v", auth.SigningScheme)
+		return fmt.Errorf("unsupported signature scheme: %v", auth.SigningScheme)
 	}
 	if !h.Available() {
-		return fmt.Errorf("Hash '%v' is not available", h)
+		return fmt.Errorf("hash '%v' is not available", h)
 	}
 
 	// Build the "(request-target)" signature header.
@@ -317,7 +317,7 @@ func SignRequest(
 		m[h] = true
 	}
 	if len(m) != len(signedHeaders) {
-		return fmt.Errorf("List of signed headers must not have any duplicates")
+		return fmt.Errorf("list of signed headers must not have any duplicates")
 	}
 	hasCreatedParameter := false
 	hasExpiresParameter := false
@@ -326,7 +326,7 @@ func SignRequest(
 		var value string
 		switch header {
 		case strings.ToLower(HttpHeaderAuthorization):
-			return fmt.Errorf("Cannot include the 'Authorization' header as a signed header.")
+			return fmt.Errorf("cannot include the 'Authorization' header as a signed header")
 		case HttpSignatureParameterRequestTarget:
 			value = requestTarget
 		case HttpSignatureParameterCreated:
@@ -334,7 +334,7 @@ func SignRequest(
 			hasCreatedParameter = true
 		case HttpSignatureParameterExpires:
 			if auth.SignatureMaxValidity.Nanoseconds() == 0 {
-				return fmt.Errorf("Cannot set '(expires)' signature parameter. SignatureMaxValidity is not configured.")
+				return fmt.Errorf("cannot set '(expires)' signature parameter. SignatureMaxValidity is not configured")
 			}
 			value = fmt.Sprintf("%.3f", expiresUnix)
 			hasExpiresParameter = true
@@ -370,7 +370,7 @@ func SignRequest(
 			if v, ok = r.Header[canonicalHeader]; !ok {
 				// If a header specified in the headers parameter cannot be matched with
 				// a provided header in the message, the implementation MUST produce an error.
-				return fmt.Errorf("Header '%s' does not exist in the request", canonicalHeader)
+				return fmt.Errorf("header '%s' does not exist in the request", canonicalHeader)
 			}
 			// If there are multiple instances of the same header field, all
 			// header field values associated with the header field MUST be
@@ -385,7 +385,7 @@ func SignRequest(
 		fmt.Fprintf(&sb, "%s: %s", header, value)
 	}
 	if expiresUnix != 0 && !hasExpiresParameter {
-		return fmt.Errorf("SignatureMaxValidity is specified, but '(expired)' parameter is not present")
+		return fmt.Errorf("signatureMaxValidity is specified, but '(expired)' parameter is not present")
 	}
 	msg := []byte(sb.String())
 	msgHash := h.New()
@@ -403,14 +403,14 @@ func SignRequest(
 		case "", HttpSigningAlgorithmRsaPSS:
 			signature, err = rsa.SignPSS(rand.Reader, key, h, d, nil)
 		default:
-			return fmt.Errorf("Unsupported signing algorithm: '%s'", auth.SigningAlgorithm)
+			return fmt.Errorf("unsupported signing algorithm: '%s'", auth.SigningAlgorithm)
 		}
 	case *ecdsa.PrivateKey:
 		signature, err = key.Sign(rand.Reader, d, h)
 	case ed25519.PrivateKey: // requires go 1.13
 	  signature, err = key.Sign(rand.Reader, msg, crypto.Hash(0))
 	default:
-		return fmt.Errorf("Unsupported private key")
+		return fmt.Errorf("unsupported private key")
 	}
 	if err != nil {
 		return err
