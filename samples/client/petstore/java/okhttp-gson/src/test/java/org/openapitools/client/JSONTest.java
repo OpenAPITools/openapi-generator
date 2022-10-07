@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -542,6 +543,19 @@ public class JSONTest {
             });
             assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result, expected 1"));
         }
+    }
+
+
+    /**
+     * Test validateJsonObject with null object
+     */
+    @Test
+    public void testValidateJsonObject() throws Exception {
+        JsonObject jsonObject = new JsonObject();
+        Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Pet.validateJsonObject(jsonObject);
+                });
+        assertEquals(exception.getMessage(), "The required field `photoUrls` is not found in the JSON string: {}");
     }
 
     /**
