@@ -30,9 +30,98 @@ RequiredStringGroupSchema = schemas.IntSchema
 RequiredInt64GroupSchema = schemas.Int64Schema
 StringGroupSchema = schemas.IntSchema
 Int64GroupSchema = schemas.Int64Schema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'required_string_group': typing.Union[RequiredStringGroupSchema, decimal.Decimal, int, ],
+        'required_int64_group': typing.Union[RequiredInt64GroupSchema, decimal.Decimal, int, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        'string_group': typing.Union[StringGroupSchema, decimal.Decimal, int, ],
+        'int64_group': typing.Union[Int64GroupSchema, decimal.Decimal, int, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_required_string_group = api_client.QueryParameter(
+    name="required_string_group",
+    style=api_client.ParameterStyle.FORM,
+    schema=RequiredStringGroupSchema,
+    required=True,
+    explode=True,
+)
+request_query_required_int64_group = api_client.QueryParameter(
+    name="required_int64_group",
+    style=api_client.ParameterStyle.FORM,
+    schema=RequiredInt64GroupSchema,
+    required=True,
+    explode=True,
+)
+request_query_string_group = api_client.QueryParameter(
+    name="string_group",
+    style=api_client.ParameterStyle.FORM,
+    schema=StringGroupSchema,
+    explode=True,
+)
+request_query_int64_group = api_client.QueryParameter(
+    name="int64_group",
+    style=api_client.ParameterStyle.FORM,
+    schema=Int64GroupSchema,
+    explode=True,
+)
 # header params
 RequiredBooleanGroupSchema = schemas.BoolSchema
 BooleanGroupSchema = schemas.BoolSchema
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
+    'RequestRequiredHeaderParams',
+    {
+        'required_boolean_group': typing.Union[RequiredBooleanGroupSchema, bool, ],
+    }
+)
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
+    'RequestOptionalHeaderParams',
+    {
+        'boolean_group': typing.Union[BooleanGroupSchema, bool, ],
+    },
+    total=False
+)
+
+
+class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
+    pass
+
+
+request_header_required_boolean_group = api_client.HeaderParameter(
+    name="required_boolean_group",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=RequiredBooleanGroupSchema,
+    required=True,
+)
+request_header_boolean_group = api_client.HeaderParameter(
+    name="boolean_group",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=BooleanGroupSchema,
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
 
 
 class BaseApi(api_client.Api):

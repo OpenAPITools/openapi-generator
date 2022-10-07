@@ -165,11 +165,13 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -257,11 +259,13 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
             managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate()
+        let validatedRequest = request.validate(statusCode: Configuration.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.stringResponseSerializer,
+                          completionHandler: { stringResponse in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -273,7 +277,9 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
             })
         case is URL.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 do {
@@ -319,7 +325,9 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -331,7 +339,9 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
             })
         case is Data.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -343,7 +353,9 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
             })
         default:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+            validatedRequest.response(queue: apiResponseQueue,
+                          responseSerializer: Configuration.dataResponseSerializer,
+                          completionHandler: { dataResponse in
                 cleanupRequest()
 
                 if case let .failure(error) = dataResponse.result {

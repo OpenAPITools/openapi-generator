@@ -27,7 +27,33 @@ from petstore_api import schemas  # noqa: F401
 
 # body param
 SchemaForRequestBodyApplicationJsonCharsetutf8 = schemas.AnyTypeSchema
+
+
+request_body_body = api_client.RequestBody(
+    content={
+        'application/json; charset=utf-8': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJsonCharsetutf8),
+    },
+)
 SchemaFor200ResponseBodyApplicationJsonCharsetutf8 = schemas.AnyTypeSchema
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJsonCharsetutf8,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json; charset=utf-8': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJsonCharsetutf8),
+    },
+)
 _all_accept_content_types = (
     'application/json; charset=utf-8',
 )

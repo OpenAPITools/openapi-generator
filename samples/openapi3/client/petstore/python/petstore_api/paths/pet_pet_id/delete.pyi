@@ -27,8 +27,67 @@ from petstore_api import schemas  # noqa: F401
 
 # header params
 ApiKeySchema = schemas.StrSchema
+RequestRequiredHeaderParams = typing_extensions.TypedDict(
+    'RequestRequiredHeaderParams',
+    {
+    }
+)
+RequestOptionalHeaderParams = typing_extensions.TypedDict(
+    'RequestOptionalHeaderParams',
+    {
+        'api_key': typing.Union[ApiKeySchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
+    pass
+
+
+request_header_api_key = api_client.HeaderParameter(
+    name="api_key",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ApiKeySchema,
+)
 # path params
 PetIdSchema = schemas.Int64Schema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path_pet_id = api_client.PathParameter(
+    name="petId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=PetIdSchema,
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor400(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_400 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor400,
+)
 
 
 class BaseApi(api_client.Api):

@@ -33,10 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="directMap">directMap</param>
         /// <param name="indirectMap">indirectMap</param>
-        /// <param name="mapMapOfString">mapMapOfString</param>
-        /// <param name="mapOfEnumString">mapOfEnumString</param>
-        [JsonConstructor]
-        public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -79,37 +76,16 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a InnerEnum
+        /// Gets or Sets MapMapOfString
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static InnerEnum InnerEnumFromString(string value)
-        {
-            if (value == "UPPER")
-                return InnerEnum.UPPER;
-
-            if (value == "lower")
-                return InnerEnum.Lower;
-
-            throw new NotImplementedException($"Could not convert value to type InnerEnum: '{value}'");
-        }
+        [JsonPropertyName("map_map_of_string")]
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Gets or Sets MapOfEnumString
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string InnerEnumToJsonValue(InnerEnum value)
-        {
-            if (value == InnerEnum.UPPER)
-                return "UPPER";
-
-            if (value == InnerEnum.Lower)
-                return "lower";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
+        [JsonPropertyName("map_of_enum_string")]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets DirectMap
@@ -157,6 +133,60 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as MapTest).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if MapTest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of MapTest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(MapTest input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.MapMapOfString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
+                }
+                if (this.MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                }
+                if (this.DirectMap != null)
+                {
+                    hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();
+                }
+                if (this.IndirectMap != null)
+                {
+                    hashCode = (hashCode * 59) + this.IndirectMap.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>

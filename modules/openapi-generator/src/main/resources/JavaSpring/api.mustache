@@ -96,9 +96,11 @@ import javax.annotation.Generated;
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{^useFeignClient}}
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
+{{/useFeignClient}}
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}

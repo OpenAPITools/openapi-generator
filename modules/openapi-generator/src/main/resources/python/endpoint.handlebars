@@ -27,7 +27,6 @@ from . import path
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless isStub}}
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -58,7 +57,6 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{#each queryParams}}
 {{> endpoint_parameter }}
 {{/each}}
-{{/unless}}
 {{/if}}
 {{#if headerParams}}
 # header params
@@ -67,7 +65,6 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless isStub}}
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -98,7 +95,6 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{#each headerParams}}
 {{> endpoint_parameter }}
 {{/each}}
-{{/unless}}
 {{/if}}
 {{#if pathParams}}
 # path params
@@ -107,7 +103,6 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless isStub}}
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
@@ -138,7 +133,6 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{#each pathParams}}
 {{> endpoint_parameter }}
 {{/each}}
-{{/unless}}
 {{/if}}
 {{#if cookieParams}}
 # cookie params
@@ -147,7 +141,6 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless isStub}}
 RequestRequiredCookieParams = typing_extensions.TypedDict(
     'RequestRequiredCookieParams',
     {
@@ -178,7 +171,6 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{#each cookieParams}}
 {{> endpoint_parameter }}
 {{/each}}
-{{/unless}}
 {{/if}}
 {{#with bodyParam}}
 # body param
@@ -187,7 +179,6 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless isStub}}
 
 
 request_body_{{paramName}} = api_client.RequestBody(
@@ -201,7 +192,6 @@ request_body_{{paramName}} = api_client.RequestBody(
     required=True,
 {{/if}}
 )
-{{/unless}}
 {{/with}}
 {{#unless isStub}}
 {{#each authMethods}}
@@ -277,7 +267,6 @@ _servers = (
 {{> model_templates/schema }}
 {{/with}}
 {{/each}}
-{{#unless isStub}}
 {{#if responseHeaders}}
 ResponseHeadersFor{{code}} = typing_extensions.TypedDict(
     'ResponseHeadersFor{{code}}',
@@ -360,7 +349,6 @@ _response_for_{{code}} = api_client.OpenApiResponse(
     ]
 {{/if}}
 )
-{{/unless}}
 {{/each}}
 {{#unless isStub}}
 _status_code_to_response = {

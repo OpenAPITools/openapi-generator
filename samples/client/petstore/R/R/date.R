@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field className  character
 #' @field percent_description using \% in the description character [optional]
+#' @field url_property  character
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -19,7 +20,8 @@ Date <- R6::R6Class(
   public = list(
     `className` = NULL,
     `percent_description` = NULL,
-    `_field_list` = c("className", "percent_description"),
+    `url_property` = NULL,
+    `_field_list` = c("className", "percent_description", "url_property"),
     `additional_properties` = list(),
     #' Initialize a new Date class.
     #'
@@ -27,16 +29,25 @@ Date <- R6::R6Class(
     #' Initialize a new Date class.
     #'
     #' @param className className
+    #' @param url_property url_property
     #' @param percent_description using \% in the description
     #' @param additional_properties additonal properties (optional)
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(
-        `className`, `percent_description` = NULL, additional_properties = NULL, ...
+        `className`, `url_property`, `percent_description` = NULL, additional_properties = NULL, ...
     ) {
       if (!missing(`className`)) {
         stopifnot(is.character(`className`), length(`className`) == 1)
         self$`className` <- `className`
+      }
+      if (!missing(`url_property`)) {
+        stopifnot(is.character(`url_property`), length(`url_property`) == 1)
+        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", `url_property`))) {
+          stop(paste("Error! Invalid URL:", `url_property`))
+        }
+        self$`url_property` <- `url_property`
       }
       if (!is.null(`percent_description`)) {
         stopifnot(is.character(`percent_description`), length(`percent_description`) == 1)
@@ -65,6 +76,10 @@ Date <- R6::R6Class(
         DateObject[["percent_description"]] <-
           self$`percent_description`
       }
+      if (!is.null(self$`url_property`)) {
+        DateObject[["url_property"]] <-
+          self$`url_property`
+      }
       for (key in names(self$additional_properties)) {
         DateObject[[key]] <- self$additional_properties[[key]]
       }
@@ -86,6 +101,13 @@ Date <- R6::R6Class(
       }
       if (!is.null(this_object$`percent_description`)) {
         self$`percent_description` <- this_object$`percent_description`
+      }
+      if (!is.null(this_object$`url_property`)) {
+        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+          stop(paste("Error! Invalid URL:", this_object$`url_property`))
+        }
+        self$`url_property` <- this_object$`url_property`
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -120,6 +142,14 @@ Date <- R6::R6Class(
                     ',
           self$`percent_description`
           )
+        },
+        if (!is.null(self$`url_property`)) {
+          sprintf(
+          '"url_property":
+            "%s"
+                    ',
+          self$`url_property`
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -142,6 +172,11 @@ Date <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`className` <- this_object$`className`
       self$`percent_description` <- this_object$`percent_description`
+      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`url_property`))) {
+        stop(paste("Error! Invalid URL:", this_object$`url_property`))
+      }
+      self$`url_property` <- this_object$`url_property`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -165,6 +200,16 @@ Date <- R6::R6Class(
         stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Date: the required field `className` is missing."))
+      }
+      # check the required field `url_property`
+      if (!is.null(input_json$`url_property`)) {
+        stopifnot(is.character(input_json$`url_property`), length(input_json$`url_property`) == 1)
+        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
+        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", input_json$`url_property`))) {
+          stop(paste("Error! Invalid URL:", input_json$`url_property`))
+        }
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for Date: the required field `url_property` is missing."))
       }
     },
     #' To string (JSON format)
@@ -190,6 +235,11 @@ Date <- R6::R6Class(
         return(FALSE)
       }
 
+      # check if the required `url_property` is null
+      if (is.null(self$`url_property`)) {
+        return(FALSE)
+      }
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -204,6 +254,11 @@ Date <- R6::R6Class(
       # check if the required `className` is null
       if (is.null(self$`className`)) {
         invalid_fields["className"] <- "Non-nullable required field `className` cannot be null."
+      }
+
+      # check if the required `url_property` is null
+      if (is.null(self$`url_property`)) {
+        invalid_fields["url_property"] <- "Non-nullable required field `url_property` cannot be null."
       }
 
       invalid_fields

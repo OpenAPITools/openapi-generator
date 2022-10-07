@@ -65,6 +65,7 @@ from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
 from petstore_api.model.format_test import FormatTest
+from petstore_api.model.from_schema import FromSchema
 from petstore_api.model.fruit import Fruit
 from petstore_api.model.fruit_req import FruitReq
 from petstore_api.model.gm_fruit import GmFruit
@@ -101,6 +102,7 @@ from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefPro
 from petstore_api.model.object_with_decimal_properties import ObjectWithDecimalProperties
 from petstore_api.model.object_with_difficultly_named_props import ObjectWithDifficultlyNamedProps
 from petstore_api.model.object_with_inline_composition_property import ObjectWithInlineCompositionProperty
+from petstore_api.model.object_with_invalid_named_refed_properties import ObjectWithInvalidNamedRefedProperties
 from petstore_api.model.object_with_validations import ObjectWithValidations
 from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet
