@@ -86,8 +86,8 @@
         stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
         {{/isDateTime}}
         {{#isUri}}
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", `{{name}}`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", `{{name}}`))
         }
         {{/isUri}}
@@ -142,8 +142,8 @@
         stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
         {{/isDateTime}}
         {{#isUri}}
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", `{{name}}`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", `{{name}}`))
         }
         {{/isUri}}
@@ -251,8 +251,8 @@
         }
         {{/isEnum}}
         {{#isUri}}
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`{{baseName}}`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`{{baseName}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", this_object$`{{baseName}}`))
         }
         {{/isUri}}
@@ -383,8 +383,8 @@
       }
       {{/isEnum}}
       {{#isUri}}
-      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", this_object$`{{name}}`))) {
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         stop(paste("Error! Invalid URL:", this_object$`{{name}}`))
       }
       {{/isUri}}
@@ -444,8 +444,8 @@
         stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
         {{/isDateTime}}
         {{#isUri}}
-        # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-        if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", input_json$`{{name}}`))) {
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(input_json$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
           stop(paste("Error! Invalid URL:", input_json$`{{name}}`))
         }
         {{/isUri}}
@@ -524,8 +524,8 @@
       }
       {{/pattern}}
       {{#isUri}}
-      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", self$`{{{name}}}`))) {
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(self$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         return(FALSE)
       }
       {{/isUri}}
@@ -590,8 +590,8 @@
       }
       {{/pattern}}
       {{#isUri}}
-      # validate URL using https://github.com/cran/librarian/blob/master/R/internal_functions.R#L131 credit: Desi Quintans
-      if (!any(grepl("(https?|ftp)://[^\\s/$.?#].[^\\s]*", self$`{{name}}`))) {
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(self$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
         invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be URL."
       }
       {{/isUri}}
