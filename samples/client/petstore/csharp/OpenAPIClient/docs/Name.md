@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NameProperty** | **int** |  | 
+**_Name** | **int** |  | 
 **SnakeCase** | **int** |  | [optional] [readonly] 
 **Property** | **string** |  | [optional] 
 **_123Number** | **int** |  | [optional] [readonly] 

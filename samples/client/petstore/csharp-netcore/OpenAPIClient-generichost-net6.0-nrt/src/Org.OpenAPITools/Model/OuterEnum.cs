@@ -48,7 +48,21 @@ namespace Org.OpenAPITools.Model
 
     public class OuterEnumConverter : JsonConverter<OuterEnum>
     {
-        public static OuterEnum? FromString(string value)
+        public static OuterEnum FromString(string value)
+        {
+            if (value == "placed")
+                return OuterEnum.Placed;
+
+            if (value == "approved")
+                return OuterEnum.Approved;
+
+            if (value == "delivered")
+                return OuterEnum.Delivered;
+
+            throw new NotImplementedException($"Could not convert value to type OuterEnum: '{value}'");
+        }
+
+        public static OuterEnum? FromStringOrDefault(string value)
         {
             if (value == "placed")
                 return OuterEnum.Placed;

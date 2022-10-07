@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader childCatAllOfReader = reader;
-            bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref childCatAllOfReader, options, out ChildCatAllOf childCatAllOf);
+            bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref reader, options, out ChildCatAllOf childCatAllOf);
 
             string petType = default;
 
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -102,6 +102,8 @@ namespace Org.OpenAPITools.Model
                     {
                         case "pet_type":
                             petType = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }

@@ -430,16 +430,18 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet";
+                    var url = request.RequestUri = new Uri("http://petstore.swagger.io/v2");
+                    uriBuilder.Host = url.Authority;
+                    uriBuilder.Scheme = url.Scheme;
+                    uriBuilder.Path = url.AbsolutePath;
 
                     request.Content = (pet as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -465,7 +467,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Post;
 
@@ -611,12 +613,13 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    if (apiKey != null)
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    if (apiKey != null)
                         request.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey));
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -767,6 +770,8 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Query = parseQueryString.ToString();
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -939,6 +944,8 @@ namespace Org.OpenAPITools.BaseApi
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -1101,9 +1108,8 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    List<TokenBase> tokens = new List<TokenBase>();
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    List<TokenBase> tokens = new List<TokenBase>();
 
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
@@ -1252,16 +1258,18 @@ namespace Org.OpenAPITools.BaseApi
 
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet";
+                    var url = request.RequestUri = new Uri("http://petstore.swagger.io/v2");
+                    uriBuilder.Host = url.Authority;
+                    uriBuilder.Scheme = url.Scheme;
+                    uriBuilder.Path = url.AbsolutePath;
 
                     request.Content = (pet as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1287,7 +1295,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Put;
 
@@ -1440,23 +1448,22 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    MultipartContent multipartContent = new MultipartContent();
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
 
                     List<KeyValuePair<string, string>> formParams = new List<KeyValuePair<string, string>>();
 
-                    multipartContent.Add(new FormUrlEncodedContent(formParams));
-
-                    if (name != null)
+                    multipartContent.Add(new FormUrlEncodedContent(formParams));                    if (name != null)
                         formParams.Add(new KeyValuePair<string, string>("name", ClientUtils.ParameterToString(name)));
 
                     if (status != null)
                         formParams.Add(new KeyValuePair<string, string>("status", ClientUtils.ParameterToString(status)));
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1473,7 +1480,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Post;
 
@@ -1623,23 +1630,22 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}/uploadImage";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    MultipartContent multipartContent = new MultipartContent();
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
 
                     List<KeyValuePair<string, string>> formParams = new List<KeyValuePair<string, string>>();
 
-                    multipartContent.Add(new FormUrlEncodedContent(formParams));
-
-                    if (file != null)
+                    multipartContent.Add(new FormUrlEncodedContent(formParams));                    if (file != null)
                         multipartContent.Add(new StreamContent(file));
 
                     if (additionalMetadata != null)
                         formParams.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata)));
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1656,7 +1662,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/json" 
@@ -1818,22 +1824,21 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/{petId}/uploadImageWithRequiredFile";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    MultipartContent multipartContent = new MultipartContent();
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));                    MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
 
                     List<KeyValuePair<string, string>> formParams = new List<KeyValuePair<string, string>>();
 
-                    multipartContent.Add(new FormUrlEncodedContent(formParams));
-
-                    multipartContent.Add(new StreamContent(requiredFile));
+                    multipartContent.Add(new FormUrlEncodedContent(formParams));                    multipartContent.Add(new StreamContent(requiredFile));
 
                     if (additionalMetadata != null)
                         formParams.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata)));
 
                     List<TokenBase> tokens = new List<TokenBase>();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1850,7 +1855,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/json", 

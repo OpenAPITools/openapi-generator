@@ -804,6 +804,8 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/health";
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] accepts = new string[] { 
@@ -941,6 +943,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -950,7 +954,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "*/*" 
@@ -1087,6 +1091,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(outerComposite, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -1096,7 +1102,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "*/*" 
@@ -1233,6 +1239,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -1242,7 +1250,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "*/*" 
@@ -1379,6 +1387,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -1388,7 +1398,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "*/*" 
@@ -1514,6 +1524,8 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress!.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake/array-of-enums";
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1661,6 +1673,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -1670,7 +1684,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Put;
 
@@ -1824,6 +1838,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -1833,7 +1849,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Put;
 
@@ -1970,6 +1986,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -1979,7 +1997,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/json" 
@@ -2232,9 +2250,15 @@ namespace Org.OpenAPITools.BaseApi
 
                     formParams.Add(new KeyValuePair<string?, string?>("byte", ClientUtils.ParameterToString(_byte)));
 
+
+
                     formParams.Add(new KeyValuePair<string?, string?>("number", ClientUtils.ParameterToString(number)));
 
+
+
                     formParams.Add(new KeyValuePair<string?, string?>("double", ClientUtils.ParameterToString(_double)));
+
+
 
                     formParams.Add(new KeyValuePair<string?, string?>("pattern_without_delimiter", ClientUtils.ParameterToString(patternWithoutDelimiter)));
 
@@ -2270,6 +2294,8 @@ namespace Org.OpenAPITools.BaseApi
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     BasicToken basicToken = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -2285,7 +2311,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Post;
 
@@ -2489,13 +2515,13 @@ namespace Org.OpenAPITools.BaseApi
 
                     List<KeyValuePair<string?, string?>> formParams = new List<KeyValuePair<string?, string?>>();
 
-                    multipartContent.Add(new FormUrlEncodedContent(formParams));
-
-                    if (enumFormStringArray != null)
+                    multipartContent.Add(new FormUrlEncodedContent(formParams));                    if (enumFormStringArray != null)
                         formParams.Add(new KeyValuePair<string?, string?>("enum_form_string_array", ClientUtils.ParameterToString(enumFormStringArray)));
 
                     if (enumFormString != null)
                         formParams.Add(new KeyValuePair<string?, string?>("enum_form_string", ClientUtils.ParameterToString(enumFormString)));
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -2506,7 +2532,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Get;
 
@@ -2701,6 +2727,8 @@ namespace Org.OpenAPITools.BaseApi
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     BearerToken bearerToken = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -2847,6 +2875,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -2856,7 +2886,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Post;
 
@@ -3010,7 +3040,11 @@ namespace Org.OpenAPITools.BaseApi
 
                     formParams.Add(new KeyValuePair<string?, string?>("param", ClientUtils.ParameterToString(param)));
 
+
+
                     formParams.Add(new KeyValuePair<string?, string?>("param2", ClientUtils.ParameterToString(param2)));
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -3021,7 +3055,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = HttpMethod.Get;
 
@@ -3204,6 +3238,8 @@ namespace Org.OpenAPITools.BaseApi
                     parseQueryString["context"] = Uri.EscapeDataString(context.ToString()!);
                     
                     uriBuilder.Query = parseQueryString.ToString();
+
+
 
                     request.RequestUri = uriBuilder.Uri;
                         

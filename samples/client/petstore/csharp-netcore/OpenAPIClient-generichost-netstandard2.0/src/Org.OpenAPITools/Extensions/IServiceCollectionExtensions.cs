@@ -62,6 +62,8 @@ namespace Org.OpenAPITools.Extensions
             if (!host.HttpClientsAdded)
                 host.AddApiHttpClients();
 
+            services.AddSingleton<CookieContainer>();
+
             // ensure that a token provider was provided for this token type
             // if not, default to RateLimitProvider
             var containerServices = services.Where(s => s.ServiceType.IsGenericType &&

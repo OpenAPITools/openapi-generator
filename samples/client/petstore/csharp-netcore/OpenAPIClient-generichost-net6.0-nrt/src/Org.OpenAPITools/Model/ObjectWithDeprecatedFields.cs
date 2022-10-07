@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -167,11 +167,9 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "bars":
-                            Utf8JsonReader barsReader = reader;
                             bars = JsonSerializer.Deserialize<List<string>>(ref reader, options);
                             break;
                         case "deprecatedRef":
-                            Utf8JsonReader deprecatedRefReader = reader;
                             deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref reader, options);
                             break;
                         case "id":
@@ -179,6 +177,8 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "uuid":
                             uuid = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }

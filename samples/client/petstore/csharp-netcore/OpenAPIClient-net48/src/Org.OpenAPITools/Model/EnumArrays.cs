@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "$")]
             Dollar = 2
-
         }
 
 
@@ -75,7 +74,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "crab")]
             Crab = 2
-
         }
 
         /// <summary>

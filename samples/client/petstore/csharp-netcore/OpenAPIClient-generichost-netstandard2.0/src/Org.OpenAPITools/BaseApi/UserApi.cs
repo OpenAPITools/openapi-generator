@@ -403,6 +403,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -412,7 +414,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = new HttpMethod("POST");
 
@@ -549,6 +551,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -558,7 +562,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = new HttpMethod("POST");
 
@@ -695,6 +699,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -704,7 +710,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = new HttpMethod("POST");
 
@@ -836,6 +842,7 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
@@ -970,6 +977,7 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
@@ -1111,6 +1119,8 @@ namespace Org.OpenAPITools.BaseApi
                     
                     uriBuilder.Query = parseQueryString.ToString();
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] accepts = new string[] { 
@@ -1238,6 +1248,8 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
+
+
 
                     request.RequestUri = uriBuilder.Uri;
                         
@@ -1382,11 +1394,12 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
-                    request.Content = (user as object) is System.IO.Stream stream
+                    uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));                    request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
+
+
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1397,7 +1410,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         
                     request.Method = new HttpMethod("PUT");
 

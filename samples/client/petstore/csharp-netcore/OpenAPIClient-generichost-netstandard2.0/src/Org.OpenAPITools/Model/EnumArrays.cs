@@ -32,7 +32,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
         /// <param name="arrayEnum">arrayEnum</param>
-        public EnumArrays(JustSymbolEnum justSymbol = default, List<EnumArrays.ArrayEnumEnum> arrayEnum = default)
+        /// <param name="justSymbol">justSymbol</param>
+        [JsonConstructor]
+        public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -155,25 +157,6 @@ namespace Org.OpenAPITools.Model
         public JustSymbolEnum JustSymbol { get; set; }
 
         /// <summary>
-        /// Defines ArrayEnum
-        /// </summary>
-        public enum ArrayEnumEnum
-        {
-            /// <summary>
-            /// Enum Fish for value: fish
-            /// </summary>
-            [EnumMember(Value = "fish")]
-            Fish = 1,
-
-            /// <summary>
-            /// Enum Crab for value: crab
-            /// </summary>
-            [EnumMember(Value = "crab")]
-            Crab = 2
-
-        }
-
-        /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
@@ -199,49 +182,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumArrays).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if EnumArrays instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EnumArrays to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EnumArrays input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
-                {
-                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -286,7 +226,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -294,12 +234,13 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "array_enum":
-                            Utf8JsonReader arrayEnumReader = reader;
                             arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref reader, options);
                             break;
                         case "just_symbol":
                             string justSymbolRawValue = reader.GetString();
                             justSymbol = EnumArrays.JustSymbolEnumFromString(justSymbolRawValue);
+                            break;
+                        default:
                             break;
                     }
                 }

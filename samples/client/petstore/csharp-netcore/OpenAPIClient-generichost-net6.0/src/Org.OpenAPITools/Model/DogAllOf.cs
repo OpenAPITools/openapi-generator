@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -124,6 +124,8 @@ namespace Org.OpenAPITools.Model
                     {
                         case "breed":
                             breed = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }

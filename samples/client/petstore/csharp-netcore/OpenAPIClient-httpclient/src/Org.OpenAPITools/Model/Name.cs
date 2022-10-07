@@ -44,17 +44,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="nameProperty">nameProperty (required).</param>
+        /// <param name="name">name (required).</param>
         /// <param name="property">property.</param>
-        public Name(int nameProperty = default(int), string property = default(string))
+        public Name(int name = default(int), string property = default(string))
         {
-            this.NameProperty = nameProperty;
+            this._Name = name;
             this.Property = property;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets NameProperty
+        /// Gets or Sets _Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public int _Name { get; set; }
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  NameProperty: ").Append(NameProperty).Append("\n");
+            sb.Append("  _Name: ").Append(_Name).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  _123Number: ").Append(_123Number).Append("\n");
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.NameProperty.GetHashCode();
+                hashCode = (hashCode * 59) + this._Name.GetHashCode();
                 hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
                 {

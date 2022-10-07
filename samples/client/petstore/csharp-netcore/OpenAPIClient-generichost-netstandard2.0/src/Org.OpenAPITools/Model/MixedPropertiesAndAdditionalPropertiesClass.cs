@@ -141,7 +141,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -149,15 +149,15 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateTime":
-                            Utf8JsonReader dateTimeReader = reader;
                             dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                             break;
                         case "map":
-                            Utf8JsonReader mapReader = reader;
                             map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref reader, options);
                             break;
                         case "uuid":
                             uuid = reader.GetGuid();
+                            break;
+                        default:
                             break;
                     }
                 }

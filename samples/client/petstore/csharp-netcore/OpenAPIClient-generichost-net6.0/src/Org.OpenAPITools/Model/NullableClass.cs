@@ -222,7 +222,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -230,31 +230,25 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "array_items_nullable":
-                            Utf8JsonReader arrayItemsNullableReader = reader;
                             arrayItemsNullable = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
                             break;
                         case "object_items_nullable":
-                            Utf8JsonReader objectItemsNullableReader = reader;
                             objectItemsNullable = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
                             break;
                         case "array_and_items_nullable_prop":
-                            Utf8JsonReader arrayAndItemsNullablePropReader = reader;
                             arrayAndItemsNullableProp = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
                             break;
                         case "array_nullable_prop":
-                            Utf8JsonReader arrayNullablePropReader = reader;
                             arrayNullableProp = JsonSerializer.Deserialize<List<Object>>(ref reader, options);
                             break;
                         case "boolean_prop":
                             booleanProp = reader.GetBoolean();
                             break;
                         case "date_prop":
-                            Utf8JsonReader datePropReader = reader;
-                            dateProp = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            dateProp = JsonSerializer.Deserialize<DateTime?>(ref reader, options);
                             break;
                         case "datetime_prop":
-                            Utf8JsonReader datetimePropReader = reader;
-                            datetimeProp = JsonSerializer.Deserialize<DateTime>(ref reader, options);
+                            datetimeProp = JsonSerializer.Deserialize<DateTime?>(ref reader, options);
                             break;
                         case "integer_prop":
                             if (reader.TokenType != JsonTokenType.Null)
@@ -265,15 +259,15 @@ namespace Org.OpenAPITools.Model
                                 numberProp = reader.GetInt32();
                             break;
                         case "object_and_items_nullable_prop":
-                            Utf8JsonReader objectAndItemsNullablePropReader = reader;
                             objectAndItemsNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
                             break;
                         case "object_nullable_prop":
-                            Utf8JsonReader objectNullablePropReader = reader;
                             objectNullableProp = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
                             break;
                         case "string_prop":
                             stringProp = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }

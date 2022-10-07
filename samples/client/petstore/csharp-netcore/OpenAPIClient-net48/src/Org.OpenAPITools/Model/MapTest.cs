@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2
-
         }
 
         /// <summary>

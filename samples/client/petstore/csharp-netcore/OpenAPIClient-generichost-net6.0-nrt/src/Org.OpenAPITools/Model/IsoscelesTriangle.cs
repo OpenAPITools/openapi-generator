@@ -97,10 +97,10 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader shapeInterfaceReader = reader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface? shapeInterface);
+            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref reader, options, out ShapeInterface? shapeInterface);
 
             Utf8JsonReader triangleInterfaceReader = reader;
-            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref triangleInterfaceReader, options, out TriangleInterface? triangleInterface);
+            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref reader, options, out TriangleInterface? triangleInterface);
 
 
             while (reader.Read())
@@ -111,13 +111,15 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
 
                     switch (propertyName)
                     {
+                        default:
+                            break;
                     }
                 }
             }

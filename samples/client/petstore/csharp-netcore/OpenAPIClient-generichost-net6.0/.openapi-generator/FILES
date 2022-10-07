@@ -107,6 +107,7 @@ src/Org.OpenAPITools/Client/ApiResponse`1.cs
 src/Org.OpenAPITools/Client/BasicToken.cs
 src/Org.OpenAPITools/Client/BearerToken.cs
 src/Org.OpenAPITools/Client/ClientUtils.cs
+src/Org.OpenAPITools/Client/CookieContainer.cs
 src/Org.OpenAPITools/Client/DateTimeJsonConverter.cs
 src/Org.OpenAPITools/Client/DateTimeNullableJsonConverter.cs
 src/Org.OpenAPITools/Client/HostConfiguration.cs

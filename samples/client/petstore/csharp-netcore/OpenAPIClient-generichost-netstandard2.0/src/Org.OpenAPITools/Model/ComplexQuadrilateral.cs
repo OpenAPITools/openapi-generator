@@ -102,10 +102,10 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader shapeInterfaceReader = reader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface shapeInterface);
+            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref reader, options, out ShapeInterface shapeInterface);
 
             Utf8JsonReader quadrilateralInterfaceReader = reader;
-            bool quadrilateralInterfaceDeserialized = Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref quadrilateralInterfaceReader, options, out QuadrilateralInterface quadrilateralInterface);
+            bool quadrilateralInterfaceDeserialized = Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref reader, options, out QuadrilateralInterface quadrilateralInterface);
 
 
             while (reader.Read())
@@ -116,13 +116,15 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
 
                     switch (propertyName)
                     {
+                        default:
+                            break;
                     }
                 }
             }

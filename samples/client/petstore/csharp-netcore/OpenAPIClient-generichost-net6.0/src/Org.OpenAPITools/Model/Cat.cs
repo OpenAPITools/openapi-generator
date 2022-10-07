@@ -89,10 +89,10 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = reader.TokenType;
 
             Utf8JsonReader dictionaryReader = reader;
-            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref dictionaryReader, options, out Dictionary<string, int> dictionary);
+            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref reader, options, out Dictionary<string, int> dictionary);
 
             Utf8JsonReader catAllOfReader = reader;
-            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref catAllOfReader, options, out CatAllOf catAllOf);
+            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref reader, options, out CatAllOf catAllOf);
 
             string className = default;
             string color = default;
@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -117,6 +117,8 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "color":
                             color = reader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }

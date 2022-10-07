@@ -42,8 +42,8 @@ namespace Org.OpenAPITools.Model
             if (specialPropertyName == null)
                 throw new ArgumentNullException("specialPropertyName is a required property for SpecialModelName and cannot be null.");
 
-            if (specialModelNameProperty == null)
-                throw new ArgumentNullException("specialModelNameProperty is a required property for SpecialModelName and cannot be null.");
+            if (specialModelName == null)
+                throw new ArgumentNullException("specialModelName is a required property for SpecialModelName and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -140,6 +140,8 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "$special[property.name]":
                             specialPropertyName = reader.GetInt64();
+                            break;
+                        default:
                             break;
                     }
                 }

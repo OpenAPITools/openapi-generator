@@ -206,7 +206,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -214,36 +214,30 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "empty_map":
-                            Utf8JsonReader emptyMapReader = reader;
                             emptyMap = JsonSerializer.Deserialize<Object>(ref reader, options);
                             break;
                         case "map_of_map_property":
-                            Utf8JsonReader mapOfMapPropertyReader = reader;
                             mapOfMapProperty = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref reader, options);
                             break;
                         case "map_property":
-                            Utf8JsonReader mapPropertyReader = reader;
                             mapProperty = JsonSerializer.Deserialize<Dictionary<string, string>>(ref reader, options);
                             break;
                         case "map_with_undeclared_properties_anytype_1":
-                            Utf8JsonReader mapWithUndeclaredPropertiesAnytype1Reader = reader;
                             mapWithUndeclaredPropertiesAnytype1 = JsonSerializer.Deserialize<Object>(ref reader, options);
                             break;
                         case "map_with_undeclared_properties_anytype_2":
-                            Utf8JsonReader mapWithUndeclaredPropertiesAnytype2Reader = reader;
                             mapWithUndeclaredPropertiesAnytype2 = JsonSerializer.Deserialize<Object>(ref reader, options);
                             break;
                         case "map_with_undeclared_properties_anytype_3":
-                            Utf8JsonReader mapWithUndeclaredPropertiesAnytype3Reader = reader;
                             mapWithUndeclaredPropertiesAnytype3 = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref reader, options);
                             break;
                         case "map_with_undeclared_properties_string":
-                            Utf8JsonReader mapWithUndeclaredPropertiesStringReader = reader;
                             mapWithUndeclaredPropertiesString = JsonSerializer.Deserialize<Dictionary<string, string>>(ref reader, options);
                             break;
                         case "anytype_1":
-                            Utf8JsonReader anytype1Reader = reader;
                             anytype1 = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            break;
+                        default:
                             break;
                     }
                 }

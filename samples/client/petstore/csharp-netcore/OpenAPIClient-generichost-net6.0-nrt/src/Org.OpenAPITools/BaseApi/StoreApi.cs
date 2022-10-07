@@ -343,6 +343,7 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress!.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
@@ -615,6 +616,7 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Port = HttpClient.BaseAddress!.Port;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
@@ -764,6 +766,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -773,7 +777,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/xml", 

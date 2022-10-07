@@ -407,7 +407,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -415,23 +415,18 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "binary":
-                            Utf8JsonReader binaryReader = reader;
                             binary = JsonSerializer.Deserialize<System.IO.Stream>(ref reader, options);
                             break;
                         case "byte":
-                            Utf8JsonReader _byteReader = reader;
                             _byte = JsonSerializer.Deserialize<byte[]>(ref reader, options);
                             break;
                         case "date":
-                            Utf8JsonReader dateReader = reader;
                             date = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                             break;
                         case "dateTime":
-                            Utf8JsonReader dateTimeReader = reader;
                             dateTime = JsonSerializer.Deserialize<DateTime>(ref reader, options);
                             break;
                         case "decimal":
-                            Utf8JsonReader _decimalReader = reader;
                             _decimal = JsonSerializer.Deserialize<decimal>(ref reader, options);
                             break;
                         case "double":
@@ -466,6 +461,8 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "uuid":
                             uuid = reader.GetGuid();
+                            break;
+                        default:
                             break;
                     }
                 }

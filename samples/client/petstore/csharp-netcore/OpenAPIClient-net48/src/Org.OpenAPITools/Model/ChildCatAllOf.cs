@@ -43,7 +43,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "ChildCat")]
             ChildCat = 1
-
         }
 
 

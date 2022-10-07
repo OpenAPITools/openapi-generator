@@ -25,16 +25,6 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Places the token in the cookie.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cookieName"></param>
-        public virtual void UseInCookie(System.Net.Http.HttpRequestMessage request, string cookieName)
-        {
-            request.Headers.Add("Cookie", $"{ cookieName }=_raw");
-        }
-
-        /// <summary>
         /// Places the token in the header.
         /// </summary>
         /// <param name="request"></param>

@@ -62,6 +62,20 @@ namespace Org.OpenAPITools.Model
             throw new NotImplementedException($"Could not convert value to type OuterEnumDefaultValue: '{value}'");
         }
 
+        public static OuterEnumDefaultValue? FromStringOrDefault(string value)
+        {
+            if (value == "placed")
+                return OuterEnumDefaultValue.Placed;
+
+            if (value == "approved")
+                return OuterEnumDefaultValue.Approved;
+
+            if (value == "delivered")
+                return OuterEnumDefaultValue.Delivered;
+
+            return null;
+        }
+
         public static string ToJsonValue(OuterEnumDefaultValue value)
         {
             if (value == OuterEnumDefaultValue.Placed)

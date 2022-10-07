@@ -676,7 +676,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.TestBodyWithQueryParamsWithHttpInfo(query, user);
+    apiInstance.TestBodyWithQueryParamsWithHttpInfo(user, query);
 }
 catch (ApiException e)
 {
@@ -690,8 +690,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **query** | **string** |  |  |
 | **user** | [**User**](User.md) |  |  |
+| **query** | **string** |  |  |
 
 ### Return type
 
@@ -872,7 +872,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    apiInstance.TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime);
+    apiInstance.TestEndpointParametersWithHttpInfo(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
 }
 catch (ApiException e)
 {
@@ -886,17 +886,17 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **_byte** | **byte[]** | None |  |
 | **number** | **decimal** | None |  |
 | **_double** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
-| **_byte** | **byte[]** | None |  |
+| **date** | **DateTime?** | None | [optional]  |
+| **binary** | **System.IO.Stream?****System.IO.Stream?** | None | [optional]  |
+| **_float** | **float?** | None | [optional]  |
 | **integer** | **int?** | None | [optional]  |
 | **int32** | **int?** | None | [optional]  |
 | **int64** | **long?** | None | [optional]  |
-| **_float** | **float?** | None | [optional]  |
 | **_string** | **string?** | None | [optional]  |
-| **binary** | **System.IO.Stream?****System.IO.Stream?** | None | [optional]  |
-| **date** | **DateTime?** | None | [optional]  |
 | **password** | **string?** | None | [optional]  |
 | **callback** | **string?** | None | [optional]  |
 | **dateTime** | **DateTime?** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
@@ -980,7 +980,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test enum parameters
-    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 }
 catch (ApiException e)
 {
@@ -996,11 +996,11 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **enumHeaderStringArray** | [**List&lt;string&gt;?**](string.md) | Header parameter enum test (string array) | [optional]  |
 | **enumQueryStringArray** | [**List&lt;string&gt;?**](string.md) | Query parameter enum test (string array) | [optional]  |
-| **enumQueryInteger** | **int?** | Query parameter enum test (double) | [optional]  |
 | **enumQueryDouble** | **double?** | Query parameter enum test (double) | [optional]  |
+| **enumQueryInteger** | **int?** | Query parameter enum test (double) | [optional]  |
+| **enumFormStringArray** | [**List&lt;string&gt;?**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumHeaderString** | **string?** | Header parameter enum test (string) | [optional] [default to -efg] |
 | **enumQueryString** | **string?** | Query parameter enum test (string) | [optional] [default to -efg] |
-| **enumFormStringArray** | [**List&lt;string&gt;?**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumFormString** | **string?** | Form parameter enum test (string) | [optional] [default to -efg] |
 
 ### Return type
@@ -1083,7 +1083,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint to test group parameters (optional)
-    apiInstance.TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+    apiInstance.TestGroupParametersWithHttpInfo(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
 }
 catch (ApiException e)
 {
@@ -1097,11 +1097,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
+| **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **requiredInt64Group** | **long** | Required Integer in group parameters |  |
-| **stringGroup** | **int?** | String in group parameters | [optional]  |
 | **booleanGroup** | **bool?** | Boolean in group parameters | [optional]  |
+| **stringGroup** | **int?** | String in group parameters | [optional]  |
 | **int64Group** | **long?** | Integer in group parameters | [optional]  |
 
 ### Return type

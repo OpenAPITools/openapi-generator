@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Test.BaseApi
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient = 
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
                 ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Test.BaseApi
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, options) =>
+            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
                 ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);

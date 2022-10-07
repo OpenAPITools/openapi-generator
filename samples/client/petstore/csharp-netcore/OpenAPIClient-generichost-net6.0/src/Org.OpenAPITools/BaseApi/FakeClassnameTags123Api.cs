@@ -229,9 +229,9 @@ namespace Org.OpenAPITools.BaseApi
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/fake_classname_test";
 
-                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    request.Content = (modelClient as object) is System.IO.Stream stream
+
+                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);                    request.Content = (modelClient as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
@@ -254,7 +254,7 @@ namespace Org.OpenAPITools.BaseApi
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/json" 

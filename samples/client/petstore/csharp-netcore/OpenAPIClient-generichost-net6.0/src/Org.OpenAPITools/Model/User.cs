@@ -254,7 +254,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string propertyName = reader.GetString();
                     reader.Read();
@@ -274,7 +274,6 @@ namespace Org.OpenAPITools.Model
                             lastName = reader.GetString();
                             break;
                         case "objectWithNoDeclaredProps":
-                            Utf8JsonReader objectWithNoDeclaredPropsReader = reader;
                             objectWithNoDeclaredProps = JsonSerializer.Deserialize<Object>(ref reader, options);
                             break;
                         case "password":
@@ -290,16 +289,15 @@ namespace Org.OpenAPITools.Model
                             username = reader.GetString();
                             break;
                         case "anyTypeProp":
-                            Utf8JsonReader anyTypePropReader = reader;
                             anyTypeProp = JsonSerializer.Deserialize<Object>(ref reader, options);
                             break;
                         case "anyTypePropNullable":
-                            Utf8JsonReader anyTypePropNullableReader = reader;
                             anyTypePropNullable = JsonSerializer.Deserialize<Object>(ref reader, options);
                             break;
                         case "objectWithNoDeclaredPropsNullable":
-                            Utf8JsonReader objectWithNoDeclaredPropsNullableReader = reader;
                             objectWithNoDeclaredPropsNullable = JsonSerializer.Deserialize<Object>(ref reader, options);
+                            break;
+                        default:
                             break;
                     }
                 }

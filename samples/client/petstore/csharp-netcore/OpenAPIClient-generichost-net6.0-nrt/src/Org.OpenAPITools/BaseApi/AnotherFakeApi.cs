@@ -246,6 +246,8 @@ namespace Org.OpenAPITools.BaseApi
                         ? request.Content = new StreamContent(stream)
                         : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
+
+
                     request.RequestUri = uriBuilder.Uri;
 
                     string[] contentTypes = new string[] {
@@ -255,7 +257,7 @@ namespace Org.OpenAPITools.BaseApi
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                     string[] accepts = new string[] { 
                         "application/json" 

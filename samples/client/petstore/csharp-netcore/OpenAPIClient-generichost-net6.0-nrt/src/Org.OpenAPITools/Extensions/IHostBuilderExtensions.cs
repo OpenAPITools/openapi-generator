@@ -10,6 +10,7 @@
 #nullable enable
 
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Org.OpenAPITools.Client;
 
@@ -25,7 +26,7 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
+        public static IHostBuilder ConfigureApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
             where TAnotherFakeApi : class, IDefaultApi.IAnotherFakeApi
             where TDefaultApi : class, IDefaultApi.IDefaultApi
             where TFakeApi : class, IDefaultApi.IFakeApi
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Extensions
             {
                 HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(services);
 
-                options(context, config);
+                options(context, services, config);
 
                 IServiceCollectionExtensions.AddApi(services, config);
             });
@@ -51,7 +52,7 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration<DefaultApi.AnotherFakeApi, DefaultApi.DefaultApi, DefaultApi.FakeApi, DefaultApi.FakeClassnameTags123Api, DefaultApi.PetApi, DefaultApi.StoreApi, DefaultApi.UserApi>> options)
+        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<DefaultApi.AnotherFakeApi, DefaultApi.DefaultApi, DefaultApi.FakeApi, DefaultApi.FakeClassnameTags123Api, DefaultApi.PetApi, DefaultApi.StoreApi, DefaultApi.UserApi>> options)
             => ConfigureApi<DefaultApi.AnotherFakeApi, DefaultApi.DefaultApi, DefaultApi.FakeApi, DefaultApi.FakeClassnameTags123Api, DefaultApi.PetApi, DefaultApi.StoreApi, DefaultApi.UserApi>(builder, options);
     }
 }

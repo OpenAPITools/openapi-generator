@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new FileJsonConverter());
             _jsonOptions.Converters.Add(new FileSchemaTestClassJsonConverter());
             _jsonOptions.Converters.Add(new FooJsonConverter());
+            _jsonOptions.Converters.Add(new FooGetDefaultResponseJsonConverter());
             _jsonOptions.Converters.Add(new FormatTestJsonConverter());
             _jsonOptions.Converters.Add(new FruitJsonConverter());
             _jsonOptions.Converters.Add(new FruitReqJsonConverter());
@@ -86,7 +87,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new GrandparentAnimalJsonConverter());
             _jsonOptions.Converters.Add(new HasOnlyReadOnlyJsonConverter());
             _jsonOptions.Converters.Add(new HealthCheckResultJsonConverter());
-            _jsonOptions.Converters.Add(new InlineResponseDefaultJsonConverter());
             _jsonOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ListJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());

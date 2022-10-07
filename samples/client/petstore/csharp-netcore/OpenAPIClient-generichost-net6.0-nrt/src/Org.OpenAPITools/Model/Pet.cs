@@ -244,7 +244,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -252,7 +252,6 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "category":
-                            Utf8JsonReader categoryReader = reader;
                             category = JsonSerializer.Deserialize<Category>(ref reader, options);
                             break;
                         case "id":
@@ -262,7 +261,6 @@ namespace Org.OpenAPITools.Model
                             name = reader.GetString();
                             break;
                         case "photoUrls":
-                            Utf8JsonReader photoUrlsReader = reader;
                             photoUrls = JsonSerializer.Deserialize<List<string>>(ref reader, options);
                             break;
                         case "status":
@@ -270,8 +268,9 @@ namespace Org.OpenAPITools.Model
                             status = Pet.StatusEnumFromString(statusRawValue);
                             break;
                         case "tags":
-                            Utf8JsonReader tagsReader = reader;
                             tags = JsonSerializer.Deserialize<List<Tag>>(ref reader, options);
+                            break;
+                        default:
                             break;
                     }
                 }

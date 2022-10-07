@@ -40,8 +40,8 @@ namespace Org.OpenAPITools.Model
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (returnProperty == null)
-                throw new ArgumentNullException("returnProperty is a required property for Return and cannot be null.");
+            if (_return == null)
+                throw new ArgumentNullException("_return is a required property for Return and cannot be null.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Model
                 if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
                 {
                     string? propertyName = reader.GetString();
                     reader.Read();
@@ -126,6 +126,8 @@ namespace Org.OpenAPITools.Model
                     {
                         case "return":
                             returnProperty = reader.GetInt32();
+                            break;
+                        default:
                             break;
                     }
                 }

@@ -60,6 +60,20 @@ namespace Org.OpenAPITools.Model
             throw new NotImplementedException($"Could not convert value to type EnumClass: '{value}'");
         }
 
+        public static EnumClass? FromStringOrDefault(string value)
+        {
+            if (value == "_abc")
+                return EnumClass.Abc;
+
+            if (value == "-efg")
+                return EnumClass.Efg;
+
+            if (value == "(xyz)")
+                return EnumClass.Xyz;
+
+            return null;
+        }
+
         public static string ToJsonValue(EnumClass value)
         {
             if (value == EnumClass.Abc)
