@@ -193,24 +193,18 @@ public class FileSchemaTestClass {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FileSchemaTestClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      // validate the optional field `file`
-      if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
-        ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
+      // validate the required field `file`
+      ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
+      // ensure the json data is an array
+      if (!jsonObj.get("files").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
       }
-      if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
-        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-        if (jsonArrayfiles != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("files").isJsonArray()) {
-            throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
-          }
 
-          // validate the optional field `files` (array)
-          for (int i = 0; i < jsonArrayfiles.size(); i++) {
-            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
-          };
-        }
-      }
+      JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+      // validate the required field `files` (array)
+      for (int i = 0; i < jsonArrayfiles.size(); i++) {
+        ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+      };
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

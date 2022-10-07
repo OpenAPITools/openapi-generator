@@ -182,10 +182,8 @@ public class FooGetDefaultResponse {
           throw new IllegalArgumentException(String.format("The required field(s) %s in FooGetDefaultResponse is not found in the empty JSON string", FooGetDefaultResponse.openapiRequiredFields.toString()));
         }
       }
-      // validate the optional field `string`
-      if (jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) {
-        Foo.validateJsonObject(jsonObj.getAsJsonObject("string"));
-      }
+      // validate the required field `string`
+      Foo.validateJsonObject(jsonObj.getAsJsonObject("string"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

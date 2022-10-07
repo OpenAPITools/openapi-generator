@@ -268,32 +268,22 @@ public class Drawing {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Drawing` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      // validate the optional field `mainShape`
-      if (jsonObj.get("mainShape") != null && !jsonObj.get("mainShape").isJsonNull()) {
-        Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
+      // validate the required field `mainShape`
+      Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
+      // validate the required field `shapeOrNull`
+      ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
+      // validate the required field `nullableShape`
+      NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
+      // ensure the json data is an array
+      if (!jsonObj.get("shapes").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
       }
-      // validate the optional field `shapeOrNull`
-      if (jsonObj.get("shapeOrNull") != null && !jsonObj.get("shapeOrNull").isJsonNull()) {
-        ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
-      }
-      // validate the optional field `nullableShape`
-      if (jsonObj.get("nullableShape") != null && !jsonObj.get("nullableShape").isJsonNull()) {
-        NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
-      }
-      if (jsonObj.get("shapes") != null && !jsonObj.get("shapes").isJsonNull()) {
-        JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
-        if (jsonArrayshapes != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("shapes").isJsonArray()) {
-            throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
-          }
 
-          // validate the optional field `shapes` (array)
-          for (int i = 0; i < jsonArrayshapes.size(); i++) {
-            Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
-          };
-        }
-      }
+      JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
+      // validate the required field `shapes` (array)
+      for (int i = 0; i < jsonArrayshapes.size(); i++) {
+        Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
+      };
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
