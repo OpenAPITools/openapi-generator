@@ -1,8 +1,19 @@
 ---
-title: Config Options for kotlin-server
-sidebar_label: kotlin-server
+title: Documentation for the kotlin-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Kotlin server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -19,15 +30,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |featureLocations|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |featureMetrics|Enables metrics feature.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
-|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd></dl>|ktor|
+|interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
+|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
 |packageName|Generated artifact package name.| |org.openapitools.server|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
+|returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.| |false|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
+|useBeanValidation|Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.| |false|
+|useCoroutines|Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.| |false|
 
 ## IMPORT MAPPING
 
@@ -70,12 +85,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>ApiResponse</li>
 <li>abstract</li>
 <li>actual</li>
 <li>annotation</li>
@@ -86,6 +105,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>const</li>
 <li>constructor</li>
 <li>continue</li>
+<li>contract</li>
 <li>crossinline</li>
 <li>data</li>
 <li>delegate</li>
@@ -177,7 +197,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -237,6 +261,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

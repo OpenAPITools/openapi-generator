@@ -78,13 +78,6 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets ArrayEnum
-        /// </summary>
-        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<ArrayEnumEnum> ArrayEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
@@ -97,12 +90,18 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets or Sets ArrayEnum
+        /// </summary>
+        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
@@ -148,8 +147,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
-                hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
+                if (this.ArrayEnum != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
                 return hashCode;
             }
         }

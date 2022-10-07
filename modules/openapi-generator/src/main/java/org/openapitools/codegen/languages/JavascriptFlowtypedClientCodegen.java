@@ -23,6 +23,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
@@ -64,7 +67,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
                 "Math", "NaN", "Number", "Object",
                 "prototype", "String", "toString", "undefined", "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
         );
 
@@ -95,7 +98,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
 
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";
         embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
 
@@ -163,24 +166,23 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "" + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "" + var.enumName);
+                                .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
@@ -223,4 +225,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         this.npmRepository = npmRepository;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

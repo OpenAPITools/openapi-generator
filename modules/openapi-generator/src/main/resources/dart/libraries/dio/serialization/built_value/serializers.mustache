@@ -1,35 +1,40 @@
 {{>header}}
 // ignore_for_file: unused_import
 
+import 'package:one_of_serializer/any_of_serializer.dart';
+import 'package:one_of_serializer/one_of_serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 {{#useDateLibCore}}import 'package:built_value/iso_8601_date_time_serializer.dart';
-import 'package:{{pubName}}/src/date_serializer.dart';
-import 'package:{{pubName}}/src/model/date.dart';{{/useDateLibCore}}
+import 'package:{{pubName}}/{{sourceFolder}}/date_serializer.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/date.dart';{{/useDateLibCore}}
 {{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
-import 'package:{{pubName}}/src/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
-{{#models}}{{#model}}import 'package:{{pubName}}/src/model/{{classFilename}}.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
+{{#models}}{{#model}}import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
 {{/model}}{{/models}}{{#builtValueSerializerImports}}import '{{{.}}}';
 {{/builtValueSerializerImports}}
 
 part 'serializers.g.dart';
 
 @SerializersFor([{{#models}}{{#model}}
-  {{classname}},{{/model}}{{/models}}
+  {{classname}},{{#vendorExtensions.x-is-parent}}${{classname}},{{/vendorExtensions.x-is-parent}}{{/model}}{{/models}}
 ])
-Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#serializers}}
+Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
       ..addBuilderFactory(
 {{#isArray}}
-        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]),
-        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{baseType}}>(),
+        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
+        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{dataType}}>(),
 {{/isArray}}
 {{#isMap}}
-        const FullType(BuiltMap, [FullType(String), FullType({{baseType}})]),
-        () => MapBuilder<String, {{baseType}}>(),
+        const FullType(BuiltMap, [FullType(String), FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
+        () => MapBuilder<String, {{dataType}}>(),
 {{/isMap}}
-      ){{/serializers}}{{/apis}}{{/apiInfo}}{{#useDateLibTimeMachine}}
+      ){{/builtValueSerializers}}
+      {{#models}}{{#model}}{{#vendorExtensions.x-is-parent}}..add({{classname}}.serializer)
+      {{/vendorExtensions.x-is-parent}}{{/model}}{{/models}}..add(const OneOfSerializer())
+      ..add(const AnyOfSerializer()){{#useDateLibTimeMachine}}      
       ..add(const OffsetDateSerializer())
       ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}{{#useDateLibCore}}
       ..add(const DateSerializer())

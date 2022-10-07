@@ -10,23 +10,16 @@
 
 syntax = "proto3";
 
-package ;
-
-import public "models/lizard_all_of.proto";
-import public "models/snake_all_of.proto";
-import public "models/cat_all_of.proto";
-import public "models/dog_all_of.proto";
+package openapitools;
 
 message Pet {
 
   string petType = 140636936;
 
-  bool hasLegs = 159828448;
-
-  bool lovesRocks = 499337491;
-
   string name = 3373707;
 
   string bark = 3016376;
+
+  bool lovesRocks = 499337491;
 
 }

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class CatAllOf: NSObject, Codable {
+@objc public class CatAllOf: NSObject, Codable, JSONEncodable {
 
     public var declawed: Bool?
     public var declawedNum: NSNumber? {

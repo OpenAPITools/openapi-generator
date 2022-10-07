@@ -9,9 +9,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 {{#imports}}
-import { {{classname}} } from '../model/models';
+// @ts-ignore
+import { {{ classname }} } from '{{ filename }}';
 {{/imports}}
 
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { {{configurationClassName}} }                                     from '../configuration';
 {{#withInterfaces}}
@@ -64,11 +66,15 @@ export class {{classname}} {
     public configuration = new {{configurationClassName}}();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: {{configurationClassName}}) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: {{configurationClassName}}) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
+            if (Array.isArray(basePath) && basePath.length > 0) {
+                basePath = basePath[0];
+            }
+
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -93,6 +99,7 @@ export class {{classname}} {
     }
 {{/hasSomeFormParams}}
 
+    // @ts-ignore
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         {{#isQueryParamObjectFormatJson}}
         httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
@@ -114,15 +121,18 @@ export class {{classname}} {
 
         if (typeof value === "object") {
             {{#isQueryParamObjectFormatJson}}
-            httpParams = httpParams.append(key, JSON.stringify(value));
+            if (key != null) {
+                httpParams = httpParams.append(key, JSON.stringify(value));
+            } else {
+                throw Error("key may not be null if value is a QueryParamObject");
+            }
             {{/isQueryParamObjectFormatJson}}
             {{^isQueryParamObjectFormatJson}}
             if (Array.isArray(value)) {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key,
-                        (value as Date).toISOString(){{^isDateTime}}.substr(0, 10)){{/isDateTime}};
+                    httpParams = httpParams.append(key, (value as Date).toISOString(){{^isDateTime}}.substr(0, 10){{/isDateTime}});
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -178,7 +188,7 @@ export class {{classname}} {
 {{/required}}
 {{/allParams}}
 
-{{#hasQueryParams}}
+{{#hasQueryParamsOrAuth}}
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
 {{#queryParams}}
         {{#isArray}}
@@ -196,7 +206,7 @@ export class {{classname}} {
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
+                [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         {{/isQueryParamObjectFormatJson}}
         }
@@ -209,12 +219,12 @@ export class {{classname}} {
         {{/isArray}}
 {{/queryParams}}
 
-{{/hasQueryParams}}
+{{/hasQueryParamsOrAuth}}
         let localVarHeaders = this.defaultHeaders;
 {{#headerParams}}
         {{#isArray}}
         if ({{paramName}}) {
-            localVarHeaders = localVarHeaders.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            localVarHeaders = localVarHeaders.set('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']));
         }
         {{/isArray}}
         {{^isArray}}
@@ -306,20 +316,20 @@ export class {{classname}} {
         let localVarFormParams: { append(param: string, value: any): any; };
         let localVarUseForm = false;
         let localVarConvertFormParamsToString = false;
-{{#localVarFormParams}}
+{{#formParams}}
 {{#isFile}}
         // use FormData to transmit files using content-type "multipart/form-data"
         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         localVarUseForm = canConsumeForm;
 {{/isFile}}
-{{/localVarFormParams}}
+{{/formParams}}
         if (localVarUseForm) {
             localVarFormParams = new FormData();
         } else {
             localVarFormParams = new HttpParams({encoder: this.encoder});
         }
 
-{{#localVarFormParams}}
+{{#formParams}}
         {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
@@ -333,7 +343,7 @@ export class {{classname}} {
                     localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
             })
             } else {
-                localVarFormParams = localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
             }
         {{/isCollectionFormatMulti}}
         }
@@ -343,25 +353,39 @@ export class {{classname}} {
             localVarFormParams = localVarFormParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}localVarUseForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}) as any || localVarFormParams;
         }
         {{/isArray}}
-{{/localVarFormParams}}
+{{/formParams}}
 
 {{/hasFormParams}}
     {{^isResponseFile}}
-        let responseType_: 'text' | 'json' = 'json';
-        if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
-            responseType_ = 'text';
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
         }
 
     {{/isResponseFile}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+        let localVarPath = `{{{path}}}`;
+        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}('{{httpMethod}}', `${this.configuration.basePath}${localVarPath}`,
             {
     {{#httpContextInOptions}}
                 context: localVarHttpContext,
     {{/httpContextInOptions}}
-    {{#hasQueryParams}}
+    {{#bodyParam}}
+                body: {{paramName}},
+    {{/bodyParam}}
+    {{^bodyParam}}
+    {{#hasFormParams}}
+                body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+    {{/hasFormParams}}
+    {{/bodyParam}}
+    {{#hasQueryParamsOrAuth}}
                 params: localVarQueryParameters,
-    {{/hasQueryParams}}
+    {{/hasQueryParamsOrAuth}}
     {{#isResponseFile}}
                 responseType: "blob",
     {{/isResponseFile}}

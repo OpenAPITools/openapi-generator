@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * User
@@ -40,7 +42,6 @@ import javax.xml.bind.annotation.*;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@JsonTypeName("User")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -78,6 +79,8 @@ public class User {
   @XmlElement(name = "userStatus")
   private Integer userStatus;
 
+  public User() {
+  }
 
   public User id(Long id) {
     

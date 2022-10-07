@@ -22,7 +22,7 @@ open class UserAPI {
      */
     open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -31,7 +31,10 @@ open class UserAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -57,7 +60,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -69,7 +72,7 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -78,7 +81,10 @@ open class UserAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -103,7 +109,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -115,7 +121,7 @@ open class UserAPI {
      */
     open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -124,7 +130,10 @@ open class UserAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -149,7 +158,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -161,7 +170,7 @@ open class UserAPI {
      */
     open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+            let requestTask = deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -170,7 +179,10 @@ open class UserAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -199,7 +211,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -211,16 +223,19 @@ open class UserAPI {
      */
     open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<User> {
         return Observable.create { observer -> Disposable in
-            getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+            let requestTask = getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body!)
+                    observer.onNext(response.body)
                 case let .failure(error):
                     observer.onError(error)
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -248,7 +263,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -261,16 +276,19 @@ open class UserAPI {
      */
     open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
+            let requestTask = loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body!)
+                    observer.onNext(response.body)
                 case let .failure(error):
                     observer.onError(error)
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -289,8 +307,8 @@ open class UserAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": username.encodeToJSON(),
-            "password": password.encodeToJSON(),
+            "username": (wrappedValue: username.encodeToJSON(), isExplode: false),
+            "password": (wrappedValue: password.encodeToJSON(), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -301,7 +319,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -312,7 +330,7 @@ open class UserAPI {
      */
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
+            let requestTask = logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -321,7 +339,10 @@ open class UserAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -345,7 +366,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -358,7 +379,7 @@ open class UserAPI {
      */
     open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
+            let requestTask = updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -367,7 +388,10 @@ open class UserAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -397,6 +421,6 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

@@ -1,4 +1,5 @@
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 {{#withXml}}
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,7 +17,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  **/
 @ApiModel(description="{{{description}}}")
 {{/description}}
-{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
@@ -30,6 +35,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    * {{{.}}}
   **/
 {{/description}}
+{{#vendorExtensions.x-field-extra-annotation}}
+{{{vendorExtensions.x-field-extra-annotation}}}
+{{/vendorExtensions.x-field-extra-annotation}}
 {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
@@ -116,7 +124,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -177,6 +186,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   {{/isReadOnly}}
 
   {{/vars}}
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }
 
   @Override
   public String toString() {

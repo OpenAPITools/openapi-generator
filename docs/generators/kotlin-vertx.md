@@ -1,8 +1,19 @@
 ---
-title: Config Options for kotlin-vertx
-sidebar_label: kotlin-vertx
+title: Documentation for the kotlin-vertx Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-vertx | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | SERVER | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a kotlin-vertx server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -62,12 +73,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>ApiResponse</li>
 <li>abstract</li>
 <li>actual</li>
 <li>annotation</li>
@@ -78,6 +93,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>const</li>
 <li>constructor</li>
 <li>continue</li>
+<li>contract</li>
 <li>crossinline</li>
 <li>data</li>
 <li>delegate</li>
@@ -169,7 +185,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -229,6 +249,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

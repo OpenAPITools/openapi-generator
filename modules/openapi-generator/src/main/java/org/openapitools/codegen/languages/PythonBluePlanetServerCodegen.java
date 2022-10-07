@@ -101,10 +101,6 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
             this.defaultController = "default_controller";
             additionalProperties.put(DEFAULT_CONTROLLER, this.defaultController);
         }
-        if (Boolean.TRUE.equals(additionalProperties.get(SUPPORT_PYTHON2))) {
-            additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
-            typeMapping.put("long", "long");
-        }
 
         String APP_PATH = "app" + File.separatorChar;
         String APP_PACKAGE_PATH = APP_PATH + packageName;
@@ -265,4 +261,6 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
+    public String generatorLanguageVersion() { return "3.5.2+"; };
 }

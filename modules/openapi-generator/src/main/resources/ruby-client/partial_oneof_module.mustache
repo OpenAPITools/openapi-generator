@@ -44,11 +44,11 @@
       def build(data)
       {{#discriminator}}
         discriminator_value = data[openapi_discriminator_name]
-        return nil unless discriminator_value
+        return nil if discriminator_value.nil?
       {{#mappedModels}}
       {{#-first}}
 
-        klass = openapi_discriminator_mapping[discriminator_value.to_sym]
+        klass = openapi_discriminator_mapping[discriminator_value.to_s.to_sym]
         return nil unless klass
 
         {{moduleName}}.const_get(klass).build_from_hash(data)

@@ -29,7 +29,7 @@ public class JacksonResponseDecoder extends JacksonDecoder {
             //The HttpResponse class has a single type parameter, the Dto class itself
             responseBodyType = ((ParameterizedType) type).getActualTypeArguments()[0];
             Object body = super.decode(response, responseBodyType);
-            return new HttpResponse(responseHeaders, body);
+            return new HttpResponse(responseHeaders, body, response.status());
         } else {
             //The response is not encapsulated in the HttpResponse, decode the Dto as normal
             return super.decode(response, type);

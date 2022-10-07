@@ -31,8 +31,8 @@ android {
         targetSdkVersion 25
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     // Rename the aar correctly
@@ -49,8 +49,8 @@ android {
 
 
 ext {
-    swagger_annotations_version = "1.5.0"
-    gson_version = "2.3.1"
+    swagger_annotations_version = "1.6.6"
+    gson_version = "2.8.9"
     httpclient_version = "4.5.13"
     httpcore_version = "4.4.4"
     junit_version = "4.13"

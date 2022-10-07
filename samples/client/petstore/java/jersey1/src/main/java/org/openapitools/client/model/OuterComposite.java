@@ -34,7 +34,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@JsonTypeName("OuterComposite")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
@@ -46,6 +45,8 @@ public class OuterComposite {
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -37,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@JsonTypeName("MapTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
@@ -87,6 +85,8 @@ public class MapTest {
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   private Map<String, Boolean> indirectMap = null;
 
+  public MapTest() {
+  }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     

@@ -25,11 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.threeten.bp.*;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
 
@@ -55,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
-
+import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
@@ -329,12 +325,6 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
-        for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
-            if (converter instanceof AbstractJackson2HttpMessageConverter) {
-                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
-                mapper.setDateFormat(dateFormat);
-            }
-        }
         return this;
     }
 
@@ -431,6 +421,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         if (value instanceof Map) {
+            @SuppressWarnings("unchecked")
             final Map<String, Object> valuesMap = (Map<String, Object>) value;
             for (final Entry<String, Object> entry : valuesMap.entrySet()) {
                 params.add(entry.getKey(), parameterToString(entry.getValue()));
@@ -582,27 +573,32 @@ public class ApiClient extends JavaTimeFormatter {
      * @param uriParams The path parameters
      * return templatized query string
      */
-    private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+    public String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
         StringBuilder queryBuilder = new StringBuilder();
         queryParams.forEach((name, values) -> {
-            if (CollectionUtils.isEmpty(values)) {
-                if (queryBuilder.length() != 0) {
-                    queryBuilder.append('&');
-                }
-                queryBuilder.append(name);
-            } else {
-                int valueItemCounter = 0;
-                for (Object value : values) {
+            try {
+                final String encodedName = URLEncoder.encode(name.toString(), "UTF-8");
+                if (CollectionUtils.isEmpty(values)) {
                     if (queryBuilder.length() != 0) {
                         queryBuilder.append('&');
                     }
-                    queryBuilder.append(name);
-                    if (value != null) {
-                        String templatizedKey = name + valueItemCounter++;
-                        uriParams.put(templatizedKey, value.toString());
-                        queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                    queryBuilder.append(encodedName);
+                } else {
+                    int valueItemCounter = 0;
+                    for (Object value : values) {
+                        if (queryBuilder.length() != 0) {
+                            queryBuilder.append('&');
+                        }
+                        queryBuilder.append(encodedName);
+                        if (value != null) {
+                            String templatizedKey = encodedName + valueItemCounter++;
+                            uriParams.put(templatizedKey, value.toString());
+                            queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                        }
                     }
                 }
+            } catch (UnsupportedEncodingException e) {
+
             }
         });
         return queryBuilder.toString();
@@ -630,7 +626,7 @@ public class ApiClient extends JavaTimeFormatter {
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-   	    Map<String,Object> uriParams = new HashMap<>();
+        Map<String,Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         String finalUri = path;
@@ -728,19 +724,13 @@ public class ApiClient extends JavaTimeFormatter {
      */
     protected RestTemplate buildRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
-            if (converter instanceof AbstractJackson2HttpMessageConverter){
-                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
-                ThreeTenModule module = new ThreeTenModule();
-                module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-                module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-                module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-                mapper.registerModule(module);
-                mapper.registerModule(new JsonNullableModule());
-            }
-        }
         // This allows us to read the response more than once - Necessary for debugging.
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
+
+        // disable default URL encoding
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+        restTemplate.setUriTemplateHandler(uriBuilderFactory);
         return restTemplate;
     }
 
@@ -787,6 +777,9 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         private String headersToString(HttpHeaders headers) {
+            if(headers == null || headers.isEmpty()) {
+                return "";
+            }
             StringBuilder builder = new StringBuilder();
             for (Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.append(entry.getKey()).append("=[");

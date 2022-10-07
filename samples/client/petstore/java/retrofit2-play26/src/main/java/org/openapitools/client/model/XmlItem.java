@@ -64,7 +64,6 @@ import javax.validation.Valid;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@JsonTypeName("XmlItem")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
@@ -154,6 +153,8 @@ public class XmlItem {
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = null;
 
+  public XmlItem() {
+  }
 
   public XmlItem attributeString(String attributeString) {
     

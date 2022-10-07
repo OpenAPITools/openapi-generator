@@ -8,9 +8,16 @@
             {{/-last}}{{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}
         {{^isOAuth}}@Authorization(value = "{{name}}"){{^-last}},{{/-last}}
         {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} })
+    {{#implicitHeadersParams.0}}
+    @io.swagger.annotations.ApiImplicitParams({
+        {{#implicitHeadersParams}}
+        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+    })
+    {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}
     }){{/useSwaggerAnnotations}}
-    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
-        return Response.ok().entity("magic!").build();
+    public {{#supportAsync}}CompletionStage<{{/supportAsync}}Response{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
+        return {{#supportAsync}}CompletableFuture.supplyAsync(() -> {{/supportAsync}}Response.ok().entity("magic!").build(){{#supportAsync}}){{/supportAsync}};
     }

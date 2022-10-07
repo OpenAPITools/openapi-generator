@@ -19,22 +19,26 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
+    open class func call123testSpecialTags(body: Client) -> AnyPublisher<Client, Error> {
+        var requestTask: RequestTask?
         return Future<Client, Error> { promise in
-            call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = call123testSpecialTagsWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body!))
+                    promise(.success(response.body))
                 case let .failure(error):
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -60,6 +64,6 @@ open class AnotherFakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

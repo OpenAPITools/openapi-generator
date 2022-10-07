@@ -34,13 +34,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   AdditionalPropertiesNumber.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesNumber")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesNumber() {
+
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     

@@ -35,6 +35,9 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+  public AdditionalPropertiesAnyType() {
+
+  }
 
   public AdditionalPropertiesAnyType name(String name) {
     

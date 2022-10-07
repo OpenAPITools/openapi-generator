@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * EnumTest
@@ -226,6 +228,8 @@ public class EnumTest {
   @XmlElement(name = "outerEnum")
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     

@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>5.3.0-SNAPSHOT</version>
+        <version>6.2.1-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -248,11 +248,6 @@
     </reporting>
     <dependencies>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-core</artifactId>
-            <version>${swagger-core.version}</version>
-        </dependency>
-        <dependency>
             <groupId>${swagger-parser-groupid.version}</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser.version}</version>
@@ -298,6 +293,11 @@
             <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>${commons-text.version}</version>
+        </dependency>
+        <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
             <version>${commons-cli.version}</version>
@@ -315,13 +315,13 @@
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit</artifactId>
-            <version>0.20.1</version>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit4</artifactId>
-            <version>0.20.1</version>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -333,7 +333,12 @@
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
-            <version>3.14.11</version>
+            <version>3.24.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openrewrite</groupId>
+            <artifactId>rewrite-maven</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -368,6 +373,11 @@
             <groupId>com.github.curious-odd-man</groupId>
             <artifactId>rgxgen</artifactId>
             <version>${rxgen.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -418,7 +428,12 @@
             <artifactId>caffeine</artifactId>
             <version>2.8.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.19.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>

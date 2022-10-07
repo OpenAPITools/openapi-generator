@@ -26,6 +26,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -353,9 +356,9 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
+        List<CodegenOperation> ops = objs.getOperation();
         for (CodegenOperation op : ops) {
             // Convert httpMethod to lower case, e.g. "get", "post"
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
@@ -382,4 +385,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         // ref: https://clojurebridge.github.io/community-docs/docs/clojure/comment/
         return input.replace("(comment", "(_comment");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.CLOJURE; }
 }

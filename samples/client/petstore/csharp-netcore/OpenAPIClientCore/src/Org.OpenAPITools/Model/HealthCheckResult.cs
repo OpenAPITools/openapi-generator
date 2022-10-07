@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class HealthCheckResult {\n");
             sb.Append("  NullableMessage: ").Append(NullableMessage).Append("\n");
             sb.Append("}\n");
@@ -99,7 +99,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.NullableMessage != null)
-                    hashCode = hashCode * 59 + this.NullableMessage.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.NullableMessage.GetHashCode();
+                }
                 return hashCode;
             }
         }

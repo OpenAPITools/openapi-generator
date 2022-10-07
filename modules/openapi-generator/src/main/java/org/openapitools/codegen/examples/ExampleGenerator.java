@@ -165,11 +165,14 @@ public class ExampleGenerator {
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
+                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
                     }
+                } else {
+                    kv.put(EXAMPLE, "Custom MIME type example not yet supported: " + mediaType);
+                    output.add(kv);
                 }
             }
         } else {

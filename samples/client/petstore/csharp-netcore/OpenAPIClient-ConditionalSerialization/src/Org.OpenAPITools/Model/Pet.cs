@@ -106,19 +106,37 @@ namespace Org.OpenAPITools.Model
         public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
             // to ensure "name" is required (not null)
-            if (name == null) {
+            if (name == null)
+            {
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
             this._Name = name;
             // to ensure "photoUrls" is required (not null)
-            if (photoUrls == null) {
+            if (photoUrls == null)
+            {
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
             this._PhotoUrls = photoUrls;
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._Category = category;
+            if (this.Category != null)
+            {
+                this._flagCategory = true;
+            }
             this._Tags = tags;
+            if (this.Tags != null)
+            {
+                this._flagTags = true;
+            }
             this._Status = status;
+            if (this.Status != null)
+            {
+                this._flagStatus = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -173,7 +191,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name
         {
             get{ return _Name;}
@@ -197,7 +215,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = true)]
         public List<string> PhotoUrls
         {
             get{ return _PhotoUrls;}
@@ -254,7 +272,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Category: ").Append(Category).Append("\n");
@@ -305,18 +323,28 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 if (this.Category != null)
-                    hashCode = hashCode * 59 + this.Category.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
+                }
                 if (this.Name != null)
-                    hashCode = hashCode * 59 + this.Name.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 if (this.PhotoUrls != null)
-                    hashCode = hashCode * 59 + this.PhotoUrls.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
+                }
                 if (this.Tags != null)
-                    hashCode = hashCode * 59 + this.Tags.GetHashCode();
-                hashCode = hashCode * 59 + this.Status.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Tags.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Status.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -26,7 +26,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -209,7 +209,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         /**
          * Bash reserved words.
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "case",
                         "do",
@@ -828,4 +828,6 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(sanitizeName(operationId), true);
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.BASH; }
 }

@@ -31,12 +31,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@JsonTypeName("Foo")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar = "bar";
 
+  public Foo() {
+  }
 
   public Foo bar(String bar) {
     

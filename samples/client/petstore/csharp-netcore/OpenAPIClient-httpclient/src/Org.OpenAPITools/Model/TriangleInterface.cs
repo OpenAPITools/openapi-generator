@@ -48,7 +48,8 @@ namespace Org.OpenAPITools.Model
         public TriangleInterface(string triangleType = default(string))
         {
             // to ensure "triangleType" is required (not null)
-            if (triangleType == null) {
+            if (triangleType == null)
+            {
                 throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
             }
             this.TriangleType = triangleType;
@@ -58,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
-        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = true)]
         public string TriangleType { get; set; }
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class TriangleInterface {\n");
             sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -120,9 +121,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.TriangleType != null)
-                    hashCode = hashCode * 59 + this.TriangleType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

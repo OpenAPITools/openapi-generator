@@ -20,6 +20,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -181,8 +183,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         sqlTypeMapping.put("kotlin.ByteArray", SqlType.Blob);
         sqlTypeMapping.put("kotlin.Array", SqlType.Blob);
         sqlTypeMapping.put("kotlin.collections.List", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.MutableList", SqlType.Blob);
         sqlTypeMapping.put("kotlin.collections.Set", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.MutableSet", SqlType.Blob);
         sqlTypeMapping.put("kotlin.collections.Map", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.MutableMap", SqlType.Blob);
         sqlTypeMapping.put("kotlin.Any", SqlType.Blob);
         sqlTypeMapping.put("java.io.File", SqlType.Blob);
         sqlTypeMapping.put("java.math.BigDecimal", SqlType.Decimal);
@@ -279,19 +284,17 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel model = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
             String modelName = model.getName();
             String tableName = toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            Map<String, Object> ktormSchema = new HashMap<String, Object>();
-            Map<String, Object> tableDefinition = new HashMap<String, Object>();
+            Map<String, Object> ktormSchema = new HashMap<>();
+            Map<String, Object> tableDefinition = new HashMap<>();
 
             if (getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
@@ -320,7 +323,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 }
                 if (!hasPrimaryKey) {
                     final IntegerSchema schema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
-                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema);
+                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema, false);
                     cp.setRequired(true);
                     model.vars.add(0, cp);
                     model.allVars.add(0, cp);
@@ -1055,7 +1058,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }
@@ -1224,4 +1227,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         return StringUtils.removeEnd(packagePath, File.separator);
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.KTORM;
+    }
 }

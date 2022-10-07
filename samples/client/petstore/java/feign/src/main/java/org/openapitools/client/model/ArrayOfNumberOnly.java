@@ -34,12 +34,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() {
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
@@ -49,7 +50,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;

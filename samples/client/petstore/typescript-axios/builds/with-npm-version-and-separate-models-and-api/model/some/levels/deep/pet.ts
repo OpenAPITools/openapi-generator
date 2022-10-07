@@ -13,7 +13,11 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
 import { Category } from './category';
+// May contain unused imports in some cases
+// @ts-ignore
 import { Tag } from './tag';
 
 /**
@@ -60,14 +64,12 @@ export interface Pet {
     'status'?: PetStatusEnum;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
-}
+export const PetStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+
+export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 

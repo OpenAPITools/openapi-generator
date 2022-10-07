@@ -44,6 +44,8 @@ public class ModelApiResponse {
   @SerializedName(SERIALIZED_NAME_MESSAGE)
   private String message;
 
+  public ModelApiResponse() {
+  }
 
   public ModelApiResponse code(Integer code) {
     

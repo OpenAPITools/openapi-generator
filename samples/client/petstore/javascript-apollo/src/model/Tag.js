@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,21 +20,7 @@ import ApiClient from '../ApiClient';
  */
 class Tag {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {String} name
-     * @type {String}
-     */
-    name;
-
-    
-
-    /**
      * Constructs a new <code>Tag</code>.
-     * A tag for a pet
      * @alias module:model/Tag
      */
     constructor() { 
@@ -70,7 +56,38 @@ class Tag {
         }
         return obj;
     }
+
+    /**
+     * Validates the JSON data with respect to <code>Tag</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Tag</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
+            throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
+        }
+
+        return true;
+    }
+
+
 }
+
+
+
+/**
+ * @member {Number} id
+ */
+Tag.prototype['id'] = undefined;
+
+/**
+ * @member {String} name
+ */
+Tag.prototype['name'] = undefined;
+
+
+
 
 
 

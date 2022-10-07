@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class EnumArrays: NSObject, Codable {
+@objc public class EnumArrays: NSObject, Codable, JSONEncodable {
 
     public enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="

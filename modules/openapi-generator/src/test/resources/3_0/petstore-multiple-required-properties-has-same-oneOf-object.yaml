@@ -1,0 +1,65 @@
+openapi: 3.0.1
+info:
+  title: My title
+  description: API under test
+  version: 1.0.7
+servers:
+  - url: https://localhost:9999/root
+paths:
+  /pet_preference:
+    post:
+      operationId: postPreference
+      tags:
+        - pet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/petPreference'
+      responses:
+        201:
+          description: OK
+components:
+  schemas:
+    dog:
+      type: object
+      required:
+        - attr
+      properties:
+        attr:
+          type: string
+          enum:
+            - DOG
+    cat:
+      type: object
+      required:
+        - attr
+      properties:
+        attr:
+          type: string
+          enum:
+            - CAT
+
+    pet:
+      oneOf:
+        - $ref: '#/components/schemas/dog'
+        - $ref: '#/components/schemas/cat'
+      discriminator:
+        propertyName: attr
+        mapping:
+          DOG: '#/components/schemas/dog'
+          CAT: '#/components/schemas/cat'
+
+    petPreference:
+      type: object
+      required:
+        - pet1
+        - pet2
+        - pet3
+      properties:
+        pet1:
+          $ref: '#/components/schemas/pet'
+        pet2:
+          $ref: '#/components/schemas/pet'
+        pet3:
+          $ref: '#/components/schemas/pet'

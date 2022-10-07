@@ -32,12 +32,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@JsonTypeName("OuterObjectWithEnumProperty")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   private OuterEnumInteger value;
 
+  public OuterObjectWithEnumProperty() {
+  }
 
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
     

@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -22,11 +21,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   private @Valid UUID uuid;
   private @Valid Date dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
+  private @Valid Map<String, Animal> map = null;
+
+  protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
+    this.uuid = b.uuid;
+    this.dateTime = b.dateTime;
+    this.map = b.map;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+  }
 
   /**
    **/
@@ -34,8 +42,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -49,14 +55,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
   }
 
-/**
+  /**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -70,14 +74,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.dateTime = dateTime;
   }
 
-/**
+  /**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -91,6 +93,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.map = map;
   }
 
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+    if (this.map == null) {
+      this.map = new HashMap<>();
+    }
+
+    this.map.put(key, mapItem);
+    return this;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
+    if (mapItem != null && this.map != null) {
+      this.map.remove(mapItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -135,5 +153,43 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClassBuilderImpl();
+  }
+
+  private static final class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
+
+    @Override
+    protected MixedPropertiesAndAdditionalPropertiesClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      return new MixedPropertiesAndAdditionalPropertiesClass(this);
+    }
+  }
+
+  public static abstract class MixedPropertiesAndAdditionalPropertiesClassBuilder<C extends MixedPropertiesAndAdditionalPropertiesClass, B extends MixedPropertiesAndAdditionalPropertiesClassBuilder<C, B>>  {
+    private UUID uuid;
+    private Date dateTime;
+    private Map<String, Animal> map = new HashMap<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B uuid(UUID uuid) {
+      this.uuid = uuid;
+      return self();
+    }
+    public B dateTime(Date dateTime) {
+      this.dateTime = dateTime;
+      return self();
+    }
+    public B map(Map<String, Animal> map) {
+      this.map = map;
+      return self();
+    }
+  }
 }
 

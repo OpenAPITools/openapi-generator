@@ -16,20 +16,30 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Client
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
-    open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Client {
-        return try await withCheckedThrowingContinuation { continuation in
-            testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func testClassname(body: Client) async throws -> Client {
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = testClassnameWithRequestBuilder(body: body).execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -58,6 +68,6 @@ open class FakeClassnameTags123API {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }

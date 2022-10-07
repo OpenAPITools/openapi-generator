@@ -21,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.List;
 
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpBasicAuth implements Authentication {
   private String username;

@@ -35,12 +35,13 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@JsonTypeName("ClassModel")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private String propertyClass;
 
+  public ClassModel() {
+  }
 
   public ClassModel propertyClass(String propertyClass) {
     

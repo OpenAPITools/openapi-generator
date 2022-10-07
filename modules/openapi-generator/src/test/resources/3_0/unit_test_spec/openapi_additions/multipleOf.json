@@ -1,0 +1,13 @@
+[
+    {
+        "description": "invalid instance should not raise error when float division = inf",
+        "schema": {"type": "integer", "multipleOf": 0.123456789},
+        "tests": [
+            {
+                "description": "valid integer with multipleOf float",
+                "data": 123456789,
+                "valid": true
+            }
+        ]
+    }
+]

@@ -36,19 +36,19 @@ cJSON *tag_convertToJSON(tag_t *tag) {
     cJSON *item = cJSON_CreateObject();
 
     // tag->id
-    if(tag->id) { 
+    if(tag->id) {
     if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // tag->name
-    if(tag->name) { 
+    if(tag->name) {
     if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
     return item;
 fail:

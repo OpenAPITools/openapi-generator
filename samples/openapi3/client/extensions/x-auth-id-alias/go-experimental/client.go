@@ -104,7 +104,7 @@ func selectHeaderAccept(accepts []string) string {
 // contains is a case insensitive match, finding needle in a haystack
 func contains(haystack []string, needle string) bool {
 	for _, a := range haystack {
-		if strings.ToLower(a) == strings.ToLower(needle) {
+		if strings.EqualFold(a, needle) {
 			return true
 		}
 	}
@@ -189,6 +189,12 @@ func (c *APIClient) GetConfig() *Configuration {
 	return c.cfg
 }
 
+type formFile struct {
+		fileBytes []byte
+		fileName string
+		formFileName string
+}
+
 // prepareRequest build the request
 func (c *APIClient) prepareRequest(
 	ctx context.Context,
@@ -197,9 +203,7 @@ func (c *APIClient) prepareRequest(
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams url.Values,
-	formFileName string,
-	fileName string,
-	fileBytes []byte) (localVarRequest *http.Request, err error) {
+	formFiles []formFile) (localVarRequest *http.Request, err error) {
 
 	var body *bytes.Buffer
 
@@ -218,7 +222,7 @@ func (c *APIClient) prepareRequest(
 	}
 
 	// add form parameters and file if available.
-	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
 		}
@@ -237,16 +241,17 @@ func (c *APIClient) prepareRequest(
 				}
 			}
 		}
-		if len(fileBytes) > 0 && fileName != "" {
-			w.Boundary()
-			//_, fileNm := filepath.Split(fileName)
-			part, err := w.CreateFormFile(formFileName, filepath.Base(fileName))
-			if err != nil {
-				return nil, err
-			}
-			_, err = part.Write(fileBytes)
-			if err != nil {
-				return nil, err
+		for _, formFile := range formFiles {
+			if len(formFile.fileBytes) > 0 && formFile.fileName != "" {
+				w.Boundary()
+				part, err := w.CreateFormFile(formFile.formFileName, filepath.Base(formFile.fileName))
+				if err != nil {
+						return nil, err
+				}
+				_, err = part.Write(formFile.fileBytes)
+				if err != nil {
+						return nil, err
+				}
 			}
 		}
 
@@ -309,7 +314,7 @@ func (c *APIClient) prepareRequest(
 	if len(headerParams) > 0 {
 		headers := http.Header{}
 		for h, v := range headerParams {
-			headers.Set(h, v)
+			headers[h] = []string{v}
 		}
 		localVarRequest.Header = headers
 	}
@@ -397,11 +402,14 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 
 // Add a file to the multipart request
 func addFile(w *multipart.Writer, fieldName, path string) error {
-	file, err := os.Open(path)
+	file, err := os.Open(filepath.Clean(path))
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	err = file.Close()
+	if err != nil {
+		return err
+	}
 
 	part, err := w.CreateFormFile(fieldName, filepath.Base(path))
 	if err != nil {
@@ -415,6 +423,13 @@ func addFile(w *multipart.Writer, fieldName, path string) error {
 // Prevent trying to import "fmt"
 func reportError(format string, a ...interface{}) error {
 	return fmt.Errorf(format, a...)
+}
+
+// A wrapper for strict JSON decoding
+func newStrictDecoder(data []byte) *json.Decoder {
+	dec := json.NewDecoder(bytes.NewBuffer(data))
+	dec.DisallowUnknownFields()
+	return dec
 }
 
 // Set request body from an interface{}

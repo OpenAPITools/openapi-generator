@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "5.1.1"
+  id "org.openapi.generator" version "6.2.0"
 }
 ----
 
@@ -113,7 +113,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:5.1.1"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:6.2.0"
   }
 }
 
@@ -203,6 +203,11 @@ apply plugin: 'org.openapi.generator'
 |String
 |None
 |Suffix that will be appended to all model names.
+
+|apiNameSuffix
+|String
+|None
+|Suffix that will be appended to all api names.
 
 |instantiationTypes
 |Map(String,String)
@@ -398,7 +403,7 @@ openApiGenerate {
     // other settings omitted
     globalProperties = [
         apis: "",
-        models: "User,Pet"
+        models: "User:Pet"
     ]
 }
 ----
@@ -690,7 +695,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.3') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:6.2.0') {
             exclude group: 'com.google.guava'
         }
     }

@@ -1,11 +1,28 @@
 package org.openapitools.codegen;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 public interface IJsonSchemaValidationProperties {
+    CodegenProperty getContains();
+
+    void setContains(CodegenProperty contains);
+
+    LinkedHashMap<String, List<String>> getDependentRequired();
+
+    void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired);
+
     String getPattern();
 
     void setPattern(String pattern);
@@ -42,9 +59,17 @@ public interface IJsonSchemaValidationProperties {
 
     void setMaxItems(Integer maxItems);
 
+    // TODO update this value to Boolean in 7.0.0
     boolean getUniqueItems();
 
+    // TODO update this value to Boolean in 7.0.0
     void setUniqueItems(boolean uniqueItems);
+
+    // TODO remove in 7.0.0
+    Boolean getUniqueItemsBoolean();
+
+    // TODO remove in 7.0.0
+    void setUniqueItemsBoolean(Boolean uniqueItems);
 
     Integer getMinProperties();
 
@@ -95,6 +120,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsUnboundedInteger(boolean isUnboundedInteger);
 
+    boolean getIsPrimitiveType();
+
+    void setIsPrimitiveType(boolean isPrimitiveType);
+
     CodegenProperty getAdditionalProperties();
 
     void setAdditionalProperties(CodegenProperty additionalProperties);
@@ -106,6 +135,17 @@ public interface IJsonSchemaValidationProperties {
     List<CodegenProperty> getRequiredVars();
 
     void setRequiredVars(List<CodegenProperty> requiredVars);
+
+    Map<String, CodegenProperty> getRequiredVarsMap();
+
+    // goes from required propertyName to its CodegenProperty
+    // Use Cases:
+    // 1. required property is defined in properties, value is that CodegenProperty
+    // 2. required property is not defined in properties, and additionalProperties is true or unset value is CodegenProperty made from empty schema
+    // 3. required property is not defined in properties, and additionalProperties is schema, value is CodegenProperty made from schema
+    // 4. required property is not defined in properties, and additionalProperties is false, value is null
+    void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap);
+
 
     boolean getIsNull();
 
@@ -121,7 +161,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getHasVars();
 
-    void setHasVars(boolean hasRequiredVars);
+    void setHasVars(boolean hasVars);
 
     boolean getHasRequired();
 
@@ -145,6 +185,36 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsAnyType(boolean isAnyType);
 
+    String getRef();
+
+    void setRef(String ref);
+
+    CodegenComposedSchemas getComposedSchemas();
+
+    void setComposedSchemas(CodegenComposedSchemas composedSchemas);
+
+    boolean getHasMultipleTypes();
+
+    void setHasMultipleTypes(boolean hasMultipleTypes);
+
+    // for when the schema is just the boolean true in a spec
+    boolean getIsBooleanSchemaTrue();
+
+    void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue);
+
+    // for when the schema is just the boolean false in a spec
+    boolean getIsBooleanSchemaFalse();
+
+    void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse);
+
+    boolean getSchemaIsFromAdditionalProperties();
+
+    void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties);
+
+    void setFormat(String format);
+
+    String getFormat();
+
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance
      * for now this only supports types without format information
@@ -154,6 +224,9 @@ public interface IJsonSchemaValidationProperties {
     default void setTypeProperties(Schema p) {
         if (ModelUtils.isTypeObjectSchema(p)) {
             setIsMap(true);
+            if (ModelUtils.isModelWithPropertiesOnly(p)) {
+                setIsModel(true);
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
@@ -203,6 +276,103 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
+            if (ModelUtils.isModelWithPropertiesOnly(p)) {
+                setIsModel(true);
+            }
         }
+    }
+
+    /**
+     * @return basic type - no generics supported.
+     */
+    default String getBaseType() {
+        return null;
+    };
+
+    /**
+     * @return complex type that can contain type parameters - like {@code List<Items>} for Java
+     */
+    default String getComplexType() {
+        return getBaseType();
+    };
+
+    /**
+     * Recursively collect all necessary imports to include so that the type may be resolved.
+     *
+     * @param importContainerType whether or not to include the container types in the returned imports.
+     * @param importBaseType whether or not to include the base types in the returned imports.
+     * @param featureSet the generator feature set, used to determine if composed schemas should be added
+     * @return all of the imports
+     */
+    default Set<String> getImports(boolean importContainerType, boolean importBaseType, FeatureSet featureSet) {
+        Set<String> imports = new HashSet<>();
+        if (this.getComposedSchemas() != null) {
+            CodegenComposedSchemas composed = this.getComposedSchemas();
+            List<CodegenProperty> allOfs = Collections.emptyList();
+            List<CodegenProperty> oneOfs = Collections.emptyList();
+            List<CodegenProperty> anyOfs = Collections.emptyList();
+            List<CodegenProperty> nots = Collections.emptyList();
+            if (composed.getAllOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.allOf)) {
+                allOfs = composed.getAllOf();
+            }
+            if (composed.getOneOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.oneOf)) {
+                oneOfs = composed.getOneOf();
+            }
+            if (composed.getAnyOf() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.anyOf)) {
+                anyOfs = composed.getAnyOf();
+            }
+            if (composed.getNot() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.not)) {
+                nots = Arrays.asList(composed.getNot());
+            }
+            Stream<CodegenProperty> innerTypes = Stream.of(
+                            allOfs.stream(), anyOfs.stream(), oneOfs.stream(), nots.stream())
+                    .flatMap(i -> i);
+            innerTypes.flatMap(cp -> cp.getImports(importContainerType, importBaseType, featureSet).stream()).forEach(s -> imports.add(s));
+        }
+        // items can exist for AnyType and type array
+        if (this.getItems() != null && this.getIsArray()) {
+            imports.addAll(this.getItems().getImports(importContainerType, importBaseType, featureSet));
+        }
+        // additionalProperties can exist for AnyType and type object
+        if (this.getAdditionalProperties() != null) {
+            imports.addAll(this.getAdditionalProperties().getImports(importContainerType, importBaseType, featureSet));
+        }
+        // vars can exist for AnyType and type object
+        if (this.getVars() != null && !this.getVars().isEmpty()) {
+            this.getVars().stream().flatMap(v -> v.getImports(importContainerType, importBaseType, featureSet).stream()).forEach(s -> imports.add(s));
+        }
+        if (this.getIsArray() || this.getIsMap()) {
+            if (importContainerType) {
+                /*
+                use-case for this complexType block:
+                DefaultCodegenTest.objectQueryParamIdentifyAsObject
+                DefaultCodegenTest.mapParamImportInnerObject
+                */
+                String complexType = this.getComplexType();
+                if (complexType != null) {
+                    imports.add(complexType);
+                }
+                /*
+                use-case:
+                Adding List/Map etc, Java uses this
+                 */
+                String baseType = this.getBaseType();
+                if (importBaseType && baseType != null) {
+                    imports.add(baseType);
+                }
+            }
+        } else {
+            // referenced or inline schemas
+            String complexType = this.getComplexType();
+            if (complexType != null) {
+                imports.add(complexType);
+            }
+            String baseType = this.getBaseType();
+            if (importBaseType && baseType != null) {
+                imports.add(baseType);
+            }
+            return imports;
+        }
+        return imports;
     }
 }

@@ -18,7 +18,6 @@ pet.name = "PetName"
 pet.photoUrls = []
 pet.status = 'available'
 pet.tags = [ tag ]
-pet.category = undefined
 
 QUnit.module("PetApi")
 

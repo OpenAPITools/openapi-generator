@@ -27,6 +27,20 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
+                        <id>bundle-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>/bin/bash</executable>
+                            <arguments>
+                                <argument>gradlew</argument>
+                                <argument>clean</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>bundle-test</id>
                         <phase>integration-test</phase>
                         <goals>

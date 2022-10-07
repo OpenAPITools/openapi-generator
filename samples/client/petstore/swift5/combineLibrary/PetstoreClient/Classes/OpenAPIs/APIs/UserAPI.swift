@@ -19,14 +19,14 @@ open class UserAPI {
      Create user
      
      - parameter body: (body) Created user object 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+    open class func createUser(body: User) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = createUserWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -34,7 +34,11 @@ open class UserAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -60,21 +64,21 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+    open class func createUsersWithArrayInput(body: [User]) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -82,7 +86,11 @@ open class UserAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -107,21 +115,21 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+    open class func createUsersWithListInput(body: [User]) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -129,7 +137,11 @@ open class UserAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -154,21 +166,21 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+    open class func deleteUser(username: String) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+            requestTask = deleteUserWithRequestBuilder(username: username).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -176,7 +188,11 @@ open class UserAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -205,29 +221,33 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<User, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<User, Error> {
+    open class func getUserByName(username: String) -> AnyPublisher<User, Error> {
+        var requestTask: RequestTask?
         return Future<User, Error> { promise in
-            getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+            requestTask = getUserByNameWithRequestBuilder(username: username).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body!))
+                    promise(.success(response.body))
                 case let .failure(error):
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -255,7 +275,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -263,22 +283,26 @@ open class UserAPI {
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<String, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<String, Error> {
+    open class func loginUser(username: String, password: String) -> AnyPublisher<String, Error> {
+        var requestTask: RequestTask?
         return Future<String, Error> { promise in
-            loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
+            requestTask = loginUserWithRequestBuilder(username: username, password: password).execute { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body!))
+                    promise(.success(response.body))
                 case let .failure(error):
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -297,8 +321,8 @@ open class UserAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": username.encodeToJSON(),
-            "password": password.encodeToJSON(),
+            "username": (wrappedValue: username.encodeToJSON(), isExplode: false),
+            "password": (wrappedValue: password.encodeToJSON(), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -309,20 +333,20 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
      Logs out current logged in user session
      
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+    open class func logoutUser() -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
+            requestTask = logoutUserWithRequestBuilder().execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -330,7 +354,11 @@ open class UserAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -354,7 +382,7 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -362,14 +390,14 @@ open class UserAPI {
      
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+    open class func updateUser(username: String, body: User) -> AnyPublisher<Void, Error> {
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
+            requestTask = updateUserWithRequestBuilder(username: username, body: body).execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -377,7 +405,11 @@ open class UserAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            requestTask?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
@@ -407,6 +439,6 @@ open class UserAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

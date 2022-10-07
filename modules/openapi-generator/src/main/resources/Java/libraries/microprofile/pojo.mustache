@@ -1,23 +1,26 @@
 {{#withXml}}
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlElement;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlRootElement;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlAccessType;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlAccessorType;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlType;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlEnum;
+import {{rootJavaEEPackage}}.xml.bind.annotation.XmlEnumValue;
 {{/withXml}}
 {{^withXml}}
 import java.lang.reflect.Type;
-import javax.json.bind.annotation.JsonbTypeDeserializer;
-import javax.json.bind.annotation.JsonbTypeSerializer;
-import javax.json.bind.serializer.DeserializationContext;
-import javax.json.bind.serializer.JsonbDeserializer;
-import javax.json.bind.serializer.JsonbSerializer;
-import javax.json.bind.serializer.SerializationContext;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonParser;
-import javax.json.bind.annotation.JsonbProperty;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeDeserializer;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeSerializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.DeserializationContext;
+import {{rootJavaEEPackage}}.json.bind.serializer.JsonbDeserializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.JsonbSerializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.SerializationContext;
+import {{rootJavaEEPackage}}.json.stream.JsonGenerator;
+import {{rootJavaEEPackage}}.json.stream.JsonParser;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbProperty;
+{{#vendorExtensions.x-has-readonly-properties}}
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
 {{/withXml}}
 
 {{#withXml}}
@@ -34,7 +37,10 @@ import javax.json.bind.annotation.JsonbProperty;
  **/
 {{/description}}
 {{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
@@ -49,6 +55,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
   {{^withXml}}
   @JsonbProperty("{{baseName}}")
   {{/withXml}}
+{{#vendorExtensions.x-field-extra-annotation}}
+{{{vendorExtensions.x-field-extra-annotation}}}
+{{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
@@ -56,7 +65,21 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/isContainer}}
   {{/vars}}
+{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+  public {{classname}}() {
+  }
 
+  @JsonbCreator
+  public {{classname}}(
+  {{#readOnlyVars}}
+    @JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}) {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+  {{/readOnlyVars}}
+  ) {
+  {{#readOnlyVars}}
+    this.{{name}} = {{name}};
+  {{/readOnlyVars}}
+  }
+  {{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
  /**
   {{#description}}
@@ -101,7 +124,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
   /**
     * Set {{name}}
   **/
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

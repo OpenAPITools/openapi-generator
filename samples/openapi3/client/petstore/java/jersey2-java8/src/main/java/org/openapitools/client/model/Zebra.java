@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -38,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
+@JsonTypeName("zebra")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Zebra {
   /**
@@ -83,6 +85,8 @@ public class Zebra {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public Zebra() { 
+  }
 
   public Zebra type(TypeEnum type) {
     this.type = type;

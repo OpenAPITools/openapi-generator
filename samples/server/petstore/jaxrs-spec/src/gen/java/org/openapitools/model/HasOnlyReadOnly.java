@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -16,10 +17,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("hasOnlyReadOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class HasOnlyReadOnly  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class HasOnlyReadOnly  implements Serializable {
   private @Valid String bar;
   private @Valid String foo;
+
+  protected HasOnlyReadOnly(HasOnlyReadOnlyBuilder<?, ?> b) {
+    this.bar = b.bar;
+    this.foo = b.foo;
+  }
+
+  public HasOnlyReadOnly() {
+  }
 
   /**
    **/
@@ -27,8 +36,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.bar = bar;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -42,14 +49,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.bar = bar;
   }
 
-/**
+  /**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -105,5 +110,38 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static HasOnlyReadOnlyBuilder<?, ?> builder() {
+    return new HasOnlyReadOnlyBuilderImpl();
+  }
+
+  private static final class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
+
+    @Override
+    protected HasOnlyReadOnlyBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public HasOnlyReadOnly build() {
+      return new HasOnlyReadOnly(this);
+    }
+  }
+
+  public static abstract class HasOnlyReadOnlyBuilder<C extends HasOnlyReadOnly, B extends HasOnlyReadOnlyBuilder<C, B>>  {
+    private String bar;
+    private String foo;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+    public B foo(String foo) {
+      this.foo = foo;
+      return self();
+    }
+  }
 }
 

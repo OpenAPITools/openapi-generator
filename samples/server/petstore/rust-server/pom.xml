@@ -53,6 +53,19 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>clippy</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>cargo</executable>
+                            <arguments>
+                                <argument>clippy</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

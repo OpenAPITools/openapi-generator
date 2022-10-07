@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * OuterComposite
@@ -36,7 +38,6 @@ import javax.xml.bind.annotation.*;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@JsonTypeName("OuterComposite")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "OuterComposite")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -54,6 +55,8 @@ public class OuterComposite {
   @XmlElement(name = "my_boolean")
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     

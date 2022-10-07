@@ -4,11 +4,19 @@
     {{#description}}
     /// <value>{{.}}</value>
     {{/description}}
+    {{#vendorExtensions.x-cls-compliant}}
+    [CLSCompliant({{{.}}})]
+    {{/vendorExtensions.x-cls-compliant}}
+    {{#vendorExtensions.x-com-visible}}
+    [ComVisible({{{.}}})]
+    {{/vendorExtensions.x-com-visible}}
     {{#allowableValues}}
     {{#enumVars}}
     {{#-first}}
     {{#isString}}
+    {{^useGenericHost}}
     [JsonConverter(typeof(StringEnumConverter))]
+    {{/useGenericHost}}
     {{/isString}}
     {{/-first}}
     {{/enumVars}}

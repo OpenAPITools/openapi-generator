@@ -19,6 +19,9 @@ src/Org.OpenAPITools/Api/UserApi.cs
 src/Org.OpenAPITools/Client/ApiClient.cs
 src/Org.OpenAPITools/Client/ApiException.cs
 src/Org.OpenAPITools/Client/ApiResponse.cs
+src/Org.OpenAPITools/Client/Auth/OAuthAuthenticator.cs
+src/Org.OpenAPITools/Client/Auth/OAuthFlow.cs
+src/Org.OpenAPITools/Client/Auth/TokenResponse.cs
 src/Org.OpenAPITools/Client/ClientUtils.cs
 src/Org.OpenAPITools/Client/Configuration.cs
 src/Org.OpenAPITools/Client/ExceptionFactory.cs

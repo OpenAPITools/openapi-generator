@@ -47,7 +47,8 @@ namespace Org.OpenAPITools.Model
         public BasquePig(string className = default(string))
         {
             // to ensure "className" is required (not null)
-            if (className == null) {
+            if (className == null)
+            {
                 throw new ArgumentNullException("className is a required property for BasquePig and cannot be null");
             }
             this._ClassName = className;
@@ -57,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = true)]
         public string ClassName
         {
             get{ return _ClassName;}
@@ -90,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class BasquePig {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -137,9 +138,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

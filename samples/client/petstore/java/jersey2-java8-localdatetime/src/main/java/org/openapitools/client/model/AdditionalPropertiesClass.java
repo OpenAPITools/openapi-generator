@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -82,6 +83,8 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   private Object anytype3;
 
+  public AdditionalPropertiesClass() { 
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

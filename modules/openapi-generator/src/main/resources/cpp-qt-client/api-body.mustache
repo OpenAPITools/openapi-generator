@@ -74,7 +74,7 @@ void {{classname}}::setServerIndex(const QString &operation, int serverIndex) {
 }
 
 void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey) {
-    _apiKeys.insert(apiKeyName,apiKey);
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
 void {{classname}}::setBearerToken(const QString &token) {
@@ -271,7 +271,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
-        foreach(const QString& key, parameter.keys()) {
+        for(const QString& key : parameter.keys()) {
             if (count > 0) {
                 pathDelimiter = (pathStyle == "matrix" && {{isExplode}}) ? ";" : getParamStyleDelimiter(pathStyle, key, {{isExplode}});
                 paramString.append(pathDelimiter);
@@ -320,7 +320,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
             QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                 if (count > 0) {
                     fullPath.append(pathDelimiter);
                 }
@@ -353,7 +353,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : (queryStyle == "form" && !({{isExplode}})) ? "{{baseName}}"+querySuffix : "";
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
-        foreach(const QString& key, parameter.keys()) {
+        for(const QString& key : parameter.keys()) {
             if (count > 0) {
                 queryDelimiter =  ((queryStyle == "form" || queryStyle == "deepObject") && {{isExplode}}) ? "&" : getParamStyleDelimiter(queryStyle, key, {{isExplode}});
                 paramString.append(queryDelimiter);
@@ -403,7 +403,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 {{#collectionFormat}}
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
             if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (fullPath.indexOf("?") > 0)
                         fullPath.append(queryPrefix);
                     else
@@ -416,7 +416,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(({{isExplode}})? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
                     }
@@ -429,7 +429,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append("\t");
                     }
@@ -442,7 +442,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -455,7 +455,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -468,7 +468,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -515,9 +515,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());{{/isMap}}
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
-{{/isContainer}}{{^isContainer}}{{#isString}}
-        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}}{{^required}}.value(){{/required}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
-        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
+{{/isContainer}}{{^isContainer}}
+        {{#isString}}QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}}{{^required}}.value(){{/required}});{{/isByteArray}}{{#isNumeric}}QByteArray output = QByteArray::number({{paramName}}{{^required}}.value(){{/required}});{{/isNumeric}}{{^isString}}{{^isByteArray}}{{^isFile}}{{^isNumeric}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();{{/isNumeric}}{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
         QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asByteArray();{{/isFile}}
         input.request_body.append(output);
 {{/isContainer}}
@@ -530,7 +530,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString headerString;
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
-        foreach(const QString& key, parameter.keys()) {
+        for (const QString& key : parameter.keys()) {
             if (count > 0) {
                 headerString.append(",");
             }
@@ -577,7 +577,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString headerString;
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                 if (count > 0) {
                     headerString.append(",");
                 }
@@ -599,7 +599,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             QString cookieString = "{{baseName}}=";
             QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
             qint32 count = 0;
-            foreach(const QString& key, parameter.keys()) {
+            for (const QString& key : parameter.keys()) {
                 if (count > 0) {
                     cookieString.append(",");
                 }
@@ -649,7 +649,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             QString cookieString = "{{baseName}}=";
             if ({{{paramName}}}.size() > 0) {
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                 if (count > 0) {
                     cookieString.append(",");
                 }
@@ -678,7 +678,127 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if (findChildren<{{prefix}}HttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
+    });{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    _OauthMethod = 2;
+    _implicitFlow.unlink();
+    _credentialFlow.unlink();
+    _passwordFlow.unlink();
+    _authFlow.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _authFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
     });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isCode}}
+    {{#isImplicit}}
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _implicitFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isImplicit}}
+    {{#isApplication}}
+    _OauthMethod = 3;
+    _authFlow.unlink();
+    _implicitFlow.unlink();
+    _passwordFlow.unlink();
+    _credentialFlow.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _credentialFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isApplication}}
+    {{#isPassword}}
+    _OauthMethod = 4;
+    _passwordFlow.link();
+    _authFlow.unlink();
+    _implicitFlow.unlink();
+    _credentialFlow.unlink();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _passwordFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;
+    {{/isPassword}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
 }
@@ -697,10 +817,15 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    foreach (QJsonValue obj, jsonArray) {
+    for (QJsonValue obj : jsonArray) {
         {{{returnBaseType}}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj);
+        {{#uniqueItems}}
+        output.insert(val);
+        {{/uniqueItems}}
+        {{^uniqueItems}}
         output.append(val);
+        {{/uniqueItems}}
     }
     {{/isArray}}
     {{^isArray}}
@@ -716,7 +841,7 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-    foreach (QString key, obj.keys()) {
+    for (QString key : obj.keys()) {
         {{returnBaseType}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
@@ -733,7 +858,56 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
-        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});
+        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_authFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString authorizationUrl("{{authorizationUrl}}");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _authFlow.setVariables(authorizationUrl, tokenUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
+        emit _authFlow.authenticationNeeded();{{/isCode}}
+        {{#isImplicit}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString authorizationUrl("{{authorizationUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();{{/isImplicit}}
+        {{#isApplication}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_credentialFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _credentialFlow.setVariables(tokenUrl , scopeStr, "clientId", "clientSecret");
+        emit _credentialFlow.authenticationNeeded();{{/isApplication}}
+        {{#isPassword}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_passwordFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _passwordFlow.setVariables(tokenUrl , scopeStr ,"clientId", "clientSecret", "username", "password");
+        emit _passwordFlow.authenticationNeeded();
+        {{/isPassword}}{{/isOAuth}}{{/authMethods}}
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);
@@ -742,6 +916,55 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
 {{/operation}}
 {{/operations}}
+void {{classname}}::tokenAvailable(){
+
+    oauthToken token;
+    switch (_OauthMethod) {
+    case 1: //implicit flow
+        token = _implicitFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _implicitFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = _authFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _authFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = _credentialFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retrieve a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
+    }
+}
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppNamespaceDeclarations}}

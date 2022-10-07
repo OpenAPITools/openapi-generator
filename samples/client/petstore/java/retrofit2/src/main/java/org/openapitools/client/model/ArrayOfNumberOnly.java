@@ -36,6 +36,8 @@ public class ArrayOfNumberOnly {
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() {
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
@@ -45,7 +47,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;

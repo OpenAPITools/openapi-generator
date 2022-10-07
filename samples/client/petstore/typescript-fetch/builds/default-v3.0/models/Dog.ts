@@ -13,16 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Animal } from './Animal';
 import {
-    Animal,
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
-    DogAllOf,
-    DogAllOfFromJSON,
-    DogAllOfFromJSONTyped,
-    DogAllOfToJSON,
-} from './';
+} from './Animal';
 
 /**
  * 
@@ -36,6 +32,15 @@ export interface Dog extends Animal {
      * @memberof Dog
      */
     breed?: string;
+}
+
+/**
+ * Check if a given object implements the Dog interface.
+ */
+export function instanceOfDog(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function DogFromJSON(json: any): Dog {

@@ -40,7 +40,6 @@ import javax.validation.Valid;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@JsonTypeName("User")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
@@ -67,6 +66,8 @@ public class User {
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
 
+  public User() {
+  }
 
   public User id(Long id) {
     

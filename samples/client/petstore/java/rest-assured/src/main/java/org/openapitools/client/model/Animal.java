@@ -44,7 +44,6 @@ public class Animal {
   private String color = "red";
 
   public Animal() {
-    this.className = this.getClass().getSimpleName();
   }
 
   public Animal className(String className) {

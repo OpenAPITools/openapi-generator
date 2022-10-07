@@ -1,12 +1,13 @@
 package org.openapitools.model;
 
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Cat extends Animal {
   
@@ -30,6 +31,23 @@ public class Cat extends Animal {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Cat cat = (Cat) o;
+    return Objects.equals(declawed, cat.declawed) &&
+        super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(declawed, super.hashCode());
+  }
 
   @Override
   public String toString() {

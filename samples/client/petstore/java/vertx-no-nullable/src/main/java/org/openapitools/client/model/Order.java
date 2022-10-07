@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -37,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@JsonTypeName("Order")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
@@ -95,6 +94,8 @@ public class Order {
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
+  public Order() {
+  }
 
   public Order id(Long id) {
     

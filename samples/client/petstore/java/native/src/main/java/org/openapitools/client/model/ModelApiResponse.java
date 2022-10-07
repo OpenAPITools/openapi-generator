@@ -46,6 +46,8 @@ public class ModelApiResponse {
   public static final String JSON_PROPERTY_MESSAGE = "message";
   private String message;
 
+  public ModelApiResponse() { 
+  }
 
   public ModelApiResponse code(Integer code) {
     this.code = code;

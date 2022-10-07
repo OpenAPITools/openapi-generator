@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class CatAllOf {\n");
             sb.Append("  Declawed: ").Append(Declawed).Append("\n");
             sb.Append("}\n");
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Declawed.GetHashCode();
+                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
                 return hashCode;
             }
         }

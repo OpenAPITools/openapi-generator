@@ -2,10 +2,12 @@ package org.openapitools.codegen.typescript.axios;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AXIOS})
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();

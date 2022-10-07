@@ -17,15 +17,14 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Client>
      */
-    open class func call123testSpecialTags( body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Client> {
+    open class func call123testSpecialTags( body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        call123testSpecialTagsWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -55,6 +54,6 @@ open class AnotherFakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

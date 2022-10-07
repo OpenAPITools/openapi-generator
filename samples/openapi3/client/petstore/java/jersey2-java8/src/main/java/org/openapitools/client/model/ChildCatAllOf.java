@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Set;
 import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -36,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ChildCatAllOf.JSON_PROPERTY_NAME,
   ChildCatAllOf.JSON_PROPERTY_PET_TYPE
 })
+@JsonTypeName("ChildCat_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ChildCatAllOf {
   public static final String JSON_PROPERTY_NAME = "name";
@@ -44,6 +46,8 @@ public class ChildCatAllOf {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
   private String petType = "ChildCat";
 
+  public ChildCatAllOf() { 
+  }
 
   public ChildCatAllOf name(String name) {
     this.name = name;

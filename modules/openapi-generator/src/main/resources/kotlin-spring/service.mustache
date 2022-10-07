@@ -3,13 +3,33 @@ package {{package}}
 {{#imports}}import {{import}}
 {{/imports}}
 {{#reactive}}
-import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.Flow
 {{/reactive}}
 
 {{#operations}}
 interface {{classname}}Service {
 {{#operation}}
 
+    /**
+     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
+    {{#notes}}
+     * {{.}}
+    {{/notes}}
+     *
+    {{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     *         or {{/-last}}{{/responses}}
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
+    {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+     * @see {{classname}}#{{operationId}}
+     */
     {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}}): {{>returnTypes}}
 {{/operation}}
 }

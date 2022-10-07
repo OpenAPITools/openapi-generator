@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -64,6 +65,8 @@ public class Drawing {
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   private List<Shape> shapes = null;
 
+  public Drawing() { 
+  }
 
   public Drawing mainShape(Shape mainShape) {
     this.mainShape = mainShape;

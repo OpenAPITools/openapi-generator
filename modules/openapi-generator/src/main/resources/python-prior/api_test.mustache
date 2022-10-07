@@ -1,0 +1,32 @@
+{{>partial_header}}
+
+import unittest
+
+import {{packageName}}
+from {{apiPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
+
+
+class {{#operations}}Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
+
+    def setUp(self):
+        self.api = {{classname}}()  # noqa: E501
+
+    def tearDown(self):
+        pass
+
+   {{#operation}}
+    def test_{{operationId}}(self):
+        """Test case for {{{operationId}}}
+
+{{#summary}}
+        {{{.}}}  # noqa: E501
+{{/summary}}
+        """
+        pass
+
+   {{/operation}}
+{{/operations}}
+
+if __name__ == '__main__':
+    unittest.main()

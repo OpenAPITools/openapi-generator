@@ -54,3 +54,9 @@ pub enum Status {
     Sold,
 }
 
+impl Default for Status {
+    fn default() -> Status {
+        Self::Available
+    }
+}
+

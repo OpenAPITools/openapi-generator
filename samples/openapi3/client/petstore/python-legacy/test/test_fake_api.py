@@ -13,10 +13,13 @@
 from __future__ import absolute_import
 
 import unittest
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
-from petstore_api.rest import ApiException
 
 
 class TestFakeApi(unittest.TestCase):
@@ -126,6 +129,18 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_headers_parameter(self):
+        """Test case for the _headers are passed by the user
+
+        To test any optional parameter  # noqa: E501
+        """
+        api = petstore_api.api.PetApi()
+        with patch("petstore_api.api_client.ApiClient.call_api") as mock_method:
+            value_headers = {"Header1": "value1"}
+            api.find_pets_by_status(["Cat"], _headers=value_headers)
+            args, _ = mock_method.call_args
+            self.assertEqual(args, ('/pet/findByStatus', 'GET', {}, [('status', ['Cat'])], {'Accept': 'application/json', 'Header1': 'value1'})
+)
 
 if __name__ == '__main__':
     unittest.main()

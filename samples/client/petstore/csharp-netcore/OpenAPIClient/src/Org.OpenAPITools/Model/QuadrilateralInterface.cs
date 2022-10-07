@@ -47,7 +47,8 @@ namespace Org.OpenAPITools.Model
         public QuadrilateralInterface(string quadrilateralType = default(string))
         {
             // to ensure "quadrilateralType" is required (not null)
-            if (quadrilateralType == null) {
+            if (quadrilateralType == null)
+            {
                 throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
             }
             this.QuadrilateralType = quadrilateralType;
@@ -57,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = true)]
         public string QuadrilateralType { get; set; }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class QuadrilateralInterface {\n");
             sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -119,9 +120,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.QuadrilateralType != null)
-                    hashCode = hashCode * 59 + this.QuadrilateralType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

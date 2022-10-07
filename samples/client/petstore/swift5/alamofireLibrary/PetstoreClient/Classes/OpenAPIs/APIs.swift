@@ -27,15 +27,18 @@ open class RequestBuilder<T> {
     public let parameters: [String: Any]?
     public let method: String
     public let URLString: String
+    public let requestTask: RequestTask = RequestTask()
+    public let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
+        self.requiresAuthentication = requiresAuthentication
 
         addHeaders(PetstoreClientAPI.customHeaders)
     }
@@ -46,7 +49,10 @@ open class RequestBuilder<T> {
         }
     }
 
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) { }
+    @discardableResult
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        return requestTask
+    }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {

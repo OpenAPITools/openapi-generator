@@ -15,10 +15,10 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +37,7 @@ public class UsageApiTest {
      *
      * Use any API key
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void anyKeyTest() throws ApiException {
@@ -51,8 +50,7 @@ public class UsageApiTest {
      *
      * Use both API keys
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void bothKeysTest() throws ApiException {
@@ -65,8 +63,7 @@ public class UsageApiTest {
      *
      * Use API key in header
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void keyInHeaderTest() throws ApiException {
@@ -79,8 +76,7 @@ public class UsageApiTest {
      *
      * Use API key in query
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void keyInQueryTest() throws ApiException {

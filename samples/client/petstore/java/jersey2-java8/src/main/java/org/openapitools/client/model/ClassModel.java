@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -39,6 +40,8 @@ public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private String propertyClass;
 
+  public ClassModel() { 
+  }
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
+
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -34,7 +35,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient
+@RegisterRestClient(configKey="petstore")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/store")
 public interface StoreApi  {

@@ -9,12 +9,11 @@
 #define {{apiHeaderGuardPrefix}}_{{classname}}_H_
 
 {{{defaultInclude}}}
-#include "../ApiClient.h"
 
+#include "{{packageName}}/ApiClient.h"
+{{^hasModelImport}}#include "{{packageName}}/ModelBase.h"{{/hasModelImport}}
 {{#imports}}{{{import}}}
 {{/imports}}
-{{^hasModelImport}}#include "../ModelBase.h"{{/hasModelImport}}
-
 #include <boost/optional.hpp>
 
 {{#apiNamespaceDeclarations}}

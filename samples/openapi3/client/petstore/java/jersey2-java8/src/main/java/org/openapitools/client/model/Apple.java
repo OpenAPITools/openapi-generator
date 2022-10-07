@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -34,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Apple.JSON_PROPERTY_CULTIVAR,
   Apple.JSON_PROPERTY_ORIGIN
 })
+@JsonTypeName("apple")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
@@ -42,6 +44,8 @@ public class Apple {
   public static final String JSON_PROPERTY_ORIGIN = "origin";
   private String origin;
 
+  public Apple() { 
+  }
 
   public Apple cultivar(String cultivar) {
     this.cultivar = cultivar;

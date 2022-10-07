@@ -17,15 +17,14 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Client>
      */
-    open class func testClassname( body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Client> {
+    open class func testClassname( body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        testClassnameWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -58,6 +57,6 @@ open class FakeClassnameTags123API {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }

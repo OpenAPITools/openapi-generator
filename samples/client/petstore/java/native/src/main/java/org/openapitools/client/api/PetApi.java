@@ -32,13 +32,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
@@ -103,14 +103,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("addPet", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("addPet", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -177,14 +186,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("deletePet", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("deletePet", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -249,14 +267,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("findPetsByStatus", localVarResponse);
-      }
-      return new ApiResponse<List<Pet>>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("findPetsByStatus", localVarResponse);
+        }
+        return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -287,7 +309,7 @@ public class PetApi {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
@@ -330,14 +352,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("findPetsByTags", localVarResponse);
-      }
-      return new ApiResponse<Set<Pet>>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("findPetsByTags", localVarResponse);
+        }
+        return new ApiResponse<Set<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -368,7 +394,7 @@ public class PetApi {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
@@ -407,14 +433,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("getPetById", localVarResponse);
-      }
-      return new ApiResponse<Pet>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getPetById", localVarResponse);
+        }
+        return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -437,7 +467,7 @@ public class PetApi {
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
@@ -474,14 +504,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("updatePet", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("updatePet", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -550,14 +589,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("updatePetWithForm", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("updatePetWithForm", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -596,12 +644,12 @@ public class PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, file);
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+    ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, _file);
     return localVarResponse.getData();
   }
 
@@ -610,12 +658,12 @@ public class PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, file);
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, _file);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -623,14 +671,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("uploadFile", localVarResponse);
-      }
-      return new ApiResponse<ModelApiResponse>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("uploadFile", localVarResponse);
+        }
+        return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -640,7 +692,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder uploadFileRequestBuilder(Long petId, String additionalMetadata, File file) throws ApiException {
+  private HttpRequest.Builder uploadFileRequestBuilder(Long petId, String additionalMetadata, File _file) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
@@ -696,14 +748,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("uploadFileWithRequiredFile", localVarResponse);
-      }
-      return new ApiResponse<ModelApiResponse>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("uploadFileWithRequiredFile", localVarResponse);
+        }
+        return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }

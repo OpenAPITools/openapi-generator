@@ -1,23 +1,24 @@
 // TODO: better import syntax?
-import { BaseAPIRequestFactory, RequiredError } from './baseapi{{extensionForDeno}}';
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{extensionForDeno}}';
 import {Configuration} from '../configuration{{extensionForDeno}}';
-import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
 {{#platforms}}
 {{#node}}
-import * as FormData from "form-data";
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
 import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
 import {ApiException} from './exception{{extensionForDeno}}';
 import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
+import {SecurityAuthentication} from '../auth/auth{{extensionForDeno}}';
 
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
 
 {{#imports}}
-import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
+import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
 {{/imports}}
 {{#operations}}
 
@@ -151,15 +152,22 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/bodyParam}}
 
         {{#hasAuthMethods}}
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         {{/hasAuthMethods}}
         {{#authMethods}}
         // Apply auth methods
         authMethod = _config.authMethods["{{name}}"]
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         {{/authMethods}}
+        
+        {{^useInversify}}
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+        {{/useInversify}}
 
         return requestContext;
     }
@@ -200,7 +208,7 @@ export class {{classname}}ResponseProcessor {
             return body;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<{{{dataType}}}>({{code}}, "{{message}}", body);
+            throw new ApiException<{{{dataType}}}>(response.httpStatusCode, "{{message}}", body, response.headers);
             {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
@@ -208,7 +216,7 @@ export class {{classname}}ResponseProcessor {
             return;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
             {{/is2xx}}
             {{/dataType}}
         }
@@ -233,7 +241,7 @@ export class {{classname}}ResponseProcessor {
             {{/returnType}}
         }
 
-        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     {{/operation}}

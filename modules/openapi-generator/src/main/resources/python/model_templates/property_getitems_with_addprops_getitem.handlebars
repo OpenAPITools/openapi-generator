@@ -1,0 +1,5 @@
+def {{methodName}}(self, name: typing.Union[{{#each getRequiredVarsMap}}{{#with this}}typing_extensions.Literal["{{{baseName}}}"], {{/with}}{{/each}}{{#each vars}}{{#unless required}}typing_extensions.Literal["{{{baseName}}}"], {{/unless}}{{/each}}{{#with additionalProperties}}{{#unless getIsBooleanSchemaFalse}}str, {{/unless}}{{/with}}]){{#not vars}}{{#not getRequiredVarsMap}}{{#with additionalProperties}}{{#unless getIsBooleanSchemaFalse}} -> {{#if complexType}}'{{complexType}}'{{else}}MetaOapg.{{baseName}}{{/if}}{{/unless}}{{/with}}{{/not}}{{/not}}:
+{{#eq methodName "__getitem__"}}
+    # dict_instance[name] accessor
+{{/eq}}
+    return super().{{methodName}}(name)

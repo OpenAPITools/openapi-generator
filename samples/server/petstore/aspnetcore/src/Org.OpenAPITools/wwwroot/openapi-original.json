@@ -293,16 +293,7 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "name" : {
-                    "description" : "Updated name of the pet",
-                    "type" : "string"
-                  },
-                  "status" : {
-                    "description" : "Updated status of the pet",
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/updatePetWithForm_request"
               }
             }
           }
@@ -337,17 +328,7 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "description" : "Additional data to pass to server",
-                    "type" : "string"
-                  },
-                  "file" : {
-                    "description" : "file to upload",
-                    "format" : "binary",
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/uploadFile_request"
               }
             }
           }
@@ -987,6 +968,31 @@
         },
         "title" : "An uploaded response",
         "type" : "object"
+      },
+      "updatePetWithForm_request" : {
+        "properties" : {
+          "name" : {
+            "description" : "Updated name of the pet",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "Updated status of the pet",
+            "type" : "string"
+          }
+        }
+      },
+      "uploadFile_request" : {
+        "properties" : {
+          "additionalMetadata" : {
+            "description" : "Additional data to pass to server",
+            "type" : "string"
+          },
+          "file" : {
+            "description" : "file to upload",
+            "format" : "binary",
+            "type" : "string"
+          }
+        }
       }
     },
     "securitySchemes" : {

@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ArrayTest
@@ -38,7 +40,6 @@ import javax.xml.bind.annotation.*;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@JsonTypeName("ArrayTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ArrayTest")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -65,6 +66,8 @@ public class ArrayTest {
   @XmlElement(name = "arrayArrayOfModel")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() {
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     

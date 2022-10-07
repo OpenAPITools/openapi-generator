@@ -37,6 +37,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
@@ -103,20 +105,15 @@ public class ModelUtils {
      * @param models Map of models
      * @return model
      */
-    public static CodegenModel getModelByName(final String name, final Map<String, Object> models) {
-        final Object data = models.get(name);
-        if (data instanceof Map) {
-            final Map<?, ?> dataMap = (Map<?, ?>) data;
-            final Object dataModels = dataMap.get("models");
-            if (dataModels instanceof List) {
-                final List<?> dataModelsList = (List<?>) dataModels;
-                for (final Object entry : dataModelsList) {
-                    if (entry instanceof Map) {
-                        final Map<?, ?> entryMap = (Map<?, ?>) entry;
-                        final Object model = entryMap.get("model");
-                        if (model instanceof CodegenModel) {
-                            return (CodegenModel) model;
-                        }
+    public static CodegenModel getModelByName(final String name, final Map<String, ModelsMap> models) {
+        final ModelsMap data = models.get(name);
+        if (data != null) {
+            final List<ModelMap> dataModelsList = data.getModels();
+            if (dataModelsList != null) {
+                for (final ModelMap entryMap : dataModelsList) {
+                    final CodegenModel model = entryMap.getModel();
+                    if (model != null) {
+                        return model;
                     }
                 }
             }
@@ -381,7 +378,11 @@ public class ModelUtils {
     }
 
     public static String getSimpleRef(String ref) {
-        if (ref.startsWith("#/components/")) {
+        if (ref == null) {
+            once(LOGGER).warn("Failed to get the schema name: null");
+            //throw new RuntimeException("Failed to get the schema: null");
+            return null;
+        } else if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
@@ -389,12 +390,12 @@ public class ModelUtils {
             once(LOGGER).warn("Failed to get the schema name: {}", ref);
             //throw new RuntimeException("Failed to get the schema: " + ref);
             return null;
-
         }
 
         try {
             ref = URLDecoder.decode(ref, "UTF-8");
         } catch (UnsupportedEncodingException ignored) {
+            once(LOGGER).warn("Found UnsupportedEncodingException: {}", ref);
         }
 
         // see https://tools.ietf.org/html/rfc6901#section-3
@@ -724,12 +725,31 @@ public class ModelUtils {
         }
 
         // has properties
-        if (null != schema.getProperties()) {
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
             return true;
         }
 
         // composed schema is a model, consider very simple ObjectSchema a model
         return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
+    }
+
+    /**
+     * Check to see if the schema is a model with properties only (non-composed model)
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a model with at least one properties
+     */
+    public static boolean isModelWithPropertiesOnly(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
+                (schema.getAdditionalProperties() == null || // no additionalProperties is set
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()))) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -1016,7 +1036,7 @@ public class ModelUtils {
      * Return the first defined Schema for a RequestBody
      *
      * @param requestBody request body of the operation
-     * @return firstSchema
+     * @return first schema
      */
     public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
         return getSchemaFromContent(requestBody.getContent());
@@ -1065,6 +1085,96 @@ public class ModelUtils {
     }
 
     /**
+     * Has self reference?
+     *
+     * @param openAPI OpenAPI spec.
+     * @param schema  Schema
+     * @return boolean true if it has at least one self reference
+     */
+    public static boolean hasSelfReference(OpenAPI openAPI,
+                                           Schema schema) {
+        return hasSelfReference(openAPI, schema, null);
+    }
+
+    /**
+     * Has self reference?
+     *
+     * @param openAPI OpenAPI spec.
+     * @param schema  Schema
+     * @param visitedSchemaNames A set of visited schema names
+     * @return boolean true if it has at least one self reference
+     */
+    public static boolean hasSelfReference(OpenAPI openAPI,
+                                           Schema schema,
+                                           Set<String> visitedSchemaNames) {
+        if (visitedSchemaNames == null) {
+            visitedSchemaNames = new HashSet<String>();
+        }
+
+        if (schema.get$ref() != null) {
+            String ref = getSimpleRef(schema.get$ref());
+            if (!visitedSchemaNames.contains(ref)) {
+                visitedSchemaNames.add(ref);
+                Schema referencedSchema = getSchemas(openAPI).get(ref);
+                if (referencedSchema != null) {
+                    return hasSelfReference(openAPI, referencedSchema, visitedSchemaNames);
+                } else {
+                    LOGGER.error("Failed to obtain schema from `{}` in self reference check", ref);
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+        if (schema instanceof ComposedSchema) {
+            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+            if (oneOf != null) {
+                for (Schema s : oneOf) {
+                    if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
+                        return true;
+                    }
+                }
+            }
+            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            if (allOf != null) {
+                for (Schema s : allOf) {
+                    if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
+                        return true;
+                    }
+                }
+            }
+            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            if (anyOf != null) {
+                for (Schema s : anyOf) {
+                    if (hasSelfReference(openAPI, s, visitedSchemaNames)) {
+                        return true;
+                    }
+                }
+            }
+        } else if (isArraySchema(schema)) {
+            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            if (itemsSchema != null) {
+                return hasSelfReference(openAPI, itemsSchema, visitedSchemaNames);
+            }
+        } else if (isMapSchema(schema)) {
+            Object additionalProperties = schema.getAdditionalProperties();
+            if (additionalProperties instanceof Schema) {
+                return hasSelfReference(openAPI, (Schema) additionalProperties, visitedSchemaNames);
+            }
+        } else if (schema.getNot() != null) {
+            return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
+        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            // go through properties to see if there's any self-reference
+            for (Schema property : ((Map<String, Schema>) schema.getProperties()).values()) {
+                if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
      * @param openAPI specification being checked
@@ -1073,7 +1183,7 @@ public class ModelUtils {
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema) {
-        return unaliasSchema(openAPI, schema, Collections.<String, String>emptyMap());
+        return unaliasSchema(openAPI, schema, Collections.emptyMap());
     }
 
     /**
@@ -1081,12 +1191,12 @@ public class ModelUtils {
      *
      * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
-     * @param importMappings mappings of external types to be omitted by unaliasing
+     * @param schemaMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema,
-                                       Map<String, String> importMappings) {
+                                       Map<String, String> schemaMappings) {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -1096,8 +1206,8 @@ public class ModelUtils {
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
-            if (importMappings.containsKey(simpleRef)) {
-                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
+            if (schemaMappings.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMappings.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -1112,7 +1222,7 @@ public class ModelUtils {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            importMappings);
+                            schemaMappings);
                 }
             } else if (isComposedSchema(ref)) {
                 return schema;
@@ -1125,18 +1235,21 @@ public class ModelUtils {
                     } else {
                         // treat it as a typical map
                         return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                importMappings);
+                                schemaMappings);
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                    // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
+                    // TODO we may also need to revise below to return `ref` instead of schema
+                    // which is the last reference to the actual model/object
                     return schema;
                 } else { // free form object (type: object)
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            importMappings);
+                            schemaMappings);
                 }
             } else {
-                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), importMappings);
+                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
             }
         }
         return schema;
@@ -1199,12 +1312,11 @@ public class ModelUtils {
             */
         }
         if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
-            // Return ObjectSchema to specify any object (map) value is allowed.
-            // Set nullable to specify the value of additional properties may be
-            // the null value.
-            // Free-form additionalProperties don't need to have an inner
-            // additional properties, the type is already free-form.
-            return new ObjectSchema().additionalProperties(Boolean.FALSE).nullable(Boolean.TRUE);
+            // Return an empty schema as the properties can take on any type per
+            // the spec. See
+            // https://github.com/OpenAPITools/openapi-generator/issues/9282 for
+            // more details.
+            return new Schema();
         }
         return null;
     }
@@ -1236,7 +1348,7 @@ public class ModelUtils {
 
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
                 .filter(entry -> isComposedSchema(entry.getValue()))
-                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)!=null)
+                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas) != null)
                 .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
@@ -1258,7 +1370,7 @@ public class ModelUtils {
         } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
             return composed.getOneOf();
         } else {
-            return Collections.<Schema>emptyList();
+            return Collections.emptyList();
         }
     }
 
@@ -1335,7 +1447,7 @@ public class ModelUtils {
             // allOf with a single $ref (no discriminator)
             // TODO to be removed in 5.x or 6.x release
             LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
-                    " in the 5.x release. Composed schema name: {}. Title: {}",
+                            " in the 5.x release. Composed schema name: {}. Title: {}",
                     composedSchema.getName(), composedSchema.getTitle());
         }
 
@@ -1391,8 +1503,7 @@ public class ModelUtils {
     private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
         if (schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName())) {
             return true;
-        }
-        else if (StringUtils.isNotEmpty(schema.get$ref())) {
+        } else if (StringUtils.isNotEmpty(schema.get$ref())) {
             String parentName = getSimpleRef(schema.get$ref());
             Schema s = allSchemas.get(parentName);
             if (s != null) {
@@ -1510,6 +1621,10 @@ public class ModelUtils {
      * @return boolean
      */
     public static boolean isAnyType(Schema schema) {
+        // $ref is not a type, it is a keyword
+        // TODO remove the ref check here, or pass in the spec version
+        // openapi 3.1.0 specs allow ref to be adjacent to any keyword
+        // openapi 3.0.3 and earlier do not allow adjacent keywords to refs
         return (schema.get$ref() == null && schema.getType() == null);
     }
 
@@ -1562,6 +1677,7 @@ public class ModelUtils {
         if (minItems != null) target.setMinItems(minItems);
         if (maxItems != null) target.setMaxItems(maxItems);
         if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+        if (uniqueItems != null) target.setUniqueItemsBoolean(uniqueItems);
     }
 
     private static void setObjectValidations(Integer minProperties, Integer maxProperties, IJsonSchemaValidationProperties target) {
@@ -1597,7 +1713,7 @@ public class ModelUtils {
 
     private static ObjectMapper getRightMapper(String data) {
         ObjectMapper mapper;
-        if(data.trim().startsWith("{")) {
+        if  (data.trim().startsWith("{")) {
             mapper = JSON_MAPPER;
         } else {
             mapper = YAML_MAPPER;
@@ -1617,7 +1733,7 @@ public class ModelUtils {
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
         String data;
-        location = location.replaceAll("\\\\","/");
+        location = location.replaceAll("\\\\", "/");
         if (location.toLowerCase(Locale.ROOT).startsWith("http")) {
             data = RemoteUrl.urlToString(location, auths);
         } else {

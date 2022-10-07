@@ -107,11 +107,11 @@ public class JavaModelTest {
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-            .addProperties("urls", new ArraySchema()
-                .items(new StringSchema()))
-            .addRequiredItem("id");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -128,7 +128,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "List<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<String>()");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -138,12 +138,12 @@ public class JavaModelTest {
     @Test(description = "convert a model with set property")
     public void setPropertyTest() {
         final Schema schema = new Schema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-            .addProperties("urls", new ArraySchema()
-                .items(new StringSchema())
-                .uniqueItems(true))
-            .addRequiredItem("id");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema())
+                        .uniqueItems(true))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -160,7 +160,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "Set<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<String>()");
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
         Assert.assertEquals(property.baseType, "Set");
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
@@ -190,7 +190,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setTranslations");
         Assert.assertEquals(property.dataType, "Map<String, String>");
         Assert.assertEquals(property.name, "translations");
-        Assert.assertEquals(property.defaultValue, "new HashMap<String, String>()");
+        Assert.assertEquals(property.defaultValue, "new HashMap<>()");
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
@@ -220,7 +220,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setTranslations");
         Assert.assertEquals(property.dataType, "Map<String, List<Pet>>");
         Assert.assertEquals(property.name, "translations");
-        Assert.assertEquals(property.defaultValue, "new HashMap<String, List<Pet>>()");
+        Assert.assertEquals(property.defaultValue, "new HashMap<>()");
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
@@ -246,7 +246,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setList2D");
         Assert.assertEquals(property.dataType, "List<List<Pet>>");
         Assert.assertEquals(property.name, "list2D");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<List<Pet>>()");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -331,7 +331,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<Children>()");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -353,7 +353,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "List", "Children")).size(), 3);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 2);
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "children");
@@ -362,13 +362,78 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "Map<String, Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new HashMap<String, Children>()");
+        Assert.assertEquals(property.defaultValue, "new HashMap<>()");
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(property.isMap);
     }
 
+    @Test(description = "convert a model with complex array property")
+    public void complexArrayPropertyTest() {
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/components/schemas/Children")));
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "Children")).size(), 2);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "children");
+        Assert.assertEquals(property.complexType, "Children");
+        Assert.assertEquals(property.getter, "getChildren");
+        Assert.assertEquals(property.setter, "setChildren");
+        Assert.assertEquals(property.dataType, "List<Children>");
+        Assert.assertEquals(property.name, "children");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.baseType, "List");
+        Assert.assertEquals(property.containerType, "array");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(property.isArray);
+    }
+
+    @Test(description = "convert a model with complex set property")
+    public void complexSetPropertyTest() {
+        Schema set = new ArraySchema().items(new Schema().$ref("#/components/schemas/Children"));
+        set.setUniqueItems(true); // set
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("children", set);
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertTrue(cm.imports.contains("Set"));
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "children");
+        Assert.assertEquals(property.complexType, "Children");
+        Assert.assertEquals(property.getter, "getChildren");
+        Assert.assertEquals(property.setter, "setChildren");
+        Assert.assertEquals(property.dataType, "Set<Children>");
+        Assert.assertEquals(property.name, "children");
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
+        Assert.assertEquals(property.baseType, "Set");
+        Assert.assertEquals(property.containerType, "set");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(property.getUniqueItemsBoolean());
+    }
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {
         final Schema propertySchema = new ArraySchema()
@@ -399,15 +464,15 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Child>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<Child>()");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
 
         final CodegenProperty itemsProperty = property.items;
-        Assert.assertEquals(itemsProperty.baseName,"child");
-        Assert.assertEquals(itemsProperty.name,"child");
+        Assert.assertEquals(itemsProperty.baseName, "child");
+        Assert.assertEquals(itemsProperty.name, "child");
     }
 
     @Test(description = "convert an array model")
@@ -745,7 +810,7 @@ public class JavaModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][] {
+        return new Object[][]{
                 {"sample", "Sample"},
                 {"sample_name", "SampleName"},
                 {"sample__name", "SampleName"},
@@ -771,7 +836,7 @@ public class JavaModelTest {
 
     @DataProvider(name = "classProperties")
     public static Object[][] classProperties() {
-        return new Object[][] {
+        return new Object[][]{
                 {"class", "getPropertyClass", "setPropertyClass", "propertyClass"},
                 {"_class", "getPropertyClass", "setPropertyClass", "propertyClass"},
                 {"__class", "getPropertyClass", "setPropertyClass", "propertyClass"}
@@ -904,7 +969,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.setter, "setArray");
         Assert.assertEquals(property2.dataType, "List<String>");
         Assert.assertEquals(property2.name, "array");
-        Assert.assertEquals(property2.defaultValue, "new ArrayList<String>()");
+        Assert.assertEquals(property2.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property2.baseType, "List");
         Assert.assertTrue(property2.isContainer);
         Assert.assertTrue(property2.isXmlWrapped);
@@ -1178,7 +1243,7 @@ public class JavaModelTest {
     @Test(description = "convert an array schema in an ApiResponse")
     public void arraySchemaTestInOperationResponse() {
         final Schema testSchema = new ArraySchema()
-                        .items(new Schema<>().$ref("#/components/schemas/Pet"));
+                .items(new Schema<>().$ref("#/components/schemas/Pet"));
         Operation operation = new Operation().responses(
                 new ApiResponses().addApiResponse("200", new ApiResponse()
                         .description("Ok response")
@@ -1315,7 +1380,6 @@ public class JavaModelTest {
         Assert.assertTrue(new File(inputSpec).exists());
 
         JavaClientCodegen config = new org.openapitools.codegen.languages.JavaClientCodegen();
-        config.setJava8Mode(true);
         config.setHideGenerationTimestamp(true);
         config.setOutputDir(output.getAbsolutePath());
 

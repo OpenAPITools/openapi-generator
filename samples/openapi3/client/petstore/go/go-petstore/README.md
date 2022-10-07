@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./petstore"
+import petstore "github.com/GIT_USER_ID/GIT_REPO_ID"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -40,7 +40,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), petstore.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -48,7 +48,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), petstore.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -61,11 +61,11 @@ Each operation can use different server URL defined using `OperationServers` map
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+```golang
+ctx := context.WithValue(context.Background(), petstore.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), petstore.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -139,27 +139,35 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [DuplicatedPropChild](docs/DuplicatedPropChild.md)
+ - [DuplicatedPropChildAllOf](docs/DuplicatedPropChildAllOf.md)
+ - [DuplicatedPropParent](docs/DuplicatedPropParent.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
+ - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)
  - [FruitReq](docs/FruitReq.md)
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
+ - [MapOfFileTest](docs/MapOfFileTest.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [Name](docs/Name.md)
+ - [NullableAllOf](docs/NullableAllOf.md)
+ - [NullableAllOfChild](docs/NullableAllOfChild.md)
  - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [OneOfPrimitiveType](docs/OneOfPrimitiveType.md)
+ - [OneOfPrimitiveTypeChild](docs/OneOfPrimitiveTypeChild.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
@@ -206,7 +214,7 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARERTOKENSTRING")
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -233,7 +241,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-	authConfig := sw.HttpSignatureAuth{
+	authConfig := client.HttpSignatureAuth{
 		KeyId:                "my-key-id",
 		PrivateKeyPath:       "rsa.pem",
 		Passphrase:           "my-passphrase",

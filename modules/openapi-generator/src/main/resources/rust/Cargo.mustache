@@ -1,6 +1,6 @@
 [package]
 name = "{{{packageName}}}"
-version = "{{{packageVersion}}}"
+version = "{{#lambdaVersion}}{{{packageVersion}}}{{/lambdaVersion}}"
 authors = ["OpenAPI Generator team and contributors"]
 edition = "2018"
 
@@ -9,12 +9,20 @@ serde = "^1.0"
 serde_derive = "^1.0"
 serde_json = "^1.0"
 url = "^2.2"
+uuid = { version = "^1.0", features = ["serde"] }
 {{#hyper}}
-hyper = "~0.11"
+hyper = { version = "~0.14", features = ["full"] }
+hyper-tls = "~0.5"
+http = "~0.2"
 serde_yaml = "0.7"
 base64 = "~0.7.0"
-futures = "0.1.23"
+futures = "^0.3"
 {{/hyper}}
+{{#withAWSV4Signature}}
+aws-sigv4 = "0.3.0"
+http = "0.2.5"
+secrecy = "0.8.0"
+{{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
 reqwest = "~0.9"

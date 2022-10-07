@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
+
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -36,7 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient
+@RegisterRestClient(configKey="petstore")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/pet")
 public interface PetApi  {
@@ -119,5 +120,5 @@ public interface PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    public ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment fileDetail) throws ApiException, ProcessingException;
+    public ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws ApiException, ProcessingException;
 }

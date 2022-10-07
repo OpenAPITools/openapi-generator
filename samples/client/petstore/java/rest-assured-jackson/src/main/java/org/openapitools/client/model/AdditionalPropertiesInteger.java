@@ -36,12 +36,14 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   AdditionalPropertiesInteger.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesInteger")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesInteger() {
+
+  }
 
   public AdditionalPropertiesInteger name(String name) {
     

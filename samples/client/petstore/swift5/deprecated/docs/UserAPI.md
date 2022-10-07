@@ -71,6 +71,8 @@ Void (empty response body)
 
 Creates list of users with given input array
 
+
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -118,6 +120,8 @@ Void (empty response body)
 ```
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```swift
@@ -217,6 +221,8 @@ Void (empty response body)
 
 Get user by user name
 
+
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -264,6 +270,8 @@ No authorization required
 ```
 
 Logs user into the system
+
+
 
 ### Example
 ```swift
@@ -314,6 +322,8 @@ No authorization required
 ```
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```swift

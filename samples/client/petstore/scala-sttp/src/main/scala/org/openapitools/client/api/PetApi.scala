@@ -15,7 +15,7 @@ import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
 import org.openapitools.client.core.JsonSupport._
-import sttp.client._
+import sttp.client3._
 import sttp.model.Method
 
 object PetApi {
@@ -26,6 +26,8 @@ def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUr
 class PetApi(baseUrl: String) {
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Pet (successful operation)
    *   code 405 :  (Invalid input)
@@ -33,7 +35,7 @@ class PetApi(baseUrl: String) {
    * @param pet Pet object that needs to be added to the store
    */
   def addPet(pet: Pet
-): Request[Either[ResponseError[Exception], Pet], Nothing] =
+): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet")
       .contentType("application/json")
@@ -41,6 +43,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Pet])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
@@ -48,11 +52,11 @@ class PetApi(baseUrl: String) {
    * @param apiKey 
    */
   def deletePet(petId: Long, apiKey: Option[String] = None
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey)
+      .header("api_key", apiKey.toString)
       .response(asJson[Unit])
 
   /**
@@ -65,7 +69,7 @@ class PetApi(baseUrl: String) {
    * @param status Status values that need to be considered for filter
    */
   def findPetsByStatus(status: Seq[String]
-): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
+): Request[Either[ResponseException[String, Exception], Seq[Pet]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=${ status }")
       .contentType("application/json")
@@ -81,7 +85,7 @@ class PetApi(baseUrl: String) {
    * @param tags Tags to filter by
    */
   def findPetsByTags(tags: Seq[String]
-): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
+): Request[Either[ResponseException[String, Exception], Seq[Pet]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=${ tags }")
       .contentType("application/json")
@@ -101,7 +105,7 @@ class PetApi(baseUrl: String) {
    * @param petId ID of pet to return
    */
   def getPetById(apiKey: String)(petId: Long
-): Request[Either[ResponseError[Exception], Pet], Nothing] =
+): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
@@ -109,6 +113,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Pet])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Pet (successful operation)
    *   code 400 :  (Invalid ID supplied)
@@ -118,7 +124,7 @@ class PetApi(baseUrl: String) {
    * @param pet Pet object that needs to be added to the store
    */
   def updatePet(pet: Pet
-): Request[Either[ResponseError[Exception], Pet], Nothing] =
+): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/pet")
       .contentType("application/json")
@@ -126,6 +132,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Pet])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
@@ -134,7 +142,7 @@ class PetApi(baseUrl: String) {
    * @param status Updated status of the pet
    */
   def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None
-): Request[Either[ResponseError[Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}")
       .contentType("application/x-www-form-urlencoded")
@@ -145,6 +153,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Unit])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
    * 
@@ -153,7 +163,7 @@ class PetApi(baseUrl: String) {
    * @param file file to upload
    */
   def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None
-): Request[Either[ResponseError[Exception], ApiResponse], Nothing] =
+): Request[Either[ResponseException[String, Exception], ApiResponse], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}/uploadImage")
       .contentType("multipart/form-data")

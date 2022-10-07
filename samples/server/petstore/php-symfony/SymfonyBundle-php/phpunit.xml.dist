@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./vendor/autoload.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="./vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         stopOnFailure="false">
+         stopOnFailure="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./Api</directory>
+            <directory suffix=".php">./Model</directory>
+            <directory suffix=".php">./Controller</directory>
+        </include>
+    </coverage>
     <testsuites>
-        <testsuite>
+        <testsuite name="Default test suite">
             <directory>./Tests/Api</directory>
             <directory>./Tests/Model</directory>
             <directory>./Tests/Controller</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">././Api</directory>
-            <directory suffix=".php">././Model</directory>
-            <directory suffix=".php">././Controller</directory>
-        </whitelist>
-    </filter>
     <php>
         <ini name="error_reporting" value="E_ALL" />
         <server name="KERNEL_CLASS" value="OpenAPI\Server\Tests\AppKernel" />

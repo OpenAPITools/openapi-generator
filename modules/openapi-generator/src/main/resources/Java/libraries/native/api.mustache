@@ -20,7 +20,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 {{/fullJavaUtil}}
 {{#asyncNative}}
 
@@ -40,10 +40,10 @@ public class {{classname}} {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
-  private final Consumer<HttpRequest.Builder> memberVarInterceptor;
+  private final {{#fullJavaUtil}}java.util.function.{{/fullJavaUtil}}Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final {{#fullJavaUtil}}java.util.function.{{/fullJavaUtil}}Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final {{#fullJavaUtil}}java.util.function.{{/fullJavaUtil}}Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public {{classname}}() {
     this(new ApiClient());
@@ -90,6 +90,11 @@ public class {{classname}} {
    * @param apiRequest {@link API{{operationId}}Request}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
+   {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -144,6 +149,11 @@ public class {{classname}} {
    {{/allParams}}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
+   {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -222,14 +232,25 @@ public class {{classname}} {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("{{operationId}}", localVarResponse);
-      }
-      return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("{{operationId}}", localVarResponse);
+        }
+        return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}){{/returnType}}{{^returnType}}null{{/returnType}}
+          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
+          {{^returnType}}null{{/returnType}}
         );
+      } finally {
+        {{^returnType}}
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+        {{/returnType}}
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -302,18 +323,35 @@ public class {{classname}} {
         {{#isDeepObject}}
     if ({{paramName}} != null) {
           {{#items.vars}}
+              {{#isArray}}
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{baseName}}", {{paramName}}.{{getter}}()));
+              {{/isArray}}
+              {{^isArray}}
       localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+              {{/isArray}}
           {{/items.vars}}
     }
         {{/isDeepObject}}
         {{^isDeepObject}}
+            {{#isExplode}}
+                {{#hasVars}}
+                    {{#vars}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+                    {{/vars}}
+                {{/hasVars}}
+                {{^hasVars}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                {{/hasVars}}
+            {{/isExplode}}
+            {{^isExplode}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+            {{/isExplode}}
         {{/isDeepObject}}
       {{/collectionFormat}}
     {{/queryParams}}
 
     if (!localVarQueryParams.isEmpty()) {
-      {{javaUtilPrefix}}StringJoiner queryJoiner = new StringJoiner("&");
+      {{javaUtilPrefix}}StringJoiner queryJoiner = new {{javaUtilPrefix}}StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
@@ -330,17 +368,22 @@ public class {{classname}} {
     }
     {{/headerParams}}
     {{#bodyParam}}
-    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{mediaType}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
     {{/bodyParam}}
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
 
     {{#bodyParam}}
+    {{#isString}}
+    localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofString({{paramName}}));
+    {{/isString}}
+    {{^isString}}
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes({{paramName}});
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
     }
+    {{/isString}}
     {{/bodyParam}}
     {{^bodyParam}}
     localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.noBody());

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class MapTest: NSObject, Codable {
+@objc public class MapTest: NSObject, Codable, JSONEncodable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"

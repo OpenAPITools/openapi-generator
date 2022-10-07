@@ -22,16 +22,19 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body!)
+                    observer.onNext(response.body)
                 case let .failure(error):
                     observer.onError(error)
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -57,6 +60,6 @@ open class AnotherFakeAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

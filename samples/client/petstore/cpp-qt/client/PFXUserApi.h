@@ -15,6 +15,7 @@
 #include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
+#include "PFXOauth.h"
 
 #include "PFXUser.h"
 #include <QList>
@@ -57,19 +58,19 @@ public:
     QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 
     /**
-    * @param[in]  body PFXUser [required]
+    * @param[in]  pfx_user PFXUser [required]
     */
-    void createUser(const PFXUser &body);
+    void createUser(const PFXUser &pfx_user);
 
     /**
-    * @param[in]  body QList<PFXUser> [required]
+    * @param[in]  pfx_user QList<PFXUser> [required]
     */
-    void createUsersWithArrayInput(const QList<PFXUser> &body);
+    void createUsersWithArrayInput(const QList<PFXUser> &pfx_user);
 
     /**
-    * @param[in]  body QList<PFXUser> [required]
+    * @param[in]  pfx_user QList<PFXUser> [required]
     */
-    void createUsersWithListInput(const QList<PFXUser> &body);
+    void createUsersWithListInput(const QList<PFXUser> &pfx_user);
 
     /**
     * @param[in]  username QString [required]
@@ -92,9 +93,9 @@ public:
 
     /**
     * @param[in]  username QString [required]
-    * @param[in]  body PFXUser [required]
+    * @param[in]  pfx_user PFXUser [required]
     */
-    void updateUser(const QString &username, const PFXUser &body);
+    void updateUser(const QString &username, const PFXUser &pfx_user);
 
 
 private:
@@ -110,6 +111,14 @@ private:
     QMap<QString, QString> _defaultHeaders;
     bool _isResponseCompressionEnabled;
     bool _isRequestCompressionEnabled;
+    PFXHttpRequestInput _latestInput;
+    PFXHttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
 
     void createUserCallback(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker);
@@ -160,6 +169,10 @@ signals:
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
 };
 
 } // namespace test_namespace

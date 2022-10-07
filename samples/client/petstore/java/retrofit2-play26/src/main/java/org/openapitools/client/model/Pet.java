@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ import javax.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
@@ -102,6 +102,8 @@ public class Pet {
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
+  public Pet() {
+  }
 
   public Pet id(Long id) {
     
@@ -212,6 +214,7 @@ public class Pet {
   }
 
 
+  @JsonDeserialize(as = LinkedHashSet.class)
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(Set<String> photoUrls) {
