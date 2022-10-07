@@ -216,24 +216,28 @@ public class FileSchemaTestClass {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (FileSchemaTestClass.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }
-      // validate the required field `file`
-      ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
-      // ensure the json data is an array
-      if (!jsonObj.get("files").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+      // validate the optional field `file`
+      if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
+        ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
+      if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
+        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+        if (jsonArrayfiles != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("files").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+          }
 
-      JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-      // validate the required field `files` (array)
-      for (int i = 0; i < jsonArrayfiles.size(); i++) {
-        ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
-      };
+          // validate the optional field `files` (array)
+          for (int i = 0; i < jsonArrayfiles.size(); i++) {
+            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+          };
+        }
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

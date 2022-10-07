@@ -1053,9 +1053,7 @@ public class XmlItem {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (XmlItem.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
         }
       }
@@ -1067,14 +1065,14 @@ public class XmlItem {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (!jsonObj.get("attribute_string").isJsonPrimitive()) {
+      if ((jsonObj.get("attribute_string") != null && !jsonObj.get("attribute_string").isJsonNull()) && !jsonObj.get("attribute_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `attribute_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("attribute_string").toString()));
       }
       // ensure the json data is an array
       if (!jsonObj.get("wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("wrapped_array").toString()));
       }
-      if (!jsonObj.get("name_string").isJsonPrimitive()) {
+      if ((jsonObj.get("name_string") != null && !jsonObj.get("name_string").isJsonNull()) && !jsonObj.get("name_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name_string").toString()));
       }
       // ensure the json data is an array
@@ -1085,7 +1083,7 @@ public class XmlItem {
       if (!jsonObj.get("name_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `name_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_wrapped_array").toString()));
       }
-      if (!jsonObj.get("prefix_string").isJsonPrimitive()) {
+      if ((jsonObj.get("prefix_string") != null && !jsonObj.get("prefix_string").isJsonNull()) && !jsonObj.get("prefix_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_string").toString()));
       }
       // ensure the json data is an array
@@ -1096,7 +1094,7 @@ public class XmlItem {
       if (!jsonObj.get("prefix_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_wrapped_array").toString()));
       }
-      if (!jsonObj.get("namespace_string").isJsonPrimitive()) {
+      if ((jsonObj.get("namespace_string") != null && !jsonObj.get("namespace_string").isJsonNull()) && !jsonObj.get("namespace_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `namespace_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("namespace_string").toString()));
       }
       // ensure the json data is an array
@@ -1107,7 +1105,7 @@ public class XmlItem {
       if (!jsonObj.get("namespace_wrapped_array").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `namespace_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_wrapped_array").toString()));
       }
-      if (!jsonObj.get("prefix_ns_string").isJsonPrimitive()) {
+      if ((jsonObj.get("prefix_ns_string") != null && !jsonObj.get("prefix_ns_string").isJsonNull()) && !jsonObj.get("prefix_ns_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_ns_string").toString()));
       }
       // ensure the json data is an array
