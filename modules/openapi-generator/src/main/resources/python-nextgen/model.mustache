@@ -11,9 +11,12 @@ import re  # noqa: F401
 import six
 {{#models}}
 {{#model}}
-{{#parent}}
+{{#vendorExtensions.x-py-import-models}}
 from {{packageName}} import models
-{{/parent}}
+{{/vendorExtensions.x-py-import-models}}
+{{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
+{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
+{{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
 
 
 class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}object{{/parent}}):
@@ -242,5 +245,12 @@ class {{classname}}({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}object{{/pare
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class {{classname}}Pydanic({{#parent}}models.{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
+{{#allVars}}
+    {{name}}: {{{vendorExtensions.x-py-typing}}}
+{{/allVars}}
+
+
 {{/model}}
 {{/models}}

@@ -17,6 +17,10 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from petstore_api import models
+
+from typing import Optional
+from pydantic import BaseModel
 
 
 class FooGetDefaultResponse(object):
@@ -124,3 +128,8 @@ class FooGetDefaultResponse(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class FooGetDefaultResponsePydanic(BaseModel):
+    string: Optional[models.Foo] = None
+
+

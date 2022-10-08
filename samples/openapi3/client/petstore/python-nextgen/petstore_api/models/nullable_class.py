@@ -17,6 +17,9 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from datetime import date, datetime
+from typing import Any, Dict, List, Optional
+from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
 
 
 class NullableClass(object):
@@ -400,3 +403,19 @@ class NullableClass(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class NullableClassPydanic(BaseModel):
+    integer_prop: Optional[StrictInt] = None
+    number_prop: Optional[StrictInt] = None
+    boolean_prop: Optional[StrictBool] = None
+    string_prop: Optional[StrictStr] = None
+    date_prop: Optional[date] = None
+    datetime_prop: Optional[datetime] = None
+    array_nullable_prop: Optional[List[Dict[str, Any]]] = None
+    array_and_items_nullable_prop: Optional[List[Dict[str, Any]]] = None
+    array_items_nullable: Optional[List[Dict[str, Any]]] = None
+    object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
+    object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
+    object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None
+
+

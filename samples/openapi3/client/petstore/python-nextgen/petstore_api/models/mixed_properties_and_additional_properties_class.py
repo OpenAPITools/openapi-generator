@@ -17,6 +17,10 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from petstore_api import models
+from datetime import datetime
+from typing import Dict, Optional
+from pydantic import BaseModel, Field, StrictStr
 
 
 class MixedPropertiesAndAdditionalPropertiesClass(object):
@@ -176,3 +180,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class MixedPropertiesAndAdditionalPropertiesClassPydanic(BaseModel):
+    uuid: Optional[StrictStr] = None
+    date_time: Optional[datetime] = Field(None, alias="dateTime")
+    map: Optional[Dict[str, models.Animal]] = None
+
+

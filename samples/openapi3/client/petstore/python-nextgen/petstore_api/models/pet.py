@@ -17,6 +17,10 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from petstore_api import models
+
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 
 class Pet(object):
@@ -264,3 +268,13 @@ class Pet(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class PetPydanic(BaseModel):
+    id: Optional[StrictInt] = None
+    category: Optional[models.Category] = None
+    name: StrictStr = ...
+    photo_urls: List[StrictStr] = Field(..., alias="photoUrls", unique_items=True)
+    tags: Optional[List[models.Tag]] = None
+    status: Optional[StrictStr] = Field(None, description="pet status in the store")
+
+

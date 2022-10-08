@@ -17,6 +17,10 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from petstore_api import models
+
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 
 class ObjectWithDeprecatedFields(object):
@@ -202,3 +206,11 @@ class ObjectWithDeprecatedFields(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class ObjectWithDeprecatedFieldsPydanic(BaseModel):
+    uuid: Optional[StrictStr] = None
+    id: Optional[StrictInt] = None
+    deprecated_ref: Optional[models.DeprecatedObject] = Field(None, alias="deprecatedRef")
+    bars: Optional[List[StrictStr]] = None
+
+

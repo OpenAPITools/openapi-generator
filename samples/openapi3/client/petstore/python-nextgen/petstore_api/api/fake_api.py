@@ -880,151 +880,6 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def fake_property_enum_integer_serialize(self, outer_object_with_enum_property, **kwargs):  # noqa: E501
-        """fake_property_enum_integer_serialize  # noqa: E501
-
-        Test serialization of enum (int) properties with examples  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.fake_property_enum_integer_serialize(outer_object_with_enum_property, async_req=True)
-        >>> result = thread.get()
-
-        :param outer_object_with_enum_property: Input enum (int) as post body (required)
-        :type outer_object_with_enum_property: OuterObjectWithEnumProperty
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: OuterObjectWithEnumProperty
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, **kwargs)  # noqa: E501
-
-    def fake_property_enum_integer_serialize_with_http_info(self, outer_object_with_enum_property, **kwargs):  # noqa: E501
-        """fake_property_enum_integer_serialize  # noqa: E501
-
-        Test serialization of enum (int) properties with examples  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, async_req=True)
-        >>> result = thread.get()
-
-        :param outer_object_with_enum_property: Input enum (int) as post body (required)
-        :type outer_object_with_enum_property: OuterObjectWithEnumProperty
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(OuterObjectWithEnumProperty, status_code(int), headers(HTTPHeaderDict))
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'outer_object_with_enum_property'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
-        )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method fake_property_enum_integer_serialize" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'outer_object_with_enum_property' is set
-        if self.api_client.client_side_validation and local_var_params.get('outer_object_with_enum_property') is None:  # noqa: E501
-            raise ApiValueError("Missing the required parameter `outer_object_with_enum_property` when calling `fake_property_enum_integer_serialize`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = dict(local_var_params.get('_headers', {}))
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'outer_object_with_enum_property' in local_var_params:
-            body_params = local_var_params['outer_object_with_enum_property']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['*/*'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        content_types_list = local_var_params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json'],
-                'POST', body_params))  # noqa: E501
-        if content_types_list:
-                header_params['Content-Type'] = content_types_list
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        response_types_map = {
-            200: "OuterObjectWithEnumProperty",
-        }
-
-        return self.api_client.call_api(
-            '/fake/property/enum-int', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
-
     def test_body_with_binary(self, body, **kwargs):  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
@@ -1881,8 +1736,6 @@ class FakeApi(object):
         :type enum_query_integer: int
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
-        :param enum_query_model_array:
-        :type enum_query_model_array: list[EnumClass]
         :param enum_form_string_array: Form parameter enum test (string array)
         :type enum_form_string_array: list[str]
         :param enum_form_string: Form parameter enum test (string)
@@ -1927,8 +1780,6 @@ class FakeApi(object):
         :type enum_query_integer: int
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
-        :param enum_query_model_array:
-        :type enum_query_model_array: list[EnumClass]
         :param enum_form_string_array: Form parameter enum test (string array)
         :type enum_form_string_array: list[str]
         :param enum_form_string: Form parameter enum test (string)
@@ -1966,7 +1817,6 @@ class FakeApi(object):
             'enum_query_string',
             'enum_query_integer',
             'enum_query_double',
-            'enum_query_model_array',
             'enum_form_string_array',
             'enum_form_string'
         ]
@@ -2005,9 +1855,6 @@ class FakeApi(object):
             query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
         if local_var_params.get('enum_query_double') is not None:  # noqa: E501
             query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
-        if local_var_params.get('enum_query_model_array') is not None:  # noqa: E501
-            query_params.append(('enum_query_model_array', local_var_params['enum_query_model_array']))  # noqa: E501
-            collection_formats['enum_query_model_array'] = 'multi'  # noqa: E501
 
         header_params = dict(local_var_params.get('_headers', {}))
         if 'enum_header_string_array' in local_var_params:

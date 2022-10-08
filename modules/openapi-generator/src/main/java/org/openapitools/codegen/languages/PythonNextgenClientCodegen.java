@@ -24,12 +24,14 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -46,6 +48,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean useNose = Boolean.FALSE;
+
+    protected boolean hasModelsToImport = Boolean.FALSE;
 
     protected Map<Character, String> regexModifiers;
 
@@ -78,8 +82,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.BETA)
-            .build();
+                .stability(Stability.BETA)
+                .build();
 
         // clear import mapping (from default generator) as python does not use it
         // at the moment
@@ -300,10 +304,233 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         return modelImport;
     }
 
+    private String getPydanticType(CodegenProperty cp,
+                                   Set<String> typingImports,
+                                   Set<String> pydanticImports,
+                                   Set<String> datetimeImports) {
+        if (cp.isArray) {
+            typingImports.add("List");
+            return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports));
+        } else if (cp.isMap) {
+            typingImports.add("Dict");
+            return String.format("Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports));
+        } else if (cp.isString) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. constr(regex=r'/[a-z]/i', strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaxLength() != null) {
+                    fieldCustomization.add("max_length=" + cp.getMaxLength());
+                }
+                if (cp.getMinLength() != null) {
+                    fieldCustomization.add("min_length=" + cp.getMinLength());
+                }
+                if (cp.getPattern() != null) {
+                    fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                }
+                pydanticImports.add("constr");
+                return String.format("constr(%s)", StringUtils.join(fieldCustomization, ", "));
+            } else {
+                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                    pydanticImports.add("SecretStr");
+                    return "SecretStr";
+                } else {
+                    pydanticImports.add("StrictStr");
+                    return "StrictStr";
+                }
+            }
+        } else if (cp.isNumeric) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. conint(ge=10, le=100, strict=True
+                fieldCustomization.add("strict=True");
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        fieldCustomization.add("gt=" + cp.getMaximum());
+                    } else {
+                        fieldCustomization.add("ge=" + cp.getMaximum());
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        fieldCustomization.add("lt=" + cp.getMinimum());
+                    } else {
+                        fieldCustomization.add("le=" + cp.getMinimum());
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
+                }
+
+                if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
+                    pydanticImports.add("conint");
+                    return String.format("%s(%s)", "conint",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
+                    pydanticImports.add("confloat");
+                    return String.format("%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else {
+                    throw new RuntimeException("Error! Unknown numeric type found: " + cp);
+                }
+            } else {
+                pydanticImports.add("StrictInt");
+                return "StrictInt";
+            }
+        } else if (cp.isBinary || cp.isByteArray) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. conbytes(min_length=2, max_length=10)
+                fieldCustomization.add("strict=True");
+                if (cp.getMinLength() != null) {
+                    fieldCustomization.add("min_length=" + cp.getMinLength());
+                }
+                if (cp.getMaxLength() != null) {
+                    fieldCustomization.add("max_length=" + cp.getMaxLength());
+                }
+
+                pydanticImports.add("conbytes");
+                return String.format("%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+            } else {
+                // same as above which has validation
+                pydanticImports.add("StrictBytes");
+                return "StrictBytes";
+            }
+        } else if (cp.isBoolean) {
+            pydanticImports.add("StrictBool");
+            return "StrictBool";
+        } else if (cp.isDecimal) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. condecimal(ge=10, le=100, strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        fieldCustomization.add("gt=" + cp.getMaximum());
+                    } else {
+                        fieldCustomization.add("ge=" + cp.getMaximum());
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        fieldCustomization.add("lt=" + cp.getMinimum());
+                    } else {
+                        fieldCustomization.add("le=" + cp.getMinimum());
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
+                }
+                pydanticImports.add("condecimal");
+                return String.format("%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
+            } else {
+                pydanticImports.add("condecimal");
+                return "condecimal";
+            }
+        } else if (cp.getIsAnyType()) {
+            typingImports.add("Any");
+            return "Any";
+        } else if (cp.isDate || cp.isDateTime) {
+            if (cp.isDate) {
+                datetimeImports.add("date");
+            }
+            if (cp.isDateTime) {
+                datetimeImports.add("datetime");
+            }
+            return cp.dataType;
+        } else if (cp.isUuid) {
+            return cp.dataType;
+        } else if (cp.isFreeFormObject) { // type: object
+            typingImports.add("Dict");
+            typingImports.add("Any");
+            return "Dict[str, Any]";
+        } else if (!cp.isPrimitiveType) {
+            // add model prefix
+            hasModelsToImport = true;
+            return "models." + cp.dataType;
+        } else {
+            throw new RuntimeException("Error! CodegenProperty not yet supported in getPydanticType: " + cp);
+        }
+    }
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap m : objs.getModels()) {
+            hasModelsToImport = false;
+            TreeSet<String> typingImports = new TreeSet<>();
+            TreeSet<String> pydanticImports = new TreeSet<>();
+            TreeSet<String> datetimeImports = new TreeSet<>();
+
+            CodegenModel model = m.getModel();
+            for (CodegenProperty cp : model.allVars) {
+                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports);
+                List<String> fields = new ArrayList<>();
+                String firstField = "";
+
+                if (!cp.required) { //optional
+                    firstField = "None";
+                    typing = "Optional[" + typing + "]";
+                    typingImports.add("Optional");
+                } else { // required
+                    if (cp.isNullable) {
+                        firstField = "None";
+                    } else {
+                        firstField = "...";
+                    }
+                }
+
+                // field
+                if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
+                    fields.add(String.format("alias=\"%s\"", cp.baseName));
+                }
+
+                if (!StringUtils.isEmpty(cp.description)) { // has description
+                    fields.add(String.format("description=\"%s\"", cp.description));
+                }
+
+                if (cp.isArray && cp.getUniqueItems()) { // a set
+                    fields.add("unique_items=True");
+                }
+
+                /*
+                if (!StringUtils.isEmpty(cp.getExample())) { // has example
+                    fields.add(String.format("example=%s", cp.getExample()));
+                }*/
+
+                String fieldCustomization;
+                if ("None".equals(firstField)) {
+                    fieldCustomization = "None";
+                } else { // required field
+                    fieldCustomization = firstField;
+                }
+
+                if (!fields.isEmpty()) {
+                    fields.add(0, fieldCustomization);
+                    pydanticImports.add("Field");
+                    fieldCustomization = String.format("Field(%s)", StringUtils.join(fields, ", "));
+                }
+
+                cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
+            }
+
+            if (!model.isEnum) { // add BaseModel import only if it's not an enum
+                pydanticImports.add("BaseModel");
+            }
+
+            // set the extensions
+            model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
+            model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
+            model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
+            model.getVendorExtensions().putIfAbsent("x-py-classname", model.classname);
+
+            if (hasModelsToImport || !StringUtils.isEmpty(model.parent)) {
+                model.vendorExtensions.put("x-py-import-models", true);
+            }
+        }
+
         // process enum in models
-        return postProcessModelsEnum(objs);
+        //return postProcessModelsEnum(objs);
+        return objs;
     }
 
     @Override
@@ -371,12 +598,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath);
+        return (outputFolder + File.separator + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath);
+        return (outputFolder + File.separator + modelDocPath);
     }
 
     @Override
@@ -452,7 +679,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     }
 
     @Override
-    public String generatorLanguageVersion() { return "2.7 and 3.4+"; };
+    public String generatorLanguageVersion() {
+        return "3.7+";
+    }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {

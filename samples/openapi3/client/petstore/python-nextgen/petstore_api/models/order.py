@@ -17,6 +17,9 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 
 
 class Order(object):
@@ -262,3 +265,13 @@ class Order(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class OrderPydanic(BaseModel):
+    id: Optional[StrictInt] = None
+    pet_id: Optional[StrictInt] = Field(None, alias="petId")
+    quantity: Optional[StrictInt] = None
+    ship_date: Optional[datetime] = Field(None, alias="shipDate")
+    status: Optional[StrictStr] = Field(None, description="Order Status")
+    complete: Optional[StrictBool] = None
+
+

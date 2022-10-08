@@ -17,6 +17,10 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from petstore_api import models
+
+from typing import List, Optional
+from pydantic import BaseModel
 
 
 class FileSchemaTestClass(object):
@@ -150,3 +154,9 @@ class FileSchemaTestClass(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class FileSchemaTestClassPydanic(BaseModel):
+    file: Optional[models.File] = None
+    files: Optional[List[models.File]] = None
+
+

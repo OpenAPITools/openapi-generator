@@ -17,6 +17,10 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from petstore_api import models
+
+from typing import List, Optional
+from pydantic import BaseModel, StrictInt, StrictStr
 
 
 class ArrayTest(object):
@@ -180,3 +184,10 @@ class ArrayTest(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class ArrayTestPydanic(BaseModel):
+    array_of_string: Optional[List[StrictStr]] = None
+    array_array_of_integer: Optional[List[List[StrictInt]]] = None
+    array_array_of_model: Optional[List[List[models.ReadOnlyFirst]]] = None
+
+

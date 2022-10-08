@@ -17,6 +17,9 @@ except ImportError:
 import pprint
 import re  # noqa: F401
 import six
+from datetime import date, datetime
+from typing import Optional
+from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr
 
 
 class FormatTest(object):
@@ -552,3 +555,23 @@ class FormatTest(object):
             return True
 
         return self.to_dict() != other.to_dict()
+
+#class FormatTestPydanic(BaseModel):
+    integer: Optional[conint(strict=True, ge=100, le=10)] = None
+    int32: Optional[conint(strict=True, ge=200, le=20)] = None
+    int64: Optional[StrictInt] = None
+    number: confloat(strict=True, ge=543.2, le=32.1) = ...
+    float: Optional[confloat(strict=True, ge=987.6, le=54.3)] = None
+    double: Optional[confloat(strict=True, ge=123.4, le=67.8)] = None
+    decimal: Optional[condecimal] = None
+    string: Optional[constr(strict=True, regex=r'/[a-z]/i')] = None
+    byte: StrictBytes = ...
+    binary: Optional[StrictBytes] = None
+    date: date = ...
+    date_time: Optional[datetime] = Field(None, alias="dateTime")
+    uuid: Optional[StrictStr] = None
+    password: constr(strict=True, max_length=64, min_length=10) = ...
+    pattern_with_digits: Optional[constr(strict=True, regex=r'/^\d{10}$/')] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
+    pattern_with_digits_and_delimiter: Optional[constr(strict=True, regex=r'/^image_\d{1,3}$/i')] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+
+
