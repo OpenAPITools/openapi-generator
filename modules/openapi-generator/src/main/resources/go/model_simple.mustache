@@ -1,3 +1,6 @@
+// checks if the {{classname}} type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &{{classname}}{}
+
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 {{#parent}}
@@ -248,6 +251,11 @@ func (o *{{classname}}) Unset{{name}}() {
 {{/required}}
 {{/vars}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o {{classname}}) ToMap() map[string]interface{} {
 	toSerialize := {{#isArray}}make([]interface{}, len(o.Items)){{/isArray}}{{^isArray}}map[string]interface{}{}{{/isArray}}
 	{{#parent}}
 	{{^isMap}}
@@ -274,19 +282,19 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	{{#vendorExtensions.x-golang-is-container}}
 	{{! support for container fields is not ideal at this point because of lack of Nullable* types}}
 	if o.{{name}} != nil {
-		toSerialize["{{baseName}}"] = o.{{name}}
+		toSerialize["{{baseName}}"] = *o.{{name}}
 	}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{^vendorExtensions.x-golang-is-container}}
 	if {{#required}}true{{/required}}{{^required}}o.{{name}}.IsSet(){{/required}} {
-		toSerialize["{{baseName}}"] = o.{{name}}.Get()
+		toSerialize["{{baseName}}"] = *o.{{name}}.Get()
 	}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
 	if {{#required}}true{{/required}}{{^required}}o.{{name}} != nil{{/required}} {
-		toSerialize["{{baseName}}"] = o.{{name}}
+		toSerialize["{{baseName}}"] = *o.{{name}}
 	}
 	{{/isNullable}}
 	{{/vars}}
@@ -297,7 +305,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	}
 
 	{{/isAdditionalPropertiesTrue}}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 {{#isAdditionalPropertiesTrue}}
