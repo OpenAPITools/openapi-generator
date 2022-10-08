@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.DefaultApi
         public async Task FooGetAsyncTest()
         {
             var response = await _instance.FooGetAsync();
-            Assert.IsType<InlineResponseDefault>(response);
+            Assert.IsType<FooGetDefaultResponse>(response);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Test.DefaultApi
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .ConfigureApi((context, options) =>
+            .ConfigureApi((context, services, options) =>
             {
                 ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);

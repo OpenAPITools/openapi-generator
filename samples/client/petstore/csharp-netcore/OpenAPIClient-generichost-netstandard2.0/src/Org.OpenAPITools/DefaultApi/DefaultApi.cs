@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.DefaultApi
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponse"></param>
-        protected override void AfterFooGet(ApiResponse<InlineResponseDefault> apiResponse)
+        protected override void AfterFooGet(ApiResponse<FooGetDefaultResponse> apiResponse)
         {
             base.AfterFooGet(apiResponse);
         }
