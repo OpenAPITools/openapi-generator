@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Test.Api
             //long? int64 = null;
             //float? _float = null;
             //string _string = null;
-            //System.IO.Stream binary = null;
+            //FileParameter binary = null;
             //DateTime? date = null;
             //DateTime? dateTime = null;
             //string password = null;

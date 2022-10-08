@@ -56,15 +56,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test deserialize a Dog from type Animal
-        /// </summary>
-        [Fact]
-        public void DogDeserializeFromAnimalTest()
-        {
-            // TODO uncomment below to test deserialize a Dog from type Animal
-            //Assert.IsType<Animal>(JsonConvert.DeserializeObject<Animal>(new Dog().ToJson()));
-        }
-        /// <summary>
         /// Test deserialize a Cat from type Animal
         /// </summary>
         [Fact]
@@ -72,6 +63,15 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO uncomment below to test deserialize a Cat from type Animal
             //Assert.IsType<Animal>(JsonConvert.DeserializeObject<Animal>(new Cat().ToJson()));
+        }
+        /// <summary>
+        /// Test deserialize a Dog from type Animal
+        /// </summary>
+        [Fact]
+        public void DogDeserializeFromAnimalTest()
+        {
+            // TODO uncomment below to test deserialize a Dog from type Animal
+            //Assert.IsType<Animal>(JsonConvert.DeserializeObject<Animal>(new Dog().ToJson()));
         }
 
         /// <summary>
