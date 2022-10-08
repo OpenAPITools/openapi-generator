@@ -74,6 +74,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String USE_JSON_ENCODABLE = "useJsonEncodable";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
+    public static final String RETURN_DATA_INSTEAD_OF_VOID = "returnDataInsteadOfVoid";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String LIBRARY_VAPOR = "vapor";
@@ -99,6 +100,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useJsonEncodable = true;
     protected boolean mapFileBinaryToData = false;
     protected boolean useCustomDateWithoutTime = false;
+    protected boolean returnDataInsteadOfVoid = false;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
@@ -314,6 +316,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
             "Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)")
+            .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(RETURN_DATA_INSTEAD_OF_VOID,
+            "Generated APIs will return Data instead of Void. This is useful when following redirects where response data from redirected location would otherwise be discarded by mapping to Void. (default: false)")
             .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
@@ -534,6 +540,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             typeMapping.put("date", "Date");
         }
 
+        if (additionalProperties.containsKey(RETURN_DATA_INSTEAD_OF_VOID)) {
+            setReturnDataInsteadOfVoid(convertPropertyToBooleanAndWriteBack(RETURN_DATA_INSTEAD_OF_VOID));
+        }
+        additionalProperties.put(RETURN_DATA_INSTEAD_OF_VOID, returnDataInsteadOfVoid);
+
         if (additionalProperties.containsKey(USE_CLASSES)) {
             setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
         }
@@ -639,6 +650,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setUseCustomDateWithoutTime(boolean useCustomDateWithoutTime) {
         this.useCustomDateWithoutTime = useCustomDateWithoutTime;
+    }
+
+    public void setReturnDataInsteadOfVoid(boolean returnDataInsteadOfVoid) {
+        this.returnDataInsteadOfVoid = returnDataInsteadOfVoid;
     }
 
     @Override
