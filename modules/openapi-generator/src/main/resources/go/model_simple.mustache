@@ -1,3 +1,6 @@
+// checks if the {{classname}} type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &{{classname}}{}
+
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 {{#parent}}
@@ -122,13 +125,8 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
-	if o == nil{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
-{{^isFreeFormObject}}
-    return nil, false
-    {{/isFreeFormObject}}
-    {{#isFreeFormObject}}
-    return {{vendorExtensions.x-go-base-type}}{}, false
-    {{/isFreeFormObject}}
+	if o == nil{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		return nil, false
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}
@@ -168,7 +166,7 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
-	if o == nil{{^isNullable}} || isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}.Get()){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{^isNullable}} || o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		var ret {{vendorExtensions.x-go-base-type}}
 		return ret
 	}
@@ -194,13 +192,8 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
-	if o == nil{{^isNullable}} || isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
-    {{^isFreeFormObject}}
-    return nil, false
-    {{/isFreeFormObject}}
-    {{#isFreeFormObject}}
-    return {{vendorExtensions.x-go-base-type}}{}, false
-    {{/isFreeFormObject}}
+	if o == nil{{^isNullable}} || o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		return nil, false
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}
@@ -217,7 +210,7 @@ func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/is
 
 // Has{{name}} returns a boolean if a field has been set.
 func (o *{{classname}}) Has{{name}}() bool {
-	if o != nil && {{^isNullable}}!isNil(o.{{name}}){{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}isNil(o.{{name}}){{/vendorExtensions.x-golang-is-container}}{{^vendorExtensions.x-golang-is-container}}o.{{name}}.IsSet(){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o != nil && {{^isNullable}}o.{{name}} != nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}o.{{name}} != nil{{/vendorExtensions.x-golang-is-container}}{{^vendorExtensions.x-golang-is-container}}o.{{name}}.IsSet(){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		return true
 	}
 
@@ -258,6 +251,11 @@ func (o *{{classname}}) Unset{{name}}() {
 {{/required}}
 {{/vars}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
+	toSerialize := o.ToMap()
+	return json.Marshal(toSerialize)
+}
+
+func (o {{classname}}) ToMap() map[string]interface{} {
 	toSerialize := {{#isArray}}make([]interface{}, len(o.Items)){{/isArray}}{{^isArray}}map[string]interface{}{}{{/isArray}}
 	{{#parent}}
 	{{^isMap}}
@@ -284,19 +282,19 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	{{#vendorExtensions.x-golang-is-container}}
 	{{! support for container fields is not ideal at this point because of lack of Nullable* types}}
 	if o.{{name}} != nil {
-		toSerialize["{{baseName}}"] = o.{{name}}
+		toSerialize["{{baseName}}"] = *o.{{name}}
 	}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{^vendorExtensions.x-golang-is-container}}
 	if {{#required}}true{{/required}}{{^required}}o.{{name}}.IsSet(){{/required}} {
-		toSerialize["{{baseName}}"] = o.{{name}}.Get()
+		toSerialize["{{baseName}}"] = *o.{{name}}.Get()
 	}
 	{{/vendorExtensions.x-golang-is-container}}
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
-	if {{#required}}true{{/required}}{{^required}}!isNil(o.{{name}}){{/required}} {
-		toSerialize["{{baseName}}"] = o.{{name}}
+	if {{#required}}true{{/required}}{{^required}}o.{{name}} != nil{{/required}} {
+		toSerialize["{{baseName}}"] = *o.{{name}}
 	}
 	{{/isNullable}}
 	{{/vars}}
@@ -307,7 +305,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	}
 
 	{{/isAdditionalPropertiesTrue}}
-	return json.Marshal(toSerialize)
+	return toSerialize
 }
 
 {{#isAdditionalPropertiesTrue}}

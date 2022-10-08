@@ -189,10 +189,10 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
+				parameterToString(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
+                        parameterToString(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
 		}
 	}
 	{{/isCollectionFormatMulti}}
@@ -207,14 +207,14 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
+				parameterAddToQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
+                        parameterAddToQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-		localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+                parameterAddToQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}

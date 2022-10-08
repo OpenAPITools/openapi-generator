@@ -3,7 +3,6 @@ package {{packageName}}
 
 import (
 	"encoding/json"
-    "reflect"
 	"time"
 )
 
@@ -331,4 +330,6 @@ func isNil(i interface{}) bool {
         return reflect.ValueOf(i).IsZero()
     }
     return false
+}type MappedNullable interface {
+	ToMap() map[string]interface{}
 }
