@@ -44,6 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Enum Xyz for value: (xyz)
         /// </summary>
         Xyz = 3
+
     }
 
     public class EnumClassConverter : JsonConverter<EnumClass>

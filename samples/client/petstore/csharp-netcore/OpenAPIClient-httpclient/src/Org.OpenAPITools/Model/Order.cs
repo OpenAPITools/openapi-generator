@@ -57,6 +57,7 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "delivered")]
             Delivered = 3
+
         }
 
 

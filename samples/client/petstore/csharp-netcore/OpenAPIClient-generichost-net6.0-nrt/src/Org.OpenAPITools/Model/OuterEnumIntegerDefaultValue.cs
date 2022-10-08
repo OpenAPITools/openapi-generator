@@ -44,6 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Enum NUMBER_2 for value: 2
         /// </summary>
         NUMBER_2 = 2
+
     }
 
     public class OuterEnumIntegerDefaultValueConverter : JsonConverter<OuterEnumIntegerDefaultValue>

@@ -100,6 +100,7 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
             NUMBER_MINUS_1 = -1
+
         }
 
         /// <summary>
@@ -149,6 +150,7 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
             NUMBER_MINUS_2 = -2
+
         }
 
         /// <summary>
@@ -198,6 +200,7 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1_DOT_2 for value: -1.2
             /// </summary>
             NUMBER_MINUS_1_DOT_2 = 2
+
         }
 
         /// <summary>
@@ -258,6 +261,7 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             Empty = 3
+
         }
 
         /// <summary>
@@ -324,6 +328,7 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             Empty = 3
+
         }
 
         /// <summary>

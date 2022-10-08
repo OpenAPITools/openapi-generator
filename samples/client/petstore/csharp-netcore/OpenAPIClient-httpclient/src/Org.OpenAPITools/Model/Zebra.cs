@@ -56,6 +56,7 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "grevys")]
             Grevys = 3
+
         }
 
 
