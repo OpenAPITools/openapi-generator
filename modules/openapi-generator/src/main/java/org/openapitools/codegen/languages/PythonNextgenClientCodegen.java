@@ -48,7 +48,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean useNose = Boolean.FALSE;
-
     protected boolean hasModelsToImport = Boolean.FALSE;
 
     protected Map<Character, String> regexModifiers;
@@ -286,7 +285,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         modelPackage = this.packageName + "." + modelPackage;
         apiPackage = this.packageName + "." + apiPackage;
-
     }
 
     @Override
@@ -304,6 +302,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         return modelImport;
     }
 
+    /*
+     * Gets the pydantic type given a Codegen Property
+     *
+     * @param cp codegen property
+     * @param typingImports typing imports
+     * @param pydantic pydantic imports
+     * @param datetimeImports datetime imports
+     * @return pydantic type
+     *
+     */
     private String getPydanticType(CodegenProperty cp,
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
@@ -342,7 +350,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isNumeric) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
-                // e.g. conint(ge=10, le=100, strict=True
+                // e.g. conint(ge=10, le=100, strict=True)
                 fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
@@ -455,11 +463,15 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        TreeSet<String> typingImports = new TreeSet<>();
+        TreeSet<String> pydanticImports = new TreeSet<>();
+        TreeSet<String> datetimeImports = new TreeSet<>();
+
         for (ModelMap m : objs.getModels()) {
             hasModelsToImport = false;
-            TreeSet<String> typingImports = new TreeSet<>();
-            TreeSet<String> pydanticImports = new TreeSet<>();
-            TreeSet<String> datetimeImports = new TreeSet<>();
+            typingImports.clear();
+            pydanticImports.clear();
+            datetimeImports.clear();
 
             CodegenModel model = m.getModel();
             for (CodegenProperty cp : model.allVars) {
@@ -517,7 +529,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("BaseModel");
             }
 
-            // set the extensions
+            // set the extensions if the key is absent
             model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
             model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
@@ -529,8 +541,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         // process enum in models
-        //return postProcessModelsEnum(objs);
-        return objs;
+        return postProcessModelsEnum(objs);
     }
 
     @Override
