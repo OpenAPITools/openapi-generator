@@ -16,5 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Org.OpenAPITools\Org.OpenAPITools.csproj" />
   </ItemGroup>
-
 </Project>
