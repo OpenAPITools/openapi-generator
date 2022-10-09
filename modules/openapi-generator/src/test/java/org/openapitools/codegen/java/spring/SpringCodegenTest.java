@@ -1614,7 +1614,7 @@ public class SpringCodegenTest {
         Map<String, File> output = generateFromContract("src/test/resources/3_0/enum.yaml", SPRING_BOOT);
 
         JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
-                .assertMethod("TypeConverter");
+                .assertMethod("typeConverter");
     }
 
     private Map<String, File> generateFromContract(String url, String library) throws IOException {

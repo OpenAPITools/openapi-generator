@@ -11,7 +11,7 @@ import org.springframework.core.convert.converter.Converter;
 public class EnumConverterConfiguration {
 
     @Bean
-    Converter<String, EnumClass> EnumClassConverter() {
+    Converter<String, EnumClass> enumClassConverter() {
         return new Converter<String, EnumClass>() {
             @Override
             public EnumClass convert(String source) {
@@ -20,7 +20,7 @@ public class EnumConverterConfiguration {
         };
     }
     @Bean
-    Converter<String, OuterEnum> OuterEnumConverter() {
+    Converter<String, OuterEnum> outerEnumConverter() {
         return new Converter<String, OuterEnum>() {
             @Override
             public OuterEnum convert(String source) {

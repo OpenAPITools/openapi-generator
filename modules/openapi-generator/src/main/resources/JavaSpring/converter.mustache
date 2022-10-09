@@ -19,7 +19,7 @@ public class EnumConverterConfiguration {
 {{#model}}
 {{#isEnum}}
     @Bean
-    Converter<{{{dataType}}}, {{name}}> {{name}}Converter() {
+    Converter<{{{dataType}}}, {{name}}> {{classVarName}}Converter() {
         return new Converter<{{{dataType}}}, {{name}}>() {
             @Override
             public {{name}} convert({{{dataType}}} source) {
