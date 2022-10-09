@@ -44,6 +44,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -1231,20 +1232,6 @@ public class SpringCodegenTest {
         additionalProperties.put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_8535.yaml", SPRING_BOOT, additionalProperties);
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")
                 .hasParameter("headerNumber").withType("BigDecimal")
@@ -1340,27 +1327,6 @@ public class SpringCodegenTest {
         additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_11897.yaml", null, new ParseOptions()).getOpenAPI();
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
-        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
-        codegen.additionalProperties().put(SpringCodegen.SPRING_CONTROLLER, "true");
-        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
                 .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
                 .toFileAssert()
@@ -1386,26 +1352,7 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
         additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_11957.yaml", null, new ParseOptions()).getOpenAPI();
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
-        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
-        codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
-        codegen.additionalProperties().put(SpringCodegen.SPRING_CONTROLLER, "true");
-        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11957.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("SearchApi.java"))
                 .assertMethod("defaultList")
@@ -1433,19 +1380,6 @@ public class SpringCodegenTest {
     public void testPutItemsMethodContainsKeyInSuperClassMethodCall_issue12494() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12494.yaml", null);
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_12494.yaml", null, new ParseOptions()).getOpenAPI();
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
         JavaFileAssert.assertThat(files.get("ChildClass.java"))
                 .assertMethod("putSomeMapItem")
                 .bodyContainsLines("super.putSomeMapItem(key, someMapItem);");
@@ -1454,20 +1388,6 @@ public class SpringCodegenTest {
     @Test
     public void shouldHandleCustomResponseType_issue11731() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11731.yaml", SPRING_BOOT);
-
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_11731.yaml", null, new ParseOptions()).getOpenAPI();
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("CustomersApi.java"))
                 .assertMethod("getAllUsingGET1")
@@ -1479,21 +1399,6 @@ public class SpringCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12457.yaml", SPRING_BOOT, additionalProperties);
-
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_12457.yaml", null, new ParseOptions()).getOpenAPI();
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setLibrary(SPRING_BOOT);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("UsersApi.java"))
                 .assertMethod("wildcardSubTypeForContentType")
@@ -1512,54 +1417,9 @@ public class SpringCodegenTest {
 
         String jsonTypeInfo = "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"type\", visible = true)";
         String jsonSubType = "@JsonSubTypes({\n" +
-                             "  @JsonSubTypes.Type(value = Cat.class, name = \"cat\")" +
-                             "})";
-        assertFileContains(output.get("Pet.java").toPath(), jsonTypeInfo, jsonSubType);
-    }
-
-    @Test
-    public void contractWithoutEnumDoesNotContainsEnumConverter() throws IOException {
-        Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml", SPRING_BOOT);
-
-        assertThat(output).doesNotContainKey("EnumConverterConfiguration.java");
-    }
-
-    @Test
-    public void contractWithEnumContainsEnumConverter() throws IOException {
-        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum.yaml", SPRING_BOOT);
-
-        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
-                .assertMethod("TypeConverter");
-    }
-
-    private Map<String, File> generateFromContract(String url, String library) throws IOException {
-        return generateFromContract(url, library, new HashMap<>());
-    }
-    private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation(url, null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        if (null != library) {
-            codegen.setLibrary(library);
-        }
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().putAll(additionalProperties);
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-
-        String jsonTypeInfo = "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"type\", visible = true)";
-        String jsonSubType = "@JsonSubTypes({\n" +
                 "  @JsonSubTypes.Type(value = Cat.class, name = \"cat\")" +
                 "})";
-        assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/model/Pet.java"), jsonTypeInfo, jsonSubType);
+        assertFileContains(output.get("Pet.java").toPath(), jsonTypeInfo, jsonSubType);
     }
 
     @Test
@@ -1740,5 +1600,47 @@ public class SpringCodegenTest {
                 .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
+    }
+
+    @Test
+    public void contractWithoutEnumDoesNotContainsEnumConverter() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml", SPRING_BOOT);
+
+        assertThat(output).doesNotContainKey("EnumConverterConfiguration.java");
+    }
+
+    @Test
+    public void contractWithEnumContainsEnumConverter() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .assertMethod("TypeConverter");
+    }
+
+    private Map<String, File> generateFromContract(String url, String library) throws IOException {
+        return generateFromContract(url, library, new HashMap<>());
+    }
+    private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation(url, null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        if (null != library) {
+            codegen.setLibrary(library);
+        }
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().putAll(additionalProperties);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        return generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 }
