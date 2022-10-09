@@ -848,9 +848,9 @@ if (booleanGroup != null)
   }
 
   public class APItestGroupParametersRequest {
-    private final Integer requiredStringGroup;
-    private final Boolean requiredBooleanGroup;
-    private final Long requiredInt64Group;
+    private Integer requiredStringGroup;
+    private Boolean requiredBooleanGroup;
+    private Long requiredInt64Group;
     private Integer stringGroup;
     private Boolean booleanGroup;
     private Long int64Group;
