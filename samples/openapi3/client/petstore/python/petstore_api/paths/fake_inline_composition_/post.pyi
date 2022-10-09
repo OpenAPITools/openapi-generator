@@ -159,6 +159,37 @@ class CompositionInPropertySchema(
             _configuration=_configuration,
             **kwargs,
         )
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        'compositionAtRoot': typing.Union[CompositionAtRootSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        'compositionInProperty': typing.Union[CompositionInPropertySchema, dict, frozendict.frozendict, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_composition_at_root = api_client.QueryParameter(
+    name="compositionAtRoot",
+    style=api_client.ParameterStyle.FORM,
+    schema=CompositionAtRootSchema,
+    explode=True,
+)
+request_query_composition_in_property = api_client.QueryParameter(
+    name="compositionInProperty",
+    style=api_client.ParameterStyle.FORM,
+    schema=CompositionInPropertySchema,
+    explode=True,
+)
 # body param
 
 
@@ -295,6 +326,16 @@ class SchemaForRequestBodyMultipartFormData(
         )
 
 
+request_body_any_type = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+        'multipart/form-data': api_client.MediaType(
+            schema=SchemaForRequestBodyMultipartFormData),
+    },
+)
+
+
 class SchemaFor200ResponseBodyApplicationJson(
     schemas.ComposedSchema,
 ):
@@ -426,6 +467,27 @@ class SchemaFor200ResponseBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+        SchemaFor200ResponseBodyMultipartFormData,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+        'multipart/form-data': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyMultipartFormData),
+    },
+)
 _all_accept_content_types = (
     'application/json',
     'multipart/form-data',

@@ -29,6 +29,30 @@ from petstore_api.model.api_response import ApiResponse
 
 # path params
 PetIdSchema = schemas.Int64Schema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        'petId': typing.Union[PetIdSchema, decimal.Decimal, int, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path_pet_id = api_client.PathParameter(
+    name="petId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=PetIdSchema,
+    required=True,
+)
 # body param
 
 
@@ -90,7 +114,33 @@ class SchemaForRequestBodyMultipartFormData(
             _configuration=_configuration,
             **kwargs,
         )
+
+
+request_body_body = api_client.RequestBody(
+    content={
+        'multipart/form-data': api_client.MediaType(
+            schema=SchemaForRequestBodyMultipartFormData),
+    },
+)
 SchemaFor200ResponseBodyApplicationJson = ApiResponse
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
+)
 _all_accept_content_types = (
     'application/json',
 )

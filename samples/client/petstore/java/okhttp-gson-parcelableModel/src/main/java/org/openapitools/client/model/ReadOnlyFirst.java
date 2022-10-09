@@ -192,9 +192,7 @@ public class ReadOnlyFirst implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ReadOnlyFirst.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ReadOnlyFirst.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
         }
       }

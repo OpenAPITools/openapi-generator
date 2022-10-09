@@ -26,6 +26,54 @@ from petstore_api import schemas  # noqa: F401
 
 # path params
 IdSchema = schemas.StrSchema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        'id': typing.Union[IdSchema, str, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path_id = api_client.PathParameter(
+    name="id",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=IdSchema,
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
+@dataclass
+class ApiResponseForDefault(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_default = api_client.OpenApiResponse(
+    response_cls=ApiResponseForDefault,
+)
 
 
 class BaseApi(api_client.Api):

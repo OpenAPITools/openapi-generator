@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -210,9 +211,9 @@ public class ObjectWithUniqueItems {
       return false;
     }
     ObjectWithUniqueItems objectWithUniqueItems = (ObjectWithUniqueItems) o;
-    return Objects.equals(this.nullSet, objectWithUniqueItems.nullSet) &&
+    return equalsNullable(this.nullSet, objectWithUniqueItems.nullSet) &&
         Objects.equals(this.notNullSet, objectWithUniqueItems.notNullSet) &&
-        Objects.equals(this.nullList, objectWithUniqueItems.nullList) &&
+        equalsNullable(this.nullList, objectWithUniqueItems.nullList) &&
         Objects.equals(this.notNullList, objectWithUniqueItems.notNullList) &&
         Objects.equals(this.notNullDateField, objectWithUniqueItems.notNullDateField) &&
         Objects.equals(this.nullDateField, objectWithUniqueItems.nullDateField);
@@ -224,7 +225,7 @@ public class ObjectWithUniqueItems {
 
   @Override
   public int hashCode() {
-    return Objects.hash(nullSet, notNullSet, nullList, notNullList, notNullDateField, nullDateField);
+    return Objects.hash(hashCodeNullable(nullSet), notNullSet, hashCodeNullable(nullList), notNullList, notNullDateField, nullDateField);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

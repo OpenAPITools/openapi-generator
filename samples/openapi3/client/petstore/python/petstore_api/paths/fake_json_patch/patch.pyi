@@ -31,6 +31,26 @@ from petstore_api.model.json_patch_request import JSONPatchRequest
 SchemaForRequestBodyApplicationJsonPatchjson = JSONPatchRequest
 
 
+request_body_json_patch_request = api_client.RequestBody(
+    content={
+        'application/json-patch+json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJsonPatchjson),
+    },
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
+
+
 class BaseApi(api_client.Api):
 
     def _json_patch_oapg(

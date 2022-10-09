@@ -172,9 +172,7 @@ public class Cat extends Animal implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Cat.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Cat.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Cat is not found in the empty JSON string", Cat.openapiRequiredFields.toString()));
         }
       }

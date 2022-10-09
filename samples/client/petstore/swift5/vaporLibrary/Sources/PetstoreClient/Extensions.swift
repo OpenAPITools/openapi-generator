@@ -55,6 +55,17 @@ extension KeyedEncodingContainerProtocol {
         }
     }
 
+    public mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
+        var mutableValue = value
+        let stringValue = NSDecimalString(&mutableValue, Locale(identifier: "en_US"))
+        try encode(stringValue, forKey: key)
+    }
+
+    public mutating func encodeIfPresent(_ value: Decimal?, forKey key: Self.Key) throws {
+        if let value = value {
+            try encode(value, forKey: key)
+        }
+    }
 }
 
 extension KeyedDecodingContainerProtocol {
@@ -92,6 +103,28 @@ extension KeyedDecodingContainerProtocol {
         }
 
         return map
+    }
+
+    public func decode(_ type: Decimal.Type, forKey key: Self.Key) throws -> Decimal {
+        let stringValue = try decode(String.self, forKey: key)
+        guard let decimalValue = Decimal(string: stringValue) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "The key \(key) couldn't be converted to a Decimal value")
+            throw DecodingError.typeMismatch(type, context)
+        }
+
+        return decimalValue
+    }
+
+    public func decodeIfPresent(_ type: Decimal.Type, forKey key: Self.Key) throws -> Decimal? {
+        guard let stringValue = try decodeIfPresent(String.self, forKey: key) else {
+            return nil
+        }
+        guard let decimalValue = Decimal(string: stringValue) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "The key \(key) couldn't be converted to a Decimal value")
+            throw DecodingError.typeMismatch(type, context)
+        }
+
+        return decimalValue
     }
 
 }

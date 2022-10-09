@@ -839,6 +839,12 @@ paths:
       responses:
         '400':
           description: Someting wrong
+        '5XX':
+          description: Someting wrong
+          content:
+            'applicatino/json':
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
   /fake/outer/number:
     post:
       tags:
