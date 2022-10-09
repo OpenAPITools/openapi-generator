@@ -170,9 +170,7 @@ public class BananaReq {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (BananaReq.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!BananaReq.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in BananaReq is not found in the empty JSON string", BananaReq.openapiRequiredFields.toString()));
         }
       }

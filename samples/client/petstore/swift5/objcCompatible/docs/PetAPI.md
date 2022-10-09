@@ -54,7 +54,7 @@ Void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[api_key_query](../README.md#api_key_query), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 

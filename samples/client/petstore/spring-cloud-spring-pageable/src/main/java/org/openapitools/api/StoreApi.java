@@ -26,7 +26,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "Store", description = "Access to Petstore orders")
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface StoreApi {
 
     /**

@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Cat_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class CatAllOf  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class CatAllOf  implements Serializable {
   private @Valid Boolean declawed;
 
   /**
@@ -27,8 +27,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.declawed = declawed;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

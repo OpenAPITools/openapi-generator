@@ -54,6 +54,80 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
         return obj;
     }
 
+    {{#emitJSDoc}}/**
+     * Validates the JSON data with respect to <code>{{classname}}</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>{{classname}}</code>.
+     */{{/emitJSDoc}}
+    static validateJSON(data) {
+        {{#requiredVars}}
+        {{#-first}}
+        // check to make sure all required properties are present in the JSON string
+        for (const property of {{classname}}.RequiredProperties) {
+            if (!data[property]) {
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
+            }
+        }
+        {{/-first}}
+        {{/requiredVars}}
+        {{#vars}}
+        {{#isArray}}
+        {{#items.isModel}}
+        {{#isRequired}}
+        // ensure the json data is an array
+        if (!Array.isArray(data['{{{baseName}}}'])) {
+            throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
+        }
+        // validate the required field `{{{baseName}}}` (array)
+        for (const item of data['{{{baseName}}}']) {
+            {{{items.dataType}}}.validateJsonObject(item);
+        };
+        {{/isRequired}}
+        {{^isRequired}}
+        if (data['{{{baseName}}}']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['{{{baseName}}}'])) {
+                throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
+            }
+            // validate the optional field `{{{baseName}}}` (array)
+            for (const item of data['{{{baseName}}}']) {
+                {{{items.dataType}}}.validateJsonObject(item);
+            };
+        }
+        {{/isRequired}}
+        {{/items.isModel}}
+        {{^items.isModel}}
+        // ensure the json data is an array
+        if (!Array.isArray(data['{{{baseName}}}'])) {
+            throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
+        }
+        {{/items.isModel}}
+        {{/isArray}}
+        {{^isContainer}}
+        {{#isString}}
+        // ensure the json data is a string
+        if ({{^isRequired}}data['{{{baseName}}}']{{/isRequired}} && !(typeof data['{{{baseName}}}'] === 'string' || data['{{{baseName}}}'] instanceof String)) {
+            throw new Error("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got " + data['{{{baseName}}}']);
+        }
+        {{/isString}}
+        {{#isModel}}
+        {{#isRequired}}
+        // validate the required field `{{{baseName}}}`
+        {{{dataType}}}.validateJSON(data['{{{baseName}}}']);
+        {{/isRequired}}
+        {{^isRequired}}
+        // validate the optional field `{{{baseName}}}`
+        if (data['{{{baseName}}}']) { // data not null
+          {{{dataType}}}.validateJSON(data['{{{baseName}}}']);
+        }
+        {{/isRequired}}
+        {{/isModel}}
+        {{/isContainer}}
+        {{/vars}}
+
+        return true;
+    }
+
 {{#emitModelMethods}}{{#vars}}{{#emitJSDoc}}/**{{#description}}
      * Returns {{{.}}}{{/description}}{{#minimum}}
      * minimum: {{.}}{{/minimum}}{{#maximum}}
@@ -73,6 +147,8 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
     }
 {{/vars}}{{/emitModelMethods}}{{/model}}
 }
+
+{{#requiredVars}}{{#-first}}{{classname}}.RequiredProperties = [{{/-first}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{#-last}}];{{/-last}}{{/requiredVars}}
 
 {{#vars}}{{#emitJSDoc}}/**{{#description}}
  * {{{.}}}{{/description}}

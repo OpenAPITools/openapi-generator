@@ -436,9 +436,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if ({{classname}}.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
         }
       }
@@ -469,7 +467,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#vars}}
       {{#isArray}}
       {{#items.isModel}}
-      {{#isRequired}}
+      {{#required}}
       // ensure the json data is an array
       if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
@@ -480,8 +478,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (int i = 0; i < jsonArray{{name}}.size(); i++) {
         {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
       };
-      {{/isRequired}}
-      {{^isRequired}}
+      {{/required}}
+      {{^required}}
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
         JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
         if (jsonArray{{name}} != null) {
@@ -496,32 +494,32 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
           };
         }
       }
-      {{/isRequired}}
+      {{/required}}
       {{/items.isModel}}
       {{^items.isModel}}
       // ensure the json data is an array
-      if ({{^isRequired}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/isRequired}}!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+      if ({{#required}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/required}}!jsonObj.get("{{{baseName}}}").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
       {{/items.isModel}}
       {{/isArray}}
       {{^isContainer}}
       {{#isString}}
-      if ({{^isRequired}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/isRequired}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+      if ({{^required}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/required}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
       {{/isString}}
       {{#isModel}}
-      {{#isRequired}}
+      {{#required}}
       // validate the required field `{{{baseName}}}`
       {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
-      {{/isRequired}}
-      {{^isRequired}}
+      {{/required}}
+      {{^required}}
       // validate the optional field `{{{baseName}}}`
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
         {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
       }
-      {{/isRequired}}
+      {{/required}}
       {{/isModel}}
       {{/isContainer}}
       {{/vars}}

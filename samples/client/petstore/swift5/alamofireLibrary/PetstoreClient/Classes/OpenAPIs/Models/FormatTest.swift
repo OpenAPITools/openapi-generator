@@ -21,12 +21,12 @@ public struct FormatTest: Codable, JSONEncodable, Hashable {
     public var string: String?
     public var byte: Data
     public var binary: URL?
-    public var date: Date
+    public var date: OpenAPIDateWithoutTime
     public var dateTime: Date?
     public var uuid: UUID?
     public var password: String
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
+    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: OpenAPIDateWithoutTime, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64

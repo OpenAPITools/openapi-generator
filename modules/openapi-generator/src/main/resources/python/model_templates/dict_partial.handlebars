@@ -30,7 +30,7 @@ class properties:
 {{#if complexType}}
 
     @staticmethod
-    def {{baseName}}() -> typing.Type['{{complexType}}']:
+    def {{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}() -> typing.Type['{{complexType}}']:
         return {{complexType}}
 {{else}}
     {{> model_templates/schema }}

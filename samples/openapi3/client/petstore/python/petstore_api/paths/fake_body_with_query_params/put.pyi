@@ -29,8 +29,54 @@ from petstore_api.model.user import User
 
 # query params
 QuerySchema = schemas.StrSchema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'query': typing.Union[QuerySchema, str, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_query = api_client.QueryParameter(
+    name="query",
+    style=api_client.ParameterStyle.FORM,
+    schema=QuerySchema,
+    required=True,
+    explode=True,
+)
 # body param
 SchemaForRequestBodyApplicationJson = User
+
+
+request_body_user = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+
+
+@dataclass
+class ApiResponseFor200(api_client.ApiResponse):
+    response: urllib3.HTTPResponse
+    body: schemas.Unset = schemas.unset
+    headers: schemas.Unset = schemas.unset
+
+
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
+)
 
 
 class BaseApi(api_client.Api):

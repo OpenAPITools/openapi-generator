@@ -839,7 +839,7 @@ pub struct ObjectOfObjectsInner {
 
     #[serde(rename = "optional_thing")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub optional_thing: Option<isize>,
+    pub optional_thing: Option<i32>,
 
 }
 
@@ -889,7 +889,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_thing: Vec<String>,
-            pub optional_thing: Vec<isize>,
+            pub optional_thing: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -910,7 +910,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
                     #[allow(clippy::redundant_clone)]
                     "required_thing" => intermediate_rep.required_thing.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "optional_thing" => intermediate_rep.optional_thing.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "optional_thing" => intermediate_rep.optional_thing.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjectsInner".to_string())
                 }
             }
