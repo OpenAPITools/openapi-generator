@@ -19,7 +19,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil) async throws -> Bool {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -28,7 +28,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
+                let requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -36,9 +36,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -73,7 +75,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) async throws -> OuterComposite {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -82,7 +84,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
+                let requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -90,9 +92,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -127,7 +131,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterNumberSerialize(body: Double? = nil) async throws -> Double {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -136,7 +140,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
+                let requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -144,9 +148,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -181,7 +187,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterStringSerialize(body: String? = nil) async throws -> String {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -190,7 +196,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
+                let requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -198,9 +204,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -235,7 +243,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -244,7 +252,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
+                let requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -252,9 +260,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -290,7 +300,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithQueryParams(query: String, body: User) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -299,7 +309,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
+                let requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -307,9 +317,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -348,7 +360,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClientModel(body: Client) async throws -> Client {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -357,7 +369,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testClientModelWithRequestBuilder(body: body).execute { result in
+                let requestTask = testClientModelWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -365,9 +377,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -417,7 +431,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -426,7 +440,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
+                let requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -434,9 +448,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -581,7 +597,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -590,7 +606,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
+                let requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -598,9 +614,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -663,7 +681,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -672,7 +690,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
+                let requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -680,9 +698,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -731,7 +751,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testInlineAdditionalProperties(param: [String: String]) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -740,7 +760,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
+                let requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -748,9 +768,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -787,7 +809,7 @@ open class FakeAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testJsonFormData(param: String, param2: String) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -796,7 +818,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
+                let requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -804,9 +826,11 @@ open class FakeAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 

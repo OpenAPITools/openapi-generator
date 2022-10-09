@@ -20,7 +20,7 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String) async throws {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -29,7 +29,7 @@ open class StoreAPI {
                   return
                 }
 
-                requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
+                let requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -37,9 +37,11 @@ open class StoreAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -78,7 +80,7 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory() async throws -> [String: Int] {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -87,7 +89,7 @@ open class StoreAPI {
                   return
                 }
 
-                requestTask = getInventoryWithRequestBuilder().execute { result in
+                let requestTask = getInventoryWithRequestBuilder().execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -95,9 +97,11 @@ open class StoreAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -136,7 +140,7 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64) async throws -> Order {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -145,7 +149,7 @@ open class StoreAPI {
                   return
                 }
 
-                requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
+                let requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -153,9 +157,11 @@ open class StoreAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
@@ -195,7 +201,7 @@ open class StoreAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order) async throws -> Order {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -204,7 +210,7 @@ open class StoreAPI {
                   return
                 }
 
-                requestTask = placeOrderWithRequestBuilder(body: body).execute { result in
+                let requestTask = placeOrderWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -212,9 +218,11 @@ open class StoreAPI {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 

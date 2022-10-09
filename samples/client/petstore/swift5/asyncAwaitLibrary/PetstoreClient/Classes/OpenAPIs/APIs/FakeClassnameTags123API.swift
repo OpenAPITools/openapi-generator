@@ -20,7 +20,7 @@ open class FakeClassnameTags123API {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client) async throws -> Client {
-        var requestTask: RequestTask?
+        let cancellableRequestTask = RequestTask()
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -29,7 +29,7 @@ open class FakeClassnameTags123API {
                   return
                 }
 
-                requestTask = testClassnameWithRequestBuilder(body: body).execute { result in
+                let requestTask = testClassnameWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -37,9 +37,11 @@ open class FakeClassnameTags123API {
                         continuation.resume(throwing: error)
                     }
                 }
+
+                cancellableRequestTask.set(requestTask: requestTask)
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
+        } onCancel: {
+            cancellableRequestTask.cancel()
         }
     }
 
