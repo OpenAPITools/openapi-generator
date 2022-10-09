@@ -50,8 +50,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
 
-    protected String shardName;
-    protected String moduleName;
+    protected String shardName = "openapi_client";
+    protected String moduleName = "OpenAPIClient";
     protected String shardVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String srcFolder = "src";
@@ -65,6 +65,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     protected String modelDocPath = "docs/";
 
     public static final String SHARD_NAME = "shardName";
+    public static final String MODULE_NAME = "moduleName";
     public static final String SHARD_VERSION = "shardVersion";
     public static final String SHARD_LICENSE = "shardLicense";
     public static final String SHARD_HOMEPAGE = "shardHomepage";
@@ -196,6 +197,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(SHARD_NAME, "shard name (e.g. twitter_client").
                 defaultValue("openapi_client"));
 
+        cliOptions.add(new CliOption(MODULE_NAME, "module name (e.g. TwitterClient").
+                defaultValue("OpenAPIClient"));
+
         cliOptions.add(new CliOption(SHARD_VERSION, "shard version.").defaultValue("1.0.0"));
 
         cliOptions.add(new CliOption(SHARD_LICENSE, "shard license.").
@@ -227,6 +231,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
             setShardName((String) additionalProperties.get(SHARD_NAME));
         }
         additionalProperties.put(SHARD_NAME, shardName);
+
+        if (additionalProperties.containsKey(MODULE_NAME)) {
+            setModuleName((String) additionalProperties.get(MODULE_NAME));
+        }
+        additionalProperties.put(MODULE_NAME, moduleName);
 
         if (additionalProperties.containsKey(SHARD_VERSION)) {
             setShardVersion((String) additionalProperties.get(SHARD_VERSION));
