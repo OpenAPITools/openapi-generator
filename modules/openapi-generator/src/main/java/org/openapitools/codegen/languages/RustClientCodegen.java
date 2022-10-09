@@ -450,6 +450,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         String schemaType = super.getSchemaType(p);
         String type = typeMapping.getOrDefault(schemaType, schemaType);
 
+        // Implement integer type fitting (when property is enabled)
         if (Objects.equals(p.getType(), "integer")) {
             boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
             boolean preferUnsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
@@ -481,6 +482,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return type;
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        // If a property is both nullable and non-required then we represent this using a double Option
+        // which requires the `serde_with` extension crate for deserialization.
+        // See: https://docs.rs/serde_with/latest/serde_with/rust/double_option/index.html
+        if (property.isNullable && !property.required) {
+            additionalProperties.put("serdeWith", true);
+        }
     }
 
     @Override
