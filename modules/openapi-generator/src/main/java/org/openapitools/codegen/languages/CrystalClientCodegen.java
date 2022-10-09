@@ -50,8 +50,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
 
-    protected String shardName;
-    protected String moduleName;
+    protected String shardName = "openapi_client";
+    protected String moduleName = "OpenAPIClient";
     protected String shardVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String srcFolder = "src";
