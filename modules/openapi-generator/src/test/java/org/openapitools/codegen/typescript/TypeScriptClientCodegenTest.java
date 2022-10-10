@@ -141,4 +141,40 @@ public class TypeScriptClientCodegenTest {
         Assert.assertEquals(tsImports.get(0).get("filename"), mappedName);
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
+
+    @Test
+    public void compilePatternTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final StringSchema prop = new StringSchema();
+        prop.setPattern("[A-Z]{3}");
+        final Schema root = new ObjectSchema()
+                .addProperty("astring", prop);
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
+        codegen.setOpenAPI(openAPI);
+
+        try {
+            codegen.fromModel("sample", root);
+        } catch (Exception e) {
+            Assert.fail("Exception was thrown.");
+        }
+    }
+
+    @Test
+    public void compilePatternMinMaxTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final StringSchema prop = new StringSchema();
+        prop.setPattern("[A-Z]{3,4}");
+        final Schema root = new ObjectSchema()
+                .addProperty("astring", prop);
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
+        codegen.setOpenAPI(openAPI);
+
+        try {
+            codegen.fromModel("sample", root);
+        } catch (Exception e) {
+            Assert.fail("Exception was thrown.");
+        }
+    }
 }
