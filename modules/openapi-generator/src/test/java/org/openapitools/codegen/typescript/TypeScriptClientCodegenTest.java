@@ -177,4 +177,23 @@ public class TypeScriptClientCodegenTest {
             Assert.fail("Exception was thrown.");
         }
     }
+
+    @Test
+    public void compilePatternRegexOptionTest() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final StringSchema prop = new StringSchema();
+        prop.setPattern("/[A-Z]{3,4}/i");
+        final Schema root = new ObjectSchema()
+                .addProperty("astring", prop);
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
+        codegen.setOpenAPI(openAPI);
+
+        try {
+            CodegenModel model = codegen.fromModel("sample", root);
+            Assert.assertFalse(model.getVars().get(0).getExample().contains("/i"));
+        } catch (Exception e) {
+            Assert.fail("Exception was thrown.");
+        }
+    }
 }

@@ -1147,7 +1147,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                     RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
                     So strip off the leading / and trailing / and turn on ignore case if we have it
                      */
-                    Pattern valueExtractor = Pattern.compile("^/?(.+)?/?(.?)$");
+                    Pattern valueExtractor = Pattern.compile("^/(.+)?/(.?)$");
                     Matcher m = valueExtractor.matcher(pattern);
                     RgxGen rgxGen = null;
                     if (m.find()) {
