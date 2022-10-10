@@ -1,28 +1,17 @@
-openapi: 3.0.3
+openapi: "3.0.0"
 info:
-  title: Title
-  version: "1"
+  version: 2.0.0
+  title: test
 paths:
-  /test:
+  /pets:
     get:
+      summary: List all pets
+      operationId: listPets
       responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TestObject'
+        '200':
+          description: OK
 components:
   schemas:
-    TestObject:
-      type: object
-      properties:
-        nullableProperty:
-          type: string
-          nullable: true
-          readOnly: true
-        notNullableProperty:
-          type: string
-          readOnly: true
-        notNullablePropertyNotRO:
-          type: integer
+    Color:
+      type: string
+      enum: [RED, BLUE, GREEN]
