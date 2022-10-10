@@ -48,8 +48,8 @@ class Test{{classname}}(unittest.TestCase):
     def test{{classname}}(self):
         """Test {{classname}}"""
 {{^interfaces}}
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        #inst_req_only = self.make_instance(include_optional=False)
+        #inst_req_and_optional = self.make_instance(include_optional=True)
 {{/interfaces}}
 {{#interfaces}}
 {{#-last}}

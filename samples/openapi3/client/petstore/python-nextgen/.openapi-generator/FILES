@@ -3,6 +3,7 @@
 .travis.yml
 README.md
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -39,9 +40,11 @@ docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
+docs/OuterEnumIntegerDefaultValue.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -62,6 +65,7 @@ petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py
 petstore_api/models/additional_properties_class.py
+petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/api_response.py
 petstore_api/models/array_of_array_of_number_only.py
@@ -94,8 +98,10 @@ petstore_api/models/number_only.py
 petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py
+petstore_api/models/outer_enum_integer_default_value.py
 petstore_api/models/pet.py
 petstore_api/models/read_only_first.py
+petstore_api/models/single_ref_type.py
 petstore_api/models/special_model_name.py
 petstore_api/models/tag.py
 petstore_api/models/user.py
@@ -105,4 +111,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_outer_enum_integer_default_value.py
 tox.ini

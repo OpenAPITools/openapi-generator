@@ -15,6 +15,7 @@ from __future__ import absolute_import
 
 # import models into model package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
@@ -40,7 +41,9 @@ from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.single_ref_type import SingleRefType
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
