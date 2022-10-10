@@ -13,7 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.openapitools.client.ApiException;
 import java.util.Objects;
 import java.lang.reflect.Type;
 import java.util.Map;
