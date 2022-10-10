@@ -20,7 +20,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = createUserWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -29,7 +30,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = createUserWithRequestBuilder(body: body).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -37,11 +38,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -78,7 +77,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User]) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -87,7 +87,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -95,11 +95,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -135,7 +133,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User]) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -144,7 +143,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -152,11 +151,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -192,7 +189,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = deleteUserWithRequestBuilder(username: username)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -201,7 +199,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = deleteUserWithRequestBuilder(username: username).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -209,11 +207,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -253,7 +249,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String) async throws -> User {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = getUserByNameWithRequestBuilder(username: username)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -262,7 +259,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = getUserByNameWithRequestBuilder(username: username).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -270,11 +267,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -314,7 +309,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String) async throws -> String {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = loginUserWithRequestBuilder(username: username, password: password)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -323,7 +319,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = loginUserWithRequestBuilder(username: username, password: password).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -331,11 +327,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -376,7 +370,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser() async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = logoutUserWithRequestBuilder()
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -385,7 +380,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = logoutUserWithRequestBuilder().execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -393,11 +388,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -433,7 +426,8 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = updateUserWithRequestBuilder(username: username, body: body)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -442,7 +436,7 @@ open class UserAPI {
                   return
                 }
 
-                let requestTask = updateUserWithRequestBuilder(username: username, body: body).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -450,11 +444,9 @@ open class UserAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 

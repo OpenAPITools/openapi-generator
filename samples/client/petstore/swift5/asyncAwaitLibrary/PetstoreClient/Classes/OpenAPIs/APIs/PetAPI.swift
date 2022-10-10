@@ -20,7 +20,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = addPetWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -29,7 +30,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = addPetWithRequestBuilder(body: body).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -37,11 +38,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -84,7 +83,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -93,7 +93,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -101,11 +101,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -157,7 +155,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [Status_findPetsByStatus]) async throws -> [Pet] {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = findPetsByStatusWithRequestBuilder(status: status)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -166,7 +165,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = findPetsByStatusWithRequestBuilder(status: status).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -174,11 +173,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -222,7 +219,8 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String]) async throws -> [Pet] {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -231,7 +229,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -239,11 +237,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -287,7 +283,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64) async throws -> Pet {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = getPetByIdWithRequestBuilder(petId: petId)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -296,7 +293,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = getPetByIdWithRequestBuilder(petId: petId).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -304,11 +301,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -351,7 +346,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = updatePetWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -360,7 +356,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = updatePetWithRequestBuilder(body: body).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -368,11 +364,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -413,7 +407,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) async throws {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -422,7 +417,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -430,11 +425,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -486,7 +479,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) async throws -> ApiResponse {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -495,7 +489,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -503,11 +497,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 
@@ -559,7 +551,8 @@ open class PetAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) async throws -> ApiResponse {
-        let cancellableRequestTask = RequestTask()
+        let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata)
+        let requestTask = requestBuilder.requestTask
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -568,7 +561,7 @@ open class PetAPI {
                   return
                 }
 
-                let requestTask = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in
+                requestBuilder.execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -576,11 +569,9 @@ open class PetAPI {
                         continuation.resume(throwing: error)
                     }
                 }
-
-                cancellableRequestTask.set(requestTask: requestTask)
             }
         } onCancel: {
-            cancellableRequestTask.cancel()
+            requestTask.cancel()
         }
     }
 

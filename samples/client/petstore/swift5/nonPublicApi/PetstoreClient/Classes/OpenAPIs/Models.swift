@@ -115,12 +115,6 @@ internal final class RequestTask {
         self.task = task
     }
 
-    internal func set(requestTask: RequestTask) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.task = requestTask.task
-    }
-
     internal func cancel() {
         lock.lock()
         defer { lock.unlock() }

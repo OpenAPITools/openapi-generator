@@ -115,12 +115,6 @@ public final class RequestTask: @unchecked Sendable {
         self.task = task
     }
 
-    internal func set(requestTask: RequestTask) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.task = requestTask.task
-    }
-
     public func cancel() {
         lock.lock()
         defer { lock.unlock() }

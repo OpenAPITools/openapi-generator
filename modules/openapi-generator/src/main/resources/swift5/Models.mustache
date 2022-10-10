@@ -117,12 +117,6 @@ extension NullEncodable: Codable where Wrapped: Codable {
         self.request = request
     }
 
-    internal func set(requestTask: RequestTask) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.request = requestTask.request
-    }
-
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
         lock.lock()
         defer { lock.unlock() }
@@ -137,12 +131,6 @@ extension NullEncodable: Codable where Wrapped: Codable {
         lock.lock()
         defer { lock.unlock() }
         self.task = task
-    }
-
-    internal func set(requestTask: RequestTask) {
-        lock.lock()
-        defer { lock.unlock() }
-        self.task = requestTask.task
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
