@@ -26,6 +26,8 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -303,16 +305,16 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     }
 
     /*
-     * Gets the pydantic type given a Codegen Property
+     * Gets the pydantic type given a Codegen Parameter
      *
-     * @param cp codegen property
+     * @param cp codegen parameter
      * @param typingImports typing imports
      * @param pydantic pydantic imports
      * @param datetimeImports datetime imports
      * @return pydantic type
      *
      */
-    private String getPydanticType(CodegenProperty cp,
+    private String getPydanticType(CodegenParameter cp,
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports) {
@@ -347,7 +349,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     return "StrictStr";
                 }
             }
-        } else if (cp.isNumeric) {
+        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger
+                || cp.isNumber || cp.isFloat || cp.isDouble) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. conint(ge=10, le=100, strict=True)
@@ -459,6 +462,281 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else {
             throw new RuntimeException("Error! CodegenProperty not yet supported in getPydanticType: " + cp);
         }
+    }
+
+    /*
+     * Gets the pydantic type given a Codegen Property
+     *
+     * @param cp codegen property
+     * @param typingImports typing imports
+     * @param pydantic pydantic imports
+     * @param datetimeImports datetime imports
+     * @return pydantic type
+     *
+     */
+    private String getPydanticType(CodegenProperty cp,
+                                   Set<String> typingImports,
+                                   Set<String> pydanticImports,
+                                   Set<String> datetimeImports) {
+        if (cp.isArray) {
+            typingImports.add("List");
+            return String.format("List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports));
+        } else if (cp.isMap) {
+            typingImports.add("Dict");
+            return String.format("Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports));
+        } else if (cp.isString) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. constr(regex=r'/[a-z]/i', strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaxLength() != null) {
+                    fieldCustomization.add("max_length=" + cp.getMaxLength());
+                }
+                if (cp.getMinLength() != null) {
+                    fieldCustomization.add("min_length=" + cp.getMinLength());
+                }
+                if (cp.getPattern() != null) {
+                    fieldCustomization.add(String.format("regex=r'%s'", cp.getPattern()));
+                }
+                pydanticImports.add("constr");
+                return String.format("constr(%s)", StringUtils.join(fieldCustomization, ", "));
+            } else {
+                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                    pydanticImports.add("SecretStr");
+                    return "SecretStr";
+                } else {
+                    pydanticImports.add("StrictStr");
+                    return "StrictStr";
+                }
+            }
+        } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger
+                || cp.isNumber || cp.isFloat || cp.isDouble) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. conint(ge=10, le=100, strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        fieldCustomization.add("gt=" + cp.getMaximum());
+                    } else {
+                        fieldCustomization.add("ge=" + cp.getMaximum());
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        fieldCustomization.add("lt=" + cp.getMinimum());
+                    } else {
+                        fieldCustomization.add("le=" + cp.getMinimum());
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
+                }
+
+                if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
+                    pydanticImports.add("conint");
+                    return String.format("%s(%s)", "conint",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
+                    pydanticImports.add("confloat");
+                    return String.format("%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else {
+                    throw new RuntimeException("Error! Unknown numeric type found: " + cp);
+                }
+            } else {
+                pydanticImports.add("StrictInt");
+                return "StrictInt";
+            }
+        } else if (cp.isBinary || cp.isByteArray) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. conbytes(min_length=2, max_length=10)
+                fieldCustomization.add("strict=True");
+                if (cp.getMinLength() != null) {
+                    fieldCustomization.add("min_length=" + cp.getMinLength());
+                }
+                if (cp.getMaxLength() != null) {
+                    fieldCustomization.add("max_length=" + cp.getMaxLength());
+                }
+
+                pydanticImports.add("conbytes");
+                return String.format("%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+            } else {
+                // same as above which has validation
+                pydanticImports.add("StrictBytes");
+                return "StrictBytes";
+            }
+        } else if (cp.isBoolean) {
+            pydanticImports.add("StrictBool");
+            return "StrictBool";
+        } else if (cp.isDecimal) {
+            if (cp.hasValidation) {
+                List<String> fieldCustomization = new ArrayList<>();
+                // e.g. condecimal(ge=10, le=100, strict=True)
+                fieldCustomization.add("strict=True");
+                if (cp.getMaximum() != null) {
+                    if (cp.getExclusiveMaximum()) {
+                        fieldCustomization.add("gt=" + cp.getMaximum());
+                    } else {
+                        fieldCustomization.add("ge=" + cp.getMaximum());
+                    }
+                }
+                if (cp.getMinimum() != null) {
+                    if (cp.getExclusiveMinimum()) {
+                        fieldCustomization.add("lt=" + cp.getMinimum());
+                    } else {
+                        fieldCustomization.add("le=" + cp.getMinimum());
+                    }
+                }
+                if (cp.getMultipleOf() != null) {
+                    fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
+                }
+                pydanticImports.add("condecimal");
+                return String.format("%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
+            } else {
+                pydanticImports.add("condecimal");
+                return "condecimal";
+            }
+        } else if (cp.getIsAnyType()) {
+            typingImports.add("Any");
+            return "Any";
+        } else if (cp.isDate || cp.isDateTime) {
+            if (cp.isDate) {
+                datetimeImports.add("date");
+            }
+            if (cp.isDateTime) {
+                datetimeImports.add("datetime");
+            }
+            return cp.dataType;
+        } else if (cp.isUuid) {
+            return cp.dataType;
+        } else if (cp.isFreeFormObject) { // type: object
+            typingImports.add("Dict");
+            typingImports.add("Any");
+            return "Dict[str, Any]";
+        } else if (!cp.isPrimitiveType) {
+            // add model prefix
+            hasModelsToImport = true;
+            return "models." + cp.dataType;
+        } else {
+            throw new RuntimeException("Error! CodegenParameter not yet supported in getPydanticType: " + cp);
+        }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        hasModelsToImport = false;
+        TreeSet<String> typingImports = new TreeSet<>();
+        TreeSet<String> pydanticImports = new TreeSet<>();
+        TreeSet<String> datetimeImports = new TreeSet<>();
+
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
+        for (CodegenOperation operation : operations) {
+
+            List<CodegenParameter> params = operation.allParams;
+            for (CodegenParameter param : params) {
+                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports);
+                List<String> fields = new ArrayList<>();
+                String firstField = "";
+
+                if (!param.required) { //optional
+                    firstField = "None";
+                    typing = "Optional[" + typing + "]";
+                    typingImports.add("Optional");
+                } else { // required
+                    if (param.isNullable) {
+                        firstField = "None";
+                    } else {
+                        firstField = "...";
+                    }
+                }
+
+                if (!StringUtils.isEmpty(param.description)) { // has description
+                    fields.add(String.format("description=\"%s\"", param.description));
+                }
+
+                if (param.isArray && param.getUniqueItems()) { // a set
+                    fields.add("unique_items=True");
+                }
+
+                /*
+                if (!StringUtils.isEmpty(cp.getExample())) { // has example
+                    fields.add(String.format("example=%s", cp.getExample()));
+                }*/
+
+                String fieldCustomization;
+                if ("None".equals(firstField)) {
+                    fieldCustomization = "None";
+                } else { // required field
+                    fieldCustomization = firstField;
+                }
+
+                if (!fields.isEmpty()) {
+                    fields.add(0, fieldCustomization);
+                    pydanticImports.add("Field");
+                    fieldCustomization = String.format("Field(%s)", StringUtils.join(fields, ", "));
+                }
+
+                param.vendorExtensions.put("x-py-typing", String.format("Annotated[%s, %s]", typing, fieldCustomization));
+            }
+
+            /* TODO return type
+            operation.returnType
+
+            List<CodegenResponse> responses = operation.responses;
+            if (responses != null) {
+                for (CodegenResponse resp : responses) {
+                    if (resp.is2xx) {
+
+                    }
+                }
+            }*/
+
+            // set the extensions if the key is absent
+            //model.getVendorExtensions().putIfAbsent("x-py-typing-imports", typingImports);
+            //model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
+            //model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
+
+            //if (hasModelsToImport || !StringUtils.isEmpty(model.parent)) {
+            //    model.vendorExtensions.put("x-py-import-models", true);
+            //}
+        }
+
+        List<Map<String, String>> newImports = new ArrayList<>();
+
+        // need datetime import
+        if (!datetimeImports.isEmpty()) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", String.format("from datetime import %s\n", StringUtils.join(datetimeImports, ", ")));
+            newImports.add(item);
+        }
+
+        // need pydantic imports
+        if (!pydanticImports.isEmpty()) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", String.format("from pydantic import %s\n", StringUtils.join(pydanticImports, ", ")));
+            newImports.add(item);
+        }
+
+        // need typing imports
+        if (!typingImports.isEmpty()) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", String.format("from typing import %s\n", StringUtils.join(typingImports, ", ")));
+            newImports.add(item);
+        }
+
+        // need models import
+        if (hasModelsToImport) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", String.format("from %s import models", packageName));
+            newImports.add(item);
+        }
+
+        // reset imports with newImports
+        objs.setImports(newImports);
+        return objs;
     }
 
     @Override
@@ -708,7 +986,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return "EMPTY";
         }
 
-        if(name.trim().length() == 0) {
+        if (name.trim().length() == 0) {
             return "SPACE_" + name.length();
         }
 

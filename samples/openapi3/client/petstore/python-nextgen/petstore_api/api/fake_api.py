@@ -17,6 +17,17 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
+from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
+from petstore_api import models
+
+from datetime import date, datetime
+
+from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, confloat, conint, constr
+
+from typing import Dict, List, Optional
+
+
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
@@ -36,6 +47,7 @@ class FakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
+    #@validate_arguments
     def fake_health_get(self, **kwargs):  # noqa: E501
         """Health check endpoint  # noqa: E501
 
@@ -63,6 +75,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.fake_health_get_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def fake_health_get_with_http_info(self, **kwargs):  # noqa: E501
         """Health check endpoint  # noqa: E501
 
@@ -120,7 +133,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -161,7 +173,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def fake_http_signature_test(self, pet, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def fake_http_signature_test(self, pet : Annotated[models.Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs):  # noqa: E501
         """test http signature authentication  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -194,6 +207,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.fake_http_signature_test_with_http_info(pet, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def fake_http_signature_test_with_http_info(self, pet, **kwargs):  # noqa: E501
         """test http signature authentication  # noqa: E501
 
@@ -263,7 +277,6 @@ class FakeApi(object):
         # verify the required parameter 'pet' is set
         if self.api_client.client_side_validation and local_var_params.get('pet') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `pet` when calling `fake_http_signature_test`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -312,6 +325,7 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    #@validate_arguments
     def fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
@@ -342,6 +356,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def fake_outer_boolean_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 
@@ -403,7 +418,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -454,6 +468,7 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    #@validate_arguments
     def fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
@@ -484,6 +499,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def fake_outer_composite_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
 
@@ -545,7 +561,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -596,6 +611,7 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    #@validate_arguments
     def fake_outer_number_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
@@ -626,6 +642,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def fake_outer_number_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
 
@@ -687,7 +704,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -738,6 +754,7 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    #@validate_arguments
     def fake_outer_string_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
@@ -768,6 +785,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def fake_outer_string_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
@@ -829,7 +847,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -880,7 +897,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_body_with_binary(self, body, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_body_with_binary(self, body : Annotated[StrictBytes, Field(None, description="image to upload")], **kwargs):  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -910,6 +928,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_body_with_binary_with_http_info(self, body, **kwargs):  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
@@ -971,7 +990,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -1016,7 +1034,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_body_with_file_schema(self, file_schema_test_class, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_body_with_file_schema(self, file_schema_test_class : Annotated[models.FileSchemaTestClass, ...], **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request must reference a schema named `File`.  # noqa: E501
@@ -1046,6 +1065,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
@@ -1110,7 +1130,6 @@ class FakeApi(object):
         # verify the required parameter 'file_schema_test_class' is set
         if self.api_client.client_side_validation and local_var_params.get('file_schema_test_class') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -1155,7 +1174,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_body_with_query_params(self, query, user, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_body_with_query_params(self, query : Annotated[StrictStr, ...], user : Annotated[models.User, ...], **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1186,6 +1206,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_body_with_query_params_with_http_info(self, query, user, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
@@ -1255,7 +1276,6 @@ class FakeApi(object):
         # verify the required parameter 'user' is set
         if self.api_client.client_side_validation and local_var_params.get('user') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -1302,7 +1322,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_client_model(self, client, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_client_model(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -1332,6 +1353,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
@@ -1396,7 +1418,6 @@ class FakeApi(object):
         # verify the required parameter 'client' is set
         if self.api_client.client_side_validation and local_var_params.get('client') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -1447,7 +1468,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_endpoint_parameters(self, number : Annotated[confloat(strict=True, ge=543.2, le=32.1), Field(..., description="None")], double : Annotated[confloat(strict=True, ge=123.4, le=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True, regex=r'/^[A-Z].*/'), Field(..., description="None")], byte : Annotated[StrictBytes, Field(..., description="None")], **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -1503,6 +1525,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_endpoint_parameters_with_http_info(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
@@ -1615,35 +1638,6 @@ class FakeApi(object):
         # verify the required parameter 'byte' is set
         if self.api_client.client_side_validation and local_var_params.get('byte') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
-
-        if self.api_client.client_side_validation and 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
-        if self.api_client.client_side_validation and 'number' in local_var_params and local_var_params['number'] < 32.1:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
-        if self.api_client.client_side_validation and 'double' in local_var_params and local_var_params['double'] > 123.4:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
-        if self.api_client.client_side_validation and 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
-        if self.api_client.client_side_validation and 'pattern_without_delimiter' in local_var_params and not re.search(r'^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
-        if self.api_client.client_side_validation and 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'integer' in local_var_params and local_var_params['integer'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
-        if self.api_client.client_side_validation and 'int32' in local_var_params and local_var_params['int32'] > 200:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
-        if self.api_client.client_side_validation and 'int32' in local_var_params and local_var_params['int32'] < 20:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
-        if self.api_client.client_side_validation and 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if self.api_client.client_side_validation and 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
-        if self.api_client.client_side_validation and ('password' in local_var_params and  # noqa: E501
-                                                        len(local_var_params['password']) > 64):  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
-        if self.api_client.client_side_validation and ('password' in local_var_params and  # noqa: E501
-                                                        len(local_var_params['password']) < 10):  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
@@ -1714,6 +1708,7 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    #@validate_arguments
     def test_enum_parameters(self, **kwargs):  # noqa: E501
         """To test enum parameters  # noqa: E501
 
@@ -1758,6 +1753,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_enum_parameters_with_http_info(self, **kwargs):  # noqa: E501
         """To test enum parameters  # noqa: E501
 
@@ -1840,7 +1836,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}
@@ -1902,7 +1897,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_group_parameters(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_group_parameters(self, required_string_group : Annotated[StrictInt, Field(..., description="Required String in group parameters")], required_boolean_group : Annotated[StrictBool, Field(..., description="Required Boolean in group parameters")], required_int64_group : Annotated[StrictInt, Field(..., description="Required Integer in group parameters")], **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -1942,6 +1938,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_group_parameters_with_http_info(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
@@ -2027,7 +2024,6 @@ class FakeApi(object):
         # verify the required parameter 'required_int64_group' is set
         if self.api_client.client_side_validation and local_var_params.get('required_int64_group') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -2074,7 +2070,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2104,6 +2101,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
@@ -2168,7 +2166,6 @@ class FakeApi(object):
         # verify the required parameter 'request_body' is set
         if self.api_client.client_side_validation and local_var_params.get('request_body') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -2213,7 +2210,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_json_form_data(self, param : Annotated[StrictStr, Field(..., description="field1")], param2 : Annotated[StrictStr, Field(..., description="field2")], **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
           # noqa: E501
@@ -2245,6 +2243,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_json_form_data_with_http_info(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
@@ -2315,7 +2314,6 @@ class FakeApi(object):
         # verify the required parameter 'param2' is set
         if self.api_client.client_side_validation and local_var_params.get('param2') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}
@@ -2362,7 +2360,8 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_query_parameter_collection_format(self, pipe : Annotated[List[StrictStr], ...], ioutil : Annotated[List[StrictStr], ...], http : Annotated[List[StrictStr], ...], url : Annotated[List[StrictStr], ...], context : Annotated[List[StrictStr], ...], allow_empty : Annotated[StrictStr, ...], **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -2404,6 +2403,7 @@ class FakeApi(object):
         kwargs['_return_http_data_only'] = True
         return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
@@ -2501,7 +2501,6 @@ class FakeApi(object):
         # verify the required parameter 'allow_empty' is set
         if self.api_client.client_side_validation and local_var_params.get('allow_empty') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `allow_empty` when calling `test_query_parameter_collection_format`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}

@@ -17,6 +17,11 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
+from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
+from petstore_api import models
+
+
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
@@ -36,6 +41,7 @@ class DefaultApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
+    #@validate_arguments
     def foo_get(self, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -63,6 +69,7 @@ class DefaultApi(object):
         kwargs['_return_http_data_only'] = True
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
+    #@validate_arguments
     def foo_get_with_http_info(self, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
 
@@ -120,7 +127,6 @@ class DefaultApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         collection_formats = {}
 
         path_params = {}

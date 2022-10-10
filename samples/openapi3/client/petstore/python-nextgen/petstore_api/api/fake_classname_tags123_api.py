@@ -17,6 +17,13 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
+from pydantic import validate_arguments, ValidationError
+from typing_extensions import Annotated
+from petstore_api import models
+
+from pydantic import Field
+
+
 from petstore_api.api_client import ApiClient
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
@@ -36,7 +43,8 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def test_classname(self, client, **kwargs):  # noqa: E501
+    #@validate_arguments
+    def test_classname(self, client : Annotated[models.Client, Field(..., description="client model")], **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -66,6 +74,7 @@ class FakeClassnameTags123Api(object):
         kwargs['_return_http_data_only'] = True
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
+    #@validate_arguments
     def test_classname_with_http_info(self, client, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
@@ -130,7 +139,6 @@ class FakeClassnameTags123Api(object):
         # verify the required parameter 'client' is set
         if self.api_client.client_side_validation and local_var_params.get('client') is None:  # noqa: E501
             raise ApiValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
-
         collection_formats = {}
 
         path_params = {}

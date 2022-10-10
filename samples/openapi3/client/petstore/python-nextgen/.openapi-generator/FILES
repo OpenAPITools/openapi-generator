@@ -111,5 +111,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_outer_enum_integer_default_value.py
 tox.ini
