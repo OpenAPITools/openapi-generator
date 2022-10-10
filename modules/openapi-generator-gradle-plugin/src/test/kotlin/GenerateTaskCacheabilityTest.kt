@@ -21,6 +21,23 @@ class GenerateTaskCacheabilityTest : TestBase() {
         projectDir2 = temp.resolve("projectDir2").apply { mkdir() }
     }
 
+    // inputSpec tests
+
+    private val inputSpecExtensionContents = """
+        generatorName = "kotlin"
+        inputSpec = file("spec.yaml").absolutePath
+        """.trimIndent()
+
+    @Test
+    fun `inputSpec - same directory - openApiGenerate task output should come from cache`() {
+        runCacheabilityTestUsingSameDirectory(inputSpecExtensionContents)
+    }
+
+    @Test
+    fun `inputSpec - different directory - openApiGenerate task output should come from cache`() {
+        runCacheabilityTestUsingDifferentDirectories(inputSpecExtensionContents)
+    }
+
     // templateDir tests
 
     private val templateDirExtensionContents = """
