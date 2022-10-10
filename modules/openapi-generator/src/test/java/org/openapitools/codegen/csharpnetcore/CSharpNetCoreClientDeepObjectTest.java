@@ -59,6 +59,6 @@ public class CSharpNetCoreClientDeepObjectTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
         assertFileContains(Paths.get(outputPath + "/src/Org.OpenAPITools/Api/DefaultApi.cs"),
-                "options[a]", "options[b]");
+                "options[a]", "options[b]","inputOptions[b]");
     }
 }
