@@ -500,6 +500,8 @@ open class GenerateTask : DefaultTask() {
     @Suppress("unused")
     @TaskAction
     fun doWork() {
+        project.delete(outputDir)
+
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
             CodegenConfigurator.fromFile(configFile.get())
         } else createDefaultCodegenConfigurator()
