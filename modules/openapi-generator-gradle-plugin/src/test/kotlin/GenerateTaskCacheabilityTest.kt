@@ -2,7 +2,6 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.BeforeMethod
-import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.io.File
 import kotlin.test.assertEquals
@@ -17,16 +16,80 @@ class GenerateTaskCacheabilityTest : TestBase() {
     @BeforeMethod
     override fun before() {
         initialize()
-        buildCacheDir = temp.resolve("buildCacheDir")
-        buildCacheDir.mkdir()
-        projectDir1 = temp.resolve("projectDir1")
-        projectDir1.mkdir()
-        projectDir2 = temp.resolve("projectDir2")
-        projectDir2.mkdir()
+        buildCacheDir = temp.resolve("buildCacheDir").apply { mkdir() }
+        projectDir1 = temp.resolve("projectDir1").apply { mkdir() }
+        projectDir2 = temp.resolve("projectDir2").apply { mkdir() }
     }
 
-    @Test(dataProvider = "extension_contents")
-    fun `openApiGenerate task output should come from cache after clean`(extensionContents: String) {
+    // templateDir tests
+
+    private val templateDirExtensionContents = """
+        generatorName = "kotlin"
+        inputSpec = file("spec.yaml").absolutePath
+        templateDir = file("templateDir").absolutePath
+        """.trimIndent()
+
+    @Test
+    fun `templateDir - same directory - openApiGenerate task output should come from cache`() {
+        projectDir1.resolve("templateDir").mkdir()
+        runCacheabilityTestUsingSameDirectory(templateDirExtensionContents)
+    }
+
+    @Test
+    fun `templateDir - different directory - openApiGenerate task output should come from cache`() {
+        projectDir1.resolve("templateDir").mkdir()
+        runCacheabilityTestUsingDifferentDirectories(templateDirExtensionContents)
+    }
+
+    // configFile tests
+
+    private val configFileExtensionContents = """
+        generatorName = "kotlin"
+        inputSpec = file("spec.yaml").absolutePath
+        configFile = file("configFile").absolutePath
+        """.trimIndent()
+
+    @Test
+    fun `configFile - same directory - openApiGenerate task output should come from cache`() {
+        projectDir1.resolve("configFile").apply {
+            createNewFile()
+            writeText("""{"foo":"bar"}""")
+        }
+        runCacheabilityTestUsingSameDirectory(configFileExtensionContents)
+    }
+
+    @Test
+    fun `configFile - different directory - openApiGenerate task output should come from cache`() {
+        projectDir1.resolve("configFile").apply {
+            createNewFile()
+            writeText("""{"foo":"bar"}""")
+        }
+        runCacheabilityTestUsingDifferentDirectories(configFileExtensionContents)
+    }
+
+    // ignoreFileOverride tests
+
+    private val ignoreFileOverrideExtensionContents = """
+        generatorName = "kotlin"
+        inputSpec = file("spec.yaml").absolutePath
+        ignoreFileOverride = file(".openapi-generator-ignore").absolutePath
+        """.trimIndent()
+
+    @Test
+    fun `ignoreFileOverride - same directory - openApiGenerate task output should come from cache`() {
+        projectDir1.resolve(".openapi-generator-ignore").createNewFile()
+        runCacheabilityTestUsingSameDirectory(ignoreFileOverrideExtensionContents)
+    }
+
+    @Test
+    fun `ignoreFileOverride - different directory - openApiGenerate task output should come from cache`() {
+        projectDir1.resolve(".openapi-generator-ignore").createNewFile()
+        runCacheabilityTestUsingDifferentDirectories(ignoreFileOverrideExtensionContents)
+    }
+
+    // Helper methods & test fixtures
+
+    private fun runCacheabilityTestUsingSameDirectory(extensionContents: String) {
         // Arrange
         withProject(extensionContents)
 
@@ -46,8 +109,7 @@ class GenerateTaskCacheabilityTest : TestBase() {
         assertEquals(TaskOutcome.FROM_CACHE, result2.task(":openApiGenerate")?.outcome)
     }
 
-    @Test(dataProvider = "extension_contents")
-    fun `openApiGenerate task output should come from cache when running from different directory`(extensionContents: String) {
+    private fun runCacheabilityTestUsingDifferentDirectories(extensionContents: String) {
         // Arrange
         withProject(extensionContents)
         projectDir1.copyRecursively(projectDir2)
@@ -68,54 +130,32 @@ class GenerateTaskCacheabilityTest : TestBase() {
         assertEquals(TaskOutcome.FROM_CACHE, result2.task(":openApiGenerate")?.outcome)
     }
 
-    private companion object {
-        private const val buildDir = "\$buildDir"
-    }
-
-    @DataProvider(name = "extension_contents")
-    fun extensionContents() = arrayOf(
-        `with minimal configuration`(),
-        `with ignoreFileOverride`()
-    )
-
-    private fun `with minimal configuration`() = """
-        generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        outputDir = file("$buildDir/output").absolutePath
-        """.trimIndent().arrayOf()
-
-    private fun `with ignoreFileOverride`() = """
-        generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        outputDir = file("$buildDir/output").absolutePath
-        ignoreFileOverride = file("$buildDir/.openapi-generator-ignore").absolutePath
-        """.trimIndent().arrayOf()
-
-    private fun String.arrayOf() = arrayOf(this)
-
     private fun withProject(extensionContents: String) {
+        val settingsContents = """
+            buildCache {
+                local {
+                    directory = file("$buildCacheDir")
+                }
+            }
+            rootProject.name = "openapi-generator"
+            """.trimIndent()
+        val buildContents = """
+            plugins {
+              id 'base'
+              id 'org.openapi.generator'
+            }
+            openApiGenerate {
+                $extensionContents
+            }
+            """.trimIndent()
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")!!
+        )
         withProject(
             projectDir = projectDir1,
-            settingsContents = """
-                buildCache {
-                    local {
-                        directory = file("$buildCacheDir")
-                    }
-                }
-                rootProject.name = "openapi-generator"
-            """.trimIndent(),
-            buildContents = """
-                plugins {
-                  id 'base'
-                  id 'org.openapi.generator'
-                }
-                openApiGenerate {
-                    $extensionContents
-                }
-            """.trimIndent(),
-            projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")!!
-            )
+            settingsContents = settingsContents,
+            buildContents = buildContents,
+            projectFiles = projectFiles
         )
     }
 }
