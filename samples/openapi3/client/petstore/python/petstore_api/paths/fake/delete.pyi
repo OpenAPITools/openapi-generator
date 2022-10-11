@@ -107,14 +107,14 @@ request_header_required_boolean_group = api_client.HeaderParameter(
 )
 
 @dataclass
-class ApiResponseFor400(api_client.ApiResponse):
+class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: schemas.Unset = schemas.unset
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_400 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor400,
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
 )
 
 
@@ -128,6 +128,7 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -140,6 +141,7 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -152,6 +154,7 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -163,6 +166,7 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
         """
@@ -239,6 +243,7 @@ class GroupParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -251,6 +256,7 @@ class GroupParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -263,6 +269,7 @@ class GroupParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -274,6 +281,7 @@ class GroupParameters(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
         return self._group_parameters_oapg(
@@ -297,6 +305,7 @@ class ApiFordelete(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -309,6 +318,7 @@ class ApiFordelete(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -321,6 +331,7 @@ class ApiFordelete(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
 
@@ -332,6 +343,7 @@ class ApiFordelete(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ) -> typing.Union[
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization
     ]:
         return self._group_parameters_oapg(

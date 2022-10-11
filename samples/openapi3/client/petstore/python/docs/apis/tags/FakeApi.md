@@ -1010,10 +1010,10 @@ Key | Input Type | Accessed Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#endpoint_parameters.ApiResponseFor400) | Invalid username supplied
+200 | [ApiResponseFor200](#endpoint_parameters.ApiResponseFor200) | Success
 404 | [ApiResponseFor404](#endpoint_parameters.ApiResponseFor404) | User not found
 
-#### endpoint_parameters.ApiResponseFor400
+#### endpoint_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -1207,10 +1207,10 @@ str,  | str,  |  | must be one of ["_abc", "-efg", "(xyz)", ] if omitted the ser
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#enum_parameters.ApiResponseFor400) | Invalid request
+200 | [ApiResponseFor200](#enum_parameters.ApiResponseFor200) | Success
 404 | [ApiResponseFor404](#enum_parameters.ApiResponseFor404) | Not found
 
-#### enum_parameters.ApiResponseFor400
+#### enum_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |
@@ -1439,9 +1439,9 @@ bool,  | BoolClass,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#group_parameters.ApiResponseFor400) | Someting wrong
+200 | [ApiResponseFor200](#group_parameters.ApiResponseFor200) | succeeded
 
-#### group_parameters.ApiResponseFor400
+#### group_parameters.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |

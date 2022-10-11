@@ -355,10 +355,10 @@ str,  | str,  |  |
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | [ApiResponseFor400](#delete_user.ApiResponseFor400) | Invalid username supplied
+200 | [ApiResponseFor200](#delete_user.ApiResponseFor200) | Success
 404 | [ApiResponseFor404](#delete_user.ApiResponseFor404) | User not found
 
-#### delete_user.ApiResponseFor400
+#### delete_user.ApiResponseFor200
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 response | urllib3.HTTPResponse | Raw response |

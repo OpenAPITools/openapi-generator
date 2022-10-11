@@ -545,8 +545,8 @@ paths:
           schema:
             type: string
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Success
         '404':
           description: User not found
   /fake_classname_test:
@@ -651,8 +651,8 @@ paths:
               - 1.1
               - -1.2
       responses:
-        '400':
-          description: Invalid request
+        '200':
+          description: Success
         '404':
           description: Not found
       requestBody:
@@ -693,8 +693,8 @@ paths:
         가짜 엔드 포인트
       operationId: EndpointParameters
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Success
         '404':
           description: User not found
       security:
@@ -822,8 +822,8 @@ paths:
             type: integer
             format: int64
       responses:
-        '400':
-          description: Someting wrong
+        '200':
+          description: succeeded
   /fake/refs/number:
     post:
       tags:
