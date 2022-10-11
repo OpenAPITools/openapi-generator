@@ -193,6 +193,10 @@ public class CodegenOperation {
         return responses.stream().anyMatch(response -> response.isDefault);
     }
 
+    public boolean getAllResponsesAreErrors() {
+        return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
+    }
+
     /**
      * @return contentTypeToOperation
      * returns a map where the key is the request body content type and the value is the current CodegenOperation

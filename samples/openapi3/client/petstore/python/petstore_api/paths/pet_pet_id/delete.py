@@ -107,9 +107,7 @@ class BaseApi(api_client.Api):
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-    ]: ...
-
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
     @typing.overload
     def _delete_pet_oapg(
         self,
@@ -208,9 +206,7 @@ class DeletePet(BaseApi):
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-    ]: ...
-
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
     @typing.overload
     def delete_pet(
         self,
@@ -260,9 +256,7 @@ class ApiFordelete(BaseApi):
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-    ]: ...
-
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
     @typing.overload
     def delete(
         self,
