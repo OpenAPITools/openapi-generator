@@ -1,3 +1,4 @@
+import collections
 import json
 import typing
 import unittest
@@ -6,6 +7,8 @@ import urllib3
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client
+
+ParamTestCase = collections.namedtuple('ParamTestCase', 'payload expected_serialization explode', defaults=[False])
 
 
 class ApiTestMixin(unittest.TestCase):
