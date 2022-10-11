@@ -174,34 +174,40 @@ request_query_pipe = api_client.QueryParameter(
     schema=PipeSchema,
     required=True,
     explode=True,
-)request_query_ioutil = api_client.QueryParameter(
+)
+request_query_ioutil = api_client.QueryParameter(
     name="ioutil",
     style=api_client.ParameterStyle.FORM,
     schema=IoutilSchema,
     required=True,
-)request_query_http = api_client.QueryParameter(
+)
+request_query_http = api_client.QueryParameter(
     name="http",
     style=api_client.ParameterStyle.SPACE_DELIMITED,
     schema=HttpSchema,
     required=True,
-)request_query_url = api_client.QueryParameter(
+)
+request_query_url = api_client.QueryParameter(
     name="url",
     style=api_client.ParameterStyle.FORM,
     schema=UrlSchema,
     required=True,
-)request_query_context = api_client.QueryParameter(
+)
+request_query_context = api_client.QueryParameter(
     name="context",
     style=api_client.ParameterStyle.FORM,
     schema=ContextSchema,
     required=True,
     explode=True,
-)request_query_ref_param = api_client.QueryParameter(
+)
+request_query_ref_param = api_client.QueryParameter(
     name="refParam",
     style=api_client.ParameterStyle.FORM,
     schema=RefParamSchema,
     required=True,
     explode=True,
 )
+
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
@@ -221,50 +227,42 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
     @typing.overload
     def _query_parameter_collection_format_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
 
     @typing.overload
     def _query_parameter_collection_format_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def _query_parameter_collection_format_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _query_parameter_collection_format_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -319,50 +317,42 @@ class QueryParameterCollectionFormat(BaseApi):
 
     @typing.overload
     def query_parameter_collection_format(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
 
     @typing.overload
     def query_parameter_collection_format(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def query_parameter_collection_format(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def query_parameter_collection_format(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._query_parameter_collection_format_oapg(
             query_params=query_params,
             stream=stream,
@@ -376,50 +366,42 @@ class ApiForput(BaseApi):
 
     @typing.overload
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
 
     @typing.overload
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._query_parameter_collection_format_oapg(
             query_params=query_params,
             stream=stream,

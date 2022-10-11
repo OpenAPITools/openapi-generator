@@ -167,22 +167,26 @@ request_query_enum_query_string_array = api_client.QueryParameter(
     style=api_client.ParameterStyle.FORM,
     schema=EnumQueryStringArraySchema,
     explode=True,
-)request_query_enum_query_string = api_client.QueryParameter(
+)
+request_query_enum_query_string = api_client.QueryParameter(
     name="enum_query_string",
     style=api_client.ParameterStyle.FORM,
     schema=EnumQueryStringSchema,
     explode=True,
-)request_query_enum_query_integer = api_client.QueryParameter(
+)
+request_query_enum_query_integer = api_client.QueryParameter(
     name="enum_query_integer",
     style=api_client.ParameterStyle.FORM,
     schema=EnumQueryIntegerSchema,
     explode=True,
-)request_query_enum_query_double = api_client.QueryParameter(
+)
+request_query_enum_query_double = api_client.QueryParameter(
     name="enum_query_double",
     style=api_client.ParameterStyle.FORM,
     schema=EnumQueryDoubleSchema,
     explode=True,
-)# Header params
+)
+# Header params
 
 
 class EnumHeaderStringArraySchema(
@@ -275,11 +279,13 @@ request_header_enum_header_string_array = api_client.HeaderParameter(
     name="enum_header_string_array",
     style=api_client.ParameterStyle.SIMPLE,
     schema=EnumHeaderStringArraySchema,
-)request_header_enum_header_string = api_client.HeaderParameter(
+)
+request_header_enum_header_string = api_client.HeaderParameter(
     name="enum_header_string",
     style=api_client.ParameterStyle.SIMPLE,
     schema=EnumHeaderStringSchema,
-)# body param
+)
+# body param
 
 
 class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
@@ -448,63 +454,70 @@ _status_code_to_response = {
 class BaseApi(api_client.Api):
     @typing.overload
     def _enum_parameters_oapg(
-        self: ,
+        self,
+        content_type: typing_extensions.Literal["application/x-www-form-urlencoded"] = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def _enum_parameters_oapg(
+        self,
+        content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def _enum_parameters_oapg(
-        self: ,
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def _enum_parameters_oapg(
-        self: ,
+        self,
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _enum_parameters_oapg(
-        self: ,
+        self,
+        content_type: str = 'application/x-www-form-urlencoded',
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         To test enum parameters
         :param skip_deserialization: If true then api_response.response will be set but
@@ -582,63 +595,70 @@ class EnumParameters(BaseApi):
 
     @typing.overload
     def enum_parameters(
-        self: ,
+        self,
+        content_type: typing_extensions.Literal["application/x-www-form-urlencoded"] = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def enum_parameters(
+        self,
+        content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def enum_parameters(
-        self: ,
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def enum_parameters(
-        self: ,
+        self,
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def enum_parameters(
-        self: ,
+        self,
+        content_type: str = 'application/x-www-form-urlencoded',
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._enum_parameters_oapg(
             body=body,
             query_params=query_params,
@@ -655,63 +675,70 @@ class ApiForget(BaseApi):
 
     @typing.overload
     def get(
-        self: ,
+        self,
+        content_type: typing_extensions.Literal["application/x-www-form-urlencoded"] = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def get(
+        self,
+        content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def get(
-        self: ,
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def get(
-        self: ,
+        self,
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def get(
-        self: ,
+        self,
+        content_type: str = 'application/x-www-form-urlencoded',
         body: typing.Union[SchemaForRequestBodyApplicationXWwwFormUrlencoded, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        content_type: str = 'application/x-www-form-urlencoded',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._enum_parameters_oapg(
             body=body,
             query_params=query_params,

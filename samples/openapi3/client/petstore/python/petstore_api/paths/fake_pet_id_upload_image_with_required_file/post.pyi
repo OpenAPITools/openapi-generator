@@ -52,7 +52,8 @@ request_path_pet_id = api_client.PathParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=PetIdSchema,
     required=True,
-)# body param
+)
+# body param
 
 
 class SchemaForRequestBodyMultipartFormData(
@@ -153,63 +154,70 @@ _all_accept_content_types = (
 class BaseApi(api_client.Api):
     @typing.overload
     def _upload_file_with_required_file_oapg(
-        self: ,
+        self,
+        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def _upload_file_with_required_file_oapg(
+        self,
+        content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def _upload_file_with_required_file_oapg(
-        self: ,
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def _upload_file_with_required_file_oapg(
-        self: ,
+        self,
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _upload_file_with_required_file_oapg(
-        self: ,
+        self,
+        content_type: str = 'multipart/form-data',
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         uploads an image (required)
         :param skip_deserialization: If true then api_response.response will be set but
@@ -278,63 +286,70 @@ class UploadFileWithRequiredFile(BaseApi):
 
     @typing.overload
     def upload_file_with_required_file(
-        self: ,
+        self,
+        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def upload_file_with_required_file(
+        self,
+        content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def upload_file_with_required_file(
-        self: ,
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def upload_file_with_required_file(
-        self: ,
+        self,
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def upload_file_with_required_file(
-        self: ,
+        self,
+        content_type: str = 'multipart/form-data',
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._upload_file_with_required_file_oapg(
             body=body,
             path_params=path_params,
@@ -351,63 +366,70 @@ class ApiForpost(BaseApi):
 
     @typing.overload
     def post(
-        self: ,
+        self,
+        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def post(
+        self,
+        content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def post(
-        self: ,
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def post(
-        self: ,
+        self,
+        content_type: str = ...,
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def post(
-        self: ,
+        self,
+        content_type: str = 'multipart/form-data',
         body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         path_params: RequestPathParams = frozendict.frozendict(),
-        content_type: str = 'multipart/form-data',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._upload_file_with_required_file_oapg(
             body=body,
             path_params=path_params,

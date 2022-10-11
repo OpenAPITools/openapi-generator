@@ -55,55 +55,60 @@ _response_for_200 = api_client.OpenApiResponse(
 class BaseApi(api_client.Api):
     @typing.overload
     def _post_by_number_request_body_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def _post_by_number_request_body_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def _post_by_number_request_body_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def _post_by_number_request_body_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _post_by_number_request_body_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -155,55 +160,60 @@ class PostByNumberRequestBody(BaseApi):
 
     @typing.overload
     def post_by_number_request_body(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def post_by_number_request_body(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def post_by_number_request_body(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def post_by_number_request_body(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def post_by_number_request_body(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._post_by_number_request_body_oapg(
             body=body,
             content_type=content_type,
@@ -218,55 +228,60 @@ class ApiForpost(BaseApi):
 
     @typing.overload
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._post_by_number_request_body_oapg(
             body=body,
             content_type=content_type,

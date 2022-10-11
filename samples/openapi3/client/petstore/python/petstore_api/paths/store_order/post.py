@@ -88,59 +88,65 @@ _all_accept_content_types = (
 class BaseApi(api_client.Api):
     @typing.overload
     def _place_order_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def _place_order_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def _place_order_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def _place_order_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _place_order_oapg(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         Place an order for a pet
         :param skip_deserialization: If true then api_response.response will be set but
@@ -196,59 +202,65 @@ class PlaceOrder(BaseApi):
 
     @typing.overload
     def place_order(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def place_order(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def place_order(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def place_order(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def place_order(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._place_order_oapg(
             body=body,
             content_type=content_type,
@@ -264,59 +276,65 @@ class ApiForpost(BaseApi):
 
     @typing.overload
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
+
+    @typing.overload
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
 
 
     @typing.overload
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
-        content_type: str = 'application/json',
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = ...,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def post(
-        self: ,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._place_order_oapg(
             body=body,
             content_type=content_type,

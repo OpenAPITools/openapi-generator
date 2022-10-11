@@ -54,19 +54,22 @@ request_query_some_var = api_client.QueryParameter(
     schema=SomeVarSchema,
     required=True,
     explode=True,
-)request_query_some_var2 = api_client.QueryParameter(
+)
+request_query_some_var2 = api_client.QueryParameter(
     name="SomeVar",
     style=api_client.ParameterStyle.FORM,
     schema=SomeVarSchema,
     required=True,
     explode=True,
-)request_query_some_var3 = api_client.QueryParameter(
+)
+request_query_some_var3 = api_client.QueryParameter(
     name="some_var",
     style=api_client.ParameterStyle.FORM,
     schema=SomeVarSchema,
     required=True,
     explode=True,
 )
+
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
@@ -83,50 +86,42 @@ _response_for_200 = api_client.OpenApiResponse(
 class BaseApi(api_client.Api):
     @typing.overload
     def _case_sensitive_params_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
 
     @typing.overload
     def _case_sensitive_params_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def _case_sensitive_params_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _case_sensitive_params_oapg(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -178,50 +173,42 @@ class CaseSensitiveParams(BaseApi):
 
     @typing.overload
     def case_sensitive_params(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
 
     @typing.overload
     def case_sensitive_params(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def case_sensitive_params(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def case_sensitive_params(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._case_sensitive_params_oapg(
             query_params=query_params,
             stream=stream,
@@ -235,50 +222,42 @@ class ApiForput(BaseApi):
 
     @typing.overload
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ]: ...
 
     @typing.overload
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: bool = False,
+        skip_deserialization: bool = ...,
     ) -> typing.Union[
         ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def put(
-        self: ,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._case_sensitive_params_oapg(
             query_params=query_params,
             stream=stream,
