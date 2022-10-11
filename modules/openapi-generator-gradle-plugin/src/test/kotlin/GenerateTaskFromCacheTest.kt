@@ -128,6 +128,8 @@ class GenerateTaskFromCacheTest : TestBase() {
             withGradleVersion(gradleVersion)
         }
 
+        val expectedRelativeFilePathSet = projectDir1.toRelativeFilePathSet()
+
         val result2 = build {
             withProjectDir(projectDir1)
             withArguments("--build-cache", "clean", "openApiGenerate")
@@ -137,6 +139,7 @@ class GenerateTaskFromCacheTest : TestBase() {
         // Assert
         assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
         assertEquals(TaskOutcome.FROM_CACHE, result2.task(":openApiGenerate")?.outcome)
+        assertEquals(expectedRelativeFilePathSet, projectDir1.toRelativeFilePathSet())
     }
 
     private fun runCacheabilityTestUsingDifferentDirectories(gradleVersion: String, extensionContents: String) {
@@ -160,7 +163,11 @@ class GenerateTaskFromCacheTest : TestBase() {
         // Assert
         assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
         assertEquals(TaskOutcome.FROM_CACHE, result2.task(":openApiGenerate")?.outcome)
+        assertEquals(projectDir1.toRelativeFilePathSet(), projectDir2.toRelativeFilePathSet())
     }
+
+    private fun File.toRelativeFilePathSet() =
+        resolve("build").walk().map { it.toRelativeString(resolve("build")) }.toSet()
 
     private fun withProject(extensionContents: String) {
         val settingsContents = """
